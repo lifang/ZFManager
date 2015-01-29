@@ -20,7 +20,7 @@
 		<table tableName="trade_day_reports" domainObjectName="TradeDayReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="trade_recharge_records" domainObjectName="TradeRechargeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="trade_records" domainObjectName="TradeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
-		<table tableName="trade_total_day_reports" domainObjectName="tradeTotalDayReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_total_day_reports" domainObjectName="TradeTotalDayReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="trade_total_region_reports" domainObjectName="TradeTotalRegionReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="trade_transfer_repayment_records" domainObjectName="TradeTransferRepaymentRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 	</context>
@@ -52,7 +52,7 @@
 		<table tableName="cs_out_storages" domainObjectName="CsOutStorage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="cs_receiver_addresses" domainObjectName="CsReceiverAddress" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="cs_refund_marks" domainObjectName="CsRefundMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
-		<table tableName="cs_refunds" domainObjectName="Cs_Refund" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_refunds" domainObjectName="CsRefund" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="cs_repair_marks" domainObjectName="CsRepairMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="cs_repair_payments" domainObjectName="CsRepairPayment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="cs_repairs" domainObjectName="CsRepair" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
@@ -81,10 +81,10 @@
 		<table tableName="dictionary_sign_order_ways" domainObjectName="DictionaryRignOrderWay" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
-		<table tableName="exchange_goods_records" domainObjectName="exchangeGoodsRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="factories" domainObjectName="Factory" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="good_brands" domainObjectName="GoodBrand" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
-		<table tableName="good_comments" domainObjectName="good_comment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="good_comments" domainObjectName="GoodComment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="good_marks" domainObjectName="GoodMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="goods" domainObjectName="Good" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
@@ -92,7 +92,7 @@
 		<table tableName="in_out_storages" domainObjectName="InOutStorage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="menus" domainObjectName="Menu" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="merchants" domainObjectName="Merchant" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
-		<table tableName="message_receivers" domainObjectName="Message_receiver" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="message_receivers" domainObjectName="MessageReceiver" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="opening_applies" domainObjectName="OpeningApplie" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="opening_apply_marks" domainObjectName="OpeningApplyMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
 		<table tableName="opening_requirement_lists" domainObjectName="OpeningRequirementList" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
