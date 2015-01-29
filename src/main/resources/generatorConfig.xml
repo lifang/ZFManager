@@ -13,16 +13,115 @@
 			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="agents" domainObjectName="agents" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="customers" domainObjectName="customers" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="good_profits" domainObjectName="good_profits" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="profits" domainObjectName="profits" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_consume_records" domainObjectName="trade_consume_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_day_reports" domainObjectName="trade_day_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_recharge_records" domainObjectName="trade_recharge_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_records" domainObjectName="trade_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_total_day_reports" domainObjectName="trade_total_day_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_total_region_reports" domainObjectName="trade_total_region_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
-		<table tableName="trade_transfer_repayment_records" domainObjectName="trade_transfer_repayment_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		
+		
+		
+		<table tableName="good_profits" domainObjectName="GoodProfit" />
+<table tableName="profits" domainObjectName="Profit" />
+<table tableName="trade_consume_records" domainObjectName="TradeConsumeRecord" />
+<table tableName="trade_day_reports" domainObjectName="TradeDayReport" />
+<table tableName="trade_recharge_records" domainObjectName="TradeRechargeRecord" />
+<table tableName="trade_records" domainObjectName="TradeRecord" />
+<table tableName="trade_total_day_reports" domainObjectName="tradeTotalDayReport" />
+<table tableName="trade_total_region_reports" domainObjectName="TradeTotalRegionReport" />
+<table tableName="trade_transfer_repayment_records" domainObjectName="TradeTransferRepaymentRecord" />
+
+
+
+
+
+
+<table tableName="agent_good_names" domainObjectName="AgentGoodName" />
+<table tableName="agent_profit_settings" domainObjectName="AgentProfitSetting" />
+<table tableName="agents" domainObjectName="agents" />
+<table tableName="cities" domainObjectName="cities" />
+<table tableName="cs_agent_marks" domainObjectName="cs_agent_marks" />
+<table tableName="cs_agents" domainObjectName="cs_agents" />
+<table tableName="cs_cancel_marks" domainObjectName="cs_cancel_marks" />
+<table tableName="cs_cancels" domainObjectName="cs_cancels" />
+<table tableName="cs_changel_marks" domainObjectName="cs_changel_marks" />
+<table tableName="cs_changes" domainObjectName="cs_changes" />
+<table tableName="cs_lease_return_marks" domainObjectName="cs_lease_return_marks" />
+<table tableName="cs_lease_returns" domainObjectName="cs_lease_returns" />
+<table tableName="cs_out_storages" domainObjectName="cs_out_storages" />
+<table tableName="cs_receiver_addresses" domainObjectName="cs_receiver_addresses" />
+<table tableName="cs_refund_marks" domainObjectName="cs_refund_marks" />
+<table tableName="cs_refunds" domainObjectName="cs_refunds" />
+<table tableName="cs_repair_marks" domainObjectName="cs_repair_marks" />
+<table tableName="cs_repair_payments" domainObjectName="cs_repair_payments" />
+<table tableName="cs_repairs" domainObjectName="cs_repairs" />
+<table tableName="cs_return_marks" domainObjectName="cs_return_marks" />
+<table tableName="cs_returns" domainObjectName="cs_returns" />
+<table tableName="cs_update_info_marks" domainObjectName="cs_update_info_marks" />
+<table tableName="cs_update_infos" domainObjectName="cs_update_infos" />
+<table tableName="customer_addresses" domainObjectName="customer_addresses" />
+<table tableName="customer_agent_relation_marks" domainObjectName="customer_agent_relation_marks" />
+<table tableName="customer_agent_relations" domainObjectName="customer_agent_relations" />
+<table tableName="customer_integral_converts" domainObjectName="customer_integral_converts" />
+<table tableName="customer_integral_records" domainObjectName="customer_integral_records" />
+<table tableName="customer_intention_marks" domainObjectName="customer_intention_marks" />
+<table tableName="customer_intentions" domainObjectName="customer_intentions" />
+<table tableName="customer_role_relations" domainObjectName="customer_role_relations" />
+<table tableName="customers" domainObjectName="customers" />
+<table tableName="danger_merchants" domainObjectName="danger_merchants" />
+<table tableName="dictionary_billing_cycles" domainObjectName="dictionary_billing_cycles" />
+<table tableName="dictionary_card_types" domainObjectName="dictionary_card_types" />
+<table tableName="dictionary_company_addresses" domainObjectName="dictionary_company_addresses" />
+<table tableName="dictionary_credit_types" domainObjectName="dictionary_credit_types" />
+<table tableName="dictionary_encrypt_card_ways" domainObjectName="dictionary_encrypt_card_ways" />
+<table tableName="dictionary_open_private_infos" domainObjectName="dictionary_open_private_infos" />
+<table tableName="dictionary_replace_reasons" domainObjectName="dictionary_replace_reasons" />
+<table tableName="dictionary_return_reasons" domainObjectName="dictionary_return_reasons" />
+<table tableName="dictionary_sign_order_ways" domainObjectName="dictionary_sign_order_ways" />
+<table tableName="dictionary_trade_standard_rates" domainObjectName="dictionary_trade_standard_rates" />
+<table tableName="dictionary_trade_types" domainObjectName="dictionary_trade_types" />
+<table tableName="exchange_goods_records" domainObjectName="exchange_goods_records" />
+<table tableName="factories" domainObjectName="factories" />
+<table tableName="good_brands" domainObjectName="good_brands" />
+<table tableName="good_comments" domainObjectName="good_comments" />
+<table tableName="good_marks" domainObjectName="good_marks" />
+<table tableName="goods" domainObjectName="goods" />
+<table tableName="goods_pay_channels" domainObjectName="goods_pay_channels" />
+<table tableName="goods_pictures" domainObjectName="goods_pictures" />
+<table tableName="in_out_storages" domainObjectName="in_out_storages" />
+<table tableName="menus" domainObjectName="menus" />
+<table tableName="merchants" domainObjectName="merchants" />
+<table tableName="message_receivers" domainObjectName="message_receivers" />
+<table tableName="opening_applies" domainObjectName="opening_applies" />
+<table tableName="opening_apply_marks" domainObjectName="opening_apply_marks" />
+<table tableName="opening_requirement_lists" domainObjectName="opening_requirement_lists" />
+<table tableName="opening_requirements" domainObjectName="opening_requirements" />
+<table tableName="operate_records" domainObjectName="operate_records" />
+<table tableName="order_goods" domainObjectName="order_goods" />
+<table tableName="order_logistics" domainObjectName="order_logistics" />
+<table tableName="order_marks" domainObjectName="order_marks" />
+<table tableName="order_payments" domainObjectName="order_payments" />
+<table tableName="order_receiver_addresses" domainObjectName="order_receiver_addresses" />
+<table tableName="order_trade_records" domainObjectName="order_trade_records" />
+<table tableName="orders" domainObjectName="orders" />
+<table tableName="other_requirements" domainObjectName="other_requirements" />
+<table tableName="pay_channel_billing_cycles" domainObjectName="pay_channel_billing_cycles" />
+<table tableName="pay_channels" domainObjectName="pay_channels" />
+<table tableName="pos_categories" domainObjectName="pos_categories" />
+<table tableName="prepare_goods_records" domainObjectName="prepare_goods_records" />
+<table tableName="role_menus" domainObjectName="role_menus" />
+<table tableName="roles" domainObjectName="roles" />
+<table tableName="shopping_carts" domainObjectName="shopping_carts" />
+<table tableName="support_areas" domainObjectName="support_areas" />
+<table tableName="support_trade_types" domainObjectName="support_trade_types" />
+<table tableName="sys_activities" domainObjectName="sys_activities" />
+<table tableName="sys_config" domainObjectName="sys_config" />
+<table tableName="sys_messages" domainObjectName="sys_messages" />
+<table tableName="sys_shuffling_figures" domainObjectName="sys_shuffling_figures" />
+<table tableName="terminal_marks" domainObjectName="terminal_marks" />
+<table tableName="terminal_opening_infos" domainObjectName="terminal_opening_infos" />
+<table tableName="terminal_trade_type_infos" domainObjectName="terminal_trade_type_infos" />
+<table tableName="terminals" domainObjectName="terminals" />
+<table tableName="web_messages" domainObjectName="web_messages" />
+		
+		
+		
+		
+		
 	</context>
 </generatorConfiguration>
