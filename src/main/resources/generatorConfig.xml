@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<context id="context1">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/zhangfu?characterEncoding=UTF-8"
+			userId="root" password="123456" />
+		<javaModelGenerator targetPackage="com.comdosoft.financial.model"
+			targetProject="ZFManager" />
+		<sqlMapGenerator targetPackage="com.comdosoft.financial.sqlmap"
+			targetProject="ZFManager" />
+		<javaClientGenerator targetPackage="com.comdosoft.financial.mapper"
+			targetProject="ZFManager" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<table tableName="agents" domainObjectName="agents" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="customers" domainObjectName="customers" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="good_profits" domainObjectName="good_profits" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="profits" domainObjectName="profits" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_consume_records" domainObjectName="trade_consume_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_day_reports" domainObjectName="trade_day_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_recharge_records" domainObjectName="trade_recharge_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_records" domainObjectName="trade_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_total_day_reports" domainObjectName="trade_total_day_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_total_region_reports" domainObjectName="trade_total_region_reports" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+		<table tableName="trade_transfer_repayment_records" domainObjectName="trade_transfer_repayment_records" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+	</context>
+</generatorConfiguration>
