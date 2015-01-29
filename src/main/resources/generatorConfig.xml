@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<context id="context1">
+	<context id="trades">
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/zhangfu?characterEncoding=UTF-8"
-			userId="root" password="123456" />
+			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/trades?characterEncoding=UTF-8"
+			userId="zhangfu" password="zhangfu123" />
 		<javaModelGenerator targetPackage="com.comdosoft.financial.model"
 			targetProject="ZFManager" />
 		<sqlMapGenerator targetPackage="com.comdosoft.financial.sqlmap"
@@ -13,116 +13,116 @@
 			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		
-		
-		
-		<table tableName="good_profits" domainObjectName="GoodProfit" />
-<table tableName="profits" domainObjectName="Profit" />
-<table tableName="trade_consume_records" domainObjectName="TradeConsumeRecord" />
-<table tableName="trade_day_reports" domainObjectName="TradeDayReport" />
-<table tableName="trade_recharge_records" domainObjectName="TradeRechargeRecord" />
-<table tableName="trade_records" domainObjectName="TradeRecord" />
-<table tableName="trade_total_day_reports" domainObjectName="tradeTotalDayReport" />
-<table tableName="trade_total_region_reports" domainObjectName="TradeTotalRegionReport" />
-<table tableName="trade_transfer_repayment_records" domainObjectName="TradeTransferRepaymentRecord" />
+		<table tableName="good_profits" domainObjectName="GoodProfit" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="profits" domainObjectName="Profit" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_consume_records" domainObjectName="TradeConsumeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_day_reports" domainObjectName="TradeDayReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_recharge_records" domainObjectName="TradeRechargeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_records" domainObjectName="TradeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_total_day_reports" domainObjectName="tradeTotalDayReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_total_region_reports" domainObjectName="TradeTotalRegionReport" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="trade_transfer_repayment_records" domainObjectName="TradeTransferRepaymentRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+	</context>
+	<context id="zhangfu">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/zhangfu?characterEncoding=UTF-8"
+			userId="zhangfu" password="zhangfu123" />
+		<javaModelGenerator targetPackage="com.comdosoft.financial.model"
+			targetProject="ZFManager" />
+		<sqlMapGenerator targetPackage="com.comdosoft.financial.sqlmap"
+			targetProject="ZFManager" />
+		<javaClientGenerator targetPackage="com.comdosoft.financial.mapper"
+			targetProject="ZFManager" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
 
-
-
-
-
-
-
-<table tableName="agent_good_names" domainObjectName="AgentGoodName" />
-<table tableName="agent_profit_settings" domainObjectName="AgentProfitSetting" />
-<table tableName="agents" domainObjectName="Agent" />
-<table tableName="cities" domainObjectName="City" />
-<table tableName="cs_agent_marks" domainObjectName="CsAgentMark" />
-<table tableName="cs_agents" domainObjectName="CsAgent" />
-<table tableName="cs_cancel_marks" domainObjectName="CsCancelMark" />
-<table tableName="cs_cancels" domainObjectName="CsCancel" />
-<table tableName="cs_changel_marks" domainObjectName="CsChangelMark" />
-<table tableName="cs_changes" domainObjectName="CsChange" />
-<table tableName="cs_lease_return_marks" domainObjectName="CsLeaseReturnMark" />
-<table tableName="cs_lease_returns" domainObjectName="CsLeaseReturn" />
-<table tableName="cs_out_storages" domainObjectName="CsOutStorage" />
-<table tableName="cs_receiver_addresses" domainObjectName="CsReceiverAddress" />
-<table tableName="cs_refund_marks" domainObjectName="CsRefundMark" />
-<table tableName="cs_refunds" domainObjectName="Cs_Refund" />
-<table tableName="cs_repair_marks" domainObjectName="CsRepairMark" />
-<table tableName="cs_repair_payments" domainObjectName="CsRepairPayment" />
-<table tableName="cs_repairs" domainObjectName="CsRepair" />
-<table tableName="cs_return_marks" domainObjectName="CsReturnMark" />
-<table tableName="cs_returns" domainObjectName="CsReturn" />
-<table tableName="cs_update_info_marks" domainObjectName="CsUpdateInfoMark" />
-<table tableName="cs_update_infos" domainObjectName="CsUpdateInfo" />
-<table tableName="customer_addresses" domainObjectName="CustomerAddress" />
-<table tableName="customer_agent_relation_marks" domainObjectName="CustomerAgentRelationMark" />
-<table tableName="customer_agent_relations" domainObjectName="CustomerAgentRelation" />
-<table tableName="customer_integral_converts" domainObjectName="CustomerIntegralConvert" />
-<table tableName="customer_integral_records" domainObjectName="CustomerIntegralRecord" />
-<table tableName="customer_intention_marks" domainObjectName="CustomerIntentionMark" />
-<table tableName="customer_intentions" domainObjectName="CustomerIntention" />
-<table tableName="customer_role_relations" domainObjectName="CustomerRoleRelation" />
-<table tableName="customers" domainObjectName="Customer" />
-<table tableName="danger_merchants" domainObjectName="DangerMerchant" />
-<table tableName="dictionary_billing_cycles" domainObjectName="DictionaryBillingCycle" />
-<table tableName="dictionary_card_types" domainObjectName="DictionaryCardType" />
-<table tableName="dictionary_company_addresses" domainObjectName="DictionaryCompanyAddress" />
-<table tableName="dictionary_credit_types" domainObjectName="DictionaryCreditType" />
-<table tableName="dictionary_encrypt_card_ways" domainObjectName="DictionaryEncryptCardWay" />
-<table tableName="dictionary_open_private_infos" domainObjectName="DictionaryOpenPrivateInfo" />
-<table tableName="dictionary_replace_reasons" domainObjectName="DictionaryReplaceReason" />
-<table tableName="dictionary_return_reasons" domainObjectName="DictionaryReturnReason" />
-<table tableName="dictionary_sign_order_ways" domainObjectName="DictionaryRignOrderWay" />
-<table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate" />
-<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" />
-<table tableName="exchange_goods_records" domainObjectName="exchangeGoodsRecord" />
-<table tableName="factories" domainObjectName="Factory" />
-<table tableName="good_brands" domainObjectName="GoodBrand" />
-<table tableName="good_comments" domainObjectName="good_comment" />
-<table tableName="good_marks" domainObjectName="GoodMark" />
-<table tableName="goods" domainObjectName="Good" />
-<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" />
-<table tableName="goods_pictures" domainObjectName="GoodsPicture" />
-<table tableName="in_out_storages" domainObjectName="InOutStorage" />
-<table tableName="menus" domainObjectName="Menu" />
-<table tableName="merchants" domainObjectName="Merchant" />
-<table tableName="message_receivers" domainObjectName="Message_receiver" />
-<table tableName="opening_applies" domainObjectName="OpeningApplie" />
-<table tableName="opening_apply_marks" domainObjectName="OpeningApplyMark" />
-<table tableName="opening_requirement_lists" domainObjectName="OpeningRequirementList" />
-<table tableName="opening_requirements" domainObjectName="OpeningRequirement" />
-<table tableName="operate_records" domainObjectName="OperateRecord" />
-<table tableName="order_goods" domainObjectName="OrderGood" />
-<table tableName="order_logistics" domainObjectName="OrderLogistic" />
-<table tableName="order_marks" domainObjectName="OrderMark" />
-<table tableName="order_payments" domainObjectName="OrderPayment" />
-<table tableName="order_receiver_addresses" domainObjectName="OrderReceiverAddress" />
-<table tableName="order_trade_records" domainObjectName="OrderTradeRecord" />
-<table tableName="orders" domainObjectName="Order" />
-<table tableName="other_requirements" domainObjectName="OtherRequirement" />
-<table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle" />
-<table tableName="pay_channels" domainObjectName="PayChannel" />
-<table tableName="pos_categories" domainObjectName="PosCategorie" />
-<table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord" />
-<table tableName="role_menus" domainObjectName="RoleMenu" />
-<table tableName="roles" domainObjectName="Role" />
-<table tableName="shopping_carts" domainObjectName="ShoppingCart" />
-<table tableName="support_areas" domainObjectName="SupportArea" />
-<table tableName="support_trade_types" domainObjectName="SupportTradeType" />
-<table tableName="sys_activities" domainObjectName="SysActivity" />
-<table tableName="sys_config" domainObjectName="SysConfig" />
-<table tableName="sys_messages" domainObjectName="SysMessage" />
-<table tableName="sys_shuffling_figures" domainObjectName="SysShufflingFigure" />
-<table tableName="terminal_marks" domainObjectName="TerminalMark" />
-<table tableName="terminal_opening_infos" domainObjectName="TerminalOpeningInfo" />
-<table tableName="terminal_trade_type_infos" domainObjectName="TerminalTradeTypeInfo" />
-<table tableName="terminals" domainObjectName="Terminal" />
-<table tableName="web_messages" domainObjectName="WebMessage" />
-		
-		
-		
-		
+		<table tableName="agent_good_names" domainObjectName="AgentGoodName" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="agent_profit_settings" domainObjectName="AgentProfitSetting" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="agents" domainObjectName="Agent" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cities" domainObjectName="City" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_agent_marks" domainObjectName="CsAgentMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_agents" domainObjectName="CsAgent" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_cancel_marks" domainObjectName="CsCancelMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_cancels" domainObjectName="CsCancel" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_changel_marks" domainObjectName="CsChangelMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_changes" domainObjectName="CsChange" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_lease_return_marks" domainObjectName="CsLeaseReturnMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_lease_returns" domainObjectName="CsLeaseReturn" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_out_storages" domainObjectName="CsOutStorage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_receiver_addresses" domainObjectName="CsReceiverAddress" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_refund_marks" domainObjectName="CsRefundMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_refunds" domainObjectName="Cs_Refund" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_repair_marks" domainObjectName="CsRepairMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_repair_payments" domainObjectName="CsRepairPayment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_repairs" domainObjectName="CsRepair" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_return_marks" domainObjectName="CsReturnMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_returns" domainObjectName="CsReturn" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_update_info_marks" domainObjectName="CsUpdateInfoMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="cs_update_infos" domainObjectName="CsUpdateInfo" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_addresses" domainObjectName="CustomerAddress" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_agent_relation_marks" domainObjectName="CustomerAgentRelationMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_agent_relations" domainObjectName="CustomerAgentRelation" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_integral_converts" domainObjectName="CustomerIntegralConvert" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_integral_records" domainObjectName="CustomerIntegralRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_intention_marks" domainObjectName="CustomerIntentionMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_intentions" domainObjectName="CustomerIntention" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customer_role_relations" domainObjectName="CustomerRoleRelation" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="customers" domainObjectName="Customer" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="danger_merchants" domainObjectName="DangerMerchant" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_billing_cycles" domainObjectName="DictionaryBillingCycle" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_card_types" domainObjectName="DictionaryCardType" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_company_addresses" domainObjectName="DictionaryCompanyAddress" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_credit_types" domainObjectName="DictionaryCreditType" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_encrypt_card_ways" domainObjectName="DictionaryEncryptCardWay" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_open_private_infos" domainObjectName="DictionaryOpenPrivateInfo" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_replace_reasons" domainObjectName="DictionaryReplaceReason" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_return_reasons" domainObjectName="DictionaryReturnReason" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_sign_order_ways" domainObjectName="DictionaryRignOrderWay" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="exchange_goods_records" domainObjectName="exchangeGoodsRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="factories" domainObjectName="Factory" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="good_brands" domainObjectName="GoodBrand" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="good_comments" domainObjectName="good_comment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="good_marks" domainObjectName="GoodMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="goods" domainObjectName="Good" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="goods_pictures" domainObjectName="GoodsPicture" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="in_out_storages" domainObjectName="InOutStorage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="menus" domainObjectName="Menu" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="merchants" domainObjectName="Merchant" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="message_receivers" domainObjectName="Message_receiver" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="opening_applies" domainObjectName="OpeningApplie" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="opening_apply_marks" domainObjectName="OpeningApplyMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="opening_requirement_lists" domainObjectName="OpeningRequirementList" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="opening_requirements" domainObjectName="OpeningRequirement" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="operate_records" domainObjectName="OperateRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_goods" domainObjectName="OrderGood" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_logistics" domainObjectName="OrderLogistic" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_marks" domainObjectName="OrderMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_payments" domainObjectName="OrderPayment" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_receiver_addresses" domainObjectName="OrderReceiverAddress" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="order_trade_records" domainObjectName="OrderTradeRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="orders" domainObjectName="Order" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="other_requirements" domainObjectName="OtherRequirement" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="pay_channels" domainObjectName="PayChannel" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="pos_categories" domainObjectName="PosCategorie" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="role_menus" domainObjectName="RoleMenu" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="roles" domainObjectName="Role" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="shopping_carts" domainObjectName="ShoppingCart" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="support_areas" domainObjectName="SupportArea" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="support_trade_types" domainObjectName="SupportTradeType" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="sys_activities" domainObjectName="SysActivity" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="sys_config" domainObjectName="SysConfig" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="sys_messages" domainObjectName="SysMessage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="sys_shuffling_figures" domainObjectName="SysShufflingFigure" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="terminal_marks" domainObjectName="TerminalMark" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="terminal_opening_infos" domainObjectName="TerminalOpeningInfo" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="terminal_trade_type_infos" domainObjectName="TerminalTradeTypeInfo" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="terminals" domainObjectName="Terminal" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
+		<table tableName="web_messages" domainObjectName="WebMessage" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />	
 		
 	</context>
 </generatorConfiguration>
