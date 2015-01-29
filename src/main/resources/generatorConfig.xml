@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
+	<classPathEntry location="F:/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar" />
 	<context id="trades">
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/trades?characterEncoding=UTF-8"
 			userId="zhangfu" password="zhangfu123" />
-		<javaModelGenerator targetPackage="com.comdosoft.financial.model"
-			targetProject="ZFManager" />
-		<sqlMapGenerator targetPackage="com.comdosoft.financial.sqlmap"
-			targetProject="ZFManager" />
-		<javaClientGenerator targetPackage="com.comdosoft.financial.mapper"
-			targetProject="ZFManager" type="XMLMAPPER">
+		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.trades"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
+			targetProject="src/main/java" />
+		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
+			targetProject="src/main/java" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<table tableName="good_profits" domainObjectName="GoodProfit" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" />
@@ -27,12 +28,12 @@
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/zhangfu?characterEncoding=UTF-8"
 			userId="zhangfu" password="zhangfu123" />
-		<javaModelGenerator targetPackage="com.comdosoft.financial.model"
-			targetProject="ZFManager" />
-		<sqlMapGenerator targetPackage="com.comdosoft.financial.sqlmap"
-			targetProject="ZFManager" />
-		<javaClientGenerator targetPackage="com.comdosoft.financial.mapper"
-			targetProject="ZFManager" type="XMLMAPPER">
+		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.zhangfu"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
+			targetProject="src/main/java" />
+		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
+			targetProject="src/main/java" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 

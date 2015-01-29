@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.comdosoft.financial.manage.domain.GoodProfit;
+import com.comdosoft.financial.manage.domain.trades.GoodProfit;
 import com.comdosoft.financial.manage.mapper.trades.GoodProfitMapper;
 
 @Service
@@ -19,8 +19,9 @@ public class GoodProfitService {
 		goodProfit.setAgentId(2);
 		goodProfit.setCreateAt(new Date());
 		goodProfit.setProfit(5);
-		goodProfit.setTypes(2);
-		goodProfitMapper.create(goodProfit);
+		byte b = 2;
+		goodProfit.setTypes(b);
+		goodProfitMapper.insert(goodProfit);
 	}
 	
 }
