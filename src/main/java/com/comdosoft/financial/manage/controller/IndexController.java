@@ -4,21 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comdosoft.financial.manage.service.GoodProfitService;
 
 @Controller
-public class BaseController {
+public class IndexController {
 	
 	@Autowired
 	private GoodProfitService goodProfitService;
 	
-	@RequestMapping(value="test",method=RequestMethod.GET)
-	@ResponseBody
-	public String test(){
-		goodProfitService.create();
-		return "test";
+	@RequestMapping(value="index",method=RequestMethod.GET)
+	public String index(){
+		return "index";
 	}
 
 }
