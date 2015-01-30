@@ -25,7 +25,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="renderer" content="webkit">
-    <title>运营中心--首页</title>
+    <title>运营中心</title>
     <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
