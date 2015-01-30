@@ -11,11 +11,11 @@
 			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/trades?characterEncoding=UTF-8"
 			userId="zhangfu" password="zhangfu123" />
 		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.trades"
-			targetProject="src/main/java" />
+			targetProject="ZFManager" />
 		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
-			targetProject="src/main/java" />
+			targetProject="ZFManager" />
 		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
-			targetProject="src/main/java" type="XMLMAPPER">
+			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<table tableName="good_profits" domainObjectName="GoodProfit" />
@@ -37,11 +37,11 @@
 			connectionURL="jdbc:mysql://comdosoft.mysql.rds.aliyuncs.com:3306/zhangfu?characterEncoding=UTF-8"
 			userId="zhangfu" password="zhangfu123" />
 		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.zhangfu"
-			targetProject="src/main/java" />
+			targetProject="ZFManager" />
 		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
-			targetProject="src/main/java" />
+			targetProject="ZFManager" />
 		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
-			targetProject="src/main/java" type="XMLMAPPER">
+			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<table tableName="agent_good_names" domainObjectName="AgentGoodName" />
