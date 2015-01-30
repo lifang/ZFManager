@@ -46,7 +46,6 @@
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
     <result column="lease_description" jdbcType="LONGVARCHAR" property="leaseDescription" />
     <result column="lease_agreement" jdbcType="LONGVARCHAR" property="leaseAgreement" />
-	<association property="factory" select="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper@selectByPrimaryKey" column="factory_id" javaType="Factory"/>  
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -168,13 +167,7 @@
   </select>
   
   <select id="selectPage" resultMap="BaseResultMap">
-    select id, title, second_title, key_worlds, factory_id, pos_category_id, model_number, 
-    encrypt_card_way_id, sign_order_way_id, card_type_id, battery_info, shell_material, 
-    retail_price, purchase_price, floor_price, floor_purchase_quantity, has_purchase, 
-    quantity, total_score, total_comment, price, has_lease, lease_price, lease_time, 
-    status, is_published, good_brands_id, created_user_id, created_user_type, created_at, 
-    updated_at, belongs_to, published_at, volume_number, purchase_number, lease_deposit, 
-    return_time, description, lease_description, lease_agreement
+    select * 
     from goods order by created_at limit #{startIndex}, #{endIndex}
   </select>
   
