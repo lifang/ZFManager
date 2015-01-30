@@ -19,7 +19,7 @@
                     window.location.href = "<@spring.url ""/>"+data.result;
                 }
                 if(data.code==-1){
-                    alert(data.msessage);
+                    alert(data.message);
                 }
             }
         });

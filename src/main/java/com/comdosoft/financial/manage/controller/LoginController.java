@@ -63,7 +63,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="logout",method=RequestMethod.GET)
-	public String logout(){
+	public String logout(HttpServletRequest request){
+		sessionService.clear(request);
 		return "redirect:"+loginUrl;
 	}
 	

@@ -20,4 +20,8 @@ public class SessionService {
 	public Object getLoginInfo(HttpServletRequest request) {
 		return request.getSession().getAttribute(LOGIN_SESSION_KEY);
 	}
+	
+	public void clear(HttpServletRequest request){
+		request.getSession().removeAttribute(LOGIN_SESSION_KEY);
+	}
 }
