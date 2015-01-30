@@ -18,6 +18,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:mybatis-config.xml"
 		p:mapperLocations="classpath:com.comdosoft.financial.manage.mapper.zhangfu.*.xml" />
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"

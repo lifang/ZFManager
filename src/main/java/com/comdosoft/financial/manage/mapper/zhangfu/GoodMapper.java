@@ -1,7 +1,10 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface GoodMapper {
 
@@ -34,4 +37,6 @@ public interface GoodMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Good record);
+	
+	List<Good> selectPage(@Param("startIndex")int startIndex, @Param("endIndex")int endIndex);
 }

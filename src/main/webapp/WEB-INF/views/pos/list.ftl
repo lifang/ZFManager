@@ -26,7 +26,15 @@
         <li>
          <div class="user_select"> 
           <label>状态筛选</label> 
-          <select name=""> <option>已付款</option> <option>未付款</option> <option>已付定金</option> </select> 
+          <select name=""> 
+	          <option value="0">全部</option> 
+	          <option value="1">待审核</option> 
+	          <option value="2">初审不通过</option> 
+	          <option value="3">初审通过</option> 
+	          <option value="4">审核不通过</option> 	         
+	          <option value="5">正常</option> 
+	          <option value="6">已停用</option> 
+          </select> 
          </div></li> 
        </ul> 
       </div> 
