@@ -24,6 +24,16 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+        <servlet-name>SimpleCaptcha</servlet-name>
+        <servlet-class>com.comdosoft.financial.manage.servlet.SimpleCaptchaServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SimpleCaptcha</servlet-name>
+        <url-pattern>/captcha</url-pattern>
+    </servlet-mapping>
 
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>

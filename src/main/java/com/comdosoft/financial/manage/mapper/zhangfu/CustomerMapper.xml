@@ -89,4 +89,12 @@
     integral, status, device_code, created_at, updated_at, phone, email
     from customers
   </select>
+  
+  <select id="selectByLogin" resultMap="BaseResultMap">
+  	<bind name="NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL"/>
+  	select id, username, password, account_type, name, city_id, types, last_logined_at, 
+    integral, status, device_code, created_at, updated_at, phone, email
+    from customers
+    where username=#{param1} and password=#{param2} and status=#{NORMAL}
+  </select>
 </mapper>

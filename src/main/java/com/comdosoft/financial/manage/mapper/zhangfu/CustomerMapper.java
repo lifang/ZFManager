@@ -34,4 +34,6 @@ public interface CustomerMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Customer record);
+	
+	Customer selectByLogin(String passport,String password);
 }
