@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 @Service
 public class GoodService {
@@ -14,7 +16,11 @@ public class GoodService {
 	@Autowired
 	private GoodMapper goodMapper;
 	
-	public List<Good> listPage(int page, int pageSize){
-		return goodMapper.selectPage(0, 1);
+	public Page<Good> findPages(int page, int pageSize, Integer status, String keys){
+		
+		long count = goodMapper.countByKeys(status, keys);
+		PageRequest request = new PageRequest(page, pageSize);
+		List<Good> result = goodMapper.findPageGoodsByKeys(request, status, keys);
+		return new Page<Good>(request, result, count);
 	}
 }

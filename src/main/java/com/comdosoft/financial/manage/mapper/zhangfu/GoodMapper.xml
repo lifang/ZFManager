@@ -166,9 +166,44 @@
     from goods
   </select>
   
-  <select id="selectPage" resultMap="BaseResultMap">
-    select * 
-    from goods order by created_at limit #{startIndex}, #{endIndex}
-  </select>
+  
+  
+  <!-- PosCategory result -->
+  <resultMap id="PCResult" type="com.comdosoft.financial.manage.domain.zhangfu.PosCategory">
+    <id property="id" column="pc_id" />
+    <result property="name" column="pc_name"/>
+  </resultMap>
+
+	<!-- 分页result -->
+	<resultMap id="pageGoodResultMap"
+		type="com.comdosoft.financial.manage.domain.zhangfu.Good" 
+		extends="BaseResultMap">
+		<association property="posCategory"
+			javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory"
+			resultMap="PCResult" />
+	</resultMap>
+
+	<sql id="pageWhere">
+		<where>
+			<if test="status != null"> status =#{status} </if>
+			<if test="keys != null"> AND (title like #{keys} or second_title like #{keys} or
+				key_worlds like #{keys}) </if>
+		</where>
+	</sql>
+	<select id="findPageGoodsByKeys" resultMap="pageGoodResultMap">
+		select g.*,
+		pc.id as pc_id, pc.name as pc_name
+		from goods g left join pos_categories pc on g.pos_category_id=pc.id
+		<include refid="pageWhere" />
+
+		order by created_at limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+
+	<select id="countByKeys" resultType="long">
+		SELECT count(*) as count
+		FROM goods
+		<include refid="pageWhere" />
+
+	</select>
   
 </mapper>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
+	<classPathEntry location="E:\maven\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>
 	<context id="trades" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 		<property name="javaFileEncoding" value="UTF-8"/>
 		<commentGenerator>
@@ -114,7 +115,7 @@
 		<table tableName="other_requirements" domainObjectName="OtherRequirement" />
 		<table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle" />
 		<table tableName="pay_channels" domainObjectName="PayChannel" />
-		<table tableName="pos_categories" domainObjectName="PosCategorie" />
+		<table tableName="pos_categories" domainObjectName="PosCategory" />
 		<table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord" />
 		<table tableName="role_menus" domainObjectName="RoleMenu" />
 		<table tableName="roles" domainObjectName="Role" />

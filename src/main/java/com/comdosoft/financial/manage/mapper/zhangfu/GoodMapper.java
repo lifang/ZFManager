@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 import java.util.List;
 
@@ -37,6 +38,9 @@ public interface GoodMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Good record);
-	
-	List<Good> selectPage(@Param("startIndex")int startIndex, @Param("endIndex")int endIndex);
+
+	List<Good> findPageGoodsByKeys(@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Integer status, @Param("keys") String keys);
+			
+	long countByKeys(@Param("status") Integer status, @Param("keys") String keys);
 }
