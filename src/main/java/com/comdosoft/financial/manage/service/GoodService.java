@@ -36,4 +36,10 @@ public class GoodService {
 		}
 		return goods;
 	}
+	
+	
+	public Good findGood(Long id) {
+		return goodMapper.findGoodInfo(id);
+	}
+	
 }

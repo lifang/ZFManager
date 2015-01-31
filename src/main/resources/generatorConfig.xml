@@ -85,7 +85,7 @@
 		<table tableName="dictionary_open_private_infos" domainObjectName="DictionaryOpenPrivateInfo" />
 		<table tableName="dictionary_replace_reasons" domainObjectName="DictionaryReplaceReason" />
 		<table tableName="dictionary_return_reasons" domainObjectName="DictionaryReturnReason" />
-		<table tableName="dictionary_sign_order_ways" domainObjectName="DictionaryRignOrderWay" />
+		<table tableName="dictionary_sign_order_ways" domainObjectName="DictionarySignOrderWay" />
 		<table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate" />
 		<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" />
 		<table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord" />

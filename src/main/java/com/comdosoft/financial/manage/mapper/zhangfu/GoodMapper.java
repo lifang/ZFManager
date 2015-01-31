@@ -43,4 +43,6 @@ public interface GoodMapper {
 			@Param("status") Integer status, @Param("keys") String keys);
 			
 	long countByKeys(@Param("status") Integer status, @Param("keys") String keys);
+	
+	Good findGoodInfo(Long id);
 }

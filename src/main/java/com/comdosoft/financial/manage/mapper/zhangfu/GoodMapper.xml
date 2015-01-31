@@ -170,22 +170,34 @@
   
   <!-- PosCategory result -->
   <resultMap id="PCResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.PosCategory">
-    <id property="id" column="pc_id" />
-    <result property="name" column="pc_name"/>
+    <id column="pc_id" property="id" />
+    <result column="pc_name" property="name" />
   </resultMap>
   <!-- GoodBrand result -->
   <resultMap id="GBResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand">
-    <id property="id" column="gb_id" />
-    <result property="name" column="gb_name"/>
+    <id column="gb_id" property="id" />
+    <result column="gb_name" property="name" />
   </resultMap>
-
+   <!-- Factory result -->
+  <resultMap id="FResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Factory">
+    <id column="f_id" property="id" />
+    <result column="f_name" property="name" />
+  </resultMap>
+  
+   <!-- PayChannel result -->
+  <resultMap id="PayCResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.PayChannel">
+    <id column="payc_id" property="id" />
+    <result column="payc_name" property="name" />
+  </resultMap>
+  
+     <!-- DictionarySignOrderWay result -->
+  <resultMap id="DsowResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay">
+    <id column="dsow_id" property="id" />
+    <result column="dsow_name" property="signOrderWay" />
+  </resultMap>
 	<!-- 分页result -->
-	<resultMap id="pageGoodResultMap"
-		type="com.comdosoft.financial.manage.domain.zhangfu.Good" 
-		extends="BaseResultMap">
-		<association property="goodBrand"
-			javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand"
-			resultMap="GBResultMap" />
+	<resultMap extends="BaseResultMap" id="PageGoodResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
+		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="GBResultMap" />
 	</resultMap>
 
 	<sql id="pageWhere">
@@ -195,7 +207,7 @@
 				key_worlds like #{keys}) </if>
 		</where>
 	</sql>
-	<select id="findPageGoodsByKeys" resultMap="pageGoodResultMap">
+	<select id="findPageGoodsByKeys" resultMap="PageGoodResultMap">
 		select g.*,
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
@@ -209,6 +221,34 @@
 		FROM goods
 		<include refid="pageWhere" />
 
+	</select>
+  
+  	<!-- 详情 -->
+	<resultMap extends="BaseResultMap" id="GoodInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
+		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="GBResultMap" />
+		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" resultMap="FResultMap" />
+		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory" property="posCategory" resultMap="PCResultMap" />
+		<collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannel" property="channels" select="getChannels" /> 
+	</resultMap>
+  
+  	<select id="findGoodInfo" resultMap="GoodInfoResultMap">
+		select g.*,
+		gb.id as gb_id, gb.name as gb_name,
+		f.id as f_id, f.name as f_name,
+		pc.id as pc_id, pc.name as pc_name,
+		dsow.id as dsow_id, dsow.pc_sign_order_way as dsow_pc_sign_order_way,
+		from goods g left join good_brands gb on g.good_brands_id=gb.id
+		left join factories f on g.factory_id=f.id
+		left join pos_categories pc on g.pos_category_id=pc.id
+		left join dictionary_sign_order_ways dsow on g.sign_order_way_id=dsow.id
+		where g.id=#{param1}
+	</select>
+
+	<!--获取商品对应的通道 -->
+	<select id="getChannels" resultMap="PayCResultMap">
+		select payc.id as payc_id, payc.name as payc_name 
+		from goods_pay_channels gpc inner join pay_channels payc on gpc.pay_channel_id=payc.id
+		where gpc.good_id = #{param1}
 	</select>
   
 </mapper>

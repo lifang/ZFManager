@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,6 +29,13 @@ public class PosController {
 	public String page(Integer page, Integer status, String keys, Model model){
 		findPage(page, status, keys, model);
 		return "pos/pagePos";
+	}
+	
+	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
+	public String info(@PathVariable Long id, Model model){
+		Good good = goodService.findGood(id);
+		model.addAttribute("good", good);
+		return "pos/info";
 	}
 	
 	private void findPage(Integer page, Integer status, String keys, Model model){
