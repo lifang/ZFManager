@@ -926,6 +926,7 @@ public class Good {
 
 	private Factory factory;
 	private PosCategory posCategory;
+	private GoodBrand goodBrand;
 
 	public Factory getFactory() {
 		return factory;
@@ -941,6 +942,14 @@ public class Good {
 
 	public void setPosCategory(PosCategory posCategory) {
 		this.posCategory = posCategory;
+	}
+
+	public GoodBrand getGoodBrand() {
+		return goodBrand;
+	}
+
+	public void setGoodBrand(GoodBrand goodBrand) {
+		this.goodBrand = goodBrand;
 	}
 	
 }

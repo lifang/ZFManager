@@ -169,18 +169,23 @@
   
   
   <!-- PosCategory result -->
-  <resultMap id="PCResult" type="com.comdosoft.financial.manage.domain.zhangfu.PosCategory">
+  <resultMap id="PCResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.PosCategory">
     <id property="id" column="pc_id" />
     <result property="name" column="pc_name"/>
+  </resultMap>
+  <!-- GoodBrand result -->
+  <resultMap id="GBResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand">
+    <id property="id" column="gb_id" />
+    <result property="name" column="gb_name"/>
   </resultMap>
 
 	<!-- 分页result -->
 	<resultMap id="pageGoodResultMap"
 		type="com.comdosoft.financial.manage.domain.zhangfu.Good" 
 		extends="BaseResultMap">
-		<association property="posCategory"
-			javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory"
-			resultMap="PCResult" />
+		<association property="goodBrand"
+			javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand"
+			resultMap="GBResultMap" />
 	</resultMap>
 
 	<sql id="pageWhere">
@@ -192,8 +197,8 @@
 	</sql>
 	<select id="findPageGoodsByKeys" resultMap="pageGoodResultMap">
 		select g.*,
-		pc.id as pc_id, pc.name as pc_name
-		from goods g left join pos_categories pc on g.pos_category_id=pc.id
+		gb.id as gb_id, gb.name as gb_name
+		from goods g left join good_brands gb on g.good_brands_id=gb.id
 		<include refid="pageWhere" />
 
 		order by created_at limit #{pageRequest.offset}, #{pageRequest.pageSize}

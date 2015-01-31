@@ -10,7 +10,7 @@
 	<div class="pageTurn"> 
 		
 		<div class="p_num"> 
-			<#if pageNo?? >
+			<#if pageNo?? &&  totalPages gt 0>
 				<#if totalPages lte pageCount  >
 			    	<a href="#" class="disabled">上一页</a> 
 					<#list 1..totalPages as a>
@@ -62,8 +62,17 @@
 		
 		<div class="p_skip"> 
 		    <span>共${totalPages}页</span> 
-		    <span>到第&nbsp;&nbsp;<input name="" type="text" class="" />&nbsp;&nbsp;页</span> 
-		    <button>确定</button> 
+		    <span>到第&nbsp;&nbsp;<input type="text" id="pageClickNum" onkeyup="value=this.value.replace(/\D+/g,'')"/>&nbsp;&nbsp;页</span> 
+		    <button onclick="pageClick()">确定</button> 
 		</div> 
+		
+	<script type="text/javascript">
+	
+	function pageClick() {
+		${functionName}($("#pageClickNum").val());
+	}
+ 
+		
+	</script> 
 	</div>
     </#macro>  
