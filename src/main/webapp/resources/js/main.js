@@ -126,6 +126,7 @@ $(function(){
 function infoTab(i_tab,i_box){
 	$(i_tab).hover(
 		function(e){
+			$(i_box).children("img").attr("src", $(this).attr("value"));
 			$(i_box).css('display','block');
 			$(i_box).css({'top':($(this).offset().top)-$(this).height()-100+'px', 
 			              'left':($(this).offset().left)+$(this).width()+'px'

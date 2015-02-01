@@ -91,8 +91,10 @@
 		<table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord" />
 		<table tableName="factories" domainObjectName="Factory" />
 		<table tableName="good_brands" domainObjectName="GoodBrand" />
+		<table tableName="good_card_types" domainObjectName="GoodCardType" />
 		<table tableName="good_comments" domainObjectName="GoodComment" />
 		<table tableName="good_marks" domainObjectName="GoodMark" />
+		<table tableName="good_relations" domainObjectName="GoodRelation" />
 		<table tableName="goods" domainObjectName="Good" />
 		<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" />
 		<table tableName="goods_pictures" domainObjectName="GoodsPicture" />
