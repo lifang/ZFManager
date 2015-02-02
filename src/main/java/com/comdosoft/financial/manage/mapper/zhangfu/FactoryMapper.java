@@ -34,4 +34,6 @@ public interface FactoryMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Factory record);
+	
+	List<Factory> selectFactoriesByStatus(byte status);
 }

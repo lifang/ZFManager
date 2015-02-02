@@ -31,7 +31,6 @@
        		<#include "pageRowPos.ftl" />
 		  </#list>
 		</#if>
-        
         </tbody> 
        </table> 
 	</div> 

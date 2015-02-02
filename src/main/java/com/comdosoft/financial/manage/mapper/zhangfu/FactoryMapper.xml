@@ -91,4 +91,11 @@
     created_at, updated_at, customer_id, description
     from factories
   </select>
+  
+  
+    <select id="selectFactoriesByStatus" resultMap="BaseResultMap">
+    select * 
+    from factories f where f.status=#{param1}
+  </select>
+  
 </mapper>
