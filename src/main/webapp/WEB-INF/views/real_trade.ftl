@@ -7,7 +7,12 @@
     <title>运营中心全国交易实时统计</title>
     <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css" />
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
-    <script src="<@spring.url "/resources/js/echarts/echarts.js"/>"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="js/excanvas.js"></script>
+    <![endif]-->
+    <script src="<@spring.url "/resources/js/echarts/echarts.js"/>"></script><!--柱形图表-->
+    <script src="<@spring.url "/resources/js/Chart.min.js"/>"></script>
+
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
 </head>
 <body>
@@ -75,50 +80,6 @@
                         <canvas id="myChart05" height="200" width="230"></canvas>
                     </div>
                 </div>
-
-                <script>
-//                    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-//
-//                    var barChartData = {
-//                        labels : ["1","2","3","4","5","6","7"],
-//                        datasets : [
-//                            {
-//                                fillColor : "rgba(151,187,205,0.5)",
-//                                strokeColor : "rgba(151,187,205,0.8)",
-//                                highlightFill : "rgba(151,187,205,0.75)",
-//                                highlightStroke : "rgba(151,187,205,1)",
-//                                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-//                            }
-//                        ]
-//                    }
-//                    var globalGraphSettings = {
-//                        responsive : true,
-//                        barStrokeWidth : 1,
-//                        barValueSpacing : 10,
-//                    };
-//                    function showBarChart(){
-//                        var ctx01 = document.getElementById("myChart01").getContext("2d");
-//                        new Chart(ctx01).Bar(barChartData,globalGraphSettings);
-//
-//                        var ctx02 = document.getElementById("myChart02").getContext("2d");
-//                        new Chart(ctx02).Bar(barChartData,globalGraphSettings);
-//
-//                        var ctx03 = document.getElementById("myChart03").getContext("2d");
-//                        new Chart(ctx03).Bar(barChartData,globalGraphSettings);
-//
-//                        var ctx04 = document.getElementById("myChart04").getContext("2d");
-//                        new Chart(ctx04).Bar(barChartData,globalGraphSettings);
-//
-//                        var ctx05 = document.getElementById("myChart05").getContext("2d");
-//                        new Chart(ctx05).Bar(barChartData,globalGraphSettings);
-//
-//                    };
-//
-//                    $(function(){
-//                        showBarChart();
-//                    })
-
-                </script>
             </div>
         </div>
     </div>
@@ -134,8 +95,7 @@
         require(
                 [
                     'echarts',
-                    'echarts/chart/map',
-                    'echarts/chart/bar'
+                    'echarts/chart/map'
                 ],
                 function (ec) {
                     map = ec.init(document.getElementById("map"));
@@ -201,16 +161,8 @@
                     map.setOption(option);
                 }
         );
-        var itemStyle = {normal: {color: '#32cd32',label: {show: true}}};
-        $("#btn").click(function(){
-            flushMap([
-                {name:"北京",amount:500,num:56},
-                {name:"上海",amount:300,num:26},
-                {name:"山东",amount:301,num:21},
-                {name:"江苏",amount:322,num:22}
-            ]);
-        });
 
+        var itemStyle = {normal: {color: '#32cd32',label: {show: true}}};
         function flushMap(data){
             var series = map.getSeries().shift();
             series.data=[];
@@ -238,6 +190,51 @@
             div.fadeIn();
             $("#map").append(div);
         }
+
+        function initBar(id,labels,data){
+            var ctx = document.getElementById(id).getContext("2d");
+            var barChartData = {
+                labels : labels,
+                datasets : [
+                    {
+                        fillColor : "rgba(151,187,205,0.5)",
+                        strokeColor : "rgba(151,187,205,0.8)",
+                        highlightFill : "rgba(151,187,205,0.75)",
+                        highlightStroke : "rgba(151,187,205,1)",
+                        data : data
+                    }
+                ]
+            };
+            new Chart(ctx).Bar(barChartData,globalGraphSettings);
+        }
+
+        var globalGraphSettings = {
+            responsive : true,
+            barStrokeWidth : 1,
+            barValueSpacing : 10,
+        };
+        function showBarChart(){
+            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+            var labels =  ["新的","2","3","4","5","6","7"];
+            var data = [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()];
+
+            initBar("myChart01",labels,data);
+            initBar("myChart02",labels,data);
+            initBar("myChart03",labels,data);
+            initBar("myChart04",labels,data);
+            initBar("myChart05",labels,data);
+        }
+
+        showBarChart();
+
+        $("#btn").click(function(){
+            flushMap([
+                {name:"北京",amount:500,num:56},
+                {name:"上海",amount:300,num:26},
+                {name:"山东",amount:301,num:21},
+                {name:"江苏",amount:322,num:22}
+            ]);
+        });
     })
 </script>
 <div class="foot">

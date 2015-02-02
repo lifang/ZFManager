@@ -13,4 +13,8 @@ public class RealTradeController {
 		return "real_trade";
 	}
 
+	@RequestMapping(value="map",method=RequestMethod.POST)
+	public void map(){
+		
+	}
 }

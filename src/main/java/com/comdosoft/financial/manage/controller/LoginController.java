@@ -59,6 +59,7 @@ public class LoginController {
 			return Response.getError("用户名或密码不正确！");
 		}
 		sessionService.storeLoginInfo(request, customer);
+		LOG.info("{},登陆成功",passport);
 		return Response.getSuccess("/index");
 	}
 

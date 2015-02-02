@@ -48,7 +48,7 @@
 <#macro top>
 <div class="topInfo clear">
     <div class="box">
-        <div class="top_user"><a href="#">运营</a><a href="#">退出</a></div>
+        <div class="top_user"><a href="#">${customer.name!"未命名"}</a><a href="<@spring.url "/logout"/>">退出</a></div>
     </div>
     <div class="clear"></div>
 </div>
@@ -77,8 +77,8 @@
 <#macro left>
 <div class="left">
     <ul>
-        <li><a href="#" class="hover">运营中心首页</a></li>
-        <li><a href="<@spring.url "/real/trade"/>" target="_blank">全国交易实时统计</a></li>
+        <li><a href="<@spring.url "/index"/>" class="hover">运营中心首页</a></li>
+        <li><a href="<@spring.url "/real/trade"/>" target="map">全国交易实时统计</a></li>
         <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
             <ol>
                 <li><a href="#">POS机管理</a></li>

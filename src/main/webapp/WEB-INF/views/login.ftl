@@ -13,9 +13,7 @@
     $(function(){
         $("form").ajaxForm({
             success : function(data){
-                alert(<@spring.url "/"/>+data.result);
                 if(data.code==1){
-                    alert(1);
                     window.location.href = "<@spring.url ""/>"+data.result;
                 }
                 if(data.code==-1){
