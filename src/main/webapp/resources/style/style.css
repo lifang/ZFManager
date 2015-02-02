@@ -132,7 +132,31 @@ i.no1 {
 /*-------realTimeStatistics实时统计-------*/
 .realTimeStatistics { overflow: hidden;}
 .rts_box { border: 1px #CCCCCC solid; padding: 20px; background: #FFF; position: relative;}
-.map { width: 1000px; height: 742px; margin: 0 auto; background: url(../images/map.jpg) no-repeat;}
+.map { 
+	width: 1000px; 
+	height: 742px; 
+	margin: 0 auto; 
+	position: relative;
+}
+
+.m_data {
+	position: absolute;
+	padding: 10px;
+	background: rgba(0,153,255,0.8);
+	color: #FFF;
+	z-index: 1000;
+}
+.m_data:hover { z-index:2000;}
+.m_data i { 
+	position: absolute; 
+	width: 18px; 
+	height: 7px; 
+	display: block; 
+	bottom: -7px; 
+	left: 10px;
+	background: url(../images/m_triangle.png) no-repeat;
+}
+
 .dataStatistics { position: absolute; top: 0px; left: 0px; padding: 20px;}
 .hour24 { padding: 10px; border: 1px #CCCCCC solid; position: absolute; bottom: 0px; left: 0px;}
 .hour24 .h_title { line-height: 24px; border-bottom: 1px #CCCCCC solid;}
@@ -560,11 +584,12 @@ td a.a_btn:hover { text-decoration: underline;}
 .attributes_box .item_list li.b { width: 746px; float: none;}
 .attributes_box .item_list li.b div.text { width: 746px;}
 .attributes_box .item_list li.b div.text input[type="text"] { width: 734px;}
+.attributes_box .item_list li.b div.text input[type="text"].input_l { width: 215px;}
 .attributes_box .item_list li div.text {}
 .attributes_box .item_list li div.text select { width: 84px;}
 .attributes_box .item_list li.o div.text select { width: 262px;}
 .attributes_box .item_list li div.text img { float: left; margin-right: 5px;}
-.attributes_box .item_list li div.text textarea { width: 734px;}
+.attributes_box .item_list li div.text textarea { width: 714px; padding: 10px;}
 
 .attributes_box .item_list .item_relevance_pro { margin: 5px 0;}
 .attributes_box .item_list .item_relevance_pro span { 
@@ -594,6 +619,97 @@ td a.a_btn:hover { text-decoration: underline;}
 .approve_con {}
 .approve_con h2 { font-size: 14px; line-height: 28px; margin-bottom: 20px;}
 .approve_con p input { float: left; margin: 2px 10px 0 0;}
+
+
+/*----评论管理----*/
+/*---星型评分----*/
+.evaluate {}
+.halfShow_star { width: 120px; margin-bottom: 10px;}
+.eb_write_textarea {}
+.eb_write_textarea textarea { border: 1px #CCCCCC solid; width: 800px; height: 100px; padding: 5px;}
+
+.evaluate_title { 
+	height: 28px; 
+	line-height: 28px; 
+	color: #ff5f2b; 
+	font-size: 14px; 
+	position: relative;
+	padding: 10px 30px;
+	margin-bottom: 10px;
+}
+.evaluate_title i { 
+	width: 19px; 
+	height: 19px;
+	display: inline-block;
+	background: url(../images/icons.png) no-repeat -51px -74px;
+	position: absolute;
+	left: 0px;
+	top: 50%;
+	margin-top: -9px;
+}
+
+.evaluate_item { margin: 10px 0; padding: 10px 0; border-top: 1px #CCC solid;}
+.evaluate_item_btn { margin: 10px 0;}
+.evaluate_item_btn a.whiteBtn { padding: 5px 10px; margin-right: 10px;}
+.evaluate_item .evaluate_star { display: inline-block; margin-bottom: 10px;}
+.evaluate_item .evaluate_star li { 
+	width: 11px; 
+	height: 11px; 
+	background: url(../images/icons.png) no-repeat -28px -78px;
+	display: inline-block;
+	margin: 0 2px;
+}
+.evaluate_item .evaluate_star li.p_li_o {background: url(../images/icons.png) no-repeat -6px -78px;}
+
+.evaluate_item .evaluate_text { line-height: 24px; color: #666; margin-bottom: 10px;}
+.evaluate_name { overflow: hidden;}
+.evaluate_name h3 { font-size: 12px; font-weight: 500; display: inline-block;}
+.evaluate_name span { color: #999; margin-left: 10px;}
+
+
+/*-----创建支付通道-------*/
+a.pay_add_a { 
+	height: 22px; 
+	width: 22px; 
+	border: 1px #CCCCCC solid; 
+	display: inline-block;
+	text-align: center;
+	font-size: 12px;
+}
+.supportArea { overflow: hidden;}
+.supportArea .sa_list { display: block; overflow: hidden; margin-bottom: 5px;}
+
+
+.sa_area { display: block; border: 1px #CCCCCC solid; background: #eee; padding: 10px; margin: 10px 0;}
+.saa_b { position: relative; padding: 0 20px; margin: 5px 0;}
+.saa_b .saab_t { position: absolute; top: 0px; left: 0px; height: 24px;}
+.saa_b .saab_c { background: #f7f7f7; display: inline-block; border: 1px #CCCCCC solid; padding: 2px 5px; margin: 0 5px 5px 0;}
+.saa_b .saab_c  a.dele { 
+	width: 8px; 
+	height: 8px; 
+	display: inline-block; 
+	text-indent: -999px; 
+	overflow: hidden;
+	background: url(../images/icons.png) no-repeat -185px -275px;
+	margin-left: 5px;
+}
+
+
+.rate_attributes {}
+.mtop { margin-top: 10px;}
+.rate_attributes table { background: #CCC; margin-bottom: 10px;}
+.rate_attributes table td { background: #FFF; padding: 5px 10px;}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*-------foot-------*/

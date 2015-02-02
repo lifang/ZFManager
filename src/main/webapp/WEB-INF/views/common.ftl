@@ -1,7 +1,7 @@
 <#macro html>
 <!DOCTYPE html>
 <html>
-    <@head></@head>
+    <@head />
 <@body>
     <#nested />
 </@body>
@@ -78,7 +78,7 @@
 <div class="left">
     <ul>
         <li><a href="#" class="hover">运营中心首页</a></li>
-        <li><a href="#">全国交易实时统计</a></li>
+        <li><a href="<@spring.url "/real/trade"/>" target="_blank">全国交易实时统计</a></li>
         <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
             <ol>
                 <li><a href="#">POS机管理</a></li>
