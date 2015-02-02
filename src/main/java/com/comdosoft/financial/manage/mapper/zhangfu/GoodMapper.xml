@@ -242,6 +242,14 @@
 		<include refid="pageWhere" />
 
 	</select>
+	
+	<!-- 查询列表单条数据 -->
+	<select id="findPageRowGood" resultMap="PageGoodResultMap">
+		select g.*,
+		gb.id as gb_id, gb.name as gb_name
+		from goods g left join good_brands gb on g.good_brands_id=gb.id
+		where g.id=#{param1}
+	</select>
   
   	<!-- 详情 -->
 	<resultMap extends="BaseResultMap" id="GoodInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
