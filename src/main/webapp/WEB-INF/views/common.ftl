@@ -77,15 +77,15 @@
 <#macro left>
 <div class="left">
     <ul>
-        <li><a href="<@spring.url "/index"/>" class="hover">运营中心首页</a></li>
+        <li><a href="<@spring.url "/index"/>"<#if urlCheck(request,"/index")> class="hover"</#if>>运营中心首页</a></li>
         <li><a href="<@spring.url "/real/trade"/>" target="map">全国交易实时统计</a></li>
         <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
             <ol>
-                <li><a href="#">POS机管理</a></li>
+                <li><a href="<@spring.url "/post/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li>
                 <li><a href="#">支付通道</a></li>
             </ol>
         </li>
-        <li><a href="#">用户</a></li>
+        <li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户</a></li>
         <li><a href="#">终端</a></li>
         <li><a href="#">交易</a></li>
         <li class="second"><a href="javascript:void(0);">订单<i class="off"></i></a>
@@ -148,3 +148,7 @@
     </div>
 </div>
 </#macro>
+
+<#function urlCheck request pre>
+    <#return request.requestUri?substring(request.contextPath?length)?starts_with(pre)>
+</#function>

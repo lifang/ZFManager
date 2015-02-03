@@ -20,7 +20,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		boolean logined = sessionService.isLogined(request);
+		boolean logined = sessionService.isLogged(request);
 		if(!logined){
 			response.sendRedirect(request.getContextPath()+loginUrl);
 		}

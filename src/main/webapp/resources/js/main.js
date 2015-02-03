@@ -26,6 +26,7 @@ function focusBlur(e){
 }
 
 $(function(){
+	focusBlur('.login_area input[type=text]');//登录
 	focusBlur('.search input');//search input默认值
 	focusBlur('.sp_search input');//search input默认值
 	focusBlur('.addAddr_box input[type=text]');//添加地址 input默认值
@@ -105,6 +106,7 @@ $(function(){
 	popup(".leaseAgreement_tab",".leaseAgreement_a");//租赁协议
 	popup(".description_tab",".description_a");//详细说明
 	popup(".approve_tab",".approve_a");//通过审核
+	popup(".creditsExchange_tab",".ce_a");//兑换积分
 })
 
 
@@ -131,7 +133,7 @@ function infoTab(i_tab,i_box){
 			$(i_box).css({'top':($(this).offset().top)-$(this).height()-100+'px', 
 			              'left':($(this).offset().left)+$(this).width()+'px'
 						});
-			//alert($(this).find("img").height()/2)
+			
 		},
 		function(e){
 			$(i_box).css('display','none');
@@ -143,6 +145,85 @@ function infoTab(i_tab,i_box){
 $(document).ready(function(){
 		infoTab('.cover','.img_info');//首页设置弹出框
 })
+
+
+//交易流水 dealNav菜单
+$(function(){
+	var page = 1;
+	var i = 7;	
+	var len = $("ul.li_show").find('li').length;
+	if(len <= i){
+		$('a.dn_next').css("display","none");
+		$('a.dn_prev').css("display","none");
+	}
+	$('a.dn_next').click(function(){
+		//alert(0)
+		var $parent = $(this).parents('div.dealNav');
+		var $pic_show = $parent.find('.li_show')
+		var $smallImg = $parent.find('.dealNavBox');
+		var small_width = $smallImg.width();
+		
+		var page_count = Math.ceil(len/i);
+		
+		if(!$pic_show.is(':animated')){
+			
+			if(page == page_count){
+				$pic_show.animate({left:'0px'},'slow');
+				page = 1;
+			}else{
+				$pic_show.animate({left:'-='+small_width},'slow');
+				page++;	
+			}
+		}
+	})
+	
+	
+	$('a.dn_prev').click(function(){
+		//alert(0)
+		var $parent = $(this).parents('div.dealNav');
+		var $pic_show = $parent.find('.li_show')
+		var $smallImg = $parent.find('.dealNavBox');
+		var small_width = $smallImg.width();
+		var page_count = Math.ceil(len/i);
+		
+		if(!$pic_show.is(':animated')){
+			
+			if(page == 1){
+				$pic_show.animate({left:'-='+small_width*(page_count-1)},'slow');
+				page = page_count;
+			}else{
+				$pic_show.animate({left:'+='+small_width},'slow');
+				page--;	
+			}
+		}
+	})
+	
+})
+
+
+
+
+
+//登录
+// 切换
+$(function(){
+	$(".lr_b > div").not(":first").hide();
+	$(".lr_h li").unbind("click").bind("click", function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		var index = $(".lr_h li").index( $(this) );
+		$(".lr_b > div").eq(index).siblings(".lr_b > div").hide().end().fadeIn(300);
+   });
+});
+
+//运营中心用户详情切换
+$(function(){
+	$(".udt_con > div").not(":first").hide();
+	$(".udt_title li").unbind("click").bind("click", function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		var index = $(".udt_title li").index( $(this) );
+		$(".udt_con > div").eq(index).siblings(".udt_con > div").hide().end().fadeIn(300);
+   });
+});
 
 
 //交易流水 dealNav菜单

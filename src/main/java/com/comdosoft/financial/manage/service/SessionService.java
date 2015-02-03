@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionService {
 	
-	private static final String LOGIN_SESSION_KEY = "__LOGNIN_KEY__";
+	private static final String LOGIN_SESSION_KEY = "__LOGIN_KEY__";
 	
-	public boolean isLogined(HttpServletRequest request){
+	public boolean isLogged(HttpServletRequest request){
 		return getLoginInfo(request)!=null;
 	}
 
