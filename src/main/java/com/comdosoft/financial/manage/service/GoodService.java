@@ -101,13 +101,18 @@ public class GoodService {
 	 * @return
 	 */
 	@Transactional("transactionManager")
-	public Good statusCheck(Long id){
+	public Good statusCheck(Long id, Boolean isThird){
 		Good good = goodMapper.findPageRowGood(id);
 		if (good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
 				|| good.getStatus() == Good.STATUS_FIRST_UN_CHECKED
 				|| good.getStatus() == Good.STATUS_FIRST_CHECKED
 				|| good.getStatus() == Good.STATUS_UN_CHECKED) {
 			good.setStatus(Good.STATUS_CHECKED);
+			if (isThird == null || isThird == false) {
+				good.setBelongsTo(good.getFactoryId());
+			} else {
+				good.setBelongsTo(null);
+			}
 			goodMapper.updateByPrimaryKey(good);
 		}
 		return good;
