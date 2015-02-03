@@ -9,35 +9,7 @@
     </div>
     <div class="content clear">
 		<div class="user_title"><h1>POS机详情</h1>
-        	<div class="userTopBtnBox">
-<#if good.status=1>
-       		<a href="<@spring.url "/pos/${good.id}/edit" />" class="ghostBtn">编辑</a> 
-       		<a onClick="firstCheck(${good.id})" class="ghostBtn">初审通过</a>
-       		<a onClick="firstUnCheck(${good.id})" class="ghostBtn">初审不通过</a>
-       		<a onClick="check(${good.id})" class="ghostBtn approve_a">审核通过</a> 
-       		<a onClick="unCheck(${good.id})" class="ghostBtn">审核不通过</a>
-       		
-       <#elseif good.status=2>
-       		<a href="<@spring.url "/pos/${good.id}/edit" />" class="ghostBtn">编辑</a> 
-            <a onClick="firstCheck(${good.id})" class="ghostBtn">初审通过</a>
-       		<a onClick="check(${good.id})" class="ghostBtn approve_a">审核通过</a> 
-       		
-       <#elseif good.status=3>
-       		<a href="<@spring.url "/pos/${good.id}/edit" />" class="ghostBtn">编辑</a> 
-       		<a onClick="check(${good.id})" class="ghostBtn approve_a">审核通过</a> 
-       		<a onClick="unCheck(${good.id})" class="ghostBtn">审核不通过</a>
-       		
-       <#elseif good.status=4>
-       		<a onClick="check(${good.id})" class="ghostBtn approve_a">审核通过</a> 
-       		<a href="<@spring.url "/pos/${good.id}/edit" />" class="ghostBtn">编辑</a> 
-       		
-       <#elseif good.status=5>
-       		<a onClick="stop(${good.id})" class="ghostBtn">停用</a>
-       <#elseif good.status=6>
-       		<a href="<@spring.url "/pos/${good.id}/edit" />" class="ghostBtn">编辑</a> 
-       		<a onClick="start(${good.id})" class="ghostBtn">启用</a> 
-       </#if>
-         	</div>
+ 		      	<#include "infoStatus.ftl" />
         </div>
         <div class="attributes_box">
         	<h2>基础信息</h2>
@@ -176,9 +148,62 @@
 		<div class="tabBody">
 	    	<div class="approve_con">
 	        	<h2>请确认产品可以通过审核</h2>
-	            <p><input name="" type="checkbox" value="" /> 第三方库存</p>
+	            <p><input id="isThird" type="checkbox" /> 第三方库存</p>
 	        </div>
 		</div>
-	    <div class="tabFoot"><button class="blueBtn">确认</button></div>
+	    <div class="tabFoot"><button class="blueBtn" onClick="check(${good.id})">确认</button></div>
 	</div>
+	
+	<script type="text/javascript">
+
+	function firstUnCheck(id){
+		$.get('<@spring.url "" />'+'/pos/'+id+'/firstUnCheck?source=info',
+	            function (data) {
+	                $('.userTopBtnBox').replaceWith(data);
+	            });
+	};
+	
+	function firstCheck(id){
+		$.get('<@spring.url "" />'+'/pos/'+id+'/firstCheck?source=info',
+	            function (data) {
+	                $('.userTopBtnBox').replaceWith(data);
+	            });	
+	};
+	
+	function unCheck(id){
+		$.get('<@spring.url "" />'+'/pos/'+id+'/unCheck?source=info',
+	            function (data) {
+	                $('.userTopBtnBox').replaceWith(data);
+	            });	
+	};
+	
+	function check(id){
+		var isThird = $('#isThird').prop("checked");
+		$.get('<@spring.url "" />'+'/pos/'+id+'/check?source=info',
+	            {
+	            	"isThird": isThird
+	            },
+	            function (data) {
+					$('.approve_tab').hide();
+					$('.mask').hide();
+	                $('.userTopBtnBox').replaceWith(data);
+	                
+	    });
+	};
+	
+	function stop(id){
+		$.get('<@spring.url "" />'+'/pos/'+id+'/stop?source=info',
+	            function (data) {
+	                $('.userTopBtnBox').replaceWith(data);
+	            });
+	};	
+	function start(id){
+		$.get('<@spring.url "" />'+'/pos/'+id+'/start?source=info',
+	            function (data) {
+	                $('.userTopBtnBox').replaceWith(data);
+	            });
+	};	
+	
+	
+</script> 
 </@c.html>

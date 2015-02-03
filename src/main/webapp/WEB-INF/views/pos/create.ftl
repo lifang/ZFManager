@@ -5,28 +5,45 @@
         <ul>
             <li><a href="#">商品</a></li>
             <li><a href="#">POS机管理</a></li>
+            <#if good??>
             <li><a href="#">编辑POS机</a></li>
+            <#else>
+            <li><a href="#">创建POS机</a></li>
+            </#if>
         </ul>
     </div>
     <div class="content clear">
-		<div class="user_title"><h1>编辑POS机</h1>
+		<div class="user_title">
+		<h1>
+			<#if good??>
+			编辑POS机
+            <#else>创建POS机
+            </#if>
+		</h1>
         </div>
         <div class="attributes_box">
         	<h2>基础信息</h2>
             <div class="item_list clear">
                 <ul>
                     <li class="b"><span class="labelSpan">标题：</span>
-                    	<div class="text"><input name="" type="text"></div></li>
+                    	<div class="text"><input name="" type="text" 
+                    	<#if (good.title)??>value="${good.title}"</#if>
+                    	></div></li>
                     <li class="b"><span class="labelSpan">副标题：</span>
-                    	<div class="text"><input name="" type="text"></div></li>
+                    	<div class="text"><input name="" type="text"
+                    	<#if (good.secondTitle)??>value="${good.secondTitle}"</#if>
+                    	></div></li>
                     <li class="b"><span class="labelSpan">关键字：</span>
-                    	<div class="text"><input name="" type="text"></div></li>
+                    	<div class="text"><input name="" type="text"
+                    	<#if (good.keyWorlds)??>value="${good.keyWorlds}"</#if>
+                    	></div></li>
                     <li class="o"><span class="labelSpan">选择POS机分类：</span>
                     	<div class="text">
                         <select name="">
                         <#if posCategories??>
                           <#list posCategories as posCategory>
-                    	  <option value="${posCategory.id}">
+                    	  <option value="${posCategory.id}" 
+                    	  		<#if (good.posCategoryId)?? && good.posCategoryId=posCategory.id> selected="true"</#if>>
                     	  <#if posCategory.parentId??>&nbsp;&nbsp;L</#if>${posCategory.name}</option>
                     	  </#list>
                     	</#if>
@@ -38,35 +55,59 @@
                         <select name="">
    						 <#if factories??>
                           <#list factories as factory>
-                    	  <option value="${factory.id}">${factory.name}</option>
+                    	  <option value="${factory.id}"
+                    	  	<#if (good.factoryId)?? && good.factoryId=factory.id> selected="true"</#if>
+                    	  >${factory.name}</option>
                     	  </#list>
                     	</#if>
                     	</select>
                         </div>
                     </li>
                     <li><span class="labelSpan">POS机品牌：</span>
-                    	<div class="text"><input name="" type="text"></div></li>
+                    	<div class="text"><input name="" type="text"
+                    	<#if (good.goodBrand)??>value="${good.goodBrand.name}"</#if>
+                    	></div></li>
                     <li><span class="labelSpan">POS机型号：</span>
                     	<div class="text"><input name="" type="text"></div></li>
                     <li class="o"><span class="labelSpan">加密卡方式：</span>
                     	<div class="text">
                         <select name="">
-                    	  <option>111</option>
+                        <#if encryptCardWays??>
+                          <#list encryptCardWays as encryptCardWay>
+                    	  <option value="${encryptCardWay.id}" 
+                    	  <#if (good.encryptCardWayId)?? && good.factoryId=encryptCardWay.id> selected="true"</#if>
+                    	  >${encryptCardWay.encryptCardWay}</option>
+                    	  </#list>
+                    	</#if>
                     	</select>
                         </div>
                     </li>
                     <li class="o"><span class="labelSpan">签购单打印方式：</span>
                     	<div class="text">
                         <select name="">
-                    	  <option>111</option>
+                         <#if signOrderWays??>
+                          <#list signOrderWays as signOrderWay>
+                    	  <option value="${signOrderWay.id}" 
+                    	  <#if (good.signOrderWayId)?? && good.signOrderWayId=signOrderWay.id> selected="true"</#if>
+                    	  >${signOrderWay.signOrderWay}</option>
+                    	  </#list>
+                    	</#if>
                     	</select>
                         </div>
                     </li>
                     <li class="b"><span class="labelSpan">支持银行卡：</span>
                     	<div class="text">
-                        	<span class="checkboxRadio_span"><input name="" type="checkbox" value=""> 接触式IC卡</span>
-                            <span class="checkboxRadio_span"><input name="" type="checkbox" value=""> 非接触式IC卡</span>
-                            <span class="checkboxRadio_span"><input name="" type="checkbox" value=""> 传统磁条卡</span>
+                    	<#if cardTypes??>
+                          <#list cardTypes as cardType>
+                        	<span class="checkboxRadio_span"><input name="" type="checkbox" value="${cardType.id}" 
+                        	<#if (good.cardTypes)??>
+	                          <#list good.cardTypes as gCard>
+                        		<#if cardType.id=gCard.id> checked="checked"</#if>
+	                    	  </#list>
+                    		</#if>
+                        	> ${cardType.cardType}</span>
+                    	  </#list>
+                    	</#if>
                         </div>
                     </li>
                     <li><span class="labelSpan">电池信息：</span>
@@ -139,13 +180,13 @@
                     <li><span class="labelSpan">POS机图片：</span>
                     	<div class="text">
                             <div class="item_photoBox">
-                                <img src="images/zp.jpg" class="cover">
+                                <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover">
                                 <a href="javascript:void(0);" class="informImg_a">
                                     <span>重新上传</span><input name="" multiple="" type="file">
                                 </a>
                             </div>
                             <div class="item_photoBox">
-                                <img src="images/zp.jpg" class="cover">
+                                <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover">
                                 <a href="javascript:void(0);" class="informImg_a">
                                     <span>重新上传</span><input name="" multiple="" type="file">
                                 </a>
@@ -164,7 +205,7 @@
                             </div>
                         </div></li>
                 </ul>
-                <div class="img_info"><img src="images/mt_big.jpg"></div>
+                <div class="img_info"><img src=""></div>
             </div> 
         </div>
         

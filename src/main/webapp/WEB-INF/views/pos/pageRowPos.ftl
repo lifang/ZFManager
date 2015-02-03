@@ -25,14 +25,11 @@
 	   <#if good.status=1>
        		<a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
        		<a onClick="firstUnCheck(${good.id})" class="a_btn">初审不通过</a>
-       		<a onClick="check(${good.id})" class="a_btn">审核通过</a> 
-       		<a onClick="unCheck(${good.id})" class="a_btn">审核不通过</a>
        		<a href="<@spring.url "/pos/${good.id}/edit" />" class="a_btn">编辑</a> 
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
        <#elseif good.status=2>
             <a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
-       		<a onClick="check(${good.id})" class="a_btn">审核通过</a> 
        		<a href="<@spring.url "/pos/${good.id}/edit" />" class="a_btn">编辑</a> 
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		

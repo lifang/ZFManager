@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
+import com.comdosoft.financial.manage.service.DictionaryCardTypeService;
+import com.comdosoft.financial.manage.service.DictionaryEncryptCardWayService;
+import com.comdosoft.financial.manage.service.DictionarySignOrderWayService;
 import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.PosCategoryService;
@@ -29,6 +35,12 @@ public class PosController {
 	private PosCategoryService posCategoryService;
 	@Autowired
 	private FactoryService factoryService;
+	@Autowired
+	private DictionarySignOrderWayService dictionarySignOrderWayService;
+	@Autowired
+	private DictionaryCardTypeService dictionaryCardTypeService;	
+	@Autowired
+	private DictionaryEncryptCardWayService dictionaryEncryptCardWayService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Integer status, String keys, Model model){
@@ -50,44 +62,62 @@ public class PosController {
 	}
 	
 	@RequestMapping(value="{id}/firstUnCheck",method=RequestMethod.GET)
-	public String firstUnCheck(@PathVariable Long id, Model model){
+	public String firstUnCheck(@PathVariable Long id, String source, Model model){
 		Good good = goodService.statusFirstUnCheck(id);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
 	@RequestMapping(value="{id}/firstCheck",method=RequestMethod.GET)
-	public String firstCheck(@PathVariable Long id, Model model){
+	public String firstCheck(@PathVariable Long id, String source, Model model){
 		Good good = goodService.statusFirstCheck(id);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
 	@RequestMapping(value="{id}/unCheck",method=RequestMethod.GET)
-	public String unCheck(@PathVariable Long id, Model model){
+	public String unCheck(@PathVariable Long id, String source, Model model){
 		Good good = goodService.statusUnCheck(id);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
 	@RequestMapping(value="{id}/check",method=RequestMethod.GET)
-	public String check(@PathVariable Long id, Model model){
-		Good good = goodService.statusCheck(id);
+	public String check(@PathVariable Long id, String source, Boolean isThird, Model model){
+		Good good = goodService.statusCheck(id, isThird);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
 	@RequestMapping(value="{id}/stop",method=RequestMethod.GET)
-	public String stop(@PathVariable Long id, Model model){
+	public String stop(@PathVariable Long id, String source, Model model){
 		Good good = goodService.statusStop(id);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
 	@RequestMapping(value="{id}/start",method=RequestMethod.GET)
-	public String start(@PathVariable Long id, Model model){
+	public String start(@PathVariable Long id, String source, Model model){
 		Good good = goodService.statusWaitingFirstCheck(id);
 		model.addAttribute("good", good);
+		if ("info".equals(source)) {
+			return "pos/infoStatus";
+		}
 		return "pos/pageRowPos";
 	}
 	
@@ -138,10 +168,19 @@ public class PosController {
 	
 	@RequestMapping(value="{id}/edit",method=RequestMethod.GET)
 	public String edit(@PathVariable Long id, Model model){
+		Good good = goodService.findGoodInfo(id);
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
 		List<Factory> factories = factoryService.findCheckedFactories();
+		List<DictionarySignOrderWay> signOrderWays = dictionarySignOrderWayService.listAll();
+		List<DictionaryCardType> cardTypes = dictionaryCardTypeService.listAll();
+		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryEncryptCardWayService.listAll();
+		model.addAttribute("good", good);
 		model.addAttribute("posCategories", posCategories);
 		model.addAttribute("factories", factories);
+		model.addAttribute("signOrderWays", signOrderWays);
+		model.addAttribute("cardTypes", cardTypes);
+		model.addAttribute("encryptCardWays", encryptCardWays);
+
 		return "pos/create";
 	}
 	private void findPage(Integer page, Integer status, String keys, Model model){
