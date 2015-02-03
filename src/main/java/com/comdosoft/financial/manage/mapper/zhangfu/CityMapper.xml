@@ -65,4 +65,10 @@
     select id, name, parent_id, sort_index, pinyin, created_at, updated_at
     from cities
   </select>
+  
+  <select id="selectWithParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, parent_id, sort_index, pinyin, created_at, updated_at
+    from cities
+    where parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
 </mapper>
