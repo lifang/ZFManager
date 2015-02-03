@@ -82,15 +82,15 @@
         <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
             <ol>
                 <li><a href="<@spring.url "/post/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li>
-                <li><a href="#">支付通道</a></li>
+                <li><a href="<@spring.url "/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li>
             </ol>
         </li>
         <li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户</a></li>
-        <li><a href="#">终端</a></li>
+        <li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端</a></li>
         <li><a href="#">交易</a></li>
         <li class="second"><a href="javascript:void(0);">订单<i class="off"></i></a>
             <ol>
-                <li><a href="#">用户订单</a></li>
+                <li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li>
                 <li><a href="#">代理商批购</a></li>
                 <li><a href="#">代理商代购</a></li>
             </ol>
