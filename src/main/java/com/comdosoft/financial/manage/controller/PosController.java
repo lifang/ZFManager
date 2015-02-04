@@ -1,9 +1,14 @@
 package com.comdosoft.financial.manage.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +33,17 @@ import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.PosCategoryService;
 import com.comdosoft.financial.manage.utils.Constants;
+import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/pos")
 public class PosController {
+	
+	private Logger LOG = LoggerFactory.getLogger(PosController.class);
+	
+	@Value("${filepath.root}")
+	private String rootPath;
 	
 	@Autowired
 	private GoodService goodService ;
@@ -212,10 +223,19 @@ public class PosController {
 	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
 	@ResponseBody
 	public Response uploadImg(MultipartFile file){
-		return Response.getSuccess("11111");
+		String fileName = Constants.PATH_PREFIX_POS+FileUtil.getFilePath()+".jpg";
+		try {
+			File osFile = new File(rootPath + fileName);
+			if (!osFile.getParentFile().exists()) {
+				osFile.getParentFile().mkdirs();
+			}
+			file.transferTo(osFile);
+		} catch (Exception e) {
+			LOG.error("", e);
+			return Response.getError("上传失败！");
+		}
+		return Response.getSuccess(fileName);
 	}
-	
-	
 	
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {

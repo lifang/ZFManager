@@ -218,41 +218,37 @@
                     <li><span class="labelSpan">POS机图片：</span>
                     	<div class="text" id="photos">
 							<#list 0..2 as i>
-							<form id="myForm" action="comment.php" method="post">
+							<form id="fileForm${i}" action="<@spring.url "/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             <div class="item_photoBox">
                             	<#if (good.pictures[i])??>
                                 <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url good.pictures[i].urlPath />" dbValue="${good.pictures[i].urlPath}">
                                 <a href="javascript:void(0);" class="informImg_a">
-                                    <span>重新上传</span><input name="file" multiple="" type="file" id="imageFile${i}" onChange="fileChange(this)"/>
+                                    <span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                 </a>
                                 <#else>
                                 <a href="javascript:void(0);" class="informImg_a">
-                                    <span>上传照片</span><input name="file" multiple="" type="file" id="imageFile${i}" onChange="fileChange(this)"/>
+                                    <span>上传照片</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                 </a>
                             	</#if>
                             </div>
+                           </form>
 						  </#list>
                             </div>
-                          </form>
                         </div>
                     </li>
                     
-                    <li class="b overflow">
-                    <span class="labelSpan">关联商品：</span>
-                    	<div class="text" id="rgood_search">
-                    	<input name="" type="text" id="input_rgood">
-                        	<div class="item_relevance_pro" >
-	                    	 <#if (good.relativeGoods)??>
-	                          <#list good.relativeGoods as relativeGood>
-	                          <div class="item_relevance_pro" value="${relativeGood.id}">
-	                        	<span>${relativeGood.title}</span> <a class="a_btn" onClick="del(this)">删除</a>
-	                         </div>
-	                    	  </#list>
-	                    	</#if>
-                            </div>
-                        <div class="suggest" id="rgood_result_id">
-                        </div>
-                        </div></li>
+<li class="b overflow"><span class="labelSpan">关联商品：</span>
+                                	<div class="text"><input name="" type="text" class="">
+                                    	<div class="item_relevance_pro">
+                                        	<span>超市收银机  M1000</span> <a href="#" class="a_btn">删除</a>
+                                        </div>
+                                    </div>
+                                    <div class="suggest">
+                                    	<a href="#">支付通道01</a>
+                                        <a href="#">支付通道02</a>
+                                        <a href="#">支付通道03</a>
+                                    </div>
+                                </li>
                 </ul>
                 <div class="img_info"><img src=""></div>
             </div> 
@@ -421,25 +417,31 @@ function isNull(value, error){
 }
 
 function fileChange(obj){
-	fileUpload($(obj).attr("id"));
+	var index = $(obj).attr("index");
+	alert(index);
+  var options = { 
+        success: function(data){
+					if(data.code==1){
+						var img = $('#fileForm'+index).find(".item_photoBox img");
+						if(img){
+							img.attr("value", "<@spring.url ""/>"+data.result);
+							img.attr("dbValue", data.result);
+
+						}
+					}
+		},  
+        resetForm: true, 
+        dataType: 'json' 
+    }; 
+ 	alert($('#fileForm'+index).html());
+    $('#fileForm'+index).ajaxSubmit(options); 
+    return false;
 }
 
-
- function fileUpload(id) {
-    $.ajaxFileUpload(
-        {
-            url: '<@spring.url "/pos/uploadImg" />', 
-            secureuri: false, 
-            fileElementId: id,
-            success: function (data, status)  
-            {
-            	alert(data);
-            },
-            error: function (data, status, e)
-            {
-            }
-        }
-    )
+function uploadSuccess(data){
+	if(data.code==1){
+		alert($(this).html());
+	}
 }
 
 </script>

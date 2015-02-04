@@ -29,6 +29,7 @@ strong.blue { color: #0071cf;}
 
 .original { text-decoration: line-through; color: #666;}
 
+.textarea_l { width: 332px; height: 100px; padding: 5px; border: 1px #CCCCCC solid;}
 
 
 .btnBottom { margin: 10px; padding: 10px; text-align: left;}
@@ -350,7 +351,7 @@ td a.a_btn:hover { text-decoration: underline;}
 .myAddress { overflow: hidden; margin-bottom: 50px;}
 .myAddress h3 { font-size: 12px; line-height: 24px; margin-bottom: 5px;}
 .myAddress table {margin-bottom: 10px;}
-.myAddress table.b_table th, .myAddress table.b_table td  { text-align: left;}
+.myAddress table.b_table th, .myAddress table.b_table td  { text-align: left; height: 32px;}
 .myAddress table tbody tr:hover { background: #f7f7f7;}
 
 .defaultAddr {padding: 2px 5px; background: #ff5f2b; border-radius: 2px; color: #FFF; display: inline-block;}
@@ -845,7 +846,7 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 .detailCon { overflow: hidden; margin-bottom: 20px;}
 .detailCon .attributes_list { width: 600px;}
 
-.attributes_table { margin-bottom: 20px;}
+.attributes_table { margin-bottom: 20px; margin-top: 5px;}
 .attributes_table table { background: #CCC;}
 .attributes_table table td, .attributes_table table th { background: #FFF; padding: 5px; text-align: center;}
 .attributes_table table td p {text-align: left; line-height: 24px;}
@@ -1024,7 +1025,7 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 /*---suggest---*/
 .suggest { 
 	position: absolute; 
-	top: 24px; 
+	top: 25px; 
 	left: 120px; 
 	width: 260px;
 	background: #f8f8f8;
@@ -1033,6 +1034,11 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 }
 .suggest a { display: block; line-height: 24px; padding: 0 10px;}
 .suggest a:hover { background: #f1f1f1;}
+
+/*----分派-----*/
+.assign_tab_p { height: 32px; line-height: 32px; margin-bottom: 10px; font-size: 14px;}
+
+
 
 /*-------foot-------*/
 .foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden;}
