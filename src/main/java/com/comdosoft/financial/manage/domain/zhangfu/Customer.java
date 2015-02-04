@@ -357,4 +357,13 @@ public class Customer {
 	 * 5 代理商员工
 	 */
 	public static final Byte TYPE_AGENT_STAFF = 5;
+
+	/**
+	 * 手机
+	 */
+	public static final Boolean ACCOUNT_TYPE_PHONE = Boolean.TRUE;
+	/**
+	 * email
+	 */
+	public static final Boolean ACCOUNT_TYPE_EMAIL = Boolean.FALSE;
 }

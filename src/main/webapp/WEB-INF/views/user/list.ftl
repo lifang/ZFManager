@@ -8,7 +8,7 @@
 <div class="content clear">
     <div class="user_title"><h1>用户列表</h1>
         <div class="userTopBtnBox">
-            <a href="#" class="ghostBtn">创建用户</a>
+            <a href="<@spring.url "/user/create"/>" class="ghostBtn">创建用户</a>
         </div>
     </div>
     <div class="seenBox clear">
