@@ -24,6 +24,7 @@
         <tbody>
         <#if (customers.content)??>
             <#list customers.content as customer>
+                <#assign terminal=terminals[customer_index] />
                 <#include "row.ftl" />
             </#list>
         </#if>

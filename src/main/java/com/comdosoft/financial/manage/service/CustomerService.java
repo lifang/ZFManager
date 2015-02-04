@@ -70,4 +70,41 @@ public class CustomerService {
 	public Customer customer(Integer id) {
 		return customerMapper.selectByPrimaryKey(id);
 	}
+	
+	/**
+	 * 创建
+	 */
+	@Transactional("transactionManager")
+	public void update(Integer id,String passport,String password,
+			String phone,Integer city){
+		Customer customer = customer(id);
+		customer.setPhone(phone);
+		customer.setCityId(city);
+		if(!Strings.isNullOrEmpty(password)){
+			customer.setPassword(DigestUtils.md5Hex(password));
+		}
+		customer.setUpdatedAt(new Date());
+		if(Strings.isNullOrEmpty(passport)){
+			customer.setUsername(phone);
+		}else{
+			customer.setUsername(passport);
+		}
+		customerMapper.updateByPrimaryKey(customer);
+	}
+	/**
+	 * 停用/启用
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public Customer updateStatus(Integer id){
+		Customer customer = customer(id);
+		if(customer.getStatus()==Customer.STATUS_NORMAL){
+			customer.setStatus(Customer.STATUS_STOP);
+		}else if(customer.getStatus()==Customer.STATUS_STOP){
+			customer.setStatus(Customer.STATUS_NORMAL);
+		}
+		customerMapper.updateByPrimaryKey(customer);
+		return customer;
+	}
 }

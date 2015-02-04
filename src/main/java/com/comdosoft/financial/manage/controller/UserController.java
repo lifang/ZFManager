@@ -93,7 +93,27 @@ public class UserController {
 		
 		List<City> cities = cityService.cities(city.getParentId());
 		model.addAttribute("cities", cities);
-		return "/user/edit";
+		return "user/edit";
+	}
+	
+	@RequestMapping(value="{id}/edit",method=RequestMethod.POST)
+	public String editPost(@PathVariable Integer id,Model model,
+			String phone,String passport,
+			String password,String repassword,Integer city){
+		customerService.update(id, passport, password, phone, city);
+		return "redirect:/user/list";
 	}
 
+	/**
+	 * 停用/启用
+	 * @return
+	 */
+	@RequestMapping(value="{id}/status",method=RequestMethod.POST)
+	public String userStatus(@PathVariable Integer id,Model model){
+		Customer customer = customerService.updateStatus(id);
+		model.addAttribute("customer", customer);
+		long terminal = terminalService.countCustomerTerminals(id);
+		model.addAttribute("terminal", terminal);
+		return "user/row";
+	}
 }

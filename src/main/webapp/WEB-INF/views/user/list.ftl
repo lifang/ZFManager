@@ -22,4 +22,11 @@
     </div>
 
 </div>
+<script>
+    function userStatus(id){
+        $.post("<@spring.url "/user/"/>"+id+"/status",function(data){
+            $("tr[data-id="+id+"]").replaceWith(data);
+        });
+    }
+</script>
 </@c.html>
