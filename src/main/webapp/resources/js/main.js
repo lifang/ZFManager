@@ -107,6 +107,12 @@ $(function(){
 	popup(".description_tab",".description_a");//详细说明
 	popup(".approve_tab",".approve_a");//通过审核
 	popup(".creditsExchange_tab",".ce_a");//兑换积分
+	popup(".remark_tab",".remark_a");//备注
+	popup(".deliver_tab",".deliver_a");//发货 订单用户
+	popup(".priceOrder_tab",".priceOrder_a");//修改订单价格 订单用户
+	popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
+	popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格 代理商批购
+	popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
 })
 
 
@@ -226,55 +232,126 @@ $(function(){
 });
 
 
-//交易流水 dealNav菜单
+
+/*----运营中心商品列表------*/
+
+//商品分类 category_item_con
 $(function(){
-	var page = 1;
-	var i = 7;	
-	var len = $("ul.li_show").find('li').length;
-	if(len <= i){
-		$('a.dn_next').css("display","none");
-		$('a.dn_prev').css("display","none");
-	}
-	$('a.dn_next').click(function(){
-		//alert(0)
-		var $parent = $(this).parents('div.dealNav');
-		var $pic_show = $parent.find('.li_show')
-		var $smallImg = $parent.find('.dealNavBox');
-		var small_width = $smallImg.width();
-		
-		var page_count = Math.ceil(len/i);
-		
-		if(!$pic_show.is(':animated')){
-			
-			if(page == page_count){
-				$pic_show.animate({left:'0px'},'slow');
-				page = 1;
-			}else{
-				$pic_show.animate({left:'-='+small_width},'slow');
-				page++;	
-			}
+	var a=1;
+	$(".category_item a.more").click(function(){
+		if(a==1){
+			$(this).parent(".category_item").addClass("category_item_maxHeight");
+			$(this).addClass("up").html("收起<i></i>");
+			a=0;
+		}else if(a==0){
+			$(this).parent(".category_item").removeClass("category_item_maxHeight");
+			$(this).removeClass("up").html("更多<i></i>");
+			a =1;
 		}
-	})
-	
-	
-	$('a.dn_prev').click(function(){
-		//alert(0)
-		var $parent = $(this).parents('div.dealNav');
-		var $pic_show = $parent.find('.li_show')
-		var $smallImg = $parent.find('.dealNavBox');
-		var small_width = $smallImg.width();
-		var page_count = Math.ceil(len/i);
 		
-		if(!$pic_show.is(':animated')){
-			
-			if(page == 1){
-				$pic_show.animate({left:'-='+small_width*(page_count-1)},'slow');
-				page = page_count;
-			}else{
-				$pic_show.animate({left:'+='+small_width},'slow');
-				page--;	
-			}
-		}
-	})
+	});
 	
 })
+
+
+
+
+//.sortbar 商品排序
+$(function(){
+	$(".sortbar li").hover(
+		function(){
+			$(this).find(".droplist").css("display","block");
+		},
+		function(){
+			$(this).find(".droplist").css("display","none");
+		}
+	)
+	
+	var text1 = $(".on_1").find("span").html();
+
+	$(".sortbar li.default_sort").click(function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		$(".on_1").find("span").html(text1);
+		return false;
+	})
+	
+
+	$(".droplist a").click(function(){
+		
+		$(this).parents(".sortbar li").addClass("hover").siblings().removeClass("hover");
+		if($(this).parents(".sortbar li").hasClass("hover")){
+			$(this).parents(".sortbar li").find("span").html($(this).html());
+		}else{
+			$(this).parents(".sortbar li").find("span").html(text1);
+		}
+		
+	});	
+})
+
+//商品详细支付通道  购买/租赁
+$(function(){
+	$(".selected_li a").click(function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		if($(this).hasClass("lease_a")){
+			$(".price_li").css("display","none");
+			$(".deposit_li").css("display","block");
+			
+			$("a.buy_btn").css("display","none");
+			$("a.shoppingCart_btn").css("display","none");
+			$("a.lease_btn").css("display","inline-block");
+			
+		}
+		if($(this).hasClass("buy_a")){
+			$(".deposit_li").css("display","none");
+			$(".price_li").css("display","block");
+			
+			$("a.buy_btn").css("display","inline-block");
+			$("a.shoppingCart_btn").css("display","inline-block");
+			$("a.lease_btn").css("display","none");
+		}
+	});
+})
+
+// pro_detail 商品详细信息
+$(function(){
+	$(".pro_detail_con > div").not(":first").hide();
+	$(".pro_detail_title li").unbind("click").bind("click", function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		var index = $(".pro_detail_title li").index( $(this) );
+		$(".pro_detail_con > div").eq(index).siblings(".pro_detail_con > div").hide().end().fadeIn(300);
+   });
+});
+
+
+
+//selectBox div模拟select
+$(function(){
+	$(".tag_select").click(function() {
+		$(this).parent(".selectBox").find("ul").toggle();
+	});
+	$(".selectBox ul li").click(function() {
+		var text = $(this).html();
+		var $val = $(this).find("input").val();
+		$(this).parents(".selectBox").find(".tag_select span").html(text);
+		$(this).parents(".selectBox").find("input.tag_input").val($val);
+		
+		$(this).parents(".selectBox").find("ul").hide();
+	});
+	
+	$(document).bind('click', function(e) {
+		var $clicked = $(e.target);
+		if (! $clicked.parents().hasClass("selectBox"))
+		$(".selectBox ul").hide();
+		
+	});
+})
+
+//用户确认订单 搜索 创建 切换
+$(function(){
+	$(".su_con > div").not(":first").hide();
+	$(".su_title li").unbind("click").bind("click", function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		var index = $(".su_title li").index( $(this) );
+		$(".su_con > div").eq(index).siblings(".su_con > div").hide().end().fadeIn(300);
+   });
+});

@@ -1,7 +1,10 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface PayChannelMapper {
 
@@ -34,4 +37,6 @@ public interface PayChannelMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(PayChannel record);
+
+	List<PayChannel> selectByStatusAndName(@Param("status") byte status, @Param("name") String name);
 }

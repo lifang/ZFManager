@@ -15,12 +15,14 @@ import com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryCardTypeService;
 import com.comdosoft.financial.manage.service.DictionaryEncryptCardWayService;
 import com.comdosoft.financial.manage.service.DictionarySignOrderWayService;
 import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.GoodService;
+import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.PosCategoryService;
 import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -41,15 +43,17 @@ public class PosController {
 	private DictionaryCardTypeService dictionaryCardTypeService;	
 	@Autowired
 	private DictionaryEncryptCardWayService dictionaryEncryptCardWayService;
+	@Autowired
+	private PayChannelService payChannelService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String list(Integer page, Integer status, String keys, Model model){
+	public String list(Integer page, Byte status, String keys, Model model){
 		findPage(page, status, keys, model);
 		return "pos/list";
 	}
 	
 	@RequestMapping(value="page",method=RequestMethod.GET)
-	public String page(Integer page, Integer status, String keys, Model model){
+	public String page(Integer page, Byte status, String keys, Model model){
 		findPage(page, status, keys, model);
 		return "pos/pagePos";
 	}
@@ -183,7 +187,26 @@ public class PosController {
 
 		return "pos/create";
 	}
-	private void findPage(Integer page, Integer status, String keys, Model model){
+	
+	@RequestMapping(value="searchChannel",method=RequestMethod.GET)
+	private String searchChannel(String name, Model model){
+		if (name != null && name.length() > 0) {
+			List<PayChannel> channels = payChannelService.findCheckedChannelsLikeName(name);
+			model.addAttribute("channels", channels);
+		}
+		return "pos/searchChannel";
+	}
+	
+	@RequestMapping(value="searchGood",method=RequestMethod.GET)
+	private String searchGood(String name, Model model){
+		if (name != null && name.length() > 0) {
+			List<Good> goods = goodService.findCheckedGoodsLikeKey(name);
+			model.addAttribute("goods", goods);
+		}
+		return "pos/searchGood";
+	}
+	
+	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;
 		}

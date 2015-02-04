@@ -326,4 +326,11 @@ public class PayChannel {
 	public void setOpeningProtocol(String openingProtocol) {
 		this.openingProtocol = openingProtocol;
 	}
+	
+	public static final byte STATUS_WAITING_FIRST_CHECK = 1;	// 待审核
+	public static final byte STATUS_FIRST_UN_CHECKED = 2;	// 初审不通过
+	public static final byte STATUS_FIRST_CHECKED = 3;		// 初审通过
+	public static final byte STATUS_UN_CHECKED = 4;			// 审核不通过
+	public static final byte STATUS_CHECKED = 5;				// 正常
+	public static final byte STATUS_STOP = 6;				// 已停用
 }

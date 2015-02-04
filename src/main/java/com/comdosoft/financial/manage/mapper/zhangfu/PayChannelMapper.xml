@@ -87,4 +87,14 @@
     opening_datum, opening_protocol
     from pay_channels
   </select>
+  
+   <select id="selectByStatusAndName" resultMap="BaseResultMap">
+    select * 
+    from pay_channels 
+    	<where>
+			<if test="status != null"> status =#{status} </if>
+			<if test="name != null"> AND name like #{name} </if>
+		</where>
+    
+  </select>
 </mapper>

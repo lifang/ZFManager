@@ -93,7 +93,7 @@
   </select>
   
   
-    <select id="selectFactoriesByStatus" resultMap="BaseResultMap">
+   <select id="selectFactoriesByStatus" resultMap="BaseResultMap">
     select * 
     from factories f where f.status=#{param1}
   </select>

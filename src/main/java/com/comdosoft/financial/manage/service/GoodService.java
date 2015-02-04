@@ -19,7 +19,7 @@ public class GoodService {
 	@Autowired
 	private GoodMapper goodMapper;
 	
-	public Page<Good> findPages(int page, int pageSize, Integer status, String keys){
+	public Page<Good> findPages(int page, int pageSize, Byte status, String keys){
 		if (keys != null) {
 			keys = "%"+keys+"%";
 		}
@@ -39,6 +39,9 @@ public class GoodService {
 		return goods;
 	}
 	
+	public List<Good> findCheckedGoodsLikeKey(String keys){
+		return goodMapper.selectByStatusAndName(Good.STATUS_CHECKED, "%"+keys+"%");
+	}
 	
 	public Good findGoodInfo(Long id) {
 		return goodMapper.findGoodInfo(id);

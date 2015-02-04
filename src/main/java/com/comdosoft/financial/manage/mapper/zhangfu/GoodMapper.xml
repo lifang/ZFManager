@@ -303,5 +303,11 @@
 		from good_relations gr inner join goods rgood on gr.relative_good_id=rgood.id
 		where gr.good_id = #{param1}
 	</select>	
+  	<!--商品编辑页 搜索商品 -->
+   <select id="selectByStatusAndName" resultMap="BaseResultMap">
+    select * 
+    from goods 
+		<include refid="pageWhere" />
+  </select>
 	
 </mapper>
