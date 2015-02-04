@@ -28,5 +28,12 @@
             $("tr[data-id="+id+"]").replaceWith(data);
         });
     }
+    function pageChange(page) {
+        $.get('<@spring.url "/user/page" />',
+                {"page": page},
+                function (data) {
+                    $('#page_fresh').html(data);
+                });
+    }
 </script>
 </@c.html>

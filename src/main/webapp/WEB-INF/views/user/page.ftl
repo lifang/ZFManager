@@ -31,4 +31,4 @@
         </tbody>
     </table>
 </div>
-<@pager.p page=customers.currentPage totalPages=customers.totalPage functionName="posPageChange"/>
+<@pager.p page=customers.currentPage totalPages=customers.totalPage functionName="pageChange"/>

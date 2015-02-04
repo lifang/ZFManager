@@ -56,6 +56,22 @@ public class UserController {
 		return "user/list";
 	}
 	
+	@RequestMapping(value="page",method=RequestMethod.GET)
+	public String page(Integer page,Model model){
+		if(page==null) {
+			page = 0;
+		}
+		Page<Customer> customers = customerService.listPage(page);
+		List<Long> terminals = Lists.newArrayList();
+		Iterator<Customer> it = customers.getContent().iterator();
+		while(it.hasNext()){
+			terminals.add(terminalService.countCustomerTerminals(it.next().getId()));
+		}
+		model.addAttribute("customers", customers);
+		model.addAttribute("terminals", terminals);
+		return "user/page";
+	}
+	
 	@RequestMapping(value="create",method=RequestMethod.GET)
 	public String createGet(Model model){
 		List<City> cities = cityService.provinces();
