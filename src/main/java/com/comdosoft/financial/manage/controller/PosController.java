@@ -9,7 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
@@ -189,7 +192,7 @@ public class PosController {
 	}
 	
 	@RequestMapping(value="searchChannel",method=RequestMethod.GET)
-	private String searchChannel(String name, Model model){
+	public String searchChannel(String name, Model model){
 		if (name != null && name.length() > 0) {
 			List<PayChannel> channels = payChannelService.findCheckedChannelsLikeName(name);
 			model.addAttribute("channels", channels);
@@ -198,13 +201,21 @@ public class PosController {
 	}
 	
 	@RequestMapping(value="searchGood",method=RequestMethod.GET)
-	private String searchGood(String name, Model model){
+	public String searchGood(String name, Model model){
 		if (name != null && name.length() > 0) {
 			List<Good> goods = goodService.findCheckedGoodsLikeKey(name);
 			model.addAttribute("goods", goods);
 		}
 		return "pos/searchGood";
 	}
+	
+	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
+	@ResponseBody
+	public Response uploadImg(MultipartFile file){
+		return Response.getSuccess("11111");
+	}
+	
+	
 	
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
@@ -216,5 +227,6 @@ public class PosController {
 		Page<Good> goods = goodService.findPages(page, Constants.PAGE_SIZE, status, keys);
 		model.addAttribute("goods", goods);
 	}
+	
 
 }

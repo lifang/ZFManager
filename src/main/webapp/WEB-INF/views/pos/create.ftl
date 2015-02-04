@@ -117,11 +117,11 @@
                         </div>
                     </li>
                     <li><span class="labelSpan">电池信息：</span>
-                    	<div class="text"><input name="" type="text" 
+                    	<div class="text"><input name="g_batteryInfo" type="text" 
                     	<#if (good.batteryInfo)??>value="${good.batteryInfo}"</#if>
                     	></div></li>
                     <li><span class="labelSpan">外壳材质：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_shellMaterial" type="text"
                     	<#if (good.shellMaterial)??>value="${good.shellMaterial}"</#if>
                     	></div></li>
                 </ul>
@@ -132,11 +132,11 @@
             <div class="item_list clear">
                 <ul>
                     <li class=""><span class="labelSpan">原价：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_price" type="text"
                     	<#if (good.price)??>value="${(good.price/100)?string("0.00")}"</#if>
                     	> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">现价：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_retailPrice" type="text"
                     	<#if (good.retailPrice)??>value="${(good.retailPrice/100)?string("0.00")}"</#if>
                     	> 元<br>（保留小数点后两位）</div></li>
                 </ul>
@@ -148,17 +148,16 @@
             <div class="item_list clear">
                 <ul>
                     <li class=""><span class="labelSpan">批购：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_purchasePrice" type="text"
                     	<#if (good.purchasePrice)??>value="${(good.purchasePrice/100)?string("0.00")}"</#if>
                     	> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">最低限价：</span>
-                    	<div class="text"><input name="" type="text"
-                    	<#if (good.floorPrice)??>value="${(good.floorPrice/100)?string("0.00")}"</#if>
-                    	> 元<br>（保留小数点后两位）</div></li>
+                    	<div class="text"><input name="g_floorPrice" type="text"
+                    	<#if (good.floorPrice)??>value="${(good.floorPrice/100)?string("0.00")}"</#if> > 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">最小批购量：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_floorPurchaseQuantity" type="text"
                     	<#if (good.floorPurchaseQuantity)??>value="${good.floorPurchaseQuantity}"</#if>
-                    	> 个</div></li>
+                    	onkeyup="value=this.value.replace(/\D+/g,'')"> 个</div></li>
                 </ul>
             </div> 
         </div>
@@ -168,22 +167,22 @@
             <div class="item_list clear">
                 <ul>
                     <li class=""><span class="labelSpan">租赁押金：</span>
-                    	<div class="text"><input name="" type="text"
+                    	<div class="text"><input name="g_leaseDeposit" type="text"
                     	<#if (good.leaseDeposit)??>value="${(((good.leaseDeposit)!0)/100)?string("0.00")}"</#if>
                     	> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">最低租赁时间：</span>
-                    	<div class="text"><input name="" type="text"
-                    	<#if (good.leaseTime)??>value="${good.leaseTime}"</#if>
-                    	> 月</div></li>
+                    	<div class="text"><input name="g_leaseTime" type="text"
+                    	<#if (good.leaseTime)??>value="${good.leaseTime}"</#if> 
+                    	onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
                     <li class="clear"><span class="labelSpan">最长租赁时间：</span>
-                    	<div class="text"><input name="" type="text"
-                    	<#if (good.returnTime)??>value="${good.returnTime}"</#if>
-                    	> 月</div></li>
+                    	<div class="text"><input name="g_returnTime" type="text"
+                    	<#if (good.returnTime)??>value="${good.returnTime}"</#if> 
+                    	onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
                     <li class="b"><span class="labelSpan">租赁说明：</span>
                     	<div class="text">
-                    	<textarea name="" cols="" rows=""><#if (good.leaseDescription)??>${good.leaseDescription}</#if></textarea></div></li>
+                    	<textarea name="g_leaseDescription" cols="" rows=""><#if (good.leaseDescription)??>${good.leaseDescription}</#if></textarea></div></li>
                     <li class="b"><span class="labelSpan">租赁协议：</span>
-                    	<div class="text"><textarea name="" cols="" rows=""><#if (good.leaseAgreement)??>${good.leaseAgreement}</#if></textarea></div></li>
+                    	<div class="text"><textarea name="g_leaseAgreement" cols="" rows=""><#if (good.leaseAgreement)??>${good.leaseAgreement}</#if></textarea></div></li>
                 </ul>
             </div> 
         </div>
@@ -215,28 +214,29 @@
             <div class="item_list clear">
                 <ul>
                     <li class="b"><span class="labelSpan">详细说明：</span>
-                    	<div class="text"><textarea name="" cols="" rows=""><#if (good.leaseDescription)??>${good.description}</#if></textarea></div></li>
+                    	<div class="text"><textarea name="g_description" cols="" rows=""><#if (good.description)??>${good.description}</#if></textarea></div></li>
                     <li><span class="labelSpan">POS机图片：</span>
-                    	<div class="text">
-                    	
-              			<#if (good.pictures)??>
-						  <#list good.pictures as picture>
+                    	<div class="text" id="photos">
+							<#list 0..2 as i>
                             <div class="item_photoBox">
-                                <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url picture.urlPath />">
+                            	<#if (good.pictures[i])??>
+                                <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url good.pictures[i].urlPath />" dbValue="${good.pictures[i].urlPath}">
                                 <a href="javascript:void(0);" class="informImg_a">
-                                    <span>重新上传</span><input name="" multiple="" type="file">
+                                    <span>重新上传</span><input name="file" multiple="" type="file" id="imageFile${i}" onChange="fileChange(this)"/>
                                 </a>
+                                <#else>
+                                <a href="javascript:void(0);" class="informImg_a">
+                                    <span>上传照片</span><input name="file" multiple="" type="file" id="imageFile${i}" onChange="fileChange(this)"/>
+                                </a>
+                            	</#if>
                             </div>
 						  </#list>
-                    	</#if>
-                         <div class="item_photoBox">
-                                <a href="javascript:void(0);" class="informImg_a">
-                                    <span>上传照片</span><input name="" multiple="" type="file">
-                                </a>
                             </div>
                         </div>
                     </li>
-                    <li class="b"><span class="labelSpan">关联商品：</span>
+                    
+                    <li class="b overflow">
+                    <span class="labelSpan">关联商品：</span>
                     	<div class="text" id="rgood_search">
                     	<input name="" type="text" id="input_rgood">
                         	<div class="item_relevance_pro" >
@@ -263,7 +263,7 @@
             </#if>
 		</button></div>
     </div>
-    
+<script src="<@spring.url "/resources/js/ajaxfileupload.js"/>"></script>
 <script type="text/javascript"">
 
 $(function(){
@@ -347,12 +347,100 @@ function submitData(){
 	var title=$("input[name='g_title']").val();
 	var posCategory=$("select[name='g_posCategory']").find("option:selected").val();
 	var factory=$("select[name='g_factory']").find("option:selected").val();
-	vat goodBrand=$("input[name='g_goodBrand']").val();
+	var goodBrand=$("input[name='g_goodBrand']").val();
 	var encryptCardWay=$("select[name='g_encryptCardWay']").find("option:selected").val();
 	var signOrderWay=$("select[name='g_signOrderWay']").find("option:selected").val();
-	vat modelNumber=$("input[name='g_modelNumber']").val();
-	
-};
+	var cardTypes = new Array();
+	var i = 0;
+	$("input[name='g_cardType']").each(function() {
+            if (this.checked) {
+            	cardTypes[i]=$(this).attr("value");
+            }
+            i++;
+    });
+    
+    var batteryInfo=$("input[name='g_batteryInfo']").val();
+    var shellMaterial=$("input[name='g_shellMaterial']").val();
+    var price=$("input[name='g_price']").val();
+    var retailPrice=$("input[name='g_retailPrice']").val();
+	var purchasePrice=$("input[name='g_purchasePrice']").val();
+ 	var floorPrice=$("input[name='g_floorPrice']").val();
+ 	var floorPurchaseQuantity=$("input[name='g_floorPurchaseQuantity']").val();
+ 	var leaseDeposit=$("input[name='g_leaseDeposit']").val();
+ 	var leaseTime=$("input[name='g_leaseTime']").val();
+ 	var returnTime=$("input[name='g_returnTime']").val();
+ 	var leaseDescription=$("textarea[name='g_leaseDescription']").val();
+ 	var leaseAgreement=$("textarea[name='g_leaseAgreement']").val();
+   	var re=/^\d+\.\d{2}$/;//2位小数
+   	
+   	var channels = new Array();
+	i = 0;
+   	$("#channel_search .item_relevance_pro").each(function() {
+            channels[i]=$(this).attr("value");
+            i++;
+    });
+    
+    var description=$("textarea[name='g_description']").val();
+    
+    var photos = new Array();
+	i = 0;
+   	$("#photos .item_photoBox img").each(function() {
+            photos[i]=$(this).attr("dbValue");
+            i++;
+    });
+    
+    var goods = new Array();
+	i = 0;
+   	$("#good_search .item_relevance_pro").each(function() {
+            goods[i]=$(this).attr("value");
+            i++;
+    });
+    
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    isNull(title, '标题不能为空');
+    
+    
+}
+
+function isNull(value, error){
+	 if(value.length==0){
+	 	alert(error);
+	 }
+}
+
+function fileChange(obj){
+	fileUpload($(obj).attr("id"));
+}
+
+
+ function fileUpload(id) {
+    $.ajaxFileUpload(
+        {
+            url: '<@spring.url "/pos/uploadImg" />', 
+            secureuri: false, 
+            fileElementId: id,
+            dataType: 'json',
+            success: function (data, status)  
+            {
+            	alert(data);
+            },
+            error: function (data, status, e)
+            {
+                alert(e);
+            }
+        }
+    )
+}
 
 </script>
 </@c.html>
