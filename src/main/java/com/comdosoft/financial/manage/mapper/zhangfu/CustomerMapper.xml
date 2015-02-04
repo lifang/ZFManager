@@ -97,4 +97,20 @@
     from customers
     where username=#{param1} and password=#{param2} and status=#{NORMAL}
   </select>
+  
+  <select id="selectCustomerPageList" resultMap="BaseResultMap">
+  	<bind name="CUSTOMER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_CUSTOMER" />
+    select id, username, password, account_type, name, city_id, types, last_logined_at, 
+    integral, status, device_code, created_at, updated_at, phone, email
+    from customers
+    where types=#{CUSTOMER} order by created_at desc
+    limit #{request.offset}, #{request.pageSize}
+  </select>
+  
+  <select id="countTotalCustomer" resultType="long">
+    <bind name="CUSTOMER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_CUSTOMER" />
+    select count(*)
+    from customers
+    where types=#{CUSTOMER}
+  </select>
 </mapper>

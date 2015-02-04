@@ -48,7 +48,7 @@
 <#macro top>
 <div class="topInfo clear">
     <div class="box">
-        <div class="top_user"><a href="#">${customer.name!"未命名"}</a><a href="<@spring.url "/logout"/>">退出</a></div>
+        <div class="top_user"><a href="#">${logged_customer.name!"未命名"}</a><a href="<@spring.url "/logout"/>">退出</a></div>
     </div>
     <div class="clear"></div>
 </div>

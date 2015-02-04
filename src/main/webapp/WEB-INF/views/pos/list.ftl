@@ -50,7 +50,7 @@
 			var status = $(this).children('option:selected').val();
 			$("#hidden_status").val(status);
 			posPageChange(1);
-		}) 
+		});
 		
 		$("#btn_search").bind("click",
 	        function() {
@@ -72,89 +72,89 @@
 	            function (data) {
 	                $('#page_fresh').html(data);
 	            });
-	};
+	}
 	
 	function firstUnCheck(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/firstUnCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};
+	}
 	
 	function firstCheck(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/firstCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });	
-	};
+	}
 	
 	function unCheck(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });	
-	};
+	}
 	
 	function check(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/check',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};
+	}
 	function stop(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/stop',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};	
+	}
 	function start(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/start',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};	
+	}
 	
 	function publish(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/publish',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};	
+	}
 	
 	function unPublish(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unPublish',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};
+	}
 	
 	function lease(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/lease',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};	
+	}
 	
 	function unLease(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unLease',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};
+	}
 	
 	function purchase(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/purchase',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};	
+	}
 	
 	function unPurchase(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unPurchase',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
 	            });
-	};
+	}
 	
 </script>    
 </@c.html>

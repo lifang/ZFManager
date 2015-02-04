@@ -103,4 +103,10 @@
     type, merchant_num, is_rate_wrong, base_rate, terminal_marks_id, billing_cycles_id
     from terminals
   </select>
+  
+  <select id="countCustomerTerminals" resultType="long">
+  	select count(*)
+  	from terminals
+  	where customer_id=#{customerId}
+  </select>
 </mapper>

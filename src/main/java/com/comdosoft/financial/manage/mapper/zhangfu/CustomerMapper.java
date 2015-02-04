@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface CustomerMapper {
 
@@ -36,4 +40,8 @@ public interface CustomerMapper {
 	int updateByPrimaryKey(Customer record);
 
 	Customer selectByLogin(String passport,String password);
+	
+	List<Customer> selectCustomerPageList(@Param("request") PageRequest request);
+	
+	long countTotalCustomer();
 }

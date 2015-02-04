@@ -40,7 +40,7 @@
 					<#if pageNo gt 3  >
 					</#if>
 				      	<#if a=pageNo>
-				      		<a class='current'>${a}</b>
+				      		<a class='current'>${a}</a>
 				      	<#else>
 					        <a onclick='${functionName}(${a})'>${a}</a>
 				      	</#if>

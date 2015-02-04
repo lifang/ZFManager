@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.manage.utils.Constants;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 import com.google.common.base.Strings;
 
 @Service
@@ -49,5 +53,21 @@ public class CustomerService {
 			customer.setUsername(passport);
 		}
 		customerMapper.insert(customer);
+	}
+	
+	/**
+	 * 列表
+	 * @param page
+	 * @return
+	 */
+	public Page<Customer> listPage(Integer page){
+		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
+		List<Customer> customers = customerMapper.selectCustomerPageList(request);
+		long total = customerMapper.countTotalCustomer();
+		return new Page<Customer>(request, customers, total);
+	}
+	
+	public Customer customer(Integer id) {
+		return customerMapper.selectByPrimaryKey(id);
 	}
 }

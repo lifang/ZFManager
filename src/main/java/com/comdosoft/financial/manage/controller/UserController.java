@@ -1,16 +1,22 @@
 package com.comdosoft.financial.manage.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerService;
+import com.comdosoft.financial.manage.service.TerminalService;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.google.common.collect.Lists;
 
 /**
  * 用户
@@ -25,9 +31,28 @@ public class UserController {
 	private CityService cityService;
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private TerminalService terminalService;
 	
+	/**
+	 * 用户列表
+	 * @param page
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String list(){
+	public String list(Integer page,Model model){
+		if(page==null) {
+			page = 0;
+		}
+		Page<Customer> customers = customerService.listPage(page);
+		List<Long> terminals = Lists.newArrayList();
+		Iterator<Customer> it = customers.getContent().iterator();
+		while(it.hasNext()){
+			terminals.add(terminalService.countCustomerTerminals(it.next().getId()));
+		}
+		model.addAttribute("customers", customers);
+		model.addAttribute("terminals", terminals);
 		return "user/list";
 	}
 	
@@ -38,11 +63,37 @@ public class UserController {
 		return "user/create";
 	}
 	
+	/**
+	 * 创建用户，表单提交
+	 * @param phone
+	 * @param passport
+	 * @param password
+	 * @param repassword
+	 * @param city
+	 * @return
+	 */
 	@RequestMapping(value="create",method=RequestMethod.POST)
 	public String createPost(String phone,String passport,
 			String password,String repassword,Integer city){
 		customerService.create(passport, password, phone, city);
 		return "redirect:/user/list";
+	}
+	
+	@RequestMapping(value="{id}/edit",method=RequestMethod.GET)
+	public String editGet(@PathVariable Integer id,Model model){
+		
+		List<City> provinces = cityService.provinces();
+		model.addAttribute("provinces", provinces);
+		
+		Customer customer = customerService.customer(id);
+		model.addAttribute("customer", customer);
+		
+		City city = cityService.city(customer.getCityId());
+		model.addAttribute("city", city);
+		
+		List<City> cities = cityService.cities(city.getParentId());
+		model.addAttribute("cities", cities);
+		return "/user/edit";
 	}
 
 }

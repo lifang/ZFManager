@@ -26,19 +26,15 @@
                         </div>
                     </li>
                     <li class="block"><span class="labelSpan">手机号码：</span>
-
                         <div class="text"><input name="phone" type="text"/></div>
                     </li>
                     <li class="block"><span class="labelSpan">用户名（选填）：</span>
-
                         <div class="text"><input name="passport" type="text"/></div>
                     </li class="block">
                     <li class="block"><span class="labelSpan">密码：</span>
-
                         <div class="text"><input name="password" type="password"/></div>
                     </li>
                     <li class="block"><span class="labelSpan">确认密码：</span>
-
                         <div class="text"><input name="repassword" type="password"/></div>
                     </li>
                 </ul>
