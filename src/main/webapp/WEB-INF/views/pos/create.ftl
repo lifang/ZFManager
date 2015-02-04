@@ -218,6 +218,7 @@
                     <li><span class="labelSpan">POS机图片：</span>
                     	<div class="text" id="photos">
 							<#list 0..2 as i>
+							<form id="myForm" action="comment.php" method="post">
                             <div class="item_photoBox">
                             	<#if (good.pictures[i])??>
                                 <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url good.pictures[i].urlPath />" dbValue="${good.pictures[i].urlPath}">
@@ -232,6 +233,7 @@
                             </div>
 						  </#list>
                             </div>
+                          </form>
                         </div>
                     </li>
                     
@@ -429,14 +431,12 @@ function fileChange(obj){
             url: '<@spring.url "/pos/uploadImg" />', 
             secureuri: false, 
             fileElementId: id,
-            dataType: 'json',
             success: function (data, status)  
             {
             	alert(data);
             },
             error: function (data, status, e)
             {
-                alert(e);
             }
         }
     )

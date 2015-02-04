@@ -40,13 +40,13 @@ public interface GoodMapper {
 	int updateByPrimaryKey(Good record);
 
 	List<Good> findPageGoodsByKeys(@Param("pageRequest") PageRequest pageRequest,
-			@Param("status") byte status, @Param("keys") String keys);
+			@Param("status") Byte status, @Param("keys") String keys);
 			
-	long countByKeys(@Param("status") byte status, @Param("keys") String keys);
+	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 	
 	Good findGoodInfo(Long id);
 	
 	Good findPageRowGood(Long id);
 
-	List<Good> selectByStatusAndName(@Param("status") byte status, @Param("keys") String keys);
+	List<Good> selectByStatusAndName(@Param("status") Byte status, @Param("keys") String keys);
 }
