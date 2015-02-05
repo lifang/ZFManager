@@ -238,7 +238,6 @@
 			        <li class="b overflow"><span class="labelSpan">关联商品：</span>
 			        	<div class="text" id="rgood_search">
 			        		<input name="" type="text" id="input_rgood">
-			            	<div class="item_relevance_pro">
 	                    	<#if (good.relativeGoods)??>
 	                        	<#list good.relativeGoods as relativeGood>
 	                          	<div class="item_relevance_pro" value="${relativeGood.id}">
@@ -246,7 +245,6 @@
 	                         	</div>
 	                    		</#list>
 	                    	</#if>
-	                    	</div>
 			            </div>
 			            <div class="suggest" id="rgood_result_id">
 			            </div>
@@ -263,8 +261,7 @@
             </#if>
 		</button></div>
     </div>
-<script src="<@spring.url "/resources/js/ajaxfileupload.js"/>"></script>
-<script type="text/javascript"">
+<script type="text/javascript">
 
 $(function(){
    <#--通道搜索-->
@@ -292,6 +289,7 @@ $(function(){
 		      			hasSelectd = true;
 		      		}
     			});
+    			
     			if(!hasSelectd){
 		      		var newDiv = '<div class="item_relevance_pro" value="'+id+'"><span>'+name+'</span> <a class="a_btn" onClick="del(this)">删除</a></div>';
 		      		$("#channel_search").append(newDiv);
@@ -328,11 +326,16 @@ $(function(){
 	      		$("#input_rgood").val(name);
 	      		$("#rgood_result_id").hide();
 	      		var hasSelectd = false;
-	      		$("#good_search .item_relevance_pro").each(function() {
+	      		$("#rgood_search .item_relevance_pro").each(function() {
 		      		if($(this).attr("value") == id){
 		      			hasSelectd = true;
 		      		}
     			});
+    			
+    			if($("#rgood_search .item_relevance_pro").size()>4){
+    				hasSelectd = true;
+    			}
+    			
     			if(!hasSelectd){
 		      		var newDiv = '<div class="item_relevance_pro" value="'+id+'"><span>'+name+'</span> <a class="a_btn" onClick="del(this)">删除</a></div>';
 		      		$("#rgood_search").append(newDiv);
@@ -357,15 +360,21 @@ function del(obj){
 
 function submitData(){
 	var title=$("input[name='g_title']").val();
+	if(isNull(title, "标题不能为空!")){return false;}
 	var secondTitle=$("input[name='g_secondTitle']").val();
+	if(isNull(secondTitle, "副标题不能为空!")){return false;}
 	var keyWorlds=$("input[name='g_keyWorlds']").val();
-	var title=$("input[name='g_title']").val();
-	var title=$("input[name='g_title']").val();
+	if(isNull(keyWorlds, "关键字不能为空!")){return false;}
 	var posCategory=$("select[name='g_posCategory']").find("option:selected").val();
+	if(isNull(posCategory, "POS机分类不能为空!")){return false;}
 	var factory=$("select[name='g_factory']").find("option:selected").val();
+	if(isNull(factory, "厂家不能为空!")){return false;}
 	var goodBrand=$("input[name='g_goodBrand']").val();
+	if(isNull(goodBrand, "品牌不能为空!")){return false;}
 	var encryptCardWay=$("select[name='g_encryptCardWay']").find("option:selected").val();
+	if(isNull(encryptCardWay, "加密卡方式不能为空!")){return false;}
 	var signOrderWay=$("select[name='g_signOrderWay']").find("option:selected").val();
+	if(isNull(signOrderWay, "签购单打印方式不能为空!")){return false;}
 	var cardTypes = new Array();
 	var i = 0;
 	$("input[name='g_cardType']").each(function() {
@@ -375,18 +384,31 @@ function submitData(){
             i++;
     });
     
+    if(isNull(cardTypes, "支持银行卡不能为空!")){return false;}
     var batteryInfo=$("input[name='g_batteryInfo']").val();
+    if(isNull(batteryInfo, "电池信息不能为空!")){return false;}
     var shellMaterial=$("input[name='g_shellMaterial']").val();
+    if(isNull(shellMaterial, "外壳材质不能为空!")){return false;}
     var price=$("input[name='g_price']").val();
+    if(isNull(price, "原价不能为空!")){return false;}
     var retailPrice=$("input[name='g_retailPrice']").val();
+    if(isNull(retailPrice, "现价不能为空!")){return false;}
 	var purchasePrice=$("input[name='g_purchasePrice']").val();
+    if(isNull(purchasePrice, "批购价不能为空!")){return false;}
  	var floorPrice=$("input[name='g_floorPrice']").val();
+    if(isNull(floorPrice, "最低限价不能为空!")){return false;}
  	var floorPurchaseQuantity=$("input[name='g_floorPurchaseQuantity']").val();
+    if(isNull(floorPurchaseQuantity, "最小批购量不能为空!")){return false;}
  	var leaseDeposit=$("input[name='g_leaseDeposit']").val();
+    //if(isNull(leaseDeposit, "租赁押金不能为空!")){return false;}
  	var leaseTime=$("input[name='g_leaseTime']").val();
+    //if(isNull(leaseTime, "最低租赁时间不能为空!")){return false;}
  	var returnTime=$("input[name='g_returnTime']").val();
+ 	//if(isNull(returnTime, "最长租赁时间不能为空!")){return false;}
  	var leaseDescription=$("textarea[name='g_leaseDescription']").val();
+ 	//if(isNull(leaseDescription, "租赁说明不能为空!")){return false;}
  	var leaseAgreement=$("textarea[name='g_leaseAgreement']").val();
+ 	//if(isNull(leaseAgreement, "租赁协议不能为空!")){return false;}
    	var re=/^\d+\.\d{2}$/;//2位小数
    	
    	var channels = new Array();
@@ -395,16 +417,18 @@ function submitData(){
             channels[i]=$(this).attr("value");
             i++;
     });
-    
+ 	if(isNull(channels, "支付通道不能为空!")){return false;}
+
     var description=$("textarea[name='g_description']").val();
-    
+ 	if(isNull(description, "详细说明不能为空!")){return false;}
+
     var photos = new Array();
 	i = 0;
    	$("#photos .item_photoBox img").each(function() {
             photos[i]=$(this).attr("dbValue");
             i++;
     });
-    
+
     var goods = new Array();
 	i = 0;
    	$("#good_search .item_relevance_pro").each(function() {
@@ -446,12 +470,6 @@ function fileChange(obj){
     }; 
     $('#fileForm'+index).ajaxSubmit(options); 
     return false;
-}
-
-function uploadSuccess(data){
-	if(data.code==1){
-		alert($(this).html());
-	}
 }
 
 </script>
