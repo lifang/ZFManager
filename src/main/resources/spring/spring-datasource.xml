@@ -18,7 +18,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
-		p:mapperLocations="classpath:com.comdosoft.financial.manage.mapper.zhangfu.*.xml" />
+		p:mapperLocations="classpath:mapper/zhangfu/*.xml" />
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
 		p:sqlSessionFactoryBeanName="sqlSessionFactory"
@@ -43,7 +43,7 @@
 
 	<bean id="sqlSessionFactory-trades" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource-trades"
-		p:mapperLocations="classpath:com.comdosoft.financial.manage.mapper.trades.*.xml" />
+		p:mapperLocations="classpath:mapper/trades/*.xml" />
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
 		p:sqlSessionFactoryBeanName="sqlSessionFactory-trades"
