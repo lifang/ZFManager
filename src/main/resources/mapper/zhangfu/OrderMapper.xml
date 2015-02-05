@@ -25,10 +25,10 @@
     <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="agent_order_marks_id" jdbcType="INTEGER" property="agentOrderMarksId" />
     <result column="belongs_to" jdbcType="INTEGER" property="belongsTo" />
     <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
     <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="total_quantity" jdbcType="INTEGER" property="totalQuantity" />
     <result column="invoice_info" jdbcType="LONGVARCHAR" property="invoiceInfo" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -50,8 +50,8 @@
       actual_price, front_money, front_pay_status, 
       pay_status, created_user_id, created_user_type, 
       process_user_id, process_user_name, created_at, 
-      updated_at, agent_order_marks_id, belongs_to, 
-      invoice_type, comment, invoice_info
+      updated_at, belongs_to, invoice_type, 
+      comment, total_quantity, invoice_info
       )
     values (#{id,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, 
       #{totalPrice,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{payedAt,jdbcType=TIMESTAMP}, 
@@ -59,8 +59,8 @@
       #{actualPrice,jdbcType=INTEGER}, #{frontMoney,jdbcType=INTEGER}, #{frontPayStatus,jdbcType=TINYINT}, 
       #{payStatus,jdbcType=TINYINT}, #{createdUserId,jdbcType=INTEGER}, #{createdUserType,jdbcType=TINYINT}, 
       #{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{agentOrderMarksId,jdbcType=INTEGER}, #{belongsTo,jdbcType=INTEGER}, 
-      #{invoiceType,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{invoiceInfo,jdbcType=LONGVARCHAR}
+      #{updatedAt,jdbcType=TIMESTAMP}, #{belongsTo,jdbcType=INTEGER}, #{invoiceType,jdbcType=INTEGER}, 
+      #{comment,jdbcType=VARCHAR}, #{totalQuantity,jdbcType=INTEGER}, #{invoiceInfo,jdbcType=LONGVARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Order">
@@ -87,10 +87,10 @@
       process_user_name = #{processUserName,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      agent_order_marks_id = #{agentOrderMarksId,jdbcType=INTEGER},
       belongs_to = #{belongsTo,jdbcType=INTEGER},
       invoice_type = #{invoiceType,jdbcType=INTEGER},
       comment = #{comment,jdbcType=VARCHAR},
+      total_quantity = #{totalQuantity,jdbcType=INTEGER},
       invoice_info = #{invoiceInfo,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -101,8 +101,8 @@
     -->
     select id, order_number, customer_id, total_price, status, payed_at, types, customer_address_id, 
     need_invoice, actual_price, front_money, front_pay_status, pay_status, created_user_id, 
-    created_user_type, process_user_id, process_user_name, created_at, updated_at, agent_order_marks_id, 
-    belongs_to, invoice_type, comment, invoice_info
+    created_user_type, process_user_id, process_user_name, created_at, updated_at, belongs_to, 
+    invoice_type, comment, total_quantity, invoice_info
     from orders
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -113,8 +113,8 @@
     -->
     select id, order_number, customer_id, total_price, status, payed_at, types, customer_address_id, 
     need_invoice, actual_price, front_money, front_pay_status, pay_status, created_user_id, 
-    created_user_type, process_user_id, process_user_name, created_at, updated_at, agent_order_marks_id, 
-    belongs_to, invoice_type, comment, invoice_info
+    created_user_type, process_user_id, process_user_name, created_at, updated_at, belongs_to, 
+    invoice_type, comment, total_quantity, invoice_info
     from orders
   </select>
 </mapper>

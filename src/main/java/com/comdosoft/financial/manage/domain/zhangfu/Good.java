@@ -902,8 +902,7 @@ public class Good {
 	public void setLeaseAgreement(String leaseAgreement) {
 		this.leaseAgreement = leaseAgreement;
 	}
-	
-	
+
 	public static final byte STATUS_WAITING_FIRST_CHECK = 1;	// 待审核
 	public static final byte STATUS_FIRST_UN_CHECKED = 2;	// 初审不通过
 	public static final byte STATUS_FIRST_CHECKED = 3;		// 初审通过

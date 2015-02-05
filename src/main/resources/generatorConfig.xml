@@ -12,8 +12,8 @@
 			userId="zhangfu" password="zhangfu123" />
 		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.trades"
 			targetProject="ZFManager" />
-		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
-			targetProject="ZFManager" />
+		<sqlMapGenerator targetPackage="mapper.trades"
+			targetProject="ZFManager\src\main\resources" />
 		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.trades"
 			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
@@ -38,8 +38,8 @@
 			userId="zhangfu" password="zhangfu123" />
 		<javaModelGenerator targetPackage="com.comdosoft.financial.manage.domain.zhangfu"
 			targetProject="ZFManager" />
-		<sqlMapGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
-			targetProject="ZFManager" />
+		<sqlMapGenerator targetPackage="mapper.zhangfu"
+			targetProject="ZFManager\src\main\resources" />
 		<javaClientGenerator targetPackage="com.comdosoft.financial.manage.mapper.zhangfu"
 			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
