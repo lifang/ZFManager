@@ -322,48 +322,48 @@ public class Customer {
 	/**
 	 * 未激活
 	 */
-	public static final Byte STATUS_NON_ACTIVE = 0;
+	public static final byte STATUS_NON_ACTIVE = 0;
 	/**
 	 * 正常
 	 */
-	public static final Byte STATUS_NORMAL = 1;
+	public static final byte STATUS_NORMAL = 1;
 	/**
 	 * 停用
 	 */
-	public static final Byte STATUS_STOP = 5;
+	public static final byte STATUS_STOP = 5;
 	
 
 	/**
 	 * 0 普通用户/商户
 	 */
-	public static final Byte TYPE_CUSTOMER = 0;
+	public static final byte TYPE_CUSTOMER = 0;
 	/**
 	 * 1 代理商
 	 */
-	public static final Byte TYPE_AGENT = 1;
+	public static final byte TYPE_AGENT = 1;
 	/**
 	 * 2 运营
 	 */
-	public static final Byte TYPE_OPERATE = 2;
+	public static final byte TYPE_OPERATE = 2;
 	/**
 	 * 3 超级管理员
 	 */
-	public static final Byte TYPE_SUPER = 3;
+	public static final byte TYPE_SUPER = 3;
 	/**
 	 * 4 第三方机构
 	 */
-	public static final Byte TYPE_THIRD_PARTY = 4;
+	public static final byte TYPE_THIRD_PARTY = 4;
 	/**
 	 * 5 代理商员工
 	 */
-	public static final Byte TYPE_AGENT_STAFF = 5;
+	public static final byte TYPE_AGENT_STAFF = 5;
 
 	/**
 	 * 手机
 	 */
-	public static final Boolean ACCOUNT_TYPE_PHONE = Boolean.TRUE;
+	public static final boolean ACCOUNT_TYPE_PHONE = true;
 	/**
 	 * email
 	 */
-	public static final Boolean ACCOUNT_TYPE_EMAIL = Boolean.FALSE;
+	public static final boolean ACCOUNT_TYPE_EMAIL = false;
 }
