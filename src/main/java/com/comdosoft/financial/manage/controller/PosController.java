@@ -325,6 +325,12 @@ public class PosController {
 		return Response.getSuccess("");
 	}
 	
+	@RequestMapping(value = "{id}/in", method = RequestMethod.POST)
+	@ResponseBody
+	public Response in(@PathVariable Integer id, String data){
+		return Response.getSuccess("");
+	}
+	
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;

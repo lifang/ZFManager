@@ -487,7 +487,7 @@ function submitData(){
 
 function isNull(value, error){
 	 if(value.length==0){
-	 	alert(error);
+	 	showErrorTip(error);
 	 	return true;
 	 }
 	 return false;

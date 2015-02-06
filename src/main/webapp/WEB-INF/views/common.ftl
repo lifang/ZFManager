@@ -30,6 +30,7 @@
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/jquery.form.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
+    <script src="<@spring.url "/resources/js/common.js"/>"></script>
     <#nested />
 </head>
 </#macro>
@@ -146,6 +147,15 @@
         </ul>
         <div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
     </div>
+</div>
+
+<div class="mask"></div>
+<div class="tab" id="errorDiv">
+	<a href="#" class="close">关闭</a>
+    <div class="tabBody">
+    	<p id="errorP"></p>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="errorBtn">确定<tton></div>
 </div>
 </#macro>
 
