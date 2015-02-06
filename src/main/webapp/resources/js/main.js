@@ -113,6 +113,9 @@ $(function(){
 	popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
 	popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格 代理商批购
 	popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+	popup(".replace_tab",".replace_a");//换货
+	popup(".assign_tab",".assign_a");//分派
+	popup(".danger_tab",".danger_a");//风险标签
 })
 
 
@@ -135,10 +138,15 @@ function infoTab(i_tab,i_box){
 	$(i_tab).hover(
 		function(e){
 			$(i_box).children("img").attr("src", $(this).attr("value"));
+
 			$(i_box).css('display','block');
-			$(i_box).css({'top':($(this).offset().top)-$(this).height()-100+'px', 
-			              'left':($(this).offset().left)+$(this).width()+'px'
-						});
+			$(i_box).css('top',$(this).offset().top - $(i_box).height() +'px');
+			
+			if($(this).offset().left+$(i_box).width() > $(document).width()){
+				$(i_box).css( 'left',($(this).offset().left)-$(i_box).width()+'px');
+			}else {
+				$(i_box).css('left',($(this).offset().left)+$(this).width()+'px');
+			}
 			
 		},
 		function(e){

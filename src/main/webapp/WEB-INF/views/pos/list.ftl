@@ -43,6 +43,28 @@
       	<#include "pagePos.ftl" />
       </div>
      </div>
+<div class="mask"></div>
+
+<div class="tab putStorage_tab">
+    <a href="#" class="close">关闭</a>
+    <div class="tabHead">入库</div>
+    <div class="tabBody">
+        <textarea name="" cols="" rows="">输入终端号</textarea>
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
+
+<div class="tab approve_tab">
+    <a href="javascript:void(0);" class="close">关闭</a>
+    <div class="tabBody">
+        <div class="approve_con">
+            <h2>请确认产品可以通过审核</h2>
+            <p><input id="isThird" type="checkbox" /> 第三方库存</p>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="checkSure">确认</button></div>
+</div>
+
 <script type="text/javascript">
 
 	$(function(){
@@ -71,13 +93,21 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
-	
+
+    function checkBtn(id){
+ 		$("#checkSure").click(function(){check(id)});
+    }
+
 	function firstUnCheck(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/firstUnCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -85,6 +115,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/firstCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });	
 	}
 	
@@ -92,25 +124,37 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unCheck',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });	
 	}
 	
 	function check(id){
+		var isThird = $('#isThird').prop("checked");
 		$.get('<@spring.url "" />'+'/pos/'+id+'/check',
+				{"isThird":isThird},
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
+					$('.approve_tab').hide();
+					$('.mask').hide();
 	            });
 	}
 	function stop(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/stop',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	function start(id){
 		$.get('<@spring.url "" />'+'/pos/'+id+'/start',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -118,6 +162,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/publish',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -125,6 +171,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unPublish',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -132,6 +180,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/lease',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -139,6 +189,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unLease',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -146,6 +198,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/purchase',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
@@ -153,6 +207,8 @@
 		$.get('<@spring.url "" />'+'/pos/'+id+'/unPurchase',
 	            function (data) {
 	                $('#row_'+id).replaceWith(data);
+					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
+					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
 	
