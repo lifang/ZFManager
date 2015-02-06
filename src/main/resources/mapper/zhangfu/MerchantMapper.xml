@@ -27,6 +27,7 @@
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="account_bank_num" jdbcType="VARCHAR" property="accountBankNum" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -48,7 +49,7 @@
       license_no_pic_path, tax_no_pic_path, org_code_no_pic_path, 
       account_pic_path, account_bank_name, account_bank_address, 
       created_at, updated_at, phone, 
-      account_bank_num)
+      account_bank_num, customer_id)
     values (#{id,jdbcType=INTEGER}, #{creditTypeId,jdbcType=INTEGER}, #{legalPersonName,jdbcType=VARCHAR}, 
       #{legalPersonCardId,jdbcType=VARCHAR}, #{cardIdFrontPhotoPath,jdbcType=VARCHAR}, 
       #{cardIdBackPhotoPath,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{businessLicenseNo,jdbcType=VARCHAR}, 
@@ -56,7 +57,7 @@
       #{licenseNoPicPath,jdbcType=VARCHAR}, #{taxNoPicPath,jdbcType=VARCHAR}, #{orgCodeNoPicPath,jdbcType=VARCHAR}, 
       #{accountPicPath,jdbcType=VARCHAR}, #{accountBankName,jdbcType=VARCHAR}, #{accountBankAddress,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
-      #{accountBankNum,jdbcType=VARCHAR})
+      #{accountBankNum,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Merchant">
     <!--
@@ -83,7 +84,8 @@
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       phone = #{phone,jdbcType=VARCHAR},
-      account_bank_num = #{accountBankNum,jdbcType=VARCHAR}
+      account_bank_num = #{accountBankNum,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -94,7 +96,8 @@
     select id, credit_type_id, legal_person_name, legal_person_card_id, card_id_front_photo_path, 
     card_id_back_photo_path, title, business_license_no, tax_registered_no, organization_code_no, 
     bank_open_account, license_no_pic_path, tax_no_pic_path, org_code_no_pic_path, account_pic_path, 
-    account_bank_name, account_bank_address, created_at, updated_at, phone, account_bank_num
+    account_bank_name, account_bank_address, created_at, updated_at, phone, account_bank_num, 
+    customer_id
     from merchants
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -106,7 +109,8 @@
     select id, credit_type_id, legal_person_name, legal_person_card_id, card_id_front_photo_path, 
     card_id_back_photo_path, title, business_license_no, tax_registered_no, organization_code_no, 
     bank_open_account, license_no_pic_path, tax_no_pic_path, org_code_no_pic_path, account_pic_path, 
-    account_bank_name, account_bank_address, created_at, updated_at, phone, account_bank_num
+    account_bank_name, account_bank_address, created_at, updated_at, phone, account_bank_num, 
+    customer_id
     from merchants
   </select>
 </mapper>

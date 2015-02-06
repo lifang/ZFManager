@@ -34,4 +34,6 @@ public interface GoodRelationMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodRelation record);
+
+	void deleteByGoodId(Integer goodId);
 }

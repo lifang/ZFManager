@@ -55,4 +55,10 @@
     select id, good_id, relative_good_id
     from good_relations
   </select>
+  
+  
+    <delete id="deleteByGoodId">
+    delete from good_relations 
+    	where good_id = #{param1}
+  </delete>
 </mapper>

@@ -90,12 +90,16 @@
 		<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" />
 		<table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord" />
 		<table tableName="factories" domainObjectName="Factory" />
-		<table tableName="good_brands" domainObjectName="GoodBrand" />
+		<table tableName="good_brands" domainObjectName="GoodBrand">
+			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+		</table>
 		<table tableName="good_card_types" domainObjectName="GoodCardType" />
 		<table tableName="good_comments" domainObjectName="GoodComment" />
 		<table tableName="good_marks" domainObjectName="GoodMark" />
 		<table tableName="good_relations" domainObjectName="GoodRelation" />
-		<table tableName="goods" domainObjectName="Good" />
+		<table tableName="goods" domainObjectName="Good">
+			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+		</table>
 		<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" />
 		<table tableName="goods_pictures" domainObjectName="GoodsPicture" />
 		<table tableName="in_out_storages" domainObjectName="InOutStorage" />

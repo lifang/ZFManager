@@ -37,5 +37,4 @@ public interface GoodBrandMapper {
 
 	List<GoodBrand> selectByName(String name);
 	
-	Integer insertReturnId(GoodBrand record);
 }

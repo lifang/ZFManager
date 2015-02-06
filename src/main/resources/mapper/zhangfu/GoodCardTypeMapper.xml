@@ -56,8 +56,8 @@
     from good_card_types
   </select>
   
-    <delete id="deleteByPGoodId">
-    delete from good_card_types gct 
-    	where gct.good_id = #{param1}
+    <delete id="deleteByGoodId">
+    delete from good_card_types 
+    	where good_id = #{param1}
   </delete>
 </mapper>

@@ -170,11 +170,15 @@
                     	<div class="text"><input name="g_leaseDeposit" type="text"
                     	<#if (good.leaseDeposit)??>value="${(((good.leaseDeposit)!0)/100)?string("0.00")}"</#if>
                     	> 元<br>（保留小数点后两位）</div></li>
+                    <li class=""><span class="labelSpan">月租金：</span>
+                    	<div class="text"><input name="g_leasePrice" type="text"
+                    	<#if (good.leasePrice)??>value="${(((good.leasePrice)!0)/100)?string("0.00")}"</#if>
+                    	> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">最低租赁时间：</span>
                     	<div class="text"><input name="g_leaseTime" type="text"
                     	<#if (good.leaseTime)??>value="${good.leaseTime}"</#if> 
                     	onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
-                    <li class="clear"><span class="labelSpan">最长租赁时间：</span>
+                    <li><span class="labelSpan">最长租赁时间：</span>
                     	<div class="text"><input name="g_returnTime" type="text"
                     	<#if (good.returnTime)??>value="${good.returnTime}"</#if> 
                     	onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
@@ -366,16 +370,18 @@ function submitData(){
 	if(isNull(secondTitle, "副标题不能为空!")){return false;}
 	var keyWorlds=$("input[name='g_keyWorlds']").val();
 	if(isNull(keyWorlds, "关键字不能为空!")){return false;}
-	var posCategory=$("select[name='g_posCategory']").find("option:selected").val();
-	if(isNull(posCategory, "POS机分类不能为空!")){return false;}
-	var factory=$("select[name='g_factory']").find("option:selected").val();
-	if(isNull(factory, "厂家不能为空!")){return false;}
+	var posCategoryId=$("select[name='g_posCategory']").find("option:selected").val();
+	if(isNull(posCategoryId, "POS机分类不能为空!")){return false;}
+	var factoryId=$("select[name='g_factory']").find("option:selected").val();
+	if(isNull(factoryId, "厂家不能为空!")){return false;}
 	var goodBrandName=$("input[name='g_goodBrand']").val();
 	if(isNull(goodBrandName, "品牌不能为空!")){return false;}
-	var encryptCardWay=$("select[name='g_encryptCardWay']").find("option:selected").val();
-	if(isNull(encryptCardWay, "加密卡方式不能为空!")){return false;}
-	var signOrderWay=$("select[name='g_signOrderWay']").find("option:selected").val();
-	if(isNull(signOrderWay, "签购单打印方式不能为空!")){return false;}
+	var modelNumber=$("input[name='g_modelNumber']").val();
+	if(isNull(modelNumber, "POS机型号不能为空!")){return false;}
+	var encryptCardWayId=$("select[name='g_encryptCardWay']").find("option:selected").val();
+	if(isNull(encryptCardWayId, "加密卡方式不能为空!")){return false;}
+	var signOrderWayId=$("select[name='g_signOrderWay']").find("option:selected").val();
+	if(isNull(signOrderWayId, "签购单打印方式不能为空!")){return false;}
 	var cardTypes = new Array();
 	var i = 0;
 	$("input[name='g_cardType']").each(function() {
@@ -402,6 +408,9 @@ function submitData(){
     if(isNull(floorPurchaseQuantity, "最小批购量不能为空!")){return false;}
  	var leaseDeposit=$("input[name='g_leaseDeposit']").val();
     if(isNotTwoDecimal(leaseDeposit, "租赁押金必须为2位小数!")){return false;}
+ 	var leasePrice=$("input[name='g_leasePrice']").val();
+    if(isNotTwoDecimal(leasePrice, "月租金必须为2位小数!")){return false;}
+    
  	var leaseTime=$("input[name='g_leaseTime']").val();
  	var returnTime=$("input[name='g_returnTime']").val();
  	var leaseDescription=$("textarea[name='g_leaseDescription']").val();
@@ -427,12 +436,18 @@ function submitData(){
 
     var goods = new Array();
 	i = 0;
-   	$("#good_search .item_relevance_pro").each(function() {
+   	$("#rgood_search .item_relevance_pro").each(function() {
             goods[i]=$(this).attr("value");
             i++;
     });
     
-    $.post("<@spring.url "/pos/create" />", 
+    <#if good??>
+    	var url="<@spring.url "/pos/${good.id}/update" />";
+    	<#else>
+    	var url="<@spring.url "/pos/create" />";
+    </#if>
+    
+    $.post(url, 
     	{ 'title': title,
 			'secondTitle':secondTitle, 
 			'keyWorlds':keyWorlds, 
@@ -451,6 +466,7 @@ function submitData(){
 			'floorPrice': floorPrice,
 			'floorPurchaseQuantity': floorPurchaseQuantity, 
 			'leaseDeposit': leaseDeposit, 
+			'leasePrice': leasePrice,
 			'leaseTime': leaseTime, 
 			'returnTime': returnTime, 
 			'leaseDescription': leaseDescription, 
@@ -459,7 +475,12 @@ function submitData(){
 			'description': description,
 			'photoUrls': photoUrls,
 			'goods': goods
-    	}
+    	},
+    	function(data){
+    		if(data.code==1){
+    			window.location.href="<@spring.url "/pos/list" />"
+    		}
+   		}
     );
     
 }
@@ -483,22 +504,21 @@ function isNotTwoDecimal(value, error){
 
 function fileChange(obj){
 	var index = $(obj).attr("index");
-	alert(index);
   	var options = { 
         success: function(data){
-					if(data.code==1){
-						var img = $('#fileForm'+index).find(".item_photoBox img");
-						if(img.length > 0){
-							img.attr("value", "<@spring.url ""/>"+data.result);
-							img.attr("dbValue", data.result);
-						} else{
-							var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url "" />'+data.result+'" dbValue="'+data.result+'">';
-							$('#fileForm'+index).find(".item_photoBox")
-								.append(newImg);
-							$('#fileForm'+index).find(".item_photoBox a span").html("重新上传");
-							infoTab('.cover','.img_info');
-						}
-					}
+			if(data.code==1){
+				var img = $('#fileForm'+index).find(".item_photoBox img");
+				if(img.length > 0){
+					img.attr("value", "<@spring.url ""/>"+data.result);
+					img.attr("dbValue", data.result);
+				} else{
+					var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url "" />'+data.result+'" dbValue="'+data.result+'">';
+					$('#fileForm'+index).find(".item_photoBox")
+						.append(newImg);
+					$('#fileForm'+index).find(".item_photoBox a span").html("重新上传");
+					infoTab('.cover','.img_info');
+				}
+			}
 		},  
         resetForm: true, 
         dataType: 'json' 

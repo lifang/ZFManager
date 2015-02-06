@@ -57,4 +57,9 @@
     select id, url_path, good_id, created_at
     from goods_pictures
   </select>
+  
+    <delete id="deleteByGoodId">
+    delete from goods_pictures 
+    	where good_id = #{param1}
+  </delete>
 </mapper>
