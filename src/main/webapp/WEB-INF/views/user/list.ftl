@@ -13,12 +13,11 @@
     </div>
     <div class="seenBox clear">
         <ul>
-            <li><div class="user_search"><input name="" type="text" /><button></button></div></li>
+            <li><div class="user_search"><input name="query" type="text" /><button id="query"></button></div></li>
         </ul>
     </div>
 
     <div id="page_fresh">
-        <#include "page.ftl"/>
     </div>
 
 </div>
@@ -30,10 +29,18 @@
     }
     function pageChange(page) {
         $.get('<@spring.url "/user/page" />',
-                {"page": page},
+                {"page": page,"query":$("input[name=query]").val()},
                 function (data) {
                     $('#page_fresh').html(data);
                 });
     }
+
+    $(function(){
+        $("#query").click(function(){
+            pageChange(0);
+        });
+
+        pageChange(0);
+    });
 </script>
 </@c.html>

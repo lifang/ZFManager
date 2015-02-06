@@ -103,7 +103,12 @@
     select id, username, password, account_type, name, city_id, types, last_logined_at, 
     integral, status, device_code, created_at, updated_at, phone, email
     from customers
-    where types=#{CUSTOMER} order by created_at desc
+    where types=#{CUSTOMER} 
+    <if test="query != null">
+    <bind name="queryParam" value="'%'+query+'%'"/>
+    and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
+    </if>
+    order by created_at desc
     limit #{request.offset}, #{request.pageSize}
   </select>
   
@@ -112,5 +117,9 @@
     select count(*)
     from customers
     where types=#{CUSTOMER}
+    <if test="query != null">
+    <bind name="queryParam" value="'%'+query+'%'"/>
+    and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
+    </if>
   </select>
 </mapper>

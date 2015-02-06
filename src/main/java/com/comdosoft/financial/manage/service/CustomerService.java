@@ -57,13 +57,14 @@ public class CustomerService {
 	
 	/**
 	 * 列表
-	 * @param page
+	 * @param page 页数
+	 * @param query 查询条件
 	 * @return
 	 */
-	public Page<Customer> listPage(Integer page){
+	public Page<Customer> listPage(Integer page,String query){
 		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
-		List<Customer> customers = customerMapper.selectCustomerPageList(request);
-		long total = customerMapper.countTotalCustomer();
+		List<Customer> customers = customerMapper.selectCustomerPageList(request,query);
+		long total = customerMapper.countTotalCustomer(query);
 		return new Page<Customer>(request, customers, total);
 	}
 	

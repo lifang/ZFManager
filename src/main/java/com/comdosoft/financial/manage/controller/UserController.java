@@ -41,27 +41,16 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String list(Integer page,Model model){
-		if(page==null) {
-			page = 0;
-		}
-		Page<Customer> customers = customerService.listPage(page);
-		List<Long> terminals = Lists.newArrayList();
-		Iterator<Customer> it = customers.getContent().iterator();
-		while(it.hasNext()){
-			terminals.add(terminalService.countCustomerTerminals(it.next().getId()));
-		}
-		model.addAttribute("customers", customers);
-		model.addAttribute("terminals", terminals);
+	public String list(){
 		return "user/list";
 	}
 	
 	@RequestMapping(value="page",method=RequestMethod.GET)
-	public String page(Integer page,Model model){
+	public String page(Integer page,Model model,String query){
 		if(page==null) {
 			page = 0;
 		}
-		Page<Customer> customers = customerService.listPage(page);
+		Page<Customer> customers = customerService.listPage(page,query);
 		List<Long> terminals = Lists.newArrayList();
 		Iterator<Customer> it = customers.getContent().iterator();
 		while(it.hasNext()){

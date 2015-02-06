@@ -41,7 +41,7 @@ public interface CustomerMapper {
 
 	Customer selectByLogin(String passport,String password);
 	
-	List<Customer> selectCustomerPageList(@Param("request") PageRequest request);
+	List<Customer> selectCustomerPageList(@Param("request") PageRequest request,@Param("query") String query);
 	
-	long countTotalCustomer();
+	long countTotalCustomer(@Param("query") String query);
 }
