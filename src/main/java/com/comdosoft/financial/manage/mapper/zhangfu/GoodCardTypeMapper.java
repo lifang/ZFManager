@@ -34,4 +34,8 @@ public interface GoodCardTypeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodCardType record);
+
+	int deleteByPGoodId(Integer goodId);
+	
+	
 }

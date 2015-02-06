@@ -261,6 +261,7 @@
             </#if>
 		</button></div>
     </div>
+    
 <script type="text/javascript">
 
 $(function(){
@@ -369,8 +370,8 @@ function submitData(){
 	if(isNull(posCategory, "POS机分类不能为空!")){return false;}
 	var factory=$("select[name='g_factory']").find("option:selected").val();
 	if(isNull(factory, "厂家不能为空!")){return false;}
-	var goodBrand=$("input[name='g_goodBrand']").val();
-	if(isNull(goodBrand, "品牌不能为空!")){return false;}
+	var goodBrandName=$("input[name='g_goodBrand']").val();
+	if(isNull(goodBrandName, "品牌不能为空!")){return false;}
 	var encryptCardWay=$("select[name='g_encryptCardWay']").find("option:selected").val();
 	if(isNull(encryptCardWay, "加密卡方式不能为空!")){return false;}
 	var signOrderWay=$("select[name='g_signOrderWay']").find("option:selected").val();
@@ -390,26 +391,21 @@ function submitData(){
     var shellMaterial=$("input[name='g_shellMaterial']").val();
     if(isNull(shellMaterial, "外壳材质不能为空!")){return false;}
     var price=$("input[name='g_price']").val();
-    if(isNull(price, "原价不能为空!")){return false;}
+    if(isNull(price, "原价不能为空!") || isNotTwoDecimal(price, "原价必须为2位小数!")){return false;}
     var retailPrice=$("input[name='g_retailPrice']").val();
-    if(isNull(retailPrice, "现价不能为空!")){return false;}
+    if(isNull(retailPrice, "现价不能为空!") || isNotTwoDecimal(price, "现价必须为2位小数!")){return false;}
 	var purchasePrice=$("input[name='g_purchasePrice']").val();
-    if(isNull(purchasePrice, "批购价不能为空!")){return false;}
+    if(isNull(purchasePrice, "批购价不能为空!") || isNotTwoDecimal(purchasePrice, "批购价必须为2位小数!")){return false;}
  	var floorPrice=$("input[name='g_floorPrice']").val();
-    if(isNull(floorPrice, "最低限价不能为空!")){return false;}
+    if(isNull(floorPrice, "最低限价不能为空!") || isNotTwoDecimal(purchasePrice, "最低限价必须为2位小数!")){return false;}
  	var floorPurchaseQuantity=$("input[name='g_floorPurchaseQuantity']").val();
     if(isNull(floorPurchaseQuantity, "最小批购量不能为空!")){return false;}
  	var leaseDeposit=$("input[name='g_leaseDeposit']").val();
-    //if(isNull(leaseDeposit, "租赁押金不能为空!")){return false;}
+    if(isNotTwoDecimal(leaseDeposit, "租赁押金必须为2位小数!")){return false;}
  	var leaseTime=$("input[name='g_leaseTime']").val();
-    //if(isNull(leaseTime, "最低租赁时间不能为空!")){return false;}
  	var returnTime=$("input[name='g_returnTime']").val();
- 	//if(isNull(returnTime, "最长租赁时间不能为空!")){return false;}
  	var leaseDescription=$("textarea[name='g_leaseDescription']").val();
- 	//if(isNull(leaseDescription, "租赁说明不能为空!")){return false;}
  	var leaseAgreement=$("textarea[name='g_leaseAgreement']").val();
- 	//if(isNull(leaseAgreement, "租赁协议不能为空!")){return false;}
-   	var re=/^\d+\.\d{2}$/;//2位小数
    	
    	var channels = new Array();
 	i = 0;
@@ -422,10 +418,10 @@ function submitData(){
     var description=$("textarea[name='g_description']").val();
  	if(isNull(description, "详细说明不能为空!")){return false;}
 
-    var photos = new Array();
+    var photoUrls = new Array();
 	i = 0;
    	$("#photos .item_photoBox img").each(function() {
-            photos[i]=$(this).attr("dbValue");
+            photoUrls[i]=$(this).attr("dbValue");
             i++;
     });
 
@@ -436,6 +432,36 @@ function submitData(){
             i++;
     });
     
+    $.post("<@spring.url "/pos/create" />", 
+    	{ 'title': title,
+			'secondTitle':secondTitle, 
+			'keyWorlds':keyWorlds, 
+			'posCategoryId': posCategoryId, 
+			'factoryId': factoryId,
+			'goodBrandName': goodBrandName, 
+			'modelNumber': modelNumber, 
+			'encryptCardWayId': encryptCardWayId,
+			'signOrderWayId': signOrderWayId, 
+			'cardTypes': cardTypes,
+			'batteryInfo': batteryInfo, 
+			'shellMaterial': shellMaterial,
+			'price': price,
+			'retailPrice': retailPrice, 
+			'purchasePrice': purchasePrice, 
+			'floorPrice': floorPrice,
+			'floorPurchaseQuantity': floorPurchaseQuantity, 
+			'leaseDeposit': leaseDeposit, 
+			'leaseTime': leaseTime, 
+			'returnTime': returnTime, 
+			'leaseDescription': leaseDescription, 
+			'leaseAgreement': leaseAgreement,
+			'channels': channels,
+			'description': description,
+			'photoUrls': photoUrls,
+			'goods': goods
+    	}
+    );
+    
 }
 
 function isNull(value, error){
@@ -444,6 +470,15 @@ function isNull(value, error){
 	 	return true;
 	 }
 	 return false;
+}
+
+function isNotTwoDecimal(value, error){
+	var re=/^\d+\.\d{2}$/;//2位小数
+	if(value.length>0 && !(re.test(value))){
+		alert(error);
+		return true;
+	}
+	return false;
 }
 
 function fileChange(obj){

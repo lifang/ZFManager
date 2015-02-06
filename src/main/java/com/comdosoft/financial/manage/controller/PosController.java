@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -237,7 +239,7 @@ public class PosController {
 		return Response.getSuccess(fileName);
 	}
 	
-	@RequestMapping(value="create",method=RequestMethod.GET)
+	@RequestMapping(value="create",method=RequestMethod.POST)
 	public String create(String title, 
 			String secondTitle, 
 			String keyWorlds,
@@ -247,7 +249,7 @@ public class PosController {
 			String modelNumber, 
 			Integer encryptCardWayId,
 			Integer signOrderWayId, 
-			List<Integer> cardTypes,
+			@RequestParam(value = "cardTypes[]")Integer[] cardTypes,
 			String batteryInfo, 
 			String shellMaterial,
 			Float price,
@@ -260,108 +262,19 @@ public class PosController {
 			Integer returnTime, 
 			String leaseDescription, 
 			String leaseAgreement,
-			List<Integer> channels,
+			@RequestParam(value = "channels[]")Integer[] channels,
 			String description,
-			List<Integer> photos,
-			List<Integer> goods){
-	   Good good = new Good();
-	   
-	   //基础信息
-	   good.setTitle(title);
-	   good.setSecondTitle(secondTitle);
-	   good.setKeyWorlds(keyWorlds);
-	   good.setPosCategoryId(posCategoryId);
-	   good.setFactoryId(factoryId);
-	   //设置品牌TODO
-	   good.setModelNumber(modelNumber);
-	   good.setEncryptCardWayId(encryptCardWayId);
-	   good.setSignOrderWayId(signOrderWayId);
-	   //设置卡类型 cardTypes   TODO
-	   good.setBatteryInfo(batteryInfo);
-	   good.setShellMaterial(shellMaterial);
-	   
-	   //价格信息
-	   if (price != null) {
-		   good.setPrice((int)(price*100));
-	   }
-	   if (retailPrice != null) {
-		   good.setRetailPrice((int)(retailPrice*100));
-	   }
-	   
-	   //批购信息
-	   if (purchasePrice != null) {
-		   good.setPurchasePrice((int)(purchasePrice*100));
-	   }
-	   if (floorPrice != null) {
-		   good.setFloorPrice((int)(floorPrice*100));
-	   }
-	   good.setFloorPurchaseQuantity(floorPurchaseQuantity);
-	   
-	   //租赁设置
-	   if (leaseDeposit != null) {
-		   good.setLeaseDeposit((int)(leaseDeposit*100));
-	   }
-	   good.setLeaseTime(leaseTime);
-	   good.setReturnTime(returnTime);
-	   good.setLeaseDescription(leaseDescription);
-	   good.setLeaseAgreement(leaseAgreement);
-	   
-	   //支付通道
-	   //设置支付通道 channels   TODO
-
-	   //其他
-	   good.setDescription(description);
-	   //设置图片 photos   TODO
-	   //设置关联商品 goods   TODO
-	   
-	   
-	   good.setHasPurchase(false);
-	   good.setHasLease(false);
-	   good.setTotalScore(0);
-	   good.setTotalComment(0);
-	   good.setQuantity(0);
-	   good.setCreatedUserId(1);//TODO
-	   good.setCreatedUserType((byte)0);//TODO
-	   good.setCreatedAt(new Date());
-	   good.setUpdatedAt(new Date());
-//		hasPurchase : Boolean
-//		hasLease : Boolean
-//		totalScore : Integer
-//		totalComment : Integer
-//		status : Byte
-//		isPublished : Boolean
-//		createdUserId : Integer
-//		createdUserType : Byte
-//		createdAt : Date
-//		updatedAt : Date
-//		volumeNumber : Integer  ??
-//		purchaseNumber : Integer ??
-//		quantity : Integer
-
-//		
-//		title : String
-//		secondTitle : String
-//		keyWorlds : String
-//		factoryId : Integer
-//		posCategoryId : Integer
-//		modelNumber : String
-//		encryptCardWayId : Integer
-//		signOrderWayId : Integer
-//		batteryInfo : String
-//		shellMaterial : String
-//		retailPrice : Integer
-//		purchasePrice : Integer
-//		floorPrice : Integer
-//		floorPurchaseQuantity : Integer
-//		price : Integer
-//		leasePrice : Integer
-//		leaseTime : Integer
-//		goodBrandsId : Integer
-//		leaseDeposit : Integer
-//		returnTime : Integer
-//		description : String
-//		leaseDescription : String
-//		leaseAgreement : String
+			@RequestParam(value = "photoUrls[]")String[] photoUrls,
+			@RequestParam(value = "goods[]")Integer[] goods) {
+		
+		goodService.create(title, secondTitle, keyWorlds, posCategoryId,
+				factoryId, goodBrandName, modelNumber, encryptCardWayId,
+				signOrderWayId, cardTypes, batteryInfo, shellMaterial, price,
+				retailPrice, purchasePrice, floorPrice, floorPurchaseQuantity,
+				leaseDeposit, leaseTime, returnTime, leaseDescription,
+				leaseAgreement, channels, description, photoUrls, goods);
+		
+	
 		return "pos/list";
 
 	}

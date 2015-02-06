@@ -49,4 +49,6 @@ public interface GoodMapper {
 	Good findPageRowGood(Long id);
 
 	List<Good> selectByStatusAndName(@Param("status") Byte status, @Param("keys") String keys);
+	
+	Integer insertReturnId(Good record);
 }

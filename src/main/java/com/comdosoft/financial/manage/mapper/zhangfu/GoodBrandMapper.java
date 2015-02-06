@@ -34,4 +34,8 @@ public interface GoodBrandMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodBrand record);
+
+	List<GoodBrand> selectByName(String name);
+	
+	Integer insertReturnId(GoodBrand record);
 }

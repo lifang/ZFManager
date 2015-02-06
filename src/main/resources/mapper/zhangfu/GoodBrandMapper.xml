@@ -55,4 +55,16 @@
     select id, name, created_at
     from good_brands
   </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap">
+    select * 
+    from good_brands g where g.name=#{param1}
+  </select>
+  
+  <insert id="insertReturnId" keyProperty="id" parameterType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" useGeneratedKeys="true">
+    insert into good_brands (id, name, created_at
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}
+      )
+  </insert>  
 </mapper>
