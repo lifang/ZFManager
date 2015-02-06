@@ -61,9 +61,10 @@
         	<h2>租赁设置</h2>
             <div class="attributes_list clear">
                 <ul>
-                    <li><em>租赁押金：</em><span>${(((good.leaseDeposit)!0)/100)?string("0.00")}元</span></li>
-                    <li><em>最低租赁时间：</em><span>${good.leaseTime!0}个月</span></li>
-                    <li><em>最长租赁时间：</em><span>${good.returnTime!0}个月</span></li>
+                    <li><em>租赁押金：</em><span><#if good.leaseDeposit??>${(good.leaseDeposit/100)?string("0.00")}元</#if></span></li>
+                    <li><em>月租金：</em><span><#if good.leasePrice??>${(good.leasePrice/100)?string("0.00")}元</#if></span></li>
+                    <li><em>最低租赁时间：</em><span><#if good.leaseTime??>${good.leaseTime}个月</#if></span></li>
+                    <li><em>最长租赁时间：</em><span><#if good.returnTime??>${good.returnTime}个月</#if></span></li>
                     <li><em>租赁说明：</em><span><a href="#" class="a_btn leaseExplain_a">点击查看</a></span></li>
                     <li><em>租赁协议：</em><span><a href="#" class="a_btn leaseAgreement_a">点击查看</a></span></li>
                 </ul>
