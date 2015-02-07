@@ -29,7 +29,7 @@ strong.blue { color: #0071cf;}
 
 .original { text-decoration: line-through; color: #666;}
 
-.textarea_l { width: 332px; height: 100px; padding: 5px; border: 1px #CCCCCC solid;}
+.textarea_l { width: 332px; height: 100px; padding: 5px; border: 1px #CCCCCC solid; font-size: 12px;}
 
 
 .btnBottom { margin: 10px; padding: 10px; text-align: left;}
@@ -415,6 +415,7 @@ td a.a_btn:hover { text-decoration: underline;}
 	border-radius: 5px;
 	padding: 10px;
 	z-index:1000;
+	display: none;
 }
 
 .tab a.close { 
@@ -492,7 +493,7 @@ td a.a_btn:hover { text-decoration: underline;}
 	width: 120px; 
 	height: 30px; 
 	display: inline-block; 
-	margin: 0px auto; 
+	margin: 3px auto 0; 
 	line-height: 30px;  
 	position: relative;
 	text-align: center;
@@ -521,7 +522,8 @@ td a.a_btn:hover { text-decoration: underline;}
 	overflow: hidden;
 }
 .user_title h1 {
-	font-size: 18px; 
+	font-size: 18px;
+	height: 42px; 
 	line-height: 42px; 
 	font-family: "microsoft yahei";
 	float: left;
@@ -697,7 +699,7 @@ tr.order_hd td { text-align: left; }
 
 .attributes_box .attributes_list, .attributes_box .attributes_list_s { padding: 10px 0;}
 .attributes_box .attributes_list li { width: 846px; margin-bottom: 10px;}
-.attributes_box .attributes_list_s li { width: 200px;}
+.attributes_box .attributes_list_s li { width: 220px;}
 .attributes_box .attributes_list li span { float: left; display: inline-block; width: 744px;}
 .attributes_box .attributes_list li em { font-style: normal; width: 100px; display: inline-block; float: left;}
 
@@ -1037,6 +1039,50 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 
 /*----分派-----*/
 .assign_tab_p { height: 32px; line-height: 32px; margin-bottom: 10px; font-size: 14px;}
+
+/*----售后库存管理storage-----*/
+.storage { margin: 20px 0;}
+.storage button { margin-right: 10px;}
+
+.machineNumber {}
+.machineNumber span { margin: 5px 10px;}
+
+.danger { 
+	width: 20px; 
+	height: 20px; 
+	display: inline-block; 
+	background: url(../images/danger.png) no-repeat;
+	margin-left: -20px;
+	margin-top: -10px;
+}
+.user_title h1 .danger { margin: 0 0 -5px 10px;}
+
+
+/*-------视频认证videoAuthentication--------*/
+.videoAuthentication { width: 1200px; margin: 0px auto; padding: 10px 20px; background: #FFF; overflow: hidden;}
+.va_title { margin-bottom: 20px; overflow: hidden;}
+.va_title h1 {
+	font-size: 18px;
+	height: 42px; 
+	line-height: 42px; 
+	font-family: "microsoft yahei";
+	float: left;
+}
+.va_title a { float: right; margin: 0 10px;}
+
+.va_box { overflow: hidden;}
+.va_left { width: 702px; float: left;}
+.va_right { width: 458px; float: left; padding: 0 20px;}
+
+.va_video { 
+	width: 700px; 
+	height: 500px; 
+	border: 1px #CCCCCC solid; 
+	background: url(../images/va_video.png) no-repeat center center #eeeeee;
+}
+.val_bottom { margin-top: 20px;}
+
+.va_right .attributes_box .item_list li { margin-right: 65px;}
 
 
 

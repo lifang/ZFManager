@@ -36,7 +36,7 @@ public interface TerminalMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Terminal record);
-	
+
 	long countCustomerTerminals(Integer customerId);
 	List<Terminal> selectCustomerTerminals(Integer customerId,PageRequest request);
 }

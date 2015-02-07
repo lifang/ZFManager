@@ -44,9 +44,10 @@ public interface GoodMapper {
 			
 	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 	
-	Good findGoodInfo(Long id);
+	Good findGoodInfo(Integer id);
 	
-	Good findPageRowGood(Long id);
+	Good findPageRowGood(Integer id);
 
 	List<Good> selectByStatusAndName(@Param("status") Byte status, @Param("keys") String keys);
+	
 }

@@ -34,4 +34,6 @@ public interface GoodsPictureMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodsPicture record);
+
+	void deleteByGoodId(Integer goodId);
 }

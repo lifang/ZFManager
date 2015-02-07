@@ -34,13 +34,13 @@
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
        <#elseif good.status=3>
-       		<a onClick="check(${good.id})" class="a_btn">审核通过</a> 
+       		<a onClick="checkBtn(${good.id})" class="a_btn approve_a">审核通过</a> 
        		<a onClick="unCheck(${good.id})" class="a_btn">审核不通过</a>
        		<a href="<@spring.url "/pos/${good.id}/edit" />" class="a_btn">编辑</a> 
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
        <#elseif good.status=4>
-       		<a onClick="check(${good.id})" class="a_btn">审核通过</a> 
+       		<a onClick="checkBtn(${good.id})" class="a_btn approve_a">审核通过</a> 
        		<a href="<@spring.url "/pos/${good.id}/edit" />" class="a_btn">编辑</a> 
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
@@ -60,7 +60,7 @@
       		<#else>
            	<a onClick="purchase(${good.id})" class="a_btn">可批购</a> 		          		
       		</#if>
-           	<a href="#" class="a_btn">入库</a> 
+           	<a href="#" class="a_btn putStorage_a">入库</a> 
            	<a href="#" class="a_btn">评论管理</a> 
        		<a onClick="stop(${good.id})" class="a_btn">停用</a> 
        		<a href="<@spring.url "/pos/${good.id}/info" />" class="a_btn">查看详情</a>

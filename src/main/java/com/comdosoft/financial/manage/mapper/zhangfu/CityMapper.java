@@ -34,6 +34,6 @@ public interface CityMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(City record);
-	
+
 	List<City> selectWithParentId(Integer parentId);
 }

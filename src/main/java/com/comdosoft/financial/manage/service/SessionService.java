@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+
 @Service
 public class SessionService {
 	
@@ -17,8 +19,8 @@ public class SessionService {
 		request.getSession().setAttribute(LOGIN_SESSION_KEY, obj);
 	}
 	
-	public Object getLoginInfo(HttpServletRequest request) {
-		return request.getSession().getAttribute(LOGIN_SESSION_KEY);
+	public Customer getLoginInfo(HttpServletRequest request) {
+		return (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);
 	}
 	
 	public void clear(HttpServletRequest request){

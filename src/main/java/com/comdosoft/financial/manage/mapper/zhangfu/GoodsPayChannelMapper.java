@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPayChannel;
+
 import java.util.List;
 
 public interface GoodsPayChannelMapper {
@@ -34,4 +35,7 @@ public interface GoodsPayChannelMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodsPayChannel record);
+
+	void deleteByGoodId(Integer goodId);
+
 }
