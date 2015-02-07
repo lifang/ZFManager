@@ -56,9 +56,17 @@
                     $("#terminals").html(data);
                 });
     }
+    function agentPageChange(page){
+        $.post("<@spring.url "/user/${customer.id}/info/agents"/>",
+                {page:page},
+                function(data){
+                    $("#agents").html(data);
+                });
+    }
     $(function(){
         merchantPageChange(0);
         terminalPageChange(0);
+        agentPageChange(0);
     });
 </script>
 </@c.html>
