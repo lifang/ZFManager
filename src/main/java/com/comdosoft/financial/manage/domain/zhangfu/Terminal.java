@@ -464,4 +464,32 @@ public class Terminal {
 	public void setBillingCyclesId(Integer billingCyclesId) {
 		this.billingCyclesId = billingCyclesId;
 	}
+	
+	private Merchant merchant;
+	private PayChannel payChannel;
+	private Good good;
+
+	public Merchant getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+
+	public PayChannel getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(PayChannel payChannel) {
+		this.payChannel = payChannel;
+	}
+
+	public Good getGood() {
+		return good;
+	}
+
+	public void setGood(Good good) {
+		this.good = good;
+	}
 }

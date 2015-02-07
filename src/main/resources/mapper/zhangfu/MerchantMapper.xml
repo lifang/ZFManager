@@ -109,4 +109,18 @@
     account_bank_name, account_bank_address, created_at, updated_at, phone, account_bank_num
     from merchants
   </select>
+  
+  <select id="selectByCustomerId" resultMap="BaseResultMap">
+  	select id, legal_person_name, title
+    from merchants
+    where customer_id=#{param1}
+    order by created_at desc
+    limit #{param2.offset}, #{param2.pageSize}
+  </select>
+  
+  <select id="countByCustomerId" resultType="long">
+  	select count(*)
+    from merchants
+    where customer_id=#{param1}
+  </select>
 </mapper>

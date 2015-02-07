@@ -189,4 +189,7 @@ public class CustomerAgentRelation {
 	public void setTypes(Integer types) {
 		this.types = types;
 	}
+	
+	public static final int TYPE_CUSTOMER = 0;
+	public static final int TYPE_STAFF = 1;
 }

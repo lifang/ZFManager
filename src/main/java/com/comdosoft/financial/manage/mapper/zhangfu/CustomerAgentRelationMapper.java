@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Agent;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface CustomerAgentRelationMapper {
@@ -39,4 +43,7 @@ public interface CustomerAgentRelationMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CustomerAgentRelation record);
+	
+	List<Agent> customerAgents(Integer customerId,PageRequest request);
+	long countCustomerAgents(@Param("customerId") Integer customerId);
 }

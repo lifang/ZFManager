@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
 
 public interface MerchantMapper {
@@ -34,4 +36,7 @@ public interface MerchantMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Merchant record);
+	
+	List<Merchant> selectByCustomerId(Integer customerId,PageRequest request);
+	long countByCustomerId(Integer customerId);
 }

@@ -109,4 +109,35 @@
   	from terminals
   	where customer_id=#{customerId}
   </select>
+  
+  <resultMap id="CustomerTerminal" extends="BaseResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
+  	<association property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" columnPrefix="m_"></association>
+  	<association property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" columnPrefix="pc_"></association>
+  	<association property="good" resultMap="GoodWithGoodBrand" columnPrefix="g_"></association>
+  </resultMap>
+  
+  <resultMap id="GoodWithGoodBrand" type="com.comdosoft.financial.manage.domain.zhangfu.Good" extends="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap">
+  	<association property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" columnPrefix="gb_"></association>
+  </resultMap>
+  
+  <select id="selectCustomerTerminals" resultMap="CustomerTerminal">
+    select t.id,
+    	t.serial_num,
+    	t.pay_channel_id,
+    	t.merchant_id,
+    	t.status,
+    	pc.name as pc_name,
+    	m.title as m_title,
+    	m.phone as m_phone,
+    	g.model_number as g_model_number,
+    	gb.name as g_gb_name
+    from terminals t
+    left join pay_channels pc on pc.id=t.pay_channel_id
+    left join merchants m on m.id=t.merchant_id
+    left join goods g on g.id=t.good_id
+    left join good_brands gb on gb.id=g.good_brands_id
+    where t.customer_id=#{param1}
+    order by t.created_at desc
+    limit #{param2.offset}, #{param2.pageSize}
+  </select>
 </mapper>

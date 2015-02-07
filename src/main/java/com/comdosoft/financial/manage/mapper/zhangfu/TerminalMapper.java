@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
 
 public interface TerminalMapper {
@@ -36,4 +38,5 @@ public interface TerminalMapper {
 	int updateByPrimaryKey(Terminal record);
 	
 	long countCustomerTerminals(Integer customerId);
+	List<Terminal> selectCustomerTerminals(Integer customerId,PageRequest request);
 }

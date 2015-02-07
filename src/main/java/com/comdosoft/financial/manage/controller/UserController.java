@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Agent;
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.CityService;
+import com.comdosoft.financial.manage.service.CustomerAgentRelationService;
 import com.comdosoft.financial.manage.service.CustomerService;
+import com.comdosoft.financial.manage.service.MerchantService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.google.common.collect.Lists;
@@ -33,6 +38,10 @@ public class UserController {
 	private CustomerService customerService;
 	@Autowired
 	private TerminalService terminalService;
+	@Autowired
+	private MerchantService merchantService;
+	@Autowired
+	private CustomerAgentRelationService customerAgentRelationService;
 	
 	/**
 	 * 用户列表
@@ -120,5 +129,33 @@ public class UserController {
 		long terminal = terminalService.countCustomerTerminals(id);
 		model.addAttribute("terminal", terminal);
 		return "user/row";
+	}
+	
+	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
+	public String userInfo(@PathVariable Integer id,Model model){
+		Customer customer = customerService.customer(id);
+		model.addAttribute("customer", customer);
+		return "user/info";
+	}
+	
+	@RequestMapping(value="{id}/info/merchants",method=RequestMethod.POST)
+	public String userInfoMerchants(@PathVariable Integer id,Integer page,Model model){
+		Page<Merchant> merchants = merchantService.userMerchantPage(id, page);
+		model.addAttribute("merchants", merchants);
+		return "user/info_merchants";
+	}
+	
+	@RequestMapping(value="{id}/info/terminals",method=RequestMethod.POST)
+	public String userInfoTerminals(@PathVariable Integer id,Integer page,Model model){
+		Page<Terminal> terminals = terminalService.customerTerminalPage(id, page);
+		model.addAttribute("terminals", terminals);
+		return "user/info_terminals";
+	}
+	
+	@RequestMapping(value="{id}/info/agents",method=RequestMethod.POST)
+	public String userInfoAgents(@PathVariable Integer id,Integer page,Model model){
+		Page<Agent> agents = customerAgentRelationService.customerAgents(id, page);
+		model.addAttribute("agents", agents);
+		return "user/info_agents";
 	}
 }
