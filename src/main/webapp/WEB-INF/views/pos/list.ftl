@@ -11,8 +11,7 @@
        <h1>POS机列表</h1> 
        <div class="userTopBtnBox"> 
         <a href="#" class="ghostBtn">评论审核</a> 
-        <a href="#" class="ghostBtn">管理POS机分类</a> 
-        <a href="#" class="ghostBtn">创建POS机分类</a> 
+        <a href="<@spring.url "/pos/category/list" />" class="ghostBtn">管理POS机分类</a> 
        </div> 
       </div> 
       <div class="seenBox clear"> 

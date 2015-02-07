@@ -312,5 +312,11 @@
     from goods 
 		<include refid="pageWhere" />
   </select>
+    <!--类型的商品数-->
+    <select id="countByCategoryId" resultType="long">
+        SELECT count(*) as count
+        FROM goods
+        WHERE pos_category_id = #{param1}
+    </select>
 	
 </mapper>

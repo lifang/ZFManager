@@ -1,8 +1,7 @@
 package com.comdosoft.financial.manage.controller;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -330,7 +329,9 @@ public class PosController {
 	public Response in(@PathVariable Integer id, String data){
 		return Response.getSuccess("");
 	}
-	
+
+
+
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;
@@ -341,6 +342,22 @@ public class PosController {
 		Page<Good> goods = goodService.findPages(page, Constants.PAGE_SIZE, status, keys);
 		model.addAttribute("goods", goods);
 	}
-	
 
+    @RequestMapping(value = "category/list", method = RequestMethod.GET)
+    public String categoryList(Model model) {
+        Collection<PosCategory> categories = posCategoryService.listAll();
+        model.addAttribute("categories", categories);
+        return "pos/categoryList";
+    }
+
+    @RequestMapping(value = "category/{id}/del", method = RequestMethod.GET)
+    @ResponseBody
+    public Response deleteCategory(@PathVariable Integer id) {
+        boolean result = posCategoryService.delete(id);
+        if (!result) {
+            return Response.getError("该分类已被使用");
+        }
+        return Response.getSuccess("");
+
+    }
 }
