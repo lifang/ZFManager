@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,5 +48,18 @@ public class PosCategoryService {
         posCategoryMapper.deleteByPrimaryKey(id);
         return true;
     }
+
+	@Transactional("transactionManager")
+	public PosCategory create(Integer parentId, String name) {
+		PosCategory posCategory = new PosCategory();
+		posCategory.setName(name);
+		if(parentId != null && parentId == 0){
+			posCategory.setParentId(null);
+		} else {
+			posCategory.setParentId(parentId);
+		}
+		posCategory.setCreatedAt(new Date());
+		return posCategory;
+	}
 
 }

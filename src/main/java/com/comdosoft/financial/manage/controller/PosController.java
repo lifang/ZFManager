@@ -358,6 +358,16 @@ public class PosController {
             return Response.getError("该分类已被使用");
         }
         return Response.getSuccess("");
-
     }
+
+	@RequestMapping(value = "category/{id}/create", method = RequestMethod.GET)
+	@ResponseBody
+	public Response createCategory(@PathVariable Integer id) {
+
+		boolean result = posCategoryService.delete(id);
+		if (!result) {
+			return Response.getError("该分类已被使用");
+		}
+		return Response.getSuccess("");
+	}
 }

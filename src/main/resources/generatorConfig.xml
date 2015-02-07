@@ -121,7 +121,9 @@
 		<table tableName="other_requirements" domainObjectName="OtherRequirement" />
 		<table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle" />
 		<table tableName="pay_channels" domainObjectName="PayChannel" />
-		<table tableName="pos_categories" domainObjectName="PosCategory" />
+		<table tableName="pos_categories" domainObjectName="PosCategory">
+			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+		</table>
 		<table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord" />
 		<table tableName="role_menus" domainObjectName="RoleMenu" />
 		<table tableName="roles" domainObjectName="Role" />
