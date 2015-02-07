@@ -3,6 +3,10 @@ $(function(){
 	$("#errorBtn").click(function(){
 		hiddenErrorTip();
 	});
+	
+	$(".errorClose").click(function(){
+		hiddenErrorTip();
+	});
 })
 
 function showErrorTip(message){
@@ -25,7 +29,7 @@ function showErrorTip(message){
 }
 
 function hiddenErrorTip(){
-	$("#errorP"),html("");
+	$("#errorP").html("");
 	$("#errorDiv").css('display','none');
 	$(".mask").css('display','none');
 }

@@ -496,7 +496,7 @@ function isNull(value, error){
 function isNotTwoDecimal(value, error){
 	var re=/^\d+\.\d{2}$/;//2位小数
 	if(value.length>0 && !(re.test(value))){
-		alert(error);
+	 	showErrorTip(error);
 		return true;
 	}
 	return false;

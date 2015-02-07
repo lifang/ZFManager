@@ -151,7 +151,7 @@
 
 <div class="mask"></div>
 <div class="tab" id="errorDiv">
-	<a href="#" class="close">关闭</a>
+	<a href="#" class="close errorClose">关闭</a>
     <div class="tabBody">
     	<p id="errorP"></p>
     </div>
