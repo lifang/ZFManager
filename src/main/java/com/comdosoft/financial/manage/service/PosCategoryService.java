@@ -59,6 +59,7 @@ public class PosCategoryService {
 			posCategory.setParentId(parentId);
 		}
 		posCategory.setCreatedAt(new Date());
+        posCategoryMapper.insert(posCategory);
 		return posCategory;
 	}
 

@@ -360,12 +360,12 @@ public class PosController {
         return Response.getSuccess("");
     }
 
-	@RequestMapping(value = "category/{id}/create", method = RequestMethod.GET)
+	@RequestMapping(value = "category/{parentId}/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Response createCategory(@PathVariable Integer id, String name) {
-		PosCategory posCategory = posCategoryService.create(id, name);
+	public Response createCategory(@PathVariable Integer parentId, String name) {
+		PosCategory posCategory = posCategoryService.create(parentId, name);
 		Response response = Response.getSuccess("");
-        response.setResult(posCategory.getId());
+        response.setResult(posCategory);
         return  response;
 	}
 }
