@@ -81,4 +81,10 @@
     status, good_id, created_at, updated_at, content
     from good_comments
   </select>
+
+    <select id="countByStatus" resultType="long">
+        SELECT count(*) as count
+        FROM good_comments
+        WHERE status = #{status}
+    </select>
 </mapper>

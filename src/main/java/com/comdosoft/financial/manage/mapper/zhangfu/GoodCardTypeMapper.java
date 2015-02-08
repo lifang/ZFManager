@@ -36,6 +36,5 @@ public interface GoodCardTypeMapper {
 	int updateByPrimaryKey(GoodCardType record);
 
 	int deleteByGoodId(Integer goodId);
-	
-	
+
 }

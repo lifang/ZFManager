@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface GoodCommentMapper {
@@ -34,4 +36,6 @@ public interface GoodCommentMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(GoodComment record);
+
+    long countByStatus(@Param("status") Byte status);
 }

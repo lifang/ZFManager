@@ -360,7 +360,7 @@ public class GoodService {
 	   if (channelIdList != null) {
 		   for (Integer channelId : channelIdList) {
 			GoodsPayChannel goodsPayChannel = new GoodsPayChannel();
-			goodsPayChannel.setGoodId(good.getId());;
+			goodsPayChannel.setGoodId(good.getId());
 			goodsPayChannel.setPayChannelId(channelId);
 			goodsPayChannel.setCreateAt(new Date());
 			goodsPayChannelMapper.insert(goodsPayChannel);
@@ -370,7 +370,7 @@ public class GoodService {
 	   if (photoUrlList != null) {
 		   for (String photoUrl : photoUrlList) {
 			GoodsPicture goodsPicture = new GoodsPicture();
-			goodsPicture.setGoodId(good.getId());;
+			goodsPicture.setGoodId(good.getId());
 			goodsPicture.setUrlPath(photoUrl);
 			goodsPicture.setCreatedAt(new Date());
 			goodsPictureMapper.insert(goodsPicture);
@@ -489,7 +489,7 @@ public class GoodService {
 	   if (channelIdList != null) {
 		   for (Integer channelId : channelIdList) {
 			GoodsPayChannel goodsPayChannel = new GoodsPayChannel();
-			goodsPayChannel.setGoodId(good.getId());;
+			goodsPayChannel.setGoodId(good.getId());
 			goodsPayChannel.setPayChannelId(channelId);
 			goodsPayChannel.setCreateAt(new Date());
 			goodsPayChannelMapper.insert(goodsPayChannel);
@@ -500,7 +500,7 @@ public class GoodService {
 	   if (photoUrlList != null) {
 		   for (String photoUrl : photoUrlList) {
 			GoodsPicture goodsPicture = new GoodsPicture();
-			goodsPicture.setGoodId(good.getId());;
+			goodsPicture.setGoodId(good.getId());
 			goodsPicture.setUrlPath(photoUrl);
 			goodsPicture.setCreatedAt(new Date());
 			goodsPictureMapper.insert(goodsPicture);
