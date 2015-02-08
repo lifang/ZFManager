@@ -28,7 +28,7 @@
                     </ul>
                         <div class="cp_add">
                             <p><input name="" type="text"><button class="add_second_btn">确定</button></p>
-                            <p><a href="#" class="ap_add_btn add_second_a"><i></i>添加二级分类</a></p>
+                            <p><a class="ap_add_btn add_second_a"><i></i>添加二级分类</a></p>
                         </div>
                     </dd>
                     <dd><div class="stair"><i></i><span value="${category.id}">${category.name}</span></div>
@@ -41,7 +41,7 @@
                 </ul>
                     <div class="cp_add">
                         <p><input name="" type="text"><button>确定</button></p>
-                        <p><a href="#" class="ap_add_btn add_second_a"><i></i>添加二级分类</a></p>
+                        <p><a class="ap_add_btn add_second_a"><i></i>添加二级分类</a></p>
                     </div>
                 </dd>
             </#if>
@@ -49,7 +49,7 @@
             </#if>
             <div class="cp_add">
                 <p><input name="" type="text"><button>确定</button></p>
-                <p><a href="#" class="ap_add_btn"><i></i>添加一级分类</a></p>
+                <p><a class="ap_add_btn add_first_a"><i></i>添加一级分类</a></p>
             </div>
         </dl>
     </div>
@@ -105,6 +105,27 @@
                     });
         });
 
+        $(".add_first_a").click(function(){
+            var parentId = $(this).parents(".cp_add").prev().prev().children("span").attr("value");
+            var textInput =  $(this).prev();
+            var name = textInput.val();
+            if(name.length == 0){
+                showErrorTip("名称不能为空！");
+                return false;
+            }
+            var ul = $(this).parents(".cp_add").prev();
+            alert(ul.html());
+            $.post('<@spring.url "" />' + '/pos/category/' + id + '/create',
+                    function (data) {
+                        if (data.code == 1) {
+                            var id = data.result;
+                            textInput.val("");
+                            ul.append("<p></p>");
+                        } else if (data.code == -1) {
+                            showErrorTip(data.message);
+                        }
+                    });
+        });
     }
 
 </script>

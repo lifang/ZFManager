@@ -464,7 +464,7 @@ public class Terminal {
 	public void setBillingCyclesId(Integer billingCyclesId) {
 		this.billingCyclesId = billingCyclesId;
 	}
-	
+
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;

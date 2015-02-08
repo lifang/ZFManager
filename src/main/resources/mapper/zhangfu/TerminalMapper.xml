@@ -110,14 +110,14 @@
   	where customer_id=#{customerId}
   </select>
   
-  <resultMap id="CustomerTerminal" extends="BaseResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
-  	<association property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" columnPrefix="m_"></association>
-  	<association property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" columnPrefix="pc_"></association>
-  	<association property="good" resultMap="GoodWithGoodBrand" columnPrefix="g_"></association>
+  <resultMap extends="BaseResultMap" id="CustomerTerminal" type="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
+  	<association columnPrefix="m_" property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" />
+  	<association columnPrefix="pc_" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
+  	<association columnPrefix="g_" property="good" resultMap="GoodWithGoodBrand" />
   </resultMap>
   
-  <resultMap id="GoodWithGoodBrand" type="com.comdosoft.financial.manage.domain.zhangfu.Good" extends="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap">
-  	<association property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" columnPrefix="gb_"></association>
+  <resultMap extends="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" id="GoodWithGoodBrand" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
+  	<association columnPrefix="gb_" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
   </resultMap>
   
   <select id="selectCustomerTerminals" resultMap="CustomerTerminal">

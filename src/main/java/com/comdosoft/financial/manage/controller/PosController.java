@@ -362,12 +362,10 @@ public class PosController {
 
 	@RequestMapping(value = "category/{id}/create", method = RequestMethod.GET)
 	@ResponseBody
-	public Response createCategory(@PathVariable Integer id) {
-
-		boolean result = posCategoryService.delete(id);
-		if (!result) {
-			return Response.getError("该分类已被使用");
-		}
-		return Response.getSuccess("");
+	public Response createCategory(@PathVariable Integer id, String name) {
+		PosCategory posCategory = posCategoryService.create(id, name);
+		Response response = Response.getSuccess("");
+        response.setResult(posCategory.getId());
+        return  response;
 	}
 }

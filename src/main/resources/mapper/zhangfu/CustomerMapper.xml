@@ -105,7 +105,7 @@
     from customers
     where types=#{CUSTOMER} 
     <if test="query != null">
-    <bind name="queryParam" value="'%'+query+'%'"/>
+    <bind name="queryParam" value="'%'+query+'%'" />
     and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
     </if>
     order by created_at desc
@@ -118,7 +118,7 @@
     from customers
     where types=#{CUSTOMER}
     <if test="query != null">
-    <bind name="queryParam" value="'%'+query+'%'"/>
+    <bind name="queryParam" value="'%'+query+'%'" />
     and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
     </if>
   </select>
