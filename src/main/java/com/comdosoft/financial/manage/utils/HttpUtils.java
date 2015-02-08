@@ -65,7 +65,7 @@ public class HttpUtils {
 			headers.forEach((k,v)->{
 				builder.addHeader(k, v);
 			});
-		};
+		}
 		//是否需要上传文件
 		if(!CollectionUtils.isEmpty(fileParams)){
 			if(!CollectionUtils.isEmpty(params)) {
