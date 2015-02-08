@@ -116,6 +116,7 @@ $(function(){
 	popup(".replace_tab",".replace_a");//换货
 	popup(".assign_tab",".assign_a");//分派
 	popup(".danger_tab",".danger_a");//风险标签
+	popup(".errorTab",".error_a");//错误提示弹层
 })
 
 
@@ -363,3 +364,27 @@ $(function(){
 		$(".su_con > div").eq(index).siblings(".su_con > div").hide().end().fadeIn(300);
    });
 });
+
+//运营帐号  管理角色  创建
+function creationRole(t,b){
+	var n = 0;
+	$(t).click(function(){
+		if(n==0){
+			$(b).css("display","none");
+			$(this).parent().find("i").addClass("rotate");
+			n=1;
+		}else if(n==1){
+			$(b).css("display","block");
+			$(this).parent().find("i").removeClass("rotate");
+			n=0;
+		}
+	});
+}
+$(function(){
+	creationRole(".cr_first span",".cr_first_con");//一级
+	creationRole(".cr_second span",".cr_second_con");//二级
+	creationRole(".cr_third span",".cr_three");//三级
+})
+
+
+
