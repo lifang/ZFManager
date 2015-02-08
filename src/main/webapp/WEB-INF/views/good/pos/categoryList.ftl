@@ -1,5 +1,12 @@
-<#import "../common.ftl" as c />
+<#import "../../common.ftl" as c />
 <@c.html>
+<div class="breadcrumb">
+    <ul>
+        <li><a href="#">商品</a></li>
+        <li><a href="#">POS机管理</a></li>
+        <li><a href="#">管理POS机分类</a></li>
+    </ul>
+</div>
 <div class="content clear">
     <div class="user_title"><h1>管理POS机分类</h1>
     </div>
@@ -58,7 +65,7 @@
             if(confirm("确定要删除该分类吗？")){
                 var id = $(this).attr("value");
                 var p =  $(this).parent();
-                $.get('<@spring.url "" />' + '/pos/category/' + id + '/del',
+                $.get('<@spring.url "" />' + '/good/pos/category/' + id + '/del',
                         function (data) {
                             if (data.code == 1) {
                                 p.remove();
@@ -85,7 +92,7 @@
                 return false;
             }
             var ul = $(this).parents(".cp_add").prev();
-            $.post('<@spring.url "" />' + '/pos/category/' + parentId + '/create',
+            $.post('<@spring.url "" />' + '/good/pos/category/' + parentId + '/create',
                     {'name':name},
                     function (data) {
                         if (data.code == 1) {
@@ -106,7 +113,7 @@
                 return false;
             }
             var dd = $(this).parents(".cp_add").prev();
-            $.post('<@spring.url "" />' + '/pos/category/0/create',
+            $.post('<@spring.url "/good/pos/category/0/create" />',
                     {'name':name},
                     function (data) {
                         if (data.code == 1) {
@@ -125,11 +132,4 @@
 
     })
 </script>
-<div class="breadcrumb">
-    <ul>
-        <li><a href="#">商品</a></li>
-        <li><a href="#">POS机管理</a></li>
-        <li><a href="#">管理POS机分类</a></li>
-    </ul>
-</div>
 </@c.html>
