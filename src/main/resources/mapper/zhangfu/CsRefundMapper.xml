@@ -21,7 +21,6 @@
     <result column="process_user_id" jdbcType="INTEGER" property="processUserId" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="refund_marks_id" jdbcType="INTEGER" property="refundMarksId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -40,14 +39,14 @@
       payee, payee_phone, bank_name, 
       bank_account, return_price, return_voucher_file_path, 
       status, types, process_user_name, 
-      process_user_id, created_at, updated_at, 
-      refund_marks_id)
+      process_user_id, created_at, updated_at
+      )
     values (#{id,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, 
       #{payee,jdbcType=VARCHAR}, #{payeePhone,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
       #{bankAccount,jdbcType=VARCHAR}, #{returnPrice,jdbcType=INTEGER}, #{returnVoucherFilePath,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{types,jdbcType=TINYINT}, #{processUserName,jdbcType=VARCHAR}, 
-      #{processUserId,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{refundMarksId,jdbcType=INTEGER})
+      #{processUserId,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsRefund">
     <!--
@@ -68,8 +67,7 @@
       process_user_name = #{processUserName,jdbcType=VARCHAR},
       process_user_id = #{processUserId,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      refund_marks_id = #{refundMarksId,jdbcType=INTEGER}
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -79,7 +77,7 @@
     -->
     select id, target_id, target_type, payee, payee_phone, bank_name, bank_account, return_price, 
     return_voucher_file_path, status, types, process_user_name, process_user_id, created_at, 
-    updated_at, refund_marks_id
+    updated_at
     from cs_refunds
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -90,7 +88,7 @@
     -->
     select id, target_id, target_type, payee, payee_phone, bank_name, bank_account, return_price, 
     return_voucher_file_path, status, types, process_user_name, process_user_id, created_at, 
-    updated_at, refund_marks_id
+    updated_at
     from cs_refunds
   </select>
 </mapper>

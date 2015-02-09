@@ -37,5 +37,5 @@ public interface GoodCommentMapper {
 	 */
 	int updateByPrimaryKey(GoodComment record);
 
-    long countByStatus(@Param("status") Byte status);
+	long countByStatus(@Param("status") Byte status);
 }

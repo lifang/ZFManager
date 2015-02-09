@@ -52,7 +52,7 @@
 		<table tableName="cs_agents" domainObjectName="CsAgent" />
 		<table tableName="cs_cancel_marks" domainObjectName="CsCancelMark" />
 		<table tableName="cs_cancels" domainObjectName="CsCancel" />
-		<table tableName="cs_changel_marks" domainObjectName="CsChangelMark" />
+		<table tableName="cs_change_marks" domainObjectName="CsChangeMark" />
 		<table tableName="cs_changes" domainObjectName="CsChange" />
 		<table tableName="cs_lease_return_marks" domainObjectName="CsLeaseReturnMark" />
 		<table tableName="cs_lease_returns" domainObjectName="CsLeaseReturn" />
