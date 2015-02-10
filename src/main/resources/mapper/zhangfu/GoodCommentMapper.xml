@@ -81,14 +81,21 @@
         FROM good_comments
         WHERE status = #{status}
     </select>
-    <select id="findPageCommentsByStatus" resultType="com.comdosoft.financial.manage.domain.zhangfu.GoodComment">
-        select *
+
+    <resultMap extends="BaseResultMap" id="CommentInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodComment">
+        <association property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.GoodInfoLazyResultMap" columnPrefix="g_" fetchType="lazy" />
+        <association property="channel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" columnPrefix="pc_" />
+    </resultMap>
+
+    <select id="findPageCommentsByStatus" resultMap="CommentInfoResultMap">
+        select *,
+        g.id g_id, g.title g_title, g.second_title g_second_title, g.model_number g_model_number, g.good_brands_id g_good_brands_id,
+        pc.id pc_id, pc.name pc_name
         from good_comments gc
-        inner join orders o on o.id=gc.order_id
-        inner join goods g on g.id=gc.good_id
-        inner join order_goods og on og.order_id=o.id
+        inner join order_goods og on og.id=gc.order_good_id
+        inner join goods g on g.id=og.good_id
         inner join pay_channels pc on pc.id=og.pay_channel_id
         where gc.status=#{status}
-		order by gc.created_at limit #{pageRequest.offset}, #{pageRequest.pageSize}
+        order by gc.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
     </select>
 </mapper>

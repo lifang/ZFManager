@@ -34,4 +34,6 @@ public interface DictionaryCardTypeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(DictionaryCardType record);
+
+    List<DictionaryCardType> selectCardTypes(Integer goodId);
 }

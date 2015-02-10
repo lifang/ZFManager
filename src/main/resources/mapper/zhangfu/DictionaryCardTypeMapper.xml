@@ -55,4 +55,11 @@
     select id, card_type, created_at
     from dictionary_card_types
   </select>
+
+    <!--获取商品对应的银行卡类型 -->
+    <select id="selectCardTypes" resultMap="BaseResultMap">
+        select dct.id, dct.card_type
+        from good_card_types gct inner join dictionary_card_types dct on gct.card_type_id=dct.id
+        where gct.good_id = #{param1}
+    </select>
 </mapper>

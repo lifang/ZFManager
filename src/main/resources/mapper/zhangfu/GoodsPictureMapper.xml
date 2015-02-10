@@ -62,4 +62,11 @@
     delete from goods_pictures 
     	where good_id = #{param1}
   </delete>
+
+    <!--获取商品对应的图片 -->
+    <select id="selectPictures" resultMap="BaseResultMap">
+        select gpic.id, gpic.url_path
+        from goods_pictures gpic
+        where gpic.good_id = #{param1}
+    </select>
 </mapper>

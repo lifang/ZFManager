@@ -82,8 +82,8 @@
         <li><a href="<@spring.url "/real/trade"/>" target="map">全国交易实时统计</a></li>
         <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
             <ol>
-                <li><a href="<@spring.url "/pos/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li>
-                <li><a href="<@spring.url "/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li>
+                <li><a href="<@spring.url "/good/pos/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li>
+                <li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li>
             </ol>
         </li>
         <li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户</a></li>

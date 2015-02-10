@@ -51,4 +51,8 @@ public interface GoodMapper {
 	List<Good> selectByStatusAndName(@Param("status") Byte status, @Param("keys") String keys);
 
     long countByCategoryId(Integer categoryId);
+
+    List<Good> selectRelativeGoods(Integer goodId);
+
+    Good selectById(Integer id);
 }

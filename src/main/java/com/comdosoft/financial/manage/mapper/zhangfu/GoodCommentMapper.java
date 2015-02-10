@@ -41,5 +41,5 @@ public interface GoodCommentMapper {
 	long countByStatus(@Param("status") Byte status);
 
     List<GoodComment> findPageCommentsByStatus(@Param("pageRequest") PageRequest pageRequest,
-                                               @Param("status") Byte statuss);
+                                               @Param("status") Byte status);
 }

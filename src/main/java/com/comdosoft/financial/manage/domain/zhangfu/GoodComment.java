@@ -214,7 +214,29 @@ public class GoodComment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public static final byte STATUS_WAITING = 1;	// 待审核
-    public static final byte STATUS_CHECKED = 2;	// 审核通过
-    public static final byte STATUS_DELETE = 3;		// 删除
+
+
+	public static final Byte STATUS_WAITING = 1;	// 待审核
+    public static final Byte STATUS_CHECKED = 2;	// 审核通过
+    public static final Byte STATUS_DELETE = 3;		// 删除
+
+    public Good good;
+    public PayChannel channel;
+
+    public Good getGood() {
+        return good;
+    }
+
+    public void setGood(Good good) {
+        this.good = good;
+    }
+
+    public PayChannel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(PayChannel channel) {
+        this.channel = channel;
+    }
+
 }

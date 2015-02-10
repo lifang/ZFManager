@@ -17,6 +17,7 @@
 		p:maxPoolPreparedStatementPerConnectionSize="20" />
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:configLocation="classpath:mybaits.xml"
 		p:dataSource-ref="dataSource"
 		p:mapperLocations="classpath:mapper/zhangfu/*.xml" />
 
@@ -42,6 +43,7 @@
 		p:maxPoolPreparedStatementPerConnectionSize="20" />
 
 	<bean id="sqlSessionFactory-trades" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:configLocation="classpath:mybaits.xml"
 		p:dataSource-ref="dataSource-trades"
 		p:mapperLocations="classpath:mapper/trades/*.xml" />
 

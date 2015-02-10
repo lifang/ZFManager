@@ -352,8 +352,11 @@ public class PosController {
         return  response;
 	}
 
-    @RequestMapping(value = "/waitComment", method = RequestMethod.POST)
+    @RequestMapping(value = "/waitComment", method = RequestMethod.GET)
     public String waitComments(Integer page, Model model) {
+        if (page == null) {
+            page = 1;
+        }
         Page<GoodComment> comments = goodCommentService.findWaitingPages(page, Constants.PAGE_COMMENT_SIZE);
         model.addAttribute("comments", comments);
         return  "good/pos/waitCommentList";

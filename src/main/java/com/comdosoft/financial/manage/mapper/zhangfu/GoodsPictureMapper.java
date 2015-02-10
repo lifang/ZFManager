@@ -36,4 +36,7 @@ public interface GoodsPictureMapper {
 	int updateByPrimaryKey(GoodsPicture record);
 
 	void deleteByGoodId(Integer goodId);
+
+    List<GoodsPicture> selectPictures(Integer goodId);
+
 }

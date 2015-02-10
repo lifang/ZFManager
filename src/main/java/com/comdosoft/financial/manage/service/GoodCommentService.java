@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.service;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodCommentMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import java.util.List;
 public class GoodCommentService {
     @Autowired
     private GoodCommentMapper goodCommentMapper;
-
+    @Autowired
+    private GoodMapper goodMapper;
     public long countComments(Byte status){
         return goodCommentMapper.countByStatus(status);
     }
@@ -30,6 +32,7 @@ public class GoodCommentService {
             return new Page<GoodComment>(new PageRequest(1, pageSize), new ArrayList<GoodComment>(), count);
         }
         List<GoodComment> result = goodCommentMapper.findPageCommentsByStatus(request, GoodComment.STATUS_WAITING);
+        Good good = goodMapper.selectById(result.get(0).getId());
         Page<GoodComment> comments = new Page<GoodComment>(request, result, count);
         return comments;
     }

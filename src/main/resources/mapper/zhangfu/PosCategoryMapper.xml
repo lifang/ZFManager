@@ -60,4 +60,5 @@
     select id, name, parent_id, created_at
     from pos_categories
   </select>
+
 </mapper>
