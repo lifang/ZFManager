@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,4 +39,7 @@ public interface GoodCommentMapper {
 	int updateByPrimaryKey(GoodComment record);
 
 	long countByStatus(@Param("status") Byte status);
+
+    List<GoodComment> findPageCommentsByStatus(@Param("pageRequest") PageRequest pageRequest,
+                                               @Param("status") Byte statuss);
 }
