@@ -83,7 +83,7 @@
     </select>
 
     <resultMap extends="BaseResultMap" id="CommentInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodComment">
-        <association property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.GoodInfoLazyResultMap" columnPrefix="g_" fetchType="lazy" />
+        <association property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.GoodInfoLazyResultMap" columnPrefix="g_" />
         <association property="channel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" columnPrefix="pc_" />
     </resultMap>
 
