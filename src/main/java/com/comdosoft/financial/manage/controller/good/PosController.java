@@ -369,7 +369,7 @@ public class PosController {
         return  response;
 	}
 
-    @RequestMapping(value = "category/{parentId}/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/waitComment", method = RequestMethod.POST)
     public String waitComments(Model model) {
         return  "";
     }
