@@ -32,7 +32,8 @@ public class GoodCommentService {
             return new Page<GoodComment>(new PageRequest(1, pageSize), new ArrayList<GoodComment>(), count);
         }
         List<GoodComment> result = goodCommentMapper.findPageCommentsByStatus(request, GoodComment.STATUS_WAITING);
-        Good good = goodMapper.selectById(result.get(0).getId());
+        System.out.println(result.get(0).getGood().getChannels());
+        Good good = goodMapper.selectById(result.get(0).getOrderGoodId());
         Page<GoodComment> comments = new Page<GoodComment>(request, result, count);
         return comments;
     }
