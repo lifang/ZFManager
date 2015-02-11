@@ -67,7 +67,7 @@ public class HttpUtils {
 			});
 		}
 		//是否需要上传文件
-		if(!CollectionUtils.isEmpty(fileParams)){
+		if(CollectionUtils.isEmpty(fileParams)){
 			if(!CollectionUtils.isEmpty(params)) {
 				params.forEach((k,v)->{
 					builder.addParameter(k, v);

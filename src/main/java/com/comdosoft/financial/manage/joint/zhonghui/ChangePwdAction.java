@@ -1,17 +1,17 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
+import java.io.InputStream;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.AbstractHandler;
+import com.comdosoft.financial.manage.joint.JointResult;
 
-public class UpdatePwdAction extends RequireLoginAction {
+public class ChangePwdAction extends RequireLoginAction {
 	
 	private String newPassword;// 登录名或者手机号码
 	private String password;
 	private String reqNo;
 
-	public UpdatePwdAction(String newPassword, String password, String reqNo) {
-		super();
+	public ChangePwdAction(String newPassword, String password, String reqNo) {
 		this.newPassword = newPassword;
 		this.password = password;
 		this.reqNo = reqNo;
@@ -27,20 +27,20 @@ public class UpdatePwdAction extends RequireLoginAction {
 	}
 
 	@Override
-	public AbstractHandler handler() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void action() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String url() {
 		return "/user/changePassword";
+	}
+
+	@Override
+	public void handle(JointResult result) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected JointResult parseResult(Map<String, String> headers,
+			InputStream stream) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

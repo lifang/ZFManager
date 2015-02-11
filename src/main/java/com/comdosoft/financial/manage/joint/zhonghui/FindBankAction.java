@@ -5,29 +5,35 @@ import java.util.Map;
 
 import com.comdosoft.financial.manage.joint.JointResult;
 
-public class ReplaceDeviceAction extends RequireLoginAction {
+public class FindBankAction extends Action {
 	
-	private String ksnNo;
-	private String reqNo;
-	
-	public ReplaceDeviceAction(String ksnNo, String reqNo) {
-		super();
-		this.ksnNo = ksnNo;
-		this.reqNo = reqNo;
-	}
+	private String keyword;
+	private int max=20;
+	private int p;
 
+	public FindBankAction(String keyword, int max, int p) {
+		this.keyword = keyword;
+		this.max = max;
+		this.p = p;
+	}
+	
+	public FindBankAction(String keyword, int p) {
+		this.keyword = keyword;
+		this.p = p;
+	}
+	
 	@Override
 	public Map<String, String> params() {
 		Map<String, String> params = createParams();
-		params.put("ksnNo", ksnNo);
-		params.put("reqNo", reqNo);
-		params.put("model","zfmini");
+		params.put("p", Integer.toString(p));
+		params.put("max", Integer.toString(max));
+		params.put("keyword", keyword);
 		return params;
 	}
 
 	@Override
 	public String url() {
-		return "/swiper/change";
+		return "/bank/query";
 	}
 
 	@Override

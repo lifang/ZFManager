@@ -556,4 +556,9 @@ public class Order {
 	public void setInvoiceInfo(String invoiceInfo) {
 		this.invoiceInfo = invoiceInfo;
 	}
+	
+	/**
+	 * 用户订单
+	 */
+	public static final byte TYPE_CUSTOMER = 0;
 }

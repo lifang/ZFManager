@@ -1,33 +1,30 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 
 import com.comdosoft.financial.manage.joint.JointResult;
+import com.google.common.collect.Maps;
 
-public class ReplaceDeviceAction extends RequireLoginAction {
+public class SignAuthAction extends Action {
 	
-	private String ksnNo;
-	private String reqNo;
-	
-	public ReplaceDeviceAction(String ksnNo, String reqNo) {
-		super();
-		this.ksnNo = ksnNo;
-		this.reqNo = reqNo;
+	private File signature;
+
+	public SignAuthAction(File signature) {
+		this.signature = signature;
 	}
 
 	@Override
-	public Map<String, String> params() {
-		Map<String, String> params = createParams();
-		params.put("ksnNo", ksnNo);
-		params.put("reqNo", reqNo);
-		params.put("model","zfmini");
-		return params;
+	public Map<String, File> fileParams() {
+		Map<String, File> fileParams = Maps.newHashMap();
+		fileParams.put("signature", signature);
+		return fileParams;
 	}
 
 	@Override
 	public String url() {
-		return "/swiper/change";
+		return "/user/signatureAuth";
 	}
 
 	@Override

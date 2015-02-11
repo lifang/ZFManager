@@ -10,7 +10,7 @@
     <div class="user_title">
         <h1>用户订单列表</h1>
         <div class="userTopBtnBox">
-            <a href="#" class="ghostBtn">创建订单</a>
+            <a href="<@spring.url "/order/user/create"/>" class="ghostBtn">创建订单</a>
         </div>
     </div>
     <div class="seenBox clear">
@@ -59,7 +59,7 @@
             <tr>
                 <td>
                     <div class="td_proBox clear">
-                        <a href="#" class="cn_img"><img src="images/c.jpg" /></a>
+                        <a href="#" class="cn_img"><img src="<@spring.url "/resources/images/c.jpg"/>" /></a>
                         <div class="td_proBox_info">
                             <h1><a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a></h1>
                             <h3>热销5000件</h3>
@@ -87,7 +87,7 @@
             <tr>
                 <td>
                     <div class="td_proBox clear">
-                        <a href="#" class="cn_img"><img src="images/c.jpg" /></a>
+                        <a href="#" class="cn_img"><img src="<@spring.url "/resources/images/c.jpg"/>" /></a>
                         <div class="td_proBox_info">
                             <h1><a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a></h1>
                             <h3>热销5000件</h3>

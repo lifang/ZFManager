@@ -12,4 +12,9 @@ public class UserOrderController {
 	public String list(){
 		return "order/user/list";
 	}
+
+    @RequestMapping(value="create",method = RequestMethod.GET)
+    public String createGet(){
+        return "order/user/create";
+    }
 }

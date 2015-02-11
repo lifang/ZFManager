@@ -1,9 +1,10 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.AbstractHandler;
+import com.comdosoft.financial.manage.joint.JointResult;
 import com.google.common.collect.Maps;
 
 public class AccountAuthAction extends RequireLoginAction {
@@ -43,19 +44,19 @@ public class AccountAuthAction extends RequireLoginAction {
 	}
 
 	@Override
-	public AbstractHandler handler() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void action() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String url() {
 		return "/user/accountAuth";
+	}
+
+	@Override
+	public void handle(JointResult result) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected JointResult parseResult(Map<String, String> headers,
+			InputStream stream) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
