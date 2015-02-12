@@ -7,7 +7,7 @@ public class FindBankAction extends Action {
 	
 	private String keyword;
 	private int max=20;
-	private int p;
+	private int p=1;
 
 	public FindBankAction(String keyword, int max, int p) {
 		this.keyword = keyword;
@@ -18,6 +18,10 @@ public class FindBankAction extends Action {
 	public FindBankAction(String keyword, int p) {
 		this.keyword = keyword;
 		this.p = p;
+	}
+	
+	public FindBankAction(String keyword) {
+		this.keyword = keyword;
 	}
 	
 	@Override
@@ -40,6 +44,7 @@ public class FindBankAction extends Action {
 	}
 
 	public static class BankResult extends Result{
+		private String tip;
 		private int total;
 		private List<Bank> banks;
 		
@@ -54,6 +59,12 @@ public class FindBankAction extends Action {
 		}
 		public void setBanks(List<Bank> banks) {
 			this.banks = banks;
+		}
+		public String getTip() {
+			return tip;
+		}
+		public void setTip(String tip) {
+			this.tip = tip;
 		}
 	}
 	

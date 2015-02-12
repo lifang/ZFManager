@@ -6,9 +6,9 @@ public class Transaction {
 	private String transType;
 	private String voucherNo;
 	private String respCode;
-	private String amount;
+	private int amount;
 	private String currency;
-	private String feeAmount;
+	private int feeAmount;
 	private String transTime;
 	private String refNo;
 	private String authNo;
@@ -43,10 +43,10 @@ public class Transaction {
 	public void setRespCode(String respCode) {
 		this.respCode = respCode;
 	}
-	public String getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public String getCurrency() {
@@ -55,10 +55,10 @@ public class Transaction {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	public String getFeeAmount() {
+	public int getFeeAmount() {
 		return feeAmount;
 	}
-	public void setFeeAmount(String feeAmount) {
+	public void setFeeAmount(int feeAmount) {
 		this.feeAmount = feeAmount;
 	}
 	public String getTransTime() {

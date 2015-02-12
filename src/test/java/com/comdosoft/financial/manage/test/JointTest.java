@@ -3,14 +3,8 @@ package com.comdosoft.financial.manage.test;
 import java.io.File;
 import java.io.IOException;
 
-import com.comdosoft.financial.manage.joint.zhonghui.AccountAuthAction;
 import com.comdosoft.financial.manage.joint.zhonghui.Action;
-import com.comdosoft.financial.manage.joint.zhonghui.Const;
-import com.comdosoft.financial.manage.joint.zhonghui.FindBankAction;
-import com.comdosoft.financial.manage.joint.zhonghui.LoginAction;
 import com.comdosoft.financial.manage.joint.zhonghui.MerchantAuthAction;
-import com.comdosoft.financial.manage.joint.zhonghui.RealnameAuthAction;
-import com.comdosoft.financial.manage.joint.zhonghui.SignAuthAction;
 
 public class JointTest {
 	
@@ -25,13 +19,15 @@ public class JointTest {
 //		Action action = new RealnameAuthAction("13862223435","gookin","460,0,6157,55153",
 //				"gookin", "32021919851202222x", new File("f:/test1.png"), new File("f:/test1.png"));
 		//{"respTime":"20150211160010","isSuccess":true,"respCode":"SUCCESS","respMsg":"成功","reqNo":"10"}
-//		Action action = new MerchantAuthAction("13862223435","gookin","460,0,6157,55153",
-//				"gookincompany公司", "suzhou", "licence",
-//				new File("f:/test1.png"), new File("f:/test1.png"), new File("f:/test1.png"));
+		Action action = new MerchantAuthAction("13862223435","gookin","460,0,6157,55153",
+				"gookincompany公司", "suzhou", "licence",
+				new File("f:/test1.png"), new File("f:/test1.png"), new File("f:/test1.png"));
 //		Action action = new AccountAuthAction("13862223435","gookin","460,0,6157,55153","test",
 //				"6222021102020111111", "gookin","test",new File("f:/test1.png"));
 //		Action action = new SignAuthAction("13862223435","gookin","460,0,6157,55153",new File("f:/test1.png"));
-		Action action = new FindBankAction("银行", 1);
+//		Action action = new FindBankAction("中国工商银行苏州");
+//		Action action = new LastTrans("13862223435","gookin","460,0,6157,55153");
+//		Action action = new LastTenTrans("13862223435","gookin","460,0,6157,55153");
 		Action.acts(action.setHandler((result)->{
 			System.out.println(result);
 		}));
