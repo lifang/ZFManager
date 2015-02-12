@@ -2,10 +2,10 @@ package com.comdosoft.financial.manage.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,7 +32,9 @@ public class HttpUtils {
 	
 	private HttpUtils(){}
 	
-	private static HttpClient client = HttpClients.createDefault();
+	private static final HttpClient client = HttpClients.createDefault();
+	private static final Charset DEFAULT_CHARSET = Constants.DEFAULT_CHARSET;
+	private static final ContentType TEXT_CONTENT_TYPE = ContentType.create("text/plain", DEFAULT_CHARSET);
 
 	/**
 	 * get请求
@@ -115,15 +118,15 @@ public class HttpUtils {
 					parameters.add(new BasicNameValuePair(k, v));
 				});
 			}
-			entity = new UrlEncodedFormEntity(parameters, Consts.UTF_8);
+			entity = new UrlEncodedFormEntity(parameters, DEFAULT_CHARSET);
 		}else {
-			MultipartEntityBuilder multiBuilder = MultipartEntityBuilder.create().setCharset(Consts.UTF_8);
+			MultipartEntityBuilder multiBuilder = MultipartEntityBuilder.create().setCharset(DEFAULT_CHARSET);
 			fileParams.forEach((k,v)->{
 				multiBuilder.addBinaryBody(k, v);
 			});
 			if(!CollectionUtils.isEmpty(params)) {
 				params.forEach((k,v)->{
-					multiBuilder.addTextBody(k, v);
+					multiBuilder.addTextBody(k, v, TEXT_CONTENT_TYPE);
 				});
 			}
 			entity = multiBuilder.build();
