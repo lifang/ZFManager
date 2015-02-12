@@ -1,21 +1,25 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.JointResult;
 import com.google.common.collect.Maps;
 
-public class RealnameAuthAction extends Action {
+/**
+ * 实名认证
+ * @author wu
+ *
+ */
+public class RealnameAuthAction extends RequireLoginAction {
 	
 	private String name;
 	private String idNumber;
 	private File personal;
 	private File personalBack;
 
-	public RealnameAuthAction(String name, String idNumber, File personal,
-			File personalBack) {
+	public RealnameAuthAction(String phoneNum, String password, String position,
+			String name, String idNumber, File personal, File personalBack) {
+		super(phoneNum, password, position);
 		this.name = name;
 		this.idNumber = idNumber;
 		this.personal = personal;
@@ -23,7 +27,7 @@ public class RealnameAuthAction extends Action {
 	}
 
 	@Override
-	public Map<String, String> params() {
+	protected Map<String, String> params() {
 		Map<String, String> params = createParams();
 		params.put("name",name);
 		params.put("idNumber", idNumber);
@@ -31,7 +35,7 @@ public class RealnameAuthAction extends Action {
 	}
 
 	@Override
-	public Map<String, File> fileParams() {
+	protected Map<String, File> fileParams() {
 		Map<String, File> fileParams = Maps.newHashMap();
 		fileParams.put("personal", personal);
 		fileParams.put("personalBack", personalBack);
@@ -44,15 +48,8 @@ public class RealnameAuthAction extends Action {
 	}
 
 	@Override
-	public void handle(JointResult result) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
-			InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Class<? extends Result> getResultType() {
+		return Result.class;
 	}
 
 }

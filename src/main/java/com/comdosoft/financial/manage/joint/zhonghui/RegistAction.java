@@ -1,12 +1,15 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.JointResult;
 import com.google.common.collect.Maps;
 
+/**
+ * 注册
+ * @author wu
+ *
+ */
 public class RegistAction extends Action {
 	
 	private String ksnNo;			//硬件标识号
@@ -33,7 +36,7 @@ public class RegistAction extends Action {
 	}
 
 	@Override
-	public Map<String, String> params() {
+	protected Map<String, String> params() {
 		Map<String, String> params = createParams();
 		params.put("ksnNo", ksnNo);
 		params.put("name", name);
@@ -46,7 +49,7 @@ public class RegistAction extends Action {
 	}
 
 	@Override
-	public Map<String, File> fileParams() {
+	protected Map<String, File> fileParams() {
 		Map<String, File> fileParams = Maps.newHashMap();
 		fileParams.put("signature", signature);
 		return fileParams;
@@ -58,15 +61,7 @@ public class RegistAction extends Action {
 	}
 
 	@Override
-	public void handle(JointResult result) {
-		// TODO Auto-generated method stub
+	protected Class<? extends Result> getResultType() {
+		return Result.class;
 	}
-
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
-			InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

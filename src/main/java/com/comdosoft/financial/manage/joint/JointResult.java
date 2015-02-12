@@ -2,9 +2,13 @@ package com.comdosoft.financial.manage.joint;
 
 public interface JointResult {
 	
-	int RESULT_SUCCESS = 1;
-	int RESULT_FAIL = 9;
+	static final int RESULT_SUCCESS = 1;
+	static final int RESULT_FAIL = 9;
 	
 	int getResult();
+	
+	boolean isSuccess();
+	
+	String getMsg();
 
 }

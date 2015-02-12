@@ -11,9 +11,13 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 public class HttpUtils {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
 	
 	private HttpUtils(){}
 	
@@ -31,7 +35,9 @@ public class HttpUtils {
 	public static <T> T get(String url,Map<String,String> headers,
 			Map<String,String> params,ResponseHandler<T> handler) throws IOException{
 		RequestBuilder builder = RequestBuilder.get();
+		builder.setUri(url);
 		HttpUriRequest request = request(builder,headers,params,null);
+		LOG.debug("request:{}",request);
 		return response(request, handler);
 	}
 	
@@ -48,7 +54,9 @@ public class HttpUtils {
 	public static <T> T post(String url,Map<String,String> headers,
 			Map<String,String> params,Map<String,File> fileParams,ResponseHandler<T> handler) throws IOException{
 		RequestBuilder builder = RequestBuilder.post();
+		builder.setUri(url);
 		HttpUriRequest request = request(builder,headers,params,fileParams);
+		LOG.debug("request:{}",request);
 		return response(request, handler);
 	}
 	

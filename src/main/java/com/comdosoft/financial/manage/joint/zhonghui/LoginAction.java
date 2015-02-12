@@ -1,28 +1,39 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.comdosoft.financial.manage.joint.JointResult;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+/**
+ * 登陆
+ * @author wu
+ *
+ */
 public class LoginAction extends Action {
 	
 	private String phoneNum;
 	private String password;
-	private LoginResult loginResult;
+	private String position;
+	private String appVersion;
+	private String product;
 	
-	public LoginAction(String phone,String password) {
-		this.phoneNum = phone;
+	public LoginAction(String phoneNum, String password, String position,
+			String appVersion, String product) {
+		this.phoneNum = phoneNum;
 		this.password = password;
+		this.position = position;
+		this.appVersion = appVersion;
+		this.product = product;
 	}
 
 	@Override
-	public Map<String, String> params() {
+	protected Map<String, String> params() {
 		Map<String, String> params = createParams();
 		params.put("loginName", phoneNum);
 		params.put("password", password);
+		params.put("position", position);
+		params.put("appVersion", appVersion);
+		params.put("product", product);
 		return params;
 	}
 
@@ -32,42 +43,23 @@ public class LoginAction extends Action {
 	}
 
 	@Override
-	public void handle(JointResult result) {
-		this.loginResult = (LoginResult) result;
-	}
-
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
+	protected Result parseResult(Map<String, String> headers,
 			InputStream stream) {
-		LoginResult result = null;
-		String session = headers.get("WSHSNO");
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			result = mapper.readValue(stream, LoginResult.class);
-			if(result.isSuccess){
-				result.result = JointResult.RESULT_SUCCESS;
-			}
+		LoginResult result = (LoginResult)super.parseResult(headers, stream);
+		if(result != null) {
+			String session = headers.get("WSHSNO");
 			result.session = session;
-		} catch (IOException e) {
-			result = new LoginResult();
-			e.printStackTrace();
 		}
 		return result;
 	}
-	
-	public LoginResult getLoginResult() {
-		return loginResult;
-	}
 
-	public static class LoginResult implements JointResult {
-		
-		private int result = JointResult.RESULT_FAIL;
+	@Override
+	protected Class<? extends Result> getResultType() {
+		return LoginResult.class;
+	}
+	
+	public static class LoginResult extends Result {
 		private String session;
-		private String respTime;
-		private boolean isSuccess;
-		private String respCode;
-		private String respMsg;
-		private int respNo;
 		private String status;
 		private String name;
 		private String cardTail;
@@ -77,34 +69,13 @@ public class LoginAction extends Action {
 		private String model;
 		private String serialType;
 		private int nextReqNo;
-
-		@Override
-		public int getResult() {
-			return result;
-		}
+		private String bluetoothName;
+		private boolean isBluetooth;
+		private Map<String,Object> argument;
+		private AtomicInteger atomicReqNo;
 
 		public String getSession() {
 			return session;
-		}
-
-		public String getRespTime() {
-			return respTime;
-		}
-
-		public boolean isSuccess() {
-			return isSuccess;
-		}
-
-		public String getRespCode() {
-			return respCode;
-		}
-
-		public String getRespMsg() {
-			return respMsg;
-		}
-
-		public int getRespNo() {
-			return respNo;
 		}
 
 		public String getStatus() {
@@ -140,9 +111,70 @@ public class LoginAction extends Action {
 		}
 
 		public int getNextReqNo() {
-			return nextReqNo;
+			if(atomicReqNo == null) {
+				atomicReqNo = new AtomicInteger(nextReqNo);
+			}
+			return atomicReqNo.getAndIncrement();
 		}
-		
-	}
 
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public void setCardTail(String cardTail) {
+			this.cardTail = cardTail;
+		}
+
+		public void setKsnNo(String ksnNo) {
+			this.ksnNo = ksnNo;
+		}
+
+		public void setSessionKey(String sessionKey) {
+			this.sessionKey = sessionKey;
+		}
+
+		public void setKeyCheck(String keyCheck) {
+			this.keyCheck = keyCheck;
+		}
+
+		public void setModel(String model) {
+			this.model = model;
+		}
+
+		public void setSerialType(String serialType) {
+			this.serialType = serialType;
+		}
+
+		public void setNextReqNo(int nextReqNo) {
+			this.nextReqNo = nextReqNo;
+		}
+
+		public String getBluetoothName() {
+			return bluetoothName;
+		}
+
+		public void setBluetoothName(String bluetoothName) {
+			this.bluetoothName = bluetoothName;
+		}
+
+		public boolean getIsBluetooth() {
+			return isBluetooth;
+		}
+
+		public void setIsBluetooth(boolean isBluetooth) {
+			this.isBluetooth = isBluetooth;
+		}
+
+		public Map<String, Object> getArgument() {
+			return argument;
+		}
+
+		public void setArgument(Map<String, Object> argument) {
+			this.argument = argument;
+		}
+	}
 }

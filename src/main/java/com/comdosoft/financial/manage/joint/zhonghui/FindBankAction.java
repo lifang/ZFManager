@@ -1,9 +1,7 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
-import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
-
-import com.comdosoft.financial.manage.joint.JointResult;
 
 public class FindBankAction extends Action {
 	
@@ -23,7 +21,7 @@ public class FindBankAction extends Action {
 	}
 	
 	@Override
-	public Map<String, String> params() {
+	protected Map<String, String> params() {
 		Map<String, String> params = createParams();
 		params.put("p", Integer.toString(p));
 		params.put("max", Integer.toString(max));
@@ -37,15 +35,43 @@ public class FindBankAction extends Action {
 	}
 
 	@Override
-	public void handle(JointResult result) {
-		// TODO Auto-generated method stub
+	protected Class<? extends Result> getResultType() {
+		return BankResult.class;
 	}
 
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
-			InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
+	public static class BankResult extends Result{
+		private int total;
+		private List<Bank> banks;
+		
+		public int getTotal() {
+			return total;
+		}
+		public void setTotal(int total) {
+			this.total = total;
+		}
+		public List<Bank> getBanks() {
+			return banks;
+		}
+		public void setBanks(List<Bank> banks) {
+			this.banks = banks;
+		}
 	}
-
+	
+	public static class Bank{
+		private String bankDeposit;
+		private String unionBankNo;
+		
+		public String getBankDeposit() {
+			return bankDeposit;
+		}
+		public void setBankDeposit(String bankDeposit) {
+			this.bankDeposit = bankDeposit;
+		}
+		public String getUnionBankNo() {
+			return unionBankNo;
+		}
+		public void setUnionBankNo(String unionBankNo) {
+			this.unionBankNo = unionBankNo;
+		}
+	}
 }

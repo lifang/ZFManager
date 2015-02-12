@@ -1,32 +1,38 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.JointResult;
 import com.google.common.collect.Maps;
 
-public class MerchantAuthAction extends Action{
+/**
+ * 商户认证
+ * @author wu
+ *
+ */
+public class MerchantAuthAction extends RequireLoginAction{
 	
 	private String companyName;
 	private String regPlace;
 	private String businessLicense;
+	private File business;
 	private File businessPlace;
 	private File cashierDesk;
 
-	public MerchantAuthAction(String companyName, String regPlace,
-			String businessLicense, File businessPlace, File cashierDesk) {
-		super();
+	public MerchantAuthAction(String phoneNum, String password, String position,
+			String companyName, String regPlace,
+			String businessLicense,File business, File businessPlace, File cashierDesk) {
+		super(phoneNum, password, position);
 		this.companyName = companyName;
 		this.regPlace = regPlace;
 		this.businessLicense = businessLicense;
+		this.business = business;
 		this.businessPlace = businessPlace;
 		this.cashierDesk = cashierDesk;
 	}
 
 	@Override
-	public Map<String, String> params() {
+	protected Map<String, String> params() {
 		Map<String, String> params = createParams();
 		params.put("companyName", companyName);
 		params.put("regPlace", regPlace);
@@ -35,8 +41,9 @@ public class MerchantAuthAction extends Action{
 	}
 
 	@Override
-	public Map<String, File> fileParams() {
+	protected Map<String, File> fileParams() {
 		Map<String, File> fileParams = Maps.newHashMap();
+		fileParams.put("business", business);
 		fileParams.put("businessPlace", businessPlace);
 		fileParams.put("cashierDesk", cashierDesk);
 		return fileParams;
@@ -48,15 +55,7 @@ public class MerchantAuthAction extends Action{
 	}
 
 	@Override
-	public void handle(JointResult result) {
-		// TODO Auto-generated method stub
+	protected Class<? extends Result> getResultType() {
+		return Result.class;
 	}
-
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
-			InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

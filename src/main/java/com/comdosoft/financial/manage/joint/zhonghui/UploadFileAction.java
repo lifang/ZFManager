@@ -1,25 +1,30 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
 import java.io.File;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.comdosoft.financial.manage.joint.JointResult;
 import com.google.common.collect.Maps;
 
-public class UploadFileAction extends Action {
+/**
+ * 文件上传
+ * @author wu
+ *
+ */
+public class UploadFileAction extends RequireLoginAction {
 	
 	private Type type;
 	private File photo;
 
-	public UploadFileAction(Type type, File photo) {
+	public UploadFileAction(String phoneNum, String password, String position,
+			Type type, File photo) {
+		super(phoneNum, password, position);
 		this.type = type;
 		this.photo = photo;
 	}
 
 	@Override
-	public Map<String, File> fileParams() {
+	protected Map<String, File> fileParams() {
 		Map<String, File> fileParams = Maps.newHashMap();
 		fileParams.put("photo", photo);
 		return fileParams;
@@ -30,6 +35,11 @@ public class UploadFileAction extends Action {
 		return MessageFormat.format("/upload/{0}", type.getName());
 	}
 
+	@Override
+	protected Class<? extends Result> getResultType() {
+		return Result.class;
+	}
+	
 	public static enum Type{
 		BUSINESS("business"),
 		PERSONAL("personal"),
@@ -42,17 +52,5 @@ public class UploadFileAction extends Action {
 		public String getName(){
 			return name;
 		}
-	}
-
-	@Override
-	public void handle(JointResult result) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected JointResult parseResult(Map<String, String> headers,
-			InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
