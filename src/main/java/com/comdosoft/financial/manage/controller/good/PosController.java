@@ -392,9 +392,23 @@ public class PosController {
         if (page == null) {
             page = 1;
         }
+        Good good = goodService.findGood(id);
         Page<GoodComment> comments = goodCommentService.findCommentPages(id, page, Constants.PAGE_COMMENT_SIZE);
         model.addAttribute("comments", comments);
+        model.addAttribute("good", good);
         return  "good/pos/commentList";
+    }
+
+    @RequestMapping(value = "{id}/comments/page", method = RequestMethod.GET)
+    public String commentPage(@PathVariable Integer id, Integer page, Model model) {
+        if (page == null) {
+            page = 1;
+        }
+        Good good = goodService.findGood(id);
+        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page, Constants.PAGE_COMMENT_SIZE);
+        model.addAttribute("comments", comments);
+        model.addAttribute("good", good);
+        return  "good/pos/commentPage";
     }
 
 }

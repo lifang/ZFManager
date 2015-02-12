@@ -98,7 +98,7 @@
         inner join customers c on c.id=gc.customer_id
         <where>
             <if test="status != null"> AND gc.status =#{status} </if>
-            <if test="goodId != null"> AND (gc.good_id = #{goodId} </if>
+            <if test="goodId != null"> AND gc.good_id = #{goodId} </if>
         </where>
         order by gc.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
     </select>

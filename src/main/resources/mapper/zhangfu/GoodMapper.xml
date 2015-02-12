@@ -262,4 +262,10 @@
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.Good" property="relativeGoods" select="selectRelativeGoods" />
     </resultMap>
 
+    <select id="findGoodLazyInfo" resultMap="GoodInfoLazyResultMap">
+        select g.*
+        from goods g
+        where g.id=#{param1}
+    </select>
+
 </mapper>

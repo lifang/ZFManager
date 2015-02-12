@@ -14,9 +14,6 @@
                 <h3>${comment.good.secondTitle}</h3>
                 <ul>
                     <li><span>品牌型号：</span><div class="c_text">${comment.good.goodBrand.name}${comment.good.modelNumber}</div></li>
-                    <li><span>支付通道：</span>
-                        <div class="c_text">${comment.channel.name}</div>
-                    </li>
                 </ul>
             </div>
         </div>

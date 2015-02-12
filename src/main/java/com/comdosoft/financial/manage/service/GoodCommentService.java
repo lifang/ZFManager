@@ -84,6 +84,11 @@ public class GoodCommentService {
             comment.setStatus(GoodComment.STATUS_CHECKED);
             comment.setUpdatedAt(new Date());
             goodCommentMapper.updateByPrimaryKey(comment);
+
+            Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
+            good.setTotalComment(good.getTotalComment() + 1);
+            good.setTotalComment(good.getTotalScore() + comment.getScore());
+            goodMapper.updateByPrimaryKey(good);
         }
         return comment;
     }
@@ -100,6 +105,12 @@ public class GoodCommentService {
             comment.setStatus(GoodComment.STATUS_DELETE);
             comment.setUpdatedAt(new Date());
             goodCommentMapper.updateByPrimaryKey(comment);
+            if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
+                Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
+                good.setTotalComment(good.getTotalComment() - 1);
+                good.setTotalComment(good.getTotalScore() - comment.getScore());
+                goodMapper.updateByPrimaryKey(good);
+            }
         }
         return comment;
     }
