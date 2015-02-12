@@ -352,8 +352,8 @@ public class PosController {
         return  response;
 	}
 
-    @RequestMapping(value = "/waitComment", method = RequestMethod.GET)
-    public String waitComments(Integer page, Model model) {
+    @RequestMapping(value = "waitComment/list", method = RequestMethod.GET)
+    public String waitCommentList(Integer page, Model model) {
         if (page == null) {
             page = 1;
         }
@@ -361,4 +361,40 @@ public class PosController {
         model.addAttribute("comments", comments);
         return  "good/pos/waitCommentList";
     }
+
+    @RequestMapping(value = "waitComment/page", method = RequestMethod.GET)
+    public String waitCommentPage(Integer page, Model model) {
+        if (page == null) {
+            page = 1;
+        }
+        Page<GoodComment> comments = goodCommentService.findWaitingPages(page, Constants.PAGE_COMMENT_SIZE);
+        model.addAttribute("comments", comments);
+        return "good/pos/waitCommentPage";
+    }
+
+    @RequestMapping(value = "comment/{id}/check", method = RequestMethod.GET)
+    @ResponseBody
+    public Response commentCheck(@PathVariable Integer id, HttpServletRequest request) {
+        Customer customer = sessionService.getLoginInfo(request);
+        goodCommentService.check(customer.getId(), id);
+        return  Response.getSuccess("");
+    }
+
+    @RequestMapping(value = "comment/{id}/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public Response commentDelete(@PathVariable Integer id, HttpServletRequest request) {
+        goodCommentService.delete(id);
+        return  Response.getSuccess("");
+    }
+
+    @RequestMapping(value = "{id}/comments", method = RequestMethod.GET)
+    public String waitCommentList(@PathVariable Integer id, Integer page, Model model) {
+        if (page == null) {
+            page = 1;
+        }
+        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page, Constants.PAGE_COMMENT_SIZE);
+        model.addAttribute("comments", comments);
+        return  "good/pos/commentList";
+    }
+
 }

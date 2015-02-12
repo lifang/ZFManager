@@ -556,7 +556,7 @@ public class Order {
 	public void setInvoiceInfo(String invoiceInfo) {
 		this.invoiceInfo = invoiceInfo;
 	}
-	
+
 	/**
 	 * 用户订单
 	 */

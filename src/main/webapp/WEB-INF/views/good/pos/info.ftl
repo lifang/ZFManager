@@ -76,7 +76,7 @@
             <div class="attributes_list clear">
                 <ul>
                     <li><em>支付通道：</em>
-               		<span><#if good.pictures??>
+               		<span><#if (good.channels)??>
 					  <#list good.channels as channel>
                     	${channel.name!}
 					  </#list>

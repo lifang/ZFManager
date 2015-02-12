@@ -169,7 +169,7 @@
 
 	<!-- 分页result -->
 	<resultMap extends="BaseResultMap" id="PageGoodResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" columnPrefix="gb_" />
+        <association columnPrefix="gb_" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
 	</resultMap>
 
 	<sql id="pageWhere">
@@ -204,11 +204,11 @@
 
   	<!-- 详情 -->
 	<resultMap extends="BaseResultMap" id="GoodInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
-		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" columnPrefix="gb_" />
-		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.BaseResultMap" columnPrefix="f_" />
-		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory" property="posCategory" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PosCategoryMapper.BaseResultMap" columnPrefix="pc_" />
-		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay" property="signOrderWay" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionarySignOrderWayMapper.BaseResultMap" columnPrefix="dsow_"/>
-		<association javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay" property="encryptCardWay" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryEncryptCardWayMapper.BaseResultMap" columnPrefix="decw_"/>
+		<association columnPrefix="gb_" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
+		<association columnPrefix="f_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.BaseResultMap" />
+		<association columnPrefix="pc_" javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory" property="posCategory" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PosCategoryMapper.BaseResultMap" />
+		<association columnPrefix="dsow_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay" property="signOrderWay" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionarySignOrderWayMapper.BaseResultMap" />
+		<association columnPrefix="decw_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay" property="encryptCardWay" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryEncryptCardWayMapper.BaseResultMap" />
 		<collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannel" property="channels" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.selectChannels" />
 		<collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture" property="pictures" select="com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper.selectPictures" />
 		<collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType" property="cardTypes" select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryCardTypeMapper.selectCardTypes" />
@@ -249,37 +249,17 @@
         WHERE pos_category_id = #{param1}
     </select>
 
-    <!-- 详情 -->
+    <!-- 详情lazy -->
     <resultMap extends="BaseResultMap" id="GoodInfoLazyResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand"
-                     property="goodBrand"  column="good_brand_id" fetchType="lazy"
-                     select="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.selectByPrimaryKey" />
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory"
-                     property="factory" column="factory_id" fetchType="lazy"
-                     select="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.selectByPrimaryKey" />
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory"
-                     property="posCategory" column="pos_category_id" fetchType="lazy"
-                     select="com.comdosoft.financial.manage.mapper.zhangfu.PosCategoryMapper.selectByPrimaryKey" />
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay"
-                     property="signOrderWay" column="sign_order_way_id" fetchType="lazy"
-                     select="com.comdosoft.financial.manage.mapper.zhangfu.DictionarySignOrderWayMapper.selectByPrimaryKey" />
-        <association javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay"
-                     property="encryptCardWay" column="encrypt_card_way_id" fetchType="lazy"
-                     select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryEncryptCardWayMapper.selectByPrimaryKey" />
-        <collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannel" property="channels" fetchType="lazy"
-                    select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.selectChannels" />
-        <collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture" property="pictures" fetchType="lazy"
-                    select="com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper.selectPictures" />
-        <collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType" property="cardTypes" fetchType="lazy"
-                    select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryCardTypeMapper.selectCardTypes" />
-        <collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.Good"
-                    property="relativeGoods" select="selectRelativeGoods"  fetchType="lazy" />
+        <association column="good_brands_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" select="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.selectByPrimaryKey" />
+        <association column="factory_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" select="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.selectByPrimaryKey" />
+        <association column="pos_category_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.PosCategory" property="posCategory" select="com.comdosoft.financial.manage.mapper.zhangfu.PosCategoryMapper.selectByPrimaryKey" />
+        <association column="sign_order_way_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay" property="signOrderWay" select="com.comdosoft.financial.manage.mapper.zhangfu.DictionarySignOrderWayMapper.selectByPrimaryKey" />
+        <association column="encrypt_card_way_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay" property="encryptCardWay" select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryEncryptCardWayMapper.selectByPrimaryKey" />
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannel" property="channels" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.selectChannels" />
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture" property="pictures" select="com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper.selectPictures" />
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType" property="cardTypes" select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryCardTypeMapper.selectCardTypes" />
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.Good" property="relativeGoods" select="selectRelativeGoods" />
     </resultMap>
 
-    <!--类型的商品数-->
-    <select id="selectById" resultMap="GoodInfoLazyResultMap">
-        SELECT *
-        FROM goods
-        WHERE id = #{param1}
-    </select>
 </mapper>
