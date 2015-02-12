@@ -35,5 +35,5 @@ public interface DictionaryCardTypeMapper {
 	 */
 	int updateByPrimaryKey(DictionaryCardType record);
 
-    List<DictionaryCardType> selectCardTypes(Integer goodId);
+	List<DictionaryCardType> selectCardTypes(Integer goodId);
 }

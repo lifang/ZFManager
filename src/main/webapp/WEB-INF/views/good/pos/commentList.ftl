@@ -4,10 +4,9 @@
     <ul>
         <li><a href="#">商品</a></li>
         <li><a href="#">POS机管理</a></li>
-        <li><a href="#">待审核的评论</a></li>
+        <li><a href="#">管理评论</a></li>
     </ul>
 </div>
-    <#include "waitCommentPage.ftl" />
 <script type="text/javascript">
     function check(id){
         $.get('<@spring.url "/good/pos/waitComment/" />'+id+'/check',

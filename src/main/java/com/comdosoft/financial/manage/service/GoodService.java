@@ -50,11 +50,11 @@ public class GoodService {
 		
 		PageRequest request = new PageRequest(page, pageSize);
 		List<Good> result = goodMapper.findPageGoodsByKeys(request, status, keys);
-		Page<Good> goods = new Page<Good>(request, result, count);
+		Page<Good> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
 			result = goodMapper.findPageGoodsByKeys(request, status, keys);
-			goods = new Page<Good>(request, result, count);
+			goods = new Page<>(request, result, count);
 		}
 		return goods;
 	}

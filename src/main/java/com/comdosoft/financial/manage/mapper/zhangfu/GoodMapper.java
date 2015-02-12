@@ -54,5 +54,4 @@ public interface GoodMapper {
 
     List<Good> selectRelativeGoods(Integer goodId);
 
-    Good selectById(Integer id);
 }
