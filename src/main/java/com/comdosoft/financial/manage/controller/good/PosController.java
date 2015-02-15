@@ -411,4 +411,13 @@ public class PosController {
         return  "good/pos/commentPage";
     }
 
+	@RequestMapping(value = "comment/create", method = RequestMethod.POST)
+	@ResponseBody
+	public Response createComment( Integer id, HttpServletRequest request) {
+		Customer customer = sessionService.getLoginInfo(request);
+		goodCommentService.delete(id);
+		return  Response.getSuccess("");
+	}
+
+
 }

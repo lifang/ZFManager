@@ -54,6 +54,13 @@ a { text-decoration: none;}
 .btn button:hover { background: #037de2;}
 
 
+/*-------foot-------*/
+.foot { padding: 10px 0; overflow: hidden; color: #fff; width: 1200px; margin: 0 auto;}
+.foot .foot_nav { float: left; color: #fff;}
+.foot .foot_nav li { float: left;}
+.foot .foot_nav li a { color: #fff; margin: 0 10px;}
+.foot .foot_nav li a:hover { color: #0292f7;}
+.copyright { float: right; color: #666; color: #fff;}
 
 
 

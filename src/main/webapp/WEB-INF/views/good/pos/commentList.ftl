@@ -1,5 +1,6 @@
 <#import "../../common.ftl" as c />
 <@c.html>
+<script src="<@spring.url "/resources/js/jquery.raty.js"/>"></script>
     <div class="breadcrumb">
         <ul>
             <li><a href="#">商品</a></li>
@@ -24,6 +25,25 @@
                 {"page": page},
                 function (data) {
                     $("div[class='content clear']").replaceWith(data);
+                });
+    }
+
+    function submitComment(){
+        var score = $("input[name='score']").val();
+        var content = $("#content").val();
+        if(content.length==0) {
+            showErrorTip("请填写内容!");
+            return;
+        }
+        $.post('<@spring.url "/good/pos/comment/create" />',
+                {   "goodId": ${good.id},
+                    "score": score,
+                    "content": content},
+                function (data) {
+                    if(data.code == 1) {
+                        var page = $("#currentPage").attr("value");
+                        commentPageChange();
+                    }
                 });
     }
 

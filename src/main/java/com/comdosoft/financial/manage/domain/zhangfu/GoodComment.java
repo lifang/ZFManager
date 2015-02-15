@@ -263,7 +263,6 @@ public class GoodComment {
     public static final Byte STATUS_DELETE = 3;		// 删除
 
     public Good good;
-    public PayChannel channel;
     public Customer customer;
 
     public Good getGood() {
@@ -272,14 +271,6 @@ public class GoodComment {
 
     public void setGood(Good good) {
         this.good = good;
-    }
-
-    public PayChannel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(PayChannel channel) {
-        this.channel = channel;
     }
 
     public Customer getCustomer() {

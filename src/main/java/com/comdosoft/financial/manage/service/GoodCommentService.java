@@ -114,4 +114,17 @@ public class GoodCommentService {
         }
         return comment;
     }
+
+    @Transactional("transactionManager")
+    public GoodComment create(Integer goodId, Integer customerId, Integer score, String content){
+        GoodComment comment = new GoodComment();
+        comment.setGoodId(goodId);
+        comment.setCustomerId(customerId);
+        comment.setScore(score);
+        comment.setStatus(GoodComment.STATUS_WAITING);
+        comment.setCreatedAt(new Date());
+        goodCommentMapper.insert(comment);
+        check(customerId, comment.getId());
+        return comment;
+    }
 }

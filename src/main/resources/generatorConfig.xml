@@ -44,101 +44,273 @@
 			targetProject="ZFManager" type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="agent_good_names" domainObjectName="AgentGoodName" />
-		<table tableName="agent_profit_settings" domainObjectName="AgentProfitSetting" />
-		<table tableName="agents" domainObjectName="Agent" />
-		<table tableName="cities" domainObjectName="City" />
-		<table tableName="cs_agent_marks" domainObjectName="CsAgentMark" />
-		<table tableName="cs_agents" domainObjectName="CsAgent" />
-		<table tableName="cs_cancel_marks" domainObjectName="CsCancelMark" />
-		<table tableName="cs_cancels" domainObjectName="CsCancel" />
-		<table tableName="cs_change_marks" domainObjectName="CsChangeMark" />
-		<table tableName="cs_changes" domainObjectName="CsChange" />
-		<table tableName="cs_lease_return_marks" domainObjectName="CsLeaseReturnMark" />
-		<table tableName="cs_lease_returns" domainObjectName="CsLeaseReturn" />
-		<table tableName="cs_out_storages" domainObjectName="CsOutStorage" />
-		<table tableName="cs_receiver_addresses" domainObjectName="CsReceiverAddress" />
-		<table tableName="cs_refund_marks" domainObjectName="CsRefundMark" />
-		<table tableName="cs_refunds" domainObjectName="CsRefund" />
-		<table tableName="cs_repair_marks" domainObjectName="CsRepairMark" />
-		<table tableName="cs_repair_payments" domainObjectName="CsRepairPayment" />
-		<table tableName="cs_repairs" domainObjectName="CsRepair" />
-		<table tableName="cs_return_marks" domainObjectName="CsReturnMark" />
-		<table tableName="cs_returns" domainObjectName="CsReturn" />
-		<table tableName="cs_update_info_marks" domainObjectName="CsUpdateInfoMark" />
-		<table tableName="cs_update_infos" domainObjectName="CsUpdateInfo" />
-		<table tableName="customer_addresses" domainObjectName="CustomerAddress" />
-		<table tableName="customer_agent_relation_marks" domainObjectName="CustomerAgentRelationMark" />
-		<table tableName="customer_agent_relations" domainObjectName="CustomerAgentRelation" />
-		<table tableName="customer_integral_converts" domainObjectName="CustomerIntegralConvert" />
-		<table tableName="customer_integral_records" domainObjectName="CustomerIntegralRecord" />
-		<table tableName="customer_intention_marks" domainObjectName="CustomerIntentionMark" />
-		<table tableName="customer_intentions" domainObjectName="CustomerIntention" />
-		<table tableName="customer_role_relations" domainObjectName="CustomerRoleRelation" />
-		<table tableName="customers" domainObjectName="Customer" />
-		<table tableName="danger_merchants" domainObjectName="DangerMerchant" />
-		<table tableName="dictionary_billing_cycles" domainObjectName="DictionaryBillingCycle" />
-		<table tableName="dictionary_card_types" domainObjectName="DictionaryCardType" />
-		<table tableName="dictionary_company_addresses" domainObjectName="DictionaryCompanyAddress" />
-		<table tableName="dictionary_credit_types" domainObjectName="DictionaryCreditType" />
-		<table tableName="dictionary_encrypt_card_ways" domainObjectName="DictionaryEncryptCardWay" />
-		<table tableName="dictionary_open_private_infos" domainObjectName="DictionaryOpenPrivateInfo" />
-		<table tableName="dictionary_replace_reasons" domainObjectName="DictionaryReplaceReason" />
-		<table tableName="dictionary_return_reasons" domainObjectName="DictionaryReturnReason" />
-		<table tableName="dictionary_sign_order_ways" domainObjectName="DictionarySignOrderWay" />
-		<table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate" />
-		<table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType" />
-		<table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord" />
-		<table tableName="factories" domainObjectName="Factory" />
-		<table tableName="good_brands" domainObjectName="GoodBrand">
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
-		<table tableName="good_card_types" domainObjectName="GoodCardType" />
-		<table tableName="good_comments" domainObjectName="GoodComment" />
-		<table tableName="good_marks" domainObjectName="GoodMark" />
-		<table tableName="good_relations" domainObjectName="GoodRelation" />
-		<table tableName="goods" domainObjectName="Good">
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
-		<table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel" />
-		<table tableName="goods_pictures" domainObjectName="GoodsPicture" />
-		<table tableName="in_out_storages" domainObjectName="InOutStorage" />
-		<table tableName="menus" domainObjectName="Menu" />
-		<table tableName="merchants" domainObjectName="Merchant" />
-		<table tableName="message_receivers" domainObjectName="MessageReceiver" />
-		<table tableName="opening_applies" domainObjectName="OpeningApplie" />
-		<table tableName="opening_apply_marks" domainObjectName="OpeningApplyMark" />
-		<table tableName="opening_requirement_lists" domainObjectName="OpeningRequirementList" />
-		<table tableName="opening_requirements" domainObjectName="OpeningRequirement" />
-		<table tableName="operate_records" domainObjectName="OperateRecord" />
-		<table tableName="order_goods" domainObjectName="OrderGood" />
-		<table tableName="order_logistics" domainObjectName="OrderLogistic" />
-		<table tableName="order_marks" domainObjectName="OrderMark" />
-		<table tableName="order_payments" domainObjectName="OrderPayment" />
-		<table tableName="order_receiver_addresses" domainObjectName="OrderReceiverAddress" />
-		<table tableName="order_trade_records" domainObjectName="OrderTradeRecord" />
-		<table tableName="orders" domainObjectName="Order" />
-		<table tableName="other_requirements" domainObjectName="OtherRequirement" />
-		<table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle" />
-		<table tableName="pay_channels" domainObjectName="PayChannel" />
-		<table tableName="pos_categories" domainObjectName="PosCategory">
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
-		<table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord" />
-		<table tableName="role_menus" domainObjectName="RoleMenu" />
-		<table tableName="roles" domainObjectName="Role" />
-		<table tableName="shopping_carts" domainObjectName="ShoppingCart" />
-		<table tableName="support_areas" domainObjectName="SupportArea" />
-		<table tableName="support_trade_types" domainObjectName="SupportTradeType" />
-		<table tableName="sys_activities" domainObjectName="SysActivity" />
-		<table tableName="sys_config" domainObjectName="SysConfig" />
-		<table tableName="sys_messages" domainObjectName="SysMessage" />
-		<table tableName="sys_shuffling_figures" domainObjectName="SysShufflingFigure" />
-		<table tableName="terminal_marks" domainObjectName="TerminalMark" />
-		<table tableName="terminal_opening_infos" domainObjectName="TerminalOpeningInfo" />
-		<table tableName="terminal_trade_type_infos" domainObjectName="TerminalTradeTypeInfo" />
-		<table tableName="terminals" domainObjectName="Terminal" />
-		<table tableName="web_messages" domainObjectName="WebMessage" />	
-		
-	</context>
+        <table tableName="agent_good_names" domainObjectName="AgentGoodName">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="agent_profit_settings" domainObjectName="AgentProfitSetting">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="agents" domainObjectName="Agent">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cities" domainObjectName="City">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_agent_marks" domainObjectName="CsAgentMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_agents" domainObjectName="CsAgent">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_cancel_marks" domainObjectName="CsCancelMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_cancels" domainObjectName="CsCancel">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_change_marks" domainObjectName="CsChangeMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_changes" domainObjectName="CsChange">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_lease_return_marks" domainObjectName="CsLeaseReturnMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_lease_returns" domainObjectName="CsLeaseReturn">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_out_storages" domainObjectName="CsOutStorage">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_receiver_addresses" domainObjectName="CsReceiverAddress">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_refund_marks" domainObjectName="CsRefundMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_refunds" domainObjectName="CsRefund">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_repair_marks" domainObjectName="CsRepairMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_repair_payments" domainObjectName="CsRepairPayment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_repairs" domainObjectName="CsRepair">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_return_marks" domainObjectName="CsReturnMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_returns" domainObjectName="CsReturn">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_update_info_marks" domainObjectName="CsUpdateInfoMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cs_update_infos" domainObjectName="CsUpdateInfo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_addresses" domainObjectName="CustomerAddress">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_agent_relation_marks" domainObjectName="CustomerAgentRelationMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_agent_relations" domainObjectName="CustomerAgentRelation">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_integral_converts" domainObjectName="CustomerIntegralConvert">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_integral_records" domainObjectName="CustomerIntegralRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_intention_marks" domainObjectName="CustomerIntentionMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_intentions" domainObjectName="CustomerIntention">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customer_role_relations" domainObjectName="CustomerRoleRelation">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="customers" domainObjectName="Customer">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="danger_merchants" domainObjectName="DangerMerchant">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_billing_cycles" domainObjectName="DictionaryBillingCycle">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_card_types" domainObjectName="DictionaryCardType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_company_addresses" domainObjectName="DictionaryCompanyAddress">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_credit_types" domainObjectName="DictionaryCreditType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_encrypt_card_ways" domainObjectName="DictionaryEncryptCardWay">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_open_private_infos" domainObjectName="DictionaryOpenPrivateInfo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_replace_reasons" domainObjectName="DictionaryReplaceReason">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_return_reasons" domainObjectName="DictionaryReturnReason">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_sign_order_ways" domainObjectName="DictionarySignOrderWay">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_trade_standard_rates" domainObjectName="DictionaryTradeStandardRate">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dictionary_trade_types" domainObjectName="DictionaryTradeType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="exchange_goods_records" domainObjectName="ExchangeGoodsRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="factories" domainObjectName="Factory">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="good_brands" domainObjectName="GoodBrand">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="good_card_types" domainObjectName="GoodCardType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="good_comments" domainObjectName="GoodComment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="good_marks" domainObjectName="GoodMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="good_relations" domainObjectName="GoodRelation">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="goods" domainObjectName="Good">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="goods_pay_channels" domainObjectName="GoodsPayChannel">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="goods_pictures" domainObjectName="GoodsPicture">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="in_out_storages" domainObjectName="InOutStorage">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="menus" domainObjectName="Menu">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="merchants" domainObjectName="Merchant">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="message_receivers" domainObjectName="MessageReceiver">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="opening_applies" domainObjectName="OpeningApplie">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="opening_apply_marks" domainObjectName="OpeningApplyMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="opening_requirement_lists" domainObjectName="OpeningRequirementList">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="opening_requirements" domainObjectName="OpeningRequirement">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="operate_records" domainObjectName="OperateRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_goods" domainObjectName="OrderGood">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_logistics" domainObjectName="OrderLogistic">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_marks" domainObjectName="OrderMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_payments" domainObjectName="OrderPayment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_receiver_addresses" domainObjectName="OrderReceiverAddress">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="order_trade_records" domainObjectName="OrderTradeRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="orders" domainObjectName="Order">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="other_requirements" domainObjectName="OtherRequirement">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="pay_channels" domainObjectName="PayChannel">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="pos_categories" domainObjectName="PosCategory">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="prepare_goods_records" domainObjectName="PrepareGoodRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="role_menus" domainObjectName="RoleMenu">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="roles" domainObjectName="Role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="shopping_carts" domainObjectName="ShoppingCart">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="support_areas" domainObjectName="SupportArea">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="support_trade_types" domainObjectName="SupportTradeType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_activities" domainObjectName="SysActivity">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_config" domainObjectName="SysConfig">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_messages" domainObjectName="SysMessage">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_shuffling_figures" domainObjectName="SysShufflingFigure">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="terminal_marks" domainObjectName="TerminalMark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="terminal_opening_infos" domainObjectName="TerminalOpeningInfo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="terminal_trade_type_infos" domainObjectName="TerminalTradeTypeInfo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="terminals" domainObjectName="Terminal">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="web_messages" domainObjectName="WebMessage">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+    </context>
 </generatorConfiguration>
