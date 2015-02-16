@@ -42,7 +42,7 @@
                 function (data) {
                     if(data.code == 1) {
                         var page = $("#currentPage").attr("value");
-                        commentPageChange();
+                        commentPageChange(page);
                     }
                 });
     }

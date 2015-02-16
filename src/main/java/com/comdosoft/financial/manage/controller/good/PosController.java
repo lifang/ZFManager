@@ -413,9 +413,9 @@ public class PosController {
 
 	@RequestMapping(value = "comment/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Response createComment( Integer id, HttpServletRequest request) {
+	public Response createComment( Integer goodId, Integer score, String content, HttpServletRequest request) {
 		Customer customer = sessionService.getLoginInfo(request);
-		goodCommentService.delete(id);
+		goodCommentService.create(goodId, customer.getId(), score, content);
 		return  Response.getSuccess("");
 	}
 

@@ -90,15 +90,18 @@
     opening_datum, opening_protocol
     from pay_channels
   </select>
-  
+
+  <sql id="pageWhere">
+    <where>
+      <if test="status != null"> AND status =#{status} </if>
+      <if test="keys != null"> AND name like #{keys} </if>
+    </where>
+  </sql>
+
    <select id="selectByStatusAndName" resultMap="BaseResultMap">
     select * 
-    from pay_channels 
-    	<where>
-			<if test="status != null"> status =#{status} </if>
-			<if test="name != null"> AND name like #{name} </if>
-		</where>
-    
+    from pay_channels
+     <include refid="pageWhere" />
   </select>
 
     <!--获取商品对应的通道 -->
@@ -107,4 +110,18 @@
         from goods_pay_channels gpc inner join pay_channels payc on gpc.pay_channel_id=payc.id
         where gpc.good_id = #{param1}
     </select>
+
+  <select id="countByKeys" resultType="long">
+    SELECT count(*) as count
+    FROM pay_channels
+    <include refid="pageWhere" />
+  </select>
+
+  <select id="findPageChannelsByKeys" resultMap="BaseResultMap">
+    select *
+    from pay_channels
+    <include refid="pageWhere" />
+    order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+  </select>
+
 </mapper>

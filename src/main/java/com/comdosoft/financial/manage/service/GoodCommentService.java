@@ -8,6 +8,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class GoodCommentService {
      * @param id
      * @return
      */
-    @Transactional("transactionManager")
+    @Transactional(value = "transactionManager")
     public GoodComment check(Integer customerId, Integer id){
         GoodComment comment = goodCommentMapper.selectByPrimaryKey(id);
         if(comment.getStatus() == GoodComment.STATUS_WAITING){
@@ -87,7 +88,7 @@ public class GoodCommentService {
 
             Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
             good.setTotalComment(good.getTotalComment() + 1);
-            good.setTotalComment(good.getTotalScore() + comment.getScore());
+            good.setTotalScore(good.getTotalScore() + comment.getScore());
             goodMapper.updateByPrimaryKey(good);
         }
         return comment;
@@ -102,15 +103,22 @@ public class GoodCommentService {
     public GoodComment delete(Integer id){
         GoodComment comment = goodCommentMapper.selectByPrimaryKey(id);
         if(comment.getStatus() != GoodComment.STATUS_DELETE){
+            if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
+                Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
+                int totalComment = good.getTotalComment() - 1;
+                int score = good.getTotalScore() - comment.getScore();
+                if (totalComment <= 0 || score <= 0){
+                    good.setTotalComment(0);
+                    good.setTotalScore(0);
+                }else {
+                    good.setTotalComment(totalComment);
+                    good.setTotalScore(good.getTotalScore() - comment.getScore());
+                }
+                goodMapper.updateByPrimaryKey(good);
+            }
             comment.setStatus(GoodComment.STATUS_DELETE);
             comment.setUpdatedAt(new Date());
             goodCommentMapper.updateByPrimaryKey(comment);
-            if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
-                Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
-                good.setTotalComment(good.getTotalComment() - 1);
-                good.setTotalComment(good.getTotalScore() - comment.getScore());
-                goodMapper.updateByPrimaryKey(good);
-            }
         }
         return comment;
     }
@@ -121,6 +129,7 @@ public class GoodCommentService {
         comment.setGoodId(goodId);
         comment.setCustomerId(customerId);
         comment.setScore(score);
+        comment.setContent(content);
         comment.setStatus(GoodComment.STATUS_WAITING);
         comment.setCreatedAt(new Date());
         goodCommentMapper.insert(comment);

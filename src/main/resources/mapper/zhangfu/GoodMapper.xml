@@ -184,7 +184,7 @@
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
 		<include refid="pageWhere" />
-		order by created_at limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countByKeys" resultType="long">
