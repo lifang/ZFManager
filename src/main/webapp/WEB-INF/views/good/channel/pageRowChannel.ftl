@@ -1,5 +1,5 @@
-<tr>
-    <td>收账宝</td>
+<tr id="row_${channel.id}">
+<td>${channel.name}</td>
     <td><strong class="strong_status">
     <#if channel.status=1>待审核
     <#elseif channel.status=2>初审不通过
@@ -9,11 +9,7 @@
     <#elseif channel.status=6>已停用
     </#if>
     </strong></td>
-    <td><a href="#" class="a_btn">停用</a>
-        <a href="#" class="a_btn">设置分润</a>
-        <a href="#" class="a_btn">编辑</a>
-        <a href="#" class="a_btn">查看详情</a>
-
+    <td>
     <#if channel.status=1>
         <a onClick="firstCheck(${channel.id})" class="a_btn">初审通过</a>
         <a onClick="firstUnCheck(${channel.id})" class="a_btn">初审不通过</a>
@@ -28,28 +24,28 @@
         <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
 
     <#elseif channel.status=3>
-        <a onClick="checkBtn(${channel.id})" class="a_btn">审核通过</a>
+        <a onClick="check(${channel.id})" class="a_btn">审核通过</a>
         <a onClick="unCheck(${channel.id})" class="a_btn">审核不通过</a>
         <a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
 
     <#elseif channel.status=4>
-        <a onClick="checkBtn(${channel.id})" class="a_btn">审核通过</a>
+        <a onClick="check(${channel.id})" class="a_btn">审核通过</a>
         <a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
 
     <#elseif channel.status=5>
         <a onClick="stop(${channel.id})" class="a_btn">停用</a>
         <a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
     <#elseif channel.status=6>
         <a onClick="start(${channel.id})" class="a_btn">启用</a>
         <a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/pos/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
     </#if>
 
     </td>

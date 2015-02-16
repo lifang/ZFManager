@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         <#if (channels.content)??>
-            <#list channels.content as good>
+            <#list channels.content as channel>
                 <#include "pageRowChannel.ftl" />
             </#list>
         </#if>

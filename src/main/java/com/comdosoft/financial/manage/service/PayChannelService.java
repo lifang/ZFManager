@@ -1,15 +1,15 @@
 package com.comdosoft.financial.manage.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+import com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
-import com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PayChannelService {
@@ -39,5 +39,100 @@ public class PayChannelService {
 			channels = new Page<>(request, result, count);
 		}
 		return channels;
+	}
+
+	/**
+	 * 初审不通过
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusFirstUnCheck(Integer id){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_WAITING_FIRST_CHECK) {
+			channel.setStatus(PayChannel.STATUS_FIRST_UN_CHECKED);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
+	}
+
+	/**
+	 * 初审通过
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusFirstCheck(Integer id){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_WAITING_FIRST_CHECK
+				|| channel.getStatus() == PayChannel.STATUS_FIRST_UN_CHECKED) {
+			channel.setStatus(PayChannel.STATUS_FIRST_CHECKED);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
+	}
+
+	/**
+	 * 审核不通过
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusUnCheck(Integer id){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_WAITING_FIRST_CHECK
+				|| channel.getStatus() == PayChannel.STATUS_FIRST_CHECKED) {
+			channel.setStatus(PayChannel.STATUS_UN_CHECKED);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
+	}
+
+	/**
+	 * 审核通过
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusCheck(Integer id, Boolean isThird){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_WAITING_FIRST_CHECK
+				|| channel.getStatus() == PayChannel.STATUS_FIRST_UN_CHECKED
+				|| channel.getStatus() == PayChannel.STATUS_FIRST_CHECKED
+				|| channel.getStatus() == PayChannel.STATUS_UN_CHECKED) {
+			channel.setStatus(PayChannel.STATUS_CHECKED);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
+	}
+
+	/**
+	 * 停止
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusStop(Integer id){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_CHECKED) {
+			channel.setStatus(PayChannel.STATUS_STOP);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
+	}
+
+	/**
+	 * 启用
+	 * @param id
+	 * @return
+	 */
+	@Transactional("transactionManager")
+	public PayChannel statusWaitingFirstCheck(Integer id){
+		PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
+		if (channel.getStatus() == PayChannel.STATUS_STOP) {
+			channel.setStatus(PayChannel.STATUS_WAITING_FIRST_CHECK);
+			payChannelMapper.updateByPrimaryKey(channel);
+		}
+		return channel;
 	}
 }
