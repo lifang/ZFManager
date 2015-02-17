@@ -74,4 +74,10 @@
     from cities
     where parent_id = #{parentId,jdbcType=INTEGER}
   </select>
+  <!--获取通道对应的地区 -->
+  <select id="selectCities" resultMap="BaseResultMap">
+    select c.id, c.name
+    from support_areas sa inner join cities c on sa.city_id=c.id
+    where sa.pay_channel_id = #{param1} order by c.parent_id
+  </select>
 </mapper>

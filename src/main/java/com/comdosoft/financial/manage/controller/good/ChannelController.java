@@ -34,9 +34,9 @@ public class ChannelController {
 	public String firstUnCheck(@PathVariable Integer id, String source, Model model){
 		PayChannel channel = payChannelService.statusFirstUnCheck(id);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "channel/pos/pageRowChannel";
 	}
 
@@ -44,9 +44,9 @@ public class ChannelController {
 	public String firstCheck(@PathVariable Integer id, String source, Model model){
 		PayChannel channel = payChannelService.statusFirstCheck(id);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "good/channel/pageRowChannel";
 	}
 
@@ -54,9 +54,9 @@ public class ChannelController {
 	public String unCheck(@PathVariable Integer id, String source, Model model){
 		PayChannel channel = payChannelService.statusUnCheck(id);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "good/channel/pageRowChannel";
 	}
 
@@ -64,9 +64,9 @@ public class ChannelController {
 	public String check(@PathVariable Integer id, String source, Boolean isThird, Model model){
 		PayChannel channel = payChannelService.statusCheck(id, isThird);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "good/channel/pageRowChannel";
 	}
 
@@ -74,9 +74,9 @@ public class ChannelController {
 	public String stop(@PathVariable Integer id, String source, Model model){
 		PayChannel channel = payChannelService.statusStop(id);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "good/channel/pageRowChannel";
 	}
 
@@ -84,10 +84,17 @@ public class ChannelController {
 	public String start(@PathVariable Integer id, String source, Model model){
 		PayChannel channel = payChannelService.statusWaitingFirstCheck(id);
 		model.addAttribute("channel", channel);
-//		if ("info".equals(source)) {
-//			return "channel/pos/infoStatus";
-//		}
+		if ("info".equals(source)) {
+			return "good/channel/infoStatus";
+		}
 		return "good/channel/pageRowChannel";
+	}
+
+	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
+	public String info(@PathVariable Integer id, Model model){
+		PayChannel channel = payChannelService.findChannelInfo(id);
+		model.addAttribute("channel", channel);
+		return "good/channel/info";
 	}
 
 	private void findPage(Integer page, Byte status, String keys, Model model){

@@ -257,6 +257,9 @@
         <table tableName="other_requirements" domainObjectName="OtherRequirement">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="pay_channel_standard_rates" domainObjectName="PayChannelStandardRate">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <table tableName="pay_channel_billing_cycles" domainObjectName="PayChannelBillingCycle">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>

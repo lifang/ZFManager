@@ -124,4 +124,18 @@
     order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
   </select>
 
+  <!-- 详情lazy -->
+  <resultMap extends="BaseResultMap" id="PayChannelLazyResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.PayChannel">
+    <association column="factory_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" select="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.selectByPrimaryKey" />
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.City" property="areas" select="com.comdosoft.financial.manage.mapper.zhangfu.CityMapper.selectCities" />
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannelStandardRate" property="standardRates" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelStandardRateMapper.selectStandardRates" />
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.PayChannelBillingCycle" property="billingCycles" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelBillingCycleMapper.selectBillingCycles" />
+
+  </resultMap>
+
+  <select id="findChannelLazyInfo" resultMap="PayChannelLazyResultMap">
+    select *
+    from pay_channels
+    where id=#{param1}
+  </select>
 </mapper>

@@ -48,4 +48,5 @@ public interface PayChannelMapper {
 	List<PayChannel> findPageChannelsByKeys(@Param("pageRequest") PageRequest pageRequest,
 											@Param("status") Byte status, @Param("keys") String keys);
 
+	PayChannel findChannelLazyInfo(Integer id);
 }
