@@ -138,8 +138,6 @@ public class PayChannelService {
 
 	public PayChannel findChannelInfo(Integer id) {
 		PayChannel channel = payChannelMapper.findChannelLazyInfo(id);
-		channel.getFactory();
-		channel.getAreas();
 		return channel;
 	}
 }

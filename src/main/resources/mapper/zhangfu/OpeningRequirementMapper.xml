@@ -70,4 +70,16 @@
     video_verify_status
     from opening_requirements
   </select>
+
+
+  <!-- 详情 -->
+  <resultMap extends="BaseResultMap" id="OpeningRequirementLazyInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirement">
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirementList" property="publicRequirements" select="com.comdosoft.financial.manage.mapper.zhangfu.OpeningRequirementListMapper.selectPublicRequirements" />
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirementList" property="privateRequirements" select="com.comdosoft.financial.manage.mapper.zhangfu.OpeningRequirementListMapper.selectPrivateRequirements" />
+  </resultMap>
+
+  <select id="selectOpeningRequirements" resultMap="OpeningRequirementLazyInfoResultMap">
+    select *
+    from opening_requirements where pay_channel_id=#{param1}
+  </select>
 </mapper>

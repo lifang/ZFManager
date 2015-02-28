@@ -101,20 +101,33 @@
 
         <div class="attributes_list clear">
             <ul>
-                <li><em>开通费用：</em><span>10元</span></li>
-                <li><em>是否需要预审：</em><span>是</span></li>
-                <li><em>开通申请条件：</em><span>各种证件齐全</span></li>
-                <li><em>开通申请材料：</em><span>各种证件复印件</span></li>
-                <li><em>开通协议：</em><span><a onClick="setContent('${(standardRate.description)!""}')" class="a_btn description_a">查看协议</a></span></li>
-                <li><em>开通协议：</em><span>
-                                <div class="itl_area">
-                                    <div class="ab_l"><em>开通等级名称：</em><span>阿萨德可接受的看法</span></div>
-                                    <div class="ab_l"><em>开通等级说明：</em><span>开通等级说明01</span></div>
-                                    <div class="ab_l"><em>对公开通所需：</em><span>营业执照招聘01/营业执照招聘02/营业执照招聘03营业执照招聘01/营业执照招聘02/营业执照招聘03营业执照招聘01/营业执照招聘02/营业执照招聘03营业执照招聘01/营业执照招聘02/营业执照招聘03营业执照招聘01/营业执照招聘02</span>
-                                    </div>
-
-                                </div>
+                <li><em>开通费用：</em><span>${(channel.openingCost/100)?string("0.00")}元</span></li>
+                <li><em>是否需要预审：</em><span><#if channel.needPreliminaryVerify>是<#else>否</#if></span></li>
+                <li><em>开通申请条件：</em><span>${(channel.openingRequirement)!""}</span></li>
+                <li><em>开通申请材料：</em><span>${(channel.openingDatum)!""}</span></li>
+                <li><em>开通协议：</em><span><a onClick="setContent('${(channel.openingProtocol)!""}')" class="a_btn description_a">查看协议</a></span></li>
+                <li><em>开通等级：</em>
+                    <span>
+                    <#if (channel.openingRequirements)??>
+                        <#list channel.openingRequirements as openingRequirement>
+                            <div class="itl_area">
+                                <div class="ab_l"><em>开通等级名称：</em><span>${openingRequirement.levelTitle!""}</span></div>
+                                <div class="ab_l"><em>开通等级说明：</em><span>${openingRequirement.levelDescription!""}</span></div>
+                                <div class="ab_l"><em>对公开通所需：</em><span>
+                                    <#assign size = (openingRequirement.publicRequirements)?size/>
+                                    <#list openingRequirement.publicRequirements as publicRequirement>${publicRequirement.dictionaryOpenPrivateInfo.name}<#if publicRequirement_index != (size - 1)>/</#if>
+                                </#list>
                                 </span>
+                                </div>
+                                <div class="ab_l"><em>对公开通所需：</em><span>
+                                    <#assign size = (openingRequirement.privateRequirements)?size/>
+                                    <#list openingRequirement.privateRequirements as privateRequirement>${privateRequirement.dictionaryOpenPrivateInfo.name}<#if privateRequirement_index != (size - 1)>/</#if></#list>
+                                </span>
+                                </div>
+                            </div>
+                        </#list>
+                    </#if>
+                     </span>
                 </li>
                 <li><em>注销所需材料：</em><span>
                                 <div class="rate_attributes">

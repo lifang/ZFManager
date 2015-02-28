@@ -60,4 +60,25 @@
     select id, requirement_setting_id, requirement_type, opening_requirements_id
     from opening_requirement_lists
   </select>
+
+
+  <!-- 详情 -->
+  <resultMap extends="BaseResultMap" id="OpeningRequirementListInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirementList">
+    <association columnPrefix="dopi_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryOpenPrivateInfo" property="dictionaryOpenPrivateInfo" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryOpenPrivateInfoMapper.BaseResultMap" />
+  </resultMap>
+
+  <select id="selectPublicRequirements" resultMap="OpeningRequirementListInfoResultMap">
+    select orl.*,
+    dopi.id dopi_id, dopi.name dopi_name
+    from opening_requirement_lists orl inner join dictionary_open_private_infos dopi on orl.requirement_setting_id = dopi.id
+    where orl.opening_requirements_id=#{param1} and orl.requirement_type=1
+  </select>
+
+  <select id="selectPrivateRequirements" resultMap="OpeningRequirementListInfoResultMap">
+    select orl.*,
+    dopi.id dopi_id, dopi.name dopi_name
+    from opening_requirement_lists orl inner join dictionary_open_private_infos dopi on orl.requirement_setting_id = dopi.id
+    where orl.opening_requirements_id=#{param1} and orl.requirement_type=0
+  </select>
+
 </mapper>

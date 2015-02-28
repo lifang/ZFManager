@@ -11,8 +11,12 @@
     </strong></td>
     <td>
     <#if channel.status=1>
-        <a onClick="firstCheck(${channel.id})" class="a_btn">初审通过</a>
-        <a onClick="firstUnCheck(${channel.id})" class="a_btn">初审不通过</a>
+        <#if channel.needPreliminaryVerify>
+            <a onClick="firstCheck(${channel.id})" class="a_btn">初审通过</a>
+            <a onClick="firstUnCheck(${channel.id})" class="a_btn">初审不通过</a>
+        </#if>
+        <a onClick="check(${channel.id})" class="a_btn">审核通过</a>
+        <a onClick="unCheck(${channel.id})" class="a_btn">审核不通过</a>
         <a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a>
         <a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a>
         <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>

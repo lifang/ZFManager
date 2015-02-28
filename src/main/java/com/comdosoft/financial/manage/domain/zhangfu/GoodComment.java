@@ -260,7 +260,6 @@ public class GoodComment {
 
 	public static final Byte STATUS_WAITING = 1;	// 待审核
     public static final Byte STATUS_CHECKED = 2;	// 审核通过
-    public static final Byte STATUS_DELETE = 3;		// 删除
 
     public Good good;
     public Customer customer;

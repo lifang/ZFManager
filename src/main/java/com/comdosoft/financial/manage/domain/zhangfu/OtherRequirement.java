@@ -140,4 +140,7 @@ public class OtherRequirement {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public static final Byte TYPE_CANCEL = 1;	// 取消
+	public static final Byte TYPE_UPDATE = 2;	// 更新
 }

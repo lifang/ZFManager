@@ -102,7 +102,6 @@ public class GoodCommentService {
     @Transactional("transactionManager")
     public GoodComment delete(Integer id){
         GoodComment comment = goodCommentMapper.selectByPrimaryKey(id);
-        if(comment.getStatus() != GoodComment.STATUS_DELETE){
             if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
                 Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
                 int totalComment = good.getTotalComment() - 1;
@@ -114,12 +113,8 @@ public class GoodCommentService {
                     good.setTotalComment(totalComment);
                     good.setTotalScore(good.getTotalScore() - comment.getScore());
                 }
-                goodMapper.updateByPrimaryKey(good);
+            goodCommentMapper.deleteByPrimaryKey(id);
             }
-            comment.setStatus(GoodComment.STATUS_DELETE);
-            comment.setUpdatedAt(new Date());
-            goodCommentMapper.updateByPrimaryKey(comment);
-        }
         return comment;
     }
 

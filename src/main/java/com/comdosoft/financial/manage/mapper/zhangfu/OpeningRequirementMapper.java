@@ -34,4 +34,6 @@ public interface OpeningRequirementMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OpeningRequirement record);
+
+	List<OpeningRequirement> selectOpeningRequirements(Integer payChannelId);
 }

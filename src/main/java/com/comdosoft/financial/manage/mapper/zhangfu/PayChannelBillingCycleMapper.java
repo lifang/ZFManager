@@ -38,4 +38,5 @@ public interface PayChannelBillingCycleMapper {
 	PayChannelBillingCycle findById(Integer id);
 
 	List<PayChannelBillingCycle> selectBillingCycles(Integer payChannelId);
+
 }

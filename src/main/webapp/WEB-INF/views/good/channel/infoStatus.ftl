@@ -1,8 +1,10 @@
 <div class="userTopBtnBox">
 		<#if channel.status=1>
        		<a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="ghostBtn">编辑</a>
+			<#if channel.needPreliminaryVerify>
        		<a onClick="firstCheck(${channel.id})" class="ghostBtn">初审通过</a>
        		<a onClick="firstUnCheck(${channel.id})" class="ghostBtn">初审不通过</a>
+			</#if>
             <a onClick="check(${channel.id})" class="ghostBtn">审核通过</a>
             <a onClick="unCheck(${channel.id})" class="ghostBtn">审核不通过</a>
        		

@@ -362,6 +362,9 @@ public class PayChannel {
 	private List<City> areas;
 	private List<PayChannelStandardRate> standardRates;
 	private List<PayChannelBillingCycle> billingCycles;
+	private  List<OpeningRequirement> openingRequirements;
+	private  List<OtherRequirement> cancelRequirements;
+	private  List<OtherRequirement> updateRequirements;
 
 	public Factory getFactory() {
 		return factory;
@@ -393,5 +396,29 @@ public class PayChannel {
 
 	public void setBillingCycles(List<PayChannelBillingCycle> billingCycles) {
 		this.billingCycles = billingCycles;
+	}
+
+	public List<OpeningRequirement> getOpeningRequirements() {
+		return openingRequirements;
+	}
+
+	public void setOpeningRequirements(List<OpeningRequirement> openingRequirements) {
+		this.openingRequirements = openingRequirements;
+	}
+
+	public List<OtherRequirement> getCancelRequirements() {
+		return cancelRequirements;
+	}
+
+	public void setCancelRequirements(List<OtherRequirement> cancelRequirements) {
+		this.cancelRequirements = cancelRequirements;
+	}
+
+	public List<OtherRequirement> getUpdateRequirements() {
+		return updateRequirements;
+	}
+
+	public void setUpdateRequirements(List<OtherRequirement> updateRequirements) {
+		this.updateRequirements = updateRequirements;
 	}
 }
