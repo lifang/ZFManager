@@ -105,7 +105,7 @@
                 <li><em>是否需要预审：</em><span>是</span></li>
                 <li><em>开通申请条件：</em><span>各种证件齐全</span></li>
                 <li><em>开通申请材料：</em><span>各种证件复印件</span></li>
-                <li><em>开通协议：</em><span><a href="#" class="a_btn description_a">查看协议</a></span></li>
+                <li><em>开通协议：</em><span><a onClick="setContent('${(standardRate.description)!""}')" class="a_btn description_a">查看协议</a></span></li>
                 <li><em>开通协议：</em><span>
                                 <div class="itl_area">
                                     <div class="ab_l"><em>开通等级名称：</em><span>阿萨德可接受的看法</span></div>
@@ -177,6 +177,48 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    function firstUnCheck(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/firstUnCheck?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
+
+    function firstCheck(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/firstCheck?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
+
+    function unCheck(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/unCheck?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
+
+    function check(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/check?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
+
+    function stop(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/stop?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
+
+    function start(id){
+        $.get('<@spring.url "" />'+'/good/channel/'+id+'/start?source=info',
+                function (data) {
+                    $('.userTopBtnBox').replaceWith(data);
+                });
+    };
 
     function setContent(content){
         $(".lease_con").html(content);

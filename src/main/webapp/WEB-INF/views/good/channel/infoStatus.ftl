@@ -3,6 +3,8 @@
        		<a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="ghostBtn">编辑</a>
        		<a onClick="firstCheck(${channel.id})" class="ghostBtn">初审通过</a>
        		<a onClick="firstUnCheck(${channel.id})" class="ghostBtn">初审不通过</a>
+            <a onClick="check(${channel.id})" class="ghostBtn">审核通过</a>
+            <a onClick="unCheck(${channel.id})" class="ghostBtn">审核不通过</a>
        		
        <#elseif channel.status=2>
        		<a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="ghostBtn">编辑</a>
@@ -10,7 +12,7 @@
        		
        <#elseif channel.status=3>
        		<a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="ghostBtn">编辑</a>
-       		<a class="ghostBtn approve_a">审核通过</a> 
+            <a onClick="check(${channel.id})" class="ghostBtn">审核通过</a>
        		<a onClick="unCheck(${channel.id})" class="ghostBtn">审核不通过</a>
        		
        <#elseif channel.status=4>
