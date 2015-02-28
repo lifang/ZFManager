@@ -143,17 +143,19 @@
                                             <td>材料说明</td>
                                             <td>模版</td>
                                         </tr>
+                                        <#list channel.cancelRequirements as cancelRequirement>
                                         <tr>
-                                            <td>营业执照</td>
-                                            <td>营业执照复印件存档用</td>
-                                            <td><a href="#" class="a_btn">查看模版</a></td>
+                                            <td>${cancelRequirement.title!""}</td>
+                                            <td>${cancelRequirement.description!""}</td>
+                                            <td><a href="${cancelRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
+                                        </#list>
                                         </tbody>
                                     </table>
                                 </div>
                                 </span>
                 </li>
-                <li><em>更新资料所需<br>材料：</em><span>
+                <li><em>更新所需材料：</em><span>
                                 <div class="rate_attributes">
                                     <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                         <colgroup>
@@ -167,11 +169,15 @@
                                             <td>材料说明</td>
                                             <td>模版</td>
                                         </tr>
-                                        <tr>
-                                            <td>营业执照</td>
-                                            <td>营业执照复印件存档用</td>
-                                            <td><a href="#" class="a_btn">查看模版</a></td>
-                                        </tr>
+                                            <#list channel.updateRequirements as updateRequirement>
+                                            <tr>
+                                            <tr>
+                                                <td>${updateRequirement.title!""}</td>
+                                                <td>${updateRequirement.description!""}</td>
+                                                <td><a href="${updateRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
+                                            </tr>
+                                            </tr>
+                                            </#list>
                                         </tbody>
                                     </table>
                                 </div>

@@ -66,13 +66,13 @@
   </select>
 
   <select id="selectCancelRequirements" resultMap="BaseResultMap">
-    <bind name="TYPE_CANCEL" value="@com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement$TYPE_CANCEL"/>
+    <bind name="TYPE_CANCEL" value="@com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement@TYPE_CANCEL"/>
     select *
     from other_requirements where pay_channel_id=#{param1} and types=${TYPE_CANCEL}
   </select>
 
   <select id="selectUpdateRequirements" resultMap="BaseResultMap">
-    <bind name="TYPE_UPDATE" value="@com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement$TYPE_UPDATE"/>
+    <bind name="TYPE_UPDATE" value="@com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement@TYPE_UPDATE"/>
     select *
     from other_requirements where pay_channel_id=#{param1} and types=${TYPE_UPDATE}
   </select>

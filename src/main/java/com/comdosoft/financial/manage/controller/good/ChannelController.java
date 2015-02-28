@@ -97,6 +97,11 @@ public class ChannelController {
 		return "good/channel/info";
 	}
 
+	@RequestMapping(value="{id}/profit",method=RequestMethod.GET)
+	public String profit(@PathVariable Integer id, Model model){
+		return "good/channel/profit";
+	}
+
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;
