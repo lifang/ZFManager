@@ -135,7 +135,7 @@
     <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirement" property="openingRequirements" select="com.comdosoft.financial.manage.mapper.zhangfu.OpeningRequirementMapper.selectOpeningRequirements" />
     <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement" property="cancelRequirements" select="com.comdosoft.financial.manage.mapper.zhangfu.OtherRequirementMapper.selectCancelRequirements" />
     <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement" property="updateRequirements" select="com.comdosoft.financial.manage.mapper.zhangfu.OtherRequirementMapper.selectUpdateRequirements" />
-
+    <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.SupportTradeType" property="supportTradeTypes" select="com.comdosoft.financial.manage.mapper.zhangfu.SupportTradeTypeMapper.selectSupportTradeTypes" />
   </resultMap>
 
   <select id="findChannelLazyInfo" resultMap="PayChannelLazyResultMap">

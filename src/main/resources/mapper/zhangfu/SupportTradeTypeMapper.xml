@@ -96,4 +96,9 @@
     top_charge, floor_charge, description
     from support_trade_types
   </select>
+
+    <select id="selectSupportTradeTypes" resultMap="BaseResultMap">
+        select *
+        from support_trade_types where pay_channel_id=#{param1}
+    </select>
 </mapper>

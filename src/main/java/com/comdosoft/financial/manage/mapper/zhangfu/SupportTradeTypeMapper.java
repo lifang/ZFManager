@@ -34,4 +34,6 @@ public interface SupportTradeTypeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(SupportTradeType record);
+
+	List<SupportTradeType> selectSupportTradeTypes(Integer channelId);
 }
