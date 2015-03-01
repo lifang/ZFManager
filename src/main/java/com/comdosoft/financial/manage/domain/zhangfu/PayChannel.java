@@ -365,8 +365,9 @@ public class PayChannel {
 	private  List<OpeningRequirement> openingRequirements;
 	private  List<OtherRequirement> cancelRequirements;
 	private  List<OtherRequirement> updateRequirements;
+    private  List<SupportTradeType> supportTradeTypes;
 
-	public Factory getFactory() {
+    public Factory getFactory() {
 		return factory;
 	}
 
@@ -421,4 +422,12 @@ public class PayChannel {
 	public void setUpdateRequirements(List<OtherRequirement> updateRequirements) {
 		this.updateRequirements = updateRequirements;
 	}
+
+    public List<SupportTradeType> getSupportTradeTypes() {
+        return supportTradeTypes;
+    }
+
+    public void setSupportTradeTypes(List<SupportTradeType> supportTradeTypes) {
+        this.supportTradeTypes = supportTradeTypes;
+    }
 }
