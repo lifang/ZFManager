@@ -126,7 +126,7 @@
                 <li><a href="#">第三方机构</a></li>
                 <li><a href="#">代理商</a></li>
                 <li><a href="#">网站内容</a></li>
-                <li><a href="#">账户设置</a></li>
+                <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>账户设置</a></li>
             </ol>
         </li>
     </ul>

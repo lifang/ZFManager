@@ -108,4 +108,17 @@ public class CustomerService {
 		customerMapper.updateByPrimaryKey(customer);
 		return customer;
 	}
+	
+	@Transactional("transactionManager")
+	public boolean modifyPwd(Customer customer,String oldPwd,String pwd){
+		Customer c = customerMapper.selectByPrimaryKey(customer.getId());
+		String md5OldPassword = DigestUtils.md5Hex(oldPwd);
+		if(!c.getPassword().equals(md5OldPassword)){
+			return false;
+		}
+		String md5Password = DigestUtils.md5Hex(pwd);
+		c.setPassword(md5Password);
+		customerMapper.updateByPrimaryKey(c);
+		return true;
+	}
 }
