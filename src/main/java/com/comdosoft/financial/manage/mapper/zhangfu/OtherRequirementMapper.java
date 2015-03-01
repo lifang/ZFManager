@@ -34,4 +34,9 @@ public interface OtherRequirementMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OtherRequirement record);
+
+	List<OtherRequirement> selectCancelRequirements(Integer channelId);
+
+    List<OtherRequirement> selectUpdateRequirements(Integer channelId);
+
 }

@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.controller.good;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.utils.Constants;
@@ -7,9 +8,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("good/channel")
@@ -99,10 +98,29 @@ public class ChannelController {
 
 	@RequestMapping(value="{id}/profit",method=RequestMethod.GET)
 	public String profit(@PathVariable Integer id, Model model){
+        PayChannel channel = payChannelService.findChannelInfo(id);
+        model.addAttribute("channel", channel);
 		return "good/channel/profit";
 	}
 
-	private void findPage(Integer page, Byte status, String keys, Model model){
+    @RequestMapping(value="{id}/editProfit",method=RequestMethod.POST)
+    @ResponseBody
+    public Response editProfit(@PathVariable Integer id, Integer baseProfit,
+                               @RequestParam(value = "tradeTypeIds[]", required = false) Integer[] tradeTypeIds,
+                               @RequestParam(value = "terminalRates[]", required = false) Integer[] terminalRates,
+                               @RequestParam(value = "baseRates[]", required = false) Integer[] baseRates,
+                               @RequestParam(value = "floorCharges[]", required = false) Float[] floorCharges,
+                               @RequestParam(value = "floorProfits[]", required = false) Float[] floorProfits,
+                               @RequestParam(value = "topCharges[]", required = false) Float[] topCharges,
+                               @RequestParam(value = "topProfits[]", required = false) Float[] topProfits){
+        
+        return Response.getSuccess("");
+    }
+
+
+
+
+    private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;
 		}

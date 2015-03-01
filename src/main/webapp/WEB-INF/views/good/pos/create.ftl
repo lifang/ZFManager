@@ -383,12 +383,10 @@ function submitData(){
 	var signOrderWayId=$("select[name='g_signOrderWay']").find("option:selected").val();
 	if(isNull(signOrderWayId, "签购单打印方式不能为空!")){return false;}
 	var cardTypes = new Array();
-	var i = 0;
-	$("input[name='g_cardType']").each(function() {
+	$("input[name='g_cardType']").each(function(i) {
             if (this.checked) {
             	cardTypes[i]=$(this).attr("value");
             }
-            i++;
     });
     
     if(isNull(cardTypes, "支持银行卡不能为空!")){return false;}
@@ -417,10 +415,8 @@ function submitData(){
  	var leaseAgreement=$("textarea[name='g_leaseAgreement']").val();
    	
    	var channels = new Array();
-	i = 0;
-   	$("#channel_search .item_relevance_pro").each(function() {
+   	$("#channel_search .item_relevance_pro").each(function(i) {
             channels[i]=$(this).attr("value");
-            i++;
     });
  	if(isNull(channels, "支付通道不能为空!")){return false;}
 
@@ -428,17 +424,13 @@ function submitData(){
  	if(isNull(description, "详细说明不能为空!")){return false;}
 
     var photoUrls = new Array();
-	i = 0;
-   	$("#photos .item_photoBox img").each(function() {
+   	$("#photos .item_photoBox img").each(function(i) {
             photoUrls[i]=$(this).attr("dbValue");
-            i++;
     });
 
     var goods = new Array();
-	i = 0;
-   	$("#rgood_search .item_relevance_pro").each(function() {
+   	$("#rgood_search .item_relevance_pro").each(function(i) {
             goods[i]=$(this).attr("value");
-            i++;
     });
     
     <#if good??>
