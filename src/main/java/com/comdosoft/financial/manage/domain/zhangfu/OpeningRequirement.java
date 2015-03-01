@@ -1,5 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
+import java.util.List;
+
 public class OpeningRequirement {
 
 	/**
@@ -162,5 +164,24 @@ public class OpeningRequirement {
 	 */
 	public void setVideoVerifyStatus(Integer videoVerifyStatus) {
 		this.videoVerifyStatus = videoVerifyStatus;
+	}
+
+	private List<OpeningRequirementList> publicRequirements;
+	private List<OpeningRequirementList> privateRequirements;
+
+	public List<OpeningRequirementList> getPublicRequirements() {
+		return publicRequirements;
+	}
+
+	public void setPublicRequirements(List<OpeningRequirementList> publicRequirements) {
+		this.publicRequirements = publicRequirements;
+	}
+
+	public List<OpeningRequirementList> getPrivateRequirements() {
+		return privateRequirements;
+	}
+
+	public void setPrivateRequirements(List<OpeningRequirementList> privateRequirements) {
+		this.privateRequirements = privateRequirements;
 	}
 }

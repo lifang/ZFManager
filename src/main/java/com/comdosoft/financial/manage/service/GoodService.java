@@ -517,5 +517,9 @@ public class GoodService {
 		}
 	   }
 	}
+
+    public Good findGood(Integer id){
+        return goodMapper.findGoodLazyInfo(id);
+    }
 	
 }

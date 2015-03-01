@@ -617,14 +617,23 @@ tr.order_hd td { text-align: left; }
 .classify_pos dt { font-size: 14px; height: 32px;}
 .classify_pos dd { padding-left: 20px; font-size: 14px;}
 .classify_pos dl div.stair { height: 32px;}
-.classify_pos dl div.stair i { 
+.classify_pos dl div.stair i.bq { 
 	width: 12px; 
 	height: 14px; 
 	display: inline-block;
 	background: url(../images/icons.png) no-repeat -163px -269px;
 	margin-right: 5px;
 }
-.classify_pos dl div.stair span { display: inline-block; cursor: pointer;}
+.classify_pos dl div.stair:hover i.pos_delete { 
+	width: 8px; 
+	height: 8px; 
+	display: inline-block;
+	background: url(../images/icons.png) no-repeat -185px -275px;
+	cursor: pointer;
+	margin-top: 12px;
+	margin-left: 10px;
+}
+.classify_pos dl div.stair span { display: inline-block;}
 
 .classify_pos dd ul { padding-left: 30px; font-size: 12px;}
 .classify_pos li { border:1px #fff solid; height: 32px; width: 120px; overflow: hidden; padding: 0 10px;}
@@ -1044,7 +1053,7 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 	border: 1px #CCCCCC solid;
 	z-index: 100;
 }
-.suggest_l { left: 132px; width: 370px;}
+.suggest_l { left: 137px; width: 370px;}
 .suggest a { display: block; line-height: 24px; padding: 0 10px;}
 .suggest a:hover { background: #f1f1f1;}
 

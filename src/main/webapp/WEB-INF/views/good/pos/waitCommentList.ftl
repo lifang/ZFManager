@@ -10,7 +10,7 @@
     <#include "waitCommentPage.ftl" />
 <script type="text/javascript">
     function check(id){
-        $.get('<@spring.url "/good/pos/waitComment/" />'+id+'/check',
+        $.get('<@spring.url "/good/pos/comment/" />'+id+'/check',
                 function (data) {
                     if(data.code == 1){
                         var page = $("#currentPage").attr("value");
@@ -29,7 +29,7 @@
     }
 
     function commentPageChange(page){
-        $.get('<@spring.url "/good/pos/comment/page" />',
+        $.get('<@spring.url "/good/pos/waitComment/page" />',
                 {"page": page},
                 function (data) {
                     $("div[class='content clear']").replaceWith(data);

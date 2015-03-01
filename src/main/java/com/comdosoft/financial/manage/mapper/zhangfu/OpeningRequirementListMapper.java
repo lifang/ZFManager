@@ -34,4 +34,9 @@ public interface OpeningRequirementListMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OpeningRequirementList record);
+
+	List<OpeningRequirementList> selectPublicRequirements(Integer openingRequirementId);
+
+	List<OpeningRequirementList> selectPrivateRequirements(Integer openingRequirementId);
+
 }

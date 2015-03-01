@@ -61,7 +61,7 @@
            	<a onClick="purchase(${good.id})" class="a_btn">可批购</a> 		          		
       		</#if>
            	<a href="#" class="a_btn putStorage_a">入库</a> 
-           	<a href="#" class="a_btn">评论管理</a> 
+           	<a href="<@spring.url "/good/pos/${good.id}/comments" />" class="a_btn">评论管理</a>
        		<a onClick="stop(${good.id})" class="a_btn">停用</a> 
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		

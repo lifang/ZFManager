@@ -34,4 +34,9 @@ public interface PayChannelBillingCycleMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(PayChannelBillingCycle record);
+
+	PayChannelBillingCycle findById(Integer id);
+
+	List<PayChannelBillingCycle> selectBillingCycles(Integer payChannelId);
+
 }

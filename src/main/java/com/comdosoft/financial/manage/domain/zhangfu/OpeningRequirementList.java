@@ -94,4 +94,15 @@ public class OpeningRequirementList {
 	public void setOpeningRequirementsId(Integer openingRequirementsId) {
 		this.openingRequirementsId = openingRequirementsId;
 	}
+
+	private DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo;
+
+	public DictionaryOpenPrivateInfo getDictionaryOpenPrivateInfo() {
+		return dictionaryOpenPrivateInfo;
+	}
+
+	public void setDictionaryOpenPrivateInfo(DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo) {
+		this.dictionaryOpenPrivateInfo = dictionaryOpenPrivateInfo;
+	}
+
 }

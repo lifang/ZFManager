@@ -4,6 +4,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 
 import java.util.List;
 
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.apache.ibatis.annotations.Param;
 
 public interface PayChannelMapper {
@@ -40,5 +41,12 @@ public interface PayChannelMapper {
 
 	List<PayChannel> selectByStatusAndName(@Param("status") byte status, @Param("name") String name);
 
-    List<PayChannel> selectChannels(Integer goodId);
+	List<PayChannel> selectChannels(Integer goodId);
+
+	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+
+	List<PayChannel> findPageChannelsByKeys(@Param("pageRequest") PageRequest pageRequest,
+											@Param("status") Byte status, @Param("keys") String keys);
+
+	PayChannel findChannelLazyInfo(Integer id);
 }

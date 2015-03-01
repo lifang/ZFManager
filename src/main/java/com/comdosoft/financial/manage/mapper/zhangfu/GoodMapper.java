@@ -54,4 +54,6 @@ public interface GoodMapper {
 
     List<Good> selectRelativeGoods(Integer goodId);
 
+    Good findGoodLazyInfo(Integer id);
+
 }

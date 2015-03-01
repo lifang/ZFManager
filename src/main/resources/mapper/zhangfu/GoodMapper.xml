@@ -184,7 +184,7 @@
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
 		<include refid="pageWhere" />
-		order by created_at limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countByKeys" resultType="long">
@@ -261,5 +261,11 @@
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType" property="cardTypes" select="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryCardTypeMapper.selectCardTypes" />
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.Good" property="relativeGoods" select="selectRelativeGoods" />
     </resultMap>
+
+    <select id="findGoodLazyInfo" resultMap="GoodInfoLazyResultMap">
+        select g.*
+        from goods g
+        where g.id=#{param1}
+    </select>
 
 </mapper>

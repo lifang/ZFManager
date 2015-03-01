@@ -36,4 +36,6 @@ public interface CityMapper {
 	int updateByPrimaryKey(City record);
 
 	List<City> selectWithParentId(Integer parentId);
+
+	List<City> selectCities(Integer channelId);
 }
