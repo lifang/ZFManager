@@ -182,7 +182,7 @@
     }
 
     function isNotDecimal(value, error){
-        var re=/^([1-9]|([1-9][0-9]))$/;//2位小数
+        var re=/^([1-9]|([1-9][0-9]))$/;//2位整数
         if(value.length>0 && !(re.test(value))){
             showErrorTip(error);
             return true;
