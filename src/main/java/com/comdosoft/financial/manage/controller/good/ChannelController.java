@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.controller.good;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.service.PayChannelService;
+import com.comdosoft.financial.manage.service.SupportTradeTypeService;
 import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class ChannelController {
 
 	@Autowired
-	private PayChannelService payChannelService ;
-	
+	private PayChannelService payChannelService;
+    @Autowired
+    private SupportTradeTypeService supportTradeTypeService ;
+
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Byte status, String keys, Model model){
 		findPage(page, status, keys, model);
@@ -113,7 +116,8 @@ public class ChannelController {
                                @RequestParam(value = "floorProfits[]", required = false) Float[] floorProfits,
                                @RequestParam(value = "topCharges[]", required = false) Float[] topCharges,
                                @RequestParam(value = "topProfits[]", required = false) Float[] topProfits){
-        
+        supportTradeTypeService.updateSupportTradeTypes(id, baseProfit,
+                tradeTypeIds, terminalRates, baseRates, floorCharges, floorProfits, topCharges, topProfits);
         return Response.getSuccess("");
     }
 

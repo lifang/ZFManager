@@ -89,10 +89,10 @@
                                         <tr class="rate" value="${supportTradeType.id}">
                                             <td><input name="terminalRate" type="text" value="${supportTradeType.terminalRate!""}" class="input_m">%</td>
                                             <td><input name="baseRate" type="text" value="${supportTradeType.baseRate!""}" class="input_m">%</td>
-                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge?exists)?string((supportTradeType.floorCharge/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit?exists)?string((supportTradeType.floorProfit/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge?exists)?string((supportTradeType.topCharge/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit?exists)?string((supportTradeType.topProfit/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge??)?string(((supportTradeType.floorCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit??)?string(((supportTradeType.floorProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge??)?string(((supportTradeType.topCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit??)?string(((supportTradeType.topProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
                                         </tr>
                                         </tbody></table>
                                 </div>
