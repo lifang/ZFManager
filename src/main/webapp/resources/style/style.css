@@ -943,12 +943,12 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 
 /*---订单 用户----*/
 .remark_tab {}
-.remark_tab textarea { width:467px; padding: 5px; border: 1px #CCCCCC solid; height: 100px; font-size: 12px;}
+.remark_tab textarea { width:98%; padding: 5px; border: 1px #CCCCCC solid; height: 100px; font-size: 12px;}
 
 .deliver_tab {}
 .deliver_tab p { line-height: 24px;}
 .deliver_tab textarea { 
-	width:467px; 
+	width:98%; 
 	padding: 5px; 
 	border: 1px #CCCCCC solid; 
 	height: 100px; 
@@ -956,7 +956,7 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 	font-size: 12px;
 	display: block;
 }
-.deliver_tab input { width:467px; padding: 5px; border: 1px #CCCCCC solid; height: 24px; margin: 10px 0;display: block;}
+.deliver_tab input { width: 98%; padding: 5px; border: 1px #CCCCCC solid; height: 24px; margin: 10px 0;display: block;}
 
 .payWarning { 
 	position: relative; 
@@ -1017,7 +1017,7 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 /*-*---pos机管理  入库-------*/
 .putStorage_tab {}
 .putStorage_tab textarea { 
-	width: 466px; 
+	width: 98%; 
 	display: block; 
 	height: 100px; 
 	padding: 5px; 
@@ -1244,7 +1244,14 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 .l_video .l_v_btn { margin-top: 20px; text-align: center;}
 .l_video .l_v_btn a { margin-bottom: 10px;}
 
-
+/*-----出库订单详情-------*/
+.orderDetail_info_tab {padding: 10px;}
+.orderDetail_info_tab dl { overflow: hidden; line-height: 24px;}
+.orderDetail_info_tab dt { float: left;}
+.orderDetail_info_tab dd { float: left; margin-right: 20px;}
+.orderDetail_info_tab dd.line_through { text-decoration: line-through;}
+.orderDetail_info_tab dl.leaveWord { height: 48px; border-bottom: 1px #ccc dashed; margin-bottom: 10px;}
+.orderDetail_info_tab dl.leaveWord dd { overflow: hidden; float: none;}
 
 /*-------foot-------*/
 .foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden;}

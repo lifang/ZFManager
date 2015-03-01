@@ -1,7 +1,7 @@
 <#macro html>
-<!DOCTYPE html>
-<html>
-    <@head />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<@head />
 <@body>
     <#nested />
 </@body>
@@ -117,10 +117,10 @@
             </ol>
         </li>
         <li><a href="#">购买意向</a></li>
-        <li class="second"><a href="javascript:void(0);">系统<i class="off"></i></a>
-            <ol>
-                <li><a href="#">运营账号</a></li>
-                <li><a href="#">系统消息</a></li>
+        <li class="second"><a href="javascript:void(0);"<#if urlCheck(request,"/system")> class="hover"</#if>>系统<i class="<#if urlCheck(request,"/system")>on<#else>off</#if>"></i></a>
+            <ol<#if urlCheck(request,"/system")> style="display: block;"</#if>>
+                <li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li>
+                <li><a href="<@spring.url "/system/message/list"/>"<#if urlCheck(request,"/system/message")> class="hover"</#if>>系统消息</a></li>
                 <li><a href="#">系统参数</a></li>
                 <li><a href="#">数据字典</a></li>
                 <li><a href="#">第三方机构</a></li>
