@@ -694,6 +694,7 @@ tr.order_hd td { text-align: left; }
 .attributes_box .item_list li div.text {}
 .attributes_box .item_list li.select2 div.text select { width: 128px;}
 .attributes_box .item_list li div.text select { width: 84px;}
+.attributes_box .item_list li div.text select.select_xl { width: 227px;}
 .attributes_box .item_list li.o div.text select { width: 262px;}
 .attributes_box .item_list li div.text img.cover { float: left; margin-right: 5px;}
 .attributes_box .item_list li div.text textarea { width: 724px; padding: 10px;}

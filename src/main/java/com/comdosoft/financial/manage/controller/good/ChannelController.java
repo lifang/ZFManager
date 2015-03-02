@@ -39,7 +39,7 @@ public class ChannelController {
 		if ("info".equals(source)) {
 			return "good/channel/infoStatus";
 		}
-		return "channel/pos/pageRowChannel";
+		return "good/channel/pageRowChannel";
 	}
 
 	@RequestMapping(value="{id}/firstCheck",method=RequestMethod.GET)
@@ -121,7 +121,10 @@ public class ChannelController {
         return Response.getSuccess("");
     }
 
-
+    @RequestMapping(value="create",method=RequestMethod.GET)
+    public String create(@PathVariable Integer id, Model model){
+        return "channel/create";
+    }
 
 
     private void findPage(Integer page, Byte status, String keys, Model model){
