@@ -24,60 +24,54 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">名称：</span>
-                        <div class="text"><input name="" type="text" value="${(channel.name)???string(channel.name, "")}"></div></li>
+                        <div class="text"><input name="" type="text" value="${((channel.name)??)?string((channel.name)!"", "")}"></div></li>
                     <li class="o"><span class="labelSpan">收单机构：</span>
                         <div class="text"><select name="">
-                            <option>111</option>
+                            <#if factories??>
+                                <#list factories as factory>
+                                    <option value="${factory.id}"
+                                        <#if ((channel.factoryId)?? && channel.factoryId=factory.id)
+                                        ||(!((channel.factoryId)??) && factory_index=0) > selected="true"</#if>
+                                            >${factory.name}</option>
+                                </#list>
+                            </#if>
                         </select></div>
                     </li>
                     <li class="b"><span class="labelSpan">支持区域：</span>
                         <div class="text">
                             <div class="supportArea">
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="" type="radio" value=""> 全国</span>
+                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="0"> 全国</span>
                                 </div>
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="" type="radio" value=""> 只支持</span>
-                                    <select name="">
-                                        <option>江苏省</option>
+                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="1"> 只支持</span>
+                                    <select id="provinceSelect">
+                                        <option></option>
+                                        <#list provinces as province>
+                                            <option value="${province.id}">${province.name}</option>
+                                        </#list>
                                     </select>
-                                    <select name="">
-                                        <option>苏州市</option>
+                                    <select  id="citySelect">
                                     </select>
-                                    <a href="#" class="pay_add_a">+</a>
+                                    <a class="pay_add_a" id="addCity">+</a>
                                     <div class="sa_area">
-                                        <div class="saa_b"><span class="saab_t">省</span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
+                                        <div class="saa_b" id="selectedProvince"><span class="saab_t">省</span>
                                             <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
                                         </div>
-                                        <div class="saa_b"><span class="saab_t">市</span>
+                                        <div class="saa_b" id="selectedCity"><span class="saab_t">市</span>
                                             <span class="saab_c">上海市<a href="#" class="dele">删除</a></span></div>
                                     </div>
                                 </div>
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="" type="radio" value=""> 不支持</span>
+                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="2"> 不支持</span>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li><span class="labelSpan">是否支持注销：</span>
                         <div class="text">
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 是</span>
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 否</span>
+                            <span class="checkboxRadio_span"><input name="supportCancel" type="radio" value="true"> 是</span>
+                            <span class="checkboxRadio_span"><input name="supportCancel" type="radio" value="false"> 否</span>
                         </div>
                     </li>
                 </ul>
@@ -142,7 +136,7 @@
                                         <td><input name="" type="text" class="input_l"></td>
                                     </tr>
                                     </tbody></table>
-                                <a href="#" class="pay_add_a">+</a>
+                                <a class="pay_add_a">+</a>
                             </div>
                         </div>
                     </li>
@@ -294,4 +288,45 @@
 
         <div class="btnBottom"><button class="blueBtn">创建</button></div>
     </div>
+<div id="hideCity" style="visibility:hidden;">
+    <span class="saab_c"><a class="dele">删除</a></span>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#provinceSelect').change(function(){
+            var provinceId = $(this).children('option:selected').val();
+            if(provinceId.length>0){
+                $.post('<@spring.url "/common/cities" />',
+                        {'id':provinceId},
+                        function (data) {
+                            $("#citySelect").empty();
+                            $("#citySelect").append("<option></option>"+data);
+                        });
+            } else {
+                $("#citySelect").empty();
+            }
+        });
+        $("#addCity").click(function(){
+            var cityId = $('#citySelect').children('option:selected').val();
+            var provinceId = $('#provinceSelect').children('option:selected').val();
+            if(cityId.length > 0){
+                var newSpan = $("#hideCity").children("span").clone();
+                $("#selectedCity").append(newSpan);
+                newSpan.children("a").before($('#citySelect').children('option:selected').html());
+                var $a = newSpan.children("a");
+                $a.attr("value", cityId);
+            } else if(provinceId.length > 0) {
+                var newSpan = $("#hideCity").children("span").clone();
+                $("#selectedProvince").append(newSpan);
+                var $a = newSpan.children("a");
+                $a.attr("value", provinceId);
+                $a.before($('#provinceSelect').children('option:selected').html());
+            }
+        });
+        $(document).delegate(".dele", "click", function () {
+            alert($(this).parent().remove());
+        });
+    })
+</script>
+
 </@c.html>

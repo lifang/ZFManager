@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.controller.good;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+import com.comdosoft.financial.manage.service.CityService;
+import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SupportTradeTypeService;
 import com.comdosoft.financial.manage.utils.Constants;
@@ -11,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("good/channel")
 public class ChannelController {
@@ -19,6 +25,11 @@ public class ChannelController {
 	private PayChannelService payChannelService;
     @Autowired
     private SupportTradeTypeService supportTradeTypeService ;
+    @Autowired
+    private FactoryService factoryService;
+    @Autowired
+    private CityService cityService;
+
 
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Byte status, String keys, Model model){
@@ -122,8 +133,21 @@ public class ChannelController {
     }
 
     @RequestMapping(value="create",method=RequestMethod.GET)
-    public String create(@PathVariable Integer id, Model model){
-        return "channel/create";
+    public String create(Model model){
+        List<Factory> factories = factoryService.findCheckedFactories();
+        List<City> provinces = cityService.provinces();
+        model.addAttribute("factories", factories);
+        model.addAttribute("provinces", provinces);
+        return "good/channel/create";
+    }
+
+    @RequestMapping(value="{id}/edit",method=RequestMethod.GET)
+    public String edit(@PathVariable Integer id, Model model){
+        PayChannel channel = payChannelService.findChannelInfo(id);
+        List<Factory> factories = factoryService.findCheckedFactories();
+        model.addAttribute("channel", channel);
+        model.addAttribute("factories", factories);
+        return "good/channel/create";
     }
 
 
