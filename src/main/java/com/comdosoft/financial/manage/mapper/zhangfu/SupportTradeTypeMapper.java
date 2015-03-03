@@ -36,4 +36,7 @@ public interface SupportTradeTypeMapper {
 	int updateByPrimaryKey(SupportTradeType record);
 
 	List<SupportTradeType> selectSupportTradeTypes(Integer channelId);
+
+    SupportTradeType selectBaseSupportTradeType(Integer channelId);
+
 }

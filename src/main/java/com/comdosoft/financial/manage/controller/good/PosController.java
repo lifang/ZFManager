@@ -36,11 +36,7 @@ public class PosController {
 	@Autowired
 	private FactoryService factoryService;
 	@Autowired
-	private DictionarySignOrderWayService dictionarySignOrderWayService;
-	@Autowired
-	private DictionaryCardTypeService dictionaryCardTypeService;	
-	@Autowired
-	private DictionaryEncryptCardWayService dictionaryEncryptCardWayService;
+	private DictionaryService dictionaryService;
 	@Autowired
 	private PayChannelService payChannelService;
     @Autowired
@@ -177,9 +173,9 @@ public class PosController {
 		Good good = goodService.findGoodInfo(id);
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
 		List<Factory> factories = factoryService.findCheckedFactories();
-		List<DictionarySignOrderWay> signOrderWays = dictionarySignOrderWayService.listAll();
-		List<DictionaryCardType> cardTypes = dictionaryCardTypeService.listAll();
-		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryEncryptCardWayService.listAll();
+		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
+		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
+		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
 		model.addAttribute("good", good);
 		model.addAttribute("posCategories", posCategories);
 		model.addAttribute("factories", factories);

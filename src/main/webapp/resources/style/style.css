@@ -690,10 +690,12 @@ tr.order_hd td { text-align: left; }
 .attributes_box .item_list li.b div.text { width: 746px;}
 .attributes_box .item_list li.b div.text input[type="text"] { width: 714px;}
 .attributes_box .item_list li.b div.text input[type="text"].input_l { width: 215px;}
+.attributes_box .item_list li.b div.text input[type="text"].input_ls { width: 200px;}
 .attributes_box .item_list li.b div.text input[type="text"].input_m { width: 90px;}
 .attributes_box .item_list li div.text {}
 .attributes_box .item_list li.select2 div.text select { width: 128px;}
 .attributes_box .item_list li div.text select { width: 84px;}
+.attributes_box .item_list li div.text select.select_xl { width: 227px;}
 .attributes_box .item_list li.o div.text select { width: 262px;}
 .attributes_box .item_list li div.text img.cover { float: left; margin-right: 5px;}
 .attributes_box .item_list li div.text textarea { width: 724px; padding: 10px;}
@@ -796,8 +798,8 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 
 
 .sa_area { display: block; border: 1px #CCCCCC solid; background: #eee; padding: 10px; margin: 10px 0;}
-.saa_b { position: relative; padding: 0 20px; margin: 5px 0;}
-.saa_b .saab_t { position: absolute; top: 0px; left: 0px; height: 24px;}
+.saa_b { position: relative; margin: 5px 0;}
+.saa_b .saab_t { height: 24px;}
 .saa_b .saab_c { background: #f7f7f7; display: inline-block; border: 1px #CCCCCC solid; padding: 2px 5px; margin: 0 5px 5px 0;}
 .saa_b .saab_c  a.dele { 
 	width: 8px; 

@@ -117,6 +117,8 @@ $(function(){
 	popup(".assign_tab",".assign_a");//分派
 	popup(".danger_tab",".danger_a");//风险标签
 	popup(".errorTab",".error_a");//错误提示弹层
+	
+	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 })
 
 
