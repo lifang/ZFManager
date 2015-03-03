@@ -59,7 +59,7 @@ public class UserController {
 		if(page==null) {
 			page = 0;
 		}
-		Page<Customer> customers = customerService.listPage(page,query);
+		Page<Customer> customers = customerService.listCustomerPage(page, query);
 		List<Long> terminals = Lists.newArrayList();
 		Iterator<Customer> it = customers.getContent().iterator();
 		while(it.hasNext()){

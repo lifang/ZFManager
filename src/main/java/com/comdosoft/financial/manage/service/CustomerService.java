@@ -55,16 +55,25 @@ public class CustomerService {
 		customerMapper.insert(customer);
 	}
 	
+	public Page<Customer> listCustomerPage(Integer page,String query){
+		return listPage(page, query, Customer.TYPE_CUSTOMER, null);
+	}
+	
+	public Page<Customer> listOperatePage(Integer page,String query,Byte status){
+		return listPage(page, query, Customer.TYPE_OPERATE, status);
+	}
+	
 	/**
 	 * 列表
 	 * @param page 页数
 	 * @param query 查询条件
 	 * @return
 	 */
-	public Page<Customer> listPage(Integer page,String query){
+	public Page<Customer> listPage(Integer page,String query,Byte type,Byte status){
 		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
-		List<Customer> customers = customerMapper.selectCustomerPageList(request,query);
-		long total = customerMapper.countTotalCustomer(query);
+		List<Customer> customers = customerMapper.selectCustomerPageList(
+				request,query,type,status);
+		long total = customerMapper.countTotalCustomer(query,type,status);
 		return new Page<Customer>(request, customers, total);
 	}
 	

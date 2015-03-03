@@ -29,11 +29,6 @@
     <div id="page"></div>
 </div>
 <script>
-    function userStatus(id){
-        $.post("<@spring.url "/user/"/>"+id+"/status",function(data){
-            $("tr[data-id="+id+"]").replaceWith(data);
-        });
-    }
     function pageChange(page) {
         $.post('<@spring.url "/system/operate/roles/page" />',
                 {"page": page,"query":$("input[name=query]").val()},
@@ -46,7 +41,6 @@
         $("#query").click(function(){
             pageChange(0);
         });
-
         pageChange(0);
     });
 </script>

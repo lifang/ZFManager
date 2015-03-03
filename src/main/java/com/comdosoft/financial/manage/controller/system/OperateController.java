@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Menu;
 import com.comdosoft.financial.manage.domain.zhangfu.Role;
+import com.comdosoft.financial.manage.service.CustomerService;
 import com.comdosoft.financial.manage.service.RoleService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
@@ -21,10 +23,19 @@ public class OperateController {
 	
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private CustomerService customerService;
 	
 	@RequestMapping(value="/accounts",method=RequestMethod.GET)
 	public String accountsList(){
 		return "system/accounts_list";
+	}
+	
+	@RequestMapping(value="/accounts/page",method=RequestMethod.POST)
+	public String accountsPage(String query,Byte status,Integer page,Model model){
+		Page<Customer> customers = customerService.listOperatePage(page, query, status);
+		model.addAttribute(customers);
+		return "system/accounts_list_page";
 	}
 
     @RequestMapping(value="/account/create",method=RequestMethod.GET)
@@ -33,12 +44,12 @@ public class OperateController {
     }
 
 	@RequestMapping(value="/roles",method=RequestMethod.GET)
-	public String rolesList(Model model){
+	public String rolesList(){
 		return "system/roles_list";
 	}
 	
 	@RequestMapping(value="/roles/page",method=RequestMethod.POST)
-	public String rolesList(String query,Integer page,Model model){
+	public String rolesPage(String query,Integer page,Model model){
 		Page<Role> roles = roleService.listPage(page, query);
 		model.addAttribute(roles);
 		return "system/roles_list_page";

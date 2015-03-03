@@ -104,27 +104,31 @@
   </select>
   
   <select id="selectCustomerPageList" resultMap="BaseResultMap">
-  	<bind name="CUSTOMER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_CUSTOMER" />
     select id, username, password, account_type, name, city_id, types, last_logined_at, 
     integral, status, device_code, created_at, updated_at, phone, email
     from customers
-    where types=#{CUSTOMER} 
+    where types=#{type} 
     <if test="query != null and query != ''">
     <bind name="queryParam" value="'%'+query+'%'" />
     and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
+    </if>
+    <if test="status != null">
+    and status = #{status}
     </if>
     order by created_at desc
     limit #{request.offset}, #{request.pageSize}
   </select>
   
   <select id="countTotalCustomer" resultType="long">
-    <bind name="CUSTOMER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_CUSTOMER" />
     select count(*)
     from customers
-    where types=#{CUSTOMER}
+    where types=#{type}
     <if test="query != null and query != ''">
     <bind name="queryParam" value="'%'+query+'%'" />
     and (name like #{queryParam} or email like #{queryParam} or phone like #{queryParam})
+    </if>
+    <if test="status != null">
+    and status = #{status}
     </if>
   </select>
 </mapper>
