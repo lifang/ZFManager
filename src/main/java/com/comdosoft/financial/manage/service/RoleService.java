@@ -13,6 +13,9 @@ import com.comdosoft.financial.manage.domain.zhangfu.RoleMenu;
 import com.comdosoft.financial.manage.mapper.zhangfu.MenuMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.RoleMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.RoleMenuMapper;
+import com.comdosoft.financial.manage.utils.Constants;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 @Service
 public class RoleService {
@@ -43,4 +46,16 @@ public class RoleService {
 		}
 	}
 
+	/**
+	 * 列表
+	 * @param page 页数
+	 * @param query 查询条件
+	 * @return
+	 */
+	public Page<Role> listPage(Integer page,String query){
+		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
+		List<Role> roles = roleMapper.selectPage(request,query);
+		long total = roleMapper.countTotal(query);
+		return new Page<Role>(request, roles, total);
+	}
 }

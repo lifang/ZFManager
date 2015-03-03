@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Role;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface RoleMapper {
 
@@ -34,4 +38,8 @@ public interface RoleMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Role record);
+	
+	List<Role> selectPage(@Param("request") PageRequest request,@Param("query") String query);
+	
+	long countTotal(@Param("query") String query);
 }

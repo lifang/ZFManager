@@ -56,4 +56,28 @@
     select id, role_name, created_at
     from roles
   </select>
+  
+  <select id="selectPage" resultMap="BaseResultMap">
+    select id, role_name, created_at
+    from roles
+    <where>
+    <if test="query != null and query != ''">
+    <bind name="queryParam" value="'%'+query+'%'" />
+    role_name like #{queryParam}
+    </if>
+    </where>
+    order by created_at desc
+    limit #{request.offset}, #{request.pageSize}
+  </select>
+  
+  <select id="countTotal" resultType="long">
+    select count(*)
+    from roles
+    <where>
+    <if test="query != null and query != ''">
+    <bind name="queryParam" value="'%'+query+'%'" />
+    role_name like #{queryParam}
+    </if>
+    </where>
+  </select>
 </mapper>

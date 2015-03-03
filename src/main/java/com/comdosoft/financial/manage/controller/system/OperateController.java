@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Menu;
+import com.comdosoft.financial.manage.domain.zhangfu.Role;
 import com.comdosoft.financial.manage.service.RoleService;
+import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/system/operate")
@@ -32,6 +34,13 @@ public class OperateController {
 	@RequestMapping(value="/roles",method=RequestMethod.GET)
 	public String rolesList(Model model){
 		return "system/roles_list";
+	}
+	
+	@RequestMapping(value="/roles/page",method=RequestMethod.POST)
+	public String rolesList(String query,Integer page,Model model){
+		Page<Role> roles = roleService.listPage(page, query);
+		model.addAttribute(roles);
+		return "system/roles_list_page";
 	}
 
     @RequestMapping(value="/role/create",method=RequestMethod.GET)

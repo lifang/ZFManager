@@ -8,7 +8,6 @@
     </ul>
 </div>
 <div class="content clear">
-
     <div class="myInfoNav">
         <ul>
             <li><a href="<@spring.url "/system/operate/accounts"/>">管理运营帐号</a></li>
@@ -24,74 +23,31 @@
 
     <div class="seenBox clear">
         <ul>
-            <li><div class="user_search"><input name="" type="text"><button></button></div></li>
-            <li><div class="user_select">
-                <label>状态筛选</label>
-                <select name="">
-                    <option>111</option>
-                    <option>222</option>
-                    <option>333</option>
-                </select>
-            </div></li>
+            <li><div class="user_search"><input name="query" type="text"><button id="query"></button></div></li>
         </ul>
     </div>
-
-    <div class="user_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-            <colgroup>
-                <col width="200">
-                <col>
-                <col>
-            </colgroup>
-            <thead>
-            <tr>
-                <th>角色名称</th>
-                <th>创建日期</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>运营</td>
-                <td>2014-12-12 20:30:30</td>
-                <td><a href="#" class="a_btn">编辑</a></td>
-            </tr>
-            <tr>
-                <td>运营</td>
-                <td>2014-12-12 20:30:30</td>
-                <td><a href="#" class="a_btn">编辑</a></td>
-            </tr>
-            <tr>
-                <td>运营</td>
-                <td>2014-12-12 20:30:30</td>
-                <td><a href="#" class="a_btn">编辑</a></td>
-            </tr>
-            <tr>
-                <td>运营</td>
-                <td>2014-12-12 20:30:30</td>
-                <td><a href="#" class="a_btn">编辑</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="pageTurn">
-        <div class="p_num">
-            <a href="#" class="disabled">上一页</a>
-            <a href="#" class="current">1</a>
-            <a href="#?page=2">2</a>
-            <a href="#?page=3">3</a>
-            <a href="#?page=4">4</a>
-            <a href="#?page=5">5</a>
-            ...
-            <a href="#?page=199">199</a>
-            <a href="#?page=200">200</a>
-            <a href="#?page=2">下一页</a>
-        </div>
-        <div class="p_skip">
-            <span>共24页</span>
-            <span>到第&nbsp;&nbsp;<input name="" type="text">&nbsp;&nbsp;页</span>
-            <button>确定</button>
-        </div>
-    </div>
+    <div id="page"></div>
 </div>
+<script>
+    function userStatus(id){
+        $.post("<@spring.url "/user/"/>"+id+"/status",function(data){
+            $("tr[data-id="+id+"]").replaceWith(data);
+        });
+    }
+    function pageChange(page) {
+        $.post('<@spring.url "/system/operate/roles/page" />',
+                {"page": page,"query":$("input[name=query]").val()},
+                function (data) {
+                    $('#page').html(data);
+                });
+    }
+
+    $(function(){
+        $("#query").click(function(){
+            pageChange(0);
+        });
+
+        pageChange(0);
+    });
+</script>
 </@c.html>
