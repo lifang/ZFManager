@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -135,23 +136,35 @@ public class ChannelController {
         List<City> provinces = cityService.provinces();
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
+        List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
         model.addAttribute("factories", factories);
         model.addAttribute("provinces", provinces);
         model.addAttribute("standardRates", standardRates);
         model.addAttribute("billingCycles", billingCycles);
+        model.addAttribute("tradeTypes", tradeTypes);
         return "good/channel/create";
     }
 
     @RequestMapping(value="{id}/edit",method=RequestMethod.GET)
     public String edit(@PathVariable Integer id, Model model){
         PayChannel channel = payChannelService.findChannelInfo(id);
+        for(Iterator<SupportTradeType> it=channel.getSupportTradeTypes().iterator();it.hasNext();){
+            SupportTradeType supportTradeType = (SupportTradeType)it.next();
+            if(supportTradeType.getTradeType() == SupportTradeType.TYPE_TRADE) {
+                it.remove();
+            }
+        }
+        model.addAttribute("channel", channel);
         List<Factory> factories = factoryService.findCheckedFactories();
+        List<City> provinces = cityService.provinces();
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
-        model.addAttribute("channel", channel);
+        List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
         model.addAttribute("factories", factories);
+        model.addAttribute("provinces", provinces);
         model.addAttribute("standardRates", standardRates);
         model.addAttribute("billingCycles", billingCycles);
+        model.addAttribute("tradeTypes", tradeTypes);
         return "good/channel/create";
     }
 

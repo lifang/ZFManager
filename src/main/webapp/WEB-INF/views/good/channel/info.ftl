@@ -53,7 +53,7 @@
                                         <#if (channel.standardRates)??>
                                         <#list channel.standardRates as standardRate>
                                         <tr>
-                                            <td>${standardRate.name}</td>
+                                            <td>${standardRate.dictionaryTradeStandardRate.merchantTypeName}</td>
                                             <td>${standardRate.standardRate}%</td>
                                             <td><a onClick="setContent('${(standardRate.description)!""}')" class="a_btn description_a">查看说明</a></td>
                                         </tr>

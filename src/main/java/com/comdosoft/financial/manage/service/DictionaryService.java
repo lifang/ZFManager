@@ -23,7 +23,8 @@ public class DictionaryService {
     private DictionaryTradeStandardRateMapper dictionaryTradeStandardRateMapper;
     @Autowired
     private DictionaryBillingCycleMapper dictionaryBillingCycleMapper;
-
+    @Autowired
+    private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
     public List<DictionaryEncryptCardWay> listAllDictionaryEncryptCardWays() {
         return dictionaryEncryptCardWayMapper.selectAll();
     }
@@ -43,4 +44,9 @@ public class DictionaryService {
     public List<DictionaryBillingCycle> listAllDictionaryBillingCycles() {
         return dictionaryBillingCycleMapper.selectAll();
     }
+
+    public List<DictionaryTradeType> listAllDictionaryTradeTypes() {
+        return dictionaryTradeTypeMapper.selectAll();
+    }
+
 }

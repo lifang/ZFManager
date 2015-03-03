@@ -165,4 +165,14 @@ public class PayChannelStandardRate {
 	public void setTradeStandardRateId(Integer tradeStandardRateId) {
 		this.tradeStandardRateId = tradeStandardRateId;
 	}
+
+    private DictionaryTradeStandardRate dictionaryTradeStandardRate;
+
+    public DictionaryTradeStandardRate getDictionaryTradeStandardRate() {
+        return dictionaryTradeStandardRate;
+    }
+
+    public void setDictionaryTradeStandardRate(DictionaryTradeStandardRate dictionaryTradeStandardRate) {
+        this.dictionaryTradeStandardRate = dictionaryTradeStandardRate;
+    }
 }

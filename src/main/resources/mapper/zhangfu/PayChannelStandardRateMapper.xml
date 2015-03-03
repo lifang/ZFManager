@@ -69,8 +69,15 @@
     from pay_channel_standard_rates
   </select>
 
-  <select id="selectStandardRates" resultMap="BaseResultMap">
-        select *
-    from pay_channel_standard_rates where pay_channel_id=#{param1}
+
+    <resultMap extends="BaseResultMap" id="TradeStandardRate" type="com.comdosoft.financial.manage.domain.zhangfu.PayChannelStandardRate">
+        <association columnPrefix="dtsr_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeStandardRate" property="dictionaryTradeStandardRate" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeStandardRateMapper.BaseResultMap" />
+    </resultMap>
+
+  <select id="selectStandardRates" resultMap="TradeStandardRate">
+        select pcsr.*,
+        dtsr.id dtsr_id, dtsr.merchant_type_name dtsr_merchant_type_name
+    from pay_channel_standard_rates pcsr inner join dictionary_trade_standard_rates dtsr on pcsr.trade_standard_rate_id=dtsr.id
+     where pay_channel_id=#{param1}
   </select>
 </mapper>

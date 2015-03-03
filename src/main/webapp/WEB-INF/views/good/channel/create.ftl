@@ -56,9 +56,23 @@
                                     <a class="pay_add_a" id="addCity">+</a>
                                     <div class="sa_area">
                                         <div class="saa_b" id="selectedProvince"><span class="saab_t">省</span>
+                                            <#if (channel.areas)??>
+                                                <#list channel.areas as area>
+                                                    <#if area.parentId?? && area.parentId=0>
+                                                        <span class="saab_c">${area.name}<a class="dele" value="${area.id}">删除</a></span>
+                                                    </#if>
+                                                </#list>
+                                            </#if>
                                         </div>
                                         <div class="saa_b" id="selectedCity"><span class="saab_t">市</span>
-                                    </div>
+                                            <#if (channel.areas)??>
+                                                <#list channel.areas as area>
+                                                    <#if area.parentId?? && area.parentId!=0>
+                                                        <span class="saab_c">${area.name}<a class="dele" value="${area.id}">删除</a></span>
+                                                    </#if>
+                                                </#list>
+                                            </#if>
+                                        </div>
                                 </div>
                                 <div class="sa_list">
                                     <span class="checkboxRadio_span"><input name="supportType" type="radio" value="2"> 不支持</span>
@@ -91,10 +105,26 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <td>商户类型</td>
-                                        <td>费率</td>
+                                        <td>费率(%)</td>
                                         <td>说明</td>
                                     </tr>
-                                    <#if channel?? && (channel.standardRates)?size > 0>
+                                    <#if channel?? && ((channel.standardRates)?size > 0)>
+                                    <#list channel.standardRates as channelStandardRate>
+                                    <tr>
+                                        <td>
+                                            <select name="" class="select_xl selectStandardRate">
+                                                <option></option>
+                                                <#list standardRates as standardRate>
+                                                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}"
+                                                    ${((standardRate.id) = (channelStandardRate.tradeStandardRateId))?string("selected='selected'", "")}
+                                                            >${standardRate.merchantTypeName}</option>
+                                                </#list>
+                                            </select>
+                                        </td>
+                                        <td><input name="" type="text" class="input_l" value="${channelStandardRate.standardRate}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
+                                    </tr>
+                                    </#list>
                                     <#else>
                                     <tr>
                                         <td>
@@ -110,7 +140,7 @@
                                     </tr>
                                     </#if>
                                     </tbody></table>
-                                <a href="#" class="pay_add_a">+</a>
+                                <a class="pay_add_a addStandardRate">+</a>
                             </div>
                         </div>
                     </li>
@@ -125,33 +155,49 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <td>结算周期</td>
-                                        <td>费率</td>
+                                        <td>费率(%)</td>
                                         <td>说明</td>
                                     </tr>
+
+                                    <#if channel?? && ((channel.billingCycles)?size > 0)>
+                                        <#list channel.billingCycles as channelBillingCycle>
+                                        <tr>
+                                            <td>
+                                                <select name="" class="select_xl selectBillingCycle">
+                                                    <option></option>
+                                                    <#list billingCycles as billingCycle>
+                                                        <option value="${billingCycle.id}" description="${billingCycle.description!''}"
+                                                        ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
+                                                                >${billingCycle.name}</option>
+                                                    </#list>
+                                                </select>
+                                            </td>
+                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate}"></td>
+                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
+                                        </tr>
+                                        </#list>
+                                    <#else>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl selectBillingCcycle">
+                                            <select name="" class="select_xl selectBillingCycle">
                                                 <option></option>
-                                                <#list billingCcycles as billingCcycle>
-                                                    <option value="${billingCcycle.id}" description="${standardRate.description!''}" baseRate="${standardRate.description}">${standardRate.merchantTypeName}</option>
+                                                <#list billingCycles as billingCycle>
+                                                    <option value="${billingCycle.id}" description="${billingCycle.description!''}">${billingCycle.name}</option>
                                                 </#list>
                                             </select>
                                         </td>
                                         <td><input name="" type="text" class="input_l"></td>
                                         <td><input name="" type="text" class="input_l"></td>
                                     </tr>
+                                    </#if>
                                     </tbody></table>
-                                <a class="pay_add_a">+</a>
+                                <a class="pay_add_a addBillingCycle">+</a>
                             </div>
                         </div>
                     </li>
-                    <li class="b o"><span class="labelSpan">其他交易类型：</span>
+                    <li class="b"><span class="labelSpan">其他交易类型：</span>
                         <div class="text">
-                            <select name="">
-                                <option>江苏省</option>
-                            </select>
-                            <a href="#" class="pay_add_a">+</a>
-                            <div class="rate_attributes mtop">
+                            <div class="rate_attributes">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -159,17 +205,46 @@
                                         <col width="34%">
                                     </colgroup>
                                     <tbody><tr>
-                                        <td>结算周期</td>
-                                        <td>费率</td>
+                                        <td>交易类型</td>
+                                        <td>费率(%)</td>
                                         <td>说明</td>
                                     </tr>
-                                    <tr>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                    </tr>
+
+                                        <#if channel?? && ((channel.supportTradeTypes)?size > 0)>
+                                            <#list channel.supportTradeTypes as channelSupportTradeType>
+                                            <tr>
+                                                <td>
+                                                    <select name="" class="select_xl selectTradeType">
+                                                        <option></option>
+                                                        <#list tradeTypes as tradeType>
+                                                            <#if tradeType.tradeType != 1>
+                                                            <option value="${tradeType.id}"
+                                                            ${((tradeType.id) = (channelSupportTradeType.tradeTypeId))?string("selected='selected'","")}
+                                                                    >${tradeType.tradeValue}</option>
+                                                            </#if>
+                                                        </#list>
+                                                    </select>
+                                                </td>
+                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate}"></td>
+                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
+                                            </tr>
+                                            </#list>
+                                        <#else>
+                                        <tr>
+                                            <td>
+                                                <select name="" class="select_xl selectTradeType">
+                                                    <option></option>
+                                                    <#list tradeTypes as tradeType>
+                                                        <option value="${tradeType.id}">${billingCycle.tradeValue}</option>
+                                                    </#list>
+                                                </select>
+                                            </td>
+                                            <td><input name="" type="text" class="input_l"></td>
+                                            <td><input name="" type="text" class="input_l"></td>
+                                        </tr>
+                                        </#if>
                                     </tbody></table>
-                                <a href="#" class="pay_add_a">+</a>
+                                <a class="pay_add_a addTradeType">+</a>
                             </div>
                         </div>
                     </li>
@@ -182,11 +257,11 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">开通费用：</span>
-                        <div class="text"><input name="" type="text"> 元<br>（保留小数点后两位）</div></li>
+                        <div class="text"><input name="" type="text" value="${(channel.openingCost??)?string(((channel.openingCost!0)/100)?string("0.00"),'')}"> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">是否需要预审：</span>
                         <div class="text">
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 是</span>
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 否</span>
+                            <span class="checkboxRadio_span"><input name="preliminaryVerify" type="radio" value="true"> 是</span>
+                            <span class="checkboxRadio_span"><input name="preliminaryVerify" type="radio" value="false"> 否</span>
                         </div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请条件：</span>
@@ -298,9 +373,32 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        <#if (channel.supportType)?? && !(channel.supportType)>
+            $("input[name='supportType'][value='2']").attr("checked", true);
+        <#elseif (channel.supportType)??
+        && ((channel.areas)?size > 0)
+        && (((channel.areas)[0]).id != 0)>
+            $("input[name='supportType'][value='1']").attr("checked", true);
+        <#else>
+            $("input[name='supportType'][value='0']").attr("checked", true);
+        </#if>
+
+        <#if (channel.supportCancelFlag)?? && !(channel.supportCancelFlag)>
+            $("input[name='supportCancel'][value='false']").attr("checked", true);
+        <#else>
+            $("input[name='supportCancel'][value='true']").attr("checked", true);
+        </#if>
+
+        <#if (channel.needPreliminaryVerify)?? && !(channel.needPreliminaryVerify)>
+            $("input[name='preliminaryVerify'][value='false']").attr("checked", true);
+        <#else>
+            $("input[name='preliminaryVerify'][value='true']").attr("checked", true);
+        </#if>
+
+
         $('#provinceSelect').change(function(){
             var provinceId = $(this).children('option:selected').val();
-            if(provinceId.length>0){
+            if(isNotNull(provinceId)){
                 $.post('<@spring.url "/common/cities" />',
                         {'id':provinceId},
                         function (data) {
@@ -314,13 +412,13 @@
         $("#addCity").click(function(){
             var cityId = $('#citySelect').children('option:selected').val();
             var provinceId = $('#provinceSelect').children('option:selected').val();
-            if(cityId.length > 0){
+            if(isNotNull(cityId)){
                 var newSpan = $("#hideCity").children("span").clone();
                 $("#selectedCity").append(newSpan);
                 newSpan.children("a").before($('#citySelect').children('option:selected').html());
                 var $a = newSpan.children("a");
                 $a.attr("value", cityId);
-            } else if(provinceId.length > 0) {
+            } else if(isNotNull(provinceId)) {
                 var newSpan = $("#hideCity").children("span").clone();
                 $("#selectedProvince").append(newSpan);
                 var $a = newSpan.children("a");
@@ -329,24 +427,54 @@
             }
         });
         $(document).delegate(".dele", "click", function () {
-            alert($(this).parent().remove());
+            $(this).parent().remove();
         });
         $('.selectStandardRate').change(function(){
-            var $option = $(this).children('option:selected');
-            var id = $option.attr("value");
-            if(provinceId.length>0){
-                $.post('<@spring.url "/common/cities" />',
-                        {'id':provinceId},
-                        function (data) {
-                            $("#citySelect").empty();
-                            $("#citySelect").append("<option></option>"+data);
-                        });
-            } else {
-                $("#citySelect").empty();
-            }
+            var $standardRate =  $(this).children('option:selected');
+            var description = $standardRate.attr("description");
+            var baseRate = $standardRate.attr("baseRate");
+            $(this).parent().nextAll().first().children().attr("value", baseRate==undefined?"":baseRate);
+            $(this).parent().nextAll().last().children().attr("value", description==undefined?"":description);
+        });
+        $('.selectBillingCycle').change(function(){
+            var $billingCycle =  $(this).children('option:selected');
+            var description = $billingCycle.attr("description");
+            $(this).parent().nextAll().first().children().attr("value", "");
+            $(this).parent().nextAll().last().children().attr("value", description==undefined?"":description);
         });
 
+        $('.selectTradeType').change(function(){
+            $(this).parent().nextAll().first().children().attr("value", "");
+            $(this).parent().nextAll().last().children().attr("value", "");
+        });
+
+        $('.addStandardRate').click(function() {
+            var $lastTr = $(this).prev().find("tr").last();
+            var $newTr = $lastTr.clone(true);
+            $lastTr.after($newTr);
+            $newTr.find("select").val(0);
+            $newTr.find("select").trigger("change");
+        });
+
+        $('.addBillingCycle').click(function(){
+            var $lastTr = $(this).prev().find("tr").last();
+            var $newTr = $lastTr.clone(true);
+            $lastTr.after($newTr);
+            $newTr.find("select").val(0);
+            $newTr.find("select").trigger("change");
+        });
+
+        $('.addTradeType').click(function(){
+            var $lastTr = $(this).prev().find("tr").last();
+            var $newTr = $lastTr.clone(true);
+            $lastTr.after($newTr);
+            $newTr.find("select").val(0);
+            $newTr.find("select").trigger("change");
+        });
     })
+    function isNotNull(value){
+        return value != "" && value != null && value != undefined;
+    }
 </script>
 
 </@c.html>
