@@ -34,4 +34,6 @@ public interface MenuMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Menu record);
+	
+	List<Menu> selectOrderedAll();
 }
