@@ -38,14 +38,9 @@ public class RoleService {
 		role.setCreatedAt(new Date());
 		role.setRoleName(name);
 		roleMapper.insert(role);
-		for(int i=0;i<roles.length;++i) {
-			RoleMenu rm = new RoleMenu();
-			rm.setMenuId(roles[i]);
-			rm.setRoleId(role.getId());
-			roleMenuMapper.insert(rm);
-		}
+		saveRoleMenus(role.getId(),roles);
 	}
-
+	
 	/**
 	 * 列表
 	 * @param page 页数
@@ -57,5 +52,37 @@ public class RoleService {
 		List<Role> roles = roleMapper.selectPage(request,query);
 		long total = roleMapper.countTotal(query);
 		return new Page<Role>(request, roles, total);
+	}
+	
+	public Role role(Integer id) {
+		Role role = roleMapper.selectByPrimaryKey(id);
+		return role;
+	}
+	
+	/**
+	 * 根据roleId查询出所有menuKey
+	 * @param id roleId
+	 * @return
+	 */
+	public List<String> roleKeys(Integer id) {
+		return roleMenuMapper.selectRoleKeys(id);
+	}
+	
+	@Transactional("transactionManager")
+	public void modify(Integer id,String name,Integer[] roles){
+		Role role = role(id);
+		role.setRoleName(name);
+		roleMapper.updateByPrimaryKey(role);
+		roleMenuMapper.deleteByRoleId(id);
+		saveRoleMenus(id, roles);
+	}
+	
+	private void saveRoleMenus(Integer roleId,Integer[] roles){
+		for(int i=0;i<roles.length;++i) {
+			RoleMenu rm = new RoleMenu();
+			rm.setMenuId(roles[i]);
+			rm.setRoleId(roleId);
+			roleMenuMapper.insert(rm);
+		}
 	}
 }

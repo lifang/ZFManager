@@ -56,4 +56,16 @@
     select id, role_id, menu_id
     from role_menus
   </select>
+  
+  <select id="selectRoleKeys" resultType="string">
+    select menu_key from role_menus rm 
+	left join menus m on m.id=rm.menu_id
+	where rm.role_id=#{roleId}
+  </select>
+  
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from role_menus
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>

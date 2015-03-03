@@ -1,7 +1,10 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.RoleMenu;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface RoleMenuMapper {
 
@@ -34,4 +37,8 @@ public interface RoleMenuMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(RoleMenu record);
+	
+	List<String> selectRoleKeys(@Param("roleId") Integer roleId);
+	
+	int deleteByRoleId(Integer roleId);
 }
