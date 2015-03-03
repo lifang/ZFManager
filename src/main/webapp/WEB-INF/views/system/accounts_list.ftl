@@ -50,7 +50,6 @@
         $("#query").click(function(){
             pageChange(0);
         });
-        alert($("select[name=status]").val());
         pageChange(0);
     });
 </script>
