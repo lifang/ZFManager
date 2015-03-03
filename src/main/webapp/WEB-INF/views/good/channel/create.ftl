@@ -56,10 +56,8 @@
                                     <a class="pay_add_a" id="addCity">+</a>
                                     <div class="sa_area">
                                         <div class="saa_b" id="selectedProvince"><span class="saab_t">省</span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span>
                                         </div>
                                         <div class="saa_b" id="selectedCity"><span class="saab_t">市</span>
-                                            <span class="saab_c">上海市<a href="#" class="dele">删除</a></span></div>
                                     </div>
                                 </div>
                                 <div class="sa_list">
@@ -96,16 +94,21 @@
                                         <td>费率</td>
                                         <td>说明</td>
                                     </tr>
+                                    <#if channel?? && (channel.standardRates)?size > 0>
+                                    <#else>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl">
-                                                <option>qqq</option>
-                                                <option>sww</option>
+                                            <select name="" class="select_xl selectStandardRate">
+                                                <option></option>
+                                                <#list standardRates as standardRate>
+                                                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
+                                                </#list>
                                             </select>
                                         </td>
                                         <td><input name="" type="text" class="input_l"></td>
                                         <td><input name="" type="text" class="input_l"></td>
                                     </tr>
+                                    </#if>
                                     </tbody></table>
                                 <a href="#" class="pay_add_a">+</a>
                             </div>
@@ -127,9 +130,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl">
-                                                <option>qqq</option>
-                                                <option>sww</option>
+                                            <select name="" class="select_xl selectBillingCcycle">
+                                                <option></option>
+                                                <#list billingCcycles as billingCcycle>
+                                                    <option value="${billingCcycle.id}" description="${standardRate.description!''}" baseRate="${standardRate.description}">${standardRate.merchantTypeName}</option>
+                                                </#list>
                                             </select>
                                         </td>
                                         <td><input name="" type="text" class="input_l"></td>
@@ -326,6 +331,21 @@
         $(document).delegate(".dele", "click", function () {
             alert($(this).parent().remove());
         });
+        $('.selectStandardRate').change(function(){
+            var $option = $(this).children('option:selected');
+            var id = $option.attr("value");
+            if(provinceId.length>0){
+                $.post('<@spring.url "/common/cities" />',
+                        {'id':provinceId},
+                        function (data) {
+                            $("#citySelect").empty();
+                            $("#citySelect").append("<option></option>"+data);
+                        });
+            } else {
+                $("#citySelect").empty();
+            }
+        });
+
     })
 </script>
 

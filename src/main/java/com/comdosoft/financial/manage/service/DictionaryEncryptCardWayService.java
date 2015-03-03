@@ -11,10 +11,4 @@ import com.comdosoft.financial.manage.mapper.zhangfu.DictionaryEncryptCardWayMap
 @Service
 public class DictionaryEncryptCardWayService {
 
-	@Autowired
-	private DictionaryEncryptCardWayMapper dictionaryEncryptCardWayMapper;
-	
-	public List<DictionaryEncryptCardWay> listAll(){
-		return dictionaryEncryptCardWayMapper.selectAll();
-	}
 }

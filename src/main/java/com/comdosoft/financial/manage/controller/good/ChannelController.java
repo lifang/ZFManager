@@ -1,13 +1,8 @@
 package com.comdosoft.financial.manage.controller.good;
 
 import com.comdosoft.financial.manage.domain.Response;
-import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.domain.zhangfu.Factory;
-import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
-import com.comdosoft.financial.manage.service.CityService;
-import com.comdosoft.financial.manage.service.FactoryService;
-import com.comdosoft.financial.manage.service.PayChannelService;
-import com.comdosoft.financial.manage.service.SupportTradeTypeService;
+import com.comdosoft.financial.manage.domain.zhangfu.*;
+import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +24,8 @@ public class ChannelController {
     private FactoryService factoryService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private DictionaryService dictionaryService;
 
 
 	@RequestMapping(value="list",method=RequestMethod.GET)
@@ -136,8 +133,12 @@ public class ChannelController {
     public String create(Model model){
         List<Factory> factories = factoryService.findCheckedFactories();
         List<City> provinces = cityService.provinces();
+        List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
+        List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
         model.addAttribute("factories", factories);
         model.addAttribute("provinces", provinces);
+        model.addAttribute("standardRates", standardRates);
+        model.addAttribute("billingCycles", billingCycles);
         return "good/channel/create";
     }
 
@@ -145,8 +146,12 @@ public class ChannelController {
     public String edit(@PathVariable Integer id, Model model){
         PayChannel channel = payChannelService.findChannelInfo(id);
         List<Factory> factories = factoryService.findCheckedFactories();
+        List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
+        List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
         model.addAttribute("channel", channel);
         model.addAttribute("factories", factories);
+        model.addAttribute("standardRates", standardRates);
+        model.addAttribute("billingCycles", billingCycles);
         return "good/channel/create";
     }
 
