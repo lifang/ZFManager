@@ -42,4 +42,6 @@ public interface RoleMapper {
 	List<Role> selectPage(@Param("request") PageRequest request,@Param("query") String query);
 	
 	long countTotal(@Param("query") String query);
+
+    List<Role> customerRoles(Integer customerId);
 }

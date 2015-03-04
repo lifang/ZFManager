@@ -89,7 +89,7 @@ public class UserController {
 	@RequestMapping(value="create",method=RequestMethod.POST)
 	public String createPost(String phone,String passport,
 			String password,String repassword,Integer city){
-		customerService.create(passport, password, phone, city);
+		customerService.createCustomer(passport, password, phone, city);
 		return "redirect:/user/list";
 	}
 	

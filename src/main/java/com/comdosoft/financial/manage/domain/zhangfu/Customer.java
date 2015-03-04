@@ -343,15 +343,15 @@ public class Customer {
 	/**
 	 * 未激活
 	 */
-	public static final byte STATUS_NON_ACTIVE = 0;
+	public static final byte STATUS_NON_ACTIVE = 1;
 	/**
 	 * 正常
 	 */
-	public static final byte STATUS_NORMAL = 1;
+	public static final byte STATUS_NORMAL = 2;
 	/**
 	 * 停用
 	 */
-	public static final byte STATUS_STOP = 5;
+	public static final byte STATUS_STOP = 3;
 	
 
 	/**

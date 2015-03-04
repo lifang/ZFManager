@@ -92,7 +92,7 @@
                 return false;
             }
             var ul = $(this).parents(".cp_add").prev();
-            $.post('<@spring.url "" />' + '/good/pos/category/' + parentId + '/create',
+            $.post('<@spring.url "/good/pos/category/" />' + parentId + '/create',
                     {'name':name},
                     function (data) {
                         if (data.code == 1) {

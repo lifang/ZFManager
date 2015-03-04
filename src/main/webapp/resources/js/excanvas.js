@@ -95,7 +95,7 @@ if (!document.createElement('canvas').getContext) {
     },
 
     init_: function(doc) {
-      // create xmlns
+      // createCustomer xmlns
       if (!doc.namespaces['g_vml_']) {
         doc.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml',
                            '#default#VML');
@@ -538,8 +538,8 @@ if (!document.createElement('canvas').getContext) {
                 ' coordorigin="0,0"' ,
                 ' style="width:', W, 'px;height:', H, 'px;position:absolute;');
 
-    // If filters are necessary (rotation exists), create them
-    // filters are bog-slow, so only create them if abbsolutely necessary
+    // If filters are necessary (rotation exists), createCustomer them
+    // filters are bog-slow, so only createCustomer them if abbsolutely necessary
     // The following check doesn't account for skews (which don't exist
     // in the canvas spec (yet) anyway.
 

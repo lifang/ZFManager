@@ -11,7 +11,7 @@
 
     <div class="myInfoNav">
         <ul>
-            <li><a class="hover">管理运营账号</a></li>
+            <li><a href="<@spring.url "/system/operate/accounts"/>" class="hover">管理运营账号</a></li>
             <li><a href="<@spring.url "/system/operate/roles"/>">管理角色</a></li>
         </ul>
     </div>

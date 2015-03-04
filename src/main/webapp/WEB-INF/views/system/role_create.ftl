@@ -19,7 +19,7 @@
     <div class="myInfoNav">
         <ul>
             <li><a href="<@spring.url "/system/operate/accounts"/>">管理运营帐号</a></li>
-            <li><a class="hover">管理角色</a></li>
+            <li><a href="<@spring.url "/system/operate/roles"/>" class="hover">管理角色</a></li>
         </ul>
     </div>
 

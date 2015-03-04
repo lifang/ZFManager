@@ -21,6 +21,7 @@
         <tbody>
         <#if (page.content)??>
             <#list page.content as customer>
+                <#assign role=roles[customer_index]/>
                 <#include "accounts_list_page_row.ftl" />
             </#list>
         </#if>

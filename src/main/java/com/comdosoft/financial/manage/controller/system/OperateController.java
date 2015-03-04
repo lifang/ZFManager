@@ -35,12 +35,24 @@ public class OperateController {
 	public String accountsPage(String query,Byte status,Integer page,Model model){
 		Page<Customer> customers = customerService.listOperatePage(page, query, status);
 		model.addAttribute(customers);
+        List<List<Role>> roles = roleService.customerRoles(customers.getContent());
+        model.addAttribute("roles",roles);
 		return "system/accounts_list_page";
 	}
 
     @RequestMapping(value="/account/create",method=RequestMethod.GET)
-    public String accountCreateGet(){
+    public String accountCreateGet(Model model){
+        List<Role> roles = roleService.allRoles();
+        model.addAttribute(roles);
         return "system/account_create";
+    }
+
+    @RequestMapping(value="/account/create",method=RequestMethod.POST)
+    public String accountCreatePost(String account,String name,String password,
+                                    @RequestParam("re_password") String rePassword,
+                                    Integer[] roles){
+        customerService.createOperate(account,name,password,roles);
+        return "redirect:/system/operate/accounts";
     }
 
 	@RequestMapping(value="/roles",method=RequestMethod.GET)

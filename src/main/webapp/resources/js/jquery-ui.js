@@ -357,7 +357,7 @@ $.widget = function( name, base, prototype ) {
 		base = $.Widget;
 	}
 
-	// create selector for plugin
+	// createCustomer selector for plugin
 	$.expr[ ":" ][ fullName.toLowerCase() ] = function( elem ) {
 		return !!$.data( elem, fullName );
 	};
@@ -379,7 +379,7 @@ $.widget = function( name, base, prototype ) {
 	// extend with the existing constructor to carry over any static properties
 	$.extend( constructor, existingConstructor, {
 		version: prototype.version,
-		// copy the object used to create the prototype in case we need to
+		// copy the object used to createCustomer the prototype in case we need to
 		// redefine the widget later
 		_proto: $.extend( {}, prototype ),
 		// track widgets that inherit from this widget in case this widget is
@@ -3287,11 +3287,11 @@ $.extend(Datepicker.prototype, {
 				numRows = (isMultiMonth ? this.maxRows > curRows ? this.maxRows : curRows : curRows); //If multiple months, use the higher number of rows (see #7043)
 				this.maxRows = numRows;
 				printDate = this._daylightSavingAdjust(new Date(drawYear, drawMonth, 1 - leadDays));
-				for (dRow = 0; dRow < numRows; dRow++) { // create date picker rows
+				for (dRow = 0; dRow < numRows; dRow++) { // createCustomer date picker rows
 					calender += "<tr>";
 					tbody = (!showWeek ? "" : "<td class='ui-datepicker-week-col'>" +
 						this._get(inst, "calculateWeek")(printDate) + "</td>");
-					for (dow = 0; dow < 7; dow++) { // create date picker days
+					for (dow = 0; dow < 7; dow++) { // createCustomer date picker days
 						daySettings = (beforeShowDay ?
 							beforeShowDay.apply((inst.input ? inst.input[0] : null), [printDate]) : [true, ""]);
 						otherMonth = (printDate.getMonth() !== drawMonth);
