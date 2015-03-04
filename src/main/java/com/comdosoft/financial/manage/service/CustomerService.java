@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
@@ -60,8 +62,8 @@ public class CustomerService {
 	}
 
     @Transactional("transactionManager")
-    public void createOperate(String account,String name,String password,
-                              Integer[] roles){
+    public void createOperate(String account,String name,
+    		String password, Integer[] roles){
         Customer customer = new Customer();
         customer.setTypes(Customer.TYPE_OPERATE);
         customer.setName(name);
@@ -72,6 +74,28 @@ public class CustomerService {
         customer.setUpdatedAt(new Date());
         customer.setStatus(Customer.STATUS_NORMAL);
         customerMapper.insert(customer);
+        for(Integer role : roles){
+            CustomerRoleRelation crr = new CustomerRoleRelation();
+            crr.setUpdatedAt(new Date());
+            crr.setCreatedAt(new Date());
+            crr.setCustomerId(customer.getId());
+            crr.setRoleId(role);
+            customerRoleRelationMapper.insert(crr);
+        }
+    }
+    
+    @Transactional("transactionManager")
+    public void modifyOperate(Integer id,String account,
+    		String name,String password, Integer[] roles){
+    	Customer customer = customer(id);
+    	customer.setName(name);
+    	customer.setUsername(account);
+    	customer.setUpdatedAt(new Date());
+    	if(StringUtils.hasLength(password)){
+    		customer.setPassword(DigestUtils.md5Hex(password));
+    	}
+    	customerMapper.updateByPrimaryKey(customer);
+    	customerRoleRelationMapper.deleteByCustomerId(id);
         for(Integer role : roles){
             CustomerRoleRelation crr = new CustomerRoleRelation();
             crr.setUpdatedAt(new Date());

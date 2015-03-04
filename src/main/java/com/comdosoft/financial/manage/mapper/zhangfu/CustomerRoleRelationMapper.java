@@ -34,4 +34,6 @@ public interface CustomerRoleRelationMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CustomerRoleRelation record);
+	
+	int deleteByCustomerId(Integer customerId);
 }

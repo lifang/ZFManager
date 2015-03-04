@@ -62,4 +62,8 @@
     select id, role_id, customer_id, created_at, updated_at
     from customer_role_relations
   </select>
+    <delete id="deleteByCustomerId" parameterType="int">
+        delete from customer_role_relations
+        where customer_id = #{customerId,jdbcType=INTEGER}
+    </delete>
 </mapper>

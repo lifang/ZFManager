@@ -33,6 +33,9 @@ public class OperateController {
 	
 	@RequestMapping(value="/accounts/page",method=RequestMethod.POST)
 	public String accountsPage(String query,Byte status,Integer page,Model model){
+        if(page==null){
+            page = 0;
+        }
 		Page<Customer> customers = customerService.listOperatePage(page, query, status);
 		model.addAttribute(customers);
         List<List<Role>> roles = roleService.customerRoles(customers.getContent());
@@ -52,6 +55,35 @@ public class OperateController {
                                     @RequestParam("re_password") String rePassword,
                                     Integer[] roles){
         customerService.createOperate(account,name,password,roles);
+        return "redirect:/system/operate/accounts";
+    }
+    
+    @RequestMapping(value="/account/{id}/status",method=RequestMethod.POST)
+    public String accountStatus(@PathVariable Integer id,Model model){
+		Customer customer = customerService.updateStatus(id);
+		model.addAttribute(customer);
+        List<Role> roles = roleService.customerRoles(customer.getId());
+        model.addAttribute("role", roles);
+        return "system/accounts_list_page_row";
+    }
+    
+    @RequestMapping(value="/account/{id}/edit",method=RequestMethod.GET)
+    public String accountEdit(@PathVariable Integer id,Model model){
+        List<Role> roles = roleService.allRoles();
+        model.addAttribute(roles);
+        Customer customer = customerService.customer(id);
+        model.addAttribute(customer);
+        List<Role> customerRoles = roleService.customerRoles(id);
+        model.addAttribute("customerRoles",customerRoles);
+        return "system/account_edit";
+    }
+    
+    @RequestMapping(value="/account/{id}/edit",method=RequestMethod.POST)
+    public String accountEditPost(@PathVariable Integer id,
+    		String account,String name,String password,
+            @RequestParam("re_password") String rePassword,
+            Integer[] roles){
+    	customerService.modifyOperate(id, account, name, password, roles);;
         return "redirect:/system/operate/accounts";
     }
 
