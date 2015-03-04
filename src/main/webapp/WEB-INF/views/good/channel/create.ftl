@@ -235,7 +235,7 @@
                                                 <select name="" class="select_xl selectTradeType">
                                                     <option></option>
                                                     <#list tradeTypes as tradeType>
-                                                        <option value="${tradeType.id}">${billingCycle.tradeValue}</option>
+                                                        <option value="${tradeType.id}">${tradeType.tradeValue}</option>
                                                     </#list>
                                                 </select>
                                             </td>
@@ -257,7 +257,7 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">开通费用：</span>
-                        <div class="text"><input name="" type="text" value="${(channel.openingCost??)?string(((channel.openingCost!0)/100)?string("0.00"),'')}"> 元<br>（保留小数点后两位）</div></li>
+                        <div class="text"><input name="" type="text" value="${((channel.openingCost)??)?string((((channel.openingCost)!0)/100)?string("0.00"),'')}"> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">是否需要预审：</span>
                         <div class="text">
                             <span class="checkboxRadio_span"><input name="preliminaryVerify" type="radio" value="true"> 是</span>
@@ -265,44 +265,51 @@
                         </div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请条件：</span>
-                        <div class="text"><textarea name="" cols="" rows=""></textarea></div>
+                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingRequirement)??)?string(((channel.openingRequirement)!''),'')}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请材料：</span>
-                        <div class="text"><textarea name="" cols="" rows=""></textarea></div>
+                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingDatum)??)?string(((channel.openingDatum)!''),'')}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通协议：</span>
-                        <div class="text"><textarea name="" cols="" rows=""></textarea></div>
+                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingProtocol)??)?string(((channel.openingProtocol)!''),'')}</textarea></div>
                     </li>
-                    <li class="b"><span class="labelSpan">对公开通所需：</span>
+                    <li class="b"><span class="labelSpan">开通所需材料：</span>
                         <div class="text">
-                            <div class="itl_area">
-                                <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l"></div>
-                                <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l"></div>
-                                <div class="item_l2"><label>对公开通所需：</label><select name="">
-                                    <option>江苏省</option>
-                                </select>
-                                    <a href="#" class="pay_add_a">+</a>
-                                    <div class="ia_area">
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
+                            <#if (channel.openingRequirements)??>
+                                <#list channel.openingRequirements as openingRequirement>
+                                    <div class="itl_area">
+                                    <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${((openingRequirement.levelTitle)??)?string((openingRequirement.levelTitle!''),'')}"></div>
+                                    <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${((openingRequirement.levelDescription)??)?string((openingRequirement.levelDescription!''),'')}"></div>
+                                    <div class="item_l2"><label>对公开通所需：</label><select name="">
+                                        <#list openPrivateInfos as openPrivateInfo>
+                                            <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
+                                        </#list>
+                                    </select>
+                                        <a class="pay_add_a addRequirement">+</a>
+                                        <div class="ia_area">
+                                            <#list openingRequirement.publicRequirements as publicRequirement>
+                                                <span class="iaa_c">${publicRequirement.dictionaryOpenPrivateInfo.name}<a class="dele" value="${publicRequirement.dictionaryOpenPrivateInfo.id}">删除</a></span>
+                                            </#list>
+                                        </div>
+                                    </div>
+                                    <div class="item_l2"><label>对公开通所需：</label><select name="">
+                                        <#list openPrivateInfos as openPrivateInfo>
+                                            <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
+                                        </#list>
+                                    </select>
+                                        <a class="pay_add_a addRequirement">+</a>
+                                        <div class="ia_area">
+                                            <#list openingRequirement.privateRequirements as privateRequirement>
+                                                <span class="iaa_c">${privateRequirement.dictionaryOpenPrivateInfo.name}<a class="dele" value="${privateRequirement.dictionaryOpenPrivateInfo.id}">删除</a></span>
+                                            </#list>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="item_l2"><label>对公开通所需：</label><select name="">
-                                    <option>江苏省</option>
-                                </select>
-                                    <a href="#" class="pay_add_a">+</a>
-                                    <div class="ia_area">
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                        <span class="iaa_c">营业执照招聘<a href="#" class="dele">删除</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#" class="whiteBtn">添加开通等级</a>
+                                </#list>
+                            </#if>
+                            <a id="addOpeningRequirements" class="whiteBtn">添加开通等级</a>
                         </div>
+
                     </li>
                     <li class="b o"><span class="labelSpan">注销所需材料：</span>
                         <div class="text">
@@ -319,17 +326,21 @@
                                         <td>材料说明</td>
                                         <td>模版上传</td>
                                     </tr>
+                                     <#if (channel.cancelRequirements)??>
+                                     <#list channel.cancelRequirements as cancelRequirement>
                                     <tr>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
+                                        <td><input name="" type="text" class="input_l" value="${cancelRequirement.title!""}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${cancelRequirement.description!""}"></td>
                                         <td>
-                                            <a href="javascript:void(0);" class="informImg_a">
-                                                <span>上传</span><input name="" multiple="" type="file">
+                                            <a class="informImg_a">
+                                                <span>上传</span><input name="" multiple="" type="file" value="${cancelRequirement.templetFilePath}">
                                             </a>
                                         </td>
                                     </tr>
+                                    </#list>
+                                    </#if>
                                     </tbody></table>
-                                <a href="#" class="pay_add_a">+</a>
+                                <a class="pay_add_a addCancelRequirement">+</a>
                             </div>
                         </div>
                     </li>
@@ -348,17 +359,21 @@
                                         <td>材料说明</td>
                                         <td>模版上传</td>
                                     </tr>
+                                    <#if (channel.updateRequirements)??>
+                                    <#list channel.updateRequirements as updateRequirement>
                                     <tr>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
+                                        <td><input name="" type="text" class="input_l" value="${updateRequirement.title!""}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${updateRequirement.description!""}"></td>
                                         <td>
-                                            <a href="javascript:void(0);" class="informImg_a">
-                                                <span>上传</span><input name="" multiple="" type="file">
+                                            <a class="informImg_a">
+                                                <span>上传</span><input name="" multiple="" type="file" value="${updateRequirement.templetFilePath}">
                                             </a>
                                         </td>
                                     </tr>
+                                    </#list>
+                                    </#if>
                                     </tbody></table>
-                                <a href="#" class="pay_add_a">+</a>
+                                <a class="pay_add_a addUpdateRequirement">+</a>
                             </div>
                         </div>
                     </li>
@@ -368,9 +383,59 @@
 
         <div class="btnBottom"><button class="blueBtn">创建</button></div>
     </div>
-<div id="hideCity" style="visibility:hidden;">
+<div id="hideCity" style="display: none;">
     <span class="saab_c"><a class="dele">删除</a></span>
 </div>
+
+<div id="hideRequirement" style="display: none;">
+    <span class="iaa_c"><a class="dele">删除</a></span>
+</div>
+
+<div id="hideRequirements" style="display: none;">
+    <div class="itl_area">
+        <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l"></div>
+        <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l"></div>
+        <div class="item_l2"><label>对公开通所需：</label><select name="">
+            <#list openPrivateInfos as openPrivateInfo>
+                <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
+            </#list>
+        </select>
+            <a class="pay_add_a addRequirement">+</a>
+            <div class="ia_area">
+            </div>
+        </div>
+        <div class="item_l2"><label>对公开通所需：</label><select name="">
+            <#list openPrivateInfos as openPrivateInfo>
+                <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
+            </#list>
+        </select>
+            <a class="pay_add_a addRequirement">+</a>
+            <div class="ia_area">
+            </div>
+        </div>
+    </div>
+</div>
+
+<table id="hideCancelRequirement" style="display: none;">
+    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l"></td>
+    <td>
+        <a href="javascript:void(0);" class="informImg_a">
+            <span>上传</span><input name="" multiple="" type="file">
+        </a>
+    </td>
+</table>
+
+<table id="hideUpdateRequirement" style="display: none;">
+    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l"></td>
+    <td>
+        <a href="javascript:void(0);" class="informImg_a">
+            <span>上传</span><input name="" multiple="" type="file">
+        </a>
+    </td>
+</table>
+
 <script type="text/javascript">
     $(function () {
         <#if (channel.supportType)?? && !(channel.supportType)>
@@ -409,9 +474,10 @@
                 $("#citySelect").empty();
             }
         });
+
         $("#addCity").click(function(){
-            var cityId = $('#citySelect').children('option:selected').val();
-            var provinceId = $('#provinceSelect').children('option:selected').val();
+            var cityId = $('#citySelect').children('option:selected').attr("value");
+            var provinceId = $('#provinceSelect').children('option:selected').attr("value");
             if(isNotNull(cityId)){
                 var newSpan = $("#hideCity").children("span").clone();
                 $("#selectedCity").append(newSpan);
@@ -433,19 +499,19 @@
             var $standardRate =  $(this).children('option:selected');
             var description = $standardRate.attr("description");
             var baseRate = $standardRate.attr("baseRate");
-            $(this).parent().nextAll().first().children().attr("value", baseRate==undefined?"":baseRate);
-            $(this).parent().nextAll().last().children().attr("value", description==undefined?"":description);
+            $(this).parent().nextAll().first().children().val(baseRate==undefined?"":baseRate);
+            $(this).parent().nextAll().last().children().val(description==undefined?"":description);
         });
         $('.selectBillingCycle').change(function(){
             var $billingCycle =  $(this).children('option:selected');
             var description = $billingCycle.attr("description");
-            $(this).parent().nextAll().first().children().attr("value", "");
-            $(this).parent().nextAll().last().children().attr("value", description==undefined?"":description);
+            $(this).parent().nextAll().first().children().val("");
+            $(this).parent().nextAll().last().children().val(description==undefined?"":description);
         });
 
         $('.selectTradeType').change(function(){
-            $(this).parent().nextAll().first().children().attr("value", "");
-            $(this).parent().nextAll().last().children().attr("value", "");
+            $(this).parent().nextAll().first().children().val("");
+            $(this).parent().nextAll().last().children().val("");
         });
 
         $('.addStandardRate').click(function() {
@@ -471,7 +537,38 @@
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
-    })
+
+        $("#addOpeningRequirements").click(function(){
+            var $newDiv = $("#hideRequirements").children("div").clone();
+            $(this).before($newDiv);
+        });
+
+        $(document).delegate(".addRequirement", "click", function () {
+            var $select = $(this).prev("select");
+            var $option = $select.children('option:selected');
+            var id = $option.attr("value");
+            if(isNotNull(id)){
+                var newSpan = $("#hideRequirement").children("span").clone();
+                $(this).next(".ia_area").append(newSpan);
+                newSpan.children("a").before($option.html());
+                var $a = newSpan.children("a");
+                $a.attr("value", id);
+            }
+        });
+
+        $('.addCancelRequirement').click(function(){
+            var $tbody = $(this).prev("table").children("tbody");
+            var $newTr = $("#hideCancelRequirement").find("tr").clone();;
+            $tbody.append($newTr);
+        });
+        $('.addUpdateRequirement').click(function(){
+            var $tbody = $(this).prev("table").children("tbody");
+            var $newTr = $("#hideUpdateRequirement").find("tr").clone();
+            $tbody.append($newTr);
+        });
+
+    });
+
     function isNotNull(value){
         return value != "" && value != null && value != undefined;
     }

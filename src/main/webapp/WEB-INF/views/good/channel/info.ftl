@@ -119,7 +119,7 @@
                                 </#list>
                                 </span>
                                 </div>
-                                <div class="ab_l"><em>对公开通所需：</em><span>
+                                <div class="ab_l"><em>对私开通所需：</em><span>
                                     <#assign size = (openingRequirement.privateRequirements)?size/>
                                     <#list openingRequirement.privateRequirements as privateRequirement>${privateRequirement.dictionaryOpenPrivateInfo.name}<#if privateRequirement_index != (size - 1)>/</#if></#list>
                                 </span>

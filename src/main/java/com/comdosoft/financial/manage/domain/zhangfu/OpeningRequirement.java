@@ -166,6 +166,9 @@ public class OpeningRequirement {
 		this.videoVerifyStatus = videoVerifyStatus;
 	}
 
+    public static final byte STATUS_UNVERIFY = 1;	// 未审核
+    public static final byte STATUS_VERIFIED = 2;	//已审核
+
 	private List<OpeningRequirementList> publicRequirements;
 	private List<OpeningRequirementList> privateRequirements;
 

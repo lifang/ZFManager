@@ -137,11 +137,13 @@ public class ChannelController {
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
         List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+        List<DictionaryOpenPrivateInfo> openPrivateInfos = dictionaryService.listAllDictionaryOpenPrivateInfos();
         model.addAttribute("factories", factories);
         model.addAttribute("provinces", provinces);
         model.addAttribute("standardRates", standardRates);
         model.addAttribute("billingCycles", billingCycles);
         model.addAttribute("tradeTypes", tradeTypes);
+        model.addAttribute("openPrivateInfos", openPrivateInfos);
         return "good/channel/create";
     }
 
@@ -160,11 +162,13 @@ public class ChannelController {
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
         List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+        List<DictionaryOpenPrivateInfo> openPrivateInfos = dictionaryService.listAllDictionaryOpenPrivateInfos();
         model.addAttribute("factories", factories);
         model.addAttribute("provinces", provinces);
         model.addAttribute("standardRates", standardRates);
         model.addAttribute("billingCycles", billingCycles);
         model.addAttribute("tradeTypes", tradeTypes);
+        model.addAttribute("openPrivateInfos", openPrivateInfos);
         return "good/channel/create";
     }
 

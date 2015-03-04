@@ -25,6 +25,9 @@ public class DictionaryService {
     private DictionaryBillingCycleMapper dictionaryBillingCycleMapper;
     @Autowired
     private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
+    @Autowired
+    private DictionaryOpenPrivateInfoMapper dictionaryOpenPrivateInfo;
+
     public List<DictionaryEncryptCardWay> listAllDictionaryEncryptCardWays() {
         return dictionaryEncryptCardWayMapper.selectAll();
     }
@@ -47,6 +50,10 @@ public class DictionaryService {
 
     public List<DictionaryTradeType> listAllDictionaryTradeTypes() {
         return dictionaryTradeTypeMapper.selectAll();
+    }
+
+    public List<DictionaryOpenPrivateInfo> listAllDictionaryOpenPrivateInfos() {
+        return dictionaryOpenPrivateInfo.selectAll();
     }
 
 }
