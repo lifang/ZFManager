@@ -16,7 +16,7 @@
 
         <div class="attributes_list clear">
             <ul>
-                <li><em>名称：</em><span>${channel.name}</span></li>
+                <li><em>名称：</em><span>${channel.name!""}</span></li>
                 <li><em>收单机构：</em><span>${channel.factory.name}</span></li>
                 <li><em>支持区域：</em>
                     <span>
@@ -54,8 +54,8 @@
                                         <#list channel.standardRates as standardRate>
                                         <tr>
                                             <td>${standardRate.dictionaryTradeStandardRate.merchantTypeName}</td>
-                                            <td>${standardRate.standardRate}%</td>
-                                            <td><a onClick="setContent('${(standardRate.description)!""}')" class="a_btn description_a">查看说明</a></td>
+                                            <td>${standardRate.standardRate!""}%</td>
+                                            <td><a onClick="setContent('${standardRate.description!""}')" class="a_btn description_a">查看说明</a></td>
                                         </tr>
                                         </#list>
                                         </#if>
@@ -81,8 +81,8 @@
                                         <#if (channel.billingCycles)??>
                                             <#list channel.billingCycles as billingCycle>
                                             <tr>
-                                                <td>${billingCycle.dictionaryBillingCycle.name}</td>
-                                                <td>${billingCycle.rate}%</td>
+                                                <td>${billingCycle.dictionaryBillingCycle.name!""}</td>
+                                                <td>${billingCycle.rate!""}%</td>
                                                 <td><a onClick="setContent('${(billingCycle.description)!""}')" class="a_btn description_a">查看说明</a></td>
                                             </tr>
                                             </#list>
@@ -101,7 +101,7 @@
 
         <div class="attributes_list clear">
             <ul>
-                <li><em>开通费用：</em><span>${(channel.openingCost/100)?string("0.00")}元</span></li>
+                <li><em>开通费用：</em><span>${((channel.openingCost)??)?string((((channel.openingCost)!0)/100)?string("0.00"),'')}元</span></li>
                 <li><em>是否需要预审：</em><span><#if channel.needPreliminaryVerify>是<#else>否</#if></span></li>
                 <li><em>开通申请条件：</em><span>${(channel.openingRequirement)!""}</span></li>
                 <li><em>开通申请材料：</em><span>${(channel.openingDatum)!""}</span></li>

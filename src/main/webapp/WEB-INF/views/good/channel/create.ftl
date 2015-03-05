@@ -24,7 +24,7 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">名称：</span>
-                        <div class="text"><input name="c_name" type="text" value="${((channel.name)??)?string((channel.name)!"", "")}"></div></li>
+                        <div class="text"><input name="c_name" type="text" value="${(channel.name)!""}"></div></li>
                     <li class="o"><span class="labelSpan">收单机构：</span>
                         <div class="text"><select name="c_factory">
                             <#if factories??>
@@ -151,13 +151,13 @@
                                             <td>
                                                 <select name="" class="select_xl selectBillingCycle">
                                                     <#list billingCycles as billingCycle>
-                                                        <option value="${billingCycle.id}" description="${billingCycle.description!''}"
+                                                        <option value="${billingCycle.id}" description="${billingCycle.description!""}"
                                                         ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
                                                                 >${billingCycle.name}</option>
                                                     </#list>
                                                 </select>
                                             </td>
-                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate}"></td>
+                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate!""}"></td>
                                             <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
                                         </tr>
                                         </#list>
@@ -196,7 +196,7 @@
                                                         </#list>
                                                     </select>
                                                 </td>
-                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate}"></td>
+                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate!""}"></td>
                                                 <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
                                             </tr>
                                             </#list>
@@ -223,21 +223,21 @@
                         </div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请条件：</span>
-                        <div class="text"><textarea name="c_openingRequirement" cols="" rows="">${((channel.openingRequirement)??)?string(((channel.openingRequirement)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingRequirement" cols="" rows="">${(channel.openingRequirement)!''}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请材料：</span>
-                        <div class="text"><textarea name="c_openingDatum" cols="" rows="">${((channel.openingDatum)??)?string(((channel.openingDatum)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingDatum" cols="" rows="">${(channel.openingDatum)!''}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通协议：</span>
-                        <div class="text"><textarea name="c_openingProtocol" cols="" rows="">${((channel.openingProtocol)??)?string(((channel.openingProtocol)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingProtocol" cols="" rows="">${(channel.openingProtocol)!''}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通所需材料：</span>
                         <div class="text openingRequirements">
                             <#if (channel.openingRequirements)??>
                                 <#list channel.openingRequirements as openingRequirement>
                                     <div class="itl_area">
-                                    <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${((openingRequirement.levelTitle)??)?string((openingRequirement.levelTitle!''),'')}"></div>
-                                    <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${((openingRequirement.levelDescription)??)?string((openingRequirement.levelDescription!''),'')}"></div>
+                                    <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelTitle)!''}"></div>
+                                    <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelDescription)!''}"></div>
                                     <div class="item_l2"><label>对公开通所需：</label><select name="">
                                         <#list openPrivateInfos as openPrivateInfo>
                                             <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
@@ -320,8 +320,8 @@
                                     <#if (channel.updateRequirements)??>
                                     <#list channel.updateRequirements as updateRequirement>
                                     <tr>
-                                        <td><input name="" type="text" class="input_l" value="${updateRequirement.title!""}"></td>
-                                        <td><input name="" type="text" class="input_l" value="${updateRequirement.description!""}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${(updateRequirement.title)!""}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${(updateRequirement.description)!""}"></td>
                                         <td>
                                             <a class="informImg_a">
                                                 <span>上传</span><input name="" multiple="" type="file" value="${updateRequirement.templetFilePath}">
@@ -630,7 +630,7 @@
         });
 
         var openingCost=$("input[name='c_openingCost']").val();
-        if(checkNull(openingCost, "开通费用不能为空!") || isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
+        if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
         var preliminaryVerify=$("input[name='c_preliminaryVerify']:checked").val();
         if(checkNull(preliminaryVerify, "是否需要预审不能为空!")){return false;}
         var openingRequirement=$("textarea[name='c_openingRequirement']").val();
