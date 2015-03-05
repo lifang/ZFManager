@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("good/channel")
@@ -147,6 +148,32 @@ public class ChannelController {
         return "good/channel/create";
     }
 
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @ResponseBody
+    public Response create(
+            String name,
+            Integer factoryId,
+            Integer supportType,
+            @RequestParam(value = "regions[]", required = false) Integer[] regions,
+            Boolean supportCancel,
+            String standardRatesJson,
+            String billingCyclesJson,
+            String tradeTypesJson,
+            Float openingCost,
+            Boolean preliminaryVerify,
+            String openingRequirement,
+            String openingDatum,
+            String openingProtocol,
+            String openingRequirementsJson,
+            String cancelRequirementsJson,
+            String updateRequirementsJson
+    ) {
+        System.out.println(standardRatesJson);
+        System.out.println(billingCyclesJson);
+        System.out.println(tradeTypesJson);
+        return Response.getSuccess("");
+    }
+
     @RequestMapping(value="{id}/edit",method=RequestMethod.GET)
     public String edit(@PathVariable Integer id, Model model){
         PayChannel channel = payChannelService.findChannelInfo(id);
@@ -172,6 +199,32 @@ public class ChannelController {
         return "good/channel/create";
     }
 
+    @RequestMapping(value = "{id}/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public Response edit(
+            @PathVariable Integer id,
+            String name,
+            Integer factoryId,
+            Integer supportType,
+            @RequestParam(value = "regions[]", required = false) Integer[] regions,
+            Boolean supportCancel,
+            String standardRatesJson,
+            String billingCyclesJson,
+            String tradeTypesJson,
+            Float openingCost,
+            Boolean preliminaryVerify,
+            String openingRequirement,
+            String openingDatum,
+            String openingProtocol,
+            String openingRequirementsJson,
+            String cancelRequirementsJson,
+            String updateRequirementsJson
+            ) {
+        System.out.println(standardRatesJson);
+        System.out.println(billingCyclesJson);
+        System.out.println(tradeTypesJson);
+        return Response.getSuccess("");
+    }
 
     private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {

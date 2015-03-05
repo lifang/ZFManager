@@ -263,9 +263,9 @@ public class PosController {
 		return Response.getSuccess("");
 	}
 	
-	@RequestMapping(value = "{id}/update", method = RequestMethod.POST)
+	@RequestMapping(value = "{id}/edit", method = RequestMethod.POST)
 	@ResponseBody
-	public Response update(
+	public Response edit(
 			@PathVariable Integer id,
 			String title,
 			String secondTitle,
@@ -295,12 +295,12 @@ public class PosController {
 			@RequestParam(value = "photoUrls[]", required = false) String[] photoUrls,
 			@RequestParam(value = "goods[]", required = false) Integer[] goods) {
 		goodService.update(id, title, secondTitle, keyWorlds, posCategoryId,
-				factoryId, goodBrandName, modelNumber, encryptCardWayId,
-				signOrderWayId, cardTypes, batteryInfo, shellMaterial, price,
-				retailPrice, purchasePrice, floorPrice, floorPurchaseQuantity,
-				leaseDeposit, leasePrice, leaseTime, returnTime, leaseDescription,
-				leaseAgreement, channels, description, photoUrls, goods);
-		return Response.getSuccess("");
+                factoryId, goodBrandName, modelNumber, encryptCardWayId,
+                signOrderWayId, cardTypes, batteryInfo, shellMaterial, price,
+                retailPrice, purchasePrice, floorPrice, floorPurchaseQuantity,
+                leaseDeposit, leasePrice, leaseTime, returnTime, leaseDescription,
+                leaseAgreement, channels, description, photoUrls, goods);
+        return Response.getSuccess("");
 	}
 	
 	@RequestMapping(value = "{id}/in", method = RequestMethod.POST)

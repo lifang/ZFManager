@@ -434,7 +434,7 @@ function submitData(){
     });
     
     <#if good??>
-    	var url="<@spring.url "/good/pos/${good.id}/update" />";
+    	var url="<@spring.url "/good/pos/${good.id}/edit" />";
     	<#else>
     	var url="<@spring.url "/good/pos/create" />";
     </#if>

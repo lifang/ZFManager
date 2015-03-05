@@ -24,9 +24,9 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">名称：</span>
-                        <div class="text"><input name="" type="text" value="${((channel.name)??)?string((channel.name)!"", "")}"></div></li>
+                        <div class="text"><input name="c_name" type="text" value="${((channel.name)??)?string((channel.name)!"", "")}"></div></li>
                     <li class="o"><span class="labelSpan">收单机构：</span>
-                        <div class="text"><select name="">
+                        <div class="text"><select name="c_factory">
                             <#if factories??>
                                 <#list factories as factory>
                                     <option value="${factory.id}"
@@ -41,10 +41,10 @@
                         <div class="text">
                             <div class="supportArea">
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="0"> 全国</span>
+                                    <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="0"> 全国</span>
                                 </div>
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="1"> 只支持</span>
+                                    <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="1"> 只支持</span>
                                     <select id="provinceSelect">
                                         <option></option>
                                         <#list provinces as province>
@@ -75,15 +75,15 @@
                                         </div>
                                 </div>
                                 <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="supportType" type="radio" value="2"> 不支持</span>
+                                    <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="2"> 不支持</span>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li><span class="labelSpan">是否支持注销：</span>
                         <div class="text">
-                            <span class="checkboxRadio_span"><input name="supportCancel" type="radio" value="true"> 是</span>
-                            <span class="checkboxRadio_span"><input name="supportCancel" type="radio" value="false"> 否</span>
+                            <span class="checkboxRadio_span"><input name="c_supportCancel" type="radio" value="true"> 是</span>
+                            <span class="checkboxRadio_span"><input name="c_supportCancel" type="radio" value="false"> 否</span>
                         </div>
                     </li>
                 </ul>
@@ -96,7 +96,7 @@
                 <ul>
                     <li class="b"><span class="labelSpan">刷卡交易标准手续费：</span>
                         <div class="text">
-                            <div class="rate_attributes">
+                            <div class="rate_attributes standardRates">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -113,7 +113,6 @@
                                     <tr>
                                         <td>
                                             <select name="" class="select_xl selectStandardRate">
-                                                <option></option>
                                                 <#list standardRates as standardRate>
                                                     <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}"
                                                     ${((standardRate.id) = (channelStandardRate.tradeStandardRateId))?string("selected='selected'", "")}
@@ -125,19 +124,6 @@
                                         <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
                                     </tr>
                                     </#list>
-                                    <#else>
-                                    <tr>
-                                        <td>
-                                            <select name="" class="select_xl selectStandardRate">
-                                                <option></option>
-                                                <#list standardRates as standardRate>
-                                                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
-                                                </#list>
-                                            </select>
-                                        </td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                    </tr>
                                     </#if>
                                     </tbody></table>
                                 <a class="pay_add_a addStandardRate">+</a>
@@ -146,7 +132,7 @@
                     </li>
                     <li class="b"><span class="labelSpan">资金服务费：</span>
                         <div class="text">
-                            <div class="rate_attributes">
+                            <div class="rate_attributes billingCycles">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -164,7 +150,6 @@
                                         <tr>
                                             <td>
                                                 <select name="" class="select_xl selectBillingCycle">
-                                                    <option></option>
                                                     <#list billingCycles as billingCycle>
                                                         <option value="${billingCycle.id}" description="${billingCycle.description!''}"
                                                         ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
@@ -176,19 +161,6 @@
                                             <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
                                         </tr>
                                         </#list>
-                                    <#else>
-                                    <tr>
-                                        <td>
-                                            <select name="" class="select_xl selectBillingCycle">
-                                                <option></option>
-                                                <#list billingCycles as billingCycle>
-                                                    <option value="${billingCycle.id}" description="${billingCycle.description!''}">${billingCycle.name}</option>
-                                                </#list>
-                                            </select>
-                                        </td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                        <td><input name="" type="text" class="input_l"></td>
-                                    </tr>
                                     </#if>
                                     </tbody></table>
                                 <a class="pay_add_a addBillingCycle">+</a>
@@ -197,7 +169,7 @@
                     </li>
                     <li class="b"><span class="labelSpan">其他交易类型：</span>
                         <div class="text">
-                            <div class="rate_attributes">
+                            <div class="rate_attributes tradeTypes">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -215,7 +187,6 @@
                                             <tr>
                                                 <td>
                                                     <select name="" class="select_xl selectTradeType">
-                                                        <option></option>
                                                         <#list tradeTypes as tradeType>
                                                             <#if tradeType.tradeType != 1>
                                                             <option value="${tradeType.id}"
@@ -229,19 +200,6 @@
                                                 <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
                                             </tr>
                                             </#list>
-                                        <#else>
-                                        <tr>
-                                            <td>
-                                                <select name="" class="select_xl selectTradeType">
-                                                    <option></option>
-                                                    <#list tradeTypes as tradeType>
-                                                        <option value="${tradeType.id}">${tradeType.tradeValue}</option>
-                                                    </#list>
-                                                </select>
-                                            </td>
-                                            <td><input name="" type="text" class="input_l"></td>
-                                            <td><input name="" type="text" class="input_l"></td>
-                                        </tr>
                                         </#if>
                                     </tbody></table>
                                 <a class="pay_add_a addTradeType">+</a>
@@ -257,24 +215,24 @@
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">开通费用：</span>
-                        <div class="text"><input name="" type="text" value="${((channel.openingCost)??)?string((((channel.openingCost)!0)/100)?string("0.00"),'')}"> 元<br>（保留小数点后两位）</div></li>
+                        <div class="text"><input name="c_openingCost" type="text" value="${((channel.openingCost)??)?string((((channel.openingCost)!0)/100)?string("0.00"),'')}"> 元<br>（保留小数点后两位）</div></li>
                     <li><span class="labelSpan">是否需要预审：</span>
                         <div class="text">
-                            <span class="checkboxRadio_span"><input name="preliminaryVerify" type="radio" value="true"> 是</span>
-                            <span class="checkboxRadio_span"><input name="preliminaryVerify" type="radio" value="false"> 否</span>
+                            <span class="checkboxRadio_span"><input name="c_preliminaryVerify" type="radio" value="true"> 是</span>
+                            <span class="checkboxRadio_span"><input name="c_preliminaryVerify" type="radio" value="false"> 否</span>
                         </div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请条件：</span>
-                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingRequirement)??)?string(((channel.openingRequirement)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingRequirement" cols="" rows="">${((channel.openingRequirement)??)?string(((channel.openingRequirement)!''),'')}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通申请材料：</span>
-                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingDatum)??)?string(((channel.openingDatum)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingDatum" cols="" rows="">${((channel.openingDatum)??)?string(((channel.openingDatum)!''),'')}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通协议：</span>
-                        <div class="text"><textarea name="" cols="" rows="">${((channel.openingProtocol)??)?string(((channel.openingProtocol)!''),'')}</textarea></div>
+                        <div class="text"><textarea name="c_openingProtocol" cols="" rows="">${((channel.openingProtocol)??)?string(((channel.openingProtocol)!''),'')}</textarea></div>
                     </li>
                     <li class="b"><span class="labelSpan">开通所需材料：</span>
-                        <div class="text">
+                        <div class="text openingRequirements">
                             <#if (channel.openingRequirements)??>
                                 <#list channel.openingRequirements as openingRequirement>
                                     <div class="itl_area">
@@ -314,7 +272,7 @@
                     <li class="b o"><span class="labelSpan">注销所需材料：</span>
                         <div class="text">
 
-                            <div class="rate_attributes mtop">
+                            <div class="rate_attributes mtop cancelRequirements">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -347,7 +305,7 @@
                     <li class="b o"><span class="labelSpan">更新资料所需材料：</span>
                         <div class="text">
 
-                            <div class="rate_attributes mtop">
+                            <div class="rate_attributes mtop updateRequirements">
                                 <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                     <colgroup>
                                         <col width="33%">
@@ -381,8 +339,56 @@
             </div>
         </div>
 
-        <div class="btnBottom"><button class="blueBtn">创建</button></div>
+        <div class="btnBottom"><button class="blueBtn" onclick="submitData()">
+            <#if channel??>
+                确定
+            <#else>
+                创建
+            </#if>
+        </button></div>
     </div>
+
+<table id="hideStandardRate" style="display: none;">
+    <tr>
+        <td>
+            <select name="" class="select_xl selectStandardRate">
+                <#list standardRates as standardRate>
+                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
+                </#list>
+            </select>
+        </td>
+        <td><input name="" type="text" class="input_l"></td>
+        <td><input name="" type="text" class="input_l"></td>
+    </tr>
+</table>
+<table id="hideBillingCycle" style="display: none;">
+<tr>
+    <td>
+        <select name="" class="select_xl selectBillingCycle">
+            <#list billingCycles as billingCycle>
+                <option value="${billingCycle.id}" description="${billingCycle.description!''}">${billingCycle.name}</option>
+            </#list>
+        </select>
+    </td>
+    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l"></td>
+</tr>
+</table>
+
+<table id="hideTradeType" style="display: none;">
+<tr>
+    <td>
+        <select name="" class="select_xl selectTradeType">
+            <#list tradeTypes as tradeType>
+                <option value="${tradeType.id}">${tradeType.tradeValue}</option>
+            </#list>
+        </select>
+    </td>
+    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l"></td>
+</tr>
+</table>
+
 <div id="hideCity" style="display: none;">
     <span class="saab_c"><a class="dele">删除</a></span>
 </div>
@@ -439,25 +445,25 @@
 <script type="text/javascript">
     $(function () {
         <#if (channel.supportType)?? && !(channel.supportType)>
-            $("input[name='supportType'][value='2']").attr("checked", true);
+            $("input[name='c_supportType'][value='2']").attr("checked", true);
         <#elseif (channel.supportType)??
         && ((channel.areas)?size > 0)
         && (((channel.areas)[0]).id != 0)>
-            $("input[name='supportType'][value='1']").attr("checked", true);
+            $("input[name='c_supportType'][value='1']").attr("checked", true);
         <#else>
-            $("input[name='supportType'][value='0']").attr("checked", true);
+            $("input[name='c_supportType'][value='0']").attr("checked", true);
         </#if>
 
         <#if (channel.supportCancelFlag)?? && !(channel.supportCancelFlag)>
-            $("input[name='supportCancel'][value='false']").attr("checked", true);
+            $("input[name='c_supportCancel'][value='false']").attr("checked", true);
         <#else>
-            $("input[name='supportCancel'][value='true']").attr("checked", true);
+            $("input[name='c_supportCancel'][value='true']").attr("checked", true);
         </#if>
 
         <#if (channel.needPreliminaryVerify)?? && !(channel.needPreliminaryVerify)>
-            $("input[name='preliminaryVerify'][value='false']").attr("checked", true);
+            $("input[name='c_preliminaryVerify'][value='false']").attr("checked", true);
         <#else>
-            $("input[name='preliminaryVerify'][value='true']").attr("checked", true);
+            $("input[name='c_preliminaryVerify'][value='true']").attr("checked", true);
         </#if>
 
 
@@ -495,49 +501,48 @@
         $(document).delegate(".dele", "click", function () {
             $(this).parent().remove();
         });
-        $('.selectStandardRate').change(function(){
+
+        $(document).delegate(".selectStandardRate", "change", function(){
             var $standardRate =  $(this).children('option:selected');
             var description = $standardRate.attr("description");
             var baseRate = $standardRate.attr("baseRate");
             $(this).parent().nextAll().first().children().val(baseRate==undefined?"":baseRate);
             $(this).parent().nextAll().last().children().val(description==undefined?"":description);
         });
-        $('.selectBillingCycle').change(function(){
+
+        $(document).delegate(".selectBillingCycle", "change", function(){
             var $billingCycle =  $(this).children('option:selected');
             var description = $billingCycle.attr("description");
             $(this).parent().nextAll().first().children().val("");
             $(this).parent().nextAll().last().children().val(description==undefined?"":description);
         });
 
-        $('.selectTradeType').change(function(){
+        $(document).delegate(".selectTradeType", "change", function(){
             $(this).parent().nextAll().first().children().val("");
             $(this).parent().nextAll().last().children().val("");
         });
 
-        $('.addStandardRate').click(function() {
-            var $lastTr = $(this).prev().find("tr").last();
-            var $newTr = $lastTr.clone(true);
-            $lastTr.after($newTr);
+        $('.addStandardRate').click(function(){
+            var $tbody = $(this).prev("table").children("tbody");
+            var $newTr = $("#hideStandardRate").find("tr").clone();
+            $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
-
         $('.addBillingCycle').click(function(){
-            var $lastTr = $(this).prev().find("tr").last();
-            var $newTr = $lastTr.clone(true);
-            $lastTr.after($newTr);
+            var $tbody = $(this).prev("table").children("tbody");
+            var $newTr = $("#hideBillingCycle").find("tr").clone();
+            $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
-
         $('.addTradeType').click(function(){
-            var $lastTr = $(this).prev().find("tr").last();
-            var $newTr = $lastTr.clone(true);
-            $lastTr.after($newTr);
+            var $tbody = $(this).prev("table").children("tbody");
+            var $newTr = $("#hideTradeType").find("tr").clone();
+            $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
-
         $("#addOpeningRequirements").click(function(){
             var $newDiv = $("#hideRequirements").children("div").clone();
             $(this).before($newDiv);
@@ -558,7 +563,7 @@
 
         $('.addCancelRequirement').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideCancelRequirement").find("tr").clone();;
+            var $newTr = $("#hideCancelRequirement").find("tr").clone();
             $tbody.append($newTr);
         });
         $('.addUpdateRequirement').click(function(){
@@ -569,8 +574,169 @@
 
     });
 
+    function submitData(){
+        var name=$("input[name='c_name']").val();
+        if(checkNull(name, "名称不能为空!")){return false;}
+        var factoryId=$("select[name='c_factory']").find("option:selected").val();
+        if(checkNull(factoryId, "收单机构不能为空!")){return false;}
+        var supportType=$("input[name='c_supportType']:checked").val();
+        if(checkNull(supportType, "支持区域不能为空!")){return false;}
+        var regions = new Array();
+        if(supportType == 1){
+            $(".saa_b").find("a").each(function(i){
+                regions[i]=$(this).attr("value");
+            });
+        }
+        var supportCancel=$("input[name='c_supportCancel']:checked").val();
+        if(checkNull(supportCancel, "是否支持注销不能为空!")){return false;}
+        <#--刷卡交易标准手续费-->
+        var standardRates = new Array();
+        $(".standardRates").find("tr").each(function(i){
+            if(i==0){
+                return;
+            }
+            var id =  $(this).find("select").find("option:selected").val();
+            var rate =  $(this).find("input").first().val();
+            var description =  $(this).find("input").last().val();
+            standardRates.push({id: id,
+                rate: rate,
+                description: description});
+        });
+        <#--资金服务费-->
+        var billingCycles = new Array();
+        $(".billingCycles").find("tr").each(function(i){
+            if(i==0){
+                return;
+            }
+            var id =  $(this).find("select").find("option:selected").val();
+            var rate =  $(this).find("input").first().val();
+            var description =  $(this).find("input").last().val();
+            billingCycles.push({id: id,
+                rate: rate,
+                description: description});
+        });
+    <#--其他交易类型-->
+        var tradeTypes = new Array();
+        $(".tradeTypes").find("tr").each(function(i){
+            if(i==0){
+                return;
+            }
+            var id =  $(this).find("select").find("option:selected").val();
+            var rate =  $(this).find("input").first().val();
+            var description =  $(this).find("input").last().val();
+            tradeTypes.push({id: id,
+                rate: rate,
+                description: description});
+        });
+
+        var openingCost=$("input[name='c_openingCost']").val();
+        if(checkNull(openingCost, "开通费用不能为空!") || isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
+        var preliminaryVerify=$("input[name='c_preliminaryVerify']:checked").val();
+        if(checkNull(preliminaryVerify, "是否需要预审不能为空!")){return false;}
+        var openingRequirement=$("textarea[name='c_openingRequirement']").val();
+        if(checkNull(openingRequirement, "开通申请条件不能为空!")){return false;}
+        var openingDatum=$("textarea[name='c_openingDatum']").val();
+        if(checkNull(openingDatum, "开通申请材料不能为空!")){return false;}
+        var openingProtocol=$("textarea[name='c_openingProtocol']").val();
+        if(checkNull(openingDatum, "开通协议不能为空!")){return false;}
+        <#--开通所需材料-->
+        var openingRequirements = new Array();
+        $(".openingRequirements").children(".itl_area").each(function(i){
+            var title = $(this).find(".item_l2 input").eq(0).val();
+            var description = $(this).find(".item_l2 input").eq(1).val();
+            var publicRequirements = new Array();
+            $(this).find(".item_l2 .ia_area").eq(0).find("a").each(function(){
+                publicRequirements.push($(this).attr("value"));
+            });
+            var privateRequirements = new Array();
+            $(this).find(".item_l2 .ia_area").eq(1).find("a").each(function(){
+                privateRequirements.push($(this).attr("value"));
+            });
+            openingRequirements.push({title: title,
+                description: description,
+                publicRequirements: publicRequirements,
+                privateRequirements: privateRequirements});
+        });
+        <#--注销所需材料-->
+        var cancelRequirements = new Array();
+        $(".cancelRequirements").find("tr").each(function(i){
+            if(i==0){
+                return;
+            }
+            var name =  $(this).find("input").eq(0).val();
+            var description =  $(this).find("input").eq(1).val();
+            var fileUrl =  $(this).find("input").eq(2).attr("value");
+            cancelRequirements.push({
+                name: name,
+                description: description,
+                fileUrl: fileUrl});
+        });
+    <#--更新所需材料-->
+        var updateRequirements = new Array();
+        $(".updateRequirements").find("tr").each(function(i){
+            if(i==0){
+                return;
+            }
+            var name =  $(this).find("input").eq(0).val();
+            var description =  $(this).find("input").eq(1).val();
+            var fileUrl =  $(this).find("input").eq(2).attr("value");
+            updateRequirements.push({
+                name: name,
+                description: description,
+                fileUrl: fileUrl});
+        });
+
+        <#if channel??>
+            var url="<@spring.url "/good/channel/${channel.id}/edit" />";
+        <#else>
+            var url="<@spring.url "/good/channel/create" />";
+        </#if>
+        $.post(url,
+                { 'name': name,
+                    'factoryId': factoryId,
+                    'supportType': supportType,
+                    'regions': regions,
+                    'supportCancel': supportCancel,
+                    'standardRatesJson': JSON.stringify(standardRates),
+                    'billingCyclesJson': JSON.stringify(billingCycles),
+                    'tradeTypesJson': JSON.stringify(tradeTypes),
+                    'openingCost': openingCost,
+                    'preliminaryVerify': preliminaryVerify,
+                    'openingRequirement': openingRequirement,
+                    'openingDatum': openingDatum,
+                    'openingProtocol': openingProtocol,
+                    'openingRequirementsJson': JSON.stringify(openingRequirements),
+                    'cancelRequirementsJson': JSON.stringify(cancelRequirements),
+                    'updateRequirementsJson': JSON.stringify(updateRequirements)
+                },
+                function(data){
+                    if(data.code==1){
+                        <#--window.location.href="<@spring.url "/good/channel/list" />"-->
+                    }
+                }
+        );
+
+    }
+
     function isNotNull(value){
         return value != "" && value != null && value != undefined;
+    }
+
+    function checkNull(value, error){
+        var result = (value == "" || value == null || value == undefined);
+        if(result){
+            showErrorTip(error);
+        }
+        return result;
+    }
+
+    function isNotTwoDecimal(value, error){
+        var re=/^\d+\.\d{2}$/;//2位小数
+        if(value.length>0 && !(re.test(value))){
+            showErrorTip(error);
+            return true;
+        }
+        return false;
     }
 </script>
 

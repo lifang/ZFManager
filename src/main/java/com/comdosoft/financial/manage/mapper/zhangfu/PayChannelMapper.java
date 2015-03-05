@@ -39,7 +39,7 @@ public interface PayChannelMapper {
 	 */
 	int updateByPrimaryKey(PayChannel record);
 
-	List<PayChannel> selectByStatusAndName(@Param("status") byte status, @Param("name") String name);
+	List<PayChannel> selectByStatusAndName(@Param("status") byte status, @Param("keys") String name);
 
 	List<PayChannel> selectChannels(Integer goodId);
 
