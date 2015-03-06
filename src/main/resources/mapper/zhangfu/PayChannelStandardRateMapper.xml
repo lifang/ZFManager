@@ -80,4 +80,10 @@
     from pay_channel_standard_rates pcsr inner join dictionary_trade_standard_rates dtsr on pcsr.trade_standard_rate_id=dtsr.id
      where pay_channel_id=#{param1}
   </select>
+
+   <delete id="deletePayChannelStandardRates">
+        delete from pay_channel_standard_rates
+        where pay_channel_id = #{param1}
+   </delete>
+
 </mapper>

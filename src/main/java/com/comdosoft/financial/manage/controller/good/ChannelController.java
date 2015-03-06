@@ -4,12 +4,23 @@ import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.Constants;
+import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +28,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("good/channel")
 public class ChannelController {
+
+    private Logger LOG = LoggerFactory.getLogger(PosController.class);
+
+    @Value("${filepath.root}")
+    private String rootPath;
 
 	@Autowired
 	private PayChannelService payChannelService;
@@ -28,7 +44,8 @@ public class ChannelController {
     private CityService cityService;
     @Autowired
     private DictionaryService dictionaryService;
-
+    @Autowired
+    private SessionService sessionService;
 
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Byte status, String keys, Model model){
@@ -166,11 +183,17 @@ public class ChannelController {
             String openingProtocol,
             String openingRequirementsJson,
             String cancelRequirementsJson,
-            String updateRequirementsJson
-    ) {
-        System.out.println(standardRatesJson);
-        System.out.println(billingCyclesJson);
-        System.out.println(tradeTypesJson);
+            String updateRequirementsJson,HttpServletRequest request) throws IOException {
+        Customer customer = sessionService.getLoginInfo(request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> standardRates = objectMapper.readValue(standardRatesJson, List.class);
+        List<Map<String, Object>> billingCycles = objectMapper.readValue(billingCyclesJson, List.class);
+        List<Map<String, Object>> tradeTypes = objectMapper.readValue(tradeTypesJson, List.class);
+        List<Map<String, Object>> openingRequirements = objectMapper.readValue(openingRequirementsJson, List.class);
+        List<Map<String, Object>> cancelRequirements = objectMapper.readValue(cancelRequirementsJson, List.class);
+        List<Map<String, Object>> updateRequirements = objectMapper.readValue(updateRequirementsJson, List.class);
+        payChannelService.create(customer.getId(), customer.getTypes(),name, factoryId, supportType, regions, supportCancel, standardRates, billingCycles, tradeTypes, openingCost, preliminaryVerify, openingRequirement,openingDatum,openingProtocol,
+                openingRequirements, cancelRequirements, updateRequirements);
         return Response.getSuccess("");
     }
 
@@ -219,10 +242,16 @@ public class ChannelController {
             String openingRequirementsJson,
             String cancelRequirementsJson,
             String updateRequirementsJson
-            ) {
-        System.out.println(standardRatesJson);
-        System.out.println(billingCyclesJson);
-        System.out.println(tradeTypesJson);
+            ) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> standardRates = objectMapper.readValue(standardRatesJson, List.class);
+        List<Map<String, Object>> billingCycles = objectMapper.readValue(billingCyclesJson, List.class);
+        List<Map<String, Object>> tradeTypes = objectMapper.readValue(tradeTypesJson, List.class);
+        List<Map<String, Object>> openingRequirements = objectMapper.readValue(openingRequirementsJson, List.class);
+        List<Map<String, Object>> cancelRequirements = objectMapper.readValue(cancelRequirementsJson, List.class);
+        List<Map<String, Object>> updateRequirements = objectMapper.readValue(updateRequirementsJson, List.class);
+        payChannelService.update(id, name, factoryId, supportType, regions, supportCancel, standardRates, billingCycles, tradeTypes, openingCost, preliminaryVerify, openingRequirement,openingDatum,openingProtocol,
+                openingRequirements, cancelRequirements, updateRequirements);
         return Response.getSuccess("");
     }
 
@@ -236,4 +265,23 @@ public class ChannelController {
 		Page<PayChannel> channels = payChannelService.findPages(page, Constants.PAGE_SIZE, status, keys);
 		model.addAttribute("channels", channels);
 	}
+
+    @RequestMapping(value="uploadFile",method=RequestMethod.POST)
+    @ResponseBody
+    public Response uploadImg(MultipartFile file){
+        String suffix = file.getOriginalFilename().substring
+                (file.getOriginalFilename().lastIndexOf("."));
+        String fileName = Constants.PATH_PREFIX_CHANNEL+ FileUtil.getFilePath()+suffix;
+        try {
+            File osFile = new File(rootPath + fileName);
+            if (!osFile.getParentFile().exists()) {
+                osFile.getParentFile().mkdirs();
+            }
+            file.transferTo(osFile);
+        } catch (Exception e) {
+            LOG.error("", e);
+            return Response.getError("上传失败！");
+        }
+        return Response.getSuccess(fileName);
+    }
 }

@@ -76,5 +76,9 @@
     select *
     from other_requirements where pay_channel_id=#{param1} and types=${TYPE_UPDATE}
   </select>
+    <delete id="deleteOtherRequirements">
+        delete from other_requirements
+        where pay_channel_id=#{param1}
+    </delete>
 
 </mapper>

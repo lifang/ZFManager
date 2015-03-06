@@ -34,4 +34,6 @@ public interface SupportAreaMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(SupportArea record);
+
+	void deleteChannelAreas(Integer channelId);
 }

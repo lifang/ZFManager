@@ -37,7 +37,7 @@ public interface RoleMenuMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(RoleMenu record);
-	
+
 	List<String> selectRoleKeys(@Param("roleId") Integer roleId);
 	
 	int deleteByRoleId(Integer roleId);

@@ -9,7 +9,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="account_type" jdbcType="BIT" property="accountType" />
+    <result column="account_type" jdbcType="TINYINT" property="accountType" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="city_id" jdbcType="INTEGER" property="cityId" />
     <result column="types" jdbcType="TINYINT" property="types" />
@@ -45,7 +45,7 @@
       device_code, created_at, updated_at, 
       phone, email, dentcode
       )
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{accountType,jdbcType=BIT}, 
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{accountType,jdbcType=TINYINT}, 
       #{name,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT}, 
       #{lastLoginedAt,jdbcType=TIMESTAMP}, #{integral,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       #{deviceCode,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
@@ -60,7 +60,7 @@
     update customers
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      account_type = #{accountType,jdbcType=BIT},
+      account_type = #{accountType,jdbcType=TINYINT},
       name = #{name,jdbcType=VARCHAR},
       city_id = #{cityId,jdbcType=INTEGER},
       types = #{types,jdbcType=TINYINT},

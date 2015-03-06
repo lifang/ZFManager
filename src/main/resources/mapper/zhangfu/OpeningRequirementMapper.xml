@@ -12,7 +12,7 @@
     <result column="pay_channel_id" jdbcType="INTEGER" property="payChannelId" />
     <result column="has_video_verify" jdbcType="BIT" property="hasVideoVerify" />
     <result column="level" jdbcType="TINYINT" property="level" />
-    <result column="video_verify_status" jdbcType="INTEGER" property="videoVerifyStatus" />
+    <result column="video_verify_status" jdbcType="TINYINT" property="videoVerifyStatus" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -34,7 +34,7 @@
       has_video_verify, level, video_verify_status
       )
     values (#{levelTitle,jdbcType=VARCHAR}, #{levelDescription,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
-      #{hasVideoVerify,jdbcType=BIT}, #{level,jdbcType=TINYINT}, #{videoVerifyStatus,jdbcType=INTEGER}
+      #{hasVideoVerify,jdbcType=BIT}, #{level,jdbcType=TINYINT}, #{videoVerifyStatus,jdbcType=TINYINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirement">
@@ -48,7 +48,7 @@
       pay_channel_id = #{payChannelId,jdbcType=INTEGER},
       has_video_verify = #{hasVideoVerify,jdbcType=BIT},
       level = #{level,jdbcType=TINYINT},
-      video_verify_status = #{videoVerifyStatus,jdbcType=INTEGER}
+      video_verify_status = #{videoVerifyStatus,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

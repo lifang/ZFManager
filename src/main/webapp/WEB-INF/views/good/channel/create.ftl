@@ -235,7 +235,7 @@
                         <div class="text openingRequirements">
                             <#if (channel.openingRequirements)??>
                                 <#list channel.openingRequirements as openingRequirement>
-                                    <div class="itl_area">
+                                    <div class="itl_area" value="${openingRequirement.id}">
                                     <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelTitle)!''}"></div>
                                     <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelDescription)!''}"></div>
                                     <div class="item_l2"><label>对公开通所需：</label><select name="">
@@ -290,9 +290,11 @@
                                         <td><input name="" type="text" class="input_l" value="${cancelRequirement.title!""}"></td>
                                         <td><input name="" type="text" class="input_l" value="${cancelRequirement.description!""}"></td>
                                         <td>
+                                            <form action="<@spring.url "/good/channel/uploadFile" />" method="post" enctype="multipart/form-data">
                                             <a class="informImg_a">
-                                                <span>上传</span><input name="" multiple="" type="file" value="${cancelRequirement.templetFilePath}">
+                                                <span>${(cancelRequirement.templetFilePath??)?string("重新上传","重新上传")}</span><input name="file" type="file" onChange="fileChange(this)" value="${cancelRequirement.templetFilePath!""}">
                                             </a>
+                                            </form>
                                         </td>
                                     </tr>
                                     </#list>
@@ -323,9 +325,11 @@
                                         <td><input name="" type="text" class="input_l" value="${(updateRequirement.title)!""}"></td>
                                         <td><input name="" type="text" class="input_l" value="${(updateRequirement.description)!""}"></td>
                                         <td>
+                                            <form action="<@spring.url "/good/channel/uploadFile" />" method="post" enctype="multipart/form-data">
                                             <a class="informImg_a">
-                                                <span>上传</span><input name="" multiple="" type="file" value="${updateRequirement.templetFilePath}">
+                                                <span>${(updateRequirement.templetFilePath??)?string("重新上传","重新上传")}</span><input name="file" type="file" onChange="fileChange(this)"  value="${updateRequirement.templetFilePath!""}">
                                             </a>
+                                            </form>
                                         </td>
                                     </tr>
                                     </#list>
@@ -426,9 +430,12 @@
     <td><input name="" type="text" class="input_l"></td>
     <td><input name="" type="text" class="input_l"></td>
     <td>
+        <form action="<@spring.url "/good/channel/uploadFile" />" method="post" enctype="multipart/form-data">
         <a href="javascript:void(0);" class="informImg_a">
-            <span>上传</span><input name="" multiple="" type="file">
+            <span>上传</span><input name="file" onChange="fileChange(this)" type="file">
         </a>
+        </form>
+
     </td>
 </table>
 
@@ -436,9 +443,11 @@
     <td><input name="" type="text" class="input_l"></td>
     <td><input name="" type="text" class="input_l"></td>
     <td>
+        <form action="<@spring.url "/good/channel/uploadFile" />" method="post" enctype="multipart/form-data">
         <a href="javascript:void(0);" class="informImg_a">
-            <span>上传</span><input name="" multiple="" type="file">
+            <span>上传</span><input name="file" onChange="fileChange(this)" type="file">
         </a>
+        </form>
     </td>
 </table>
 
@@ -632,16 +641,13 @@
         var openingCost=$("input[name='c_openingCost']").val();
         if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
         var preliminaryVerify=$("input[name='c_preliminaryVerify']:checked").val();
-        if(checkNull(preliminaryVerify, "是否需要预审不能为空!")){return false;}
         var openingRequirement=$("textarea[name='c_openingRequirement']").val();
-        if(checkNull(openingRequirement, "开通申请条件不能为空!")){return false;}
         var openingDatum=$("textarea[name='c_openingDatum']").val();
-        if(checkNull(openingDatum, "开通申请材料不能为空!")){return false;}
         var openingProtocol=$("textarea[name='c_openingProtocol']").val();
-        if(checkNull(openingDatum, "开通协议不能为空!")){return false;}
         <#--开通所需材料-->
         var openingRequirements = new Array();
         $(".openingRequirements").children(".itl_area").each(function(i){
+            var id = $(this).attr("value");
             var title = $(this).find(".item_l2 input").eq(0).val();
             var description = $(this).find(".item_l2 input").eq(1).val();
             var publicRequirements = new Array();
@@ -652,7 +658,8 @@
             $(this).find(".item_l2 .ia_area").eq(1).find("a").each(function(){
                 privateRequirements.push($(this).attr("value"));
             });
-            openingRequirements.push({title: title,
+            openingRequirements.push({id: id,
+                title: title,
                 description: description,
                 publicRequirements: publicRequirements,
                 privateRequirements: privateRequirements});
@@ -663,11 +670,11 @@
             if(i==0){
                 return;
             }
-            var name =  $(this).find("input").eq(0).val();
+            var title =  $(this).find("input").eq(0).val();
             var description =  $(this).find("input").eq(1).val();
             var fileUrl =  $(this).find("input").eq(2).attr("value");
             cancelRequirements.push({
-                name: name,
+                title: title,
                 description: description,
                 fileUrl: fileUrl});
         });
@@ -677,11 +684,11 @@
             if(i==0){
                 return;
             }
-            var name =  $(this).find("input").eq(0).val();
+            var title =  $(this).find("input").eq(0).val();
             var description =  $(this).find("input").eq(1).val();
             var fileUrl =  $(this).find("input").eq(2).attr("value");
             updateRequirements.push({
-                name: name,
+                title: title,
                 description: description,
                 fileUrl: fileUrl});
         });
@@ -736,6 +743,20 @@
             showErrorTip(error);
             return true;
         }
+        return false;
+    }
+    function fileChange(obj){
+        var options = {
+            success: function(data){
+                if(data.code==1){
+                    $(obj).attr("value", data.result);
+                    $(obj).prev("span").html("重新上传");
+                }
+            },
+            resetForm: true,
+            dataType: 'json'
+        };
+        $(obj).parents("form").ajaxSubmit(options);
         return false;
     }
 </script>

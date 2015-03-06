@@ -42,8 +42,6 @@ public class SupportTradeTypeService {
             supportTradeType.setTradeType(SupportTradeType.TYPE_TRADE);
             supportTradeType.setBaseProfit(baseProfit);
             supportTradeType.setPayChannelId(channelId);
-            Integer factoryId = payChannelMapper.selectByPrimaryKey(channelId).getFactoryId();
-            supportTradeType.setFactoryId(factoryId);
             supportTradeType.setSortIndex(0);
             supportTradeTypeMapper.insert(supportTradeType);
         } else {

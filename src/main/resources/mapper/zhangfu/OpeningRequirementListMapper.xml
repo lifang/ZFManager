@@ -80,5 +80,9 @@
     from opening_requirement_lists orl inner join dictionary_open_private_infos dopi on orl.requirement_setting_id = dopi.id
     where orl.opening_requirements_id=#{param1} and orl.requirement_type=0
   </select>
+    <delete id="deleteOpeningRequirementLists">
+        delete from opening_requirement_lists
+        where opening_requirements_id=#{param1}
+    </delete>
 
 </mapper>

@@ -14,7 +14,7 @@
     <result column="need_preliminary_verify" jdbcType="BIT" property="needPreliminaryVerify" />
     <result column="factory_id" jdbcType="INTEGER" property="factoryId" />
     <result column="created_user_id" jdbcType="INTEGER" property="createdUserId" />
-    <result column="created_user_type" jdbcType="INTEGER" property="createdUserType" />
+    <result column="created_user_type" jdbcType="TINYINT" property="createdUserType" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="support_type" jdbcType="BIT" property="supportType" />
@@ -45,7 +45,7 @@
       opening_datum, opening_protocol)
     values (#{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{supportCancelFlag,jdbcType=BIT}, 
       #{openingCost,jdbcType=INTEGER}, #{needPreliminaryVerify,jdbcType=BIT}, #{factoryId,jdbcType=INTEGER}, 
-      #{createdUserId,jdbcType=INTEGER}, #{createdUserType,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUserId,jdbcType=INTEGER}, #{createdUserType,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{supportType,jdbcType=BIT}, #{openingRequirement,jdbcType=LONGVARCHAR}, 
       #{openingDatum,jdbcType=LONGVARCHAR}, #{openingProtocol,jdbcType=LONGVARCHAR})
   </insert>
@@ -62,7 +62,7 @@
       need_preliminary_verify = #{needPreliminaryVerify,jdbcType=BIT},
       factory_id = #{factoryId,jdbcType=INTEGER},
       created_user_id = #{createdUserId,jdbcType=INTEGER},
-      created_user_type = #{createdUserType,jdbcType=INTEGER},
+      created_user_type = #{createdUserType,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       support_type = #{supportType,jdbcType=BIT},

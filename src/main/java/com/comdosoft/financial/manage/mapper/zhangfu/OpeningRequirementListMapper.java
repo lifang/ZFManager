@@ -39,4 +39,5 @@ public interface OpeningRequirementListMapper {
 
 	List<OpeningRequirementList> selectPrivateRequirements(Integer openingRequirementId);
 
+    void deleteOpeningRequirementLists(Integer openingRequirementId);
 }

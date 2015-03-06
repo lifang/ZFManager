@@ -39,4 +39,6 @@ public interface OtherRequirementMapper {
 
     List<OtherRequirement> selectUpdateRequirements(Integer channelId);
 
+    void deleteOtherRequirements(Integer channelId);
+
 }

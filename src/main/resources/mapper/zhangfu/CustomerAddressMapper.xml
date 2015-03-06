@@ -12,7 +12,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="moblephone" jdbcType="VARCHAR" property="moblephone" />
     <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
-    <result column="is_default" jdbcType="BIT" property="isDefault" />
+    <result column="is_default" jdbcType="INTEGER" property="isDefault" />
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
@@ -40,7 +40,7 @@
       customer_id, status, created_at, 
       updated_at, telphone)
     values (#{cityId,jdbcType=INTEGER}, #{receiver,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{moblephone,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, 
+      #{moblephone,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER}, 
       #{customerId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{telphone,jdbcType=VARCHAR})
   </insert>
@@ -55,7 +55,7 @@
       address = #{address,jdbcType=VARCHAR},
       moblephone = #{moblephone,jdbcType=VARCHAR},
       zip_code = #{zipCode,jdbcType=VARCHAR},
-      is_default = #{isDefault,jdbcType=BIT},
+      is_default = #{isDefault,jdbcType=INTEGER},
       customer_id = #{customerId,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},

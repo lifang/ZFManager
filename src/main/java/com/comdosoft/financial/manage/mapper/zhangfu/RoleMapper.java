@@ -38,7 +38,7 @@ public interface RoleMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Role record);
-	
+
 	List<Role> selectPage(@Param("request") PageRequest request,@Param("query") String query);
 	
 	long countTotal(@Param("query") String query);

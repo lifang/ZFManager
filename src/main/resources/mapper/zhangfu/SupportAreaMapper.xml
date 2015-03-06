@@ -60,4 +60,9 @@
     select id, pay_channel_id, city_id, support_type
     from support_areas
   </select>
+
+    <delete id="deleteChannelAreas">
+        delete from support_areas
+        where pay_channel_id = #{param1}
+    </delete>
 </mapper>

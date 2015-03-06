@@ -35,4 +35,6 @@ public interface PayChannelStandardRateMapper {
 	int updateByPrimaryKey(PayChannelStandardRate record);
 
 	List<PayChannelStandardRate> selectStandardRates(Integer channelId);
+
+    void deletePayChannelStandardRates(Integer channelId);
 }

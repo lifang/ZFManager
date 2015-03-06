@@ -39,4 +39,6 @@ public interface PayChannelBillingCycleMapper {
 
 	List<PayChannelBillingCycle> selectBillingCycles(Integer payChannelId);
 
+    void deletePayChannelBillingCycles(Integer payChannelId);
+
 }

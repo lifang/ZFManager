@@ -166,7 +166,7 @@ public class PayChannelStandardRate {
 		this.tradeStandardRateId = tradeStandardRateId;
 	}
 
-    private DictionaryTradeStandardRate dictionaryTradeStandardRate;
+	private DictionaryTradeStandardRate dictionaryTradeStandardRate;
 
     public DictionaryTradeStandardRate getDictionaryTradeStandardRate() {
         return dictionaryTradeStandardRate;
