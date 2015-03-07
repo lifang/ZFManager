@@ -56,9 +56,9 @@
     select id, name, created_at
     from good_brands
   </select>
-  
+
   <select id="selectByName" resultMap="BaseResultMap">
-    select * 
+    select *
     from good_brands g where g.name=#{param1}
   </select>
   

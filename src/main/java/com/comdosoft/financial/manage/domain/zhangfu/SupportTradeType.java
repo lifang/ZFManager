@@ -348,7 +348,10 @@ public class SupportTradeType {
 		this.description = description;
 	}
 
-	private DictionaryTradeType dictionaryTradeType;
+    public static final byte TYPE_TRADE = 1;	// 交易类型
+    public static final byte TYPE_OTHER = 2;	// 其他类型
+
+    private DictionaryTradeType dictionaryTradeType;
 
     public DictionaryTradeType getDictionaryTradeType() {
         return dictionaryTradeType;
@@ -357,8 +360,5 @@ public class SupportTradeType {
     public void setDictionaryTradeType(DictionaryTradeType dictionaryTradeType) {
         this.dictionaryTradeType = dictionaryTradeType;
     }
-
-    public static final byte TYPE_TRADE = 1;	// 交易类型
-    public static final byte TYPE_OTHER = 2;	// 其他类型
 
 }

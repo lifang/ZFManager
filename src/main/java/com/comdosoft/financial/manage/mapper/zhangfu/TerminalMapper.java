@@ -40,4 +40,6 @@ public interface TerminalMapper {
                                    @Param("status") Byte status, @Param("keys") String keys);
 
     long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+
+    Terminal findTerminalInfo(Integer id);
 }

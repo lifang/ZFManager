@@ -80,9 +80,17 @@
     from pay_channel_billing_cycles pcbc inner join dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id
     where pcbc.pay_channel_id = #{param1}
   </select>
+
     <delete id="deletePayChannelBillingCycles">
         delete from pay_channel_billing_cycles
         where pay_channel_id = #{param1}
     </delete>
+
+    <select id="findByChannelIdAndBillingCyclesId" resultMap="BillCycleResultMap">
+    select pcbc.*,
+    dbc.id dbc_id, dbc.name dbc_name
+    from pay_channel_billing_cycles pcbc inner join dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id
+    where pcbc.billing_cycles_id = #{billingCycleId} and pcbc.pay_channel_id = #{payChannelId}
+    </select>
 
 </mapper>

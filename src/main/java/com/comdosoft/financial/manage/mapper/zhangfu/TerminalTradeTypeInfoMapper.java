@@ -34,4 +34,6 @@ public interface TerminalTradeTypeInfoMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TerminalTradeTypeInfo record);
+
+    List<TerminalTradeTypeInfo> selectTerminalTradeTypeInfos(Integer terminalId);
 }

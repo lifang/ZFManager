@@ -94,12 +94,12 @@
   </select>
 
     <resultMap extends="BaseResultMap" id="SupportTradeTypeResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.SupportTradeType">
-        <association columnPrefix="dty_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType" property="dictionaryTradeType" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeTypeMapper.BaseResultMap" />
+        <association columnPrefix="dtt_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType" property="dictionaryTradeType" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeTypeMapper.BaseResultMap" />
     </resultMap>
    <select id="selectSupportTradeTypes" resultMap="SupportTradeTypeResultMap">
         select stt.*,
-        dty.trade_value dty_trade_value
-        from support_trade_types stt inner join dictionary_trade_types dty on stt.trade_type_id=dty.id
+        dtt.trade_value dtt_trade_value
+        from support_trade_types stt inner join dictionary_trade_types dtt on stt.trade_type_id=dtt.id
         where pay_channel_id=#{param1} order by sort_index
    </select>
 
@@ -109,4 +109,5 @@
         from support_trade_types
         where pay_channel_id=#{param1} and trade_type=#{TYPE_TRADE}
     </select>
+
 </mapper>

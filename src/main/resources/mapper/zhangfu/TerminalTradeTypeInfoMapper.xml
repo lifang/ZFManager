@@ -60,4 +60,18 @@
     select id, trade_type_id, status, terminal_id
     from terminal_trade_type_infos
   </select>
+
+    <resultMap extends="BaseResultMap" id="TerminalTradeTypeInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.TerminalTradeTypeInfo">
+        <association columnPrefix="stt_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType" property="supportTradeType" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.SupportTradeTypeMapper.SupportTradeTypeResultMap" />
+    </resultMap>
+
+    <select id="selectTerminalTradeTypeInfos" resultMap="TerminalTradeTypeInfoResultMap">
+      select ttti.*,
+      stt.id stt_id, stt.terminal_rate stt_terminal_rate,
+      dtt.id stt_dtt_id, dtt.trade_value stt_dtt_trade_value
+      from terminal_trade_type_infos ttti inner join terminals t on ttti.terminal_id=t.id
+      inner join support_trade_types stt on ttti.trade_type_id=stt.trade_type_id and stt.pay_channel_id=t.pay_channel_id
+      inner join dictionary_trade_types dtt on dtt.id=stt.trade_type_id
+      where terminal_id=#{param1}
+    </select>
 </mapper>

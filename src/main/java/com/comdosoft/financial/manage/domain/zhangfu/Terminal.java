@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
+import java.util.List;
 
 public class Terminal {
 
@@ -497,8 +498,14 @@ public class Terminal {
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;
+    private Customer customer;
+    private Agent agent;
+    private Order order;
+    private List<TerminalTradeTypeInfo> tradeTypeInfos;
+    private List<TerminalOpeningInfo> openingInfos;
+    private PayChannelBillingCycle billingCycle;
 
-	public Merchant getMerchant() {
+    public Merchant getMerchant() {
 		return merchant;
 	}
 
@@ -521,4 +528,52 @@ public class Terminal {
 	public void setGood(Good good) {
 		this.good = good;
 	}
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public List<TerminalTradeTypeInfo> getTradeTypeInfos() {
+        return tradeTypeInfos;
+    }
+
+    public void setTradeTypeInfos(List<TerminalTradeTypeInfo> tradeTypeInfos) {
+        this.tradeTypeInfos = tradeTypeInfos;
+    }
+
+    public List<TerminalOpeningInfo> getOpeningInfos() {
+        return openingInfos;
+    }
+
+    public void setOpeningInfos(List<TerminalOpeningInfo> openingInfos) {
+        this.openingInfos = openingInfos;
+    }
+
+    public PayChannelBillingCycle getBillingCycle() {
+        return billingCycle;
+    }
+
+    public void setBillingCycle(PayChannelBillingCycle billingCycle) {
+        this.billingCycle = billingCycle;
+    }
 }
