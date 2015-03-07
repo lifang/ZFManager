@@ -37,14 +37,7 @@ public class SupportTradeTypeService {
         }
 
         SupportTradeType supportTradeType = supportTradeTypeMapper.selectBaseSupportTradeType(channelId);
-        if (supportTradeType == null) {
-            supportTradeType = new SupportTradeType();
-            supportTradeType.setTradeType(SupportTradeType.TYPE_TRADE);
-            supportTradeType.setBaseProfit(baseProfit);
-            supportTradeType.setPayChannelId(channelId);
-            supportTradeType.setSortIndex(0);
-            supportTradeTypeMapper.insert(supportTradeType);
-        } else {
+        if (supportTradeType != null) {
             supportTradeType.setBaseProfit(baseProfit);
             supportTradeTypeMapper.updateByPrimaryKey(supportTradeType);
         }

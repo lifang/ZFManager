@@ -119,4 +119,7 @@ public class DictionaryTradeType {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+    public static final byte TYPE_TRADE = 1;	// 交易类型
+    public static final byte TYPE_OTHER = 2;	// 其他类型
 }

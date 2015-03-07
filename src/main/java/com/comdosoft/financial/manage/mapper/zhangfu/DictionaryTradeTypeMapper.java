@@ -34,4 +34,6 @@ public interface DictionaryTradeTypeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(DictionaryTradeType record);
+
+    DictionaryTradeType selectBaseTradeType();
 }
