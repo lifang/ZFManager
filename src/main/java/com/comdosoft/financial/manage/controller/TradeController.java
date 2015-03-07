@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gookin on 15/3/7.
@@ -49,6 +50,8 @@ public class TradeController {
                             Model model){
         Page<TradeRecord> recordPage = tradeService.tradeRecordPage(page, id, status, start, end);
         model.addAttribute("recordPage",recordPage);
+        Map<String,Long> profits = tradeService.pageProfit(page,id,status,start,end);
+        model.addAttribute("profits",profits);
         return "trade/trade_list_page";
     }
 

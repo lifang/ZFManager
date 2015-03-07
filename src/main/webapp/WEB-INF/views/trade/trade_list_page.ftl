@@ -1,6 +1,6 @@
 <#import "../page.ftl" as pager>
-<div class="user_statistics">交易总金额：<strong>￥54000.00</strong>&nbsp;&nbsp;交易总笔数：<strong>${recordPage.total}笔</strong>&nbsp;&nbsp;
-    产出分润：<strong>￥1000.00</strong>&nbsp;&nbsp;需支付分润：<strong>￥500.00</strong></div>
+<div class="user_statistics">交易总金额：<strong>￥${((profits.amounts!0)/100)?string("0.00")}</strong>&nbsp;&nbsp;交易总笔数：<strong>${recordPage.total}笔</strong>&nbsp;&nbsp;
+    产出分润：<strong>￥${((profits.gets!0)/100)?string("0.00")}</strong>&nbsp;&nbsp;需支付分润：<strong>￥${((profits.pays!0)/100)?string("0.00")}</strong></div>
 
 <div class="user_table">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">

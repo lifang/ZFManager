@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface TradeRecordMapper {
 
@@ -50,4 +51,8 @@ public interface TradeRecordMapper {
                    @Param("type") Integer type,
                    @Param("status") Integer status);
 
+    Map<String,Long> selectPageProfit(@Param("start") Date start,
+                                      @Param("end") Date end,
+                                      @Param("type") Integer type,
+                                      @Param("status") Integer status);
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gookin on 15/3/7.
@@ -39,5 +40,9 @@ public class TradeService {
         long count = tradeRecordMapper.countPage(start,end,type,status);
         List<TradeRecord> records = tradeRecordMapper.selectPage(request,start,end,type,status);
         return new Page<>(request,records,count);
+    }
+
+    public Map<String,Long> pageProfit(Integer page,Integer type,Integer status,Date start,Date end){
+        return tradeRecordMapper.selectPageProfit(start,end,type,status);
     }
 }

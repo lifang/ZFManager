@@ -164,4 +164,24 @@
             </if>
         </where>
     </select>
+
+    <select id="selectPageProfit" resultType="java.util.Map">
+        select sum(tr.amount) as amounts,sum(p.profits_get) gets,sum(p.profits_pay) pays
+        from trade_records tr
+        left join profits p on p.trade_record_id=tr.id
+        <where>
+            <if test="type!=null">
+                tr.trade_type_id=#{type}
+            </if>
+            <if test="start!=null">
+                and tr.traded_at>#{start}
+            </if>
+            <if test="end!=null">
+                and tr.traded_at>#{end}
+            </if>
+            <if test="status!=null">
+                and tr.traded_status=#{status}
+            </if>
+        </where>
+    </select>
 </mapper>
