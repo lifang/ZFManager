@@ -488,6 +488,12 @@ public class Terminal {
 		this.openedAt = openedAt;
 	}
 
+    public static final byte STATUS_NO_OPEN = 3;            // 未开通
+    public static final byte STATUS_PART_OPENED = 2;	    // 部分开通
+    public static final byte STATUS_OPENED = 1;	        	// 已开通
+    public static final byte STATUS_CANCELED = 4;			// 已注销
+    public static final byte STATUS_STOPED = 5;				// 已停用
+
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;
