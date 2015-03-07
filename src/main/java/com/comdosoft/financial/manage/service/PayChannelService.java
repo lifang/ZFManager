@@ -5,6 +5,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.*;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ import java.util.*;
 
 @Service
 public class PayChannelService {
+
+    @Value("${page.size}")
+    private Integer pageSize;
 
     @Autowired
     private PayChannelMapper payChannelMapper;
@@ -34,13 +38,13 @@ public class PayChannelService {
         return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, "%" + name + "%");
     }
 
-    public Page<PayChannel> findPages(int page, int pageSize, Byte status, String keys) {
+    public Page<PayChannel> findPages(int page, Byte status, String keys) {
         if (keys != null) {
             keys = "%" + keys + "%";
         }
         long count = payChannelMapper.countByKeys(status, keys);
         if (count == 0) {
-            return new Page<PayChannel>(new PageRequest(1, pageSize), new ArrayList<PayChannel>(), count);
+            return new Page<>(new PageRequest(1, pageSize), new ArrayList<PayChannel>(), count);
         }
 
         PageRequest request = new PageRequest(page, pageSize);

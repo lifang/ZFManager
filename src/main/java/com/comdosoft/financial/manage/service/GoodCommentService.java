@@ -7,6 +7,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ import java.util.List;
  */
 @Service
 public class GoodCommentService {
+
+    @Value("${page.comment.size}")
+    private Integer pageSize;
     @Autowired
     private GoodCommentMapper goodCommentMapper;
     @Autowired
@@ -28,10 +32,9 @@ public class GoodCommentService {
     /**
      * 待审核列表分页
      * @param page
-     * @param pageSize
      * @return
      */
-    public Page<GoodComment> findWaitingPages(Integer page, int pageSize){
+    public Page<GoodComment> findWaitingPages(Integer page){
         PageRequest request = new PageRequest(page, pageSize);
         long count = goodCommentMapper.countByStatus(GoodComment.STATUS_WAITING);
         if (count == 0) {
@@ -51,10 +54,9 @@ public class GoodCommentService {
      * 商品评论列表分页
      * @param goodId
      * @param page
-     * @param pageSize
      * @return
      */
-    public Page<GoodComment> findCommentPages(Integer goodId, Integer page, int pageSize){
+    public Page<GoodComment> findCommentPages(Integer goodId, Integer page){
         PageRequest request = new PageRequest(page, pageSize);
         long count = goodCommentMapper.countByStatus(GoodComment.STATUS_CHECKED);
         if (count == 0) {

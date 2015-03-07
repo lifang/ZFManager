@@ -1,13 +1,5 @@
 package com.comdosoft.financial.manage.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Menu;
 import com.comdosoft.financial.manage.domain.zhangfu.Role;
@@ -15,13 +7,22 @@ import com.comdosoft.financial.manage.domain.zhangfu.RoleMenu;
 import com.comdosoft.financial.manage.mapper.zhangfu.MenuMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.RoleMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.RoleMenuMapper;
-import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleService {
-	
+
+    @Value("${page.size}")
+    private Integer pageSize;
 	@Autowired
 	private MenuMapper menuMapper;
 	@Autowired
@@ -49,7 +50,7 @@ public class RoleService {
 	 * @return
 	 */
 	public Page<Role> listPage(Integer page,String query){
-		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
+		PageRequest request = new PageRequest(page, pageSize);
 		List<Role> roles = roleMapper.selectPage(request,query);
 		long total = roleMapper.countTotal(query);
 		return new Page<>(request, roles, total);

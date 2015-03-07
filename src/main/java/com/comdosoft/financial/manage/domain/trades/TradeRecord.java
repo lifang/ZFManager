@@ -602,4 +602,22 @@ public class TradeRecord {
 	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
 	}
+
+
+    public static final int TRADE_STATUS_SUCCESS = 1;
+    public static final int TRADE_STATUS_FAIL = 2;
+    public static final int TRADE_STATUS_WAIT_CONFIRM = 3;
+
+    public String getTradeStatusName(){
+        if(tradedStatus==TradeRecord.TRADE_STATUS_SUCCESS){
+            return "交易成功";
+        }
+        if(tradedStatus==TradeRecord.TRADE_STATUS_FAIL){
+            return "交易失败";
+        }
+        if(tradedStatus==TradeRecord.TRADE_STATUS_WAIT_CONFIRM){
+            return "交易结果待确认";
+        }
+        return "";
+    }
 }

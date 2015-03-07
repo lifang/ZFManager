@@ -1,15 +1,9 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.comdosoft.financial.manage.joint.JointHandler;
+import com.comdosoft.financial.manage.utils.HttpUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,11 +14,15 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comdosoft.financial.manage.joint.JointHandler;
-import com.comdosoft.financial.manage.utils.Constants;
-import com.comdosoft.financial.manage.utils.HttpUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Maps;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Action implements ResponseHandler<Result>{
 	
@@ -71,9 +69,9 @@ public abstract class Action implements ResponseHandler<Result>{
         });
         Result result = null;
         if(LOG.isDebugEnabled()) {
-        	String res = EntityUtils.toString(entity,Constants.DEFAULT_CHARSET);
+        	String res = EntityUtils.toString(entity,HttpUtils.DEFAULT_CHARSET);
         	LOG.debug("resp:{}",res);
-        	InputStream stream = new ByteArrayInputStream(res.getBytes(Constants.DEFAULT_CHARSET));
+        	InputStream stream = new ByteArrayInputStream(res.getBytes(HttpUtils.DEFAULT_CHARSET));
         	result = parseResult(headMap,stream);
         }else {
         	result = parseResult(headMap,entity.getContent());

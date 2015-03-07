@@ -28,7 +28,9 @@
     <meta name="renderer" content="webkit">
     <title>运营中心</title>
     <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css"/>
+    <link href="<@spring.url "/resources/jquery-ui-1.11.3/jquery-ui.min.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
+    <script src="<@spring.url "/resources/jquery-ui-1.11.3/jquery-ui.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/jquery.form.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
     <script src="<@spring.url "/resources/js/common.js"/>"></script>
@@ -89,7 +91,7 @@
         </li>
         <li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户</a></li>
         <li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端</a></li>
-        <li><a href="#">交易</a></li>
+        <li><a href="<@spring.url "/trade/index"/>"<#if urlCheck(request,"/trade")> class="hover"</#if>>交易</a></li>
         <li class="second"><a href="javascript:void(0);">订单<i class="off"></i></a>
             <ol>
                 <li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li>

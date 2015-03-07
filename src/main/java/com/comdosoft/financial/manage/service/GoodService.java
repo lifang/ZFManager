@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 @Service
 public class GoodService {
 
+    @Value("${page.size}")
+    private Integer pageSize;
+
 	@Autowired
 	private GoodMapper goodMapper;
 	@Autowired
@@ -39,7 +43,7 @@ public class GoodService {
 	@Autowired
 	private GoodRelationMapper goodRelationMapper ;
 	
-	public Page<Good> findPages(int page, int pageSize, Byte status, String keys){
+	public Page<Good> findPages(int page, Byte status, String keys){
 		if (keys != null) {
 			keys = "%"+keys+"%";
 		}

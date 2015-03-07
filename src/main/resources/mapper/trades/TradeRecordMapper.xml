@@ -121,4 +121,47 @@
     created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id
     from trade_records
   </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select id, trade_number, batch_number, terminal_number, order_number, agent_id, merchant_number,
+        merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id,
+        account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description,
+        created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id
+        from trade_records
+        <where>
+            <if test="type!=null">
+                trade_type_id=#{type}
+            </if>
+            <if test="start!=null">
+                and traded_at>#{start}
+            </if>
+            <if test="end!=null">
+                and traded_at>#{end}
+            </if>
+            <if test="status!=null">
+                and traded_status=#{status}
+            </if>
+        </where>
+        order by traded_at desc
+        limit #{request.offset}, #{request.pageSize}
+    </select>
+
+    <select id="countPage" resultType="long">
+        select count(*)
+        from trade_records
+        <where>
+            <if test="type!=null">
+                trade_type_id=#{type}
+            </if>
+            <if test="start!=null">
+                and traded_at>#{start}
+            </if>
+            <if test="end!=null">
+                and traded_at>#{end}
+            </if>
+            <if test="status!=null">
+                and traded_status=#{status}
+            </if>
+        </where>
+    </select>
 </mapper>

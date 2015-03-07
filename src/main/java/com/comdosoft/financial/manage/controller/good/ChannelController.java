@@ -3,10 +3,8 @@ package com.comdosoft.financial.manage.controller.good;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
-import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +28,10 @@ public class ChannelController {
 
     private Logger LOG = LoggerFactory.getLogger(PosController.class);
 
-    @Value("${filepath.root}")
+    @Value("${path.root}")
     private String rootPath;
+    @Value("${path.prefix.channel}")
+    private String channelPath;
 
 	@Autowired
 	private PayChannelService payChannelService;
@@ -262,7 +261,7 @@ public class ChannelController {
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<PayChannel> channels = payChannelService.findPages(page, Constants.PAGE_SIZE, status, keys);
+		Page<PayChannel> channels = payChannelService.findPages(page, status, keys);
 		model.addAttribute("channels", channels);
 	}
 
@@ -271,7 +270,7 @@ public class ChannelController {
     public Response uploadImg(MultipartFile file){
         String suffix = file.getOriginalFilename().substring
                 (file.getOriginalFilename().lastIndexOf("."));
-        String fileName = Constants.PATH_PREFIX_CHANNEL+ FileUtil.getFilePath()+suffix;
+        String fileName = channelPath+ FileUtil.getFilePath()+suffix;
         try {
             File osFile = new File(rootPath + fileName);
             if (!osFile.getParentFile().exists()) {

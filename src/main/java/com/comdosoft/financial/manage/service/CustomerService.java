@@ -1,26 +1,27 @@
 package com.comdosoft.financial.manage.service;
 
-import java.util.Date;
-import java.util.List;
-
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
-
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import com.google.common.base.Strings;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
-import com.comdosoft.financial.manage.utils.Constants;
-import com.comdosoft.financial.manage.utils.page.Page;
-import com.comdosoft.financial.manage.utils.page.PageRequest;
-import com.google.common.base.Strings;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomerService {
+
+    @Value("${page.size}")
+    private Integer pageSize;
 	
 	@Autowired
 	private CustomerMapper customerMapper;
@@ -121,11 +122,11 @@ public class CustomerService {
 	 * @return
 	 */
 	public Page<Customer> listPage(Integer page,String query,Byte type,Byte status){
-		PageRequest request = new PageRequest(page, Constants.PAGE_SIZE);
+		PageRequest request = new PageRequest(page, pageSize);
 		List<Customer> customers = customerMapper.selectCustomerPageList(
 				request,query,type,status);
 		long total = customerMapper.countTotalCustomer(query,type,status);
-		return new Page<Customer>(request, customers, total);
+		return new Page<>(request, customers, total);
 	}
 	
 	public Customer customer(Integer id) {

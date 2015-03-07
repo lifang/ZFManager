@@ -3,7 +3,6 @@ package com.comdosoft.financial.manage.controller.good;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
-import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.slf4j.Logger;
@@ -26,8 +25,10 @@ public class PosController {
 	
 	private Logger LOG = LoggerFactory.getLogger(PosController.class);
 	
-	@Value("${filepath.root}")
+	@Value("${path.root}")
 	private String rootPath;
+    @Value("${path.prefix.pos}")
+    private String posPath;
 	
 	@Autowired
 	private GoodService goodService ;
@@ -207,7 +208,7 @@ public class PosController {
 	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
 	@ResponseBody
 	public Response uploadImg(MultipartFile file){
-		String fileName = Constants.PATH_PREFIX_POS+FileUtil.getFilePath()+".jpg";
+		String fileName = posPath+FileUtil.getFilePath()+".jpg";
 		try {
 			File osFile = new File(rootPath + fileName);
 			if (!osFile.getParentFile().exists()) {
@@ -318,7 +319,7 @@ public class PosController {
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Good> goods = goodService.findPages(page, Constants.PAGE_SIZE, status, keys);
+		Page<Good> goods = goodService.findPages(page, status, keys);
 		model.addAttribute("goods", goods);
 	}
 
@@ -353,7 +354,7 @@ public class PosController {
         if (page == null) {
             page = 1;
         }
-        Page<GoodComment> comments = goodCommentService.findWaitingPages(page, Constants.PAGE_COMMENT_SIZE);
+        Page<GoodComment> comments = goodCommentService.findWaitingPages(page);
         model.addAttribute("comments", comments);
         return  "good/pos/waitCommentList";
     }
@@ -363,7 +364,7 @@ public class PosController {
         if (page == null) {
             page = 1;
         }
-        Page<GoodComment> comments = goodCommentService.findWaitingPages(page, Constants.PAGE_COMMENT_SIZE);
+        Page<GoodComment> comments = goodCommentService.findWaitingPages(page);
         model.addAttribute("comments", comments);
         return "good/pos/waitCommentPage";
     }
@@ -389,7 +390,7 @@ public class PosController {
             page = 1;
         }
         Good good = goodService.findGood(id);
-        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page, Constants.PAGE_COMMENT_SIZE);
+        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page);
         model.addAttribute("comments", comments);
         model.addAttribute("good", good);
         return  "good/pos/commentList";
@@ -401,7 +402,7 @@ public class PosController {
             page = 1;
         }
         Good good = goodService.findGood(id);
-        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page, Constants.PAGE_COMMENT_SIZE);
+        Page<GoodComment> comments = goodCommentService.findCommentPages(id, page);
         model.addAttribute("comments", comments);
         model.addAttribute("good", good);
         return  "good/pos/commentPage";

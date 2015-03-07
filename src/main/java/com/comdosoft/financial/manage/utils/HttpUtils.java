@@ -29,11 +29,11 @@ import com.google.common.collect.Lists;
 public class HttpUtils {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
-	
+
 	private HttpUtils(){}
-	
+
+    public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 	private static final HttpClient client = HttpClients.createDefault();
-	private static final Charset DEFAULT_CHARSET = Constants.DEFAULT_CHARSET;
 	private static final ContentType TEXT_CONTENT_TYPE = ContentType.create("text/plain", DEFAULT_CHARSET);
 
 	/**

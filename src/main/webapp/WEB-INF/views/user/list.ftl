@@ -37,10 +37,10 @@
 
     $(function(){
         $("#query").click(function(){
-            pageChange(0);
+            pageChange(1);
         });
 
-        pageChange(0);
+        pageChange(1);
     });
 </script>
 </@c.html>

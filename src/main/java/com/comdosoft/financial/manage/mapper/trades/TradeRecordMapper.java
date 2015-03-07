@@ -1,6 +1,10 @@
 package com.comdosoft.financial.manage.mapper.trades;
 
 import com.comdosoft.financial.manage.domain.trades.TradeRecord;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 import java.util.List;
 
 public interface TradeRecordMapper {
@@ -34,4 +38,16 @@ public interface TradeRecordMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TradeRecord record);
+
+    List<TradeRecord> selectPage(@Param("request") PageRequest request,
+                                 @Param("start") Date start,
+                                 @Param("end") Date end,
+                                 @Param("type") Integer type,
+                                 @Param("status") Integer status);
+
+    long countPage(@Param("start") Date start,
+                   @Param("end") Date end,
+                   @Param("type") Integer type,
+                   @Param("status") Integer status);
+
 }
