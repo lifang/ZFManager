@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,6 +30,13 @@ public class TerminalController {
     public String page(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
         return "terminal/pageTerminal";
+    }
+
+    @RequestMapping(value="{id}/info",method=RequestMethod.GET)
+    public String info(@PathVariable Integer id, Model model){
+        Terminal terminal = terminalService.findTerminalInfo(id);
+        model.addAttribute("terminal", terminal);
+        return "terminal/info";
     }
 
     private void findPage(Integer page, Byte status, String keys, Model model){

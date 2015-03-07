@@ -34,4 +34,6 @@ public interface TerminalOpeningInfoMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TerminalOpeningInfo record);
+
+    List<TerminalOpeningInfo> selectTerminalOpeningInfos(Integer terminalId);
 }

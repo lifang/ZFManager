@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannelBillingCycle;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface PayChannelBillingCycleMapper {
@@ -40,5 +42,7 @@ public interface PayChannelBillingCycleMapper {
 	List<PayChannelBillingCycle> selectBillingCycles(Integer payChannelId);
 
     void deletePayChannelBillingCycles(Integer payChannelId);
+
+    PayChannelBillingCycle findByChannelIdAndBillingCyclesId(@Param("payChannelId")Integer channelId, @Param("billingCycleId")Integer billingCycleId);
 
 }

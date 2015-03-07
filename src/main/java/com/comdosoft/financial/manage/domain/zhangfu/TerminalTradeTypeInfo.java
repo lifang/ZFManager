@@ -94,4 +94,18 @@ public class TerminalTradeTypeInfo {
 	public void setTerminalId(Integer terminalId) {
 		this.terminalId = terminalId;
 	}
+
+    private SupportTradeType supportTradeType;
+
+    public SupportTradeType getSupportTradeType() {
+        return supportTradeType;
+    }
+
+    public void setSupportTradeType(SupportTradeType supportTradeType) {
+        this.supportTradeType = supportTradeType;
+    }
+
+    public static final Integer STATUS_OPENED = 1;
+    public static final Integer STATUS_NO_OPEN = 2;
+
 }

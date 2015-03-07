@@ -33,6 +33,8 @@ public class PayChannelService {
     private OpeningRequirementListMapper openingRequirementListMapper;
     @Autowired
     private OtherRequirementMapper otherRequirementMapper;
+    @Autowired
+    private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
 
     public List<PayChannel> findCheckedChannelsLikeName(String name) {
         return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, "%" + name + "%");
@@ -380,6 +382,7 @@ public class PayChannelService {
         channel.setOpeningRequirement(openingRequirement);
         channel.setOpeningDatum(openingDatum);
         channel.setOpeningProtocol(openingProtocol);
+        payChannelMapper.insert(channel);
         Integer id = channel.getId();
         //支持区域
         if(supportType == 2){
@@ -403,7 +406,7 @@ public class PayChannelService {
         channel.setCreatedUserId(createUserId);
         channel.setCreatedUserType(userType);
         channel.setCreatedAt(new Date());
-        payChannelMapper.insert(channel);
+        payChannelMapper.updateByPrimaryKey(channel);
         //刷卡交易标准手续费
         for (Map<String, Object> standardRateObject : standardRates){
             //id: id,rate: rate,description: description
@@ -438,6 +441,16 @@ public class PayChannelService {
         }
 
         //其他交易类型
+        DictionaryTradeType dictionaryTradeType = dictionaryTradeTypeMapper.selectBaseTradeType();
+        if (dictionaryTradeType != null){
+            SupportTradeType baseSupportTradeType = new SupportTradeType();
+            baseSupportTradeType.setTradeType(SupportTradeType.TYPE_TRADE);
+            baseSupportTradeType.setPayChannelId(id);
+            baseSupportTradeType.setTradeTypeId(dictionaryTradeType.getId());
+            baseSupportTradeType.setSortIndex(0);
+            supportTradeTypeMapper.insert(baseSupportTradeType);
+        }
+
         for (int i = 0; i < tradeTypes.size() ; i++) {
             Map<String, Object> tradeTypeObject = tradeTypes.get(i);
             //id: id,rate: rate,description: description

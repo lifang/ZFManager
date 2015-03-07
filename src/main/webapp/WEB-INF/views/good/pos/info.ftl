@@ -56,7 +56,8 @@
                 </ul>
             </div>  
         </div>
-        
+
+        <#if (good.hasLease)?? && good.hasLease>
         <div class="attributes_box">
         	<h2>租赁设置</h2>
             <div class="attributes_list clear">
@@ -70,7 +71,7 @@
                 </ul>
             </div>  
         </div>
-        
+        </#if>
         <div class="attributes_box">
         	<h2>支付通道</h2>
             <div class="attributes_list clear">

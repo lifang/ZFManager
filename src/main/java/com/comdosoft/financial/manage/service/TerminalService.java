@@ -41,12 +41,16 @@ public class TerminalService {
 
         PageRequest request = new PageRequest(page, pageSize);
         List<Terminal> result = terminalMapper.selectPageTerminalsByKeys(request, status, keys);
-        Page<Terminal> goods = new Page<>(request, result, count);
-        if (goods.getCurrentPage() > goods.getTotalPage()) {
-            request = new PageRequest(goods.getTotalPage(), pageSize);
+        Page<Terminal> terminals = new Page<>(request, result, count);
+        if (terminals.getCurrentPage() > terminals.getTotalPage()) {
+            request = new PageRequest(terminals.getTotalPage(), pageSize);
             result = terminalMapper.selectPageTerminalsByKeys(request, status, keys);
-            goods = new Page<>(request, result, count);
+            terminals = new Page<>(request, result, count);
         }
-        return goods;
+        return terminals;
+    }
+
+    public Terminal findTerminalInfo(Integer id) {
+        return terminalMapper.findTerminalInfo(id);
     }
 }

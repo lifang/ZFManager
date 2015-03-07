@@ -74,4 +74,10 @@
     opening_requirement_id
     from terminal_opening_infos
   </select>
+
+    <select id="selectTerminalOpeningInfos" resultMap="BaseResultMap">
+        select *
+        from terminal_opening_infos where target_id=#{param1}
+    </select>
+
 </mapper>

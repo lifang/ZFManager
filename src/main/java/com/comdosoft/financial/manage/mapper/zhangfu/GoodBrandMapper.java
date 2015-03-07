@@ -36,5 +36,5 @@ public interface GoodBrandMapper {
 	int updateByPrimaryKey(GoodBrand record);
 
 	List<GoodBrand> selectByName(String name);
-	
+
 }

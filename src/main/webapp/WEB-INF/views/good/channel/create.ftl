@@ -718,7 +718,7 @@
                 },
                 function(data){
                     if(data.code==1){
-                        <#--window.location.href="<@spring.url "/good/channel/list" />"-->
+                        window.location.href="<@spring.url "/good/channel/list" />"
                     }
                 }
         );
