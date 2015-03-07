@@ -147,4 +147,41 @@
     order by t.created_at desc
     limit #{param2.offset}, #{param2.pageSize}
   </select>
+
+    <resultMap extends="BaseResultMap" id="PageTerminalResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
+        <association columnPrefix="m_" property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" />
+        <association columnPrefix="pc_" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
+        <association columnPrefix="g_" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" />
+    </resultMap>
+
+    <sql id="pageWhere">
+        <where>
+            <if test="status != null"> AND t.status =#{status} </if>
+            <if test="keys != null"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
+        </where>
+    </sql>
+    <select id="selectPageTerminalsByKeys" resultMap="PageTerminalResultMap">
+        select t.*,
+        pc.id pc_id, pc.name pc_name,
+        m.id m_id, m.title as m_title, m.phone as m_phone,
+        g.id g_id, g.title as g_title
+        from terminals t
+        left join pay_channels pc on pc.id=t.pay_channel_id
+        left join merchants m on m.id=t.merchant_id
+        left join goods g on g.id=t.good_id
+        <include refid="pageWhere" />
+        order by t.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="countByKeys" resultType="long">
+        SELECT count(*) as count
+        from terminals t
+        left join pay_channels pc on pc.id=t.pay_channel_id
+        left join merchants m on m.id=t.merchant_id
+        left join goods g on g.id=t.good_id
+        <include refid="pageWhere" />
+
+    </select>
+
+
 </mapper>

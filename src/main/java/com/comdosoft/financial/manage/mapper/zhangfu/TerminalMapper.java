@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,4 +35,9 @@ public interface TerminalMapper {
 	int updateByPrimaryKey(Terminal record);
 	long countCustomerTerminals(Integer customerId);
 	List<Terminal> selectCustomerTerminals(Integer customerId,PageRequest request);
+
+    List<Terminal> selectPageTerminalsByKeys(@Param("pageRequest") PageRequest pageRequest,
+                                   @Param("status") Byte status, @Param("keys") String keys);
+
+    long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 }
