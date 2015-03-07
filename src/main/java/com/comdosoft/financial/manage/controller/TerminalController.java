@@ -2,9 +2,9 @@ package com.comdosoft.financial.manage.controller;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.TerminalService;
-import com.comdosoft.financial.manage.utils.Constants;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("terminal")
 public class TerminalController {
+
+    @Value("${page.size}")
+    private Integer pageSize;
     @Autowired
     private TerminalService terminalService;
 
@@ -35,7 +38,7 @@ public class TerminalController {
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Terminal> terminals = terminalService.findPages(page, Constants.PAGE_SIZE, status, keys);
+        Page<Terminal> terminals = terminalService.findPages(page, status, keys);
         model.addAttribute("terminals", terminals);
     }
 
