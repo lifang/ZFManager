@@ -52,18 +52,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#if (terminal.baseRate)??>
-                <tr>
-                    <td>刷卡</td>
-                    <td>${terminal.baseRate+1}%</td>
-                    <td>
-                    </td>
-                </tr>
-                </#if>
                 <#list terminal.tradeTypeInfos as tradeTypeInfo>
                 <tr>
                     <td>${(tradeTypeInfo.supportTradeType.dictionaryTradeType.tradeValue)!""}</td>
-                    <td>${(tradeTypeInfo.supportTradeType.terminalRate)!""}%</td>
+                    <td>
+                        <#if tradeTypeInfo.supportTradeType.tradeType == 1 >
+                            <#if (terminal.baseRate)?? && (terminal.billingCycle.rate)??>
+                                ${(terminal.baseRate)+(terminal.billingCycle.rate)}%
+                            </#if>
+                        <#else>
+                        ${(tradeTypeInfo.supportTradeType.terminalRate)!""}%
+                        </#if>
+                    </td>
                     <td>
                        <#if tradeTypeInfo.status=2>未开通
                        <#elseif terminal.status=1>已开通
@@ -93,28 +93,14 @@
             <div class="attributes_list_s clear">
                 <ul>
                     <li>开通方向：对公</li>
-                    <li>绑定商户：三峡格格</li>
-                    <li>商家电话：0512-86523699</li>
-                    <li>身份证：32198745633215563</li>
+                    <li>绑定商户：${(terminal.merchant.title)!""}</li>
+                    <li>商家电话：${(terminal.merchant.phone)!""}</li>
+                    <li>身份证：${(terminal.merchant.legalPersonCardId)!""}</li>
                 </ul>
             </div>
             <div class="item_list clear">
                 <ul>
                     <li><span class="labelSpan">营业执照：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">组织机构照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">税务登记照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">对私银行卡照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">法人身份证正面照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">法人身份证反面照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">个人上半身照片：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
-                    <li><span class="labelSpan">个人签名照片：</span>
                         <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
                 </ul>
                 <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="/resources/images/mt_big.jpg"></div>
