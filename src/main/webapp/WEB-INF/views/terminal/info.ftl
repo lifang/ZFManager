@@ -29,7 +29,17 @@
                         <#elseif terminal.status=5>已停用
                         </#if>
                     </li>
-                    <li>开通申请状态：处理完成</li>
+                    <li>开通申请状态：
+                        <#if (terminal.openingApplie.status)??>
+                        <#if terminal.openingApplie.status=1>待审核
+                        <#elseif terminal.openingApplie.status=2>初审通过
+                        <#elseif terminal.openingApplie.status=3>初审不通过
+                        <#elseif terminal.openingApplie.status=4>审核通过
+                        <#elseif terminal.openingApplie.status=5>审核不通过
+                        <#elseif terminal.openingApplie.status=6>已取消
+                        </#if>
+                        </#if>
+                    </li>
                     <li>POS产品：${(terminal.good.title)!""}</li>
                     <li>支付通道：${(terminal.payChannel.name)!""}</li>
                     <li>订单号：${(terminal.order.orderNumber)!""}</li>
@@ -54,11 +64,15 @@
                 <tbody>
                 <#list terminal.tradeTypeInfos as tradeTypeInfo>
                 <tr>
-                    <td>${(tradeTypeInfo.supportTradeType.dictionaryTradeType.tradeValue)!""}</td>
+                    <td>${(tradeTypeInfo.supportTradeType.dictionaryTradeType.tradeValue)!""}
+                        <#if tradeTypeInfo.supportTradeType.tradeType == 1 &&  (terminal.billingCycle.dictionaryBillingCycle.name)??>
+                            (${terminal.billingCycle.dictionaryBillingCycle.name})
+                        </#if>
+                    </td>
                     <td>
                         <#if tradeTypeInfo.supportTradeType.tradeType == 1 >
                             <#if (terminal.baseRate)?? && (terminal.billingCycle.rate)??>
-                                ${(terminal.baseRate)+(terminal.billingCycle.rate)}%
+                            ${(terminal.baseRate)+(terminal.billingCycle.rate)}%
                             </#if>
                         <#else>
                         ${(tradeTypeInfo.supportTradeType.terminalRate)!""}%
@@ -66,7 +80,7 @@
                     </td>
                     <td>
                        <#if tradeTypeInfo.status=2>未开通
-                       <#elseif terminal.status=1>已开通
+                       <#elseif tradeTypeInfo.status=1>已开通
                        </#if>
                     </td>
                 </tr>
@@ -89,10 +103,10 @@
         </div>
         </#if>
         <div class="attributes_box">
-            <h2>开通详情<a href="#" class="a_btn">下载开通资料</a></h2>
+            <h2>开通详情<a  onclick="downloadFile()" class="a_btn">下载开通资料</a></h2>
             <div class="attributes_list_s clear">
                 <ul>
-                    <li>开通方向：对公</li>
+                    <li>开通方向：<#if (terminal.openingApplie.types)??><#if terminal.openingApplie.types==1>对公<#else>对私</else></#if></#if></li>
                     <li>绑定商户：${(terminal.merchant.title)!""}</li>
                     <li>商家电话：${(terminal.merchant.phone)!""}</li>
                     <li>身份证：${(terminal.merchant.legalPersonCardId)!""}</li>
@@ -100,26 +114,31 @@
             </div>
             <div class="item_list clear">
                 <ul>
-                    <li><span class="labelSpan">营业执照：</span>
-                        <div class="text"><img src="/resources/images/zp.jpg" class="cover"></div></li>
+                    <#if (terminal.openingApplie.terminalOpeningInfos)??>
+                    <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
+                        <li><span class="labelSpan">${(openingInfo.key)!""}：</span>
+                            <div class="text">
+                                <#if openingInfo.types == 2>
+                                    <img src="/resources/images/zp.jpg" value="${(openingInfo.value)!""}" class="cover" />
+                                <#else>
+                                    ${(openingInfo.value)!""}
+                                </#if>
+                            </div></li>
+                    </#list>
+                    </#if>
                 </ul>
                 <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="/resources/images/mt_big.jpg"></div>
             </div>
         </div>
         <div class="user_remark">
-            <textarea name="" cols="" rows=""></textarea>
-            <button class="whiteBtn">备注</button>
+            <textarea id="textWriteMark" name="" cols="" rows=""></textarea>
+            <button class="whiteBtn" onclick="writeMark()">备注</button>
         </div>
         <div class="user_record">
             <h2>追踪记录</h2>
-            <div class="ur_item">
-                <div class="ur_item_text">nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</div>
-                <div class="ur_item_name">备注人 <em>2014/12/24 20:12:00</em></div>
-            </div>
-            <div class="ur_item">
-                <div class="ur_item_text">nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</div>
-                <div class="ur_item_name">备注人 <em>2014/12/24 20:12:00</em></div>
-            </div>
+            <#list terminal.terminalMarks as terminalMark>
+            <#include "mark.ftl"/>
+            </#list>
         </div>
     </div>
 
@@ -132,4 +151,27 @@
         </div>
 	</div>
 </div>
+<script>
+    function writeMark(){
+        var content = $("#textWriteMark").val();
+        if(content!=""){
+            $.post('<@spring.url "/terminal/${terminal.id}/mark" />',
+                    {"content": content},
+                    function (data) {
+                        $(".user_record").children("h2").after(data);
+                    });
+        }
+    }
+
+    function downloadFile(){
+        $.get('<@spring.url "/terminal/${terminal.id}/exportOpenInfo" />',
+                function (data) {
+                    if(data.code==1){
+                        window.open(data.result);
+                    }
+                });
+    }
+
+
+</script>
 </@c.html>

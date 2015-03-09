@@ -191,9 +191,10 @@
         <association column="agent_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Agent" property="agent" select="com.comdosoft.financial.manage.mapper.zhangfu.AgentProfitSettingMapper.selectByPrimaryKey" />
         <association column="order_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Order" property="order" select="com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper.selectByPrimaryKey" />
         <association property="billingCycle" column="{billingCycleId=billing_cycles_id,payChannelId=pay_channel_id}" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelBillingCycleMapper.findByChannelIdAndBillingCyclesId"/>
-
-        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalOpeningInfo" property="openingInfos" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalOpeningInfoMapper.selectTerminalOpeningInfos" />
+        <association column="id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie" property="openingApplie" select="com.comdosoft.financial.manage.mapper.zhangfu.OpeningApplieMapper.selectOpeningApplie" />
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalTradeTypeInfo" property="tradeTypeInfos" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalTradeTypeInfoMapper.selectTerminalTradeTypeInfos" />
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalMark" property="terminalMarks" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMarkMapper.selectTerminalMarks" />
+
     </resultMap>
 
     <select id="findTerminalInfo" resultMap="TerminalLazyResultMap">
@@ -201,7 +202,5 @@
         from terminals
         where id=#{param1}
     </select>
-
-
 
 </mapper>

@@ -62,4 +62,23 @@
     select id, terminal_id, customer_id, created_at, content
     from terminal_marks
   </select>
+
+    <resultMap extends="BaseResultMap" id="TerminalMarkResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.TerminalMark">
+        <association columnPrefix="c_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+    </resultMap>
+
+    <select id="selectTerminalMarks" resultMap="TerminalMarkResultMap">
+        select t.*,
+        c.id c_id, c.username c_username
+        from terminal_marks t inner join customers c on t.customer_id = c.id
+         where t.terminal_id=#{param1} order by t.created_at desc
+    </select>
+
+    <select id="selectTerminalMark" resultMap="TerminalMarkResultMap">
+        select t.*,
+        c.id c_id, c.username c_username
+        from terminal_marks t inner join customers c on t.customer_id = c.id
+        where t.id=#{param1}
+    </select>
+
 </mapper>

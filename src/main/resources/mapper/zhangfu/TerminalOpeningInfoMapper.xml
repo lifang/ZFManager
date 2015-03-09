@@ -77,7 +77,7 @@
 
     <select id="selectTerminalOpeningInfos" resultMap="BaseResultMap">
         select *
-        from terminal_opening_infos where target_id=#{param1}
+        from terminal_opening_infos where opening_applies_id=#{param1}
     </select>
 
 </mapper>

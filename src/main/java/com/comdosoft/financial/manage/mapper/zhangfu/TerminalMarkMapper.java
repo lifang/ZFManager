@@ -34,4 +34,8 @@ public interface TerminalMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TerminalMark record);
+
+    List<TerminalMark> selectTerminalMarks(Integer terminalId);
+
+    TerminalMark selectTerminalMark(Integer id);
 }

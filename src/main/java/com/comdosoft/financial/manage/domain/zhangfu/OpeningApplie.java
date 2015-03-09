@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
+import java.util.List;
 
 public class OpeningApplie {
 
@@ -372,4 +373,24 @@ public class OpeningApplie {
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
 	}
+
+    private List<TerminalOpeningInfo> terminalOpeningInfos;
+
+    public List<TerminalOpeningInfo> getTerminalOpeningInfos() {
+        return terminalOpeningInfos;
+    }
+
+    public void setTerminalOpeningInfos(List<TerminalOpeningInfo> terminalOpeningInfos) {
+        this.terminalOpeningInfos = terminalOpeningInfos;
+    }
+
+    public static final  Integer TYPE_PUBLIC = 1;
+    public static final  Integer TYPE_PRIVATE = 2;
+
+    public static final byte STATUS_WAITING_FIRST_CHECK = 1;	// 待审核
+    public static final byte STATUS_FIRST_CHECKED = 2	;	// 初审通过
+    public static final byte STATUS_FIRST_UN_CHECKED = 3;	// 初审不通过
+    public static final byte STATUS_CHECKED = 4;				// 审核通过
+    public static final byte STATUS_UN_CHECKED = 5;			// 审核不通过
+    public static final byte STATUS_CANCEL = 6;				// 已取消
 }
