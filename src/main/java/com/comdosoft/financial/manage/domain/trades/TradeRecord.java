@@ -1,5 +1,7 @@
 package com.comdosoft.financial.manage.domain.trades;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Agent;
+
 import java.util.Date;
 
 public class TradeRecord {
@@ -603,10 +605,19 @@ public class TradeRecord {
 		this.customerId = customerId;
 	}
 
-
     public static final int TRADE_STATUS_SUCCESS = 1;
     public static final int TRADE_STATUS_FAIL = 2;
     public static final int TRADE_STATUS_WAIT_CONFIRM = 3;
+
+    private Agent agent;
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
 
     public String getTradeStatusName(){
         if(tradedStatus==TradeRecord.TRADE_STATUS_SUCCESS){

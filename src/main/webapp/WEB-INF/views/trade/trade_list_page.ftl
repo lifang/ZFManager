@@ -31,7 +31,7 @@
             <td>${record.tradeNumber}</td>
             <td>${record.tradedAt?datetime}</td>
             <td>${record.terminalNumber}</td>
-            <td>华润</td>
+            <td>${record.agent.companyName}</td>
             <td><strong>￥${(record.amount/100)?string("0.00")}</strong></td>
             <td><strong>￥${(record.poundage/100)?string("0.00")}</strong></td>
             <td><strong class="strong_status">${record.tradeStatusName}</strong></td>

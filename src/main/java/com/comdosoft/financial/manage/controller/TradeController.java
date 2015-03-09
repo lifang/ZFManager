@@ -1,9 +1,11 @@
 package com.comdosoft.financial.manage.controller;
 
+import com.comdosoft.financial.manage.domain.trades.Profit;
 import com.comdosoft.financial.manage.domain.trades.TradeRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.service.TradeService;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -50,13 +52,24 @@ public class TradeController {
                             Model model){
         Page<TradeRecord> recordPage = tradeService.tradeRecordPage(page, id, status, start, end);
         model.addAttribute("recordPage",recordPage);
-        Map<String,Long> profits = tradeService.pageProfit(page,id,status,start,end);
+        Map<String,Long> profits = tradeService.pageProfit(id,status,start,end);
         model.addAttribute("profits",profits);
         return "trade/trade_list_page";
     }
 
     @RequestMapping(value = "/{id}/info",method = RequestMethod.GET)
-    public String tradeInfo(@PathVariable Integer id){
+    public String tradeInfo(@PathVariable Integer id,Model model){
+    	TradeRecord tradeRecord = tradeService.tradeRecord(id);
+    	model.addAttribute(tradeRecord);
+    	DictionaryTradeType tradeType = tradeService.tradeType(tradeRecord.getTradeTypeId());
+    	model.addAttribute("tradeType",tradeType);
+    	Profit profit = tradeService.tradeRecordProfit(id);
+    	model.addAttribute(profit);
         return "trade/trade_info";
+    }
+    
+    @RequestMapping(value = "/{id}/statistics",method = RequestMethod.GET)
+    public String statistics(@PathVariable Integer id,Model model){
+        return "trade/trade_statistics";
     }
 }
