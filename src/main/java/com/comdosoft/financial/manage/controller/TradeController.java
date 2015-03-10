@@ -70,6 +70,10 @@ public class TradeController {
     
     @RequestMapping(value = "/{id}/statistics",method = RequestMethod.GET)
     public String statistics(@PathVariable Integer id,Model model){
+        DictionaryTradeType tradeType = tradeService.tradeType(id);
+        model.addAttribute("tradeType",tradeType);
+        List<Map<String,Object>> statistics = tradeService.profitStatistics();
+        model.addAttribute("statistics",statistics);
         return "trade/trade_statistics";
     }
 }

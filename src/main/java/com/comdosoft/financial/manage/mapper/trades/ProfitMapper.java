@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.mapper.trades;
 
 import com.comdosoft.financial.manage.domain.trades.Profit;
 import java.util.List;
+import java.util.Map;
 
 public interface ProfitMapper {
 
@@ -36,4 +37,6 @@ public interface ProfitMapper {
 	int updateByPrimaryKey(Profit record);
 	
 	Profit selectByTradeRecordId(Integer tradeRecordId);
+
+    List<Map<String,Object>> selectStatistics();
 }

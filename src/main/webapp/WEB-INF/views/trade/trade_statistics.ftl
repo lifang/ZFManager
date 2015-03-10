@@ -11,7 +11,7 @@
     <div class="user_title">
         <h1>交易流水统计</h1>
     </div>
-    <div class="user_statistics">2014年11月25日 - 2014年12月25日   交易类型：转账</div>
+    <div class="user_statistics">2014年11月25日 - 2014年12月25日   交易类型：${tradeType.tradeValue}</div>
     <div class="attributes_table">
         <table width="100%" border="0" cellspacing="1" cellpadding="0">
             <colgroup>
@@ -30,27 +30,15 @@
                 <th>需支付的分润</th>
             </tr>
             </thead>
-            <tr>
-                <td>华润</td>
-                <td>1000</td>
-                <td><strong>￥50000.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-            </tr>
-            <tr>
-                <td>华润</td>
-                <td>1000</td>
-                <td><strong>￥50000.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-            </tr>
-            <tr>
-                <td>华润</td>
-                <td>1000</td>
-                <td><strong>￥50000.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-                <td><strong>￥500.00</strong></td>
-            </tr>
+            <#list statistics as s>
+                <tr>
+                    <td>${s.agent.companyName}</td>
+                    <td>${s.nums}</td>
+                    <td><strong>￥${(s.amounts/100)?string("0.00")}</strong></td>
+                    <td><strong>￥${(s.gets/100)?string("0.00")}</strong></td>
+                    <td><strong>￥${(s.pays/100)?string("0.00")}</strong></td>
+                </tr>
+            </#list>
         </table>
     </div>
 </div>

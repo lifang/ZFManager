@@ -73,4 +73,14 @@ public class TradeService {
     public Map<String,Long> pageProfit(Integer type,Integer status,Date start,Date end){
         return tradeRecordMapper.selectPageProfit(start,end,type,status);
     }
+
+    public List<Map<String,Object>> profitStatistics(){
+    	List<Map<String,Object>> statistics = profitMapper.selectStatistics();
+    	statistics.forEach(map -> {
+    		Integer id = (Integer)map.get("agent_id");
+    		Agent agent = agentMapper.selectByPrimaryKey(id);
+    		map.put("agent", agent);
+    	});
+        return statistics;
+    }
 }
