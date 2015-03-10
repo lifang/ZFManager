@@ -96,4 +96,13 @@
     city_id
     from opening_applies
   </select>
+
+    <resultMap extends="BaseResultMap" id="OpeningApplieResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie">
+        <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalOpeningInfo" property="terminalOpeningInfos" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalOpeningInfoMapper.selectTerminalOpeningInfos" />
+    </resultMap>
+    <select id="selectOpeningApplie" resultMap="OpeningApplieResultMap">
+        select * from opening_applies
+        where terminal_id=#{param1} order by created_at desc  limit 1
+    </select>
+
 </mapper>

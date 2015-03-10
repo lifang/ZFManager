@@ -70,11 +70,11 @@
   </select>
 
 
-    <resultMap extends="BaseResultMap" id="TradeStandardRate" type="com.comdosoft.financial.manage.domain.zhangfu.PayChannelStandardRate">
+    <resultMap extends="BaseResultMap" id="TradeStandardRateResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.PayChannelStandardRate">
         <association columnPrefix="dtsr_" javaType="com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeStandardRate" property="dictionaryTradeStandardRate" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeStandardRateMapper.BaseResultMap" />
     </resultMap>
 
-  <select id="selectStandardRates" resultMap="TradeStandardRate">
+  <select id="selectStandardRates" resultMap="TradeStandardRateResultMap">
         select pcsr.*,
         dtsr.id dtsr_id, dtsr.merchant_type_name dtsr_merchant_type_name
     from pay_channel_standard_rates pcsr inner join dictionary_trade_standard_rates dtsr on pcsr.trade_standard_rate_id=dtsr.id

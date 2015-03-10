@@ -5,10 +5,16 @@ import java.util.Date;
 
 public class FileUtil {
 	
-	public static String getFilePath(){
+	public static String getPathFileName(){
 		Date date = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MMdd/");
-		return format.format(date)+date.getTime();
+		return getPath()+date.getTime();
 	}
+
+    public static String getPath(){
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MMdd/");
+        return format.format(date);
+    }
 
 }

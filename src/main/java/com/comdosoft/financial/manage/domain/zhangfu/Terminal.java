@@ -501,9 +501,11 @@ public class Terminal {
     private Customer customer;
     private Agent agent;
     private Order order;
+    private OpeningApplie openingApplie;
     private List<TerminalTradeTypeInfo> tradeTypeInfos;
-    private List<TerminalOpeningInfo> openingInfos;
     private PayChannelBillingCycle billingCycle;
+    private List<TerminalMark> terminalMarks;
+
 
     public Merchant getMerchant() {
 		return merchant;
@@ -553,6 +555,14 @@ public class Terminal {
         this.order = order;
     }
 
+    public OpeningApplie getOpeningApplie() {
+        return openingApplie;
+    }
+
+    public void setOpeningApplie(OpeningApplie openingApplie) {
+        this.openingApplie = openingApplie;
+    }
+
     public List<TerminalTradeTypeInfo> getTradeTypeInfos() {
         return tradeTypeInfos;
     }
@@ -561,19 +571,19 @@ public class Terminal {
         this.tradeTypeInfos = tradeTypeInfos;
     }
 
-    public List<TerminalOpeningInfo> getOpeningInfos() {
-        return openingInfos;
-    }
-
-    public void setOpeningInfos(List<TerminalOpeningInfo> openingInfos) {
-        this.openingInfos = openingInfos;
-    }
-
     public PayChannelBillingCycle getBillingCycle() {
         return billingCycle;
     }
 
     public void setBillingCycle(PayChannelBillingCycle billingCycle) {
         this.billingCycle = billingCycle;
+    }
+
+    public List<TerminalMark> getTerminalMarks() {
+        return terminalMarks;
+    }
+
+    public void setTerminalMarks(List<TerminalMark> terminalMarks) {
+        this.terminalMarks = terminalMarks;
     }
 }

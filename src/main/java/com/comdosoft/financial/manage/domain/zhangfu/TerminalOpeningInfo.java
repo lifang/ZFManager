@@ -211,4 +211,9 @@ public class TerminalOpeningInfo {
 	public void setOpeningRequirementId(Integer openingRequirementId) {
 		this.openingRequirementId = openingRequirementId;
 	}
+
+    public static final Byte TYPE_TEXT = 1;
+    public static final Byte TYPE_FILE = 2;
+    public static final Byte TYPE_SEARCH = 3;
+
 }

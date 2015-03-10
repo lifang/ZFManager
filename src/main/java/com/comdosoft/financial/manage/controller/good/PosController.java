@@ -208,7 +208,7 @@ public class PosController {
 	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
 	@ResponseBody
 	public Response uploadImg(MultipartFile file){
-		String fileName = posPath+FileUtil.getFilePath()+".jpg";
+		String fileName = posPath+FileUtil.getPathFileName()+".jpg";
 		try {
 			File osFile = new File(rootPath + fileName);
 			if (!osFile.getParentFile().exists()) {

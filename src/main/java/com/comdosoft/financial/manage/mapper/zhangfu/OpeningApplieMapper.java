@@ -34,4 +34,6 @@ public interface OpeningApplieMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OpeningApplie record);
+
+    OpeningApplie selectOpeningApplie(Integer terminalId);
 }

@@ -270,7 +270,7 @@ public class ChannelController {
     public Response uploadImg(MultipartFile file){
         String suffix = file.getOriginalFilename().substring
                 (file.getOriginalFilename().lastIndexOf("."));
-        String fileName = channelPath+ FileUtil.getFilePath()+suffix;
+        String fileName = channelPath+ FileUtil.getPathFileName()+suffix;
         try {
             File osFile = new File(rootPath + fileName);
             if (!osFile.getParentFile().exists()) {
