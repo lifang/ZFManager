@@ -15,6 +15,7 @@ public abstract class RequireLoginAction extends Action {
 	private static final Logger LOG = LoggerFactory.getLogger(RequireLoginAction.class);
 	
 	private static final Map<String,LoginResult> loggedInfo = Maps.newConcurrentMap();
+	private ActionManager manager;
 	
 	private String phoneNum;
 	private String password;
@@ -33,10 +34,8 @@ public abstract class RequireLoginAction extends Action {
 			try {
 				LoginAction la = new LoginAction(phoneNum, password,position,
 						Const.APP_VERSION,Const.PRODUCT);
-				Action.acts(la.setHandler((r)->{
-					LoginResult lr = (LoginResult)r;
-					loggedInfo.put(phoneNum, lr);
-				}));
+				LoginResult lr = (LoginResult)la.process(manager);
+				loggedInfo.put(phoneNum, lr);
 			} catch (IOException e) {
 				LOG.error("login error",e);
 			}
@@ -44,6 +43,12 @@ public abstract class RequireLoginAction extends Action {
 		Map<String,String> headers = Maps.newHashMap();
 		headers.put("WSHSNO", loggedInfo.get(phoneNum).getSession());
 		return headers;
+	}
+
+	@Override
+	public Result process(ActionManager manager) throws IOException {
+		this.manager = manager;
+		return super.process(manager);
 	}
 
 	@Override
@@ -62,11 +67,10 @@ public abstract class RequireLoginAction extends Action {
 			LOG.debug("[{}] session time out and try relogin.",phoneNum);
 			loggedInfo.remove(phoneNum);
 			try {
-				Action.acts(this);
+				result = this.process(manager);
 			} catch (IOException e) {
 				LOG.error("login error",e);
 			}
-			return null;
 		}
 		return result;
 	}

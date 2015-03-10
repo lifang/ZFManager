@@ -28,9 +28,9 @@ public class JointTest {
 //		Action action = new FindBankAction("中国工商银行苏州");
 //		Action action = new LastTrans("13862223435","gookin","460,0,6157,55153");
 //		Action action = new LastTenTrans("13862223435","gookin","460,0,6157,55153");
-		Action.acts(action.setHandler((result)->{
-			System.out.println(result);
-		}));
+//		Action.acts(action.setHandler((result)->{
+//			System.out.println(result);
+//		}));
 	}
 
 }

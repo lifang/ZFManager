@@ -1,19 +1,5 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
-import com.comdosoft.financial.manage.joint.JointHandler;
-import com.comdosoft.financial.manage.utils.HttpUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Maps;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -24,32 +10,40 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.comdosoft.financial.manage.utils.HttpUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
+
 public abstract class Action implements ResponseHandler<Result>{
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Action.class);
 	
-	private static final String BASE_URL = "http://zftdev.21er.net:15080";
-//	private static final String BASE_URL = "http://wsposp.cnepay.net:80";
-	
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	private static final AtomicInteger req = new AtomicInteger();
-	private JointHandler handler;
 	
-	public static void acts(Action action) throws IOException {
-		String url = BASE_URL + action.url();
+	public Result process(ActionManager manager) throws IOException {
+		String url = manager.getBaseUrl() + url();
 		LOG.debug("url:{}",url);
 		Result result = null;
-		if(action.getMethod() == Method.POST) {
-			result = HttpUtils.post(url, action.headers(),
-					action.params(), action.fileParams(), action);
+		if(getMethod() == Method.POST) {
+			result = HttpUtils.post(url, headers(),
+					params(), fileParams(), this);
 		}
-		if(action.getMethod() == Method.GET) {
-			result = HttpUtils.get(url, action.headers(),
-					action.params(), action);
+		if(getMethod() == Method.GET) {
+			result = HttpUtils.get(url, headers(),
+					params(), this);
 		}
-		if(action.handler!=null&&result!=null) {
-			action.handler.handle(result);
-		}
+		return result;
 	}
 	
 	@Override
@@ -78,11 +72,6 @@ public abstract class Action implements ResponseHandler<Result>{
         	EntityUtils.consume(entity);
         }
         return result;
-	}
-
-	public Action setHandler(JointHandler handler) {
-		this.handler = handler;
-		return this;
 	}
 	
 	protected Result parseResult(Map<String,String> headers,InputStream stream){
