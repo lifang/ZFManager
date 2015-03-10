@@ -127,7 +127,7 @@
                 <li><a href="#">系统参数</a></li>
                 <li><a href="#">数据字典</a></li>
                 <li><a href="#">第三方机构</a></li>
-                <li><a href="#">代理商</a></li>
+                <li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li>
                 <li><a href="#">网站内容</a></li>
                 <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>账户设置</a></li>
             </ol>

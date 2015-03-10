@@ -116,4 +116,25 @@
     tax_no_pic_path, default_profit
     from agents
   </select>
+
+    <sql id="pageWhere">
+        <where>
+            <if test="status != null"> AND status =#{status} </if>
+            <if test="keys != null"> AND company_name like #{keys} </if>
+        </where>
+    </sql>
+
+
+
+    <select id="findPageAgentByKeys" resultMap="BaseResultMap">
+        select * from agents
+        <include refid="pageWhere" />
+        order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="countByKeys" resultType="long">
+        SELECT count(*) as count
+        FROM agents
+        <include refid="pageWhere" />
+    </select>
 </mapper>
