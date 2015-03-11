@@ -133,10 +133,10 @@
                 trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and traded_at>#{start}
+                and traded_at&gt;#{start}
             </if>
             <if test="end!=null">
-                and traded_at>#{end}
+                and traded_at&gt;#{end}
             </if>
             <if test="status!=null">
                 and traded_status=#{status}
@@ -154,10 +154,10 @@
                 trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and traded_at>#{start}
+                and traded_at&gt;#{start}
             </if>
             <if test="end!=null">
-                and traded_at>#{end}
+                and traded_at&gt;#{end}
             </if>
             <if test="status!=null">
                 and traded_status=#{status}
@@ -174,10 +174,10 @@
                 tr.trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and tr.traded_at>#{start}
+                and tr.traded_at&gt;#{start}
             </if>
             <if test="end!=null">
-                and tr.traded_at>#{end}
+                and tr.traded_at&gt;#{end}
             </if>
             <if test="status!=null">
                 and tr.traded_status=#{status}

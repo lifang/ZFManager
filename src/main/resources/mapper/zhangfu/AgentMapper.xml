@@ -124,17 +124,31 @@
         </where>
     </sql>
 
+    <select id="countByKeys" resultType="long">
+        SELECT count(*) as count
+        FROM agents
+        <include refid="pageWhere" />
+    </select>
 
+    <resultMap extends="BaseResultMap" id="AgentLazyResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Agent">
+        <association column="code" fetchType="lazy" javaType="Long" property="terminalCount" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper.countByAgentCode" />
+        <association column="code" fetchType="lazy" javaType="Long" property="terminalOpenCount" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper.countOpenByAgentCode" />
+        <association column="customer_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" select="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.selectCustomerInfo" />
+    </resultMap>
 
-    <select id="findPageAgentByKeys" resultMap="BaseResultMap">
+    <select id="findPageAgentByKeys" resultMap="AgentLazyResultMap">
         select * from agents
         <include refid="pageWhere" />
         order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
     </select>
 
-    <select id="countByKeys" resultType="long">
-        SELECT count(*) as count
-        FROM agents
-        <include refid="pageWhere" />
+    <select id="findAgentInfo" resultMap="AgentLazyResultMap">
+        select * from agents
+        where id=#{param1}
+    </select>
+
+    <select id="maxOneLevelAgentCode" resultType="String">
+        select max(code) from agents
+        where length(code)=3
     </select>
 </mapper>

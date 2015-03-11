@@ -51,9 +51,9 @@ public class CustomerService {
 		customer.setCityId(city);
 		customer.setPassword(DigestUtils.md5Hex(password));
 		customer.setIntegral(0);
-		customer.setCreatedAt(new Date());
-		customer.setStatus(Customer.STATUS_NORMAL);
-		customer.setUpdatedAt(new Date());
+        customer.setCreatedAt(new Date());
+        customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setUpdatedAt(new Date());
 		if(Strings.isNullOrEmpty(passport)){
 			customer.setUsername(phone);
 		}else{
@@ -182,4 +182,8 @@ public class CustomerService {
 		customerMapper.updateByPrimaryKey(c);
 		return true;
 	}
+
+    public Customer selectByUsername(String username){
+        return customerMapper.selectByUsername(username);
+    }
 }

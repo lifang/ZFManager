@@ -96,7 +96,7 @@
     from profits
   </select>
   
-  <select id="selectByTradeRecordId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="selectByTradeRecordId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, trade_record_id, terminal_number, current_agent_id, top_agent_id, amount,
     profits_get, profits_pay, status, factory_id, types, pay_channel_id, merchant_id,
     traded_at, created_at, updated_at, account_number

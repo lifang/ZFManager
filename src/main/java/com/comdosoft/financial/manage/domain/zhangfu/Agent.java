@@ -533,4 +533,35 @@ public class Agent {
 	public void setDefaultProfit(Integer defaultProfit) {
 		this.defaultProfit = defaultProfit;
 	}
+
+	public static final Integer TYPE_COMPANY = 1; //公司代理商
+    public static final Integer TYPE_PERSON = 2; //个人代理商
+
+	private Long terminalCount;
+    private Long terminalOpenCount;
+    private Customer customer;
+
+    public Long getTerminalCount() {
+        return terminalCount;
+    }
+
+    public void setTerminalCount(Long terminalCount) {
+        this.terminalCount = terminalCount;
+    }
+
+    public Long getTerminalOpenCount() {
+        return terminalOpenCount;
+    }
+
+    public void setTerminalOpenCount(Long terminalOpenCount) {
+        this.terminalOpenCount = terminalOpenCount;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

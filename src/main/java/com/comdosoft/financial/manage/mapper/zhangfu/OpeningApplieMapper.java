@@ -35,5 +35,5 @@ public interface OpeningApplieMapper {
 	 */
 	int updateByPrimaryKey(OpeningApplie record);
 
-    OpeningApplie selectOpeningApplie(Integer terminalId);
+	OpeningApplie selectOpeningApplie(Integer terminalId);
 }

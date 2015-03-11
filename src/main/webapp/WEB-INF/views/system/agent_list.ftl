@@ -9,25 +9,64 @@
     <div class="content clear">
         <div class="user_title"><h1>代理商列表</h1>
             <div class="userTopBtnBox">
-                <a href="#" class="ghostBtn">创建代理商</a>
+                <a href="<@spring.url "/system/agent/create" />" class="ghostBtn">创建代理商</a>
             </div>
         </div>
 
         <div class="seenBox clear">
             <ul>
-                <li><div class="user_search"><input name="" type="text"><button></button></div></li>
+                <li>
+                    <div class="user_search">
+                        <input  id="search_keys" type="text" />
+                        <input id="hidden_keys" type="hidden" name="keys" value="" />
+                        <input id="hidden_status" type="hidden" name="status" value="" />
+                        <button id="btn_search"></button>
+                    </div>
+                </li>
                 <li><div class="user_select">
                     <label>状态筛选</label>
-                    <select name="">
-                        <option>111</option>
-                        <option>222</option>
-                        <option>333</option>
+                    <select id="select_status">
+                        <option value="">全部</option>
+                        <option value="1">待审核</option>
+                        <option value="2">初审不通过</option>
+                        <option value="3">初审通过</option>
+                        <option value="4">审核不通过</option>
+                        <option value="5">正常</option>
+                        <option value="6">已停用</option>
                     </select>
                 </div></li>
             </ul>
         </div>
+        <div id="page_fresh">
         <#include "agent_list_page.ftl"/>
+        </div>
     </div>
 <script>
+    $(function(){
+        $('#select_status').change(function(){
+            var status = $(this).children('option:selected').val();
+            $("#hidden_status").val(status);
+            pageChange(1);
+        });
+
+        $("#btn_search").bind("click",
+                function() {
+                    var keys = $("#search_keys").val();
+                    $("#hidden_keys").val(keys);
+                    pageChange(1);
+                });
+    });
+    function pageChange(page) {
+        var keys = $("#hidden_keys").val();
+        var status = $("#hidden_status").val();
+        $.get('<@spring.url "/system/agent/page" />',
+                {"page": page,
+                    "keys": keys,
+                    "status": status
+                },
+                function (data) {
+                    $('#page_fresh').html(data);
+                });
+    }
 </script>
 </@c.html>

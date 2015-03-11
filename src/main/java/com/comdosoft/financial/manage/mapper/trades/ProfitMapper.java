@@ -35,7 +35,7 @@ public interface ProfitMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Profit record);
-	
+
 	Profit selectByTradeRecordId(Integer tradeRecordId);
 
     List<Map<String,Object>> selectStatistics();

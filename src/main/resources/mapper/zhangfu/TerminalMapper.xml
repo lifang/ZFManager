@@ -27,6 +27,7 @@
     <result column="terminal_marks_id" jdbcType="INTEGER" property="terminalMarksId" />
     <result column="billing_cycles_id" jdbcType="INTEGER" property="billingCyclesId" />
     <result column="opened_at" jdbcType="TIMESTAMP" property="openedAt" />
+    <result column="top_charge" jdbcType="INTEGER" property="topCharge" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -50,14 +51,16 @@
       password, is_return_cs_depots, created_at, 
       updated_at, type, merchant_num, 
       is_rate_wrong, base_rate, terminal_marks_id, 
-      billing_cycles_id, opened_at)
+      billing_cycles_id, opened_at, top_charge
+      )
     values (#{goodId,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
       #{merchantId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       #{agentId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{isReturnCsDepots,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{type,jdbcType=TINYINT}, #{merchantNum,jdbcType=VARCHAR}, 
       #{isRateWrong,jdbcType=BIT}, #{baseRate,jdbcType=INTEGER}, #{terminalMarksId,jdbcType=INTEGER}, 
-      #{billingCyclesId,jdbcType=INTEGER}, #{openedAt,jdbcType=TIMESTAMP})
+      #{billingCyclesId,jdbcType=INTEGER}, #{openedAt,jdbcType=TIMESTAMP}, #{topCharge,jdbcType=INTEGER}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
     <!--
@@ -84,7 +87,8 @@
       base_rate = #{baseRate,jdbcType=INTEGER},
       terminal_marks_id = #{terminalMarksId,jdbcType=INTEGER},
       billing_cycles_id = #{billingCyclesId,jdbcType=INTEGER},
-      opened_at = #{openedAt,jdbcType=TIMESTAMP}
+      opened_at = #{openedAt,jdbcType=TIMESTAMP},
+      top_charge = #{topCharge,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -95,7 +99,7 @@
     select id, good_id, serial_num, pay_channel_id, merchant_id, customer_id, status, 
     agent_id, order_id, account, password, is_return_cs_depots, created_at, updated_at, 
     type, merchant_num, is_rate_wrong, base_rate, terminal_marks_id, billing_cycles_id, 
-    opened_at
+    opened_at, top_charge
     from terminals
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -107,7 +111,7 @@
     select id, good_id, serial_num, pay_channel_id, merchant_id, customer_id, status, 
     agent_id, order_id, account, password, is_return_cs_depots, created_at, updated_at, 
     type, merchant_num, is_rate_wrong, base_rate, terminal_marks_id, billing_cycles_id, 
-    opened_at
+    opened_at, top_charge
     from terminals
   </select>
   
@@ -157,7 +161,7 @@
     <sql id="pageWhere">
         <where>
             <if test="status != null"> AND t.status =#{status} </if>
-            <if test="keys != null"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
+            <if test="keys != null and keys != ''"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
         </where>
     </sql>
     <select id="selectPageTerminalsByKeys" resultMap="PageTerminalResultMap">
@@ -190,7 +194,7 @@
         <association column="merchant_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Merchant" property="merchant" select="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.selectByPrimaryKey" />
         <association column="agent_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Agent" property="agent" select="com.comdosoft.financial.manage.mapper.zhangfu.AgentProfitSettingMapper.selectByPrimaryKey" />
         <association column="order_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Order" property="order" select="com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper.selectByPrimaryKey" />
-        <association property="billingCycle" column="{billingCycleId=billing_cycles_id,payChannelId=pay_channel_id}" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelBillingCycleMapper.findByChannelIdAndBillingCyclesId"/>
+        <association column="{billingCycleId=billing_cycles_id,payChannelId=pay_channel_id}" property="billingCycle" select="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelBillingCycleMapper.findByChannelIdAndBillingCyclesId" />
         <association column="id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie" property="openingApplie" select="com.comdosoft.financial.manage.mapper.zhangfu.OpeningApplieMapper.selectOpeningApplie" />
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalTradeTypeInfo" property="tradeTypeInfos" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalTradeTypeInfoMapper.selectTerminalTradeTypeInfos" />
         <collection column="id" fetchType="lazy" ofType="com.comdosoft.financial.manage.domain.zhangfu.TerminalMark" property="terminalMarks" select="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMarkMapper.selectTerminalMarks" />
@@ -201,6 +205,19 @@
         select *
         from terminals
         where id=#{param1}
+    </select>
+
+    <select id="countByAgentCode" resultType="long">
+        select count(1)
+        from terminals t inner join agents a on t.agent_id=a.id
+        where a.code like CONCAT(#{param1},'%' )
+    </select>
+
+    <select id="countOpenByAgentCode" resultType="long">
+        <bind name="STATUS_OPENED" value="@com.comdosoft.financial.manage.domain.zhangfu.Terminal@STATUS_OPENED" />
+        select count(1)
+        from terminals t inner join agents a on t.agent_id=a.id
+        where a.code like CONCAT(#{param1},'%' ) and t.status=#{STATUS_OPENED}
     </select>
 
 </mapper>

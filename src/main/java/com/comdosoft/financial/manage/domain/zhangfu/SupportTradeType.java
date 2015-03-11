@@ -348,7 +348,7 @@ public class SupportTradeType {
 		this.description = description;
 	}
 
-    public static final byte TYPE_TRADE = 1;	// 交易类型
+	public static final byte TYPE_TRADE = 1;	// 交易类型
     public static final byte TYPE_OTHER = 2;	// 其他类型
 
     private DictionaryTradeType dictionaryTradeType;

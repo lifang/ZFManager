@@ -35,5 +35,5 @@ public interface TerminalOpeningInfoMapper {
 	 */
 	int updateByPrimaryKey(TerminalOpeningInfo record);
 
-    List<TerminalOpeningInfo> selectTerminalOpeningInfos(Integer openingAppliesId);
+	List<TerminalOpeningInfo> selectTerminalOpeningInfos(Integer openingAppliesId);
 }

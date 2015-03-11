@@ -35,7 +35,7 @@ public interface TerminalMarkMapper {
 	 */
 	int updateByPrimaryKey(TerminalMark record);
 
-    List<TerminalMark> selectTerminalMarks(Integer terminalId);
+	List<TerminalMark> selectTerminalMarks(Integer terminalId);
 
     TerminalMark selectTerminalMark(Integer id);
 }

@@ -605,7 +605,7 @@ public class TradeRecord {
 		this.customerId = customerId;
 	}
 
-    public static final int TRADE_STATUS_SUCCESS = 1;
+	public static final int TRADE_STATUS_SUCCESS = 1;
     public static final int TRADE_STATUS_FAIL = 2;
     public static final int TRADE_STATUS_WAIT_CONFIRM = 3;
 

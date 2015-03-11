@@ -95,7 +95,7 @@ public class TerminalTradeTypeInfo {
 		this.terminalId = terminalId;
 	}
 
-    private SupportTradeType supportTradeType;
+	private SupportTradeType supportTradeType;
 
     public SupportTradeType getSupportTradeType() {
         return supportTradeType;

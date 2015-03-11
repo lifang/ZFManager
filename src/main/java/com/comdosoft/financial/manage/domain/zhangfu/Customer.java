@@ -387,4 +387,14 @@ public class Customer {
 	 * email
 	 */
 	public static final byte ACCOUNT_TYPE_EMAIL = 2;
+
+    private City city;
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 }

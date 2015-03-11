@@ -35,5 +35,5 @@ public interface DictionaryTradeTypeMapper {
 	 */
 	int updateByPrimaryKey(DictionaryTradeType record);
 
-    DictionaryTradeType selectBaseTradeType();
+	DictionaryTradeType selectBaseTradeType();
 }

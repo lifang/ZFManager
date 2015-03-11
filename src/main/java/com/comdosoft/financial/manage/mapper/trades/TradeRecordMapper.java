@@ -40,7 +40,7 @@ public interface TradeRecordMapper {
 	 */
 	int updateByPrimaryKey(TradeRecord record);
 
-    List<TradeRecord> selectPage(@Param("request") PageRequest request,
+	List<TradeRecord> selectPage(@Param("request") PageRequest request,
                                  @Param("start") Date start,
                                  @Param("end") Date end,
                                  @Param("type") Integer type,

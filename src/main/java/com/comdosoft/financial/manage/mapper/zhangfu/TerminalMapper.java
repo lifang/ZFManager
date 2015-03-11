@@ -42,4 +42,8 @@ public interface TerminalMapper {
     long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 
     Terminal findTerminalInfo(Integer id);
+
+    long countByAgentCode(String code);
+    long countOpenByAgentCode(String code);
+
 }

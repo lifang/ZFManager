@@ -131,4 +131,20 @@
     and status = #{status}
     </if>
   </select>
+
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select * from customers
+        where username=#{param1}
+    </select>
+
+
+    <resultMap extends="BaseResultMap" id="CustomerLazyResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Customer">
+        <association column="city_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.City" property="city" select="com.comdosoft.financial.manage.mapper.zhangfu.CityMapper.selectCity" />
+    </resultMap>
+
+    <select id="selectCustomerInfo" resultMap="CustomerLazyResultMap">
+        select * from customers
+        where id=#{param1}
+    </select>
+
 </mapper>

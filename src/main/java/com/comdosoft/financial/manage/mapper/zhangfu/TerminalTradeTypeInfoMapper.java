@@ -35,5 +35,5 @@ public interface TerminalTradeTypeInfoMapper {
 	 */
 	int updateByPrimaryKey(TerminalTradeTypeInfo record);
 
-    List<TerminalTradeTypeInfo> selectTerminalTradeTypeInfos(Integer terminalId);
+	List<TerminalTradeTypeInfo> selectTerminalTradeTypeInfos(Integer terminalId);
 }

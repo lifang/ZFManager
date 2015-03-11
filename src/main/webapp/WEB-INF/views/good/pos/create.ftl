@@ -478,16 +478,20 @@ function submitData(){
 }
 
 function isNull(value, error){
-	 if(value.length==0){
+	 if(!isNotNull(value)){
 	 	showErrorTip(error);
 	 	return true;
 	 }
 	 return false;
 }
 
+function isNotNull(value){
+    return value != "" && value != null && value != undefined;
+}
+
 function isNotTwoDecimal(value, error){
 	var re=/^\d+\.\d{2}$/;//2位小数
-	if(value.length>0 && !(re.test(value))){
+	if(isNotNull(value) && !(re.test(value))){
 	 	showErrorTip(error);
 		return true;
 	}

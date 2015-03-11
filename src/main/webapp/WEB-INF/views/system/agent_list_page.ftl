@@ -20,8 +20,10 @@
         </tr>
         </thead>
         <tbody>
-        <#include "agent_list_page_row.ftl"/>
+        <#list page.content as agent>
+            <#include "agent_list_page_row.ftl"/>
+        </#list>
         </tbody>
     </table>
 </div>
-<#--<@pager.p page=page.currentPage totalPages=page.totalPage functionName="pageChange"/>-->
+<@pager.p page=page.currentPage totalPages=page.totalPage functionName="pageChange"/>

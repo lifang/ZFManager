@@ -38,4 +38,6 @@ public interface CityMapper {
 	List<City> selectWithParentId(Integer parentId);
 
 	List<City> selectCities(Integer channelId);
+
+    City selectCity(Integer id);
 }

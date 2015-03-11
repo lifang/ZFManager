@@ -165,4 +165,14 @@ public class City {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	private City parentCity;
+
+    public City getParentCity() {
+        return parentCity;
+    }
+
+    public void setParentCity(City parentCity) {
+        this.parentCity = parentCity;
+    }
 }

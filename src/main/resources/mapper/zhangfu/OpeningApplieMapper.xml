@@ -22,6 +22,13 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pay_channel_id" jdbcType="INTEGER" property="payChannelId" />
+    <result column="account_bank_num" jdbcType="VARCHAR" property="accountBankNum" />
+    <result column="account_bank_name" jdbcType="VARCHAR" property="accountBankName" />
+    <result column="account_bank_code" jdbcType="VARCHAR" property="accountBankCode" />
+    <result column="tax_registered_no" jdbcType="VARCHAR" property="taxRegisteredNo" />
+    <result column="organization_code_no" jdbcType="VARCHAR" property="organizationCodeNo" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -44,13 +51,17 @@
       updated_at, types, merchant_id, 
       merchant_name, sex, birthday, 
       card_id, phone, email, 
-      city_id)
+      city_id, name, pay_channel_id, 
+      account_bank_num, account_bank_name, account_bank_code, 
+      tax_registered_no, organization_code_no)
     values (#{applyCustomerId,jdbcType=INTEGER}, #{preliminaryVerifyUserId,jdbcType=INTEGER}, 
       #{terminalId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{types,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, 
       #{merchantName,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{birthday,jdbcType=TIMESTAMP}, 
       #{cardId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{cityId,jdbcType=INTEGER})
+      #{cityId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
+      #{accountBankNum,jdbcType=VARCHAR}, #{accountBankName,jdbcType=VARCHAR}, #{accountBankCode,jdbcType=VARCHAR}, 
+      #{taxRegisteredNo,jdbcType=VARCHAR}, #{organizationCodeNo,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie">
     <!--
@@ -72,7 +83,14 @@
       card_id = #{cardId,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      city_id = #{cityId,jdbcType=INTEGER}
+      city_id = #{cityId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      pay_channel_id = #{payChannelId,jdbcType=INTEGER},
+      account_bank_num = #{accountBankNum,jdbcType=VARCHAR},
+      account_bank_name = #{accountBankName,jdbcType=VARCHAR},
+      account_bank_code = #{accountBankCode,jdbcType=VARCHAR},
+      tax_registered_no = #{taxRegisteredNo,jdbcType=VARCHAR},
+      organization_code_no = #{organizationCodeNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -82,7 +100,8 @@
     -->
     select id, apply_customer_id, preliminary_verify_user_id, terminal_id, status, created_at, 
     updated_at, types, merchant_id, merchant_name, sex, birthday, card_id, phone, email, 
-    city_id
+    city_id, name, pay_channel_id, account_bank_num, account_bank_name, account_bank_code, 
+    tax_registered_no, organization_code_no
     from opening_applies
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -93,7 +112,8 @@
     -->
     select id, apply_customer_id, preliminary_verify_user_id, terminal_id, status, created_at, 
     updated_at, types, merchant_id, merchant_name, sex, birthday, card_id, phone, email, 
-    city_id
+    city_id, name, pay_channel_id, account_bank_num, account_bank_name, account_bank_code, 
+    tax_registered_no, organization_code_no
     from opening_applies
   </select>
 

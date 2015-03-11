@@ -120,7 +120,7 @@ public class TerminalMark {
 		this.content = content;
 	}
 
-    private Customer customer;
+	private Customer customer;
 
     public Customer getCustomer() {
         return customer;

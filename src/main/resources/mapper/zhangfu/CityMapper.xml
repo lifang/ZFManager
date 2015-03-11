@@ -80,4 +80,15 @@
     from support_areas sa inner join cities c on sa.city_id=c.id
     where sa.pay_channel_id = #{param1} order by c.parent_id
   </select>
+
+
+    <resultMap extends="BaseResultMap" id="CityResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.City">
+        <association columnPrefix="cp_" javaType="com.comdosoft.financial.manage.domain.zhangfu.City" property="parentCity" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CityMapper.BaseResultMap" />
+    </resultMap>
+    <select id="selectCity" resultMap="CityResultMap">
+        select c.*,
+        cp.id cp_id, cp.name cp_name, cp.parent_id cp_parent_id
+        from cities c left join cities cp on cp.id=c.parent_id
+        where c.id = #{param1}
+    </select>
 </mapper>
