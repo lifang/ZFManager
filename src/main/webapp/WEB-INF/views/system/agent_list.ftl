@@ -68,5 +68,46 @@
                     $('#page_fresh').html(data);
                 });
     }
+
+
+    function firstUnCheck(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/firstUnCheck',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
+
+    function firstCheck(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/firstCheck',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
+
+    function unCheck(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/unCheck',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
+
+    function check(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/check',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
+    function stop(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/stop',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
+    function start(id){
+        $.get('<@spring.url "" />'+'/system/agent/'+id+'/start',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                });
+    }
 </script>
 </@c.html>

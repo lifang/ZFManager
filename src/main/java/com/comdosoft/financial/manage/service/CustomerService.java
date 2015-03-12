@@ -183,6 +183,14 @@ public class CustomerService {
 		return true;
 	}
 
+    @Transactional("transactionManager")
+    public void modifyPwd(Integer id, String pwd){
+        Customer c = customerMapper.selectByPrimaryKey(id);
+        String md5Password = DigestUtils.md5Hex(pwd);
+        c.setPassword(md5Password);
+        customerMapper.updateByPrimaryKey(c);
+    }
+
     public Customer selectByUsername(String username){
         return customerMapper.selectByUsername(username);
     }

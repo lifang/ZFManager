@@ -40,6 +40,6 @@ public interface AgentMapper {
 
     Agent findAgentInfo(Integer id);
 
-    String maxOneLevelAgentCode();
+    String findMaxOneLevelAgentCode();
 
 }

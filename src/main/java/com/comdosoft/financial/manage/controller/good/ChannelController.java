@@ -89,8 +89,8 @@ public class ChannelController {
 	}
 
 	@RequestMapping(value="{id}/check",method=RequestMethod.GET)
-	public String check(@PathVariable Integer id, String source, Boolean isThird, Model model){
-		PayChannel channel = payChannelService.statusCheck(id, isThird);
+	public String check(@PathVariable Integer id, String source, Model model){
+		PayChannel channel = payChannelService.statusCheck(id);
 		model.addAttribute("channel", channel);
 		if ("info".equals(source)) {
 			return "good/channel/infoStatus";

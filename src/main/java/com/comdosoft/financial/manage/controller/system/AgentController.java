@@ -3,7 +3,6 @@ package com.comdosoft.financial.manage.controller.system;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Agent;
 import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.AgentService;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerService;
@@ -71,12 +70,12 @@ public class AgentController {
     public Response edit(@PathVariable Integer id,
                        Integer types, String name, String cardId, String companyName,
                        String businessLicense, String phone, String email, Integer cityId,
-                       String address, String username, String password){
+                       String address, String username, String password, Byte accountType){
         boolean result = agentService.update(id, types, name, cardId, companyName,
                     businessLicense, phone, email, cityId, address,
-                    username, password);
+                    username, password, accountType);
         if (!result){
-            return Response.getError("登录ID");
+            return Response.getError("登录ID已存在");
         }
         return Response.getSuccess(null);
     }
@@ -85,14 +84,63 @@ public class AgentController {
     @ResponseBody
     public Response create( Integer types, String name, String cardId, String companyName,
                           String businessLicense, String phone, String email, Integer cityId, String address,
-                          String username, String password){
+                          String username, String password, Byte accountType){
         boolean result = agentService.create(types, name, cardId, companyName,
                 businessLicense, phone, email, cityId, address,
-                username, password);
+                username, password, accountType);
         if (!result){
-            return Response.getError("登录ID");
+            return Response.getError("登录ID已存在");
         }
         return Response.getSuccess(null);
+    }
+
+    @RequestMapping(value="{id}/firstUnCheck",method=RequestMethod.GET)
+    public String firstUnCheck(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusFirstUnCheck(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/firstCheck",method=RequestMethod.GET)
+    public String firstCheck(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusFirstCheck(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/unCheck",method=RequestMethod.GET)
+    public String unCheck(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusUnCheck(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/check",method=RequestMethod.GET)
+    public String check(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusCheck(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/stop",method=RequestMethod.GET)
+    public String stop(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusStop(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/start",method=RequestMethod.GET)
+    public String start(@PathVariable Integer id, Model model){
+        Agent agent = agentService.statusWaitingFirstCheck(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_list_page_row";
+    }
+
+    @RequestMapping(value="{id}/resetpwd",method=RequestMethod.GET)
+    public String resetpwd(@PathVariable Integer id, Model model){
+        Agent agent = agentService.findAgentInfo(id);
+        model.addAttribute("agent", agent);
+        return "system/agent_reset_pwd";
     }
 
     private void findPage(Integer page, Byte status, String keys, Model model){

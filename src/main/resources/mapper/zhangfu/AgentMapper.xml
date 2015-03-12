@@ -18,7 +18,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="form_types" jdbcType="BIT" property="formTypes" />
+    <result column="form_types" jdbcType="TINYINT" property="formTypes" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_have_profit" jdbcType="BIT" property="isHaveProfit" />
@@ -57,7 +57,7 @@
     values (#{agentCode,jdbcType=INTEGER}, #{types,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
       #{businessLicense,jdbcType=VARCHAR}, #{taxRegisteredNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{cardId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{customerId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{formTypes,jdbcType=BIT}, 
+      #{customerId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{formTypes,jdbcType=TINYINT}, 
       #{parentId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{isHaveProfit,jdbcType=BIT}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
       #{cardIdPhotoPath,jdbcType=VARCHAR}, #{licenseNoPicPath,jdbcType=VARCHAR}, #{taxNoPicPath,jdbcType=VARCHAR}, 
@@ -80,7 +80,7 @@
       email = #{email,jdbcType=VARCHAR},
       customer_id = #{customerId,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
-      form_types = #{formTypes,jdbcType=BIT},
+      form_types = #{formTypes,jdbcType=TINYINT},
       parent_id = #{parentId,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
       is_have_profit = #{isHaveProfit,jdbcType=BIT},
@@ -147,8 +147,8 @@
         where id=#{param1}
     </select>
 
-    <select id="maxOneLevelAgentCode" resultType="String">
+    <select id="findMaxOneLevelAgentCode" resultType="String">
         select max(code) from agents
-        where length(code)=3
+        where parent_id=0
     </select>
 </mapper>

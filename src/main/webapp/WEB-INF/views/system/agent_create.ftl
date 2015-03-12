@@ -54,7 +54,7 @@
                         </div>
                     </li>
                     <li class="block"><span class="labelSpan">登录ID：</span>
-                        <div class="text"><input name="a_username" type="text"></div>
+                        <div class="text"><input name="a_username" type="text" value="${(agent.customer.username)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">密码：</span>
                         <div class="text"><input name="a_password" type="password"></div>
@@ -107,8 +107,20 @@
         if(checkNull(address, "所在地详细地址不能为空!")){return false;}
         var username=$("input[name='a_username']").val();
         if(checkNull(username, "登录ID不能为空!")){return false;}
+        var accountType;
+        if(checkMobile(username)){
+            accountType=1;
+        } else if(checkEmail(username)){
+            accountType=2;
+        } else{
+            showErrorTip("登录ID必须为手机号或邮箱");
+            return false;
+        }
         var password=$("input[name='a_password']").val();
         var confirmPassword=$("input[name='confirmPassword']").val();
+        <#if !(agent??)>
+            if(checkNull(password, "密码不能为空!")){return false;}
+        </#if>
         if(password!=confirmPassword){
             showErrorTip("密码和确认密码必须相同");
             return false;
@@ -131,7 +143,8 @@
                     'cityId': cityId,
                     'address': address,
                     'username': username,
-                    'password': password
+                    'password': password,
+                    'accountType': accountType
                 },
                 function(data){
                     if(data.code==1){
@@ -153,6 +166,24 @@
 
     function isNotNull(value){
         return value != "" && value != null && value != undefined;
+    }
+
+    function checkMobile(str) {
+        var re = /^1\d{10}$/
+        if (re.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function
+    checkEmail(str){
+        var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+        if(re.test(str)){
+            return true;
+        }else{
+            return false;
+        }
     }
 </script>
 </@c.html>

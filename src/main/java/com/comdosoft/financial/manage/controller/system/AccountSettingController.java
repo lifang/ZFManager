@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.controller.system;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.service.CustomerService;
+import com.comdosoft.financial.manage.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.service.CustomerService;
-import com.comdosoft.financial.manage.service.SessionService;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/system/account/setting")
@@ -39,4 +38,5 @@ public class AccountSettingController {
 		model.addAttribute("result", result);
 		return "system/account_setting";
 	}
+
 }

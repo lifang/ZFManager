@@ -2,13 +2,11 @@ package com.comdosoft.financial.manage.controller.system;
 
 import java.util.List;
 
+import com.comdosoft.financial.manage.domain.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Menu;
@@ -128,5 +126,12 @@ public class OperateController {
     		@RequestParam("role_name") String name,Integer[] roles){
     	roleService.modify(id, name, roles);
         return "redirect:/system/operate/roles";
+    }
+
+    @RequestMapping(value="account/{id}/resetpwd",method=RequestMethod.POST)
+    @ResponseBody
+    public Response resetpwd(@PathVariable Integer id, String password){
+        customerService.modifyPwd(id, password);
+        return Response.getSuccess(null);
     }
 }

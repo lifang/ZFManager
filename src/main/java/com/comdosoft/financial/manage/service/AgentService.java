@@ -56,7 +56,7 @@ public class AgentService {
     @Transactional("transactionManager")
     public boolean update(Integer id, Integer types, String name, String cardId,
                        String companyName, String businessLicense, String phone, String email,
-                       Integer cityId, String address, String username, String password) {
+                       Integer cityId, String address, String username, String password, Byte accountType) {
         Agent agent = agentMapper.findAgentInfo(id);
         agent.setTypes(types);
         agent.setName(name);
@@ -71,6 +71,7 @@ public class AgentService {
             Customer customer1 = customerMapper.selectByUsername(username);
             if (customer1 == null){
                 customer.setUsername(username);
+                customer.setAccountType(accountType);
             }else{
                 return false;
             }
@@ -88,23 +89,11 @@ public class AgentService {
     @Transactional("transactionManager")
     public boolean create(Integer types, String name, String cardId,
                           String companyName, String businessLicense, String phone, String email,
-                          Integer cityId, String address, String username, String password) {
+                          Integer cityId, String address, String username, String password, Byte accountType) {
         Customer customer = customerMapper.selectByUsername(username);
         if (customer != null){
             return false;
         }
-
-        Agent agent = new Agent();
-        agent.setTypes(types);
-        agent.setName(name);
-        agent.setCardId(cardId);
-        agent.setCompanyName(companyName);
-        agent.setBusinessLicense(businessLicense);
-        agent.setPhone(phone);
-        agent.setEmail(email);
-        agent.setAddress(address);
-        agent.setCreatedAt(new Date());
-        agent.setCode("");
         customer = new Customer();
         customer.setUsername(username);
         String md5Password = DigestUtils.md5Hex(password);
@@ -113,11 +102,136 @@ public class AgentService {
         customer.setCityId(cityId);
         customer.setPhone(phone);
         customer.setIntegral(0);
-        customer.setCreatedAt(new Date());
         customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setAccountType(accountType);
+        customer.setCreatedAt(new Date());
         customerMapper.insert(customer);
+
+        Agent agent = new Agent();
         agent.setCustomerId(customer.getId());
+        agent.setStatus(Agent.STATUS_WAITING_FIRST_CHECK);
+        agent.setTypes(types);
+        agent.setName(name);
+        agent.setCardId(cardId);
+        agent.setCompanyName(companyName);
+        agent.setBusinessLicense(businessLicense);
+        agent.setPhone(phone);
+        agent.setEmail(email);
+        agent.setAddress(address);
+        String code = agentMapper.findMaxOneLevelAgentCode();
+        if (code == null || code.equals("")){
+            code = "001";
+        } else{
+            code = String.format("%03d", Integer.parseInt(code)+1);
+        }
+        agent.setParentId(0);
+        agent.setCode(code);
+        agent.setIsHaveProfit(true);
+        agent.setFormTypes(Agent.FORMATTYPE_OP);
+        agent.setCreatedAt(new Date());
+        agent.setUpdatedAt(new Date());
         agentMapper.insert(agent);
         return true;
+    }
+
+    /**
+     * 初审不通过
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusFirstUnCheck(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_WAITING_FIRST_CHECK) {
+            agent.setStatus(Agent.STATUS_FIRST_UN_CHECKED);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
+    }
+
+    /**
+     * 初审通过
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusFirstCheck(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_WAITING_FIRST_CHECK
+                || agent.getStatus() == Agent.STATUS_FIRST_UN_CHECKED) {
+            agent.setStatus(Agent.STATUS_FIRST_CHECKED);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
+    }
+
+    /**
+     * 审核不通过
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusUnCheck(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_WAITING_FIRST_CHECK
+                || agent.getStatus() == Agent.STATUS_FIRST_CHECKED) {
+            agent.setStatus(Agent.STATUS_UN_CHECKED);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
+    }
+
+    /**
+     * 审核通过
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusCheck(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_WAITING_FIRST_CHECK
+                || agent.getStatus() == Agent.STATUS_FIRST_UN_CHECKED
+                || agent.getStatus() == Agent.STATUS_FIRST_CHECKED
+                || agent.getStatus() == Agent.STATUS_UN_CHECKED) {
+            agent.setStatus(Agent.STATUS_CHECKED);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
+    }
+
+    /**
+     * 停止
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusStop(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_CHECKED) {
+            agent.setStatus(Agent.STATUS_STOP);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
+    }
+
+    /**
+     * 启用
+     *
+     * @param id
+     * @return
+     */
+    @Transactional("transactionManager")
+    public Agent statusWaitingFirstCheck(Integer id) {
+        Agent agent = agentMapper.findAgentInfo(id);
+        if (agent.getStatus() == Agent.STATUS_STOP) {
+            agent.setStatus(Agent.STATUS_WAITING_FIRST_CHECK);
+            agentMapper.updateByPrimaryKey(agent);
+        }
+        return agent;
     }
 }

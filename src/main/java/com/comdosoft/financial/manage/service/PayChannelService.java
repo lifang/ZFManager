@@ -117,7 +117,7 @@ public class PayChannelService {
      * @return
      */
     @Transactional("transactionManager")
-    public PayChannel statusCheck(Integer id, Boolean isThird) {
+    public PayChannel statusCheck(Integer id) {
         PayChannel channel = payChannelMapper.selectByPrimaryKey(id);
         if (channel.getStatus() == PayChannel.STATUS_WAITING_FIRST_CHECK
                 || channel.getStatus() == PayChannel.STATUS_FIRST_UN_CHECKED
