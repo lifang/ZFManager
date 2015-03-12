@@ -20,6 +20,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -36,6 +37,17 @@ public class HttpUtils {
 	private static final HttpClient client = HttpClients.createDefault();
 	private static final ContentType TEXT_CONTENT_TYPE = ContentType.create("text/plain", DEFAULT_CHARSET);
 
+	public static <T> T get(String url,Map<String,String> headers,
+			Map<String,String> params,
+			ResponseHandler<T> handler) throws IOException{
+		return get(url,headers,params,null,handler);
+	}
+	
+	public static <T> T get(String url,HttpContext context,
+			Map<String,String> params, ResponseHandler<T> handler) throws IOException{
+		return get(url,null,params,context,handler);
+	}
+	
 	/**
 	 * get请求
 	 * @param url
@@ -46,12 +58,19 @@ public class HttpUtils {
 	 * @throws IOException
 	 */
 	public static <T> T get(String url,Map<String,String> headers,
-			Map<String,String> params,ResponseHandler<T> handler) throws IOException{
+			Map<String,String> params, HttpContext context,
+			ResponseHandler<T> handler) throws IOException{
 		RequestBuilder builder = RequestBuilder.get();
 		builder.setUri(url);
 		HttpUriRequest request = request(builder,headers,params,null);
 		LOG.debug("request:{}",request);
-		return response(request, handler);
+		return response(request, context, handler);
+	}
+	
+	public static <T> T post(String url,Map<String,String> headers,
+			Map<String,String> params,Map<String,File> fileParams,
+			ResponseHandler<T> handler) throws IOException{
+		return post(url,headers,params,fileParams,null,handler);
 	}
 	
 	/**
@@ -65,17 +84,19 @@ public class HttpUtils {
 	 * @throws IOException
 	 */
 	public static <T> T post(String url,Map<String,String> headers,
-			Map<String,String> params,Map<String,File> fileParams,ResponseHandler<T> handler) throws IOException{
+			Map<String,String> params,Map<String,File> fileParams,
+			HttpContext context,ResponseHandler<T> handler) throws IOException{
 		RequestBuilder builder = RequestBuilder.post();
 		builder.setUri(url);
 		HttpUriRequest request = request(builder,headers,params,fileParams);
 		LOG.debug("request:{}",request);
-		return response(request, handler);
+		return response(request, context, handler);
 	}
 	
 	//处理返回
-	private static <T> T response(HttpUriRequest request,ResponseHandler<T> handler) throws IOException {
-		HttpResponse response = client.execute(request);
+	private static <T> T response(HttpUriRequest request,
+			HttpContext context,ResponseHandler<T> handler) throws IOException {
+		HttpResponse response = client.execute(request,context);
 		return handler.handleResponse(response);
 	}
 	
