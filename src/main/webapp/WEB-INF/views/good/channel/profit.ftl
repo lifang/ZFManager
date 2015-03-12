@@ -147,7 +147,7 @@
         });
         if(~error){
 
-            $.post("<@spring.url "/good/channel/${channel.id}/editProfit" />",
+            $.post("<@spring.url "/good/channel/${channel.id}/profit" />",
                     { 'baseProfit': baseProfit,
                         'tradeTypeIds':tradeTypeIds,
                         'terminalRates':terminalRates,

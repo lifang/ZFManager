@@ -132,9 +132,9 @@ public class ChannelController {
 		return "good/channel/profit";
 	}
 
-    @RequestMapping(value="{id}/editProfit",method=RequestMethod.POST)
+    @RequestMapping(value="{id}/profit",method=RequestMethod.POST)
     @ResponseBody
-    public Response editProfit(@PathVariable Integer id, Integer baseProfit,
+    public Response profit(@PathVariable Integer id, Integer baseProfit,
                                @RequestParam(value = "tradeTypeIds[]", required = false) Integer[] tradeTypeIds,
                                @RequestParam(value = "terminalRates[]", required = false) Integer[] terminalRates,
                                @RequestParam(value = "baseRates[]", required = false) Integer[] baseRates,
