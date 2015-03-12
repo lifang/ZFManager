@@ -1,12 +1,12 @@
 package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
-import com.comdosoft.financial.manage.domain.zhangfu.Agent;
-import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.service.AgentService;
-import com.comdosoft.financial.manage.service.CityService;
-import com.comdosoft.financial.manage.service.CustomerService;
+import com.comdosoft.financial.manage.domain.zhangfu.*;
+import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.page.Page;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by junxi.qu on 2015/3/10.
@@ -29,7 +32,11 @@ public class AgentController {
     @Autowired
     private CityService cityService;
     @Autowired
+    private PayChannelService payChannelService;
+    @Autowired
     private CustomerService customerService;
+    @Autowired
+    private DictionaryService dictionaryService;
     @RequestMapping(value="list",method= RequestMethod.GET)
     public String list(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
@@ -141,6 +148,26 @@ public class AgentController {
         Agent agent = agentService.findAgentInfo(id);
         model.addAttribute("agent", agent);
         return "system/agent_reset_pwd";
+    }
+
+    @RequestMapping(value="{id}/profit",method=RequestMethod.GET)
+    public String profit(@PathVariable Integer id, Model model){
+        Agent agent = agentService.findAgentInfo(id);
+        List<PayChannel> payChannels = payChannelService.findCheckedChannels();
+        List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+        Multimap<String, Multimap<String, AgentProfitSetting>> map =  ArrayListMultimap.create();
+        for(AgentProfitSetting agentProfitSetting : agent.getProfitSettings()){
+            if(map.containsKey(agentProfitSetting.getPayChannelId()+"")){
+                Collection<Multimap<String, AgentProfitSetting>> tradeTypeList = map.get(agentProfitSetting.getPayChannelId()+"");
+
+//                profitSettingMap.put(agentProfitSetting.getPayChannelId()+"_"+agentProfitSetting.getTradeTypeId(), agentProfitSetting);
+            }
+        }
+        model.addAttribute("agent", agent);
+        model.addAttribute("payChannels", payChannels);
+        model.addAttribute("tradeTypes", tradeTypes);
+//        model.addAttribute("profitSettingMap", profitSettingMap);
+        return "system/agent_profit";
     }
 
     private void findPage(Integer page, Byte status, String keys, Model model){

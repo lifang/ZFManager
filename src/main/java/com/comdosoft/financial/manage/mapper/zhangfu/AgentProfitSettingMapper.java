@@ -34,4 +34,6 @@ public interface AgentProfitSettingMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(AgentProfitSetting record);
+
+	List<AgentProfitSetting> selectAgentProfitSettings(Integer agentId);
 }

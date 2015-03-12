@@ -40,6 +40,10 @@ public class PayChannelService {
         return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, "%" + name + "%");
     }
 
+    public List<PayChannel> findCheckedChannels() {
+        return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, null);
+    }
+
     public Page<PayChannel> findPages(int page, Byte status, String keys) {
         if (keys != null) {
             keys = "%" + keys + "%";

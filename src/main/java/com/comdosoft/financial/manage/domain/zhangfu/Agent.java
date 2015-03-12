@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
+import java.util.List;
 
 public class Agent {
 
@@ -550,6 +551,7 @@ public class Agent {
 	private Long terminalCount;
     private Long terminalOpenCount;
     private Customer customer;
+    private List<AgentProfitSetting> profitSettings;
 
     public Long getTerminalCount() {
         return terminalCount;
@@ -573,5 +575,13 @@ public class Agent {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<AgentProfitSetting> getProfitSettings() {
+        return profitSettings;
+    }
+
+    public void setProfitSettings(List<AgentProfitSetting> profitSettings) {
+        this.profitSettings = profitSettings;
     }
 }
