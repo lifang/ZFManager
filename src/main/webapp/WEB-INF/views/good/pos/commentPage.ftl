@@ -18,7 +18,7 @@
             <div class="eb_write_textarea"><textarea id="content" cols="" rows=""></textarea></div>
             <div class="btnBottom"><button class="whiteBtn" onclick="submitComment()">添加评论</button></div>
             <script>
-                $('.halfShow_star').raty({hints: ['1', '2', '3', '4', '5'],  number: 5, score: 5.0,  path: "/resources/images"});
+                $('.halfShow_star').raty({hints: ['1', '2', '3', '4', '5'],  number: 5, score: 5.0,  path: "<@spring.url "/resources/images" />"});
             </script>
         </div>
 
