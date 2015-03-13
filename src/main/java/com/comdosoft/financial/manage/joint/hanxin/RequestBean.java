@@ -2,7 +2,11 @@ package com.comdosoft.financial.manage.joint.hanxin;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -20,9 +24,16 @@ import org.slf4j.LoggerFactory;
 import com.comdosoft.financial.manage.utils.HttpUtils;
 import com.comdosoft.financial.manage.utils.StringUtils;
 
+/**
+ * requst 对象
+ * @author wu
+ *
+ */
 public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RequestBean.class);
+	private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+	private static final RequestSeq REQEUST_SEQ = new RequestSeq();
 	
 	private String desKey;
 	
@@ -33,8 +44,10 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	private String terminalId;
 	
 	public RequestBean(String application){
-		setApplication(application);
+		setApplication(application+".Req");
 		setVersion("1.0.0");
+		setSendTime(DATE_TIME_FORMAT.format(LocalDateTime.now()));
+		setSendSeqId(String.format("%06d", REQEUST_SEQ.getNextSeq()));
 	}
 
 	@XmlAttribute
@@ -82,6 +95,12 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 
 	public abstract Class<? extends ResponseBean> getResponseClass();
 	
+	/**
+	 * 生成请求数据
+	 * @param manager
+	 * @return
+	 * @throws Exception
+	 */
 	public String generateBody(ActionManager manager) throws Exception{
 		desKey = StringUtils.randomString(32);
 		String des3desKey=RSACoder.encryptByPublicKey(desKey,manager.getRsaKey());
@@ -92,8 +111,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	}
 
 	@Override
-	public ResponseBean handleResponse(HttpResponse res)
-			throws IOException {
+	public ResponseBean handleResponse(HttpResponse res) throws IOException {
 		final StatusLine statusLine = res.getStatusLine();
         final HttpEntity entity = res.getEntity();
         if (statusLine.getStatusCode() >= 300) {
@@ -109,9 +127,33 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 
 	@Override
 	public String toString() {
-		Writer writer = new StringWriter();
+		StringWriter writer = new StringWriter();
 		JAXB.marshal(this, writer);
 		return writer.toString();
 	}
 
+	/**
+	 * 请求序列id生成器
+	 * @author wu
+	 *
+	 */
+	private static class RequestSeq {
+		private AtomicInteger index;
+		private LocalDate date;
+
+		public RequestSeq() {
+			int i = new Random().nextInt(90000);
+			index = new AtomicInteger(i);
+			date = LocalDate.now();
+		}
+
+		public int getNextSeq(){
+			if(!LocalDate.now().isEqual(date)){
+				date = LocalDate.now();
+				index.set(1);
+			}
+			return index.getAndIncrement();
+		}
+
+	}
 }

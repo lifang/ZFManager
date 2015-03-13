@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import com.comdosoft.financial.manage.joint.JointResult;
 
+/**
+ * response 对象
+ * @author wu
+ *
+ */
 public class ResponseBean implements JointResult {
 	
 	public static final Logger LOG = LoggerFactory.getLogger(ResponseBean.class);
@@ -67,6 +72,12 @@ public class ResponseBean implements JointResult {
 		return getRespDesc();
 	}
 	
+	/**
+	 * 解析返回数据
+	 * @param body
+	 * @param request
+	 * @return
+	 */
 	public static ResponseBean parseBody(String body,RequestBean request){
 		String[] resDataArr = body.trim().split("|");
 		LOG.debug("resDataArr length......{}",resDataArr.length);
