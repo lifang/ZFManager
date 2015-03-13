@@ -16,6 +16,7 @@ public class UserOrderController {
     @RequestMapping(value="create",method = RequestMethod.GET)
     public String createGet(){
     	
+    	
         return "order/user/create";
     }
 }
