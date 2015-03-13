@@ -21,7 +21,7 @@
         <div class="uesr_table">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
                 <colgroup>
-                    <col>
+                    <col width="150">
                     <col>
                     <col width="150">
                 </colgroup>
@@ -33,14 +33,75 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#include "agent_profit_info_row.ftl"/>
-                <#include "agent_profit_edit_row.ftl"/>
+                <#list agent.payChannels as agentPayChannel>
+                    <#include "agent_profit_info_row.ftl"/>
+                </#list>
                 </tbody>
             </table>
         </div>
         <div class="btnBottom"><button class="blueBtn">增加支付产品</button></div>
     </div>
+<div id="hiddenEchelonProfit" style="display: none;">
+<p>
+    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_xs">
+    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_xs">%
+</p>
+</div>
 <script>
+    $(function () {
+        $(document).delegate(".addEchelonProfit", "click", function () {
+            var $p = $("#hiddenEchelonProfit").children("p").clone();
+            $(this).parent().before($p);
+        });
 
+        var profitObject = new Object();
+        $(document).delegate(".saveProfit", "click", function () {
+            var channelId = $(this).attr("value");
+            var $preTd =  $(this).parent().prev();
+            profitObject.channelId = $preTd.prev().find("select").find("option:selected").val();
+            var tradeTypesArray = new Array();
+            profitObject.tradeTypes=tradeTypesArray;
+            $preTd.find("tr").eq(1).children("td").each(function(i){
+                var tradeTypeObject = new Object();
+                tradeTypesArray.push(tradeTypeObject);
+                var percentArray = new Array();
+                tradeTypeObject.percents = percentArray;
+                tradeTypeObject.tradeTypeId = $(this).attr("value");
+                $(this).children("p").each(function(i){
+                        var $input_s = $(this).find(".input_s");
+                        var $input_xs = $(this).find(".input_xs");
+                    if($input_s.length > 0){
+                            var floorNumber = 0;
+                            var percent = $input_s.val();
+                            percentArray.push({floorNumber: floorNumber, percent: percent});
+                        } else if($input_xs.length > 0){
+                            var floorNumber = $input_xs.eq(0).val();
+                            var percent = $input_xs.eq(1).val();
+                        percentArray.push({floorNumber: floorNumber, percent: percent});
+                    }
+                });
+
+            });
+            var $tr = $(this).parents("tr");
+            $.post('<@spring.url "/system/agent/${agent.id}/profit/edit" />',
+                    {payChannelId: channelId,
+                    data: JSON.stringify(profitObject)},
+                    function (data) {
+                        $tr.replaceWith(data);
+                    });
+
+        });
+
+        $(document).delegate(".editProfit", "click", function () {
+            var channelId = $(this).attr("value");
+            var $tr = $(this).parents("tr");
+            $.get('<@spring.url "/system/agent/${agent.id}/profit/edit" />',
+                    {payChannelId: channelId},
+                    function (data) {
+                        $tr.replaceWith(data);
+                    });
+        });
+
+    })
 </script>
 </@c.html>

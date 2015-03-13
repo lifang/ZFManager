@@ -49,4 +49,7 @@ public interface PayChannelMapper {
 											@Param("status") Byte status, @Param("keys") String keys);
 
 	PayChannel findChannelLazyInfo(Integer id);
+
+    List<PayChannel> selectAgentChannels(Integer agentId);
+
 }

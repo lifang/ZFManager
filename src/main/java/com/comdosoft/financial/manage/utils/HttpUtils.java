@@ -17,6 +17,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -89,6 +90,17 @@ public class HttpUtils {
 		RequestBuilder builder = RequestBuilder.post();
 		builder.setUri(url);
 		HttpUriRequest request = request(builder,headers,params,fileParams);
+		LOG.debug("request:{}",request);
+		return response(request, context, handler);
+	}
+	
+	public static <T> T post(String url,String body,HttpContext context,
+			ResponseHandler<T> handler) throws IOException {
+		RequestBuilder builder = RequestBuilder.post();
+		builder.setUri(url);
+		HttpEntity entity = new StringEntity(body, DEFAULT_CHARSET);
+		builder.setEntity(entity);
+		HttpUriRequest request = builder.build();
 		LOG.debug("request:{}",request);
 		return response(request, context, handler);
 	}
