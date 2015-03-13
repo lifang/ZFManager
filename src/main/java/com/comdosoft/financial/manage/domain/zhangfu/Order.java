@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 
@@ -584,4 +585,50 @@ public class Order {
 	 * 用户订单
 	 */
 	public static final byte TYPE_CUSTOMER = 0;
+	
+	private Customer customer;
+	private List<OrderGood> orderGoods;
+	private List<PayChannel> channels;
+	private List<GoodsPicture> pictures;
+	private List<Good> goods;
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<OrderGood> getOrderGoods() {
+		return orderGoods;
+	}
+
+	public void setOrderGoods(List<OrderGood> orderGoods) {
+		this.orderGoods = orderGoods;
+	}
+
+	public List<PayChannel> getChannels() {
+		return channels;
+	}
+
+	public void setChannels(List<PayChannel> channels) {
+		this.channels = channels;
+	}
+
+	public List<GoodsPicture> getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(List<GoodsPicture> pictures) {
+		this.pictures = pictures;
+	}
+
+	public List<Good> getGoods() {
+		return goods;
+	}
+
+	public void setGoods(List<Good> goods) {
+		this.goods = goods;
+	}
 }

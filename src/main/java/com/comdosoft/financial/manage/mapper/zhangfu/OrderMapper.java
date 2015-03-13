@@ -1,7 +1,12 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
 
@@ -34,4 +39,9 @@ public interface OrderMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Order record);
+	
+	List<Order> findPageOrdersByKeys(@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keys") String keys);
+	
+	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 }

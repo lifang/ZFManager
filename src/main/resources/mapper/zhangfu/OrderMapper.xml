@@ -122,4 +122,34 @@
     invoice_type, comment, total_quantity, belongs_user_id, invoice_info
     from orders
   </select>
+  
+  	<!-- 分页result -->
+	<resultMap extends="BaseResultMap" id="PageOrderResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Order">
+		<association columnPrefix="c_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+		<association columnPrefix="og_" javaType="com.comdosoft.financial.manage.domain.zhangfu.OrderGood" property="orderGoods" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.OrderGoodMapper.BaseResultMap" />
+		<association columnPrefix="g_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Good" property="goods" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" />
+	</resultMap>
+  <sql id="pageWhere">
+		<where>
+			<if test="status != null"> AND status =#{status} </if>
+			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
+				order_number like #{keys}) </if>
+		</where>
+	</sql>
+  <select id="findPageOrdersByKeys" resultMap="PageOrderResultMap">
+		select o.*,c.id as c_id,c.username as c_username,c.name as c_name,c.phone as c_phone
+		<!-- ,og.id as og_id ,og.quantity as og_quantity,og.price as og_price -->
+		from orders o left join customers c on o.customer_id=c.id 
+		<!-- left join order_goods og on o.id=og.order_id 
+		left join goods g on og.good_id=g.id  -->
+		<include refid="pageWhere" />
+		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+
+	<select id="countByKeys" resultType="long">
+		SELECT count(*) as count
+		FROM orders
+		<include refid="pageWhere" />
+
+	</select>
 </mapper>
