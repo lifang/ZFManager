@@ -10,6 +10,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 3DES加密
  * 
@@ -18,6 +21,9 @@ import javax.crypto.spec.DESedeKeySpec;
  * 
  */
 public abstract class DesUtil {
+	
+	
+	private static final Logger LOG = LoggerFactory.getLogger(DesUtil.class);
 	 
 	
 	/**
@@ -134,16 +140,12 @@ public abstract class DesUtil {
 					buf.append("0");
 				buf.append(Integer.toHexString(i));
 			}
-			System.out.println("md5Des...." + buf.toString());
+			LOG.debug("md5Des...." + buf.toString());
 			newstr = buf.toString();
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			LOG.error("",e);
 		}
 		return newstr;
 	}
 	
-	public static void main(String[] args) {
-		
-	}
-
 }
