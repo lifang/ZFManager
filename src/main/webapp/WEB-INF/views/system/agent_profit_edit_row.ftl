@@ -2,40 +2,45 @@
     <td>
         <select name="" class="select_s">
         <#list payChannels as payChannel>
-            <option value="${payChannel.id}"${(payChannel.id==1)?string("selected = "selected"","")}>${(payChannel.name)!""}</option>
+            <option value="${payChannel.id}"
+            ${(agentPayChannel?? && (payChannel.id)=(agentPayChannel.id))?string("selected","")}
+                    >${(payChannel.name)!""}</option>
         </#list>
         </select>
     </td>
     <td>
         <div class="rate_agent">
-            <table width="100%" border="0" cellspacing="1" cellpadding="0" style="table-layout: fixed;">
+            <table width="100%" border="0" cellspacing="1" cellpadding="0"  style="table-layout: fixed;">
                 <tbody><tr>
                 <#list tradeTypes as tradeType>
                     <td>${tradeType.tradeValue}</td>
                 </#list>
                 </tr>
                 <tr>
-                    <td><input name="" type="text" value="%" class="input_s">
-                        <p><a href="#" class="a_btn">增加梯队分润</a></p>
+                <#list tradeTypes as tradeType>
+                    <td value="${tradeType.id}">
+                        <#if profitSettingMap??>
+                        <#assign profitSettingList = profitSettingMap[agentPayChannel.id+"_"+tradeType.id]/>
+                        </#if>
+                        <#if profitSettingList?? && (profitSettingList?size) gt 0>
+                        <#list profitSettingList as profitSetting>
+                            <#if profitSetting.floorNumber==0>
+                            <p> <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_s">%</p>
+                            <#else>
+                                <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.floorNumber}" class="input_xs">
+                                    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_xs">%
+                                </p>
+                            </#if>
+                        </#list>
+                        <#else>
+                        <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_s">%</p>
+                        </#if>
+                        <p><a class="a_btn addEchelonProfit">增加梯队分润</a></p>
                     </td>
-                    <td><input name="" type="text" value="%" class="input_s">
-                        <p><input name="" type="text" value="下限" class="input_xs">
-                            <input name="" type="text" value="%" class="input_xs">
-                        </p>
-                        <p><a href="#" class="a_btn">增加梯队分润</a></p>
-                    </td>
-                    <td><input name="" type="text" value="%" class="input_s">
-                        <p><a href="#" class="a_btn">增加梯队分润</a></p>
-                    </td>
-                    <td><input name="" type="text" value="%" class="input_s">
-                        <p><a href="#" class="a_btn">增加梯队分润</a></p>
-                    </td>
-                    <td><input name="" type="text" value="%" class="input_s">
-                        <p><a href="#" class="a_btn">增加梯队分润</a></p>
-                    </td>
+                </#list>
                 </tr>
                 </tbody></table>
         </div>
     </td>
-    <td><a href="#" class="a_btn">保存</a></td>
+    <td><a  value="${agentPayChannel.id}" class="a_btn saveProfit">保存</a></td>
 </tr>

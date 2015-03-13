@@ -74,6 +74,7 @@
     updated_at, trade_type_id
     from agent_profit_settings
   </select>
+
     <select id="selectAgentProfitSettings" resultMap="BaseResultMap">
         select * from agent_profit_settings where agent_id=#{param1} order by trade_type, floor_number asc
     </select>
