@@ -1,27 +1,25 @@
 <tr>
-    <td>收账宝</td>
+    <td>${agentPayChannel.name}</td>
     <td>
         <div class="rate_agent">
-            <table width="100%" border="0" cellspacing="1" cellpadding="0" style="table-layout: fixed;">
-                <tbody><tr>
+            <table width="100%" border="0" cellspacing="1" cellpadding="0"  style="table-layout: fixed;">
+                <tbody>
+                <tr>
                 <#list tradeTypes as tradeType>
                     <td>${tradeType.tradeValue}</td>
                 </#list>
                 </tr>
                 <tr>
+                <#list tradeTypes as tradeType>
                     <td>
-                        <p>1%</p>
-                        <p>2000--1.5%</p>
-                        <p>2000--1.5%</p>
-                        <p>2000--1.5%</p>
+                        <#list (profitSettingMap[agentPayChannel.id+"_"+tradeType.id]) as profitSetting>
+                            <p>${(profitSetting.floorNumber==0)?string("",(profitSetting.floorNumber)+"-")}${profitSetting.percent}%</p>
+                        </#list>
                     </td>
-                    <td>1%</td>
-                    <td>1%</td>
-                    <td>1%</td>
-                    <td>1%</td>
+                </#list>
                 </tr>
                 </tbody></table>
         </div>
     </td>
-    <td><a href="#" class="a_btn">编辑</a></td>
+    <td><a value="${agentPayChannel.id}" class="a_btn editProfit">编辑</a></td>
 </tr>

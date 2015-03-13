@@ -552,7 +552,7 @@ public class Agent {
     private Long terminalOpenCount;
     private Customer customer;
     private List<AgentProfitSetting> profitSettings;
-
+    private List<PayChannel> payChannels;
     public Long getTerminalCount() {
         return terminalCount;
     }
@@ -583,5 +583,13 @@ public class Agent {
 
     public void setProfitSettings(List<AgentProfitSetting> profitSettings) {
         this.profitSettings = profitSettings;
+    }
+
+    public List<PayChannel> getPayChannels() {
+        return payChannels;
+    }
+
+    public void setPayChannels(List<PayChannel> payChannels) {
+        this.payChannels = payChannels;
     }
 }

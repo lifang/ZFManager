@@ -143,4 +143,13 @@
     from pay_channels
     where id=#{param1}
   </select>
+
+
+    <select id="selectAgentChannels" resultMap="BaseResultMap">
+        select pc.*
+        from agent_profit_settings aps inner join pay_channels pc on aps.pay_channel_id=pc.id
+        where aps.agent_id=#{param1}
+        group by pc.id
+    </select>
+
 </mapper>
