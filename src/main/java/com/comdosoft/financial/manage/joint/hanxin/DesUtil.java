@@ -1,17 +1,10 @@
 package com.comdosoft.financial.manage.joint.hanxin;
 
 import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 3DES加密
@@ -21,11 +14,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public abstract class DesUtil {
-	
-	
-	private static final Logger LOG = LoggerFactory.getLogger(DesUtil.class);
 	 
-	
 	/**
 	 * 密钥算法
 	 * @version 1.0
@@ -96,56 +85,5 @@ public abstract class DesUtil {
 		//执行操作
 		return cipher.doFinal(data);
 	}
-	
-	/**
-	 * 生成密钥
-	 * 
-	 * @return byte[] 二进制密钥
-	 */	
-	public static byte[] initKey() throws Exception{
-		/**
-		 * 实例化
-		 * 使用128位或192位长度密钥
-		 * KeyGenerator.getInstance(KEY_ALGORITHM,"BC");
-		 */
-		KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);
-		/**
-		 * 初始化
-		 *使用128位或192位长度密钥，按如下代码实现
-		 *kg.init(128);
-		 *kg.init(192);
-		 */
-		kg.init(168);
-		//生成秘密密钥
-		SecretKey secretKey = kg.generateKey();
-		//获得密钥的二进制编码形式
-		return secretKey.getEncoded();
-	}
 
-	// 确定计算方法
-	public static String md5Des(String content) {
-		String newstr = null;
-		try {
-			MessageDigest md5;
-			md5 = MessageDigest.getInstance("MD5");
-			// 加密后的字符串
-			byte[] desData = md5.digest(content.getBytes());
-			int i;
-			StringBuffer buf = new StringBuffer("");
-			for (int offset = 0; offset < desData.length; offset++) {
-				i = desData[offset];
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
-			}
-			LOG.debug("md5Des...." + buf.toString());
-			newstr = buf.toString();
-		} catch (NoSuchAlgorithmException e) {
-			LOG.error("",e);
-		}
-		return newstr;
-	}
-	
 }

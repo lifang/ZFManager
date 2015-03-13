@@ -7,6 +7,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,7 +118,7 @@ public class ResponseBean implements JointResult {
 			byte[] resDataByte = DesUtil.decrypt(desResData,request.getDesKey().getBytes());
 			String resData = String.valueOf(resDataByte);
 			LOG.debug("resp string .....  {}",resData);
-			String checkValue = DesUtil.md5Des(resData);
+			String checkValue = DigestUtils.md5Hex(resData);
 			if(checkValue.equals(String.valueOf(respCheckValue))){
 				Reader reader = new StringReader(resData);
 				ResponseBean resp = JAXB.unmarshal(reader, request.getResponseClass());

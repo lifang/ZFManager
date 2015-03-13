@@ -33,7 +33,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RequestBean.class);
 	private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	private static final RequestSeq REQEUST_SEQ = new RequestSeq();
+	private static final RequestSeq REQUEST_SEQ = new RequestSeq();
 	
 	private String desKey;
 	
@@ -47,7 +47,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 		setApplication(application+".Req");
 		setVersion("1.0.0");
 		setSendTime(DATE_TIME_FORMAT.format(LocalDateTime.now()));
-		setSendSeqId(String.format("%06d", REQEUST_SEQ.getNextSeq()));
+		setSendSeqId(String.format("%06d", REQUEST_SEQ.getNextSeq()));
 	}
 
 	@XmlAttribute
@@ -106,8 +106,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 		String des3desKey=RSACoder.encryptByPublicKey(desKey,manager.getRsaKey());
 		String baseTerminal=Base64.encodeBase64String(getTerminalId().getBytes());
 		byte[] desContent=DesUtil.encrypt(toString().getBytes(),desKey.getBytes());
-		String sendData=baseTerminal+"|"+des3desKey+"|"+Base64.encodeBase64String(desContent);
-		return sendData;
+        return baseTerminal+"|"+des3desKey+"|"+Base64.encodeBase64String(desContent);
 	}
 
 	@Override
@@ -121,8 +120,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
         }
         String resString = EntityUtils.toString(entity,HttpUtils.DEFAULT_CHARSET);
         LOG.debug(resString);
-        ResponseBean resp = ResponseBean.parseBody(resString, this);
-		return resp;
+        return ResponseBean.parseBody(resString, this);
 	}
 
 	@Override
