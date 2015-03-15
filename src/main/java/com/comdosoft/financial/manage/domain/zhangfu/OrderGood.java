@@ -211,4 +211,24 @@ public class OrderGood {
 	public void setGoodId(Integer goodId) {
 		this.goodId = goodId;
 	}
+	
+	private Good good;
+	private GoodBrand goodBrand;
+
+	public Good getGood() {
+		return good;
+	}
+
+	public void setGood(Good good) {
+		this.good = good;
+	}
+
+	public GoodBrand getGoodBrand() {
+		return goodBrand;
+	}
+
+	public void setGoodBrand(GoodBrand goodBrand) {
+		this.goodBrand = goodBrand;
+	}
+	
 }

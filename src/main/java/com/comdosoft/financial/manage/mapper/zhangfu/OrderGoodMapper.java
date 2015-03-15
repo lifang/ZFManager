@@ -34,4 +34,6 @@ public interface OrderGoodMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OrderGood record);
+	
+	List<OrderGood> selectOrderGoods(String orderIds);
 }

@@ -101,28 +101,32 @@
 					</span>
                     <span>用户：<#if order.customer??>${order.customer.name!""}</#if></span><span>电话：<#if order.customer??>${order.customer.phone!""}</#if></span></td>
             </tr>
-            <tr>
-                <td>
-                    <div class="td_proBox clear">
-                        <a href="#" class="cn_img"><img src="<@spring.url "/resources/images/c.jpg"/>" /></a>
-                        <div class="td_proBox_info">
-                            <h1><a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a></h1>
-                            <h3>热销5000件</h3>
-                            <ul>
-                                <li><span>品牌型号：</span><div class="c_text">掌富ZF-300</div></li>
-                                <li><span>支付通道：</span><div class="c_text">收账宝</div></li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-                <td><strong>￥459.00</strong></td>
-                <td>2</td>
-                <td><strong>￥918.00</strong></td>
-                <td><strong class="strong_status">未付款</strong></td>
-                <td><a href="#" class="a_btn priceOrder_a">修改价格</a>
-                    <a href="#" class="a_btn">取消</a><a href="#" class="a_btn paymentRecord_a">增加付款记录</a>
-                    <a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn remark_a">备注</a></td>
-            </tr>
+            <#if order.orderGoods??>
+            	<#list order.orderGoods as orderGood>
+	            <tr>
+	                <td>
+	                    <div class="td_proBox clear">
+	                        <a href="#" class="cn_img"><img src="<@spring.url "/resources/images/c.jpg"/>" /></a>
+	                        <div class="td_proBox_info">
+	                            <h1><a href="#"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
+	                            <h3><#if orderGood.good??>${orderGood.good.secondTitle!""}</#if></h3>
+	                            <ul>
+	                                <li><span>品牌型号：</span><div class="c_text"><#if orderGood.goodBrand??>${orderGood.goodBrand.name!""}</#if></div></li>
+	                                <li><span>支付通道：</span><div class="c_text">收账宝</div></li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </td>
+	                <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+	                <td>${orderGood.quantity!0}</td>
+	                <td><strong>￥918.00</strong></td>
+	                <td><strong class="strong_status">未付款</strong></td>
+	                <td><a href="#" class="a_btn priceOrder_a">修改价格</a>
+	                    <a href="#" class="a_btn">取消</a><a href="#" class="a_btn paymentRecord_a">增加付款记录</a>
+	                    <a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn remark_a">备注</a></td>
+	            </tr>
+	            </#list>
+            </#if>
             </tbody>
 		  </#list>
 		</#if>

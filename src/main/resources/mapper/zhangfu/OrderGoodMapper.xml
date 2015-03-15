@@ -74,4 +74,19 @@
     good_id
     from order_goods
   </select>
+  
+  <resultMap extends="BaseResultMap" id="orderResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.OrderGood">
+		<association columnPrefix="g_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Good" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" />
+		<association columnPrefix="gb_" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
+	</resultMap>
+  
+    <!--获取订单商品 -->
+    <select id="selectOrderGoods" resultMap="orderResultMap">
+    	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,
+    	gb.id as gb_id,gb.name as gb_name
+    	from order_goods og
+    	left join goods g on g.id=og.good_id
+    	left join good_brands gb on gb.id=g.good_brands_id
+    	where og.order_id in (#{orderIds});
+    </select>
 </mapper>
