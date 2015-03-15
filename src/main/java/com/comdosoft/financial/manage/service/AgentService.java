@@ -1,9 +1,13 @@
 package com.comdosoft.financial.manage.service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Agent;
+import com.comdosoft.financial.manage.domain.zhangfu.AgentProfitSetting;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.mapper.zhangfu.AgentMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.AgentProfitSettingMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeTypeMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -15,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by junxi.qu on 2015/3/10.
@@ -28,7 +33,11 @@ public class AgentService {
     @Autowired
     private AgentMapper agentMapper;
     @Autowired
+    private AgentProfitSettingMapper agentProfitSettingMapper;
+    @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
     public Page<Agent> findPages(int page, Byte status, String keys){
         if (keys != null) {
             keys = "%"+keys+"%";
@@ -234,4 +243,58 @@ public class AgentService {
         }
         return agent;
     }
+
+    @Transactional("transactionManager")
+    public void updateProfit(Integer id, Integer payChannelId, int newChannelId, List<Map<String, Object>> tradeTypeList) {
+        agentProfitSettingMapper.deleteByAgentIdAndChannelId(id, payChannelId);
+        for (Map<String, Object> t : tradeTypeList) {
+            int tradeTypeId = (int) t.get("tradeTypeId");
+            DictionaryTradeType tradeType = dictionaryTradeTypeMapper.selectByPrimaryKey(tradeTypeId);
+            List<Map<String, Integer>> percents = (List) t.get("percents");
+            for (Map<String, Integer> p : percents) {
+                AgentProfitSetting agentProfitSetting = new AgentProfitSetting();
+                agentProfitSetting.setAgentId(id);
+                agentProfitSetting.setPayChannelId(newChannelId);
+                agentProfitSetting.setTradeTypeId(tradeType.getId());
+                if (tradeType.getTradeType() == DictionaryTradeType.TYPE_TRADE) {
+                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_TRADE);
+                } else {
+                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_OTHER);
+                }
+                agentProfitSetting.setFloorNumber(p.get("floorNumber"));
+                agentProfitSetting.setPercent(p.get("percent"));
+                agentProfitSetting.setCreatedAt(new Date());
+                agentProfitSetting.setUpdatedAt(new Date());
+                agentProfitSettingMapper.insert(agentProfitSetting);
+            }
+        }
+    }
+
+    @Transactional("transactionManager")
+    public void createProfit(Integer id, Integer channelId, List<Map<String, Object>> tradeTypeList) {
+        for (Map<String, Object> t : tradeTypeList) {
+            int tradeTypeId = (int) t.get("tradeTypeId");
+            DictionaryTradeType tradeType = dictionaryTradeTypeMapper.selectByPrimaryKey(tradeTypeId);
+            List<Map<String, Integer>> percents = (List) t.get("percents");
+            for (Map<String, Integer> p : percents) {
+                AgentProfitSetting agentProfitSetting = new AgentProfitSetting();
+                agentProfitSetting.setAgentId(id);
+                agentProfitSetting.setPayChannelId(channelId);
+                agentProfitSetting.setTradeTypeId(tradeType.getId());
+                if (tradeType.getTradeType() == DictionaryTradeType.TYPE_TRADE) {
+                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_TRADE);
+                } else {
+                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_OTHER);
+                }
+                agentProfitSetting.setFloorNumber(p.get("floorNumber"));
+                agentProfitSetting.setPercent(p.get("percent"));
+                agentProfitSetting.setCreatedAt(new Date());
+                agentProfitSetting.setUpdatedAt(new Date());
+                agentProfitSettingMapper.insert(agentProfitSetting);
+            }
+        }
+    }
+
+
 }
+

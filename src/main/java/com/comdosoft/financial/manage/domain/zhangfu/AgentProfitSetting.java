@@ -211,4 +211,7 @@ public class AgentProfitSetting {
 	public void setTradeTypeId(Integer tradeTypeId) {
 		this.tradeTypeId = tradeTypeId;
 	}
+
+	public static final byte TYPE_TRADE = 1;	// 交易类型
+	public static final byte TYPE_OTHER = 2;	// 其他类型
 }

@@ -19,7 +19,7 @@
                 <tr>
                 <#list tradeTypes as tradeType>
                     <td value="${tradeType.id}">
-                        <#if profitSettingMap??>
+                        <#if profitSettingMap?? && agentPayChannel??>
                         <#assign profitSettingList = profitSettingMap[agentPayChannel.id+"_"+tradeType.id]/>
                         </#if>
                         <#if profitSettingList?? && (profitSettingList?size) gt 0>
@@ -42,5 +42,5 @@
                 </tbody></table>
         </div>
     </td>
-    <td><a  value="${agentPayChannel.id}" class="a_btn saveProfit">保存</a></td>
+    <td><a  value="${(agentPayChannel.id)!""}" class="a_btn saveProfit">保存</a></td>
 </tr>

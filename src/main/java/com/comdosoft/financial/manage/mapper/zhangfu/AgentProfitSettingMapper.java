@@ -36,4 +36,6 @@ public interface AgentProfitSettingMapper {
 	int updateByPrimaryKey(AgentProfitSetting record);
 
 	List<AgentProfitSetting> selectAgentProfitSettings(Integer agentId);
+
+	void deleteByAgentIdAndChannelId(Integer agentId, Integer channelId);
 }

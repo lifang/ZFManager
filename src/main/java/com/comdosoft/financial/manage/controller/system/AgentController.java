@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,10 @@ public class AgentController {
     public String editProfit(@PathVariable Integer id, Integer payChannelId, Model model){
         Agent agent = agentService.findAgentInfo(id);
         List<PayChannel> payChannels = payChannelService.findCheckedChannels();
-        PayChannel agentPayChannel = payChannelService.findChannelInfo(payChannelId);
+        if (payChannelId != null){
+            PayChannel agentPayChannel = payChannelService.findChannelInfo(payChannelId);
+            model.addAttribute("agentPayChannel", agentPayChannel);
+        }
         Multimap<String, AgentProfitSetting> profitSettingMap = ArrayListMultimap.create();
         for(AgentProfitSetting agentProfitSetting : agent.getProfitSettings()){
             profitSettingMap.put(agentProfitSetting.getPayChannelId()+"_"+agentProfitSetting.getTradeTypeId(), agentProfitSetting);
@@ -179,7 +183,6 @@ public class AgentController {
         List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
         model.addAttribute("agent", agent);
         model.addAttribute("payChannels", payChannels);
-        model.addAttribute("agentPayChannel", agentPayChannel);
         model.addAttribute("tradeTypes", tradeTypes);
         model.addAttribute("profitSettingMap", profitSettingMap);
         return "system/agent_profit_edit_row";
@@ -190,17 +193,36 @@ public class AgentController {
                              String data, Model model) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> map = objectMapper.readValue(data, Map.class);
-        Integer newChannelId = Integer.parseInt((String)map.get("channelId"));
+        int newChannelId = (int)map.get("channelId");
         List<Map<String, Object>> tradeTypeList = (List)map.get("tradeTypes");
-        for (Map<String, Object> t : tradeTypeList){
-            Integer tradeTypeId = Integer.parseInt((String)t.get("tradeTypeId"));
-            List<Map<String, String>> percents = (List)t.get("percents");
-            for (Map<String, String> p : percents){
-                System.out.println(p.get("floorNumber") + " " + p.get("percent"));
-            }
-        }
+        agentService.updateProfit(id, payChannelId, newChannelId, tradeTypeList);
+
+
         Agent agent = agentService.findAgentInfo(id);
-        PayChannel agentPayChannel = payChannelService.findChannelInfo(payChannelId);
+        PayChannel agentPayChannel = payChannelService.findChannelInfo(newChannelId);
+        Multimap<String, AgentProfitSetting> profitSettingMap = ArrayListMultimap.create();
+        for(AgentProfitSetting agentProfitSetting : agent.getProfitSettings()){
+            profitSettingMap.put(agentProfitSetting.getPayChannelId()+"_"+agentProfitSetting.getTradeTypeId(), agentProfitSetting);
+        }
+        List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+        model.addAttribute("agent", agent);
+        model.addAttribute("agentPayChannel", agentPayChannel);
+        model.addAttribute("tradeTypes", tradeTypes);
+        model.addAttribute("profitSettingMap", profitSettingMap);
+        return "system/agent_profit_info_row";
+    }
+
+    @RequestMapping(value="{id}/profit/create",method=RequestMethod.POST)
+    public String editProfit(@PathVariable Integer id,
+                             String data, Model model) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.readValue(data, Map.class);
+        int newChannelId = (int)map.get("channelId");
+        List<Map<String, Object>> tradeTypeList = (List)map.get("tradeTypes");
+        agentService.createProfit(id, newChannelId, tradeTypeList);
+
+        Agent agent = agentService.findAgentInfo(id);
+        PayChannel agentPayChannel = payChannelService.findChannelInfo(newChannelId);
         Multimap<String, AgentProfitSetting> profitSettingMap = ArrayListMultimap.create();
         for(AgentProfitSetting agentProfitSetting : agent.getProfitSettings()){
             profitSettingMap.put(agentProfitSetting.getPayChannelId()+"_"+agentProfitSetting.getTradeTypeId(), agentProfitSetting);
