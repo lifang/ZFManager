@@ -147,4 +147,11 @@
         where id=#{param1}
     </select>
 
+    <select id="selectUserAndAgent" resultMap="CustomerLazyResultMap">
+        <bind name="TYPE_CUSTOMER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_CUSTOMER" />
+        <bind name="TYPE_AGENT" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_AGENT" />
+        select * from customers
+        where username like #{param1} and types in (#{TYPE_CUSTOMER},#{TYPE_AGENT})
+    </select>
+
 </mapper>

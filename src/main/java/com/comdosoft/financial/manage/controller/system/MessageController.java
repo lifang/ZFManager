@@ -1,7 +1,9 @@
 package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
+import com.comdosoft.financial.manage.service.CustomerService;
 import com.comdosoft.financial.manage.service.MessageService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,8 @@ import java.util.List;
 public class MessageController {
     @Autowired
     private MessageService messageService;
-	
+    @Autowired
+    private CustomerService customerService;
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public String list(Integer page, Model model){
         findPage(page, model);
@@ -54,6 +57,15 @@ public class MessageController {
         model.addAttribute("message", message);
 		return "system/message_view";
 	}
+
+    @RequestMapping(value="searchCustomer",method=RequestMethod.GET)
+    public String searchCustomer(String name, Model model){
+        if (name != null && name.length() > 0) {
+            List<Customer> customers = customerService.findUserAndAgent(name);
+            model.addAttribute("customers", customers);
+        }
+        return "system/message_search_customer";
+    }
 
     private void findPage(Integer page, Model model){
         if (page == null) {

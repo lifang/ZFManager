@@ -51,5 +51,7 @@ public interface CustomerMapper {
 
     Customer selectCustomerInfo(Integer id);
 
+    List<Customer> selectUserAndAgent(String username);
+
 
 }

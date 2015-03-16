@@ -194,4 +194,8 @@ public class CustomerService {
     public Customer selectByUsername(String username){
         return customerMapper.selectByUsername(username);
     }
+
+    public List<Customer> findUserAndAgent(String username) {
+        return customerMapper.selectUserAndAgent(username + "%");
+    }
 }
