@@ -60,4 +60,15 @@
     select id, title, created_at, content
     from sys_messages
   </select>
+
+    <select id="findPageMessages" resultMap="BaseResultMap">
+        select *
+        from sys_messages
+        order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(*) as count
+        FROM sys_messages
+    </select>
 </mapper>

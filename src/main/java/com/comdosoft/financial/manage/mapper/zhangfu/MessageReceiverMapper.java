@@ -34,4 +34,6 @@ public interface MessageReceiverMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(MessageReceiver record);
+
+    void deleteBySysMessageId(Integer sysMessageId);
 }

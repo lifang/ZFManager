@@ -20,7 +20,7 @@
                     <div class="supportArea">
                         <div class="sa_list">
                             <span class="checkboxRadio_span"><input name="" type="radio" value=""> 个人</span>
-                            <input name="" type="text" class="xls">
+                            <input id="input_customer" name="" type="text" class="xls">
                         </div>
                         <div class="sa_list">
                             <span class="checkboxRadio_span"><input name="" type="radio" value=""> 多人</span>
@@ -36,10 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="suggest suggest_l">
-                    <a href="#">支付通道01</a>
-                    <a href="#">支付通道02</a>
-                    <a href="#">支付通道03</a>
+                <div class="suggest suggest_l" id="customer_result_id">
                 </div>
             </li>
             <li><span class="labelSpan">内容：</span>
@@ -49,4 +46,40 @@
     </div>
     <div class="btnBottom"><button class="blueBtn">发送</button></div>
 </div>
+<script>
+    $(function(){
+    <#--用户搜索-->
+        var customerClose = true ;
+        $("#customer_result_id").hide();
+        $("#input_customer").keyup(function(){
+            var name = $.trim($(this).val()) ;
+            if("" == name || null == name){
+                $("#customer_result_id").hide();
+            }
+            else {
+                $.get('<@spring.url "/system/message/searchCustomer" />',
+                        {"name": name},
+                        function (data) {
+                            $("#customer_result_id").show();
+                            $("#customer_result_id").html(data);
+                            $("#customer_result_id a").click(function(){
+                                var name = $(this).html();
+                                var id = $(this).attr("value");
+                                $("#input_customer").val(name);
+                                $("#customer_result_id").hide();
+                                alert($(this).attr("value"));
+                            }).hover(function () {customerClose = false ;}
+                                    ,function () {customerClose = true ;});
+                        });
+            }
+        }).blur(function(){
+            if(customerClose) {
+                $("#customer_result_id").hide();
+            }
+        }).focus(function(){
+            $("#customer_result_id").show();
+        });
+
+    });
+</script>
 </@c.html>
