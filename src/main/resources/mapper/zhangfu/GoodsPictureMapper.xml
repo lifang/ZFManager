@@ -76,4 +76,14 @@
         from goods_pictures gpic
         where gpic.good_id = #{param1}
     </select>
+    
+    <select id="selectGoodsPictures" resultMap="BaseResultMap">
+        select gpic.*
+        from goods_pictures gpic
+        where gpic.good_id in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		</foreach>   
+        group by gpic.good_id
+    </select>
 </mapper>

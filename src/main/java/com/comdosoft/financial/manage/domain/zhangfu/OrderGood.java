@@ -214,6 +214,7 @@ public class OrderGood {
 	
 	private Good good;
 	private GoodBrand goodBrand;
+	private PayChannel payChannel;
 
 	public Good getGood() {
 		return good;
@@ -230,5 +231,12 @@ public class OrderGood {
 	public void setGoodBrand(GoodBrand goodBrand) {
 		this.goodBrand = goodBrand;
 	}
-	
+
+	public PayChannel getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(PayChannel payChannel) {
+		this.payChannel = payChannel;
+	}
 }

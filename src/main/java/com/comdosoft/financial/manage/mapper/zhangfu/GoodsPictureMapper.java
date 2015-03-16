@@ -38,5 +38,7 @@ public interface GoodsPictureMapper {
 	void deleteByGoodId(Integer goodId);
 
     List<GoodsPicture> selectPictures(Integer goodId);
+    
+    List<GoodsPicture> selectGoodsPictures(List<Integer> goodIds);
 
 }

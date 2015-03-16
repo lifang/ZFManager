@@ -22,6 +22,12 @@ public class UserOrderController {
 		return "order/user/list";
 	}
 	
+	@RequestMapping(value="page",method=RequestMethod.GET)
+	public String page(Integer page, Byte status, String keys, Model model){
+		findPage(page, status, keys, model);
+		return "order/user/pageOrder";
+	}
+	
 	private void findPage(Integer page, Byte status, String keys, Model model){
 		if (page == null) {
 			page = 1;
