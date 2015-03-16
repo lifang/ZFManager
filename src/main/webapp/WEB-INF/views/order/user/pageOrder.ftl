@@ -78,6 +78,13 @@
                    						<a href="#" class="a_btn deliver_a">发货</a><a href="#" class="a_btn">备注</a></td>
 						       <#elseif order.status==3><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已发货</strong></td>
 						       		<td rowspan="${order.orderGoods?size}"><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==4><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已评价</strong></td>
+						       		<td rowspan="${order.orderGoods?size}"><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==5><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已取消</strong></td>
+						       		<td rowspan="${order.orderGoods?size}"><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==6><td rowspan="${order.orderGoods?size}"><strong class="strong_status">交易关闭</strong></td>
+						       		<td rowspan="${order.orderGoods?size}"><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       		
 						       <#else><td rowspan="${order.orderGoods?size}"><strong class="strong_status">状态不明</strong></td>	
 						     </#if>
 						</#if>
@@ -92,6 +99,12 @@
 						       		<td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">取消</a>
                    						<a href="#" class="a_btn deliver_a">发货</a><a href="#" class="a_btn">备注</a></td>
 						       <#elseif order.status==3><td><strong class="strong_status">已发货</strong></td>
+						       		<td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==4><td><strong class="strong_status">已评价</strong></td>
+						       		<td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==5><td><strong class="strong_status">已取消</strong></td>
+						       		<td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
+						       <#elseif order.status==6><td><strong class="strong_status">交易关闭</strong></td>
 						       		<td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">备注</a></td>
 						       <#else><td><strong class="strong_status">状态不明</strong></td>
 						     </#if>

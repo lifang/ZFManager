@@ -35,9 +35,12 @@
 				          <option value="6">交易关闭</option> 
 			          </select> 
                 <select name="">
-                    <option>全部供应商</option>
-                    <option>222</option>
-                    <option>333</option>
+                    <option value="0">全部供应商</option>
+                	<#if factories??>
+                		<#list factories as factory>
+	                    	<option value="${factory.id!0}"> ${factory.name!""}</option>
+	                    </#list>
+                    </#if>
                 </select>
             </div></li>
         </ul>
@@ -51,8 +54,8 @@
 	$(function(){
 			$('#select_status').change(function(){
 				var status = $(this).children('option:selected').val();
-				//$("#hidden_status").val(status);
-				//orderPageChange(1);
+				$("#hidden_status").val(status);
+				orderPageChange(1);
 			});
 			
 			$("#btn_search").bind("click",
