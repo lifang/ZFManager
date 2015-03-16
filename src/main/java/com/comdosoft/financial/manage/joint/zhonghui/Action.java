@@ -20,11 +20,13 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comdosoft.financial.manage.joint.JointRequest;
+import com.comdosoft.financial.manage.joint.JointResponse;
 import com.comdosoft.financial.manage.utils.HttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 
-public abstract class Action implements ResponseHandler<Result>{
+public abstract class Action implements JointRequest,ResponseHandler<Result>{
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Action.class);
 	
@@ -115,6 +117,11 @@ public abstract class Action implements ResponseHandler<Result>{
 	
 	protected Method getMethod(){
 		return Method.POST;
+	}
+
+	@Override
+	public Class<? extends JointResponse> getResponseType() {
+		return getResultType();
 	}
 
 	protected abstract String url();

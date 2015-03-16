@@ -21,6 +21,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comdosoft.financial.manage.joint.JointRequest;
+import com.comdosoft.financial.manage.joint.JointResponse;
 import com.comdosoft.financial.manage.utils.HttpUtils;
 import com.comdosoft.financial.manage.utils.StringUtils;
 
@@ -29,7 +31,7 @@ import com.comdosoft.financial.manage.utils.StringUtils;
  * @author wu
  *
  */
-public abstract class RequestBean implements ResponseHandler<ResponseBean> {
+public abstract class RequestBean implements JointRequest,ResponseHandler<JointResponse> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RequestBean.class);
 	private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -92,8 +94,6 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	public String getDesKey() {
 		return desKey;
 	}
-
-	public abstract Class<? extends ResponseBean> getResponseClass();
 	
 	/**
 	 * 生成请求数据
@@ -110,7 +110,7 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 	}
 
 	@Override
-	public ResponseBean handleResponse(HttpResponse res) throws IOException {
+	public JointResponse handleResponse(HttpResponse res) throws IOException {
 		final StatusLine statusLine = res.getStatusLine();
         final HttpEntity entity = res.getEntity();
         if (statusLine.getStatusCode() >= 300) {
@@ -154,4 +154,5 @@ public abstract class RequestBean implements ResponseHandler<ResponseBean> {
 		}
 
 	}
+	
 }

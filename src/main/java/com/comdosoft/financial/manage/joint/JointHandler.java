@@ -3,6 +3,6 @@ package com.comdosoft.financial.manage.joint;
 @FunctionalInterface
 public interface JointHandler {
 	
-	void handle(JointResult result);
+	void handle(JointResponse result);
 
 }

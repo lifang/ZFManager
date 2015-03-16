@@ -1,8 +1,8 @@
 package com.comdosoft.financial.manage.joint.zhonghui;
 
-import com.comdosoft.financial.manage.joint.JointResult;
+import com.comdosoft.financial.manage.joint.JointResponse;
 
-public class Result implements JointResult {
+public class Result implements JointResponse {
 	
 	private String respTime;
 	private String respCode;
@@ -58,6 +58,10 @@ public class Result implements JointResult {
 	@Override
 	public String getMsg() {
 		return respMsg;
+	}
+	@Override
+	public void setResult(int result) {
+		isSuccess = result==RESULT_SUCCESS;
 	}
 
 }

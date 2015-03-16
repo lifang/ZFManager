@@ -4,19 +4,39 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.comdosoft.financial.manage.joint.JointHandler;
+import com.comdosoft.financial.manage.joint.JointManager;
+import com.comdosoft.financial.manage.joint.JointRequest;
 import com.comdosoft.financial.manage.joint.zhonghui.UploadFileAction.Type;
 import com.comdosoft.financial.manage.joint.zhonghui.transactions.DateTrans;
 import com.comdosoft.financial.manage.joint.zhonghui.transactions.LastTenTrans;
 import com.comdosoft.financial.manage.joint.zhonghui.transactions.LastTrans;
 import com.comdosoft.financial.manage.joint.zhonghui.transactions.NoTrans;
 
-public class ActionManager {
+public class ActionManager implements JointManager{
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ActionManager.class);
 	
 	private String baseUrl;
+	private String product;
+	private String appVersion;
 	
-	public void acts(Action action,JointHandler handler) throws IOException {
-		Result result = action.process(this);
+
+	@Override
+	public void acts(JointRequest request, JointHandler handler) {
+		if(!(request instanceof Action)){
+			throw new IllegalArgumentException();
+		}
+		Action action = (Action)request;
+		Result result = null;;
+		try {
+			result = action.process(this);
+		} catch (IOException e) {
+			LOG.error("",e);
+		}
 		if(handler!=null&&result!=null) {
 			handler.handle(result);
 		}
@@ -31,8 +51,7 @@ public class ActionManager {
 	 * @param product
 	 * @return
 	 */
-	public Action createLogin(String phoneNum, String password, String position,
-			String appVersion, String product){
+	public Action createLogin(String phoneNum, String password, String position){
 		return new LoginAction(phoneNum, password, position,
 				appVersion, product);
 	}
@@ -76,8 +95,7 @@ public class ActionManager {
 	 * @param product
 	 * @return
 	 */
-	public Action createActivate(String licenseCode, String ksnNo,
-			String appVersion, String product){
+	public Action createActivate(String licenseCode, String ksnNo){
 		return new ActivateAction(licenseCode, ksnNo, appVersion,
 				product);
 	}
@@ -157,8 +175,7 @@ public class ActionManager {
 	 * @param requireBasekey
 	 * @return
 	 */
-	public Action createPwdReset(String accountNo, String ksnNo, String mobile,
-			String product, String appVersion, boolean requireBasekey){
+	public Action createPwdReset(String accountNo, String ksnNo, String mobile, boolean requireBasekey){
 		return new PwdResetAction(accountNo, ksnNo, mobile,
 				product, appVersion, requireBasekey);
 	}
@@ -193,8 +210,7 @@ public class ActionManager {
 	 * @return
 	 */
 	public Action createRegist(String ksnNo, String name, String mobile,
-			String password, String registPosition, String appVersion,
-			String product, File signature){
+			String password, String registPosition, File signature){
 		return new RegistAction(ksnNo, name, mobile,
 				password, registPosition, appVersion,
 				product, signature);
@@ -284,4 +300,13 @@ public class ActionManager {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
+	}
+
 }

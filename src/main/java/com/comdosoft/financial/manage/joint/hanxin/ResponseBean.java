@@ -11,14 +11,14 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comdosoft.financial.manage.joint.JointResult;
+import com.comdosoft.financial.manage.joint.JointResponse;
 
 /**
  * response 对象
  * @author wu
  *
  */
-public class ResponseBean implements JointResult {
+public class ResponseBean implements JointResponse {
 	
 	public static final Logger LOG = LoggerFactory.getLogger(ResponseBean.class);
 	
@@ -79,7 +79,7 @@ public class ResponseBean implements JointResult {
 	 * @param request
 	 * @return
 	 */
-	public static ResponseBean parseBody(String body,RequestBean request){
+	public static JointResponse parseBody(String body,RequestBean request){
 		String[] resDataArr = body.trim().split("|");
 		LOG.debug("resDataArr length......{}",resDataArr.length);
 		String code = null;
@@ -93,7 +93,7 @@ public class ResponseBean implements JointResult {
 		case 1:
 			code = resDataArr[0];
 		}
-		ResponseBean bean = null;
+		JointResponse bean = null;
 		if("0".equals(code)){
 			bean = parseFalse(msg, content);
 		}else if("1".equals(code)){
@@ -111,7 +111,7 @@ public class ResponseBean implements JointResult {
 		return bean;
 	}
 	
-	private static ResponseBean parseSuccess(String msg,String content,RequestBean request){
+	private static JointResponse parseSuccess(String msg,String content,RequestBean request){
 		byte[] desResData=Base64.decodeBase64(msg);
 		byte[] respCheckValue = Base64.decodeBase64(content);
 		try {
@@ -121,8 +121,8 @@ public class ResponseBean implements JointResult {
 			String checkValue = DigestUtils.md5Hex(resData);
 			if(checkValue.equals(String.valueOf(respCheckValue))){
 				Reader reader = new StringReader(resData);
-				ResponseBean resp = JAXB.unmarshal(reader, request.getResponseClass());
-				resp.result = RESULT_SUCCESS;
+				JointResponse resp = JAXB.unmarshal(reader, request.getResponseType());
+				resp.setResult(RESULT_SUCCESS);
 				return resp;
 			}
 		} catch (Exception e) {
@@ -133,5 +133,9 @@ public class ResponseBean implements JointResult {
 		bean.respCode = msg;
 		bean.respDesc = "消息解析出错！";
 		return bean;
+	}
+	@Override
+	public void setResult(int result) {
+		this.result = result;
 	}
 }

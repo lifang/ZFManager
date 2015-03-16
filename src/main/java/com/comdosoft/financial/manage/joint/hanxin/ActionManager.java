@@ -5,9 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comdosoft.financial.manage.joint.JointHandler;
+import com.comdosoft.financial.manage.joint.JointManager;
+import com.comdosoft.financial.manage.joint.JointRequest;
+import com.comdosoft.financial.manage.joint.JointResponse;
 import com.comdosoft.financial.manage.utils.HttpUtils;
 
-public class ActionManager {
+public class ActionManager implements JointManager {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ActionManager.class);
 	
@@ -15,10 +18,15 @@ public class ActionManager {
 	private String url;
 	private String rsaKey;
 	
-	public void acts(RequestBean request,JointHandler handler){
+	@Override
+	public void acts(JointRequest request, JointHandler handler) {
+		if(!(request instanceof RequestBean)){
+			throw new IllegalArgumentException();
+		}
+		RequestBean bean = (RequestBean)request;
 		try {
-			String sendData = request.generateBody(this);
-			ResponseBean response = HttpUtils.post(url, sendData, context, request);
+			String sendData = bean.generateBody(this);
+			JointResponse response = HttpUtils.post(url, sendData, context, bean);
 			handler.handle(response);
 		} catch (Exception e) {
 			LOG.error("",e);
@@ -36,5 +44,5 @@ public class ActionManager {
 	public String getRsaKey() {
 		return rsaKey;
 	}
-	
+
 }
