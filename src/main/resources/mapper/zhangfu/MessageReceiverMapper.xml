@@ -60,4 +60,9 @@
     select id, customer_id, sys_message_id, status
     from message_receivers
   </select>
+
+    <delete id="deleteBySysMessageId">
+    delete from message_receivers
+    where sys_message_id=#{param1}
+    </delete>
 </mapper>
