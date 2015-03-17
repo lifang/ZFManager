@@ -2,11 +2,13 @@ package com.comdosoft.financial.manage.joint.hanxin;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Arrays;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,7 @@ public class ResponseBean implements JointResponse {
 	private String version;
 	private String respCode;
 	private String respDesc;
+	private String terminalId;
 
 	@XmlAttribute
 	public String getApplication() {
@@ -57,6 +60,12 @@ public class ResponseBean implements JointResponse {
 	public void setRespDesc(String respDesc) {
 		this.respDesc = respDesc;
 	}
+	public String getTerminalId() {
+		return terminalId;
+	}
+	public void setTerminalId(String terminalId) {
+		this.terminalId = terminalId;
+	}
 	
 	@Override
 	public int getResult() {
@@ -80,7 +89,7 @@ public class ResponseBean implements JointResponse {
 	 * @return
 	 */
 	public static JointResponse parseBody(String body,RequestBean request){
-		String[] resDataArr = body.trim().split("|");
+		String[] resDataArr = body.trim().split("\\|");
 		LOG.debug("resDataArr length......{}",resDataArr.length);
 		String code = null;
 		String msg = null;
@@ -107,19 +116,19 @@ public class ResponseBean implements JointResponse {
 		bean.result = RESULT_FAIL;
 		bean.respCode = msg;
 		byte[] bytes = Base64.decodeBase64(content);
-		bean.respDesc = String.valueOf(bytes);
+		bean.respDesc = StringUtils.newStringUtf8(bytes);
 		return bean;
 	}
 	
 	private static JointResponse parseSuccess(String msg,String content,RequestBean request){
-		byte[] desResData=Base64.decodeBase64(msg);
-		byte[] respCheckValue = Base64.decodeBase64(content);
+		byte[] desResData = Base64.decodeBase64(msg);//3DES(报文)
+		byte[] respCheckValue = Base64.decodeBase64(content);//MD5(报文)
 		try {
-			byte[] resDataByte = DesUtil.decrypt(desResData,request.getDesKey().getBytes());
-			String resData = String.valueOf(resDataByte);
-			LOG.debug("resp string .....  {}",resData);
-			String checkValue = DigestUtils.md5Hex(resData);
-			if(checkValue.equals(String.valueOf(respCheckValue))){
+			byte[] resDataByte = DesUtil.decrypt(desResData,request.getDesKey().getBytes("UTF-8"));
+			byte[] checkValue = DigestUtils.md5(resDataByte);
+			if(Arrays.equals(respCheckValue, checkValue)){
+				String resData = StringUtils.newStringUtf8(resDataByte);
+				LOG.debug("resp string .....  {}",resData);
 				Reader reader = new StringReader(resData);
 				JointResponse resp = JAXB.unmarshal(reader, request.getResponseType());
 				resp.setResult(RESULT_SUCCESS);

@@ -24,6 +24,7 @@ public class ActionManager implements JointManager {
 			throw new IllegalArgumentException();
 		}
 		RequestBean bean = (RequestBean)request;
+		LOG.debug("request bean:...{}",bean.toString());
 		try {
 			String sendData = bean.generateBody(this);
 			JointResponse response = HttpUtils.post(url, sendData, context, bean);
@@ -31,6 +32,14 @@ public class ActionManager implements JointManager {
 		} catch (Exception e) {
 			LOG.error("",e);
 		}
+	}
+	
+	public JointRequest createLogin(String phoneNum, String password, String terminalId) {
+		LoginRequest request = new LoginRequest();
+		request.setAccountName(phoneNum);
+		request.setAccountPwd(password);
+		request.setTerminalId(terminalId);
+		return request;
 	}
 	
 	public void setUrl(String url) {

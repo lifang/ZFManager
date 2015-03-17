@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.comdosoft.financial.manage.joint.JointResponse;
 
-@XmlRootElement(name="bppos")
+@XmlRootElement(name=RequestBean.ROOT_ELEMENT_NAME)
 public class LoginRequest extends RequestBean {
 	
 	private String merchantId;
@@ -41,28 +41,23 @@ public class LoginRequest extends RequestBean {
 		return LoginResponse.class;
 	}
 	
-	@XmlRootElement(name="bppos")
+	@XmlRootElement(name=RequestBean.ROOT_ELEMENT_NAME)
 	public static class LoginResponse extends ResponseBean {
 		
-		private String terminalId;
 		private String merchantId;
 		private String merchantName;//商户名
 		private String accountName;//账户名
+		private String accountPwd;
 		private String personalMerRegNo;//个体工商信息
+		private String taxNo;//税务登记号
 		private String legalManIdcard;//法人身份证号
-		private String settleAccountType;
+		private int settleAccountType;//结算账户类型
 		private String settleAccount;//结算账户名
 		private String settleAccountNo;//结算账号
-		private String accountStatus;//开户状态
-		private String authStatus;//认证状态
-		private String actionList;
-		
-		public String getTerminalId() {
-			return terminalId;
-		}
-		public void setTerminalId(String terminalId) {
-			this.terminalId = terminalId;
-		}
+		private String settleAgency;//开户行
+		private int accountStatus;//开户状态
+		private int authStatus;//认证状态
+		private String factoryId;//厂商号
 		
 		public String getMerchantId() {
 			return merchantId;
@@ -99,13 +94,6 @@ public class LoginRequest extends RequestBean {
 			this.legalManIdcard = legalManIdcard;
 		}
 		
-		public String getSettleAccountType() {
-			return settleAccountType;
-		}
-		public void setSettleAccountType(String settleAccountType) {
-			this.settleAccountType = settleAccountType;
-		}
-		
 		public String getSettleAccount() {
 			return settleAccount;
 		}
@@ -120,25 +108,47 @@ public class LoginRequest extends RequestBean {
 			this.settleAccountNo = settleAccountNo;
 		}
 		
-		public String getAccountStatus() {
+		public String getAccountPwd() {
+			return accountPwd;
+		}
+		public void setAccountPwd(String accountPwd) {
+			this.accountPwd = accountPwd;
+		}
+		public String getTaxNo() {
+			return taxNo;
+		}
+		public void setTaxNo(String taxNo) {
+			this.taxNo = taxNo;
+		}
+		public String getSettleAgency() {
+			return settleAgency;
+		}
+		public void setSettleAgency(String settleAgency) {
+			this.settleAgency = settleAgency;
+		}
+		public String getFactoryId() {
+			return factoryId;
+		}
+		public void setFactoryId(String factoryId) {
+			this.factoryId = factoryId;
+		}
+		public int getSettleAccountType() {
+			return settleAccountType;
+		}
+		public void setSettleAccountType(int settleAccountType) {
+			this.settleAccountType = settleAccountType;
+		}
+		public int getAccountStatus() {
 			return accountStatus;
 		}
-		public void setAccountStatus(String accountStatus) {
+		public void setAccountStatus(int accountStatus) {
 			this.accountStatus = accountStatus;
 		}
-		
-		public String getAuthStatus() {
+		public int getAuthStatus() {
 			return authStatus;
 		}
-		public void setAuthStatus(String authStatus) {
+		public void setAuthStatus(int authStatus) {
 			this.authStatus = authStatus;
-		}
-		
-		public String getActionList() {
-			return actionList;
-		}
-		public void setActionList(String actionList) {
-			this.actionList = actionList;
 		}
 		
 	}

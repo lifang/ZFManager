@@ -36,6 +36,7 @@ public abstract class RequestBean implements JointRequest,ResponseHandler<JointR
 	private static final Logger LOG = LoggerFactory.getLogger(RequestBean.class);
 	private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	private static final RequestSeq REQUEST_SEQ = new RequestSeq();
+	static final String ROOT_ELEMENT_NAME = "bppos";
 	
 	private String desKey;
 	

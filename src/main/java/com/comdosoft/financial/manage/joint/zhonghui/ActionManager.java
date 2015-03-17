@@ -51,9 +51,13 @@ public class ActionManager implements JointManager{
 	 * @param product
 	 * @return
 	 */
-	public Action createLogin(String phoneNum, String password, String position){
+	public JointRequest createLogin(String phoneNum, String password, String position){
 		return new LoginAction(phoneNum, password, position,
 				appVersion, product);
+	}
+	
+	public JointRequest createLogin(String phoneNum, String password){
+		return createLogin(phoneNum, password, null);
 	}
 	
 	/**
