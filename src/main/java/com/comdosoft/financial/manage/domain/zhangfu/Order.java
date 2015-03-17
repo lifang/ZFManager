@@ -587,6 +587,9 @@ public class Order {
 	public static final byte TYPE_CUSTOMER = 0;
 	
 	private Customer customer;
+	private CustomerAddress customerAddress;
+	private Factory factory; 
+	
 	private List<OrderGood> orderGoods;
 	private List<PayChannel> channels;
 	private List<GoodsPicture> pictures;
@@ -631,4 +634,22 @@ public class Order {
 	public void setGoods(List<Good> goods) {
 		this.goods = goods;
 	}
+
+	public CustomerAddress getCustomerAddress() {
+		return customerAddress;
+	}
+
+	public void setCustomerAddress(CustomerAddress customerAddress) {
+		this.customerAddress = customerAddress;
+	}
+
+	public Factory getFactory() {
+		return factory;
+	}
+
+	public void setFactory(Factory factory) {
+		this.factory = factory;
+	}
+	
+	
 }

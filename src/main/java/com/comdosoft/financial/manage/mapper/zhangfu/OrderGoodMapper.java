@@ -36,4 +36,6 @@ public interface OrderGoodMapper {
 	int updateByPrimaryKey(OrderGood record);
 	
 	List<OrderGood> selectOrderGoods(List<Integer> orderIds);
+	
+	List<OrderGood> selectOrderGoodsByOrderId(Integer orderId);
 }

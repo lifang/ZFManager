@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,30 +25,36 @@ public class UserOrderController {
 	private FactoryService factoryService ;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String list(Integer page, Byte status, String keys, Model model){
-		findPage(page, status, keys, model);
+	public String list(Integer page, Byte status, String keys,Integer factoryId, Model model){
+		findPage(page, status, keys,factoryId, model);
 		return "order/user/list";
 	}
 	
 	@RequestMapping(value="page",method=RequestMethod.GET)
-	public String page(Integer page, Byte status, String keys, Model model){
-		findPage(page, status, keys, model);
+	public String page(Integer page, Byte status, String keys,Integer factoryId, Model model){
+		findPage(page, status, keys,factoryId, model);
 		return "order/user/pageOrder";
 	}
 	
-	private void findPage(Integer page, Byte status, String keys, Model model){
+	private void findPage(Integer page, Byte status, String keys,Integer factoryId, Model model){
 		if (page == null) {
 			page = 1;
 		}
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Order> orders = orderService.findPages(page, status, keys);
+		Page<Order> orders = orderService.findPages(page, status, keys,factoryId);
 		List<Factory> findCheckedFactories = factoryService.findCheckedFactories();
 		model.addAttribute("factories",findCheckedFactories);
 		model.addAttribute("orders", orders);
 	}
 	
+	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
+	public String info(@PathVariable Integer id, Model model){
+		Order order=orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		return "order/user/info";
+	}
 
     @RequestMapping(value="create",method = RequestMethod.GET)
     public String createGet(){

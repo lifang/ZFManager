@@ -94,4 +94,8 @@
 		  #{item}  
 		</foreach>  
     </select>
+    
+    <select id="selectOrderGoodsByOrderId" resultMap="orderResultMap">
+    	select og.* from order_goods og where og.order_id=#{param1}
+    </select>
 </mapper>

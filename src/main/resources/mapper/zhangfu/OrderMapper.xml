@@ -134,6 +134,7 @@
 			<if test="status != null"> AND o.status =#{status} </if>
 			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
 				order_number like #{keys}) </if>
+			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
 		</where>
 	</sql>
   <select id="findPageOrdersByKeys" resultMap="PageOrderResultMap">
@@ -147,6 +148,22 @@
 		SELECT count(*) as count
 		FROM orders o
 		<include refid="pageWhere" />
-
+	</select>
+	
+	<resultMap extends="BaseResultMap" id="OrderInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Order">
+		<association columnPrefix="c_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+		<association columnPrefix="ca_" javaType="com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress" property="customerAddress" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper.BaseResultMap" />
+		<association columnPrefix="f_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Factory" property="factory" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper.BaseResultMap" />
+		<collection column="id" ofType="com.comdosoft.financial.manage.domain.zhangfu.OrderGood" property="orderGoods" select="com.comdosoft.financial.manage.mapper.zhangfu.OrderGoodMapper.selectOrderGoodsByOrderId" />
+	</resultMap>
+	<select id="findOrderInfo" resultMap="OrderInfoResultMap">
+		select o.*,c.id as c_id,c.username as c_username,c.name as c_name,c.phone as c_phone,
+		ca.id as ca_id,ca.address as ca_address,ca.receiver as ca_receiver,
+		f.id as f_id,f.name as f_name
+		from orders o 
+		left join customers c on o.customer_id=c.id 
+		left join customer_addresses ca on o.customer_address_id=ca.id 
+		left join factories f on o.belongs_to=f.id
+		where o.id=#{param1}
 	</select>
 </mapper>

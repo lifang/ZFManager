@@ -31,21 +31,21 @@ public class OrderService {
 	@Autowired
 	private GoodsPictureMapper goodsPictureMapper;
 	
-	public Page<Order> findPages(int page, Byte status, String keys){
+	public Page<Order> findPages(int page, Byte status, String keys,Integer factoryId){
 		pageSize=2;
 		if (keys != null) {
 			keys = "%"+keys+"%";
 		}
-		long count = orderMapper.countByKeys(status, keys);
+		long count = orderMapper.countByKeys(status, keys,factoryId);
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize), new ArrayList<Order>(), count);
 		}
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Order> result = orderMapper.findPageOrdersByKeys(request, status, keys);
+		List<Order> result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId);
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
-			result = orderMapper.findPageOrdersByKeys(request, status, keys);
+			result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId);
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds=new ArrayList<Integer>();
@@ -78,5 +78,9 @@ public class OrderService {
 			}
 		}
 		return orders;
+	}
+	
+	public Order findOrderInfo(Integer id) {
+		return orderMapper.findOrderInfo(id);
 	}
 }
