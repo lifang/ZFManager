@@ -2,9 +2,13 @@ package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Good;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
 import com.comdosoft.financial.manage.service.CustomerService;
+import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.MessageService;
+import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,11 @@ public class MessageController {
     private MessageService messageService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private GoodService goodService;
+    @Autowired
+    private PayChannelService payChannelService;
+
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public String list(Integer page, Model model){
         findPage(page, model);
@@ -47,9 +56,21 @@ public class MessageController {
     }
 
 	@RequestMapping(value="/create",method=RequestMethod.GET)
-	public String createGet(){
-		return "system/message_create";
+	public String createGet(Model model){
+        List<Good> goods = goodService.findCheckedGoods();
+        List<PayChannel> channels = payChannelService.findCheckedChannels();
+        model.addAttribute("goods", goods);
+        model.addAttribute("channels", channels);
+        return "system/message_create";
 	}
+
+    @RequestMapping(value="/create",method=RequestMethod.POST)
+    @ResponseBody
+    public Response create(String title, String content, Integer customerId,
+                           Integer goodId, Integer channelId, Byte customerType,  Model model){
+        messageService.create(title, content, customerId, goodId, channelId, customerType);
+        return Response.getSuccess("");
+    }
 	
 	@RequestMapping(value="/{id}/view",method=RequestMethod.GET)
 	public String view(@PathVariable Integer id, Model model){

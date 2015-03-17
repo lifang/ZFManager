@@ -94,4 +94,8 @@ public class MessageReceiver {
 	public void setStatus(Byte status) {
 		this.status = status;
 	}
+
+    public static final Byte STATUS_NO_READ = 1;//已读
+    public static final Byte STATUS_READ = 2;   //未读
+
 }

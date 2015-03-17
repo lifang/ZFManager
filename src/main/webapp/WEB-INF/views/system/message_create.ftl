@@ -14,24 +14,30 @@
     <div class="item_list clear">
         <ul>
             <li><span class="labelSpan">标题：</span>
-                <div class="text"><input name="" type="text" class="xll"></div></li>
+                <div class="text"><input id="title" type="text" class="xll"></div></li>
             <li class="overflow"><span class="labelSpan">接收人：</span>
                 <div class="text">
                     <div class="supportArea">
                         <div class="sa_list">
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 个人</span>
+                            <span class="checkboxRadio_span"><input name="receiver" type="radio" value="1" checked> 个人</span>
                             <input id="input_customer" name="" type="text" class="xls">
                         </div>
                         <div class="sa_list">
-                            <span class="checkboxRadio_span"><input name="" type="radio" value=""> 多人</span>
-                            <select name="" class="select_l">
-                                <option>POS机</option>
+                            <span class="checkboxRadio_span"><input name="receiver" type="radio" value="2"> 多人</span>
+                            <select name="goods" class="select_l">
+                                <#list goods as good>
+                                    <option value="${good.id}">${(good.title)!""}</option>
+                                </#list>
                             </select>
-                            <select name="" class="select_l">
-                                <option>支付通道</option>
+                            <select name="channels" class="select_l">
+                                <#list channels as channel>
+                                    <option value="${channel.id}">${(channel.name)!""}</option>
+                                </#list>
                             </select>
-                            <select name="" class="select_l">
-                                <option>用户身份</option>
+                            <select name="customerTypes" class="select_l">
+                                <option value="1">用户</option>
+                                <option value="2">代理商</option>
+                                <option value="5">第三方机构</option>
                             </select>
                         </div>
                     </div>
@@ -40,11 +46,11 @@
                 </div>
             </li>
             <li><span class="labelSpan">内容：</span>
-                <div class="text"><textarea name="" cols="" rows="" class="xxl"></textarea></div>
+                <div class="text"><textarea id="content" cols="" rows="" class="xxl"></textarea></div>
             </li>
         </ul>
     </div>
-    <div class="btnBottom"><button class="blueBtn">发送</button></div>
+    <div class="btnBottom"><button class="blueBtn" id="submitData">发送</button></div>
 </div>
 <script>
     $(function(){
@@ -53,10 +59,9 @@
         $("#customer_result_id").hide();
         $("#input_customer").keyup(function(){
             var name = $.trim($(this).val()) ;
-            if("" == name || null == name){
+            if(!isNotNull(name)){
                 $("#customer_result_id").hide();
-            }
-            else {
+            } else {
                 $.get('<@spring.url "/system/message/searchCustomer" />',
                         {"name": name},
                         function (data) {
@@ -67,7 +72,7 @@
                                 var id = $(this).attr("value");
                                 $("#input_customer").val(name);
                                 $("#customer_result_id").hide();
-                                alert($(this).attr("value"));
+                                $("#input_customer").attr("idValue", $(this).attr("value"));
                             }).hover(function () {customerClose = false ;}
                                     ,function () {customerClose = true ;});
                         });
@@ -80,6 +85,53 @@
             $("#customer_result_id").show();
         });
 
+        $("#submitData").click(function(){
+           var title = $("#title").val();
+            if(isNull(title, "标题不能为空!")){
+                return false;
+            }
+            var content = $("#content").val();
+            if(isNull(content, "内容不能为空!")){
+                return false;
+            }
+            var option = {};
+            option.title=title;
+            option.content=content;
+            if($(":radio[name='receiver']:checked").val()==1){
+                var customerId = $("#input_customer").attr("idValue");
+                if(isNull(customerId, "接收人不能为空!")){
+                    return false;
+                }
+                option.customerId = customerId;
+            } else{
+                option.goodId = $(":input[name='goods'] option:selected").val();
+                option.channelId = $(":input[name='channels'] option:selected").val();
+                option.customerType = $(":input[name='customerTypes'] option:selected").val();
+            }
+
+            $.post("<@spring.url "/system/message/create" />",
+                    option,
+                    function(data){
+                        if(data.code==1){
+                            window.location.href="<@spring.url "/system/message/list" />"
+                        }
+                    }
+            );
+
+        });
+
     });
+
+    function isNull(value, error){
+        if(!isNotNull(value)){
+            showErrorTip(error);
+            return true;
+        }
+        return false;
+    }
+
+    function isNotNull(value){
+        return value != "" && value != null && value != undefined;
+    }
 </script>
 </@c.html>

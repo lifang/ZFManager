@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
 import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
 import com.comdosoft.financial.manage.mapper.zhangfu.MessageReceiverMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysMessageMapper;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,5 +59,23 @@ public class MessageService {
 
     public SysMessage findInfo(Integer id) {
         return sysMessageMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional("transactionManager")
+    public void create(String title, String content, Integer customerId, Integer goodId, Integer channelId, Byte customerType) {
+        SysMessage message = new SysMessage();
+        message.setTitle(title);
+        message.setContent(content);
+        message.setCreatedAt(new Date());
+        sysMessageMapper.insert(message);
+        if (customerId != null){
+            MessageReceiver receiver = new MessageReceiver();
+            receiver.setCustomerId(customerId);
+            receiver.setSysMessageId(message.getId());
+            receiver.setStatus(MessageReceiver.STATUS_NO_READ);
+            messageReceiverMapper.insert(receiver);
+        } else if(customerType != null){
+            messageReceiverMapper.insertMessages(message.getId(), goodId, channelId, customerType);
+        }
     }
 }

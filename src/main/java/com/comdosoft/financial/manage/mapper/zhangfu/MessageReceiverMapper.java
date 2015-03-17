@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface MessageReceiverMapper {
@@ -36,4 +38,6 @@ public interface MessageReceiverMapper {
 	int updateByPrimaryKey(MessageReceiver record);
 
     void deleteBySysMessageId(Integer sysMessageId);
+
+    void insertMessages( @Param("sysMessageId")Integer sysMessageId, @Param("goodId")Integer goodId, @Param("channelId")Integer channelId, @Param("customerType")Byte customerType);
 }

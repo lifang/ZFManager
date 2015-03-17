@@ -66,7 +66,12 @@ public class GoodService {
 	public List<Good> findCheckedGoodsLikeKey(String keys){
 		return goodMapper.selectByStatusAndName(Good.STATUS_CHECKED, "%"+keys+"%");
 	}
-	
+
+    public List<Good> findCheckedGoods(){
+        return goodMapper.selectByStatusAndName(Good.STATUS_CHECKED, null);
+    }
+
+
 	public Good findGoodInfo(Integer id) {
 		return goodMapper.findGoodInfo(id);
 	}
