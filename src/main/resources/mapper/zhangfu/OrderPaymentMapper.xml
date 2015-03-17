@@ -68,4 +68,10 @@
     select id, order_id, price, pay_type, created_user_id, created_user_type, created_at
     from order_payments
   </select>
+  
+  
+  <select id="selectOrderPaymentsByOrderId" resultMap="BaseResultMap">
+    select op.*
+    from order_payments op where op.order_id=#{param1}
+  </select>
 </mapper>

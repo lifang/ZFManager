@@ -54,7 +54,19 @@
                     <dt>购买日期：</dt><dd>${order.createdAt?datetime}</dd>
                 </dl>
                 <dl>
-                	<dt>支付类型：</dt><dd>支付宝</dd>
+                	<dt>支付类型：</dt>
+                	<dd>
+                		<#if order.orderPayments??>
+                			<#list order.orderPayments as orderPayment>
+                				<#if orderPayment_index==0>
+                					<#if orderPayment.payType==1>支付宝
+                					<#elseif orderPayment.payType==2>银联
+                					<#elseif orderPayment.payType==3>现金	
+                					</#if>
+                				</#if>
+		                    </#list>
+                		</#if>
+                	</dd>
                 </dl>
                 <dl>
                 	<dt>供货商：</dt>
@@ -88,46 +100,73 @@
                 <th>金额</th>
               </tr>
               </thead>
-              <tbody>
-                  <tr>
-                    <td>
-                        <div class="td_proBox clear">
-                            <a href="#" class="cn_img"><img src="images/c.jpg" /></a>
-                            <div class="td_proBox_info">
-                                <h1><a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a></h1>
-                                <h3>热销5000件</h3>
-                                <ul>
-                                    <li><span>品牌型号：</span><div class="c_text">掌富ZF-300</div></li>
-                                    <li><span>支付通道：</span><div class="c_text">收账宝</div></li>
-                                    <li><span>月租金：</span><div class="c_text">￥200.00</div></li>
-                                    <li><span>最短租赁：</span><div class="c_text">12个月</div></li>
-                                    <li><span>最长租赁：</span><div class="c_text">12个月</div></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                    <td><strong>￥459.00</strong></td>
-                    <td>2</td>
-                    <td><strong>￥918.00</strong></td>
-                  </tr>
-              </tbody>
+              <#if order.orderGoods??>	
+              	<#list order.orderGoods as orderGood>
+	               <tbody>
+	                  <tr>
+	                    <td>
+	                        <div class="td_proBox clear">
+	                            <a href="#" class="cn_img">
+	                            <#if orderGood.good??>
+	                        		<#if orderGood.good.pictures??>
+	                        			<#list orderGood.good.pictures as picture>
+	                        				<#if picture_index==0>
+	                        					<!--<img src="images/c.jpg" />-->
+	                        					<img src="${picture.urlPath}" style="width:130px;height:130px;" />
+	                        				</#if>
+	                        			</#list>
+	                        		</#if>
+	                        	</#if>
+	                            </a>
+	                            <div class="td_proBox_info">
+	                                <h1><a href="#"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
+	                                <h3><#if orderGood.good??>${orderGood.good.secondTitle!""}</#if></h3>
+	                                <ul>
+	                                    <li><span>品牌型号：</span><div class="c_text"><#if orderGood.goodBrand??>${orderGood.goodBrand.name!""}</#if></div></li>
+	                                    <li><span>支付通道：</span><div class="c_text"><#if orderGood.payChannel??>${orderGood.payChannel.name!""}</#if></div></li>
+	                                    <li><span>月租金：</span><div class="c_text">￥<#if orderGood.good??><#if orderGood.good.leasePrice??>${(orderGood.good.leasePrice/100)?string("0.00")}</#if></#if></div></li>
+	                                    <li><span>最短租赁：</span><div class="c_text"><#if orderGood.good??><#if orderGood.good.leaseTime??>${orderGood.good.leaseTime!0}</#if></#if>个月</div></li>
+	                                    <li><span>最长租赁：</span><div class="c_text"><#if orderGood.good??><#if orderGood.good.returnTime??>${orderGood.good.returnTime!0}</#if></#if>个月</div></li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </td>
+	                    <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+	                    <td>${orderGood.quantity!0}</td>
+	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
+	                  </tr>
+	              </tbody>
+	             </#list>
+              </#if>
+              
             </table>
         </div>
         <div class="user_remark">
-        	<textarea name="" cols="" rows=""></textarea>
-            <button class="whiteBtn">备注</button>
+        	<textarea id="order_mark_content" name="order_mark" cols="" rows=""></textarea>
+        	<input id="hidden_order_id" type="hidden" name="hidden_order" value="${order.id!""}" />
+            <button class="whiteBtn" onclick="createOrderMark();">备注</button>
         </div>
         <div class="user_record">
         	<h2>追踪记录</h2>
-            <div class="ur_item">
-            	<div class="ur_item_text">nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</div>
-                <div class="ur_item_name">备注人 <em>2014/12/24 20:12:00</em></div>
-            </div>
-            <div class="ur_item">
-            	<div class="ur_item_text">nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</div>
-                <div class="ur_item_name">备注人 <em>2014/12/24 20:12:00</em></div>
-            </div>
+        	<div id="order_mark_fresh">
+        		<#include "orderMark.ftl" />
+        	</div>
         </div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function createOrderMark(){
+		var content = $("#order_mark_content").val();
+		var orderId = $("#hidden_order_id").val();
+		$.get('<@spring.url "/order/mark/user/create" />',
+	            {"content": content,
+	             "orderId": orderId
+	            },
+	            function (data) {
+	               $('#order_mark_fresh').html(data);
+	               $("#order_mark_content").val("");
+	            });
+	};
+</script>
 </@c.html>

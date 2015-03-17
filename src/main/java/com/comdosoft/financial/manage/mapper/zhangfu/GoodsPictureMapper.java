@@ -39,6 +39,11 @@ public interface GoodsPictureMapper {
 
     List<GoodsPicture> selectPictures(Integer goodId);
     
+    /**
+     * 每个商品只返回一张图片
+     * @param goodIds
+     * @return
+     */
     List<GoodsPicture> selectGoodsPictures(List<Integer> goodIds);
 
 }

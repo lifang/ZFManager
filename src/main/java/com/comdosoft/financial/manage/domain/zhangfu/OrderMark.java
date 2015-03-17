@@ -119,4 +119,15 @@ public class OrderMark {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	private Customer customer;
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
 }

@@ -591,9 +591,11 @@ public class Order {
 	private Factory factory; 
 	
 	private List<OrderGood> orderGoods;
-	private List<PayChannel> channels;
-	private List<GoodsPicture> pictures;
+//	private List<PayChannel> channels;
+//	private List<GoodsPicture> pictures;
 	private List<Good> goods;
+	private List<OrderPayment> orderPayments;
+	private List<OrderMark> orderMarks;
 	
 	public Customer getCustomer() {
 		return customer;
@@ -609,22 +611,6 @@ public class Order {
 
 	public void setOrderGoods(List<OrderGood> orderGoods) {
 		this.orderGoods = orderGoods;
-	}
-
-	public List<PayChannel> getChannels() {
-		return channels;
-	}
-
-	public void setChannels(List<PayChannel> channels) {
-		this.channels = channels;
-	}
-
-	public List<GoodsPicture> getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(List<GoodsPicture> pictures) {
-		this.pictures = pictures;
 	}
 
 	public List<Good> getGoods() {
@@ -650,6 +636,21 @@ public class Order {
 	public void setFactory(Factory factory) {
 		this.factory = factory;
 	}
-	
-	
+
+	public List<OrderPayment> getOrderPayments() {
+		return orderPayments;
+	}
+
+	public void setOrderPayments(List<OrderPayment> orderPayments) {
+		this.orderPayments = orderPayments;
+	}
+
+	public List<OrderMark> getOrderMarks() {
+		return orderMarks;
+	}
+
+	public void setOrderMarks(List<OrderMark> orderMarks) {
+		this.orderMarks = orderMarks;
+	}
+
 }

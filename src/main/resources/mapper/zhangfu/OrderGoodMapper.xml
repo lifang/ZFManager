@@ -96,6 +96,13 @@
     </select>
     
     <select id="selectOrderGoodsByOrderId" resultMap="orderResultMap">
-    	select og.* from order_goods og where og.order_id=#{param1}
+    	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,
+    	g.lease_price as g_lease_price,g.lease_time as g_lease_time,g.return_time as g_return_time,
+    	gb.id as gb_id,gb.name as gb_name,pc.id as pc_id,pc.name as pc_name
+    	from order_goods og
+    	left join goods g on g.id=og.good_id
+    	left join good_brands gb on gb.id=g.good_brands_id
+    	left join pay_channels pc on og.pay_channel_id=pc.id 
+    	where og.order_id=#{param1}
     </select>
 </mapper>

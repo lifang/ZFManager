@@ -34,4 +34,6 @@ public interface OrderPaymentMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OrderPayment record);
+	
+	List<OrderPayment> selectOrderPaymentsByOrderId(Integer orderId);
 }

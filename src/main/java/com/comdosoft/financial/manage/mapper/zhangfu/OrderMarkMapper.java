@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.OrderMark;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.zhangfu.OrderMark;
 
 public interface OrderMarkMapper {
 
@@ -34,4 +35,6 @@ public interface OrderMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OrderMark record);
+	
+	List<OrderMark> selectOrderMarksByOrderId(Integer orderId);
 }

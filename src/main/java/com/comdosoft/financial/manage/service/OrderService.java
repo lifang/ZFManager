@@ -81,6 +81,25 @@ public class OrderService {
 	}
 	
 	public Order findOrderInfo(Integer id) {
-		return orderMapper.findOrderInfo(id);
+		Order order = orderMapper.findOrderInfo(id);
+		List<Integer> goodIds=new ArrayList<Integer>();
+		for(OrderGood orderGood:order.getOrderGoods()){
+			goodIds.add(orderGood.getGoodId());
+		}
+		if(!CollectionUtils.isEmpty(goodIds)){
+			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper.selectGoodsPictures(goodIds);
+			for(OrderGood og:order.getOrderGoods()){
+				if(null!=og.getGood()){
+					og.getGood().setPictures(new ArrayList<GoodsPicture>());
+					for(GoodsPicture gp:selectGoodsPictures){
+						if(og.getGoodId().equals(gp.getGoodId())){
+							og.getGood().getPictures().add(gp);
+						}
+					}
+				}
+			}
+		}
+//		System.out.println(order.getOrderMarks());
+		return order;
 	}
 }
