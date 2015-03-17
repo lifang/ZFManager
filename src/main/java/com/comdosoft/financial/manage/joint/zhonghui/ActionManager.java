@@ -313,4 +313,12 @@ public class ActionManager implements JointManager{
 		this.appVersion = appVersion;
 	}
 
+	public String getProduct() {
+		return product;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
 }

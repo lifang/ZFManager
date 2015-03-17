@@ -33,7 +33,7 @@ public abstract class RequireLoginAction extends Action {
 		if(result == null) {
 			try {
 				LoginAction la = new LoginAction(phoneNum, password,position,
-						Const.APP_VERSION,Const.PRODUCT);
+						manager.getAppVersion(),manager.getProduct());
 				LoginResult lr = (LoginResult)la.process(manager);
 				loggedInfo.put(phoneNum, lr);
 			} catch (IOException e) {
