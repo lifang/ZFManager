@@ -53,5 +53,6 @@ public interface CustomerMapper {
 
     List<Customer> selectUserAndAgent(String username);
 
+    List<Customer> searchCustomer(String customerName);
 
 }
