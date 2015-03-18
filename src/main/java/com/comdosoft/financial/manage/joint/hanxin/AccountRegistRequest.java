@@ -137,6 +137,9 @@ public class AccountRegistRequest extends RequestBean {
 	@XmlRootElement(name=RequestBean.ROOT_ELEMENT_NAME)
 	public static class AccountRegistResponse extends ResponseBean{
 		private String merchantId;//商户代码
+		private String accountName;
+		private String terminalInFo;
+		private String occNo;
 
 		public String getMerchantId() {
 			return merchantId;
@@ -144,6 +147,30 @@ public class AccountRegistRequest extends RequestBean {
 
 		public void setMerchantId(String merchantId) {
 			this.merchantId = merchantId;
+		}
+
+		public String getAccountName() {
+			return accountName;
+		}
+
+		public void setAccountName(String accountName) {
+			this.accountName = accountName;
+		}
+
+		public String getTerminalInFo() {
+			return terminalInFo;
+		}
+
+		public void setTerminalInFo(String terminalInFo) {
+			this.terminalInFo = terminalInFo;
+		}
+
+		public String getOccNo() {
+			return occNo;
+		}
+
+		public void setOccNo(String occNo) {
+			this.occNo = occNo;
 		}
 	}
 }
