@@ -280,4 +280,23 @@ public class CustomerAddress {
 	public void setTelphone(String telphone) {
 		this.telphone = telphone;
 	}
+	
+	private City city;
+	private City parentCity;
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public City getParentCity() {
+		return parentCity;
+	}
+
+	public void setParentCity(City parentCity) {
+		this.parentCity = parentCity;
+	}
 }

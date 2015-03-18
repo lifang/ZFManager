@@ -10,7 +10,7 @@
     <div class="user_title">
         <h1>用户订单列表</h1>
         <div class="userTopBtnBox">
-            <a href="<@spring.url "/order/user/create"/>" class="ghostBtn">创建订单</a>
+          	<a href="<@spring.url "/order/user/create"/>" class="ghostBtn">创建订单</a>
         </div>
     </div>
     <div class="seenBox clear">

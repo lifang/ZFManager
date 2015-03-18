@@ -154,5 +154,9 @@
         select * from customers
         where username like #{param1} and types in (#{TYPE_CUSTOMER},#{TYPE_AGENT},#{TYPE_THIRD_PARTY})
     </select>
-
+	
+	<select id="searchCustomer" resultMap="BaseResultMap">
+        select * from customers
+        where name like #{customerName} or username like #{customerName}
+    </select>
 </mapper>

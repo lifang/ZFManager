@@ -34,4 +34,6 @@ public interface CustomerAddressMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CustomerAddress record);
+	
+	List<CustomerAddress> selectCustomerAddress(Integer customerId);
 }

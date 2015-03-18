@@ -198,4 +198,11 @@ public class CustomerService {
     public List<Customer> findUserAndAgent(String username) {
         return customerMapper.selectUserAndAgent(username + "%");
     }
+    
+    public List<Customer> searchCustomer(String customerName){
+    	if(null!=customerName){
+    		customerName="%"+customerName+"%";
+    	}
+    	return customerMapper.searchCustomer(customerName);
+    }
 }

@@ -82,4 +82,18 @@
     status, created_at, updated_at, telphone
     from customer_addresses
   </select>
+  
+  
+  	<resultMap extends="BaseResultMap" id="CustomerAddressResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress">
+		<association columnPrefix="c_" javaType="com.comdosoft.financial.manage.domain.zhangfu.City" property="city" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CityMapper.BaseResultMap" />
+		<association columnPrefix="pc_" javaType="com.comdosoft.financial.manage.domain.zhangfu.City" property="parentCity" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CityMapper.BaseResultMap" />
+	</resultMap>
+  
+  <select id="selectCustomerAddress" resultMap="CustomerAddressResultMap">
+    select ca.*,c.id as c_id,c.name as c_name,pc.id as pc_id,pc.name as pc_name
+    from customer_addresses ca
+    left join cities c on ca.city_id=c.id
+    left join cities pc on c.parent_id=pc.id 
+    where ca.customer_id=#{customerId} order by ca.is_default asc,ca.updated_at desc
+  </select>
 </mapper>

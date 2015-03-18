@@ -2,6 +2,8 @@ package com.comdosoft.financial.manage.controller.order;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
+import com.comdosoft.financial.manage.service.CityService;
+import com.comdosoft.financial.manage.service.CustomerAddressService;
 import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.OrderService;
+import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
@@ -23,6 +31,12 @@ public class UserOrderController {
 	private OrderService orderService ;
 	@Autowired
 	private FactoryService factoryService ;
+	@Autowired
+	private SessionService sessionService;
+	@Autowired
+	private CustomerAddressService customerAddressService;
+	@Autowired
+	private CityService cityService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Byte status, String keys,Integer factoryId, Model model){
@@ -57,7 +71,12 @@ public class UserOrderController {
 	}
 
     @RequestMapping(value="create",method = RequestMethod.GET)
-    public String createGet(){
+    public String createGet(HttpServletRequest request,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(customer.getId());
+    	List<City> cities = cityService.cities(0);
+    	model.addAttribute("customerAddresses", selectCustomerAddress);
+    	model.addAttribute("cities", cities);
         return "order/user/create";
     }
 }
