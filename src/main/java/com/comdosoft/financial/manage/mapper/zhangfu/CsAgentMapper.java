@@ -1,7 +1,12 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface CsAgentMapper {
 
@@ -34,4 +39,30 @@ public interface CsAgentMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsAgent record);
+	
+	/**
+	 * count records by keyword and status
+	 * 
+	 * @param status
+	 *            the cs_agents status
+	 * @param keyword
+	 *            the keyword to search for apply_num
+	 */
+	long countSelective(@Param("status") Byte status, @Param("keyword") String keyword);
+	
+	/**
+	 * select page records by keyword and status
+	 * 
+	 * @param pageRequest
+	 *            {@link PageRequest}
+	 * @param status
+	 *            the cs_agents status
+	 * @param keyword
+	 *            the keyword to search for apply_num
+	 */
+	List<CsAgent> findPageSelective(
+			@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keyword") String keyword);
+	
+	
 }
