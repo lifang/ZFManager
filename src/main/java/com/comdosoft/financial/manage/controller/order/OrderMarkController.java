@@ -21,14 +21,12 @@ public class OrderMarkController {
 	@Autowired
 	private SessionService sessionService;
 	@Autowired
-	private HttpServletRequest request;
-	@Autowired
 	private OrderMarkService orderMarkService;
 	@Autowired
 	private OrderService orderService;
 
     @RequestMapping(value="create",method = RequestMethod.GET)
-    public String createGet(Integer orderId,String content,Model model){
+    public String createGet(HttpServletRequest request,Integer orderId,String content,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);
