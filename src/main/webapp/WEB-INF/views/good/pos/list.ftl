@@ -12,7 +12,8 @@
        <div class="userTopBtnBox"> 
         <a href="<@spring.url "/good/pos/waitComment/list" />" class="ghostBtn">评论审核</a>
         <a href="<@spring.url "/good/pos/category/list" />" class="ghostBtn">管理POS机分类</a>
-       </div> 
+		<a href="<@spring.url "/good/pos/create" />" class="ghostBtn">创建POS机</a>
+	   </div>
       </div> 
       <div class="seenBox clear"> 
        <ul> 
