@@ -186,6 +186,22 @@ public class PosController {
 
 		return "good/pos/create";
 	}
+
+	@RequestMapping(value="create",method=RequestMethod.GET)
+	public String create(Model model){
+		Collection<PosCategory> posCategories = posCategoryService.listAll();
+		List<Factory> factories = factoryService.findCheckedFactories();
+		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
+		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
+		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
+		model.addAttribute("posCategories", posCategories);
+		model.addAttribute("factories", factories);
+		model.addAttribute("signOrderWays", signOrderWays);
+		model.addAttribute("cardTypes", cardTypes);
+		model.addAttribute("encryptCardWays", encryptCardWays);
+
+		return "good/pos/create";
+	}
 	
 	@RequestMapping(value="searchChannel",method=RequestMethod.GET)
 	public String searchChannel(String name, Model model){

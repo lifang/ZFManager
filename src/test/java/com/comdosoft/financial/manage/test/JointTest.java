@@ -9,9 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.comdosoft.financial.manage.joint.JointManager;
+import com.comdosoft.financial.manage.joint.hanxin.AccountEnquiryRequest;
+import com.comdosoft.financial.manage.joint.hanxin.AccountRegistRequest;
 import com.comdosoft.financial.manage.joint.hanxin.EnquiryListRequest;
 import com.comdosoft.financial.manage.joint.hanxin.EnquiryRequest;
+import com.comdosoft.financial.manage.joint.hanxin.FindPwdRequest;
 import com.comdosoft.financial.manage.joint.hanxin.LoginRequest;
+import com.comdosoft.financial.manage.joint.hanxin.SettBankListRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-mvc.xml")
@@ -28,34 +32,84 @@ public class JointTest {
 	
 	@Test
 	public void login(){
-		String terminalId = "30709B68800A";
-		String account = "13909585846";
-		String pwd = "585846";
-		LoginRequest request = new LoginRequest();
-		request.setAccountName(account);
-		request.setAccountPwd(pwd);
-		request.setTerminalId(terminalId);
-		hxActionManager.acts(request, (result) ->{
+		
+		String terminalId = "30709B402D08";
+		
+		AccountRegistRequest arr = new AccountRegistRequest();
+		arr.setTerminalId(terminalId);
+		arr.setMerchantName("gookin");
+		arr.setLegalManName("吴国清");
+		arr.setLegalManIdcard("320219198512093530");
+		arr.setSettleAccountType("2");
+		arr.setSettleAccount("吴国清");
+		arr.setSettleAccountNo("6222021102020761436");
+		arr.setSettleAgency("中国工商银行苏州园区支行");
+		arr.setAccountPwd("111111");
+		arr.setMobileNum("13862223435");
+		hxActionManager.acts(arr, (result) ->{
 			System.out.println(result);
 		});
 		
+//		String terminalId = "30709B68800A";
+//		String account = "13909585846";
+//		String pwd = "585846";
+		
+//		String terminalId = "30709B5F310A";
+//		String account = "15000849705";
+//		String pwd = "123456";
+//		
+//		LoginRequest request = new LoginRequest();
+//		request.setAccountName(account);
+//		request.setAccountPwd(pwd);
+//		request.setTerminalId(terminalId);
+//		hxActionManager.acts(request, (result) ->{
+//			System.out.println(result);
+//			LoginRequest.LoginResponse response = (LoginRequest.LoginResponse)result;
+//			FindPwdRequest fpr = new FindPwdRequest();
+//			fpr.setTerminalId(terminalId);
+//			fpr.setMerchantId(response.getMerchantId());
+//			fpr.setPhoneNum(response.getAccountName());
+//			fpr.setPwd("223456");
+//			fpr.setSettleAccountName(response.getSettleAccount());
+//			fpr.setSetttleAccountNo(response.getSettleAccountNo());
+//			hxActionManager.acts(fpr, (r)-> {
+//				System.out.println(r);
+//			});
+//		});
+//		
 //		EnquiryListRequest elr = new EnquiryListRequest();
 //		elr.setTerminalId(terminalId);
-//		elr.setTransId("000001000218");
-//		elr.setEndTime("20150312");
 //		hxActionManager.acts(elr, (result) -> {
 //			System.out.println(result);
 //		});
+//		
+//		EnquiryRequest er = new EnquiryRequest();
+//		er.setTerminalId(terminalId);
+//		er.setMerchantOrderId("000001000218");
+//		er.setTransType("100000");
+//		er.setPlatformId("27366568516");
+//		hxActionManager.acts(er, (result)->{
+//			System.out.println(result);
+//		});
 		
-		EnquiryRequest er = new EnquiryRequest();
-		er.setTerminalId(terminalId);
-		er.setMerchantOrderId("000001000218");
-		er.setTransType("100000");
-		er.setPlatformId("");
-		hxActionManager.acts(er, (result)->{
-			System.out.println(result);
-		});
+//		AccountEnquiryRequest aer = new AccountEnquiryRequest();
+//		aer.setTerminalId(terminalId);
+//		aer.setMerchantId("173665683999061");
+//		hxActionManager.acts(aer, (result)-> {
+//			System.out.println(result);
+//		});
 		
+//		SettBankListRequest sblr = new SettBankListRequest();
+//		sblr.setTerminalId(terminalId);
+//		hxActionManager.acts(sblr, (result)-> {
+//			System.out.println(result);
+//		});
+		
+//		FindPwdRequest fpr = new FindPwdRequest();
+//		fpr.setTerminalId("30709B402D08");
+//		hxActionManager.acts(fpr, (result)-> {
+//			System.out.println(result);
+//		});
 	}
 	
 //	public static void main(String[] args) throws IOException {
