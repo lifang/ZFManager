@@ -349,4 +349,51 @@ public class CsChange {
 	public void setTempleteInfoXml(String templeteInfoXml) {
 		this.templeteInfoXml = templeteInfoXml;
 	}
+	
+	private Terminal terminal;
+	private Merchant merchant;
+	private PayChannel payChannel;
+	private Good good;
+	private CsReceiverAddress csReceiverAddress;
+
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
+	}
+
+	public Merchant getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+
+	public PayChannel getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(PayChannel payChannel) {
+		this.payChannel = payChannel;
+	}
+
+	public Good getGood() {
+		return good;
+	}
+
+	public void setGood(Good good) {
+		this.good = good;
+	}
+
+	public CsReceiverAddress getCsReceiverAddress() {
+		return csReceiverAddress;
+	}
+
+	public void setCsReceiverAddress(CsReceiverAddress csReceiverAddress) {
+		this.csReceiverAddress = csReceiverAddress;
+	}
+	
 }

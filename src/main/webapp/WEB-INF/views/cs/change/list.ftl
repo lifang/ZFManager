@@ -3,13 +3,13 @@
 <div class="breadcrumb"> 
 	<ul> 
     	<li><a href="#">售后</a></li> 
-    	<li><a href="<@spring.url "/cs/agent/list"/>">代理商售后</a></li> 
+    	<li><a href="<@spring.url "/cs/change/list"/>">换货</a></li> 
 	</ul> 
 </div> 
 
 <div class="content clear"> 
 	<div class="user_title">
-    	<h1>代理商售后申请列表</h1> 
+    	<h1>换货申请列表</h1> 
 		<div class="userTopBtnBox"> 
 			<a href="#" class="ghostBtn">分派</a>
 		</div> 
@@ -28,9 +28,9 @@
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
 						<option value="0">待处理</option> 
-						<option value="1">处理中</option> 
+						<option value="1">换货中</option> 
 						<option value="2">已取消</option> 
-						<option value="3">已完成</option> 
+						<option value="3">处理完成</option> 
 					</select> 
 				</div>
 			</li> 
@@ -66,7 +66,7 @@
 	});
 	
 	function pageChange(page) {
-	    $.get('<@spring.url "/cs/agent/page" />',
+	    $.get('<@spring.url "/cs/change/page" />',
 	            {"page": page,
 	            "keyword": keyword,
 	            "status": status},
@@ -74,21 +74,6 @@
 	                $('#page_fresh').html(data);
 	            });
 	}
-	
-	function onCancel(csAgentId) {
-		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
-	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csAgentId).text("已取消");
-	            });
-	}
-	
-	function onFinish(csAgentId) {
-		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/finish',
-	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csAgentId).text("已完成");
-	            });
-	}
+
 </script>	
 </@c.html>

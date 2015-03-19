@@ -45,5 +45,14 @@ public interface TerminalMapper {
 
     long countByAgentCode(String code);
     long countOpenByAgentCode(String code);
+    
+	/**
+	 * set is_return_cs_depots to <i>false</i> by serial_num
+	 * 
+	 * @param serialNums
+	 *            array of serial_num
+	 * @return
+	 */
+	int closeCsReturnDepotsByNums(String[] serialNums);
 
 }

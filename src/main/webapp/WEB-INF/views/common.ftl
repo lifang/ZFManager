@@ -104,7 +104,7 @@
                 <li><a href="#">资料更新</a></li>
                 <li><a href="<@spring.url "/cs/agent/list"/>"<#if urlCheck(request,"/cs/agent")> class="hover"</#if>>代理商售后</a></li>
                 <li><a href="#">维修</a></li>
-                <li><a href="#">换货</a></li>
+                <li><a href="<@spring.url "/cs/change/list"/>"<#if urlCheck(request,"/cs/change")> class="hover"</#if>>换货</a></li>
                 <li><a href="#">退货</a></li>
                 <li><a href="#">租赁退还</a></li>
                 <li><a href="#">注销</a></li>
