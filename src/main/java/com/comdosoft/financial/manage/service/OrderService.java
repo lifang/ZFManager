@@ -100,7 +100,11 @@ public class OrderService {
 				}
 			}
 		}
-//		System.out.println(order.getOrderMarks());
 		return order;
+	}
+	
+	public int save(){
+		Order record=new Order();
+		return orderMapper.insert(record);
 	}
 }

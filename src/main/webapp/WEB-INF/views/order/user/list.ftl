@@ -49,6 +49,47 @@
       	<#include "pageOrder.ftl" />
       </div>
 </div>
+<div class="tab priceOrder_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">修改订单价格</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">订单价格</span><div class="text" id="order_price"><strong>￥500.00</strong></div></li>
+                <li><span class="labelSpan">新价格</span><div class="text"><input name="" type="text" /></div></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
+
+<div class="tab paymentRecord_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">增加付款记录</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">付款金额</span><div class="text"><strong>￥500.00</strong></div></li>
+                <li><span class="labelSpan">付款方式</span><div class="text">
+                    <select name="">
+                      <option>转账</option>
+                    </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
+
+<div class="tab remark_tab">
+    	<a href="#" class="close">关闭</a>
+        <div class="tabHead">备注</div>
+        <div class="tabBody">
+        	<textarea id="mark_content" name="" cols="" rows=""></textarea>
+        </div>
+        <div class="tabFoot"><button class="blueBtn" id="markSure">确定</button></div>
+</div>
 <script type="text/javascript">
 
 	$(function(){
@@ -85,7 +126,32 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+	                popup(".remark_tab",".remark_a");//备注
+	                popup(".priceOrder_tab",".priceOrder_a");//修改价格
+	                popup(".paymentRecord_tab",".paymentRecord_a");//修改价格
 	            });
 	}
+	
+	function markBtn(id){
+ 		$("#markSure").click(function(){markSure(id)});
+    }
+    
+    function markSure(id){
+		var content = $('#mark_content').val();
+		$.get('<@spring.url "" />'+'/order/mark/user/create',
+				{"orderId":id,
+				"content":content
+				},
+	            function (data) {
+					$('.remark_tab').hide();
+					$('.mask').hide();
+	            });
+	}
+	
+	function orderPriceBtn(id,price){
+		$("#order_price").html("<strong>￥"+price+"</strong>");
+ 		//$("#markSure").click(function(){markSure(id)});
+    }
+	
 </script>
 </@c.html>

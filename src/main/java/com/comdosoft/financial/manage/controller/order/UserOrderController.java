@@ -104,14 +104,14 @@ public class UserOrderController {
 		model.addAttribute("orders", orders);
 	}
 	
-	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
+	@RequestMapping(value="/user/{id}/info",method=RequestMethod.GET)
 	public String info(@PathVariable Integer id, Model model){
 		Order order=orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/user/info";
 	}
 
-    @RequestMapping(value="create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/create",method = RequestMethod.GET)
     public String createGet(HttpServletRequest request,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(customer.getId());
@@ -120,4 +120,11 @@ public class UserOrderController {
     	model.addAttribute("cities", cities);
         return "order/user/create";
     }
+    
+    @RequestMapping(value="/user/{id}/save",method=RequestMethod.GET)
+	public String save(@PathVariable Integer id,Byte status, Model model){
+		Order order=orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		return "order/user/info";
+	}
 }
