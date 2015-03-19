@@ -286,7 +286,7 @@ public class AgentService {
                 } else {
                     agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_OTHER);
                 }
-                agentProfitSetting.setFloorNumber(p.get("floorNumber"));
+                agentProfitSetting.setFloorNumber(p.get("floorNumber")*100);
                 agentProfitSetting.setPercent(p.get("percent"));
                 agentProfitSetting.setCreatedAt(new Date());
                 agentProfitSetting.setUpdatedAt(new Date());

@@ -45,7 +45,7 @@
                     	  <option value="${posCategory.id}" 
                     	  		<#if ((good.posCategoryId)?? && good.posCategoryId=posCategory.id)
                     	  				||(!((good.posCategoryId)??) && posCategory_index=0)> selected="true"</#if>>
-                    	  <#if posCategory.parentId??>&nbsp;&nbsp;L</#if>${posCategory.name}</option>
+                    	  <#if posCategory.parentId??&&posCategory.parentId!=0>&nbsp;&nbsp;L</#if>${posCategory.name}</option>
                     	  </#list>
                     	</#if>
                     	</select>
