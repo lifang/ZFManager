@@ -62,4 +62,15 @@
     select id, cs_change_id, custom_id, content, created_at
     from cs_change_marks
   </select>
+  
+  <!-- select marks by cs_change_id -->
+  <select id="selectByChangeId" resultMap="InfoResultMap">
+    select mark.*, cus.name as cus_name from cs_change_marks mark 
+    left join customers cus on mark.custom_id = cus.id
+    where cs_change_id = #{csChangeId, jdbcType=INTEGER} order by mark.created_at desc
+  </select>
+  
+  <resultMap id="InfoResultMap" extends="BaseResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark">
+      <association columnPrefix="cus_" property="customer" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+  </resultMap>
 </mapper>

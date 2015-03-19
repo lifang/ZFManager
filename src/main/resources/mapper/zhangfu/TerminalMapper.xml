@@ -219,5 +219,10 @@
         from terminals t inner join agents a on t.agent_id=a.id
         where a.code like CONCAT(#{param1},'%' ) and t.status=#{STATUS_OPENED}
     </select>
+    
+    <update id="closeCsReturnDepotsByNums">
+   		update terminals set is_return_cs_depots = 0 where serial_num in 
+    	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>  
+    </update>
 
 </mapper>

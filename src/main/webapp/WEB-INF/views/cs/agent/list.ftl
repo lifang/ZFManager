@@ -1,0 +1,122 @@
+<#import "../../common.ftl" as c />
+<@c.html>
+<div class="breadcrumb"> 
+	<ul> 
+    	<li><a href="#">售后</a></li> 
+    	<li><a href="<@spring.url "/cs/agent/list"/>">代理商售后</a></li> 
+	</ul> 
+</div> 
+
+<div class="content clear"> 
+	<div class="user_title">
+    	<h1>代理商售后申请列表</h1> 
+		<div class="userTopBtnBox"> 
+			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+		</div> 
+	</div>
+	<div class="seenBox clear"> 
+		<ul> 
+			<li>
+				<div class="user_search">
+					<input id="search_keyword" name="" type="text" class="" />
+					<button id="btn_search"></button>
+				</div>
+			</li> 
+        	<li>
+				<div class="user_select"> 
+					<label>状态筛选</label> 
+					<select id="select_status"> 
+						<option value="-1">全部</option> 
+						<option value="0">待处理</option> 
+						<option value="1">处理中</option> 
+						<option value="2">已取消</option> 
+						<option value="3">已完成</option> 
+					</select> 
+				</div>
+			</li> 
+		</ul> 
+	</div> 
+	<div id="page_fresh">
+		<#include "table.ftl" />
+	</div>
+</div>
+
+<div class="tab assign_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">任务分派</div>
+	<div class="tabBody">
+		<p class="assign_tab_p">
+			将选中的 <span class="orangeText">4</span> 条任务分派给
+		</p>
+		<select name="" class="select_default">
+			<option>111</option>
+		</select>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn">确定</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var keyword;
+	var status;
+	
+	var dispatchIds=[];
+
+	$(function(){
+		$("#btn_dispatch").bind("click", function() {
+	    });
+	
+		$("input[name='cb_all']").bind("click", function () {
+			var checked = this.checked;
+			$("input[name='cb_row_0']").each(function () {
+           		$(this).prop("checked", checked);
+            });
+        });
+	
+		$('#select_status').change(function(){
+			status = $(this).children('option:selected').val();
+			pageChange(1);
+		});
+		
+		$("#btn_search").bind("click", function() {
+			keyword = $("#search_keyword").val();
+			pageChange(1);
+	    });
+	    
+	    $('#search_keyword').keydown(function(e){
+			if(e.keyCode==13){
+   				keyword = $("#search_keyword").val();
+				pageChange(1);
+			}
+		});
+	});
+	
+	function pageChange(page) {
+	    $.get('<@spring.url "/cs/agent/page" />',
+	            {"page": page,
+	            "keyword": keyword,
+	            "status": status},
+	            function (data) {
+	                $('#page_fresh').html(data);
+	            });
+	}
+	
+	function onCancel(csAgentId) {
+		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
+	            {}, function (data) {
+	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
+	            	$("#status_"+csAgentId).text("已取消");
+	            });
+	}
+	
+	function onFinish(csAgentId) {
+		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/finish',
+	            {}, function (data) {
+	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
+	            	$("#status_"+csAgentId).text("已完成");
+	            });
+	}
+</script>	
+</@c.html>
