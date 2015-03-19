@@ -1,5 +1,5 @@
 <tr>
-	<td><input name="" type="checkbox" value="" /></td>
+	<td><input name="cb_row_${csAgent.status}" type="checkbox" value="" /></td>
 	<td>${csAgent.applyNum!}</td>
 	<td>${csAgent.createdAt?datetime}</td>
 	<td>${csAgent.processUserName!}

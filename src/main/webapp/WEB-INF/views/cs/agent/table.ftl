@@ -12,7 +12,7 @@
         </colgroup> 
 		<thead> 
 			<tr> 
-				<th><input name="" type="checkbox" value="" /></th>
+				<th><input name="cb_all" type="checkbox" value="" /></th>
                 <th>售后单号</th>
                 <th>申请日期</th>
                 <th>处理人</th>
