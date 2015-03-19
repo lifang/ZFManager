@@ -27,7 +27,7 @@
                             <#if profitSetting.floorNumber==0>
                             <p> <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_s">%</p>
                             <#else>
-                                <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.floorNumber}" class="input_xs">
+                                <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${(profitSetting.floorNumber)/100}" class="input_xs">
                                     <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_xs">%
                                 </p>
                             </#if>

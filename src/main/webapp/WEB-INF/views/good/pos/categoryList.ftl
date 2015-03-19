@@ -15,13 +15,13 @@
             <dt><div class="stair"><i></i><span>全部POS</span></div></dt>
             <#if categories?? && (categories?size > 0)>
                 <#list categories as category>
-                    <#if category.parentId??>
+                    <#if category.parentId?? && category.parentId!=0>
                         <#assign isFirst = false>
                     <#else>
                         <#assign isFirst = true>
                     </#if>
                     <#if isFirst>
-                        <#if category_index = 0>
+                        <#if category_index == 0>
                         <dd><div class="stair"><i></i><span value="${category.id}">${category.name}</span></div>
                         <ul>
                         <#else>
