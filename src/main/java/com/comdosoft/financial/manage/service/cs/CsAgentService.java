@@ -1,4 +1,4 @@
-package com.comdosoft.financial.manage.service;
+package com.comdosoft.financial.manage.service.cs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,7 @@ public class CsAgentService {
 	@Autowired
 	private CsAgentMapper csAgentMapper;
 
-	public Page<CsAgent> findPages(int page, Byte status, String keyword) {
-		if (keyword != null) {
-			keyword = "%" + keyword + "%";
-		}
-		
+	public Page<CsAgent> findPage(int page, Byte status, String keyword) {
 		long count = csAgentMapper.countSelective(status, keyword);
 		if (count == 0) {
 			return new Page<CsAgent>(new PageRequest(1, pageSize), new ArrayList<CsAgent>(), count);
@@ -40,5 +36,9 @@ public class CsAgentService {
 			csAgents = new Page<CsAgent>(request, result, count);
 		}
 		return csAgents;
+	}
+	
+	public CsAgent findById(Integer id) {
+		return csAgentMapper.selectByPrimaryKey(id);
 	}
 }
