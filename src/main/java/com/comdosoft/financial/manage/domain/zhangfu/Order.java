@@ -588,6 +588,7 @@ public class Order {
 	
 	private Customer customer;
 	private CustomerAddress customerAddress;
+	private Agent agent;
 	private Factory factory; 
 	
 	private List<OrderGood> orderGoods;
@@ -652,5 +653,15 @@ public class Order {
 	public void setOrderMarks(List<OrderMark> orderMarks) {
 		this.orderMarks = orderMarks;
 	}
+
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+	
+	
 
 }

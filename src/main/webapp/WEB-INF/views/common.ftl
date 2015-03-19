@@ -96,7 +96,7 @@
             <ol>
                 <li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li>
                 <li><a href="#">代理商批购</a></li>
-                <li><a href="#">代理商代购</a></li>
+                <li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商代购</a></li>
             </ol>
         </li>
         <li class="second"><a href="javascript:void(0);">售后<i class="off"></i></a>

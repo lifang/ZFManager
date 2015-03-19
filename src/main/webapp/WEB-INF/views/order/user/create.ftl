@@ -50,85 +50,20 @@
         </div>
       <div class="myAddress">
       	<h3>确认收货地址</h3>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-             <colgroup>
-                <col width="30" />
-                <col width="90" />
-                <col width="250" />
-                <col width="320" />
-                <col width="90" />
-                <col width="90" />
-                <col width="120" />
-                <col />
-              </colgroup>
-             <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th>收货人</th>
-                <th>所在地区</th>
-                <th>详细地址</th>
-                <th>邮编</th>
-                <th>电话</th>
-                <th>操作</th>
-                <th>&nbsp;</th>
-              </tr>
-              </thead>
-              <#if customerAddresses??>
-              	<#list customerAddresses as customerAddress>
-	              <tr>
-	                <td>
-	                	<#if customerAddress.isDefault==1>
-	                		<input name="" type="radio" value="" checked="ture" />
-	                	<#else>
-	                		<input name="" type="radio" value=""/>
-	                	</#if>
-	                </td>
-	                <td>${customerAddress.receiver!""}</td>
-	                <td><#if customerAddress.parentCity??>${customerAddress.parentCity.name!""}</#if><#if customerAddress.city??>${customerAddress.city.name!""}</#if></td>
-	                <td>${customerAddress.address!""}</td>
-	                <td>${customerAddress.zipCode!""}</td>
-	                <td>${customerAddress.moblephone!""}</td>
-	                <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn">删除</a></td>
-	                <td>
-	                	<#if customerAddress.isDefault==1>
-	                		<span class="defaultAddr">默认地址</span>
-	                	<#else>
-	                		<a href="#" class="set_defaultAddr">设为默认地址</a>
-	                	</#if>
-	                </td>
-	              </tr>
-	             </#list>
-	          </#if>
-              <tr class="addAddr_box">
-                <td>&nbsp;</td>
-                <td><input name="" type="text" value="收件人姓名" /></td>
-                <td>
-                	<select name="" id="provinceSelect">
-                	  <option>省</option>
-                	  <#include "../../common/city_option.ftl">
-                	</select>
-                    <select name="" id="citySelect">
-                	  <option>市</option>
-                	  <option>南京市</option>
-                	</select>
-                    <select name="">
-                	  <option>区/县</option>
-                	  <option>姑苏区</option>
-                	</select>
-                </td>
-                <td><input name="" type="text" class="w" value="详细地址" /></td>
-                <td><input name="" type="text" value="邮编" /></td>
-                <td><input name="" type="text" value="手机号码" /></td>
-                <td><a href="#" class="a_btn">确定</a></td>
-                <td>&nbsp;</td>
-              </tr>
-            </table>
-			<div class="addAddr_btn"><button>使用新地址</button></div>
+      		<div id="customer_address_fresh">
+			  	<#include "customerAddress.ftl" />
+            </div>
+			<div class="addAddr_btn"><button onclick="addAddress();">使用新地址</button></div>
         </div>
         <div class="myShopOrder">
         	<h3>您的订单信息
             <select name="" class="select_default">
         	  <option>选择订单类型</option>
+        	  <option value="1">用户订购</option>
+        	  <option value="2">用户租赁</option>
+        	  <option value="3">代理商代购</option>
+        	  <option value="4">代理商代租赁</option>
+        	  <option value="5">代理商批购</option>
         	</select></h3>
             <table width="100%" cellspacing="0" cellpadding="0" class="b_table">
              <colgroup>
@@ -227,6 +162,28 @@
         
     function isNotNull(value){
         return value != "" && value != null && value != undefined;
+    }
+    
+    function createCustomerAddress(){
+		var cityId = $("#citySelect").val();
+		var receiver = $("#receiver").val();
+		var address = $("#address").val();
+		var moblephone = $("#moble_phone").val();
+		var zipCode = $("#zip_code").val();
+		$.get('<@spring.url "/order/customer/address/create" />',
+	            {"cityId": cityId,
+	             "receiver": receiver,
+	             "address": address,
+	             "moblephone": moblephone,
+	             "zipCode": zipCode
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
+	function addAddress(){
+        $("#add_address_box").show();
     }
 </script>
 </@c.html>

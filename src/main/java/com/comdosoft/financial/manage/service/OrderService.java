@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,21 +32,21 @@ public class OrderService {
 	@Autowired
 	private GoodsPictureMapper goodsPictureMapper;
 	
-	public Page<Order> findPages(int page, Byte status, String keys,Integer factoryId){
+	public Page<Order> findPages(int page, Byte status, String keys,Integer factoryId,List<Byte> types){
 		pageSize=2;
 		if (keys != null) {
 			keys = "%"+keys+"%";
 		}
-		long count = orderMapper.countByKeys(status, keys,factoryId);
+		long count = orderMapper.countByKeys(status, keys,factoryId,types);
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize), new ArrayList<Order>(), count);
 		}
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Order> result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId);
+		List<Order> result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
-			result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId);
+			result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds=new ArrayList<Integer>();
