@@ -224,5 +224,10 @@
    		update terminals set is_return_cs_depots = 0 where serial_num in 
     	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>  
     </update>
+    
+    <select id="findTerminalsByNums" resultMap="TerminalLazyResultMap">
+        select * from terminals where serial_num in 
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach> 
+    </select>
 
 </mapper>

@@ -44,33 +44,77 @@
 <div class="tab assign_tab">
 	<a href="#" class="close">关闭</a>
 	<div class="tabHead">任务分派</div>
+	<div id="dispatch_select" class="tabBody">
+	</div>
+	<div id="dispatch_submit" class="tabFoot">
+		<button class="blueBtn" onClick="onDispatch();">确定</button>
+	</div>
+</div>
+
+<div class="tab exchangeGoods_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
-		<p class="assign_tab_p">
-			将选中的 <span class="orangeText">4</span> 条任务分派给
-		</p>
-		<select name="" class="select_default">
-			<option>111</option>
-		</select>
+		<textarea name="" cols="" rows="" class="textarea_pe"></textarea>
 	</div>
 	<div class="tabFoot">
-		<button class="blueBtn">确定</button>
+		<button class="blueBtn" onClick="onOutput();">确定</button>
 	</div>
 </div>
 
 <script type="text/javascript">
 
+	var tmpId;
 	var keyword;
 	var status;
 	
-	var dispatchIds=[];
-
 	$(function(){
+	
 		$("#btn_dispatch").bind("click", function() {
+			var dispatchIds = [];
+			var dispatchedNums = [];
+			$("input[name='cb_row']").each(function () {
+				var id = $(this).attr("cs_agent_id");
+				var status = $(this).attr("cs_agent_status");
+				var num = $(this).attr("cs_agent_num");
+           		if($(this).prop("checked") ) {
+           			if (status==0) {
+           				dispatchIds.push(id);
+           			} else {
+           				dispatchedNums.push(num);
+           			}
+           		}
+            });
+            $('#dispatch_select').empty();
+            $.get('<@spring.url "/cs/dispatch" />',
+	            {}, function (data) {
+	            	$('#dispatch_select').append('<p class="assign_tab_p">将选中的 <span class="orangeText">'+dispatchIds.length+'</span> 条<span class="orangeText">待处理</span>任务分派给</p>')
+	                $('#dispatch_select').append(data);
+	                if (dispatchedNums.length>0) {
+            			$('#dispatch_select').append('<br/><br/><em>编号<span class="orangeText">'+dispatchedNums+'</span>的申请已经在分派，不能再分派<em>')
+            		}
+	            });
 	    });
 	
-		$("input[name='cb_all']").bind("click", function () {
+		$("input[name='cb_row']").bind("click", function () {
+			var total=0;
+			var checked=0;
+			$("input[name='cb_row']").each(function () {
+           		total++;
+           		if ($(this).prop("checked")) {
+           			checked++;
+           		}
+            });
+            if(checked<total) {
+            	$("input[name='cb_all']").prop("checked",false);
+            } else if(total==checked) {
+            	$("input[name='cb_all']").prop("checked",true);
+            }
+        });
+        
+        $("input[name='cb_all']").bind("click", function () {
 			var checked = this.checked;
-			$("input[name='cb_row_0']").each(function () {
+			$("input[name='cb_row']").each(function () {
            		$(this).prop("checked", checked);
             });
         });
@@ -103,6 +147,10 @@
 	            });
 	}
 	
+	function onIdChanged(csAgentId) {
+		tmpId = csAgentId;
+	}
+	
 	function onCancel(csAgentId) {
 		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
 	            {}, function (data) {
@@ -118,5 +166,33 @@
 	            	$("#status_"+csAgentId).text("已完成");
 	            });
 	}
+	
+	function onOutput() {
+		$.post('<@spring.url "" />'+'/cs/agent/'+tmpId+'/output',
+	            {}, function (data) {
+					location.href = '<@spring.url "" />'+'/cs/agent/list';
+	            });
+	}
+	
+	function onDispatch() {
+		var csAgentIds = [];
+		$("input[name='cb_row']").each(function () {
+				var id = $(this).attr("cs_agent_id");
+				var status = $(this).attr("cs_agent_status");
+           		if($(this).prop("checked") && status==0) {
+           			csAgentIds.push(id);
+           		}
+            });
+        var ids = csAgentIds.join(',');
+		var customerId = $("#customer_select  option:selected").attr("customer_id");
+		var customerName = $("#customer_select  option:selected").text();
+		$.post('<@spring.url "" />'+'/cs/agent/dispatch',
+	            {"ids": ids,
+	            "customerId":customerId,
+	            "customerName":customerName}, function (data) {
+	            	location.href = '<@spring.url "" />'+'/cs/agent/list';
+	            });
+	}
+	
 </script>	
 </@c.html>

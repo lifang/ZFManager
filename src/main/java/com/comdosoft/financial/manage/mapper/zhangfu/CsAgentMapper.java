@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -63,5 +64,10 @@ public interface CsAgentMapper {
 			@Param("pageRequest") PageRequest pageRequest,
 			@Param("status") Byte status, @Param("keyword") String keyword);
 	
-	
+	/**
+	 * dispatch process user by cs_agent_ids
+	 * 
+	 * @param params
+	 */
+	void dispatchUserByIds(Map<String, Object> params);
 }

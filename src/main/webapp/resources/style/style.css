@@ -30,7 +30,7 @@ strong.blue { color: #0071cf;}
 .original { text-decoration: line-through; color: #666;}
 
 .textarea_l { width: 332px; height: 100px; padding: 5px; border: 1px #CCCCCC solid; font-size: 12px;}
-
+.textarea_pe { width: 98%; height: 100px; padding: 5px; border: 1px #CCCCCC solid; font-size: 12px;}
 
 .btnBottom { margin: 10px 10px 10px 0; padding: 10px 10px 10px 0; text-align: left;}
 .btnBottom button { margin-right: 10px;}

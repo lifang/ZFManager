@@ -63,13 +63,23 @@ public class CsAgentController {
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.finish(id);
+	}
+	
+	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
+	public void output(HttpServletResponse response, @PathVariable Integer id) {
+		csAgentService.output(id);
+	}
+	
+	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
+	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+		csAgentService.dispatch(ids, customerId, customerName);
 	}
 	
 	@RequestMapping(value = "mark/create", method = RequestMethod.POST)

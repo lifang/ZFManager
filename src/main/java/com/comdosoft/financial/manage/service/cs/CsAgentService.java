@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsAgentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -85,5 +88,23 @@ public class CsAgentService {
 	public void finish(Integer csAgentId) {
 		updateStatus(csAgentId, (byte)3);
 	}
+	
+	public void output(Integer csAgentId) {
+		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
+		String terminalsList = csAgent.getTerminalsList();
+		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalsList.split(","));
+		for (Terminal terminal : terminals) {
+			System.out.println(terminal.getOrder());
+		}
+	}
+	
+	public void dispatch(String ids, Integer customerId, String customerName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", ids.split(","));
+		params.put("customerId", customerId);
+		params.put("customerName", customerName);
+		csAgentMapper.dispatchUserByIds(params);
+	}
+	
 	
 }

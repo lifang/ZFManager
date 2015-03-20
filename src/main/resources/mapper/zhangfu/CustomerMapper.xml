@@ -159,4 +159,11 @@
         select * from customers
         where name like #{customerName} or username like #{customerName}
     </select>
+    
+    <!-- find users who have permission to operate -->
+    <select id="selectDispatchUsers" resultMap="BaseResultMap">
+      <bind name="STATUS_NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL" />
+      <bind name="TYPE_OPERATE" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_OPERATE" />
+      select * from customers where status=#{STATUS_NORMAL} and types=#{TYPE_OPERATE}
+    </select>
 </mapper>
