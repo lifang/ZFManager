@@ -64,4 +64,15 @@
     select id, title, is_placed_top, create_at, updated_at, content
     from web_messages
   </select>
+
+    <select id="findPageMessages" resultMap="BaseResultMap">
+        select *
+        from web_messages
+        order by create_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(*) as count
+        FROM web_messages
+    </select>
 </mapper>

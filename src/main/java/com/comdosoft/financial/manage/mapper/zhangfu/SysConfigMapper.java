@@ -34,4 +34,6 @@ public interface SysConfigMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(SysConfig record);
+
+    SysConfig findByKey(String key);
 }

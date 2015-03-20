@@ -94,4 +94,22 @@ public class SysConfig {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+
+    public static final String INTEGRAL_CONVERT = "integralConvert";//积分兑换
+    public static final String SHOP_COUNT = "shopcount";//同型pos购买
+    public static final String TOTAL_MONEY = "totalmoney";//累计交易流水
+    public static final String TRADE_RECORD_DEFAULT_PROFIT = "tradeRecordDefaultProfit";//交易流水默认分润比例
+    public static final String HIRE_DEFAULT_PROFIT = "hireDefaultProfit";//租金默认分润比例
+    public static final String DEFAULT_PROFIT = "defaultProfit";//默认分润比例
+    public static final String RETURN_TIME = "returnTime";//允许退货时间
+    public static final String CHANGE_TIME = "changeTime";//允许换货时间
+    public static final String OPEN_POLLING_INTERVAL = "openPollingInterval";//业务开通状态轮询间隔
+    public static final String CANCEL_POLLING_INTERVAL = "cancelPollingInterval";//注销轮询时间间隔
+    public static final String ORDER_EXPIRED_TIME = "orderExpiredTime";//订单过期时间
+    public static final String BUSINESS_EXPIRED_TIME = "businessExpiredTime";//业务记录过期时间
+    public static final String INTEGRAL_BUY_POS = "integralBuyPos";//积分获取购买POS机
+    public static final String INTEGRAL_TRADE = "integralTrade";//积分获取交易流水
+
+
 }

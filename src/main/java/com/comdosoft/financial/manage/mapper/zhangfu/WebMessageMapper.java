@@ -1,6 +1,9 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.WebMessage;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface WebMessageMapper {
@@ -34,4 +37,8 @@ public interface WebMessageMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(WebMessage record);
+
+    long count();
+
+    List<WebMessage> findPageMessages(@Param("pageRequest") PageRequest pageRequest);
 }

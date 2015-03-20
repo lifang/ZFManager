@@ -49,6 +49,62 @@
       	<#include "pageOrder.ftl" />
       </div>
 </div>
+<div class="tab priceOrder_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">修改订单价格</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">订单价格</span><div class="text" id="order_price"><strong>￥0.00</strong></div></li>
+                <li><span class="labelSpan">新价格</span><div class="text"><input name="" type="text" id="actual_price"/></div></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="priceSure">确定</button></div>
+</div>
+
+<div class="tab paymentRecord_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">增加付款记录</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">付款金额</span><div class="text" id="pay_price"><strong>￥0.00</strong></div></li>
+                <li><span class="labelSpan">付款方式</span><div class="text">
+                    <select name="" id="pay_type">
+                      <option value="1">支付宝</option>
+                      <option value="2">银联</option>
+                      <option value="3">现金</option>
+                    </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
+</div>
+
+<div class="tab remark_tab">
+    	<a href="#" class="close">关闭</a>
+        <div class="tabHead">备注</div>
+        <div class="tabBody">
+        	<textarea id="mark_content" name="" cols="" rows=""></textarea>
+        </div>
+        <div class="tabFoot"><button class="blueBtn" id="markSure">确定</button></div>
+</div>
+
+<div class="tab deliver_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">添加第三方库存发货信息</div>
+    <div class="tabBody">
+    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
+        <p>POS机数量：10</p>
+    	<textarea name="" cols="" rows="">输入终端号</textarea>
+        <input name="" type="text" value="物流公司" />
+        <input name="" type="text" value="物流单号" />
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
 <script type="text/javascript">
 
 	$(function(){
@@ -85,7 +141,75 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+	                popup(".remark_tab",".remark_a");//备注
+	                popup(".priceOrder_tab",".priceOrder_a");//修改价格
+	                popup(".paymentRecord_tab",".paymentRecord_a");//修改价格
 	            });
 	}
+	
+	function markBtn(id){
+ 		$("#markSure").click(function(){markSure(id)});
+    }
+    
+    function markSure(id){
+		var content = $('#mark_content').val();
+		$.get('<@spring.url "" />'+'/order/mark/user/create',
+				{"orderId":id,
+				"content":content
+				},
+	            function (data) {
+					$('.remark_tab').hide();
+					$('.mask').hide();
+	            });
+	}
+	
+	function orderPriceBtn(id,price){
+		$("#order_price").html("<strong>￥"+price+"</strong>");
+ 		$("#priceSure").click(function(){priceSure(id)});
+    }
+    
+    function priceSure(id){
+		var actualPrice = $('#actual_price').val();
+		$.get('<@spring.url "" />'+'/order/user/'+id+'/save',
+				{"orderId":id,
+				"actualPrice":actualPrice
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.priceOrder_tab').hide();
+					$('.mask').hide();
+	            });
+    }
+    
+    function cancel(id){
+    	$.get('<@spring.url "" />'+'/order/user/'+id+'/cancel',
+				{
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.priceOrder_tab').hide();
+					$('.mask').hide();
+	            });
+    }
+    
+    function payPriceBtn(id,price){
+		$("#pay_price").html("<strong>￥"+price+"</strong>");
+ 		$("#paySure").click(function(){paySure(id)});
+    }
+    
+    function paySure(id){
+		var payType = $('#pay_type').val();
+		$.get('<@spring.url "" />'+'/order/payment/user/create',
+				{"orderId":id,
+				"payType":payType
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.paymentRecord_tab').hide();
+					$('.mask').hide();
+	            });
+    }
+    
+	
 </script>
 </@c.html>

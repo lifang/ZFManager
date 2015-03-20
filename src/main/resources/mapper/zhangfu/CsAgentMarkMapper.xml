@@ -62,4 +62,15 @@
     select id, cs_agent_id, customer_id, content, created_at
     from cs_agent_marks
   </select>
+  
+  <!-- select marks by cs_agent_id -->
+  <select id="selectByAgentId" resultMap="InfoResultMap">
+    select mark.*, cus.name as cus_name from cs_agent_marks mark 
+    left join customers cus on mark.customer_id = cus.id
+    where cs_agent_id = #{csAgentId, jdbcType=INTEGER} order by mark.created_at desc
+  </select>
+  
+  <resultMap id="InfoResultMap" extends="BaseResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsAgentMark">
+      <association columnPrefix="cus_" property="customer" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+  </resultMap>
 </mapper>

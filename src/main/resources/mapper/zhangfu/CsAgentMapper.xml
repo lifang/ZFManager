@@ -88,4 +88,25 @@
     address, reason, created_at, updated_at, apply_num, reciver, phone, terminals_list
     from cs_agents
   </select>
+
+  <sql id="pageWhere">
+    <where>
+      <if test="status != null"> AND status = #{status} </if>
+      <if test="keyword != null"> AND apply_num LIKE CONCAT('%', #{keyword}, '%')</if>
+    </where>
+  </sql>
+
+  <!-- count records by keyword and status -->
+  <select id="countSelective" resultType="long">
+    SELECT count(*) as count FROM cs_agents
+    <include refid="pageWhere" />
+  </select>
+
+  <!-- select page records by keyword and status -->
+  <select id="findPageSelective" resultMap="BaseResultMap">
+    select * from cs_agents
+    <include refid="pageWhere" />
+    order by created_at desc limit #{pageRequest.offset},
+    #{pageRequest.pageSize}
+  </select>
 </mapper>

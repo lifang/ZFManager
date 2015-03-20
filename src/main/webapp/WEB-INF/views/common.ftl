@@ -96,15 +96,15 @@
             <ol>
                 <li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li>
                 <li><a href="#">代理商批购</a></li>
-                <li><a href="#">代理商代购</a></li>
+                <li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商代购</a></li>
             </ol>
         </li>
         <li class="second"><a href="javascript:void(0);">售后<i class="off"></i></a>
             <ol>
                 <li><a href="#">资料更新</a></li>
-                <li><a href="#">代理商售后</a></li>
+                <li><a href="<@spring.url "/cs/agent/list"/>"<#if urlCheck(request,"/cs/agent")> class="hover"</#if>>代理商售后</a></li>
                 <li><a href="#">维修</a></li>
-                <li><a href="#">换货</a></li>
+                <li><a href="<@spring.url "/cs/change/list"/>"<#if urlCheck(request,"/cs/change")> class="hover"</#if>>换货</a></li>
                 <li><a href="#">退货</a></li>
                 <li><a href="#">租赁退还</a></li>
                 <li><a href="#">注销</a></li>
@@ -124,11 +124,11 @@
             <ol<#if urlCheck(request,"/system")> style="display: block;"</#if>>
                 <li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li>
                 <li><a href="<@spring.url "/system/message/list"/>"<#if urlCheck(request,"/system/message")> class="hover"</#if>>系统消息</a></li>
-                <li><a href="#">系统参数</a></li>
+                <li><a href="<@spring.url "/system/setting"/>"<#if urlCheck(request,"/system/setting")> class="hover"</#if>>系统参数</a></li>
                 <li><a href="#">数据字典</a></li>
                 <li><a href="#">第三方机构</a></li>
                 <li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li>
-                <li><a href="#">网站内容</a></li>
+                <li><a href="<@spring.url "/system/content/webmessage"/>"<#if urlCheck(request,"/system/content")> class="hover"</#if>>网站内容</a></li>
                 <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>账户设置</a></li>
             </ol>
         </li>

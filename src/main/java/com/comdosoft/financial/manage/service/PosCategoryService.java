@@ -26,12 +26,12 @@ public class PosCategoryService {
 		Multimap<Integer, PosCategory> myMultimap = ArrayListMultimap.create();  
 		if (categories != null) {
 			for (PosCategory posCategory : categories) {
-				if (posCategory.getParentId() == null) {
+				if (posCategory.getParentId() == null || posCategory.getParentId() == 0) {
 					myMultimap.put(posCategory.getId(), posCategory);
 				}
 			}
 			for (PosCategory posCategory : categories) {
-				if (posCategory.getParentId() != null) {
+				if (posCategory.getParentId() != null && posCategory.getParentId() != 0) {
 					myMultimap.put(posCategory.getParentId(), posCategory);
 				}
 			}
@@ -53,8 +53,8 @@ public class PosCategoryService {
 	public PosCategory create(Integer parentId, String name) {
 		PosCategory posCategory = new PosCategory();
 		posCategory.setName(name);
-		if(parentId != null && parentId == 0){
-			posCategory.setParentId(null);
+		if(parentId == null){
+			posCategory.setParentId(parentId);
 		} else {
 			posCategory.setParentId(parentId);
 		}
