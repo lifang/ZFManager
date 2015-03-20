@@ -12,9 +12,9 @@
 
         <div class="myInfoNav">
             <ul>
-                <li><a href="#" class="hover">首页公告</a></li>
-                <li><a href="#">轮播图</a></li>
-                <li><a href="#">活动页面</a></li>
+                <li><a class="hover">首页公告</a></li>
+                <li><a href="<@spring.url "/system/content/carousel" />">轮播图</a></li>
+                <li><a href="<@spring.url "/system/content/activity" />">活动页面</a></li>
             </ul>
         </div>
 

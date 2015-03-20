@@ -1,7 +1,9 @@
 package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.SysShufflingFigure;
 import com.comdosoft.financial.manage.domain.zhangfu.WebMessage;
+import com.comdosoft.financial.manage.service.SysShufflingFigureService;
 import com.comdosoft.financial.manage.service.WebMessageService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * Created by quqiang on 15/3/20.
  */
@@ -20,15 +24,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ContentController {
     @Autowired
     private WebMessageService webMessageService;
+    @Autowired
+    private SysShufflingFigureService sysShufflingFigureService;
 
     @RequestMapping(value = "webmessage", method = RequestMethod.GET)
-    public String list(Integer page, Model model){
+    public String messageList(Integer page, Model model){
         findMessagePage(page, model);
         return "system/web_message_list";
     }
 
     @RequestMapping(value="webmessage/page",method=RequestMethod.GET)
-    public String page(Integer page, Model model){
+    public String messagePage(Integer page, Model model){
         findMessagePage(page, model);
         return "system/web_message_list_page";
     }
@@ -93,4 +99,13 @@ public class ContentController {
         model.addAttribute("page", messages);
         model.addAttribute("pageNum", page);
     }
+
+
+    @RequestMapping(value = "carousel", method = RequestMethod.GET)
+    public String carouselList(Model model){
+        List<SysShufflingFigure> sysShufflingFigures = sysShufflingFigureService.findSysShufflingFigures();
+        model.addAttribute("sysShufflingFigures", sysShufflingFigures);
+        return "system/carousel_list";
+    }
+
 }
