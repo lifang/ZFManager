@@ -60,4 +60,9 @@
     select id, param_name, param_value, remark
     from sys_config
   </select>
+
+    <select id="findByKey" resultMap="BaseResultMap">
+        select * from sys_config
+        where param_name=#{param1}
+    </select>
 </mapper>
