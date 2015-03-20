@@ -27,7 +27,7 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 @Service
 public class GoodService {
 
-    @Value("${page.size}")
+    @Value("${page.good.size}")
     private Integer pageSize;
 
 	@Autowired

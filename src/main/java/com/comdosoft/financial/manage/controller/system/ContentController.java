@@ -5,15 +5,21 @@ import com.comdosoft.financial.manage.domain.zhangfu.SysShufflingFigure;
 import com.comdosoft.financial.manage.domain.zhangfu.WebMessage;
 import com.comdosoft.financial.manage.service.SysShufflingFigureService;
 import com.comdosoft.financial.manage.service.WebMessageService;
+import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -22,6 +28,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/system/content")
 public class ContentController {
+    private Logger LOG = LoggerFactory.getLogger(ContentController.class);
+
+    @Value("${path.root}")
+    private String rootPath;
+    @Value("${path.prefix.carousel}")
+    private String carouselPath;
     @Autowired
     private WebMessageService webMessageService;
     @Autowired
@@ -108,4 +120,27 @@ public class ContentController {
         return "system/carousel_list";
     }
 
+    @RequestMapping(value="carousel/uploadImg",method=RequestMethod.POST)
+    @ResponseBody
+    public Response uploadImg(MultipartFile file){
+        String fileName = carouselPath+ FileUtil.getPathFileName()+".jpg";
+        try {
+            File osFile = new File(rootPath + fileName);
+            if (!osFile.getParentFile().exists()) {
+                osFile.getParentFile().mkdirs();
+            }
+            file.transferTo(osFile);
+        } catch (Exception e) {
+            LOG.error("", e);
+            return Response.getError("上传失败！");
+        }
+        return Response.getSuccess(fileName);
+    }
+
+    @RequestMapping(value="carousel/{id}/edit",method=RequestMethod.POST)
+    @ResponseBody
+    public Response editCarousel(@PathVariable Integer id, String pictureUrl, String webSiteUrl){
+        sysShufflingFigureService.edit(id, pictureUrl, webSiteUrl);
+        return Response.getSuccess("");
+    }
 }
