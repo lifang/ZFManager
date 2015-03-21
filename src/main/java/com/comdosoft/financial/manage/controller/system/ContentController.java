@@ -1,8 +1,10 @@
 package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.SysActivity;
 import com.comdosoft.financial.manage.domain.zhangfu.SysShufflingFigure;
 import com.comdosoft.financial.manage.domain.zhangfu.WebMessage;
+import com.comdosoft.financial.manage.service.SysActivityService;
 import com.comdosoft.financial.manage.service.SysShufflingFigureService;
 import com.comdosoft.financial.manage.service.WebMessageService;
 import com.comdosoft.financial.manage.utils.FileUtil;
@@ -34,10 +36,14 @@ public class ContentController {
     private String rootPath;
     @Value("${path.prefix.carousel}")
     private String carouselPath;
+    @Value("${path.prefix.activity}")
+    private String activityPath;
     @Autowired
     private WebMessageService webMessageService;
     @Autowired
     private SysShufflingFigureService sysShufflingFigureService;
+    @Autowired
+    private SysActivityService sysActivityService;
 
     @RequestMapping(value = "webmessage", method = RequestMethod.GET)
     public String messageList(Integer page, Model model){
@@ -142,5 +148,63 @@ public class ContentController {
     public Response editCarousel(@PathVariable Integer id, String pictureUrl, String webSiteUrl){
         sysShufflingFigureService.edit(id, pictureUrl, webSiteUrl);
         return Response.getSuccess("");
+    }
+
+    @RequestMapping(value = "activity", method = RequestMethod.GET)
+    public String activityList(Integer page, Model model){
+        findActivityPage(page, model);
+        return "system/activity_list";
+    }
+
+    @RequestMapping(value="activity/page",method=RequestMethod.GET)
+    public String activityPage(Integer page, Model model){
+        findActivityPage(page, model);
+        return "system/activity_list_page";
+    }
+
+
+    @RequestMapping(value="activity/{id}/edit",method=RequestMethod.GET)
+    public String editActivity(@PathVariable Integer id, Model model){
+        SysActivity sysActivity = sysActivityService.findInfo(id);
+        model.addAttribute("activity", sysActivity);
+        return "system/activity_create";
+    }
+
+    @RequestMapping(value="activity/create",method=RequestMethod.GET)
+    public String createActivity(Model model){
+        return "system/activity_create";
+    }
+
+    @RequestMapping(value="activity/{id}/delete",method=RequestMethod.GET)
+    @ResponseBody
+    public Response deleteActivity(@PathVariable Integer id, Model model){
+        sysActivityService.delete(id);
+        return Response.getSuccess(null);
+    }
+
+    @RequestMapping(value="activity/uploadZip",method=RequestMethod.POST)
+    @ResponseBody
+    public Response uploadActivityZip(MultipartFile file){
+        String fileName = activityPath + FileUtil.getPathFileName()+".zip";
+        try {
+            File osFile = new File(rootPath + fileName);
+            if (!osFile.getParentFile().exists()) {
+                osFile.getParentFile().mkdirs();
+            }
+            file.transferTo(osFile);
+        } catch (Exception e) {
+            LOG.error("", e);
+            return Response.getError("上传失败！");
+        }
+        return Response.getSuccess(fileName);
+    }
+
+    private void findActivityPage(Integer page, Model model){
+        if (page == null) {
+            page = 1;
+        }
+        Page<SysActivity> messages = sysActivityService.findPages(page);
+        model.addAttribute("page", messages);
+        model.addAttribute("pageNum", page);
     }
 }

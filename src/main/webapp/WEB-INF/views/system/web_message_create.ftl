@@ -20,6 +20,7 @@
 
         <div class="user_title"><h1>${message???string("编辑","创建")}首页公告</h1>
             <div class="userTopBtnBox">
+                <a href="javascript:history.go(-1);" class="ghostBtn">返回</a>
             </div>
         </div>
         <div class="item_list clear">

@@ -64,4 +64,15 @@
     select id, title, url, created_at, updated_at, code
     from sys_activities
   </select>
+
+    <select id="findPageMessages" resultMap="BaseResultMap">
+        select *
+        from sys_activities
+        order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(*) as count
+        FROM sys_activities
+    </select>
 </mapper>

@@ -1,6 +1,9 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.SysActivity;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface SysActivityMapper {
@@ -34,4 +37,9 @@ public interface SysActivityMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(SysActivity record);
+
+    long count();
+
+    List<SysActivity> findPageMessages(@Param("pageRequest") PageRequest pageRequest);
+
 }
