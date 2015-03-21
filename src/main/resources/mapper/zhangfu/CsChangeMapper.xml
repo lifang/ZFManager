@@ -103,12 +103,14 @@
   <sql id="selectFrom">
     select cc.*, t.id t_id, t.serial_num t_serial_num, 
     m.id m_id, m.title m_title, m.phone m_phone, 
-    pc.id pc_id, pc.name pc_name, g.id g_id, g.title g_title 
+    pc.id pc_id, pc.name pc_name, g.id g_id, g.title g_title,
+    addr.id addr_id, addr.address addr_address  
     from cs_changes cc 
     left join terminals t on cc.terminal_id=t.id 
     left join goods g on t.good_id=g.id 
     left join pay_channels pc on pc.id=t.pay_channel_id
     left join merchants m on m.id=t.merchant_id 
+    left join cs_receiver_addresses addr on addr.id=cc.return_address_id 
   </sql>
   
   <!-- count records by keyword and status -->
@@ -137,5 +139,11 @@
     <association columnPrefix="g_" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" /> 
     <association columnPrefix="addr_" property="csReceiverAddress" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper.BaseResultMap" /> 
   </resultMap>
+  
+  <!-- dispatch process user by cs_change_ids -->
+  <update id="dispatchUserByIds">
+      update cs_changes set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
   
 </mapper>

@@ -1,4 +1,5 @@
 <#import "../../page.ftl" as pager>
+<#import "../assign.ftl" as assign />
 <div class="uesr_table"> 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table"> 
 		<colgroup> 
@@ -41,6 +42,8 @@
 		<button class="blueBtn" onClick="onOutput();">确定</button>
 	</div>
 </div>
+
+<@assign.assign name="agent"/>
 
 <script type="text/javascript">
 	$(function() {

@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.controller.cs;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import com.comdosoft.financial.manage.domain.zhangfu.CsChange;
 import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.SessionService;
-import com.comdosoft.financial.manage.service.cs.CsChangeMarkService;
 import com.comdosoft.financial.manage.service.cs.CsChangeService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
@@ -27,8 +27,6 @@ public class CsChangeController {
 	private SessionService sessionService;
 	@Autowired
 	private CsChangeService csChangeService;
-	@Autowired
-	private CsChangeMarkService csChangeMarkService;
 
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -55,9 +53,32 @@ public class CsChangeController {
 	@RequestMapping(value = "{id}/info", method = RequestMethod.GET)
 	public String info(@PathVariable Integer id, Model model) {
 		CsChange csChange = csChangeService.findInfoById(id);
-		List<CsChangeMark> csChangeMarks = csChangeMarkService.findByChangeId(id);
+		List<CsChangeMark> csChangeMarks = csChangeService.findMarksByCsChangeId(id);
 		model.addAttribute("csChange", csChange);
 		model.addAttribute("csChangeMarks", csChangeMarks);
 		return "cs/change/info";
 	}
+	
+	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
+	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+		csChangeService.cancel(id);
+	}
+	
+	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
+	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+		csChangeService.finish(id);
+	}
+	
+	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
+	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+		csChangeService.dispatch(ids, customerId, customerName);
+	}
+	
+	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, Integer csChangeId, String content, Model model) {
+    	Customer customer = sessionService.getLoginInfo(request);
+    	CsChangeMark csChangeMark = csChangeService.createMark(customer, csChangeId, content);
+    	model.addAttribute("mark", csChangeMark);
+        return "cs/mark";
+    }
 }

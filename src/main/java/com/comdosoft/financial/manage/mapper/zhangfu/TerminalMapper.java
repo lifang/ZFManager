@@ -56,6 +56,14 @@ public interface TerminalMapper {
 	int closeCsReturnDepotsByNums(String[] serialNums);
 	
 	/**
+	 * set is_return_cs_depots to <i>false</i> by id
+	 * 
+	 * @param terminalId
+	 * @return
+	 */
+	int closeCsReturnDepotsById(Integer id);
+
+	/**
 	 * find terminals by serial_nums
 	 * 
 	 * @param serialNums
