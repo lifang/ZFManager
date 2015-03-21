@@ -35,5 +35,5 @@ public interface SysConfigMapper {
 	 */
 	int updateByPrimaryKey(SysConfig record);
 
-    SysConfig findByKey(String key);
+	SysConfig findByKey(String key);
 }

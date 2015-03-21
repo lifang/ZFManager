@@ -24,10 +24,11 @@
     <result column="merchant_num" jdbcType="VARCHAR" property="merchantNum" />
     <result column="is_rate_wrong" jdbcType="BIT" property="isRateWrong" />
     <result column="base_rate" jdbcType="INTEGER" property="baseRate" />
-    <result column="terminal_marks_id" jdbcType="INTEGER" property="terminalMarksId" />
     <result column="billing_cycles_id" jdbcType="INTEGER" property="billingCyclesId" />
     <result column="opened_at" jdbcType="TIMESTAMP" property="openedAt" />
     <result column="top_charge" jdbcType="INTEGER" property="topCharge" />
+    <result column="reserver1" jdbcType="VARCHAR" property="reserver1" />
+    <result column="reserver2" jdbcType="VARCHAR" property="reserver2" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -50,17 +51,17 @@
       agent_id, order_id, account, 
       password, is_return_cs_depots, created_at, 
       updated_at, type, merchant_num, 
-      is_rate_wrong, base_rate, terminal_marks_id, 
-      billing_cycles_id, opened_at, top_charge
-      )
+      is_rate_wrong, base_rate, billing_cycles_id, 
+      opened_at, top_charge, reserver1, 
+      reserver2)
     values (#{goodId,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
       #{merchantId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       #{agentId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{isReturnCsDepots,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{type,jdbcType=TINYINT}, #{merchantNum,jdbcType=VARCHAR}, 
-      #{isRateWrong,jdbcType=BIT}, #{baseRate,jdbcType=INTEGER}, #{terminalMarksId,jdbcType=INTEGER}, 
-      #{billingCyclesId,jdbcType=INTEGER}, #{openedAt,jdbcType=TIMESTAMP}, #{topCharge,jdbcType=INTEGER}
-      )
+      #{isRateWrong,jdbcType=BIT}, #{baseRate,jdbcType=INTEGER}, #{billingCyclesId,jdbcType=INTEGER}, 
+      #{openedAt,jdbcType=TIMESTAMP}, #{topCharge,jdbcType=INTEGER}, #{reserver1,jdbcType=VARCHAR}, 
+      #{reserver2,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Terminal">
     <!--
@@ -85,10 +86,11 @@
       merchant_num = #{merchantNum,jdbcType=VARCHAR},
       is_rate_wrong = #{isRateWrong,jdbcType=BIT},
       base_rate = #{baseRate,jdbcType=INTEGER},
-      terminal_marks_id = #{terminalMarksId,jdbcType=INTEGER},
       billing_cycles_id = #{billingCyclesId,jdbcType=INTEGER},
       opened_at = #{openedAt,jdbcType=TIMESTAMP},
-      top_charge = #{topCharge,jdbcType=INTEGER}
+      top_charge = #{topCharge,jdbcType=INTEGER},
+      reserver1 = #{reserver1,jdbcType=VARCHAR},
+      reserver2 = #{reserver2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -98,8 +100,8 @@
     -->
     select id, good_id, serial_num, pay_channel_id, merchant_id, customer_id, status, 
     agent_id, order_id, account, password, is_return_cs_depots, created_at, updated_at, 
-    type, merchant_num, is_rate_wrong, base_rate, terminal_marks_id, billing_cycles_id, 
-    opened_at, top_charge
+    type, merchant_num, is_rate_wrong, base_rate, billing_cycles_id, opened_at, top_charge, 
+    reserver1, reserver2
     from terminals
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -110,8 +112,8 @@
     -->
     select id, good_id, serial_num, pay_channel_id, merchant_id, customer_id, status, 
     agent_id, order_id, account, password, is_return_cs_depots, created_at, updated_at, 
-    type, merchant_num, is_rate_wrong, base_rate, terminal_marks_id, billing_cycles_id, 
-    opened_at, top_charge
+    type, merchant_num, is_rate_wrong, base_rate, billing_cycles_id, opened_at, top_charge, 
+    reserver1, reserver2
     from terminals
   </select>
   
@@ -222,7 +224,7 @@
     
     <update id="closeCsReturnDepotsByNums">
    		update terminals set is_return_cs_depots = 0 where serial_num in 
-    	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>  
+    	<foreach close=")" collection="array" index="index" item="item" open="(" separator=",">#{item}</foreach>  
     </update>
 
 </mapper>

@@ -38,7 +38,7 @@ public interface SysMessageMapper {
 	 */
 	int updateByPrimaryKey(SysMessage record);
 
-    long count();
+	long count();
 
     List<SysMessage> findPageMessages(@Param("pageRequest") PageRequest pageRequest);
 

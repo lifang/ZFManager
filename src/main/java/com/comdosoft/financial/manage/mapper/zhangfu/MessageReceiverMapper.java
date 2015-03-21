@@ -37,7 +37,7 @@ public interface MessageReceiverMapper {
 	 */
 	int updateByPrimaryKey(MessageReceiver record);
 
-    void deleteBySysMessageId(Integer sysMessageId);
+	void deleteBySysMessageId(Integer sysMessageId);
 
     void insertMessages( @Param("sysMessageId")Integer sysMessageId, @Param("goodId")Integer goodId, @Param("channelId")Integer channelId, @Param("customerType")Byte customerType);
 }

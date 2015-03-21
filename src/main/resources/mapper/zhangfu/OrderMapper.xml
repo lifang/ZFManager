@@ -137,7 +137,7 @@
 				order_number like #{keys}) </if>
 			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
 			<if test="types != null"> AND o.types in 
-				<foreach item="item" index="index" collection="types" open="(" separator="," close=")">  
+				<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">  
 				  #{item}  
 				</foreach> 
 			</if>

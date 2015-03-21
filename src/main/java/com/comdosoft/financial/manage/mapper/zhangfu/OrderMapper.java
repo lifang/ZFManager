@@ -39,7 +39,7 @@ public interface OrderMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(Order record);
-	
+
 	List<Order> findPageOrdersByKeys(@Param("pageRequest") PageRequest pageRequest,
 			@Param("status") Byte status, @Param("keys") String keys,
 			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types);

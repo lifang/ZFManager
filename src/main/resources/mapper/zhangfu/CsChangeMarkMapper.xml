@@ -70,7 +70,7 @@
     where cs_change_id = #{csChangeId, jdbcType=INTEGER} order by mark.created_at desc
   </select>
   
-  <resultMap id="InfoResultMap" extends="BaseResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark">
-      <association columnPrefix="cus_" property="customer" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+  <resultMap extends="BaseResultMap" id="InfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark">
+      <association columnPrefix="cus_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
   </resultMap>
 </mapper>

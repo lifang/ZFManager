@@ -34,7 +34,7 @@ public interface CsAgentMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsAgentMark record);
-	
+
 	/**
 	 * select marks by cs_agent_id
 	 * 

@@ -16,7 +16,7 @@
     <result column="types" jdbcType="INTEGER" property="types" />
     <result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
     <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
-    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="card_id" jdbcType="VARCHAR" property="cardId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -59,7 +59,7 @@
     values (#{applyCustomerId,jdbcType=INTEGER}, #{preliminaryVerifyUserId,jdbcType=INTEGER}, 
       #{terminalId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{types,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, 
-      #{merchantName,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{merchantName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
       #{cardId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{cityId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
       #{accountBankNum,jdbcType=VARCHAR}, #{accountBankName,jdbcType=VARCHAR}, #{accountBankCode,jdbcType=VARCHAR}, 
@@ -81,7 +81,7 @@
       types = #{types,jdbcType=INTEGER},
       merchant_id = #{merchantId,jdbcType=INTEGER},
       merchant_name = #{merchantName,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=BIT},
+      sex = #{sex,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       card_id = #{cardId,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},

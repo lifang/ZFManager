@@ -38,7 +38,7 @@ public interface SysActivityMapper {
 	 */
 	int updateByPrimaryKey(SysActivity record);
 
-    long count();
+	long count();
 
     List<SysActivity> findPageMessages(@Param("pageRequest") PageRequest pageRequest);
 

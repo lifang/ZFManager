@@ -38,7 +38,7 @@ public interface WebMessageMapper {
 	 */
 	int updateByPrimaryKey(WebMessage record);
 
-    long count();
+	long count();
 
     List<WebMessage> findPageMessages(@Param("pageRequest") PageRequest pageRequest);
 }

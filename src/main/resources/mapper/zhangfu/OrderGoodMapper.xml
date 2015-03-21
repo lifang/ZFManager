@@ -90,7 +90,7 @@
     	left join good_brands gb on gb.id=g.good_brands_id
     	left join pay_channels pc on og.pay_channel_id=pc.id 
     	where og.order_id in 
-    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+    	<foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
 		  #{item}  
 		</foreach>  
     </select>

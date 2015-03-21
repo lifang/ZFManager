@@ -38,7 +38,7 @@ public interface CsAgentMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsAgent record);
-	
+
 	/**
 	 * count records by keyword and status
 	 * 
