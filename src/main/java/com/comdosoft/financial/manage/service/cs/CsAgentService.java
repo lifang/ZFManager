@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsAgentMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -31,6 +33,8 @@ public class CsAgentService {
 	private CsAgentMapper csAgentMapper;
 	@Autowired
 	private TerminalMapper terminalMapper;
+	@Autowired
+	private CsOutStorageMapper csOutStorageMapper;
 	
 	public Page<CsAgent> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csAgentMapper.countSelective(status, keyword);
@@ -89,12 +93,21 @@ public class CsAgentService {
 		updateStatus(csAgentId, (byte)3);
 	}
 	
-	public void output(Integer csAgentId) {
+	public void output(Integer csAgentId, String terminalList) {
 		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
-		String terminalsList = csAgent.getTerminalsList();
-		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalsList.split(","));
+		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalList.split(","));
 		for (Terminal terminal : terminals) {
-			System.out.println(terminal.getOrder());
+			CsOutStorage csOutStorage = new CsOutStorage();
+			csOutStorage.setCsApplyId(csAgent.getApplyNum());
+			csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_AGENT);
+			csOutStorage.setCreatedAt(new Date());
+			csOutStorage.setUpdatedAt(new Date());
+			csOutStorage.setOrderId(terminal.getOrderId());
+			csOutStorage.setProcessUserId(csAgent.getProcessUserId());
+			csOutStorage.setProcessUserName(csAgent.getProcessUserName());
+			csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
+			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
+			csOutStorageMapper.insert(csOutStorage);
 		}
 	}
 	

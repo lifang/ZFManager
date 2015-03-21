@@ -51,20 +51,7 @@
 	</div>
 </div>
 
-<div class="tab exchangeGoods_tab">
-	<a href="#" class="close">关闭</a>
-	<div class="tabHead">添加换货出库记录</div>
-	<div class="tabBody">
-		<textarea name="" cols="" rows="" class="textarea_pe"></textarea>
-	</div>
-	<div class="tabFoot">
-		<button class="blueBtn" onClick="onOutput();">确定</button>
-	</div>
-</div>
-
 <script type="text/javascript">
-
-	var tmpId;
 	var keyword;
 	var status;
 	
@@ -147,10 +134,6 @@
 	            });
 	}
 	
-	function onIdChanged(csAgentId) {
-		tmpId = csAgentId;
-	}
-	
 	function onCancel(csAgentId) {
 		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
 	            {}, function (data) {
@@ -164,13 +147,6 @@
 	            {}, function (data) {
 	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
 	            	$("#status_"+csAgentId).text("已完成");
-	            });
-	}
-	
-	function onOutput() {
-		$.post('<@spring.url "" />'+'/cs/agent/'+tmpId+'/output',
-	            {}, function (data) {
-					location.href = '<@spring.url "" />'+'/cs/agent/list';
 	            });
 	}
 	

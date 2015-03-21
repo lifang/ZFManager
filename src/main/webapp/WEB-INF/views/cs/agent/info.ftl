@@ -49,9 +49,11 @@
 	</div>
 	<div class="user_record">
 		<h2>追踪记录</h2>
+		<div id="mark_container">
 		<#list csAgentMarks as mark>
 			<#include "../mark.ftl" />
 		</#list>
+		</div>
 	</div>
 </div>
 

@@ -73,8 +73,8 @@ public class CsAgentController {
 	}
 	
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
-	public void output(HttpServletResponse response, @PathVariable Integer id) {
-		csAgentService.output(id);
+	public void output(HttpServletResponse response, @PathVariable Integer id, String terminalList) {
+		csAgentService.output(id, terminalList);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
@@ -86,8 +86,8 @@ public class CsAgentController {
 	public String createMark(HttpServletRequest request, Integer csAgentId, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
     	CsAgentMark csAgentMark = csAgentMarkService.create(customer, csAgentId, content);
-    	model.addAttribute("csAgentMark", csAgentMark);
-        return "cs/agent/mark";
+    	model.addAttribute("mark", csAgentMark);
+        return "cs/mark";
     }
 	
 }

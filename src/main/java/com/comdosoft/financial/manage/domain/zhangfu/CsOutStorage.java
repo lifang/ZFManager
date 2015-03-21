@@ -234,4 +234,16 @@ public class CsOutStorage {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
+	// 售后申请类型：1 资料更新 2 代理商售后 3 维修 4 换货 5 租赁退货 6 注销
+	public static final int TYPE_UPDATE = 1;
+	public static final int TYPE_AGENT = 2;
+	public static final int TYPT_REPAIR = 3;
+	public static final int TYPE_CHANGE = 4;
+	public static final int TYPE_LEASE = 5;
+	public static final int TYPE_CANCEL = 6;
+	
+	// 0未发货  1 已发货
+	public static final int STATUS_NOT_OUTPUT = 0;
+	public static final int STATUS_OUTPUT = 1;
 }

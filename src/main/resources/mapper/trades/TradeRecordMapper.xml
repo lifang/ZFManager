@@ -32,7 +32,7 @@
     <result column="traded_status" jdbcType="INTEGER" property="tradedStatus" />
     <result column="attach_status" jdbcType="INTEGER" property="attachStatus" />
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
-    <result column="types" jdbcType="INTEGER" property="types" />
+    <result column="types" jdbcType="TINYINT" property="types" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -65,7 +65,7 @@
       #{accountNumber,jdbcType=VARCHAR}, #{actualPaymentPrice,jdbcType=INTEGER}, #{paidResult,jdbcType=TINYINT}, 
       #{paidCode,jdbcType=INTEGER}, #{paidErrorDescription,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{tradeTypeId,jdbcType=INTEGER}, #{tradedStatus,jdbcType=INTEGER}, 
-      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=INTEGER}
+      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.trades.TradeRecord">
@@ -99,7 +99,7 @@
       traded_status = #{tradedStatus,jdbcType=INTEGER},
       attach_status = #{attachStatus,jdbcType=INTEGER},
       customer_id = #{customerId,jdbcType=INTEGER},
-      types = #{types,jdbcType=INTEGER}
+      types = #{types,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

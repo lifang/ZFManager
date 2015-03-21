@@ -30,3 +30,14 @@
        	</#if>
 	</td>
 </tr>
+
+<div class="tab exchangeGoods_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">添加换货出库记录</div>
+	<div class="tabBody">
+		<textarea name="" cols="" rows="" class="textarea_pe"></textarea>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onOutput();">确定</button>
+	</div>
+</div>
