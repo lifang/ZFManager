@@ -35,6 +35,6 @@ public interface OrderMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OrderMark record);
-	
+
 	List<OrderMark> selectOrderMarksByOrderId(Integer orderId);
 }

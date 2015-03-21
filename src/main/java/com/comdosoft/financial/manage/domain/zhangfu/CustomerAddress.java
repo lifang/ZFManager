@@ -280,7 +280,7 @@ public class CustomerAddress {
 	public void setTelphone(String telphone) {
 		this.telphone = telphone;
 	}
-	
+
 	private City city;
 	private City parentCity;
 

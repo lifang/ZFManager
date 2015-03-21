@@ -349,7 +349,7 @@ public class CsChange {
 	public void setTempleteInfoXml(String templeteInfoXml) {
 		this.templeteInfoXml = templeteInfoXml;
 	}
-	
+
 	private Terminal terminal;
 	private Merchant merchant;
 	private PayChannel payChannel;

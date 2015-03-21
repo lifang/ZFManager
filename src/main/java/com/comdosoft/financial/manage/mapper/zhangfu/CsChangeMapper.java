@@ -38,7 +38,7 @@ public interface CsChangeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsChange record);
-	
+
 	/**
 	 * count records by keyword and status
 	 * 

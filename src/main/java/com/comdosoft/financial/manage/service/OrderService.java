@@ -103,8 +103,12 @@ public class OrderService {
 		return order;
 	}
 	
-	public int save(){
-		Order record=new Order();
-		return orderMapper.insert(record);
+	public int save(Integer orderId,Byte status,Integer actualPrice,Byte payStatus){
+		Order record=orderMapper.findOrderInfo(orderId);
+		record.setId(orderId);
+		if(null!=status) record.setStatus(status);
+		if(null!=actualPrice) record.setActualPrice(actualPrice);
+		if(null!=payStatus) record.setPayStatus(payStatus);
+		return orderMapper.updateByPrimaryKey(record);
 	}
 }

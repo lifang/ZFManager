@@ -122,9 +122,18 @@ public class UserOrderController {
     }
     
     @RequestMapping(value="/user/{id}/save",method=RequestMethod.GET)
-	public String save(@PathVariable Integer id,Byte status, Model model){
-		Order order=orderService.findOrderInfo(id);
+	public String save(@PathVariable Integer id,Byte status,Integer actualPrice, Model model){
+    	orderService.save(id, status, actualPrice,null);
+    	Order order=orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/user/info";
+		return "order/user/pageRowOrder";
 	}
+    
+    @RequestMapping(value="/user/{id}/cancel",method=RequestMethod.GET)
+    public String cancle(@PathVariable Integer id, Model model){
+    	orderService.save(id, (byte) 5,null,null);
+    	Order order=orderService.findOrderInfo(id);
+    	model.addAttribute("order", order);
+    	return "order/user/pageRowOrder";
+    }
 }

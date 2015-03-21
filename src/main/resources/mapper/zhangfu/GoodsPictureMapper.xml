@@ -81,7 +81,7 @@
         select gpic.*
         from goods_pictures gpic
         where gpic.good_id in 
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
 		  #{item}  
 		</foreach>   
         group by gpic.good_id

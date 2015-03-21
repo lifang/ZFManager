@@ -10,6 +10,9 @@
 <div class="content clear">
     <div class="user_title">
         <h1>发送消息</h1>
+        <div class="userTopBtnBox">
+            <a href="javascript:history.go(-1);" class="ghostBtn">返回</a>
+        </div>
     </div>
     <div class="item_list clear">
         <ul>

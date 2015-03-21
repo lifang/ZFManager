@@ -35,7 +35,7 @@ public interface CsChangeMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsChangeMark record);
-	
+
 	/**
 	 * select marks by cs_change_id
 	 * 

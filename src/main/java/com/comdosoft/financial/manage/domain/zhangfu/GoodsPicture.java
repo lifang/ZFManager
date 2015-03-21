@@ -142,7 +142,7 @@ public class GoodsPicture {
 	public void setMiddleUrlPath(String middleUrlPath) {
 		this.middleUrlPath = middleUrlPath;
 	}
-	
+
 	private Good goodByPicture;
 
 	public Good getGoodByPicture() {
