@@ -97,13 +97,15 @@
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">添加第三方库存发货信息</div>
     <div class="tabBody">
-    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
-        <p>POS机数量：10</p>
+    	<div id="pos_info">
+	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
+	        <p>POS机数量：10</p>
+	    </div>
     	<textarea name="" cols="" rows="">输入终端号</textarea>
-        <input name="" type="text" value="物流公司" />
-        <input name="" type="text" value="物流单号" />
+        <input name="" type="text" value="物流公司" id="logistics_name" />
+        <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
 </div>
 <script type="text/javascript">
 
@@ -141,10 +143,16 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
-	                popup(".remark_tab",".remark_a");//备注
-	                popup(".priceOrder_tab",".priceOrder_a");//修改价格
-	                popup(".paymentRecord_tab",".paymentRecord_a");//修改价格
+	                popupPage();
 	            });
+	}
+	
+	function popupPage(){
+		popup(".remark_tab",".remark_a");//备注
+        popup(".priceOrder_tab",".priceOrder_a");//修改价格
+        popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
+        popup(".deliver_tab",".deliver_a");//发货
+        
 	}
 	
 	function markBtn(id){
@@ -178,6 +186,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
+					popupPage();
 	            });
     }
     
@@ -189,6 +198,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
+					popupPage();
 	            });
     }
     
@@ -207,6 +217,36 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();
+					popupPage();
+	            });
+    }
+    
+    function deliverBtn(id,size){
+    	var htmlStr='';
+    	for(var i=0;i<size;i++){
+    		var hidden_good_title = $('#hidden_good_title_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
+	        "<p>POS机数量："+hidden_quantity+"</p>";
+    	}
+		$("#pos_info").html(htmlStr);
+ 		$("#deliverSure").click(function(){deliverSure(id)});
+    }
+    
+    function deliverSure(id){
+		var logisticsName = $('#logistics_name').val();
+		var logisticsNumber = $('#logistics_number').val();
+		$.get('<@spring.url "" />'+'/order/logistic/create',
+				{
+				"orderId":id,
+				"logisticsName":logisticsName,
+				"logisticsNumber":logisticsNumber
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.deliver_tab').hide();
+					$('.mask').hide();
+					popupPage();
 	            });
     }
     
