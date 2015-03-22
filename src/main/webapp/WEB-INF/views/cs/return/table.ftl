@@ -25,13 +25,13 @@
 			</tr>
 		</thead>
 		<tbody> 
-		<#if (csChanges.content)??>
-			<#list csChanges.content as csChange>
+		<#if (csReturns.content)??>
+			<#list csReturns.content as csReturn>
 				<#include "row.ftl" />
 			</#list>
 		</#if>
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="change" page=csChanges.currentPage/>
-<@pager.p page=csChanges.currentPage totalPages=csChanges.totalPage functionName="pageChange"/>	
+<@assign.assign name="return" page=csReturns.currentPage/>
+<@pager.p page=csReturns.currentPage totalPages=csReturns.totalPage functionName="pageChange"/>	

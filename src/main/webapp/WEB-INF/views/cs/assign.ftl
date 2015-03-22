@@ -1,12 +1,12 @@
-<#macro assign name> 
+<#macro assign name page> 
 
 <div class="tab assign_tab">
-	<a href="#" class="close">关闭</a>
+	<a class="close">关闭</a>
 	<div class="tabHead">任务分派</div>
 	<div id="dispatch_select" class="tabBody">
 	</div>
 	<div id="dispatch_submit" class="tabFoot">
-		<button class="blueBtn" onClick="onDispatch();">确定</button>
+		<button class="blueBtn close" onClick="onDispatch();">确定</button>
 	</div>
 </div>
 
@@ -87,7 +87,7 @@
 	            {"ids": ids.join(','),
 	            "customerId":customerId,
 	            "customerName":customerName}, function (data) {
-	            	location.href = '<@spring.url "" />'+'/cs/${name}/list';
+	            	pageChange(${page});
 	            });
 	}
 

@@ -33,17 +33,15 @@
 </div>
 
 <div class="tab exchangeGoods_tab">
-	<a href="#" class="close">关闭</a>
+	<a class="close">关闭</a>
 	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
 		<textarea id="output_content" name="" cols="" rows="" class="textarea_pe"></textarea>
 	</div>
 	<div class="tabFoot">
-		<button class="blueBtn" onClick="onOutput();">确定</button>
+		<button class="blueBtn close" onClick="onOutput();">确定</button>
 	</div>
 </div>
-
-<@assign.assign name="agent"/>
 
 <script type="text/javascript">
 	$(function() {
@@ -57,11 +55,11 @@
 	
 	function onOutput() {
 		var terminalList = $("#output_content").val();
-		alert(terminalList)
 		$.post('<@spring.url "" />'+'/cs/agent/'+tmpId+'/output',
 	            {"terminalList": terminalList}, function (data) {
-					location.href = '<@spring.url "" />'+'/cs/agent/list';
+					pageChange(${csAgents.currentPage});
 	            });
 	}
 </script>
+<@assign.assign name="agent" page=csAgents.currentPage/>
 <@pager.p page=csAgents.currentPage totalPages=csAgents.totalPage functionName="pageChange"/>	

@@ -13,43 +13,43 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsChange;
-import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CsRepair;
+import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMarkMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 @Service
-public class CsChangeService {
+public class CsRepairService {
 
 	@Value("${page.size}")
 	private Integer pageSize;
 
 	@Autowired
-	private CsChangeMapper csChangeMapper;
+	private CsRepairMapper csRepairMapper;
 	@Autowired
 	private TerminalMapper terminalMapper;
 	@Autowired
-	private CsChangeMarkMapper csChangeMarkMapper;
+	private CsRepairMarkMapper csRepairMarkMapper;
 
-	public Page<CsChange> findPage(Customer customer, int page, Byte status, String keyword) {
-		long count = csChangeMapper.countSelective(status, keyword);
+	public Page<CsRepair> findPage(Customer customer, int page, Byte status, String keyword) {
+		long count = csRepairMapper.countSelective(status, keyword);
 		PageRequest request = new PageRequest(page, pageSize);
 		if (count == 0) {
-			return new Page<CsChange>(new PageRequest(1, pageSize), new ArrayList<CsChange>(), count);
+			return new Page<CsRepair>(new PageRequest(1, pageSize), new ArrayList<CsRepair>(), count);
 		} else {
 			if (pageSize <= 0) pageSize = 1;
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsChange> result = csChangeMapper.findPageSelective(request, status, keyword);
+		List<CsRepair> result = csRepairMapper.findPageSelective(request, status, keyword);
 		
-		Collections.sort(result, new Comparator<CsChange>() {
+		Collections.sort(result, new Comparator<CsRepair>() {
 			@Override
-			public int compare(CsChange o1, CsChange o2) {
+			public int compare(CsRepair o1, CsRepair o2) {
 				Integer customerId = customer.getId();
 				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
 					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
@@ -61,34 +61,34 @@ public class CsChangeService {
 					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
 			}
 		});
-		Page<CsChange> csChanges = new Page<CsChange>(request, result, count);
-		return csChanges;
+		Page<CsRepair> csRepairs = new Page<CsRepair>(request, result, count);
+		return csRepairs;
 	}
 	
-	public CsChange findInfoById(Integer id) {
-		return csChangeMapper.selectInfoByPrimaryKey(id);
+	public CsRepair findInfoById(Integer id) {
+		return csRepairMapper.selectInfoByPrimaryKey(id);
 	}
 	
-	public CsChange updateStatus(Integer csChangeId, Byte status) {
-		CsChange csChange = csChangeMapper.selectByPrimaryKey(csChangeId);
-		csChange.setStatus(status);
-		csChange.setUpdatedAt(new Date());
-		csChangeMapper.updateByPrimaryKey(csChange);
-		return csChange;
+	public CsRepair updateStatus(Integer csRepairId, Byte status) {
+		CsRepair csRepair = csRepairMapper.selectByPrimaryKey(csRepairId);
+		csRepair.setStatus(status);
+		csRepair.setUpdatedAt(new Date());
+		csRepairMapper.updateByPrimaryKey(csRepair);
+		return csRepair;
 	}
 	
 	@Transactional("transactionManager")
-	private void cancelOrFinish(Integer csChangeId, Byte status) {
-		CsChange csChange = updateStatus(csChangeId, status);
+	private void cancelOrFinish(Integer csRepairId, Byte status) {
+		CsRepair csRepair = updateStatus(csRepairId, status);
 		
-		Integer terminalId = csChange.getTerminalId();
+		Integer terminalId = csRepair.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
 		}
 	}
 	
 	public void cancel(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)2);
+		cancelOrFinish(csAgentId, (byte)4);
 	}
 	
 	public void finish(Integer csAgentId) {
@@ -100,24 +100,24 @@ public class CsChangeService {
 		params.put("ids", ids.split(","));
 		params.put("customerId", customerId);
 		params.put("customerName", customerName);
-		csChangeMapper.dispatchUserByIds(params);
+		csRepairMapper.dispatchUserByIds(params);
 	}
 	
 	@Transactional("transactionManager")
-	public CsChangeMark createMark(Customer customer, Integer csChangeId, String content) {
-		updateStatus(csChangeId, (byte)1);
+	public CsRepairMark createMark(Customer customer, Integer csRepairId, String content) {
+		updateStatus(csRepairId, (byte)2);
 		
-		CsChangeMark csChangeMark = new CsChangeMark();
-		csChangeMark.setCustomId(customer.getId());
-		csChangeMark.setCsChangeId(csChangeId);
-		csChangeMark.setCreatedAt(new Date());
-		csChangeMark.setContent(content);
-		csChangeMarkMapper.insert(csChangeMark);
-		csChangeMark.setCustomer(customer);
-		return csChangeMark;
+		CsRepairMark csRepairMark = new CsRepairMark();
+		csRepairMark.setCustomerId(customer.getId());
+		csRepairMark.setCsRepairId(csRepairId);
+		csRepairMark.setCreatedAt(new Date());
+		csRepairMark.setContent(content);
+		csRepairMarkMapper.insert(csRepairMark);
+		csRepairMark.setCustomer(customer);
+		return csRepairMark;
 	}
 	
-	public List<CsChangeMark> findMarksByCsChangeId(Integer csChangeId) {
-		return csChangeMarkMapper.selectByChangeId(csChangeId);
+	public List<CsRepairMark> findMarksByCsRepairId(Integer csRepairId) {
+		return csRepairMarkMapper.selectByRepairId(csRepairId);
 	}
 }

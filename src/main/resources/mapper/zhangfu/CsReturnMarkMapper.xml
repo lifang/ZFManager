@@ -62,4 +62,15 @@
     select id, cs_return_id, customer_id, created_at, content
     from cs_return_marks
   </select>
+  
+  <!-- select marks by cs_return_id -->
+  <select id="selectByReturnId" resultMap="InfoResultMap">
+    select mark.*, cus.name as cus_name from cs_return_marks mark 
+    left join customers cus on mark.customer_id = cus.id
+    where cs_return_id = #{csReturnId, jdbcType=INTEGER} order by mark.created_at desc
+  </select>
+  
+  <resultMap extends="BaseResultMap" id="InfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark">
+      <association columnPrefix="cus_" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.BaseResultMap" />
+  </resultMap>
 </mapper>
