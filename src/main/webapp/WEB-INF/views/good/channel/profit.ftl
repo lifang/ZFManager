@@ -119,7 +119,7 @@
         var topProfits = new Array();
         var error = false;
         var baseProfit = $("#baseProfit").prop("value");
-        if(error = isNotDecimal(baseProfit, "标准手续费交易分润百分比必须大于0小于100!")){
+        if(error = isNotDecimal(baseProfit, "标准手续费交易分润千分比必须大于0小于1000!")){
             return false;
         }
         $(".rate").each(function(i){
@@ -130,8 +130,8 @@
             var topCharge = $(this).find("input[name='topCharge']").prop("value");
             var topProfit = $(this).find("input[name='topProfit']").prop("value");
             tradeTypeIds[i]=$(this).attr("value");
-            if((error = isNotDecimal(terminalRate, "终端费率必须大于0小于100!"))
-                || (error = isNotDecimal(baseRate, "基础费率必须大于0小于100!"))
+            if((error = isNotDecimal(terminalRate, "终端费率必须大于0小于1000!"))
+                || (error = isNotDecimal(baseRate, "基础费率必须大于0小于1000!"))
                 || (error = isNotTwoDecimal(floorCharge, "最低收费必须为2位小数!"))
                 || (error = isNotTwoDecimal(floorProfit, "最低分润必须为2位小数!"))
                 || (error = isNotTwoDecimal(topCharge, "最高收费必须为2位小数!"))
@@ -182,7 +182,7 @@
     }
 
     function isNotDecimal(value, error){
-        var re=/^([1-9]|([1-9][0-9]))$/;//2位整数
+        var re=/^([1-9]|([1-9][0-9])|([1-9][0-9][0-9]))$/;//3位整数
         if(value.length>0 && !(re.test(value))){
             showErrorTip(error);
             return true;

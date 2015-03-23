@@ -33,6 +33,7 @@ import java.util.List;
             List<DictionarySignOrderWay> orderWays = dictionaryService.listAllDictionarySignOrderWays();
             List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
             List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+            List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
             model.addAttribute("creditTypes", creditTypes);
             model.addAttribute("companyAddresses", companyAddresses);
             model.addAttribute("openPrivates", openPrivates);
@@ -41,6 +42,7 @@ import java.util.List;
             model.addAttribute("orderWays", orderWays);
             model.addAttribute("cardTypes", cardTypes);
             model.addAttribute("tradeTypes", tradeTypes);
+            model.addAttribute("standardRates", standardRates);
             return "system/dictionary/dictionary";
         }
 
@@ -111,7 +113,7 @@ import java.util.List;
         @RequestMapping(value = "/openPrivate/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
         public Response deleteOpenPrivate(@PathVariable Integer id, Model model){
-            dictionaryService.deleteDictionaryCreditType(id);
+            dictionaryService.deleteDictionaryOpenPrivateInfo(id);
             return Response.getSuccess(null);
         }
 
@@ -324,5 +326,41 @@ import java.util.List;
             dictionaryService.deleteDictionaryTradeType(id);
             return Response.getSuccess(null);
         }
+
+        @RequestMapping(value = "/standardRate/{id}/edit", method = RequestMethod.GET)
+        public String editStandardRate(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryTradeStandardRate standardRate = dictionaryService.findDictionaryTradeStandardRate(id);
+                model.addAttribute("standardRate", standardRate);
+            }
+            return "system/dictionary/standardRate_edit";
+        }
+
+        @RequestMapping(value = "/standardRate/{id}/info", method = RequestMethod.GET)
+        public String creditStandardRate(@PathVariable Integer id, Model model){
+            DictionaryTradeStandardRate standardRate = dictionaryService.findDictionaryTradeStandardRate(id);
+            model.addAttribute("standardRate", standardRate);
+            return "system/dictionary/standardRate_info";
+        }
+
+        @RequestMapping(value = "/standardRate/{id}/edit", method = RequestMethod.POST)
+        public String editStandardRate(@PathVariable Integer id, String name, String rate, String description, Model model){
+            DictionaryTradeStandardRate standardRate = null;
+            if (id != 0){
+                standardRate = dictionaryService.editDictionaryTradeStandardRate(id, name, rate, description);
+            } else {
+                standardRate = dictionaryService.createDictionaryTradeStandardRate(name, rate, description);
+            }
+            model.addAttribute("standardRate", standardRate);
+            return "system/dictionary/standardRate_info";
+        }
+
+        @RequestMapping(value = "/standardRate/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteStandardRate(@PathVariable Integer id, Model model){
+            dictionaryService.deleteDictionaryTradeStandardRate(id);
+            return Response.getSuccess(null);
+        }
+
 
     }

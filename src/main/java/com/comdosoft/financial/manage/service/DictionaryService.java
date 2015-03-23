@@ -102,8 +102,6 @@ public class DictionaryService {
         return dictionarySignOrderWayMapper.selectAll();
     }
 
-
-
     public DictionarySignOrderWay findDictionarySignOrderWay(Integer id) {
         return dictionarySignOrderWayMapper.selectByPrimaryKey(id);
     }
@@ -133,6 +131,39 @@ public class DictionaryService {
     public List<DictionaryTradeStandardRate> listAllDictionaryTradeStandardRates() {
         return dictionaryTradeStandardRateMapper.selectAll();
     }
+
+    public DictionaryTradeStandardRate findDictionaryTradeStandardRate(Integer id) {
+        return dictionaryTradeStandardRateMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryTradeStandardRate editDictionaryTradeStandardRate(Integer id, String name, String rate, String description) {
+        DictionaryTradeStandardRate dictionaryTradeStandardRate = dictionaryTradeStandardRateMapper.selectByPrimaryKey(id);
+        dictionaryTradeStandardRate.setMerchantTypeName(name);
+        dictionaryTradeStandardRate.setBaseRate(rate);
+        dictionaryTradeStandardRate.setDescription(description);
+        dictionaryTradeStandardRate.setUpdatedAt(new Date());
+        dictionaryTradeStandardRateMapper.updateByPrimaryKey(dictionaryTradeStandardRate);
+        return dictionaryTradeStandardRate;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryTradeStandardRate createDictionaryTradeStandardRate(String name, String rate, String description) {
+        DictionaryTradeStandardRate dictionaryTradeStandardRate = new DictionaryTradeStandardRate();
+        dictionaryTradeStandardRate.setMerchantTypeName(name);
+        dictionaryTradeStandardRate.setBaseRate(rate);
+        dictionaryTradeStandardRate.setDescription(description);
+        dictionaryTradeStandardRate.setCreatedAt(new Date());
+        dictionaryTradeStandardRate.setUpdatedAt(new Date());
+        dictionaryTradeStandardRateMapper.insert(dictionaryTradeStandardRate);
+        return dictionaryTradeStandardRate;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionaryTradeStandardRate(Integer id) {
+        dictionaryTradeStandardRateMapper.deleteByPrimaryKey(id);
+    }
+
 
     public List<DictionaryBillingCycle> listAllDictionaryBillingCycles() {
         return dictionaryBillingCycleMapper.selectAll();
