@@ -10,59 +10,35 @@
         <div class="user_title"><h1>数据字典管理</h1>
         </div>
         <#include "creditType_list.ftl"/>
+        <div class="attributes_box">
+            <h2>公司地址</h2>
+            <div class="dataDictionary">
+                <table width="100%" border="0" cellspacing="1" cellpadding="0">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <tbody><tr>
+                        <td>地址电话</td>
+                        <td>操作</td>
+                    </tr>
+                    <tr>
+                        <td>江苏省苏州市吴中区（1329873466）</td>
+                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td><input name="" type="text"></td>
+                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
+                    </tr>
+                    </tbody></table>
+                <a href="#" class="pay_add_a">+</a>
+            </div>
+        </div>
         <#include "openPrivate_list.ftl"/>
-
-        <div class="attributes_box">
-            <h2>用户订单类型</h2>
-            <div class="dataDictionary">
-                <table width="100%" border="0" cellspacing="1" cellpadding="0">
-                    <colgroup>
-                        <col width="50%">
-                        <col width="50%">
-                    </colgroup>
-                    <tbody><tr>
-                        <td>类型</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>XXXXX</td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td><input name="" type="text"></td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    </tbody></table>
-                <a href="#" class="pay_add_a">+</a>
-            </div>
-        </div>
-
+        <#include "orderType_list.ftl"/>
         <#include "encryptCardWay_list.ftl"/>
-
-        <div class="attributes_box">
-            <h2>银行卡类型</h2>
-            <div class="dataDictionary">
-                <table width="100%" border="0" cellspacing="1" cellpadding="0">
-                    <colgroup>
-                        <col width="50%">
-                        <col width="50%">
-                    </colgroup>
-                    <tbody><tr>
-                        <td>类型</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>XXXXX</td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td><input name="" type="text"></td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    </tbody></table>
-                <a href="#" class="pay_add_a">+</a>
-            </div>
-        </div>
+        <#include "orderWay_list.ftl"/>
+        <#include "cardType_list.ftl"/>
 
         <div class="attributes_box">
             <h2>交易类型</h2>

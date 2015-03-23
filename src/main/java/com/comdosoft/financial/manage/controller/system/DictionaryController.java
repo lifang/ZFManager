@@ -1,9 +1,7 @@
 package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
-import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCreditType;
-import com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay;
-import com.comdosoft.financial.manage.domain.zhangfu.DictionaryOpenPrivateInfo;
+import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,10 +27,16 @@ import java.util.List;
         public String list(Model model){
             List<DictionaryCreditType> creditTypes = dictionaryService.listAllDictionaryCreditTypes();
             List<DictionaryOpenPrivateInfo> openPrivates = dictionaryService.listAllDictionaryOpenPrivateInfos();
+            List<DictionaryCustomerOrderType> orderTypes = dictionaryService.listAllDictionaryCustomerOrderTypes();
             List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
+            List<DictionarySignOrderWay> orderWays = dictionaryService.listAllDictionarySignOrderWays();
+            List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
             model.addAttribute("creditTypes", creditTypes);
             model.addAttribute("openPrivates", openPrivates);
+            model.addAttribute("orderTypes", orderTypes);
             model.addAttribute("encryptCardWays", encryptCardWays);
+            model.addAttribute("orderWays", orderWays);
+            model.addAttribute("cardTypes", cardTypes);
             return "system/dictionary/dictionary";
         }
 
@@ -142,4 +146,109 @@ import java.util.List;
             return Response.getSuccess(null);
         }
 
-}
+        @RequestMapping(value = "/orderType/{id}/edit", method = RequestMethod.GET)
+        public String editOrderType(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryCustomerOrderType orderType = dictionaryService.findDictionaryCustomerOrderType(id);
+                model.addAttribute("orderType", orderType);
+            }
+            return "system/dictionary/orderType_edit";
+        }
+        @RequestMapping(value = "/orderType/{id}/info", method = RequestMethod.GET)
+        public String orderTypeInfo(@PathVariable Integer id, Model model){
+            DictionaryCustomerOrderType orderType = dictionaryService.findDictionaryCustomerOrderType(id);
+            model.addAttribute("orderType", orderType);
+            return "system/dictionary/orderType_info";
+        }
+
+        @RequestMapping(value = "/orderType/{id}/edit", method = RequestMethod.POST)
+        public String editOrderType(@PathVariable Integer id, String name, Model model){
+            DictionaryCustomerOrderType orderType = null;
+            if (id != 0){
+                orderType = dictionaryService.editDictionaryCustomerOrderType(id, name);
+            } else {
+                orderType = dictionaryService.createDictionaryCustomerOrderType(name);
+            }
+            model.addAttribute("orderType", orderType);
+            return "system/dictionary/orderType_info";
+        }
+
+        @RequestMapping(value = "/orderType/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteOrderType(@PathVariable Integer id, String name, Model model){
+            dictionaryService.deleteDictionaryCustomerOrderType(id);
+            return Response.getSuccess(null);
+        }
+
+        @RequestMapping(value = "/cardType/{id}/edit", method = RequestMethod.GET)
+        public String editCardType(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryCardType cardType = dictionaryService.findDictionaryCardType(id);
+                model.addAttribute("cardType", cardType);
+            }
+            return "system/dictionary/cardType_edit";
+        }
+
+        @RequestMapping(value = "/cardType/{id}/info", method = RequestMethod.GET)
+        public String cardTypeInfo(@PathVariable Integer id, Model model){
+            DictionaryCardType cardType = dictionaryService.findDictionaryCardType(id);
+            model.addAttribute("cardType", cardType);
+            return "system/dictionary/cardType_info";
+        }
+
+        @RequestMapping(value = "/cardType/{id}/edit", method = RequestMethod.POST)
+        public String editCardType(@PathVariable Integer id, String name, Model model){
+            DictionaryCardType cardType = null;
+            if (id != 0){
+                cardType = dictionaryService.editDictionaryCardType(id, name);
+            } else {
+                cardType = dictionaryService.createDictionaryCardType(name);
+            }
+            model.addAttribute("cardType", cardType);
+            return "system/dictionary/cardType_info";
+        }
+
+        @RequestMapping(value = "/cardType/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteCardType(@PathVariable Integer id, String name, Model model){
+            dictionaryService.deleteDictionaryCardType(id);
+            return Response.getSuccess(null);
+        }
+
+        @RequestMapping(value = "/orderWay/{id}/edit", method = RequestMethod.GET)
+        public String editOrderWay(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionarySignOrderWay orderWay = dictionaryService.findDictionarySignOrderWay(id);
+                model.addAttribute("orderWay", orderWay);
+            }
+            return "system/dictionary/orderWay_edit";
+        }
+
+        @RequestMapping(value = "/orderWay/{id}/info", method = RequestMethod.GET)
+        public String orderWayInfo(@PathVariable Integer id, Model model){
+            DictionarySignOrderWay orderWay = dictionaryService.findDictionarySignOrderWay(id);
+            model.addAttribute("orderWay", orderWay);
+            return "system/dictionary/orderWay_info";
+        }
+
+        @RequestMapping(value = "/orderWay/{id}/edit", method = RequestMethod.POST)
+        public String editOrderWay(@PathVariable Integer id, String name, Model model){
+            DictionarySignOrderWay orderWay = null;
+            if (id != 0){
+                orderWay = dictionaryService.editDictionarySignOrderWay(id, name);
+            } else {
+                orderWay = dictionaryService.createDictionarySignOrderWay(name);
+            }
+            model.addAttribute("orderWay", orderWay);
+            return "system/dictionary/orderWay_info";
+        }
+
+        @RequestMapping(value = "/orderWay/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteOrderWay(@PathVariable Integer id, String name, Model model){
+            dictionaryService.deleteDictionarySignOrderWay(id);
+            return Response.getSuccess(null);
+        }
+
+
+    }

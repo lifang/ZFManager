@@ -31,25 +31,20 @@ public class DictionaryService {
     private DictionaryOpenPrivateInfoMapper dictionaryOpenPrivateInfoMapper;
     @Autowired
     private DictionaryCreditTypeMapper dictionaryCreditTypeMapper;
+    @Autowired
+    private DictionaryCustomerOrderTypeMapper dictionaryCustomerOrderTypeMapper;
 
     public List<DictionaryEncryptCardWay> listAllDictionaryEncryptCardWays() {
         return dictionaryEncryptCardWayMapper.selectAll();
     }
 
-    public List<DictionaryCardType> listAllDictionaryCardTypes() {
-        return dictionaryCardTypeMapper.selectAll();
-    }
 
-    public List<DictionarySignOrderWay> listAllDictionarySignOrderWays() {
-        return dictionarySignOrderWayMapper.selectAll();
-    }
-
-
-    public  DictionaryEncryptCardWay findDictionaryEncryptCardWay(Integer id){
+    public DictionaryEncryptCardWay findDictionaryEncryptCardWay(Integer id) {
         return dictionaryEncryptCardWayMapper.selectByPrimaryKey(id);
     }
+
     @Transactional(value = "transactionManager")
-    public  DictionaryEncryptCardWay editDictionaryEncryptCardWay(Integer id, String name){
+    public DictionaryEncryptCardWay editDictionaryEncryptCardWay(Integer id, String name) {
         DictionaryEncryptCardWay dictionaryEncryptCardWay = dictionaryEncryptCardWayMapper.selectByPrimaryKey(id);
         dictionaryEncryptCardWay.setEncryptCardWay(name);
         dictionaryEncryptCardWayMapper.updateByPrimaryKey(dictionaryEncryptCardWay);
@@ -57,7 +52,7 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  DictionaryEncryptCardWay createDictionaryEncryptCardWay(String name){
+    public DictionaryEncryptCardWay createDictionaryEncryptCardWay(String name) {
         DictionaryEncryptCardWay dictionaryEncryptCardWay = new DictionaryEncryptCardWay();
         dictionaryEncryptCardWay.setEncryptCardWay(name);
         dictionaryEncryptCardWay.setCreatedAt(new Date());
@@ -66,10 +61,73 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  void deleteDictionaryEncryptCardWay(Integer id){
+    public void deleteDictionaryEncryptCardWay(Integer id) {
         dictionaryEncryptCardWayMapper.deleteByPrimaryKey(id);
     }
-    
+
+    public List<DictionaryCardType> listAllDictionaryCardTypes() {
+        return dictionaryCardTypeMapper.selectAll();
+    }
+
+
+    public DictionaryCardType findDictionaryCardType(Integer id) {
+        return dictionaryCardTypeMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCardType editDictionaryCardType(Integer id, String name) {
+        DictionaryCardType dictionaryCardType = dictionaryCardTypeMapper.selectByPrimaryKey(id);
+        dictionaryCardType.setCardType(name);
+        dictionaryCardTypeMapper.updateByPrimaryKey(dictionaryCardType);
+        return dictionaryCardType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCardType createDictionaryCardType(String name) {
+        DictionaryCardType dictionaryCardType = new DictionaryCardType();
+        dictionaryCardType.setCardType(name);
+        dictionaryCardType.setCreatedAt(new Date());
+        dictionaryCardTypeMapper.insert(dictionaryCardType);
+        return dictionaryCardType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionaryCardType(Integer id) {
+        dictionaryCardTypeMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<DictionarySignOrderWay> listAllDictionarySignOrderWays() {
+        return dictionarySignOrderWayMapper.selectAll();
+    }
+
+
+
+    public DictionarySignOrderWay findDictionarySignOrderWay(Integer id) {
+        return dictionarySignOrderWayMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionarySignOrderWay editDictionarySignOrderWay(Integer id, String name) {
+        DictionarySignOrderWay dictionarySignOrderWay = dictionarySignOrderWayMapper.selectByPrimaryKey(id);
+        dictionarySignOrderWay.setSignOrderWay(name);
+        dictionarySignOrderWayMapper.updateByPrimaryKey(dictionarySignOrderWay);
+        return dictionarySignOrderWay;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionarySignOrderWay createDictionarySignOrderWay(String name) {
+        DictionarySignOrderWay dictionarySignOrderWay = new DictionarySignOrderWay();
+        dictionarySignOrderWay.setSignOrderWay(name);
+        dictionarySignOrderWay.setCreatedAt(new Date());
+        dictionarySignOrderWayMapper.insert(dictionarySignOrderWay);
+        return dictionarySignOrderWay;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionarySignOrderWay(Integer id) {
+        dictionarySignOrderWayMapper.deleteByPrimaryKey(id);
+    }
+
     public List<DictionaryTradeStandardRate> listAllDictionaryTradeStandardRates() {
         return dictionaryTradeStandardRateMapper.selectAll();
     }
@@ -86,12 +144,12 @@ public class DictionaryService {
         return dictionaryOpenPrivateInfoMapper.selectAll();
     }
 
-    public  DictionaryOpenPrivateInfo findDictionaryOpenPrivateInfo(Integer id){
+    public DictionaryOpenPrivateInfo findDictionaryOpenPrivateInfo(Integer id) {
         return dictionaryOpenPrivateInfoMapper.selectByPrimaryKey(id);
     }
 
     @Transactional(value = "transactionManager")
-    public  DictionaryOpenPrivateInfo editDictionaryOpenPrivateInfo(Integer id, Byte infoType, String name, String introduction, String queryMark){
+    public DictionaryOpenPrivateInfo editDictionaryOpenPrivateInfo(Integer id, Byte infoType, String name, String introduction, String queryMark) {
         DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo = dictionaryOpenPrivateInfoMapper.selectByPrimaryKey(id);
         dictionaryOpenPrivateInfo.setInfoType(infoType);
         dictionaryOpenPrivateInfo.setName(name);
@@ -103,7 +161,7 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  DictionaryOpenPrivateInfo createDictionaryOpenPrivateInfo(Byte infoType, String name, String introduction, String queryMark){
+    public DictionaryOpenPrivateInfo createDictionaryOpenPrivateInfo(Byte infoType, String name, String introduction, String queryMark) {
         DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo = new DictionaryOpenPrivateInfo();
         dictionaryOpenPrivateInfo.setInfoType(infoType);
         dictionaryOpenPrivateInfo.setName(name);
@@ -116,7 +174,7 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  void deleteDictionaryOpenPrivateInfo(Integer id){
+    public void deleteDictionaryOpenPrivateInfo(Integer id) {
         dictionaryOpenPrivateInfoMapper.deleteByPrimaryKey(id);
     }
 
@@ -124,11 +182,12 @@ public class DictionaryService {
         return dictionaryCreditTypeMapper.selectAll();
     }
 
-    public  DictionaryCreditType findDictionaryCreditType(Integer id){
+    public DictionaryCreditType findDictionaryCreditType(Integer id) {
         return dictionaryCreditTypeMapper.selectByPrimaryKey(id);
     }
+
     @Transactional(value = "transactionManager")
-    public  DictionaryCreditType editDictionaryCreditType(Integer id, String name){
+    public DictionaryCreditType editDictionaryCreditType(Integer id, String name) {
         DictionaryCreditType dictionaryCreditType = dictionaryCreditTypeMapper.selectByPrimaryKey(id);
         dictionaryCreditType.setName(name);
         dictionaryCreditType.setUpdatedAt(new Date());
@@ -137,7 +196,7 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  DictionaryCreditType createDictionaryCreditType(String name){
+    public DictionaryCreditType createDictionaryCreditType(String name) {
         DictionaryCreditType dictionaryCreditType = new DictionaryCreditType();
         dictionaryCreditType.setName(name);
         dictionaryCreditType.setCreatedAt(new Date());
@@ -147,8 +206,37 @@ public class DictionaryService {
     }
 
     @Transactional(value = "transactionManager")
-    public  void deleteDictionaryCreditType(Integer id){
+    public void deleteDictionaryCreditType(Integer id) {
         dictionaryCreditTypeMapper.deleteByPrimaryKey(id);
     }
 
+    public List<DictionaryCustomerOrderType> listAllDictionaryCustomerOrderTypes() {
+        return dictionaryCustomerOrderTypeMapper.selectAll();
+    }
+
+    public DictionaryCustomerOrderType findDictionaryCustomerOrderType(Integer id) {
+        return dictionaryCustomerOrderTypeMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCustomerOrderType editDictionaryCustomerOrderType(Integer id, String name) {
+        DictionaryCustomerOrderType dictionaryCustomerOrderType = dictionaryCustomerOrderTypeMapper.selectByPrimaryKey(id);
+        dictionaryCustomerOrderType.setName(name);
+        dictionaryCustomerOrderTypeMapper.updateByPrimaryKey(dictionaryCustomerOrderType);
+        return dictionaryCustomerOrderType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCustomerOrderType createDictionaryCustomerOrderType(String name) {
+        DictionaryCustomerOrderType dictionaryCustomerOrderType = new DictionaryCustomerOrderType();
+        dictionaryCustomerOrderType.setName(name);
+        dictionaryCustomerOrderType.setCreatedAt(new Date());
+        dictionaryCustomerOrderTypeMapper.insert(dictionaryCustomerOrderType);
+        return dictionaryCustomerOrderType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionaryCustomerOrderType(Integer id) {
+        dictionaryCustomerOrderTypeMapper.deleteByPrimaryKey(id);
+    }
 }
