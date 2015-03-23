@@ -33,7 +33,6 @@
             if(checkNull(name, "名称不能为空！")){
                 return false;
             }
-            var value = $(this).attr("value");
             if(!isNotNull(value)){
                 value = 0;
             }

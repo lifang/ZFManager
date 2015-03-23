@@ -28,7 +28,7 @@ public class DictionaryService {
     @Autowired
     private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
     @Autowired
-    private DictionaryOpenPrivateInfoMapper dictionaryOpenPrivateInfo;
+    private DictionaryOpenPrivateInfoMapper dictionaryOpenPrivateInfoMapper;
     @Autowired
     private DictionaryCreditTypeMapper dictionaryCreditTypeMapper;
 
@@ -57,7 +57,41 @@ public class DictionaryService {
     }
 
     public List<DictionaryOpenPrivateInfo> listAllDictionaryOpenPrivateInfos() {
-        return dictionaryOpenPrivateInfo.selectAll();
+        return dictionaryOpenPrivateInfoMapper.selectAll();
+    }
+
+    public  DictionaryOpenPrivateInfo findDictionaryOpenPrivateInfo(Integer id){
+        return dictionaryOpenPrivateInfoMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public  DictionaryOpenPrivateInfo editDictionaryOpenPrivateInfo(Integer id, Byte infoType, String name, String introduction, String queryMark){
+        DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo = dictionaryOpenPrivateInfoMapper.selectByPrimaryKey(id);
+        dictionaryOpenPrivateInfo.setInfoType(infoType);
+        dictionaryOpenPrivateInfo.setName(name);
+        dictionaryOpenPrivateInfo.setIntroduction(introduction);
+        dictionaryOpenPrivateInfo.setQueryMark(queryMark);
+        dictionaryOpenPrivateInfo.setUpdatedAt(new Date());
+        dictionaryOpenPrivateInfoMapper.updateByPrimaryKey(dictionaryOpenPrivateInfo);
+        return dictionaryOpenPrivateInfo;
+    }
+
+    @Transactional(value = "transactionManager")
+    public  DictionaryOpenPrivateInfo createDictionaryOpenPrivateInfo(Byte infoType, String name, String introduction, String queryMark){
+        DictionaryOpenPrivateInfo dictionaryOpenPrivateInfo = new DictionaryOpenPrivateInfo();
+        dictionaryOpenPrivateInfo.setInfoType(infoType);
+        dictionaryOpenPrivateInfo.setName(name);
+        dictionaryOpenPrivateInfo.setIntroduction(introduction);
+        dictionaryOpenPrivateInfo.setQueryMark(queryMark);
+        dictionaryOpenPrivateInfo.setCreatedAt(new Date());
+        dictionaryOpenPrivateInfo.setUpdatedAt(new Date());
+        dictionaryOpenPrivateInfoMapper.insert(dictionaryOpenPrivateInfo);
+        return dictionaryOpenPrivateInfo;
+    }
+
+    @Transactional(value = "transactionManager")
+    public  void deleteDictionaryOpenPrivateInfo(Integer id){
+        dictionaryOpenPrivateInfoMapper.deleteByPrimaryKey(id);
     }
 
     public List<DictionaryCreditType> listAllDictionaryCreditTypes() {

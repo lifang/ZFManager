@@ -10,55 +10,7 @@
         <div class="user_title"><h1>数据字典管理</h1>
         </div>
         <#include "creditType_list.ftl"/>
-
-        <div class="attributes_box">
-            <h2>对公开通资料</h2>
-            <div class="dataDictionary">
-                <table width="100%" border="0" cellspacing="1" cellpadding="0">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="20%">
-                        <col width="20%">
-                        <col width="20%">
-                        <col>
-                    </colgroup>
-                    <tbody><tr>
-                        <td>类型</td>
-                        <td>名称</td>
-                        <td>说明</td>
-                        <td>查询标志</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="">
-                                <option value="1">文本</option>
-                                <option value="2">图片</option>
-                                <option value="3">查询</option>
-                            </select>
-                        </td>
-                        <td>XXX</td>
-                        <td>这里是说明文字</td>
-                        <td>XXXXXXXXXXXX</td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="">
-                                <option>文本</option>
-                                <option>图片</option>
-                                <option>查询</option>
-                            </select>
-                        </td>
-                        <td><input name="" type="text"></td>
-                        <td><input name="" type="text"></td>
-                        <td><input name="" type="text"></td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    </tbody></table>
-                <a href="#" class="pay_add_a">+</a>
-            </div>
-        </div>
+        <#include "openPrivate_list.ftl"/>
 
         <div class="attributes_box">
             <h2>用户订单类型</h2>
