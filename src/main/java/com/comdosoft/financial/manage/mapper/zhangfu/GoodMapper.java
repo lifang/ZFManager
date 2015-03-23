@@ -56,4 +56,22 @@ public interface GoodMapper {
 
     Good findGoodLazyInfo(Integer id);
 
+    /**
+     * @description 用于商品列表展示
+     * @author Tory
+     * @date 2015年3月23日 下午11:03:00
+     */
+    long countGoods(
+    		@Param("status") Byte status,
+    		@Param("goodBrandsId") Integer goodBrandsId, 
+    		@Param("posCategoryId") Integer posCategoryId, 
+    		@Param("signOrderWayId") Integer signOrderWayId);
+    
+    List<Good> selectGoods(
+    		@Param("pageRequest") PageRequest pageRequest,
+    		@Param("status") Byte status,
+    		@Param("goodBrandsId") Integer goodBrandsId, 
+    		@Param("posCategoryId") Integer posCategoryId, 
+    		@Param("signOrderWayId") Integer signOrderWayId);
+    
 }
