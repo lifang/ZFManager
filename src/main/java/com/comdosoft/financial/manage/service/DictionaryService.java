@@ -44,6 +44,32 @@ public class DictionaryService {
         return dictionarySignOrderWayMapper.selectAll();
     }
 
+
+    public  DictionaryEncryptCardWay findDictionaryEncryptCardWay(Integer id){
+        return dictionaryEncryptCardWayMapper.selectByPrimaryKey(id);
+    }
+    @Transactional(value = "transactionManager")
+    public  DictionaryEncryptCardWay editDictionaryEncryptCardWay(Integer id, String name){
+        DictionaryEncryptCardWay dictionaryEncryptCardWay = dictionaryEncryptCardWayMapper.selectByPrimaryKey(id);
+        dictionaryEncryptCardWay.setEncryptCardWay(name);
+        dictionaryEncryptCardWayMapper.updateByPrimaryKey(dictionaryEncryptCardWay);
+        return dictionaryEncryptCardWay;
+    }
+
+    @Transactional(value = "transactionManager")
+    public  DictionaryEncryptCardWay createDictionaryEncryptCardWay(String name){
+        DictionaryEncryptCardWay dictionaryEncryptCardWay = new DictionaryEncryptCardWay();
+        dictionaryEncryptCardWay.setEncryptCardWay(name);
+        dictionaryEncryptCardWay.setCreatedAt(new Date());
+        dictionaryEncryptCardWayMapper.insert(dictionaryEncryptCardWay);
+        return dictionaryEncryptCardWay;
+    }
+
+    @Transactional(value = "transactionManager")
+    public  void deleteDictionaryEncryptCardWay(Integer id){
+        dictionaryEncryptCardWayMapper.deleteByPrimaryKey(id);
+    }
+    
     public List<DictionaryTradeStandardRate> listAllDictionaryTradeStandardRates() {
         return dictionaryTradeStandardRateMapper.selectAll();
     }

@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.controller.system;
 
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCreditType;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryEncryptCardWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryOpenPrivateInfo;
 import com.comdosoft.financial.manage.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,10 @@ import java.util.List;
         public String list(Model model){
             List<DictionaryCreditType> creditTypes = dictionaryService.listAllDictionaryCreditTypes();
             List<DictionaryOpenPrivateInfo> openPrivates = dictionaryService.listAllDictionaryOpenPrivateInfos();
+            List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
             model.addAttribute("creditTypes", creditTypes);
             model.addAttribute("openPrivates", openPrivates);
+            model.addAttribute("encryptCardWays", encryptCardWays);
             return "system/dictionary/dictionary";
         }
 
@@ -104,5 +107,39 @@ import java.util.List;
             return Response.getSuccess(null);
         }
 
+
+        @RequestMapping(value = "/encryptCardWay/{id}/edit", method = RequestMethod.GET)
+        public String editEncryptCardWay(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryEncryptCardWay encryptCardWay = dictionaryService.findDictionaryEncryptCardWay(id);
+                model.addAttribute("encryptCardWay", encryptCardWay);
+            }
+            return "system/dictionary/encryptCardWay_edit";
+        }
+        @RequestMapping(value = "/encryptCardWay/{id}/info", method = RequestMethod.GET)
+        public String encryptCardWayInfo(@PathVariable Integer id, Model model){
+            DictionaryEncryptCardWay encryptCardWay = dictionaryService.findDictionaryEncryptCardWay(id);
+            model.addAttribute("encryptCardWay", encryptCardWay);
+            return "system/dictionary/encryptCardWay_info";
+        }
+
+        @RequestMapping(value = "/encryptCardWay/{id}/edit", method = RequestMethod.POST)
+        public String editEncryptCardWay(@PathVariable Integer id, String name, Model model){
+            DictionaryEncryptCardWay encryptCardWay = null;
+            if (id != 0){
+                encryptCardWay = dictionaryService.editDictionaryEncryptCardWay(id, name);
+            } else {
+                encryptCardWay = dictionaryService.createDictionaryEncryptCardWay(name);
+            }
+            model.addAttribute("encryptCardWay", encryptCardWay);
+            return "system/dictionary/encryptCardWay_info";
+        }
+
+        @RequestMapping(value = "/encryptCardWay/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteEncryptCardWay(@PathVariable Integer id, String name, Model model){
+            dictionaryService.deleteDictionaryEncryptCardWay(id);
+            return Response.getSuccess(null);
+        }
 
 }
