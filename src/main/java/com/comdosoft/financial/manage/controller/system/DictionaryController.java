@@ -32,6 +32,7 @@ import java.util.List;
             List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
             List<DictionarySignOrderWay> orderWays = dictionaryService.listAllDictionarySignOrderWays();
             List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
+            List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
             model.addAttribute("creditTypes", creditTypes);
             model.addAttribute("companyAddresses", companyAddresses);
             model.addAttribute("openPrivates", openPrivates);
@@ -39,6 +40,7 @@ import java.util.List;
             model.addAttribute("encryptCardWays", encryptCardWays);
             model.addAttribute("orderWays", orderWays);
             model.addAttribute("cardTypes", cardTypes);
+            model.addAttribute("tradeTypes", tradeTypes);
             return "system/dictionary/dictionary";
         }
 
@@ -71,7 +73,7 @@ import java.util.List;
 
         @RequestMapping(value = "/creditType/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteCreditType(@PathVariable Integer id, String name, Model model){
+        public Response deleteCreditType(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryCreditType(id);
             return Response.getSuccess(null);
         }
@@ -108,7 +110,7 @@ import java.util.List;
 
         @RequestMapping(value = "/openPrivate/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteOpenPrivate(@PathVariable Integer id, String name, Model model){
+        public Response deleteOpenPrivate(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryCreditType(id);
             return Response.getSuccess(null);
         }
@@ -143,7 +145,7 @@ import java.util.List;
 
         @RequestMapping(value = "/encryptCardWay/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteEncryptCardWay(@PathVariable Integer id, String name, Model model){
+        public Response deleteEncryptCardWay(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryEncryptCardWay(id);
             return Response.getSuccess(null);
         }
@@ -177,7 +179,7 @@ import java.util.List;
 
         @RequestMapping(value = "/orderType/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteOrderType(@PathVariable Integer id, String name, Model model){
+        public Response deleteOrderType(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryCustomerOrderType(id);
             return Response.getSuccess(null);
         }
@@ -212,7 +214,7 @@ import java.util.List;
 
         @RequestMapping(value = "/cardType/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteCardType(@PathVariable Integer id, String name, Model model){
+        public Response deleteCardType(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryCardType(id);
             return Response.getSuccess(null);
         }
@@ -247,7 +249,7 @@ import java.util.List;
 
         @RequestMapping(value = "/orderWay/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteOrderWay(@PathVariable Integer id, String name, Model model){
+        public Response deleteOrderWay(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionarySignOrderWay(id);
             return Response.getSuccess(null);
         }
@@ -282,10 +284,45 @@ import java.util.List;
 
         @RequestMapping(value = "/companyAddress/{id}/delete", method = RequestMethod.GET)
         @ResponseBody
-        public Response deleteCompanyAddress(@PathVariable Integer id, String name, Model model){
+        public Response deleteCompanyAddress(@PathVariable Integer id, Model model){
             dictionaryService.deleteDictionaryCompanyAddress(id);
             return Response.getSuccess(null);
         }
 
+
+        @RequestMapping(value = "/tradeType/{id}/edit", method = RequestMethod.GET)
+        public String editTradeType(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryTradeType tradeType = dictionaryService.findDictionaryTradeType(id);
+                model.addAttribute("tradeType", tradeType);
+            }
+            return "system/dictionary/tradeType_edit";
+        }
+
+        @RequestMapping(value = "/tradeType/{id}/info", method = RequestMethod.GET)
+        public String creditTradeType(@PathVariable Integer id, Model model){
+            DictionaryTradeType tradeType = dictionaryService.findDictionaryTradeType(id);
+            model.addAttribute("tradeType", tradeType);
+            return "system/dictionary/tradeType_info";
+        }
+
+        @RequestMapping(value = "/tradeType/{id}/edit", method = RequestMethod.POST)
+        public String editTradeType(@PathVariable Integer id, Byte type, String tradeValue, Model model){
+            DictionaryTradeType tradeType = null;
+            if (id != 0){
+                tradeType = dictionaryService.editDictionaryTradeType(id, type, tradeValue);
+            } else {
+                tradeType = dictionaryService.createDictionaryTradeType(type, tradeValue);
+            }
+            model.addAttribute("tradeType", tradeType);
+            return "system/dictionary/tradeType_info";
+        }
+
+        @RequestMapping(value = "/tradeType/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteTradeType(@PathVariable Integer id, Model model){
+            dictionaryService.deleteDictionaryTradeType(id);
+            return Response.getSuccess(null);
+        }
 
     }

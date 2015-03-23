@@ -1,3 +1,24 @@
+<div class="attributes_box">
+    <h2>交易类型</h2>
+    <div class="dataDictionary" id="tradeTypeTable">
+        <table width="100%" border="0" cellspacing="1" cellpadding="0">
+            <colgroup>
+                <col width="40%">
+                <col width="40%">
+                <col>
+            </colgroup>
+            <tbody><tr>
+                <td>类型</td>
+                <td>类型值</td>
+                <td>操作</td>
+            </tr>
+            <#list tradeTypes as tradeType>
+                <#include "tradeType_info.ftl"/>
+            </#list>
+            </tbody></table>
+        <a id="addTradeType" class="pay_add_a">+</a>
+    </div>
+</div>
 <script>
     $(function(){
         $("#addTradeType").click(function(){
@@ -12,7 +33,7 @@
             var value = $(this).attr("value");
             var type = $tr.find("select").find("option:selected").val();
             var tradeValue = $tr.find("input").val();
-            if(checkNull(name, "类型值不能为空！")){
+            if(checkNull(tradeValue, "类型值不能为空！")){
                 return false;
             }
             if(!isNotNull(value)){

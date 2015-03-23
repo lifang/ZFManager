@@ -142,6 +142,38 @@ public class DictionaryService {
         return dictionaryTradeTypeMapper.selectAll();
     }
 
+
+    public DictionaryTradeType findDictionaryTradeType(Integer id) {
+        return dictionaryTradeTypeMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryTradeType editDictionaryTradeType(Integer id, Byte tradeType, String tradeValue) {
+        DictionaryTradeType dictionaryTradeType = dictionaryTradeTypeMapper.selectByPrimaryKey(id);
+        dictionaryTradeType.setTradeType(tradeType);
+        dictionaryTradeType.setTradeValue(tradeValue);
+        dictionaryTradeType.setUpdatedAt(new Date());
+        dictionaryTradeTypeMapper.updateByPrimaryKey(dictionaryTradeType);
+        return dictionaryTradeType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryTradeType createDictionaryTradeType(Byte tradeType, String tradeValue) {
+        DictionaryTradeType dictionaryTradeType = new DictionaryTradeType();
+        dictionaryTradeType.setTradeType(tradeType);
+        dictionaryTradeType.setTradeValue(tradeValue);
+        dictionaryTradeType.setCreatedAt(new Date());
+        dictionaryTradeType.setUpdatedAt(new Date());
+        dictionaryTradeTypeMapper.insert(dictionaryTradeType);
+        return dictionaryTradeType;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionaryTradeType(Integer id) {
+        dictionaryTradeTypeMapper.deleteByPrimaryKey(id);
+    }
+
+
     public List<DictionaryOpenPrivateInfo> listAllDictionaryOpenPrivateInfos() {
         return dictionaryOpenPrivateInfoMapper.selectAll();
     }

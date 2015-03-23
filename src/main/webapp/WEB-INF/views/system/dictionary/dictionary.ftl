@@ -16,61 +16,7 @@
         <#include "encryptCardWay_list.ftl"/>
         <#include "orderWay_list.ftl"/>
         <#include "cardType_list.ftl"/>
-
-        <div class="attributes_box">
-            <h2>交易类型</h2>
-            <div class="dataDictionary">
-                <table width="100%" border="0" cellspacing="1" cellpadding="0">
-                    <colgroup>
-                        <col width="40%">
-                        <col width="40%">
-                        <col>
-                    </colgroup>
-                    <tbody><tr>
-                        <td>类型</td>
-                        <td>类型值</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>XXXXX</td>
-                        <td>XXXXX</td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td><input name="" type="text"></td>
-                        <td><input name="" type="text"></td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    </tbody></table>
-                <a href="#" class="pay_add_a">+</a>
-            </div>
-        </div>
-
-        <div class="attributes_box">
-            <h2>用户订单类型</h2>
-            <div class="dataDictionary">
-                <table width="100%" border="0" cellspacing="1" cellpadding="0">
-                    <colgroup>
-                        <col width="50%">
-                        <col width="50%">
-                    </colgroup>
-                    <tbody><tr>
-                        <td>类型</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>XXXXX</td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td><input name="" type="text"></td>
-                        <td><a href="#" class="a_btn">编辑</a><a href="#" class="a_btn">删除</a></td>
-                    </tr>
-                    </tbody></table>
-                <a href="#" class="pay_add_a">+</a>
-            </div>
-        </div>
-
+        <#include "tradeType_list.ftl"/>
         <div class="attributes_box">
             <h2>交易费率</h2>
             <div class="dataDictionary">
@@ -83,7 +29,7 @@
                     </colgroup>
                     <tbody><tr>
                         <td>结算周期</td>
-                        <td>费率</td>
+                        <td>费率(‰)</td>
                         <td>说明</td>
                         <td>操作</td>
                     </tr>
