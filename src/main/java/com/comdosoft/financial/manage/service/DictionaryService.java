@@ -33,6 +33,8 @@ public class DictionaryService {
     private DictionaryCreditTypeMapper dictionaryCreditTypeMapper;
     @Autowired
     private DictionaryCustomerOrderTypeMapper dictionaryCustomerOrderTypeMapper;
+    @Autowired
+    private DictionaryCompanyAddressMapper dictionaryCompanyAddressMapper;
 
     public List<DictionaryEncryptCardWay> listAllDictionaryEncryptCardWays() {
         return dictionaryEncryptCardWayMapper.selectAll();
@@ -238,5 +240,35 @@ public class DictionaryService {
     @Transactional(value = "transactionManager")
     public void deleteDictionaryCustomerOrderType(Integer id) {
         dictionaryCustomerOrderTypeMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<DictionaryCompanyAddress> listAllDictionaryCompanyAddresss() {
+        return dictionaryCompanyAddressMapper.selectAll();
+    }
+
+    public DictionaryCompanyAddress findDictionaryCompanyAddress(Integer id) {
+        return dictionaryCompanyAddressMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCompanyAddress editDictionaryCompanyAddress(Integer id, String name) {
+        DictionaryCompanyAddress dictionaryCompanyAddress = dictionaryCompanyAddressMapper.selectByPrimaryKey(id);
+        dictionaryCompanyAddress.setCompanyAddress(name);
+        dictionaryCompanyAddressMapper.updateByPrimaryKey(dictionaryCompanyAddress);
+        return dictionaryCompanyAddress;
+    }
+
+    @Transactional(value = "transactionManager")
+    public DictionaryCompanyAddress createDictionaryCompanyAddress(String address) {
+        DictionaryCompanyAddress dictionaryCompanyAddress = new DictionaryCompanyAddress();
+        dictionaryCompanyAddress.setCompanyAddress(address);
+        dictionaryCompanyAddress.setCreatedAt(new Date());
+        dictionaryCompanyAddressMapper.insert(dictionaryCompanyAddress);
+        return dictionaryCompanyAddress;
+    }
+
+    @Transactional(value = "transactionManager")
+    public void deleteDictionaryCompanyAddress(Integer id) {
+        dictionaryCompanyAddressMapper.deleteByPrimaryKey(id);
     }
 }

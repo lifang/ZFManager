@@ -26,12 +26,14 @@ import java.util.List;
         @RequestMapping(value = "", method = RequestMethod.GET)
         public String list(Model model){
             List<DictionaryCreditType> creditTypes = dictionaryService.listAllDictionaryCreditTypes();
+            List<DictionaryCompanyAddress> companyAddresses = dictionaryService.listAllDictionaryCompanyAddresss();
             List<DictionaryOpenPrivateInfo> openPrivates = dictionaryService.listAllDictionaryOpenPrivateInfos();
             List<DictionaryCustomerOrderType> orderTypes = dictionaryService.listAllDictionaryCustomerOrderTypes();
             List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
             List<DictionarySignOrderWay> orderWays = dictionaryService.listAllDictionarySignOrderWays();
             List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
             model.addAttribute("creditTypes", creditTypes);
+            model.addAttribute("companyAddresses", companyAddresses);
             model.addAttribute("openPrivates", openPrivates);
             model.addAttribute("orderTypes", orderTypes);
             model.addAttribute("encryptCardWays", encryptCardWays);
@@ -247,6 +249,41 @@ import java.util.List;
         @ResponseBody
         public Response deleteOrderWay(@PathVariable Integer id, String name, Model model){
             dictionaryService.deleteDictionarySignOrderWay(id);
+            return Response.getSuccess(null);
+        }
+
+
+        @RequestMapping(value = "/companyAddress/{id}/edit", method = RequestMethod.GET)
+        public String editCompanyAddress(@PathVariable Integer id, Model model){
+            if (id != 0){
+                DictionaryCompanyAddress companyAddress = dictionaryService.findDictionaryCompanyAddress(id);
+                model.addAttribute("companyAddress", companyAddress);
+            }
+            return "system/dictionary/companyAddress_edit";
+        }
+        @RequestMapping(value = "/companyAddress/{id}/info", method = RequestMethod.GET)
+        public String companyAddressInfo(@PathVariable Integer id, Model model){
+            DictionaryCompanyAddress companyAddress = dictionaryService.findDictionaryCompanyAddress(id);
+            model.addAttribute("companyAddress", companyAddress);
+            return "system/dictionary/companyAddress_info";
+        }
+
+        @RequestMapping(value = "/companyAddress/{id}/edit", method = RequestMethod.POST)
+        public String editCompanyAddress(@PathVariable Integer id, String name, Model model){
+            DictionaryCompanyAddress companyAddress = null;
+            if (id != 0){
+                companyAddress = dictionaryService.editDictionaryCompanyAddress(id, name);
+            } else {
+                companyAddress = dictionaryService.createDictionaryCompanyAddress(name);
+            }
+            model.addAttribute("companyAddress", companyAddress);
+            return "system/dictionary/companyAddress_info";
+        }
+
+        @RequestMapping(value = "/companyAddress/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteCompanyAddress(@PathVariable Integer id, String name, Model model){
+            dictionaryService.deleteDictionaryCompanyAddress(id);
             return Response.getSuccess(null);
         }
 
