@@ -26,11 +26,11 @@
         <div class="item_list clear">
             <ul>
                 <#list channel.supportTradeTypes as supportTradeType>
-                    <#if supportTradeType.tradeType = 1>
+                    <#if supportTradeType.tradeType = 1 && (supportTradeType.baseProfit)??>
                         <#assign baseProfit=supportTradeType.baseProfit />
                     </#if>
                 </#list>
-                <li class="b height48"><span class="labelSpan">标准手续费交易<br>分润百分比：</span>
+                <li class="b height48"><span class="labelSpan">标准手续费交易<br>分润(‰)：</span>
                     <div class="text"><input id="baseProfit" type="text" value="${baseProfit!""}"/></div>
                 </li>
                 <li class="b"><span class="labelSpan">资金服务费率：</span>
@@ -48,7 +48,7 @@
                                 <#list channel.billingCycles as billingCycle>
                                 <tr>
                                     <td>${billingCycle.dictionaryBillingCycle.name}</td>
-                                    <td>${billingCycle.rate}%</td>
+                                    <td>${billingCycle.rate}‰</td>
                                 </tr>
                                 </#list>
                                 </tbody></table>
@@ -79,20 +79,20 @@
                                             <col>
                                         </colgroup>
                                         <tbody><tr>
-                                            <td>终端费率</td>
-                                            <td>基础费率</td>
-                                            <td>最低收费</td>
-                                            <td>最低分润</td>
-                                            <td>最高收费</td>
-                                            <td>最高分润</td>
+                                            <td>终端费率(‰)</td>
+                                            <td>基础费率(‰)</td>
+                                            <td>最低收费(元)</td>
+                                            <td>最低分润(元)</td>
+                                            <td>最高收费(元)</td>
+                                            <td>最高分润(元)</td>
                                         </tr>
                                         <tr class="rate" value="${supportTradeType.id}">
-                                            <td><input name="terminalRate" type="text" value="${supportTradeType.terminalRate!""}" class="input_m">%</td>
-                                            <td><input name="baseRate" type="text" value="${supportTradeType.baseRate!""}" class="input_m">%</td>
-                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge??)?string(((supportTradeType.floorCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit??)?string(((supportTradeType.floorProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge??)?string(((supportTradeType.topCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit??)?string(((supportTradeType.topProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="terminalRate" type="text" value="${supportTradeType.terminalRate!""}" class="input_m"></td>
+                                            <td><input name="baseRate" type="text" value="${supportTradeType.baseRate!""}" class="input_m"></td>
+                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge??)?string(((supportTradeType.floorCharge!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit??)?string(((supportTradeType.floorProfit!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge??)?string(((supportTradeType.topCharge!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit??)?string(((supportTradeType.topProfit!0)/100)?string("0.00"),'')}" class="input_m"></td>
                                         </tr>
                                         </tbody></table>
                                 </div>

@@ -105,7 +105,7 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <td>商户类型</td>
-                                        <td>费率(%)</td>
+                                        <td>费率(‰)</td>
                                         <td>说明</td>
                                     </tr>
                                     <#if channel?? && ((channel.standardRates)?size > 0)>
@@ -141,7 +141,7 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <td>结算周期</td>
-                                        <td>费率(%)</td>
+                                        <td>费率(‰)</td>
                                         <td>说明</td>
                                     </tr>
 
@@ -178,7 +178,7 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <td>交易类型</td>
-                                        <td>费率(%)</td>
+                                        <td>费率(‰)</td>
                                         <td>说明</td>
                                     </tr>
 

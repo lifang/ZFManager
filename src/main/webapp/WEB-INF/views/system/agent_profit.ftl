@@ -44,7 +44,7 @@
 <div id="hiddenEchelonProfit" style="display: none;">
 <p>
     <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_xs">
-    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_xs">%
+    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_xs">‰
 </p>
 </div>
 <script>
@@ -85,13 +85,13 @@
                         var $input_s = $(this).find(".input_s");
                         var $input_xs = $(this).find(".input_xs");
                     if($input_s.length > 0){
-                            var floorNumber = 0;
+                            var floorNumber = "0";
                             var percent = $input_s.val();
-                            percentArray.push({floorNumber: Number(floorNumber), percent: Number(percent)});
+                            percentArray.push({floorNumber: floorNumber, percent: percent});
                         } else if($input_xs.length > 0){
                             var floorNumber = $input_xs.eq(0).val();
                             var percent = $input_xs.eq(1).val();
-                        percentArray.push({floorNumber: Number(floorNumber), percent: Number(percent)});
+                        percentArray.push({floorNumber: floorNumber, percent: percent});
                     }
                 });
 

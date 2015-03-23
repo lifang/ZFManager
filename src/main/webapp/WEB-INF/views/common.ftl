@@ -125,7 +125,7 @@
                 <li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li>
                 <li><a href="<@spring.url "/system/message/list"/>"<#if urlCheck(request,"/system/message")> class="hover"</#if>>系统消息</a></li>
                 <li><a href="<@spring.url "/system/setting"/>"<#if urlCheck(request,"/system/setting")> class="hover"</#if>>系统参数</a></li>
-                <li><a href="#">数据字典</a></li>
+                <li><a href="<@spring.url "/system/dictionary"/>"<#if urlCheck(request,"/system/dictionary")> class="hover"</#if>>数据字典</a></li>
                 <li><a href="#">第三方机构</a></li>
                 <li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li>
                 <li><a href="<@spring.url "/system/content/webmessage"/>"<#if urlCheck(request,"/system/content")> class="hover"</#if>>网站内容</a></li>
