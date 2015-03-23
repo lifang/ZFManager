@@ -155,6 +155,9 @@
         <table tableName="dictionary_credit_types" domainObjectName="DictionaryCreditType">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="dictionary_customer_order_types" domainObjectName="DictionaryCustomerOrderType">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <table tableName="dictionary_encrypt_card_ways" domainObjectName="DictionaryEncryptCardWay">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
