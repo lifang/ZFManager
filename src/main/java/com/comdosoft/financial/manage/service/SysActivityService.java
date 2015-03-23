@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,5 +49,25 @@ public class SysActivityService {
     public SysActivity findInfo(Integer id){
         return sysActivityMapper.selectByPrimaryKey(id);
     }
+
+    @Transactional(value = "transactionManager")
+    public void edit(Integer id, String title, String url) {
+        SysActivity sysActivity = sysActivityMapper.selectByPrimaryKey(id);
+        sysActivity.setTitle(title);
+        sysActivity.setUrl(url);
+        sysActivity.setUpdatedAt(new Date());
+        sysActivityMapper.updateByPrimaryKey(sysActivity);
+    }
+
+    @Transactional(value = "transactionManager")
+    public void create(String title, String url) {
+        SysActivity sysActivity = new SysActivity();
+        sysActivity.setTitle(title);
+        sysActivity.setUrl(url);
+        sysActivity.setCreatedAt(new Date());
+        sysActivity.setUpdatedAt(new Date());
+        sysActivityMapper.insert(sysActivity);
+    }
+
 }
 
