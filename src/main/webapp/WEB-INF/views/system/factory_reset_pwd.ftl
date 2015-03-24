@@ -3,7 +3,7 @@
     <div class="breadcrumb">
         <ul>
             <li><a href="#">系统</a></li>
-            <li><a href="#">代理商</a></li>
+            <li><a href="#">第三方机构</a></li>
             <li><a href="#">重置密码</a></li>
         </ul>
     </div>

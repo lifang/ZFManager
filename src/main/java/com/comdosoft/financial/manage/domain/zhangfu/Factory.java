@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
+import java.util.List;
 
 public class Factory {
 
@@ -325,8 +326,18 @@ public class Factory {
 	public static final byte STATUS_UN_CHECKED = 4;				// 审核不通过
 	public static final byte STATUS_CHECKED = 5;				// 正常
 	public static final byte STATUS_STOP = 6;					// 已停用
-	
+
 	public static final byte TYPE_PAYMENT = 1; 					//第三方支付
 	public static final byte TYPE_MANUFACTURER = 2;				//厂商
-	
+
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
 }

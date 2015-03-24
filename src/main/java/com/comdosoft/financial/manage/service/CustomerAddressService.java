@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CustomerAddressService {
@@ -17,7 +18,8 @@ public class CustomerAddressService {
     public List<CustomerAddress> selectCustomerAddress(Integer customerId){
     	return customerAddressMapper.selectCustomerAddress(customerId);
     }
-    
+
+    @Transactional("transactionManager")
     public int saveOrUpdateCustomerAddress(Integer id,Integer cityId,String receiver,
     		String address,String moblephone,String zipCode,
     		Integer isDefault,Integer customerId,Byte status){
