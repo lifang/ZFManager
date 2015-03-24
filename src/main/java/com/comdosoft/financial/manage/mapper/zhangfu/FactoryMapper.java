@@ -1,6 +1,9 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface FactoryMapper {
@@ -36,4 +39,10 @@ public interface FactoryMapper {
 	int updateByPrimaryKey(Factory record);
 
 	List<Factory> selectFactoriesByStatus(byte status);
+
+    List<Factory> findPageFactoryByKeys(@Param("pageRequest") PageRequest pageRequest,
+                                    @Param("status") Byte status, @Param("keys") String keys);
+    long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+
+    Factory findFactoryInfo(Integer id);
 }

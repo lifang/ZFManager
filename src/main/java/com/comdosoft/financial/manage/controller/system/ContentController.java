@@ -7,6 +7,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.WebMessage;
 import com.comdosoft.financial.manage.service.SysActivityService;
 import com.comdosoft.financial.manage.service.SysShufflingFigureService;
 import com.comdosoft.financial.manage.service.WebMessageService;
+import com.comdosoft.financial.manage.utils.CompressedFileUtil;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
 import org.slf4j.Logger;
@@ -170,6 +171,20 @@ public class ContentController {
         return "system/activity_create";
     }
 
+    @RequestMapping(value="activity/{id}/edit",method=RequestMethod.POST)
+    @ResponseBody
+    public Response editActivity(@PathVariable Integer id, String title, String url, Model model){
+        sysActivityService.edit(id, title, url);
+        return Response.getSuccess(null);
+    }
+
+    @RequestMapping(value="activity/create",method=RequestMethod.POST)
+    @ResponseBody
+    public Response createActivity(String title, String url, Model model){
+        sysActivityService.create(title, url);
+        return Response.getSuccess(null);
+    }
+
     @RequestMapping(value="activity/create",method=RequestMethod.GET)
     public String createActivity(Model model){
         return "system/activity_create";
@@ -192,11 +207,12 @@ public class ContentController {
                 osFile.getParentFile().mkdirs();
             }
             file.transferTo(osFile);
+            CompressedFileUtil.unCompressedFile(osFile.getAbsolutePath(), osFile.getAbsolutePath().replace(".zip",""));
         } catch (Exception e) {
             LOG.error("", e);
             return Response.getError("上传失败！");
         }
-        return Response.getSuccess(fileName);
+        return Response.getSuccess(fileName.replace(".zip", "/index.html"));
     }
 
     private void findActivityPage(Integer page, Model model){
@@ -207,4 +223,5 @@ public class ContentController {
         model.addAttribute("page", messages);
         model.addAttribute("pageNum", page);
     }
+
 }

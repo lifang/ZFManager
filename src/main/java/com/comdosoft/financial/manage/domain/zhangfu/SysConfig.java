@@ -91,7 +91,6 @@ public class SysConfig {
     public static final String TOTAL_MONEY = "totalmoney";//累计交易流水
     public static final String TRADE_RECORD_DEFAULT_PROFIT = "tradeRecordDefaultProfit";//交易流水默认分润比例
     public static final String HIRE_DEFAULT_PROFIT = "hireDefaultProfit";//租金默认分润比例
-    public static final String DEFAULT_PROFIT = "defaultProfit";//默认分润比例
     public static final String RETURN_TIME = "returnTime";//允许退货时间
     public static final String CHANGE_TIME = "changeTime";//允许换货时间
     public static final String OPEN_POLLING_INTERVAL = "openPollingInterval";//业务开通状态轮询间隔

@@ -167,6 +167,7 @@
     from goods
   </select>
 
+	
 	<!-- 分页result -->
 	<resultMap extends="BaseResultMap" id="PageGoodResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
         <association columnPrefix="gb_" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
@@ -191,8 +192,36 @@
 		SELECT count(*) as count
 		FROM goods
 		<include refid="pageWhere" />
-
 	</select>
+	<!-- 分页result end -->
+	
+	<!--商品列表 分页result -->
+	<resultMap extends="BaseResultMap" id="goodsResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Good">
+        <association columnPrefix="gb_" javaType="com.comdosoft.financial.manage.domain.zhangfu.GoodBrand" property="goodBrand" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper.BaseResultMap" />
+	</resultMap>
+
+	<sql id="whereGoods">
+		<where>
+			<if test="status != null"> AND status =#{status} </if>
+			<if test="goodBrandsId != null"> AND goodBrandsId =#{goodBrandsId} </if>
+			<if test="posCategoryId != null"> AND posCategoryId =#{posCategoryId} </if>
+			<if test="signOrderWayId != null"> AND signOrderWayId =#{signOrderWayId} </if>
+		</where>
+	</sql>
+	<select id="selectGoods" resultMap="goodsResultMap">
+		select g.*,
+		gb.id as gb_id, gb.name as gb_name
+		from goods g left join good_brands gb on g.good_brands_id=gb.id
+		<include refid="pageWhere" />
+		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+
+	<select id="countGoods" resultType="long">
+		SELECT count(*) as count
+		FROM goods
+		<include refid="pageWhere" />
+	</select>
+	<!--商品列表 分页result end -->
 	
 	<!-- 查询列表单条数据 -->
 	<select id="findPageRowGood" resultMap="PageGoodResultMap">

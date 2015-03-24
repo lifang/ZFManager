@@ -100,5 +100,33 @@
     select * 
     from factories f where f.status=#{param1}
   </select>
+
+    <sql id="pageWhere">
+        <where>
+            <if test="status != null"> AND status =#{status} </if>
+            <if test="keys != null"> AND name like #{keys} </if>
+        </where>
+    </sql>
+
+    <resultMap extends="BaseResultMap" id="FactoryLazyResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.Factory">
+        <association column="customer_id" fetchType="lazy" javaType="com.comdosoft.financial.manage.domain.zhangfu.Customer" property="customer" select="com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper.selectCustomerInfo" />
+    </resultMap>
+
+    <select id="countByKeys" resultType="long">
+        SELECT count(*) as count
+        FROM factories
+        <include refid="pageWhere" />
+    </select>
+
+    <select id="findPageFactoryByKeys" resultMap="BaseResultMap">
+        select * from factories
+        <include refid="pageWhere" />
+        order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+    </select>
+
+    <select id="findFactoryInfo" resultMap="FactoryLazyResultMap">
+        select * from factories
+        where id=#{param1}
+    </select>
   
 </mapper>

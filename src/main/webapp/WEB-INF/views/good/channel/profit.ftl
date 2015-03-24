@@ -26,11 +26,11 @@
         <div class="item_list clear">
             <ul>
                 <#list channel.supportTradeTypes as supportTradeType>
-                    <#if supportTradeType.tradeType = 1>
+                    <#if supportTradeType.tradeType = 1 && (supportTradeType.baseProfit)??>
                         <#assign baseProfit=supportTradeType.baseProfit />
                     </#if>
                 </#list>
-                <li class="b height48"><span class="labelSpan">标准手续费交易<br>分润百分比：</span>
+                <li class="b height48"><span class="labelSpan">标准手续费交易<br>分润(‰)：</span>
                     <div class="text"><input id="baseProfit" type="text" value="${baseProfit!""}"/></div>
                 </li>
                 <li class="b"><span class="labelSpan">资金服务费率：</span>
@@ -48,7 +48,7 @@
                                 <#list channel.billingCycles as billingCycle>
                                 <tr>
                                     <td>${billingCycle.dictionaryBillingCycle.name}</td>
-                                    <td>${billingCycle.rate}%</td>
+                                    <td>${billingCycle.rate}‰</td>
                                 </tr>
                                 </#list>
                                 </tbody></table>
@@ -79,20 +79,20 @@
                                             <col>
                                         </colgroup>
                                         <tbody><tr>
-                                            <td>终端费率</td>
-                                            <td>基础费率</td>
-                                            <td>最低收费</td>
-                                            <td>最低分润</td>
-                                            <td>最高收费</td>
-                                            <td>最高分润</td>
+                                            <td>终端费率(‰)</td>
+                                            <td>基础费率(‰)</td>
+                                            <td>最低收费(元)</td>
+                                            <td>最低分润(元)</td>
+                                            <td>最高收费(元)</td>
+                                            <td>最高分润(元)</td>
                                         </tr>
                                         <tr class="rate" value="${supportTradeType.id}">
-                                            <td><input name="terminalRate" type="text" value="${supportTradeType.terminalRate!""}" class="input_m">%</td>
-                                            <td><input name="baseRate" type="text" value="${supportTradeType.baseRate!""}" class="input_m">%</td>
-                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge??)?string(((supportTradeType.floorCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit??)?string(((supportTradeType.floorProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge??)?string(((supportTradeType.topCharge!0)/100)?string("0.00"),'')}" class="input_m">元</td>
-                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit??)?string(((supportTradeType.topProfit!0)/100)?string("0.00"),'')}" class="input_m">元</td>
+                                            <td><input name="terminalRate" type="text" value="${supportTradeType.terminalRate!""}" class="input_m"></td>
+                                            <td><input name="baseRate" type="text" value="${supportTradeType.baseRate!""}" class="input_m"></td>
+                                            <td><input name="floorCharge" type="text" value="${(supportTradeType.floorCharge??)?string(((supportTradeType.floorCharge!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="floorProfit" type="text" value="${(supportTradeType.floorProfit??)?string(((supportTradeType.floorProfit!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="topCharge" type="text" value="${(supportTradeType.topCharge??)?string(((supportTradeType.topCharge!0)/100)?string("0.00"),'')}" class="input_m"></td>
+                                            <td><input name="topProfit" type="text" value="${(supportTradeType.topProfit??)?string(((supportTradeType.topProfit!0)/100)?string("0.00"),'')}" class="input_m"></td>
                                         </tr>
                                         </tbody></table>
                                 </div>
@@ -119,7 +119,7 @@
         var topProfits = new Array();
         var error = false;
         var baseProfit = $("#baseProfit").prop("value");
-        if(error = isNotDecimal(baseProfit, "标准手续费交易分润百分比必须大于0小于100!")){
+        if(error = isNotDecimal(baseProfit, "标准手续费交易分润千分比必须大于0小于1000!")){
             return false;
         }
         $(".rate").each(function(i){
@@ -130,8 +130,8 @@
             var topCharge = $(this).find("input[name='topCharge']").prop("value");
             var topProfit = $(this).find("input[name='topProfit']").prop("value");
             tradeTypeIds[i]=$(this).attr("value");
-            if((error = isNotDecimal(terminalRate, "终端费率必须大于0小于100!"))
-                || (error = isNotDecimal(baseRate, "基础费率必须大于0小于100!"))
+            if((error = isNotDecimal(terminalRate, "终端费率必须大于0小于1000!"))
+                || (error = isNotDecimal(baseRate, "基础费率必须大于0小于1000!"))
                 || (error = isNotTwoDecimal(floorCharge, "最低收费必须为2位小数!"))
                 || (error = isNotTwoDecimal(floorProfit, "最低分润必须为2位小数!"))
                 || (error = isNotTwoDecimal(topCharge, "最高收费必须为2位小数!"))
@@ -182,7 +182,7 @@
     }
 
     function isNotDecimal(value, error){
-        var re=/^([1-9]|([1-9][0-9]))$/;//2位整数
+        var re=/^([1-9]|([1-9][0-9])|([1-9][0-9][0-9]))$/;//3位整数
         if(value.length>0 && !(re.test(value))){
             showErrorTip(error);
             return true;

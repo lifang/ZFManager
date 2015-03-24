@@ -26,7 +26,7 @@
         <div class="item_list clear">
             <ul>
                 <li><span class="labelSpan">活动标题：</span>
-                    <div class="text"><input name="" value="${(activity.title)!""}" type="text" class="xll"></div></li>
+                    <div class="text"><input id="title" value="${(activity.title)!""}" type="text" class="xll"></div></li>
                 <li><span class="labelSpan">上传资源：</span>
                     <form id="fileForm" action="<@spring.url "/system/content/activity/uploadZip" />" method="post" enctype="multipart/form-data">
                     <div class="text">
@@ -38,9 +38,34 @@
                 </li>
             </ul>
         </div>
-        <div class="btnBottom"><button class="blueBtn">保存</button><button class="blueBtn">保存并预览</button></div>
+        <div class="btnBottom"><button class="blueBtn" onclick="submitData(false)">保存</button><button class="blueBtn" onclick="submitData(true)">保存并预览</button></div>
     </div>
 <script>
+    function submitData(needShow){
+        <#if activity??>
+            var url = '<@spring.url "/system/content/activity/${activity.id}/edit" />';
+        <#else>
+            var url = '<@spring.url "/system/content/activity/create" />';
+        </#if>
+        var title = $("#title").val();
+        var webUrl = $(":file").attr("value");
+        if(isNull(title, "标题不能为空！")
+        || isNull(webUrl, "资源包不能为空!")){
+            return false;
+        }
+        $.post(url,
+                {title: title,
+                 url: webUrl},
+                function (data) {
+                    if(data.code == 1){
+                        if(needShow){
+                            window.open(webUrl);
+                        }
+                        window.location.href="<@spring.url "/system/content/activity" />"
+                    }
+                });
+    }
+
     function fileChange(){
         var options = {
             success: function(data){
@@ -56,6 +81,17 @@
         };
         $("#fileForm").ajaxSubmit(options);
         return false;
+    }
+    function isNull(value, error){
+        if(!isNotNull(value)){
+            showErrorTip(error);
+            return true;
+        }
+        return false;
+    }
+
+    function isNotNull(value){
+        return value != "" && value != null && value != undefined;
     }
 </script>
 </@c.html>

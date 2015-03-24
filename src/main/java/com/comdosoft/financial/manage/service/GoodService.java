@@ -530,5 +530,15 @@ public class GoodService {
     public Good findGood(Integer id){
         return goodMapper.findGoodLazyInfo(id);
     }
+    
+   /**
+    * @description 用于商品展示列表页
+    * @author Tory
+    * @date 2015年3月23日 下午11:13:22
+    */
+    public Page<Good> findPages(int page){
+		PageRequest request = new PageRequest(page, pageSize);
+    	return null;
+    }
 	
 }

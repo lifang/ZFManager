@@ -53,7 +53,7 @@ public class AgentController {
     }
 
     @RequestMapping(value="{id}/info",method=RequestMethod.GET)
-    public String page(@PathVariable Integer id, Model model){
+    public String info(@PathVariable Integer id, Model model){
         Agent agent = agentService.findAgentInfo(id);
         model.addAttribute("agent", agent);
         return "system/agent_info";
@@ -147,9 +147,9 @@ public class AgentController {
     }
 
     @RequestMapping(value="{id}/resetpwd",method=RequestMethod.GET)
-    public String resetpwd(@PathVariable Integer id, Model model){
+    public String resetPassword(@PathVariable Integer id, Model model){
         Agent agent = agentService.findAgentInfo(id);
-        model.addAttribute("agent", agent);
+        model.addAttribute("customer", agent.getCustomer());
         return "system/agent_reset_pwd";
     }
 

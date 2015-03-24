@@ -250,8 +250,8 @@ public class AgentService {
         for (Map<String, Object> t : tradeTypeList) {
             int tradeTypeId = (int) t.get("tradeTypeId");
             DictionaryTradeType tradeType = dictionaryTradeTypeMapper.selectByPrimaryKey(tradeTypeId);
-            List<Map<String, Integer>> percents = (List) t.get("percents");
-            for (Map<String, Integer> p : percents) {
+            List<Map<String, String>> percents = (List) t.get("percents");
+            for (Map<String, String> p : percents) {
                 AgentProfitSetting agentProfitSetting = new AgentProfitSetting();
                 agentProfitSetting.setAgentId(id);
                 agentProfitSetting.setPayChannelId(newChannelId);
@@ -261,8 +261,8 @@ public class AgentService {
                 } else {
                     agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_OTHER);
                 }
-                agentProfitSetting.setFloorNumber(p.get("floorNumber"));
-                agentProfitSetting.setPercent(p.get("percent"));
+                agentProfitSetting.setFloorNumber(Integer.parseInt(p.get("floorNumber")));
+                agentProfitSetting.setPercent(Integer.parseInt(p.get("percent")));
                 agentProfitSetting.setCreatedAt(new Date());
                 agentProfitSetting.setUpdatedAt(new Date());
                 agentProfitSettingMapper.insert(agentProfitSetting);

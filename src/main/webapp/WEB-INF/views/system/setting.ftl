@@ -14,13 +14,10 @@
             <div class="item_list clear">
                 <ul>
                     <li class="b pll"><span class="labelSpan">交易流水默认分润比例：</span>
-                        <div class="text"><input name="${SysConfig.TRADE_RECORD_DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.TRADE_RECORD_DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > %</div>
+                        <div class="text"><input name="${SysConfig.TRADE_RECORD_DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.TRADE_RECORD_DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰</div>
                     </li>
                     <li class="b pll"><span class="labelSpan">租金默认分润比例：</span>
-                        <div class="text"><input name="${SysConfig.HIRE_DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.HIRE_DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > %</div>
-                    </li>
-                    <li class="b pll"><span class="labelSpan">默认分润比例：</span>
-                        <div class="text"><input name="${SysConfig.DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > %</div>
+                        <div class="text"><input name="${SysConfig.HIRE_DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.HIRE_DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰</div>
                     </li>
                     <li class="b pll"><span class="labelSpan">允许退货时间：</span>
                         <div class="text"><input name="${SysConfig.RETURN_TIME}" value="${(sysConfigsMap[SysConfig.RETURN_TIME].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > 天内</div>
@@ -65,12 +62,12 @@
                                 <div class="sa_list">
                                     <span class="checkboxRadio_span">同型POS购买</span>
                                     <input name="${SysConfig.SHOP_COUNT}" value="${(sysConfigsMap[SysConfig.SHOP_COUNT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > 台
-                                    <span>优惠</span> <input name="${SysConfig.SHOP_COUNT}" value="${(sysConfigsMap[SysConfig.SHOP_COUNT].remark)!""}" type="text" class="input_m" onkeyup="value=this.value.replace(/\D+/g,'')" > %
+                                    <span>优惠</span> <input name="${SysConfig.SHOP_COUNT}" value="${(sysConfigsMap[SysConfig.SHOP_COUNT].remark)!""}" type="text" class="input_m" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰
                                 </div>
                                 <div class="sa_list">
                                     <span class="checkboxRadio_span">累积交易流水</span>
                                     <input name="${SysConfig.TOTAL_MONEY}" value="${(sysConfigsMap[SysConfig.TOTAL_MONEY].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > 元
-                                    <span>优惠</span> <input name="${SysConfig.TOTAL_MONEY}" value="${(sysConfigsMap[SysConfig.TOTAL_MONEY].remark)!""}" type="text" class="input_m" onkeyup="value=this.value.replace(/\D+/g,'')" > %
+                                    <span>优惠</span> <input name="${SysConfig.TOTAL_MONEY}" value="${(sysConfigsMap[SysConfig.TOTAL_MONEY].remark)!""}" type="text" class="input_m" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰
                                 </div>
                             </div>
                         </div>

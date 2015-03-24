@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-<button id="btn">test</button>
+            <button id="btn">test</button>
             <div class="rts_barChart clear">
                 <div class="barChartBox">
                     <div class="bcb_title">7日交易笔数动态 <em>单位：笔</em></div>
@@ -86,7 +86,7 @@
 </div>
 <script>
     $(function(){
-    	var map;
+        var map;
         require.config({
             paths: {
                 echarts: '<@spring.url "/resources/js/echarts"/>'

@@ -13,7 +13,7 @@
                 <#list tradeTypes as tradeType>
                     <td>
                         <#list (profitSettingMap[agentPayChannel.id+"_"+tradeType.id]) as profitSetting>
-                            <p>${(profitSetting.floorNumber==0)?string("",((profitSetting.floorNumber)/100)+"-")}${profitSetting.percent}%</p>
+                            <p>${(profitSetting.floorNumber==0)?string("",((profitSetting.floorNumber)/100)+"-")}${profitSetting.percent}‰</p>
                         </#list>
                     </td>
                 </#list>
