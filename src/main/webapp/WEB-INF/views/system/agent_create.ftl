@@ -132,19 +132,19 @@
             var url="<@spring.url "/system/agent/create" />";
         </#if>
         $.post(url,
-                { 'name': name,
-                    'types': types,
-                    'name': name,
-                    'cardId': cardId,
-                    'companyName': companyName,
-                    'businessLicense': businessLicense,
-                    'phone': phone,
-                    'email': email,
-                    'cityId': cityId,
-                    'address': address,
-                    'username': username,
-                    'password': password,
-                    'accountType': accountType
+                { name: name,
+                    types: types,
+                    name: name,
+                    cardId: cardId,
+                    companyName: companyName,
+                    businessLicense: businessLicense,
+                    phone: phone,
+                    email: email,
+                    cityId: cityId,
+                    address: address,
+                    username: username,
+                    password: password,
+                    accountType: accountType
                 },
                 function(data){
                     if(data.code==1){
@@ -176,8 +176,7 @@
             return false;
         }
     }
-    function
-    checkEmail(str){
+    function checkEmail(str){
         var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
         if(re.test(str)){
             return true;

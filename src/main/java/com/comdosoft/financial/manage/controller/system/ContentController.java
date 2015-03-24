@@ -174,8 +174,14 @@ public class ContentController {
     @RequestMapping(value="activity/{id}/edit",method=RequestMethod.POST)
     @ResponseBody
     public Response editActivity(@PathVariable Integer id, String title, String url, Model model){
-        SysActivity sysActivity = sysActivityService.findInfo(id);
-        model.addAttribute("activity", sysActivity);
+        sysActivityService.edit(id, title, url);
+        return Response.getSuccess(null);
+    }
+
+    @RequestMapping(value="activity/create",method=RequestMethod.POST)
+    @ResponseBody
+    public Response createActivity(String title, String url, Model model){
+        sysActivityService.create(title, url);
         return Response.getSuccess(null);
     }
 

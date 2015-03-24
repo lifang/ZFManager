@@ -16,8 +16,8 @@
             <ul>
                 <li><span class="labelSpan">机构类型：</span>
                     <div class="text">
-                        <#if factory.types == Factory.TYPE_PAYMENT>第三方机构
-                        <#elseif factory.types == Factory.TYPE_MANUFACTURER>厂商
+                        <#if factory.types == Factory.TYPE_PAYMENT>收单机构
+                        <#elseif factory.types == Factory.TYPE_MANUFACTURER>生产厂商
                         </#if></div>
                 </li>
                 <li><span class="labelSpan">机构名称：</span>
@@ -41,7 +41,7 @@
                     <div class="text">
                         <#if addresses?? && addresses?size gt 0>
                             <#assign address = addresses[0]/>
-                            ${(address.parentCity.name)!""}${(address.city.name)!""} ${(address.address)!""} ${(address.zipCode)!""} ${(address.receiver)!""} ${(address.moblephone)!""}
+                            ${(address.parentCity.name)!""}${(address.city.name)!""} ${(address.address)!""} ${(address.receiver)!""} ${(address.moblephone)!""}
                         </#if>
                     </div>
                 </li>

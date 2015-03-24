@@ -1,10 +1,16 @@
 package com.comdosoft.financial.manage.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +27,12 @@ public class FactoryService {
 
 	@Autowired
 	private FactoryMapper factoryMapper;
-	
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    @Autowired
+    private CustomerAddressMapper customerAddressMapper;
+
 	public List<Factory> findCheckedFactories(){
 		return factoryMapper.selectFactoriesByStatus(Factory.STATUS_CHECKED);
 	}
@@ -150,4 +161,101 @@ public class FactoryService {
     public Factory findFactoryInfo(Integer id){
         return factoryMapper.findFactoryInfo(id);
     }
+    @Transactional("transactionManager")
+    public boolean create(Byte types, String name, String username, String password, Byte accountType,
+                       String logoFilePath, String websiteUrl, String description,
+                       Integer cityId, String address, String cellphone){
+        Customer customer = customerMapper.selectByUsername(username);
+        if (customer != null){
+            return false;
+        }
+        customer = new Customer();
+        customer.setUsername(username);
+        String md5Password = DigestUtils.md5Hex(password);
+        customer.setPassword(md5Password);
+        customer.setTypes(Customer.TYPE_THIRD_PARTY);
+        customer.setCityId(cityId);
+        customer.setIntegral(0);
+        customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setAccountType(accountType);
+        customer.setCreatedAt(new Date());
+        customerMapper.insert(customer);
+
+        Factory factory = new Factory();
+        factory.setStatus(Factory.STATUS_WAITING_FIRST_CHECK);
+        factory.setTypes(types);
+        factory.setName(name);
+        factory.setLogoFilePath(logoFilePath);
+        factory.setWebsiteUrl(websiteUrl);
+        factory.setDescription(description);
+        factory.setCustomerId(customer.getId());
+        factory.setCreatedAt(new Date());
+        factory.setUpdatedAt(new Date());
+        factoryMapper.insert(factory);
+
+        CustomerAddress customerAddress = new CustomerAddress();
+        customerAddress.setCityId(cityId);
+        customerAddress.setAddress(address);
+        customerAddress.setMoblephone(cellphone);
+        customerAddress.setCustomerId(customer.getId());
+        customerAddress.setCreatedAt(new Date());
+        customerAddress.setUpdatedAt(new Date());
+        customerAddressMapper.insert(customerAddress);
+        return true;
+    }
+
+    @Transactional("transactionManager")
+    public boolean update(Integer id, Byte types, String name, String username, String password, Byte accountType,
+                       String logoFilePath, String websiteUrl, String description,
+                       Integer cityId, String address, String cellphone){
+        Factory factory = factoryMapper.findFactoryInfo(id);
+        factory.setTypes(types);
+        factory.setName(name);
+        factory.setLogoFilePath(logoFilePath);
+        factory.setWebsiteUrl(websiteUrl);
+        factory.setDescription(description);
+        factory.setUpdatedAt(new Date());
+
+        List<CustomerAddress> customerAddresses = customerAddressMapper.selectCustomerAddress(factory.getCustomerId());
+        CustomerAddress customerAddress = null;
+        if(customerAddresses ==null || customerAddresses.size() == 0){
+            customerAddress = new CustomerAddress();
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setCustomerId(factory.getCustomerId());
+            customerAddress.setCreatedAt(new Date());
+            customerAddress.setUpdatedAt(new Date());
+            customerAddressMapper.insert(customerAddress);
+        } else {
+            customerAddress = customerAddresses.get(0);
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setUpdatedAt(new Date());
+        }
+
+
+
+        Customer customer = factory.getCustomer();
+        if (!customer.getUsername().equals(username)){
+            Customer customer1 = customerMapper.selectByUsername(username);
+            if (customer1 == null){
+                customer.setUsername(username);
+                customer.setAccountType(accountType);
+            }else{
+                return false;
+            }
+        }
+        if (password != null && !password.equals("")){
+            String md5Password = DigestUtils.md5Hex(password);
+            customer.setPassword(md5Password);
+        }
+        customer.setCityId(cityId);
+        customerMapper.updateByPrimaryKey(customer);
+        factoryMapper.updateByPrimaryKey(factory);
+        customerAddressMapper.updateByPrimaryKey(customerAddress);
+        return true;
+    }
+
 }

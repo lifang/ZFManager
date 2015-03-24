@@ -9,7 +9,7 @@
     <div class="content clear">
         <div class="user_title"><h1>第三方机构列表</h1>
             <div class="userTopBtnBox">
-                <a href="#" class="ghostBtn">创建机构帐号</a>
+                <a href="<@spring.url "/system/factory/create" />" class="ghostBtn">创建机构帐号</a>
             </div>
         </div>
 
