@@ -1,5 +1,5 @@
 <tr>
-	<td><input name="" type="checkbox" value="" /></td>
+	<td><input name="cb_row" type="checkbox" value="" cs_id="${csChange.id!}" cs_status="${csChange.status!}" cs_num="${csChange.applyNum!}"/></td>
 	<td>${csChange.applyNum!}</td>
 	<td>${csChange.createdAt?datetime}</td>
 	<td>${csChange.processUserName!}</td>
@@ -22,12 +22,12 @@
 	<td id="operation_${csChange.id}">
 		<#if csChange.status=0>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
-			<a href="#" class="a_btn">确认换货</a>
-			<a href="#" class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
+			<a class="a_btn">确认换货</a>
+			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
 		<#elseif csChange.status=1>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
-			<a href="#" class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
-			<a href="#" class="a_btn" onClick="onFinish(${csChange.id});">标记换货完成</a>
+			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
+			<a class="a_btn" onClick="onFinish(${csChange.id});">标记为换货完成</a>
        	<#elseif csChange.status=2>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csChange.status=3>

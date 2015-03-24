@@ -11,7 +11,7 @@
 	<div class="user_title">
     	<h1>换货申请列表</h1> 
 		<div class="userTopBtnBox"> 
-			<a href="#" class="ghostBtn">分派</a>
+			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
 		</div> 
 	</div>
 	<div class="seenBox clear"> 
@@ -72,6 +72,22 @@
 	            "status": status},
 	            function (data) {
 	                $('#page_fresh').html(data);
+	            });
+	}
+	
+	function onCancel(csChangeId) {
+		$.post('<@spring.url "" />'+'/cs/change/'+csChangeId+'/cancel',
+	            {}, function (data) {
+	            	$("#operation_"+csChangeId).html('<a href="<@spring.url "" />'+'/cs/change/'+csChangeId+'/info" class="a_btn">查看详情</a>');
+	            	$("#status_"+csChangeId).text("已取消");
+	            });
+	}
+	
+	function onFinish(csChangeId) {
+		$.post('<@spring.url "" />'+'/cs/change/'+csChangeId+'/finish',
+	            {}, function (data) {
+	            	$("#operation_"+csChangeId).html('<a href="<@spring.url "" />'+'/cs/change/'+csChangeId+'/info" class="a_btn">查看详情</a>');
+	            	$("#status_"+csChangeId).text("处理完成");
 	            });
 	}
 

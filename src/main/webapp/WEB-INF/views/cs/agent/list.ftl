@@ -41,39 +41,11 @@
 	</div>
 </div>
 
-<div class="tab assign_tab">
-	<a href="#" class="close">关闭</a>
-	<div class="tabHead">任务分派</div>
-	<div class="tabBody">
-		<p class="assign_tab_p">
-			将选中的 <span class="orangeText">4</span> 条任务分派给
-		</p>
-		<select name="" class="select_default">
-			<option>111</option>
-		</select>
-	</div>
-	<div class="tabFoot">
-		<button class="blueBtn">确定</button>
-	</div>
-</div>
-
 <script type="text/javascript">
-
 	var keyword;
 	var status;
 	
-	var dispatchIds=[];
-
 	$(function(){
-		$("#btn_dispatch").bind("click", function() {
-	    });
-	
-		$("input[name='cb_all']").bind("click", function () {
-			var checked = this.checked;
-			$("input[name='cb_row_0']").each(function () {
-           		$(this).prop("checked", checked);
-            });
-        });
 	
 		$('#select_status').change(function(){
 			status = $(this).children('option:selected').val();
@@ -106,7 +78,7 @@
 	function onCancel(csAgentId) {
 		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
 	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
+	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info" class="a_btn">查看详情</a>');
 	            	$("#status_"+csAgentId).text("已取消");
 	            });
 	}
@@ -114,9 +86,10 @@
 	function onFinish(csAgentId) {
 		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/finish',
 	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />"+"/cs/agent/"+csAgentId+"/info" class="a_btn">查看详情</a>');
+	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info" class="a_btn">查看详情</a>');
 	            	$("#status_"+csAgentId).text("已完成");
 	            });
 	}
+	
 </script>	
 </@c.html>

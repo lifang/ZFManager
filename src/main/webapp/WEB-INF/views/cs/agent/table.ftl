@@ -1,4 +1,5 @@
 <#import "../../page.ftl" as pager>
+<#import "../assign.ftl" as assign />
 <div class="uesr_table"> 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table"> 
 		<colgroup> 
@@ -30,4 +31,35 @@
 		</tbody> 
 	</table> 
 </div>
+
+<div class="tab exchangeGoods_tab">
+	<a class="close">关闭</a>
+	<div class="tabHead">添加换货出库记录</div>
+	<div class="tabBody">
+		<textarea id="output_content" name="" cols="" rows="" class="textarea_pe"></textarea>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn close" onClick="onOutput();">确定</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
+	});
+	var tmpId;
+	
+	function onIdChanged(csAgentId) {
+		tmpId = csAgentId;
+	}
+	
+	function onOutput() {
+		var terminalList = $("#output_content").val();
+		$.post('<@spring.url "" />'+'/cs/agent/'+tmpId+'/output',
+	            {"terminalList": terminalList}, function (data) {
+					pageChange(${csAgents.currentPage});
+	            });
+	}
+</script>
+<@assign.assign name="agent" page=csAgents.currentPage/>
 <@pager.p page=csAgents.currentPage totalPages=csAgents.totalPage functionName="pageChange"/>	

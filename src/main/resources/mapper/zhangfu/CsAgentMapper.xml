@@ -109,4 +109,10 @@
     order by created_at desc limit #{pageRequest.offset},
     #{pageRequest.pageSize}
   </select>
+  
+  <!-- dispatch process user by cs_agent_ids -->
+  <update id="dispatchUserByIds">
+      update cs_agents set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
 </mapper>

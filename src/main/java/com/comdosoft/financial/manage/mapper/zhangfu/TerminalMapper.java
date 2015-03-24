@@ -47,12 +47,29 @@ public interface TerminalMapper {
     long countOpenByAgentCode(String code);
     
 	/**
-	 * set is_return_cs_depots to <i>false</i> by serial_num
+	 * set is_return_cs_depots to <i>false</i> by serial_nums
 	 * 
 	 * @param serialNums
 	 *            array of serial_num
 	 * @return
 	 */
 	int closeCsReturnDepotsByNums(String[] serialNums);
+	
+	/**
+	 * set is_return_cs_depots to <i>false</i> by id
+	 * 
+	 * @param terminalId
+	 * @return
+	 */
+	int closeCsReturnDepotsById(Integer id);
+
+	/**
+	 * find terminals by serial_nums
+	 * 
+	 * @param serialNums
+	 *            array of serial_num
+	 * @return
+	 */
+	List<Terminal> findTerminalsByNums(String[] serialNums);
 
 }

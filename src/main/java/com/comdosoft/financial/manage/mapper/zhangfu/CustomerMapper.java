@@ -54,5 +54,12 @@ public interface CustomerMapper {
     List<Customer> selectUserAndAgent(String username);
 
     List<Customer> searchCustomer(String customerName);
+    
+	/**
+	 * find users who have permission to operate
+	 * 
+	 * @return
+	 */
+	List<Customer> selectDispatchUsers();
 
 }

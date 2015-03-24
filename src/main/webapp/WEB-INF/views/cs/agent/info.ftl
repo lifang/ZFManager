@@ -45,41 +45,45 @@
 	</div>
 	<div class="user_remark">
 		<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
-		<button id="btn_mark" class="whiteBtn">备注</button>
+		<button class="whiteBtn" onClick="onMark();">备注</button>
 	</div>
 	<div class="user_record">
 		<h2>追踪记录</h2>
+		<div id="mark_container">
 		<#list csAgentMarks as mark>
 			<#include "../mark.ftl" />
 		</#list>
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
 	
-	$(function(){		
-		$("#btn_mark").bind("click", function() {
-			var csAgentId = ${csAgent.id};
-			var content = $("#textarea_mark").val();
-			if (content.length==0) {
-				alert("请输入备注内容");
-				return;
-			}
-			$.post('<@spring.url "/cs/agent/mark/create" />',
-	            {"csAgentId": csAgentId,
-	            "content": content},
-	            function (data) {
-	                $('#mark_container').prepend(data);
-	                $("#textarea_mark").val("");
-	            });
-	    });
-	    
-	});
+	function onMark() {
+		var csAgentId = ${csAgent.id};
+		var status = ${csAgent.status};
+		var content = $("#textarea_mark").val();
+		if (content.length==0) {
+			alert("请输入备注内容");
+			return;
+		}
+		$.post('<@spring.url "/cs/agent/mark/create" />',
+	    	{"csAgentId": csAgentId,
+	    	 "content": content},
+	    	 function (data) {
+	    	 	if (status==1) {
+	    	 		$('#mark_container').prepend(data);
+	            	$("#textarea_mark").val("");
+	    	 	} else {
+	    	 		location.href='<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info';
+	    	 	}
+	         });
+	}
 	
 	function onCancel() {
 		$.post('<@spring.url "/cs/agent/${csAgent.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/agent/list" />';
+	            	location.href='<@spring.url "/cs/agent/list" />';
 	            });
 	}
 </script>

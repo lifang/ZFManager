@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.manage.domain.zhangfu.CsAgentMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsAgentMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsAgentMarkMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -28,6 +35,10 @@ public class CsAgentService {
 	private CsAgentMapper csAgentMapper;
 	@Autowired
 	private TerminalMapper terminalMapper;
+	@Autowired
+	private CsOutStorageMapper csOutStorageMapper;
+	@Autowired
+	private CsAgentMarkMapper csAgentMarkMapper;
 	
 	public Page<CsAgent> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csAgentMapper.countSelective(status, keyword);
@@ -64,12 +75,17 @@ public class CsAgentService {
 		return csAgentMapper.selectByPrimaryKey(id);
 	}
 	
-	@Transactional
-	private void updateStatus(Integer csAgentId, Byte status) {
+	public CsAgent updateStatus (Integer csAgentId, Byte status) {
 		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
 		csAgent.setStatus(status);
 		csAgent.setUpdatedAt(new Date());
 		csAgentMapper.updateByPrimaryKey(csAgent);
+		return csAgent;
+	}
+ 	
+	@Transactional("transactionManager")
+	private void cancelOrFinish(Integer csAgentId, Byte status) {
+		CsAgent csAgent = updateStatus(csAgentId, status);
 		
 		String terminalsList = csAgent.getTerminalsList();
 		if (null != terminalsList && !"".equals(terminalsList)) {
@@ -79,11 +95,54 @@ public class CsAgentService {
 	}
 	
 	public void cancel(Integer csAgentId) {
-		updateStatus(csAgentId, (byte)2);
+		cancelOrFinish(csAgentId, (byte)2);
 	}
 	
 	public void finish(Integer csAgentId) {
-		updateStatus(csAgentId, (byte)3);
+		cancelOrFinish(csAgentId, (byte)3);
 	}
 	
+	public void output(Integer csAgentId, String terminalList) {
+		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
+		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalList.split(","));
+		for (Terminal terminal : terminals) {
+			CsOutStorage csOutStorage = new CsOutStorage();
+			csOutStorage.setCsApplyId(csAgent.getApplyNum());
+			csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_AGENT);
+			csOutStorage.setCreatedAt(new Date());
+			csOutStorage.setUpdatedAt(new Date());
+			csOutStorage.setOrderId(terminal.getOrderId());
+			csOutStorage.setProcessUserId(csAgent.getProcessUserId());
+			csOutStorage.setProcessUserName(csAgent.getProcessUserName());
+			csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
+			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
+			csOutStorageMapper.insert(csOutStorage);
+		}
+	}
+	
+	public void dispatch(String ids, Integer customerId, String customerName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", ids.split(","));
+		params.put("customerId", customerId);
+		params.put("customerName", customerName);
+		csAgentMapper.dispatchUserByIds(params);
+	}
+	
+	@Transactional("transactionManager")
+	public CsAgentMark createMark(Customer customer, Integer csAgentId, String content) {
+		updateStatus(csAgentId, (byte)1);
+		
+		CsAgentMark csAgentMark = new CsAgentMark();
+		csAgentMark.setCustomerId(customer.getId());
+		csAgentMark.setCsAgentId(csAgentId);
+		csAgentMark.setCreatedAt(new Date());
+		csAgentMark.setContent(content);
+		csAgentMarkMapper.insert(csAgentMark);
+		csAgentMark.setCustomer(customer);
+		return csAgentMark;
+	}
+	
+	public List<CsAgentMark> findMarksByCsAgentId(Integer csAgentId) {
+		return csAgentMarkMapper.selectByAgentId(csAgentId);
+	}
 }

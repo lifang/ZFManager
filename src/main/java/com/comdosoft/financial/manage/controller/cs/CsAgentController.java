@@ -16,7 +16,6 @@ import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgentMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.SessionService;
-import com.comdosoft.financial.manage.service.cs.CsAgentMarkService;
 import com.comdosoft.financial.manage.service.cs.CsAgentService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
@@ -28,8 +27,6 @@ public class CsAgentController {
 	private SessionService sessionService;
 	@Autowired
 	private CsAgentService csAgentService;
-	@Autowired
-	private CsAgentMarkService csAgentMarkService;
 	
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -56,28 +53,38 @@ public class CsAgentController {
 	@RequestMapping(value = "{id}/info", method = RequestMethod.GET)
 	public String info(@PathVariable Integer id, Model model) {
 		CsAgent csAgent = csAgentService.findInfoById(id);
-		List<CsAgentMark> csAgentMarks = csAgentMarkService.findByAgentId(id);
+		List<CsAgentMark> csAgentMarks = csAgentService.findMarksByCsAgentId(id);
 		model.addAttribute("csAgent", csAgent);
 		model.addAttribute("csAgentMarks", csAgentMarks);
 		return "cs/agent/info";
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.finish(id);
+	}
+	
+	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
+	public void output(HttpServletResponse response, @PathVariable Integer id, String terminalList) {
+		csAgentService.output(id, terminalList);
+	}
+	
+	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
+	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+		csAgentService.dispatch(ids, customerId, customerName);
 	}
 	
 	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
 	public String createMark(HttpServletRequest request, Integer csAgentId, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsAgentMark csAgentMark = csAgentMarkService.create(customer, csAgentId, content);
-    	model.addAttribute("csAgentMark", csAgentMark);
-        return "cs/agent/mark";
+    	CsAgentMark csAgentMark = csAgentService.createMark(customer, csAgentId, content);
+    	model.addAttribute("mark", csAgentMark);
+        return "cs/mark";
     }
 	
 }

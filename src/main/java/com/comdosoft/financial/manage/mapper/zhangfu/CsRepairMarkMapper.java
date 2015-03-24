@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
 
 public interface CsRepairMarkMapper {
 
@@ -34,4 +35,12 @@ public interface CsRepairMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsRepairMark record);
+	
+	/**
+	 * select marks by cs_repair_id
+	 * 
+	 * @param csRepairId
+	 * @return
+	 */
+	List<CsRepairMark> selectByRepairId(Integer csRepairId);
 }

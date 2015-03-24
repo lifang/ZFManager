@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -71,5 +72,12 @@ public interface CsChangeMapper {
 	 * @return
 	 */
 	CsChange selectInfoByPrimaryKey(Integer id);
+	
+	/**
+	 * dispatch process user by cs_change_ids
+	 * 
+	 * @param params
+	 */
+	void dispatchUserByIds(Map<String, Object> params);
 
 }
