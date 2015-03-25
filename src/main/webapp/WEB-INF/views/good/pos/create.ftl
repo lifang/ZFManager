@@ -225,7 +225,7 @@
 							<form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             	<div class="item_photoBox">
                             	<#if (good.pictures[i])??>
-                                	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}" >
+                                	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}/b.jpg" >
                                 	<a href="javascript:void(0);" class="informImg_a">
                                     	<span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                 	</a>
@@ -505,15 +505,16 @@ function fileChange(obj){
 			if(data.code==1){
 				var img = $('#fileForm'+index).find(".item_photoBox img");
 				if(img.length > 0){
-					img.attr("value", data.result);
+					img.attr("value", data.result+"/b.jpg");
 				} else{
-					var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="'+data.result+'">';
+					var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="'+data.result+'/b.jpg">';
 					$('#fileForm'+index).find(".item_photoBox")
 						.append(newImg);
 					$('#fileForm'+index).find(".item_photoBox a span").html("重新上传");
 					infoTab('.cover','.img_info');
 				}
-			}
+                alert("上传成功!");
+            }
 		},  
         resetForm: true, 
         dataType: 'json' 

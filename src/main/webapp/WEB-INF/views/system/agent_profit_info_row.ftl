@@ -1,5 +1,5 @@
 <tr>
-    <td>${agentPayChannel.name}</td>
+    <td class="channelId" value="${agentPayChannel.id}">${agentPayChannel.name}</td>
     <td>
         <div class="rate_agent">
             <table width="100%" border="0" cellspacing="1" cellpadding="0"  style="table-layout: fixed;">

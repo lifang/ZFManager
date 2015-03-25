@@ -56,11 +56,21 @@
 
         var profitObject = new Object();
         $(document).delegate(".saveProfit", "click", function () {
-            var hasNull = false;
-
             var channelId = $(this).attr("value");
             var $preTd =  $(this).parent().prev();
             profitObject.channelId = Number($preTd.prev().find("select").find("option:selected").val());
+            var hasDup = false;
+            $(".channelId").each(function(){
+                if($(this).attr("value")==profitObject.channelId){
+                    showErrorTip("通道有重复！");
+                    hasDup = true;
+                    return false;
+                }
+            });
+            if(hasNull){
+                return false;
+            }
+
             var tradeTypesArray = new Array();
             profitObject.tradeTypes=tradeTypesArray;
             $preTd.find(".input_xs,.input_s").each(function(){

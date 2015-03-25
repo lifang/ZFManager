@@ -156,6 +156,7 @@
                     if($file.length > 0){
                         $file.attr("value", data.result);
                     }
+                    alert("上传成功!");
                 }
             },
             resetForm: true,

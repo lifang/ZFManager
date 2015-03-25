@@ -5,6 +5,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,18 +225,25 @@ public class PosController {
 	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
 	@ResponseBody
 	public Response uploadImg(MultipartFile file){
-		String fileName = posPath+FileUtil.getPathFileName()+".jpg";
+        String filePath = posPath+FileUtil.getPathFileName();
+        String osPath = rootPath + filePath;
+		String fileName = osPath+"/o.jpg";
 		try {
-			File osFile = new File(rootPath + fileName);
+			File osFile = new File(fileName);
 			if (!osFile.getParentFile().exists()) {
 				osFile.getParentFile().mkdirs();
 			}
 			file.transferTo(osFile);
+            //大图
+            Thumbnails.of(fileName).size(400, 400)
+                    .toFile(osPath+"/b.jpg");
+            Thumbnails.of(fileName).size(55, 55)
+                    .toFile(osPath+"/s.jpg");
 		} catch (Exception e) {
 			LOG.error("", e);
 			return Response.getError("上传失败！");
 		}
-		return Response.getSuccess(fileName);
+		return Response.getSuccess(filePath);
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.POST)

@@ -107,6 +107,12 @@
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+
 		<dependency>
 			<groupId>nl.captcha</groupId>
 			<artifactId>simplecaptcha</artifactId>

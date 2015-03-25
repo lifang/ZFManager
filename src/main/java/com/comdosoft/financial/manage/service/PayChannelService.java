@@ -221,7 +221,7 @@ public class PayChannelService {
                 payChannelStandardRate.setTradeStandardRateId(Integer.parseInt(tradeStandardRateId.toString()));
                 Object standardRate = standardRateObject.get("rate");
                 Object description = standardRateObject.get("description");
-                payChannelStandardRate.setStandardRate(standardRate == null ? null:Integer.parseInt(standardRate.toString()));
+                payChannelStandardRate.setStandardRate(standardRate == null||standardRate.equals("") ? null:Integer.parseInt(standardRate.toString()));
                 payChannelStandardRate.setDescription(description == null ? null : (String) description);
                 payChannelStandardRate.setCreatedAt(new Date());
                 payChannelStandardRateMapper.insert(payChannelStandardRate);
@@ -239,7 +239,7 @@ public class PayChannelService {
                 payChannelBillingCycle.setBillingCyclesId(Integer.parseInt(billingCyclesId.toString()));
                 Object rate = payChannelBillingObject.get("rate");
                 Object description = payChannelBillingObject.get("description");
-                payChannelBillingCycle.setRate(rate == null ? null : Integer.parseInt(rate.toString()));
+                payChannelBillingCycle.setRate(rate == null||rate.equals("") ? null : Integer.parseInt(rate.toString()));
                 payChannelBillingCycle.setDescription(description == null ? null : (String) description);
                 payChannelBillingCycleMapper.insert(payChannelBillingCycle);
             }
@@ -273,7 +273,7 @@ public class PayChannelService {
                 supportTradeType.setSortIndex(i+1);
                 Object rate = tradeTypeObject.get("rate");
                 Object description = tradeTypeObject.get("description");
-                supportTradeType.setTerminalRate(rate == null ? null : Integer.parseInt(rate.toString()));
+                supportTradeType.setTerminalRate(rate == null||rate.equals("") ? null : Integer.parseInt(rate.toString()));
                 supportTradeType.setDescription(description == null ? null : (String) description);
                 supportTradeTypeMapper.updateByPrimaryKey(supportTradeType);
             }
@@ -421,7 +421,7 @@ public class PayChannelService {
                 payChannelStandardRate.setTradeStandardRateId(Integer.parseInt(tradeStandardRateId.toString()));
                 Object standardRate = standardRateObject.get("rate");
                 Object description = standardRateObject.get("description");
-                payChannelStandardRate.setStandardRate(standardRate == null ? null:Integer.parseInt(standardRate.toString()));
+                payChannelStandardRate.setStandardRate(standardRate == null||standardRate.equals("") ? null:Integer.parseInt(standardRate.toString()));
                 payChannelStandardRate.setDescription(description == null ? null : (String) description);
                 payChannelStandardRate.setCreatedAt(new Date());
                 payChannelStandardRateMapper.insert(payChannelStandardRate);
@@ -438,7 +438,7 @@ public class PayChannelService {
                 payChannelBillingCycle.setBillingCyclesId(Integer.parseInt(billingCyclesId.toString()));
                 Object rate = payChannelBillingObject.get("rate");
                 Object description = payChannelBillingObject.get("description");
-                payChannelBillingCycle.setRate(rate == null ? null : Integer.parseInt(rate.toString()));
+                payChannelBillingCycle.setRate(rate == null||rate.equals("") ? null : Integer.parseInt(rate.toString()));
                 payChannelBillingCycle.setDescription(description == null ? null : (String) description);
                 payChannelBillingCycleMapper.insert(payChannelBillingCycle);
             }
@@ -467,7 +467,7 @@ public class PayChannelService {
                 supportTradeType.setSortIndex(i+1);
                 Object rate = tradeTypeObject.get("rate");
                 Object description = tradeTypeObject.get("description");
-                supportTradeType.setTerminalRate(rate == null ? null : Integer.parseInt(rate.toString()));
+                supportTradeType.setTerminalRate(rate == null||rate.equals("") ? null : Integer.parseInt(rate.toString()));
                 supportTradeType.setDescription(description == null ? null : (String) description);
                 supportTradeTypeMapper.insert(supportTradeType);
             }

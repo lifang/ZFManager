@@ -74,6 +74,7 @@
                     if($zipFile.length > 0){
                         $zipFile.attr("value", data.result);
                     }
+                    alert("上传成功!");
                 }
             },
             resetForm: true,

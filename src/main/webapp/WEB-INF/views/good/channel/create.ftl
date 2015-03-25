@@ -120,7 +120,7 @@
                                                 </#list>
                                             </select>
                                         </td>
-                                        <td><input name="" type="text" class="input_l" value="${channelStandardRate.standardRate}"></td>
+                                        <td><input name="" type="text" class="input_l" value="${channelStandardRate.standardRate}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
                                     </tr>
                                     </#list>
@@ -157,7 +157,7 @@
                                                     </#list>
                                                 </select>
                                             </td>
-                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate!""}"></td>
+                                            <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate!""}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
                                             <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
                                         </tr>
                                         </#list>
@@ -196,7 +196,7 @@
                                                         </#list>
                                                     </select>
                                                 </td>
-                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate!""}"></td>
+                                                <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate!""}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
                                                 <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
                                             </tr>
                                             </#list>
@@ -250,7 +250,7 @@
                                             </#list>
                                         </div>
                                     </div>
-                                    <div class="item_l2"><label>对公开通所需：</label><select name="">
+                                    <div class="item_l2"><label>对私开通所需：</label><select name="">
                                         <#list openPrivateInfos as openPrivateInfo>
                                             <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
                                         </#list>
@@ -361,7 +361,7 @@
                 </#list>
             </select>
         </td>
-        <td><input name="" type="text" class="input_l"></td>
+        <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
         <td><input name="" type="text" class="input_l"></td>
     </tr>
 </table>
@@ -374,7 +374,7 @@
             </#list>
         </select>
     </td>
-    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
     <td><input name="" type="text" class="input_l"></td>
 </tr>
 </table>
@@ -388,7 +388,7 @@
             </#list>
         </select>
     </td>
-    <td><input name="" type="text" class="input_l"></td>
+    <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
     <td><input name="" type="text" class="input_l"></td>
 </tr>
 </table>
@@ -414,7 +414,7 @@
             <div class="ia_area">
             </div>
         </div>
-        <div class="item_l2"><label>对公开通所需：</label><select name="">
+        <div class="item_l2"><label>对私开通所需：</label><select name="">
             <#list openPrivateInfos as openPrivateInfo>
                 <option value="${openPrivateInfo.id}">${openPrivateInfo.name}</option>
             </#list>
@@ -493,18 +493,35 @@
         $("#addCity").click(function(){
             var cityId = $('#citySelect').children('option:selected').attr("value");
             var provinceId = $('#provinceSelect').children('option:selected').attr("value");
+            var hasDup = false;
             if(isNotNull(cityId)){
-                var newSpan = $("#hideCity").children("span").clone();
-                $("#selectedCity").append(newSpan);
-                newSpan.children("a").before($('#citySelect').children('option:selected').html());
-                var $a = newSpan.children("a");
-                $a.attr("value", cityId);
+                $("#selectedCity").find("a").each(function(){
+                    if(cityId == $(this).attr("value")){
+                        hasDup = true;
+                        return false;
+                    }
+                });
+                if(!hasDup){
+                    var newSpan = $("#hideCity").children("span").clone();
+                    $("#selectedCity").append(newSpan);
+                    newSpan.children("a").before($('#citySelect').children('option:selected').html());
+                    var $a = newSpan.children("a");
+                    $a.attr("value", cityId);
+                }
             } else if(isNotNull(provinceId)) {
-                var newSpan = $("#hideCity").children("span").clone();
-                $("#selectedProvince").append(newSpan);
-                var $a = newSpan.children("a");
-                $a.attr("value", provinceId);
-                $a.before($('#provinceSelect').children('option:selected').html());
+                $("#selectedProvince").find("a").each(function(){
+                    if(provinceId == $(this).attr("value")){
+                        hasDup = true;
+                        return false;
+                    }
+                });
+                if(!hasDup) {
+                    var newSpan = $("#hideCity").children("span").clone();
+                    $("#selectedProvince").append(newSpan);
+                    var $a = newSpan.children("a");
+                    $a.attr("value", provinceId);
+                    $a.before($('#provinceSelect').children('option:selected').html());
+                }
             }
         });
         $(document).delegate(".dele", "click", function () {
@@ -558,9 +575,21 @@
         });
 
         $(document).delegate(".addRequirement", "click", function () {
+            $(this).next("div").find("a");
             var $select = $(this).prev("select");
             var $option = $select.children('option:selected');
             var id = $option.attr("value");
+            var hasDup = false;
+            $(this).next("div").find("a").each(function(){
+                if($(this).attr("value") == id){
+                    hasDup = true;
+                    return false;
+                }
+            });
+            if(hasDup){
+                return false;
+            }
+
             if(isNotNull(id)){
                 var newSpan = $("#hideRequirement").children("span").clone();
                 $(this).next(".ia_area").append(newSpan);
@@ -598,6 +627,8 @@
         }
         var supportCancel=$("input[name='c_supportCancel']:checked").val();
         if(checkNull(supportCancel, "是否支持注销不能为空!")){return false;}
+
+        var hasDup = false;
         <#--刷卡交易标准手续费-->
         var standardRates = new Array();
         $(".standardRates").find("tr").each(function(i){
@@ -605,38 +636,71 @@
                 return;
             }
             var id =  $(this).find("select").find("option:selected").val();
+            for(var i=0;i<standardRates.length;i++){
+                var e = standardRates[i];
+                if(e.id==id){
+                    showErrorTip("刷卡交易标准手续费商户类型有重复！")
+                    hasDup = true
+                    return false;
+                }
+            }
             var rate =  $(this).find("input").first().val();
             var description =  $(this).find("input").last().val();
             standardRates.push({id: id,
                 rate: rate,
                 description: description});
         });
+        if(hasDup){
+            return false;
+        }
         <#--资金服务费-->
         var billingCycles = new Array();
         $(".billingCycles").find("tr").each(function(i){
             if(i==0){
                 return;
             }
-            var id =  $(this).find("select").find("option:selected").val();
+            var id = $(this).find("select").find("option:selected").val();
+            for(var i=0;i<billingCycles.length;i++){
+                var e = billingCycles[i];
+                if(e.id==id){
+                    showErrorTip("资金服务费结算周期有重复！")
+                    hasDup = true
+                    return false;
+                }
+            }
             var rate =  $(this).find("input").first().val();
             var description =  $(this).find("input").last().val();
             billingCycles.push({id: id,
                 rate: rate,
                 description: description});
         });
+        if(hasDup){
+            return false;
+        }
     <#--其他交易类型-->
         var tradeTypes = new Array();
         $(".tradeTypes").find("tr").each(function(i){
             if(i==0){
                 return;
             }
-            var id =  $(this).find("select").find("option:selected").val();
+            var id = $(this).find("select").find("option:selected").val();
+            for(var i=0;i<tradeTypes.length;i++){
+                var e = tradeTypes[i];
+                if(e.id==id){
+                    showErrorTip("其他交易类型有重复！")
+                    hasDup = true
+                    return false;
+                }
+            }
             var rate =  $(this).find("input").first().val();
             var description =  $(this).find("input").last().val();
             tradeTypes.push({id: id,
                 rate: rate,
                 description: description});
         });
+        if(hasDup){
+            return false;
+        }
 
         var openingCost=$("input[name='c_openingCost']").val();
         if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
@@ -751,6 +815,7 @@
                 if(data.code==1){
                     $(obj).attr("value", data.result);
                     $(obj).prev("span").html("重新上传");
+                    alert("上传成功!");
                 }
             },
             resetForm: true,
