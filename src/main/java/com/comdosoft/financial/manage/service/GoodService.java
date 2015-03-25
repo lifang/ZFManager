@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
@@ -531,14 +532,46 @@ public class GoodService {
         return goodMapper.findGoodLazyInfo(id);
     }
     
-   /**
-    * @description 用于商品展示列表页
-    * @author Tory
-    * @date 2015年3月23日 下午11:13:22
-    */
-    public Page<Good> findPages(int page){
+   	/**
+	 * @description 用于商品展示列表页
+	 * @author Tory
+	 * @date 2015年3月23日 下午11:13:22
+	 */
+	public Page<Good> selectGoods(int page, Byte status, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId) {
+		if(pageSize==1) pageSize=3;
 		PageRequest request = new PageRequest(page, pageSize);
-    	return null;
-    }
-	
+		long count = goodMapper.countGoods(status, goodBrandsId, posCategoryId,
+				signOrderWayId);
+		if (count == 0) {
+			return new Page<Good>(new PageRequest(1, pageSize),
+					new ArrayList<Good>(), count);
+		}
+		List<Good> result = goodMapper.selectGoods(request, status,
+				goodBrandsId, posCategoryId, signOrderWayId);
+		Page<Good> goods = new Page<>(request, result, count);
+		if (goods.getCurrentPage() > goods.getTotalPage()) {
+			request = new PageRequest(goods.getTotalPage(), pageSize);
+			result = goodMapper.selectGoods(request, status, goodBrandsId,
+					posCategoryId, signOrderWayId);
+			goods = new Page<>(request, result, count);
+		}
+		List<Integer> goodIds = new ArrayList<Integer>();
+		for (Good good : result) {
+			goodIds.add(good.getId());
+		}
+		if (!CollectionUtils.isEmpty(goodIds)) {
+			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper
+					.selectGoodsPictures(goodIds);
+			for (Good good : result) {
+				good.setPictures(new ArrayList<GoodsPicture>());
+				for (GoodsPicture gp : selectGoodsPictures) {
+					if (good.getId().equals(gp.getGoodId())) {
+						good.getPictures().add(gp);
+					}
+				}
+			}
+		}
+		return goods;
+	}
 }

@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
+import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryService;
 import com.comdosoft.financial.manage.service.GoodBrandService;
+import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.PosCategoryService;
+import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/good")
@@ -40,15 +43,19 @@ public class GoodController {
 	private PayChannelService payChannelService;
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private GoodService goodService;
  	
     @RequestMapping(value="/user/create",method = RequestMethod.GET)
-    public String createGet(HttpServletRequest request,Model model){
+    public String createGet(HttpServletRequest request,Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId,Model model){
     	List<GoodBrand> goodBrands = goodBrandService.selectAll();
     	Collection<PosCategory> posCategorys = posCategoryService.listAll();
     	List<PayChannel> payChannels = payChannelService.findCheckedChannels();
     	List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService.listAllDictionarySignOrderWays();
     	List<DictionaryCardType> dictionaryCardTypes = dictionaryService.listAllDictionaryCardTypes();
     	List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model);
     	model.addAttribute("goodBrands", goodBrands);
     	model.addAttribute("posCategorys", posCategorys);
     	model.addAttribute("payChannels", payChannels);
@@ -57,4 +64,42 @@ public class GoodController {
     	model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
     	return "order/user/goodList";
     }
+    
+    /**
+     * @description 条件搜索 
+     * @author Tory
+     * @date 2015年3月25日 下午11:55:32
+     */
+    @RequestMapping(value="/user/page",method=RequestMethod.GET)
+	public String page(Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId, Model model){
+    	List<GoodBrand> goodBrands = goodBrandService.selectAll();
+    	Collection<PosCategory> posCategorys = posCategoryService.listAll();
+    	List<PayChannel> payChannels = payChannelService.findCheckedChannels();
+    	List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService.listAllDictionarySignOrderWays();
+    	List<DictionaryCardType> dictionaryCardTypes = dictionaryService.listAllDictionaryCardTypes();
+    	List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService.listAllDictionaryTradeTypes();
+    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model);
+    	model.addAttribute("goodBrands", goodBrands);
+    	model.addAttribute("posCategorys", posCategorys);
+    	model.addAttribute("payChannels", payChannels);
+    	model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
+    	model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
+    	model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
+    	for(GoodBrand goodBrand:goodBrands){
+    		if(null!=goodBrandsId&&goodBrand.getId()==goodBrandsId){
+    			model.addAttribute("goodBrandSelected", goodBrand);
+    		}
+    	}
+		return "order/user/goodListFresh";
+	}
+    
+    private void findPage(Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId, Model model){
+		if (page == null) {
+			page = 1;
+		}
+		Page<Good> goods = goodService.selectGoods(page, (byte) 5, goodBrandsId, posCategoryId, signOrderWayId);
+		model.addAttribute("goods", goods);
+	}
 }

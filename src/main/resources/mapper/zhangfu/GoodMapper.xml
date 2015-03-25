@@ -203,23 +203,23 @@
 	<sql id="whereGoods">
 		<where>
 			<if test="status != null"> AND status =#{status} </if>
-			<if test="goodBrandsId != null"> AND goodBrandsId =#{goodBrandsId} </if>
-			<if test="posCategoryId != null"> AND posCategoryId =#{posCategoryId} </if>
-			<if test="signOrderWayId != null"> AND signOrderWayId =#{signOrderWayId} </if>
+			<if test="goodBrandsId != null"> AND good_brands_id =#{goodBrandsId} </if>
+			<if test="posCategoryId != null"> AND pos_category_id =#{posCategoryId} </if>
+			<if test="signOrderWayId != null"> AND sign_order_way_id =#{signOrderWayId} </if>
 		</where>
 	</sql>
 	<select id="selectGoods" resultMap="goodsResultMap">
 		select g.*,
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
-		<include refid="pageWhere" />
+		<include refid="whereGoods" />
 		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countGoods" resultType="long">
 		SELECT count(*) as count
 		FROM goods
-		<include refid="pageWhere" />
+		<include refid="whereGoods" />
 	</select>
 	<!--商品列表 分页result end -->
 	
