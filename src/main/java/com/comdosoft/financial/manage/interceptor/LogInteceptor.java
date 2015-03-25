@@ -16,7 +16,7 @@ import com.google.common.collect.Maps;
 
 public class LogInteceptor extends HandlerInterceptorAdapter {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(LoginInterceptor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LogInteceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
