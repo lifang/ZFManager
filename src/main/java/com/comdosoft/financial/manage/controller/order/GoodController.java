@@ -48,14 +48,14 @@ public class GoodController {
  	
     @RequestMapping(value="/user/create",method = RequestMethod.GET)
     public String createGet(HttpServletRequest request,Integer page, Integer goodBrandsId,
-			Integer posCategoryId, Integer signOrderWayId,Model model){
+			Integer posCategoryId, Integer signOrderWayId,Model model,Integer payChannelId,Integer cardTypeId){
     	List<GoodBrand> goodBrands = goodBrandService.selectAll();
     	Collection<PosCategory> posCategorys = posCategoryService.listAll();
     	List<PayChannel> payChannels = payChannelService.findCheckedChannels();
     	List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService.listAllDictionarySignOrderWays();
     	List<DictionaryCardType> dictionaryCardTypes = dictionaryService.listAllDictionaryCardTypes();
     	List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService.listAllDictionaryTradeTypes();
-    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model);
+    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model,payChannelId,cardTypeId);
     	model.addAttribute("goodBrands", goodBrands);
     	model.addAttribute("posCategorys", posCategorys);
     	model.addAttribute("payChannels", payChannels);
@@ -72,14 +72,14 @@ public class GoodController {
      */
     @RequestMapping(value="/user/page",method=RequestMethod.GET)
 	public String page(Integer page, Integer goodBrandsId,
-			Integer posCategoryId, Integer signOrderWayId, Model model){
+			Integer posCategoryId, Integer signOrderWayId, Model model,Integer payChannelId,Integer cardTypeId){
     	List<GoodBrand> goodBrands = goodBrandService.selectAll();
     	Collection<PosCategory> posCategorys = posCategoryService.listAll();
     	List<PayChannel> payChannels = payChannelService.findCheckedChannels();
     	List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService.listAllDictionarySignOrderWays();
     	List<DictionaryCardType> dictionaryCardTypes = dictionaryService.listAllDictionaryCardTypes();
     	List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService.listAllDictionaryTradeTypes();
-    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model);
+    	findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model,payChannelId,cardTypeId);
     	model.addAttribute("goodBrands", goodBrands);
     	model.addAttribute("posCategorys", posCategorys);
     	model.addAttribute("payChannels", payChannels);
@@ -91,15 +91,35 @@ public class GoodController {
     			model.addAttribute("goodBrandSelected", goodBrand);
     		}
     	}
+    	for(PosCategory posCategory:posCategorys){
+    		if(null!=posCategoryId&&posCategory.getId()==posCategoryId){
+    			model.addAttribute("posCategorySelected", posCategory);
+    		}
+    	}
+    	for(PayChannel payChannel:payChannels){
+    		if(null!=payChannelId&&payChannel.getId()==payChannelId){
+    			model.addAttribute("payChannelSelected", payChannel);
+    		}
+    	}
+    	for(DictionaryCardType dictionaryCardType:dictionaryCardTypes){
+    		if(null!=cardTypeId&&dictionaryCardType.getId()==cardTypeId){
+    			model.addAttribute("cardTypeSelected", dictionaryCardType);
+    		}
+    	}
+    	for(DictionarySignOrderWay dictionarySignOrderWay:dictionarySignOrderWays){
+    		if(null!=signOrderWayId&&dictionarySignOrderWay.getId()==signOrderWayId){
+    			model.addAttribute("dictionarySignOrderWaySelected", dictionarySignOrderWay);
+    		}
+    	}
 		return "order/user/goodListFresh";
 	}
     
     private void findPage(Integer page, Integer goodBrandsId,
-			Integer posCategoryId, Integer signOrderWayId, Model model){
+			Integer posCategoryId, Integer signOrderWayId, Model model,Integer payChannelId,Integer cardTypeId){
 		if (page == null) {
 			page = 1;
 		}
-		Page<Good> goods = goodService.selectGoods(page, (byte) 5, goodBrandsId, posCategoryId, signOrderWayId);
+		Page<Good> goods = goodService.selectGoods(page, (byte) 5, goodBrandsId, posCategoryId, signOrderWayId,payChannelId,cardTypeId);
 		model.addAttribute("goods", goods);
 	}
 }

@@ -96,4 +96,15 @@ public class GoodsPayChannel {
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
+	
+	private PayChannel payChannel;
+
+	public PayChannel getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(PayChannel payChannel) {
+		this.payChannel = payChannel;
+	}
+	
 }

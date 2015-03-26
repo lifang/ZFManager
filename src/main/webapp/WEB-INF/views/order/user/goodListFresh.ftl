@@ -11,6 +11,34 @@
 		                <span class="cnd_x"></span></a><i></i>
 	                </li>
 	             </#if>
+	             <#if posCategorySelected??>
+	                <li class="crumbs_nav_drop">
+	                	<a href="#" class="hover" onclick="posCategoryRemove();">
+		                <span class="cnd_p">POS机类型：${posCategorySelected.name!""}</span>
+		                <span class="cnd_x"></span></a><i></i>
+	                </li>
+	             </#if>
+	             <#if payChannelSelected??>
+	                <li class="crumbs_nav_drop">
+	                	<a href="#" class="hover" onclick="payChannelRemove();">
+		                <span class="cnd_p">支付通道：${payChannelSelected.name!""}</span>
+		                <span class="cnd_x"></span></a><i></i>
+	                </li>
+	             </#if>
+	             <#if cardTypeSelected??>
+	                <li class="crumbs_nav_drop">
+	                	<a href="#" class="hover" onclick="cardTypeRemove();">
+		                <span class="cnd_p">支持卡类型：${cardTypeSelected.cardType!""}</span>
+		                <span class="cnd_x"></span></a><i></i>
+	                </li>
+	             </#if>
+	             <#if dictionarySignOrderWaySelected??>
+	                <li class="crumbs_nav_drop">
+	                	<a href="#" class="hover" onclick="signOrderWayRemove();">
+		                <span class="cnd_p">签购单方式：${dictionarySignOrderWaySelected.signOrderWay!""}</span>
+		                <span class="cnd_x"></span></a><i></i>
+	                </li>
+	             </#if>
             </ul>
         </div>
     	<div class="category_item">
@@ -33,11 +61,16 @@
         </div>
         <div class="category_item">
         	<h4>POS机类型：</h4>
+        	<input id="hidden_pos_category_id" type="hidden" name="hidden_pos_category_id" value="<#if posCategorySelected??>${posCategorySelected.id!""}</#if>" />
             <div class="category_item_con">
             	<ul>
             		<#if posCategorys??>
 	                    <#list posCategorys as posCategory>
-		                    <li><a href="#">${posCategory.name!""}</a></li>
+	                    	<#if posCategorySelected?? && posCategorySelected.id=posCategory.id>
+		                    	<li><a href="#" class="hover" onclick="posCategorySelect(${posCategory.id!""});" id="pos_category_${posCategory.id!""}">${posCategory.name!""}</a></li>
+	                    	<#else>
+		                    	<li><a href="#" onclick="posCategorySelect(${posCategory.id!""});" id="pos_category_${posCategory.id!""}">${posCategory.name!""}</a></li>
+	                    	</#if>
 	                    </#list>
                     </#if>
                 </ul>
@@ -45,11 +78,16 @@
         </div>
         <div class="category_item">
         	<h4>支付通道：</h4>
+        	<input id="hidden_pay_channel_id" type="hidden" name="hidden_pay_channel_id" value="<#if payChannelSelected??>${payChannelSelected.id!""}</#if>" />
             <div class="category_item_con">
             	<ul>
             		<#if payChannels??>
 	                    <#list payChannels as payChannel>
-		                    <li><a href="#">${payChannel.name!""}</a></li>
+	                    	<#if payChannelSelected?? && payChannelSelected.id=payChannel.id>
+		                    	<li><a href="#" class="hover" onclick="payChannelSelect(${payChannel.id!""});" id="pay_channel_${payChannel.id!""}">${payChannel.name!""}</a></li>
+	                    	<#else>
+		                    	<li><a href="#" onclick="payChannelSelect(${payChannel.id!""});" id="pay_channel_${payChannel.id!""}">${payChannel.name!""}</a></li>
+	                    	</#if>
 	                    </#list>
                     </#if>
                 </ul>
@@ -57,11 +95,16 @@
         </div>
         <div class="category_item">
         	<h4>支持卡类型：</h4>
+        	<input id="hidden_card_type_id" type="hidden" name="hidden_card_type_id" value="<#if cardTypeSelected??>${cardTypeSelected.id!""}</#if>" />
             <div class="category_item_con">
             	<ul>
             		<#if dictionaryCardTypes??>
 	                    <#list dictionaryCardTypes as dictionaryCardType>
-		                    <li><a href="#">${dictionaryCardType.cardType!""}</a></li>
+	                    	<#if cardTypeSelected?? && cardTypeSelected.id=dictionaryCardType.id>
+		                    	<li><a href="#" class="hover" onclick="cardTypeSelect(${dictionaryCardType.id!""});" id="card_type_${dictionaryCardType.id!""}">${dictionaryCardType.cardType!""}</a></li>
+	                    	<#else>
+		                    	<li><a href="#" onclick="cardTypeSelect(${dictionaryCardType.id!""});" id="card_type_${dictionaryCardType.id!""}">${dictionaryCardType.cardType!""}</a></li>
+	                    	</#if>
 	                    </#list>
                     </#if>
                 </ul>
@@ -81,11 +124,16 @@
         </div>
         <div class="category_item category_item_noBorder">
         	<h4>签购单方式：</h4>
+        	<input id="hidden_sign_order_way_id" type="hidden" name="hidden_sign_order_way_id" value="<#if dictionarySignOrderWaySelected??>${dictionarySignOrderWaySelected.id!""}</#if>" />
             <div class="category_item_con">
             	<ul>
             		<#if dictionarySignOrderWays??>
 	                    <#list dictionarySignOrderWays as dictionarySignOrderWay>
-		                    <li><a href="#">${dictionarySignOrderWay.signOrderWay!""}</a></li>
+	                    	<#if dictionarySignOrderWaySelected?? && dictionarySignOrderWaySelected.id=dictionarySignOrderWay.id>
+		                    	<li><a href="#" class="hover" onclick="signOrderWaySelect(${dictionarySignOrderWay.id!""});" id="sign_order_way_${dictionarySignOrderWay.id!""}">${dictionarySignOrderWay.signOrderWay!""}</a></li>
+	                    	<#else>
+		                    	<li><a href="#" onclick="signOrderWaySelect(${dictionarySignOrderWay.id!""});" id="sign_order_way_${dictionarySignOrderWay.id!""}">${dictionarySignOrderWay.signOrderWay!""}</a></li>
+	                    	</#if>
 	                    </#list>
                     </#if>
                 </ul>

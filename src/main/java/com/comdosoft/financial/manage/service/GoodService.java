@@ -16,6 +16,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.GoodCardType;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodRelation;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodCardTypeMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
@@ -538,22 +539,22 @@ public class GoodService {
 	 * @date 2015年3月23日 下午11:13:22
 	 */
 	public Page<Good> selectGoods(int page, Byte status, Integer goodBrandsId,
-			Integer posCategoryId, Integer signOrderWayId) {
+			Integer posCategoryId, Integer signOrderWayId,Integer payChannelId,Integer cardTypeId) {
 		if(pageSize==1) pageSize=3;
 		PageRequest request = new PageRequest(page, pageSize);
 		long count = goodMapper.countGoods(status, goodBrandsId, posCategoryId,
-				signOrderWayId);
+				signOrderWayId,payChannelId,cardTypeId);
 		if (count == 0) {
 			return new Page<Good>(new PageRequest(1, pageSize),
 					new ArrayList<Good>(), count);
 		}
 		List<Good> result = goodMapper.selectGoods(request, status,
-				goodBrandsId, posCategoryId, signOrderWayId);
+				goodBrandsId, posCategoryId, signOrderWayId,payChannelId,cardTypeId);
 		Page<Good> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
 			result = goodMapper.selectGoods(request, status, goodBrandsId,
-					posCategoryId, signOrderWayId);
+					posCategoryId, signOrderWayId,payChannelId,cardTypeId);
 			goods = new Page<>(request, result, count);
 		}
 		List<Integer> goodIds = new ArrayList<Integer>();
@@ -563,11 +564,18 @@ public class GoodService {
 		if (!CollectionUtils.isEmpty(goodIds)) {
 			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper
 					.selectGoodsPictures(goodIds);
+			List<GoodsPayChannel> selectGoodsPayChannels = goodsPayChannelMapper.selectGoodsPayChannels(goodIds);
 			for (Good good : result) {
 				good.setPictures(new ArrayList<GoodsPicture>());
+				good.setChannels(new ArrayList<PayChannel>());
 				for (GoodsPicture gp : selectGoodsPictures) {
 					if (good.getId().equals(gp.getGoodId())) {
 						good.getPictures().add(gp);
+					}
+				}
+				for(GoodsPayChannel goodsPayChannel:selectGoodsPayChannels){
+					if(good.getId().equals(goodsPayChannel.getGoodId())){
+						good.getChannels().add(goodsPayChannel.getPayChannel());
 					}
 				}
 			}

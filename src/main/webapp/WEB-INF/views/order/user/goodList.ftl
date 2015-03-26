@@ -6,17 +6,20 @@
 <script type="text/javascript">
 	function goodPageChange(page) {
 			var goodBrandsId = $("#hidden_good_brand_id").val();
-			//var status = $("#hidden_status").val();
-			//var factoryId=$("#hidden_factory_id").val();
+			var posCategoryId = $("#hidden_pos_category_id").val();
+			var payChannelId=$("#hidden_pay_channel_id").val();
+			var signOrderWayId=$("#hidden_sign_order_way_id").val();
+			var cardTypeId=$("#hidden_card_type_id").val();
 		    $.get('<@spring.url "/good/user/page" />',
 		            {"page": page,
-		             "goodBrandsId": goodBrandsId
-		             //"status": status,
-		             //"factoryId":factoryId
+		             "goodBrandsId": goodBrandsId,
+		             "posCategoryId": posCategoryId,
+		             "payChannelId": payChannelId,
+		             "cardTypeId": cardTypeId,
+		             "signOrderWayId":signOrderWayId
 		            },
 		            function (data) {
 		                $('#page_fresh').html(data);
-		                //popupPage();
 		            });
 		}
 		
@@ -34,6 +37,44 @@
 		goodPageChange(1);
 	}
 	
+	
+	function posCategorySelect(id){
+		$("#hidden_pos_category_id").val(id);
+		goodPageChange(1);
+	}
+	function posCategoryRemove(){
+		$("#hidden_pos_category_id").val("");
+		goodPageChange(1);
+	}
+	
+	function payChannelSelect(id){
+		$("#hidden_pay_channel_id").val(id);
+		goodPageChange(1);
+	}
+	function payChannelRemove(){
+		$("#hidden_pay_channel_id").val("");
+		goodPageChange(1);
+	}
+	
+	function cardTypeSelect(id){
+		$("#hidden_card_type_id").val(id);
+		goodPageChange(1);
+	}
+	function cardTypeRemove(){
+		$("#hidden_card_type_id").val("");
+		goodPageChange(1);
+	}
+	
+	function signOrderWaySelect(id){
+		$("#hidden_sign_order_way_id").val(id);
+		goodPageChange(1);
+	}
+	function signOrderWayRemove(){
+		$("#hidden_sign_order_way_id").val("");
+		goodPageChange(1);
+	}
+	
+	//废弃
 	function add(txt,id,idLast,brandName) {
 		var ul=$("#select_ul");
 		var str="<li class='crumbs_nav_drop' id='"+txt+id+"'><a href='#' class='hover'><span class='cnd_p'>POS机品牌："+brandName+"</span><span class='cnd_x'></span></a><i></i></li>";

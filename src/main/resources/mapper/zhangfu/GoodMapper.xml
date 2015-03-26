@@ -206,6 +206,8 @@
 			<if test="goodBrandsId != null"> AND good_brands_id =#{goodBrandsId} </if>
 			<if test="posCategoryId != null"> AND pos_category_id =#{posCategoryId} </if>
 			<if test="signOrderWayId != null"> AND sign_order_way_id =#{signOrderWayId} </if>
+			<if test="payChannelId != null"> AND g.id in(select gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id=#{payChannelId}) </if>
+			<if test="cardTypeId != null"> AND g.id in(select gct.good_id from good_card_types gct where gct.card_type_id=#{cardTypeId}) </if>
 		</where>
 	</sql>
 	<select id="selectGoods" resultMap="goodsResultMap">
@@ -218,7 +220,7 @@
 
 	<select id="countGoods" resultType="long">
 		SELECT count(*) as count
-		FROM goods
+		FROM goods g
 		<include refid="whereGoods" />
 	</select>
 	<!--商品列表 分页result end -->

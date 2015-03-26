@@ -65,4 +65,19 @@
     delete from goods_pay_channels 
     	where good_id = #{param1}
   </delete>
+  
+  
+  	<resultMap extends="BaseResultMap" id="goodsPayChannelsResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodsPayChannel">
+		<association columnPrefix="p_" javaType="com.comdosoft.financial.manage.domain.zhangfu.PayChannel" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
+	</resultMap>
+  
+  
+     <select id="selectGoodsPayChannels" resultMap="goodsPayChannelsResultMap">
+       select gpc.*,p.id as p_id,p.name as p_name
+       from goods_pay_channels gpc left join pay_channels p on gpc.pay_channel_id=p.id
+       where gpc.good_id in 
+       <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
+	  #{item}  
+		</foreach>   
+    </select>
 </mapper>

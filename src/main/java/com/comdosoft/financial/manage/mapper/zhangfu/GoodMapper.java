@@ -65,13 +65,18 @@ public interface GoodMapper {
     		@Param("status") Byte status,
     		@Param("goodBrandsId") Integer goodBrandsId, 
     		@Param("posCategoryId") Integer posCategoryId, 
-    		@Param("signOrderWayId") Integer signOrderWayId);
+    		@Param("signOrderWayId") Integer signOrderWayId,
+    		@Param("payChannelId") Integer payChannelId,
+    		@Param("cardTypeId") Integer cardTypeId
+    		);
     
     List<Good> selectGoods(
     		@Param("pageRequest") PageRequest pageRequest,
     		@Param("status") Byte status,
     		@Param("goodBrandsId") Integer goodBrandsId, 
     		@Param("posCategoryId") Integer posCategoryId, 
-    		@Param("signOrderWayId") Integer signOrderWayId);
+    		@Param("signOrderWayId") Integer signOrderWayId,
+    		@Param("payChannelId") Integer payChannelId,
+    		@Param("cardTypeId") Integer cardTypeId);
     
 }
