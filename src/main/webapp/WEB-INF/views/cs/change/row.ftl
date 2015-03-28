@@ -24,6 +24,7 @@
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn">确认换货</a>
 			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
+			<a class="a_btn" onClick="onHandle(${csChange.id});">标记为换货中</a>
 		<#elseif csChange.status=1>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>

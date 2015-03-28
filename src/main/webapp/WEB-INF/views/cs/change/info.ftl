@@ -10,9 +10,16 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>换货申请记录</h1>
-		<#if (csChange.status=0) || (csChange.status=1)>
+		<#if csChange.status=0>
 		<div class="userTopBtnBox">
-			<a href="#" class="ghostBtn" onClick="onCancel();">取消申请</a> <a href="#" class="ghostBtn">确认换货</a>
+			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
+			<a class="ghostBtn" onClick="onHandle();">标记为换货中</a>
+			<a class="ghostBtn">确认换货</a>
+		</div>
+		<#elseif csChange.status=1>
+		<div class="userTopBtnBox">
+			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
+			<a class="ghostBtn" onClick="onFinish();">标记换货完成</a>
 		</div>
 		</#if>
 	</div>
@@ -113,6 +120,20 @@
 	
 	function onCancel() {
 		$.post('<@spring.url "/cs/change/${csChange.id}/cancel" />',
+	            {}, function (data) {
+	            	location='<@spring.url "/cs/change/list" />';
+	            });
+	}
+	
+	function onFinish() {
+		$.post('<@spring.url "/cs/change/${csChange.id}/finish" />',
+	            {}, function (data) {
+	            	location='<@spring.url "/cs/change/list" />';
+	            });
+	}
+	
+	function onHandle() {
+		$.post('<@spring.url "/cs/change/${csChange.id}/handle" />',
 	            {}, function (data) {
 	            	location='<@spring.url "/cs/change/list" />';
 	            });

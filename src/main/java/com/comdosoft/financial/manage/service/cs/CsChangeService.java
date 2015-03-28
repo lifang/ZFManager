@@ -77,9 +77,13 @@ public class CsChangeService {
 		return csChange;
 	}
 	
+	public void handle(Integer csChangeId) {
+		updateStatus(csChangeId, (byte)1);
+	}
+	
 	@Transactional("transactionManager")
-	private void cancelOrFinish(Integer csChangeId, Byte status) {
-		CsChange csChange = updateStatus(csChangeId, status);
+	public void cancel(Integer csChangeId) {
+		CsChange csChange = updateStatus(csChangeId, (byte)2);
 		
 		Integer terminalId = csChange.getTerminalId();
 		if (null != terminalId) {
@@ -87,12 +91,14 @@ public class CsChangeService {
 		}
 	}
 	
-	public void cancel(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)2);
-	}
-	
-	public void finish(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)3);
+	@Transactional("transactionManager")
+	public void finish(Integer csChangeId) {
+		CsChange csChange = updateStatus(csChangeId, (byte)3);
+		
+		Integer terminalId = csChange.getTerminalId();
+		if (null != terminalId) {
+			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {
@@ -105,7 +111,7 @@ public class CsChangeService {
 	
 	@Transactional("transactionManager")
 	public CsChangeMark createMark(Customer customer, Integer csChangeId, String content) {
-		updateStatus(csChangeId, (byte)1);
+		handle(csChangeId);
 		
 		CsChangeMark csChangeMark = new CsChangeMark();
 		csChangeMark.setCustomId(customer.getId());

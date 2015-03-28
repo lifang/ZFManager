@@ -9,7 +9,7 @@
 			<col />
 			<col />
 			<col width="200" />
-			<col width="80"/>
+			<col />
 			<col width="160" />
 		</colgroup>
 		<thead>

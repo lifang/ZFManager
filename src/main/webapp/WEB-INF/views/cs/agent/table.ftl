@@ -47,19 +47,7 @@
 	$(function() {
 		popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
 	});
-	var tmpId;
 	
-	function onIdChanged(csAgentId) {
-		tmpId = csAgentId;
-	}
-	
-	function onOutput() {
-		var terminalList = $("#output_content").val();
-		$.post('<@spring.url "" />'+'/cs/agent/'+tmpId+'/output',
-	            {"terminalList": terminalList}, function (data) {
-					pageChange(${csAgents.currentPage});
-	            });
-	}
 </script>
 <@assign.assign name="agent" page=csAgents.currentPage/>
 <@pager.p page=csAgents.currentPage totalPages=csAgents.totalPage functionName="pageChange"/>	

@@ -107,7 +107,7 @@
                 <li><a href="<@spring.url "/cs/change/list"/>"<#if urlCheck(request,"/cs/change")> class="hover"</#if>>换货</a></li>
                 <li><a href="<@spring.url "/cs/return/list"/>"<#if urlCheck(request,"/cs/return")> class="hover"</#if>>退货</a></li>
                 <li><a href="#">租赁退还</a></li>
-                <li><a href="#">注销</a></li>
+                <li><a href="<@spring.url "/cs/cancel/list"/>"<#if urlCheck(request,"/cs/cancel")> class="hover"</#if>>注销</a></li>
             </ol>
         </li>
         <li class="second"><a href="javascript:void(0);">任务<i class="off"></i></a>

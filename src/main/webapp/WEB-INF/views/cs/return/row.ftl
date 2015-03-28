@@ -24,6 +24,7 @@
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn">确认退货</a>
 			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
+			<a class="a_btn" onClick="onHandle(${csReturn.id});">标记为退货中</a>
 		<#elseif csReturn.status=1>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
