@@ -208,6 +208,7 @@
 			<if test="signOrderWayId != null"> AND sign_order_way_id =#{signOrderWayId} </if>
 			<if test="payChannelId != null"> AND g.id in(select gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id=#{payChannelId}) </if>
 			<if test="cardTypeId != null"> AND g.id in(select gct.good_id from good_card_types gct where gct.card_type_id=#{cardTypeId}) </if>
+			<if test="tradeTypeId != null"> AND g.id in(select distinct gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id in (SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id=#{tradeTypeId})) </if>
 		</where>
 	</sql>
 	<select id="selectGoods" resultMap="goodsResultMap">
@@ -249,7 +250,7 @@
   	<select id="findGoodInfo" resultMap="GoodInfoResultMap">
 		select g.*,
 		gb.id as gb_id, gb.name as gb_name,
-		f.id as f_id, f.name as f_name,
+		f.id as f_id, f.name as f_name,f.logo_file_path as f_logo_file_path,f.description as f_description,f.website_url as f_website_url,
 		pc.id as pc_id, pc.name as pc_name,
 		dsow.id as dsow_id, dsow.sign_order_way as dsow_sign_order_way,
 		decw.id as decw_id, decw.encrypt_card_way as decw_encrypt_card_way
@@ -263,7 +264,7 @@
 
   	<!--获取关联商品 -->
 	<select id="selectRelativeGoods" resultMap="BaseResultMap">
-		select rgood.id, rgood.title
+		select rgood.id, rgood.title,rgood.price
 		from good_relations gr inner join goods rgood on gr.relative_good_id=rgood.id
 		where gr.good_id = #{param1}
 	</select>	

@@ -67,7 +67,8 @@ public interface GoodMapper {
     		@Param("posCategoryId") Integer posCategoryId, 
     		@Param("signOrderWayId") Integer signOrderWayId,
     		@Param("payChannelId") Integer payChannelId,
-    		@Param("cardTypeId") Integer cardTypeId
+    		@Param("cardTypeId") Integer cardTypeId,
+    		@Param("tradeTypeId") Integer tradeTypeId
     		);
     
     List<Good> selectGoods(
@@ -77,6 +78,7 @@ public interface GoodMapper {
     		@Param("posCategoryId") Integer posCategoryId, 
     		@Param("signOrderWayId") Integer signOrderWayId,
     		@Param("payChannelId") Integer payChannelId,
-    		@Param("cardTypeId") Integer cardTypeId);
+    		@Param("cardTypeId") Integer cardTypeId,
+    		@Param("tradeTypeId") Integer tradeTypeId);
     
 }

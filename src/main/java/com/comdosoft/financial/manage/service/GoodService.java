@@ -539,22 +539,26 @@ public class GoodService {
 	 * @date 2015年3月23日 下午11:13:22
 	 */
 	public Page<Good> selectGoods(int page, Byte status, Integer goodBrandsId,
-			Integer posCategoryId, Integer signOrderWayId,Integer payChannelId,Integer cardTypeId) {
-		if(pageSize==1) pageSize=3;
+			Integer posCategoryId, Integer signOrderWayId,
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId) {
+		if (pageSize == 1)
+			pageSize = 3;
 		PageRequest request = new PageRequest(page, pageSize);
 		long count = goodMapper.countGoods(status, goodBrandsId, posCategoryId,
-				signOrderWayId,payChannelId,cardTypeId);
+				signOrderWayId, payChannelId, cardTypeId, tradeTypeId);
 		if (count == 0) {
 			return new Page<Good>(new PageRequest(1, pageSize),
 					new ArrayList<Good>(), count);
 		}
 		List<Good> result = goodMapper.selectGoods(request, status,
-				goodBrandsId, posCategoryId, signOrderWayId,payChannelId,cardTypeId);
+				goodBrandsId, posCategoryId, signOrderWayId, payChannelId,
+				cardTypeId, tradeTypeId);
 		Page<Good> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
 			result = goodMapper.selectGoods(request, status, goodBrandsId,
-					posCategoryId, signOrderWayId,payChannelId,cardTypeId);
+					posCategoryId, signOrderWayId, payChannelId, cardTypeId,
+					tradeTypeId);
 			goods = new Page<>(request, result, count);
 		}
 		List<Integer> goodIds = new ArrayList<Integer>();
@@ -564,7 +568,8 @@ public class GoodService {
 		if (!CollectionUtils.isEmpty(goodIds)) {
 			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper
 					.selectGoodsPictures(goodIds);
-			List<GoodsPayChannel> selectGoodsPayChannels = goodsPayChannelMapper.selectGoodsPayChannels(goodIds);
+			List<GoodsPayChannel> selectGoodsPayChannels = goodsPayChannelMapper
+					.selectGoodsPayChannels(goodIds);
 			for (Good good : result) {
 				good.setPictures(new ArrayList<GoodsPicture>());
 				good.setChannels(new ArrayList<PayChannel>());
@@ -573,8 +578,8 @@ public class GoodService {
 						good.getPictures().add(gp);
 					}
 				}
-				for(GoodsPayChannel goodsPayChannel:selectGoodsPayChannels){
-					if(good.getId().equals(goodsPayChannel.getGoodId())){
+				for (GoodsPayChannel goodsPayChannel : selectGoodsPayChannels) {
+					if (good.getId().equals(goodsPayChannel.getGoodId())) {
 						good.getChannels().add(goodsPayChannel.getPayChannel());
 					}
 				}

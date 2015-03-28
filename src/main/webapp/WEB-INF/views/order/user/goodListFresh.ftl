@@ -32,6 +32,13 @@
 		                <span class="cnd_x"></span></a><i></i>
 	                </li>
 	             </#if>
+	             <#if tradeTypeSelected??>
+	                <li class="crumbs_nav_drop">
+	                	<a href="#" class="hover" onclick="tradeTypeRemove();">
+		                <span class="cnd_p">支持交易类型：${tradeTypeSelected.tradeValue!""}</span>
+		                <span class="cnd_x"></span></a><i></i>
+	                </li>
+	             </#if>
 	             <#if dictionarySignOrderWaySelected??>
 	                <li class="crumbs_nav_drop">
 	                	<a href="#" class="hover" onclick="signOrderWayRemove();">
@@ -112,11 +119,16 @@
         </div>
         <div class="category_item">
         	<h4>支持交易类型：</h4>
+        	<input id="hidden_trade_type_id" type="hidden" name="hidden_trade_type_id" value="<#if tradeTypeSelected??>${tradeTypeSelected.id!""}</#if>" />
             <div class="category_item_con">
             	<ul>
                 	<#if dictionaryCardTypes??>
 	                    <#list dictionaryTradeTypes as dictionaryTradeType>
-		                    <li><a href="#">${dictionaryTradeType.tradeValue!""}</a></li>
+	                    	<#if tradeTypeSelected?? && tradeTypeSelected.id=dictionaryTradeType.id>
+		                    	<li><a href="#" class="hover" onclick="tradeTypeSelect(${dictionaryTradeType.id!""});" id="trade_type_${dictionaryTradeType.id!""}">${dictionaryTradeType.tradeValue!""}</a></li>
+	                    	<#else>
+		                    	<li><a href="#" onclick="tradeTypeSelect(${dictionaryTradeType.id!""});" id="trade_type_${dictionaryTradeType.id!""}">${dictionaryTradeType.tradeValue!""}</a></li>
+	                    	</#if>
 	                    </#list>
                     </#if>
                 </ul>

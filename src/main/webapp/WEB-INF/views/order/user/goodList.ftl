@@ -10,12 +10,14 @@
 			var payChannelId=$("#hidden_pay_channel_id").val();
 			var signOrderWayId=$("#hidden_sign_order_way_id").val();
 			var cardTypeId=$("#hidden_card_type_id").val();
+			var tradeTypeId=$("#hidden_trade_type_id").val();
 		    $.get('<@spring.url "/good/user/page" />',
 		            {"page": page,
 		             "goodBrandsId": goodBrandsId,
 		             "posCategoryId": posCategoryId,
 		             "payChannelId": payChannelId,
 		             "cardTypeId": cardTypeId,
+		             "tradeTypeId": tradeTypeId,
 		             "signOrderWayId":signOrderWayId
 		            },
 		            function (data) {
@@ -62,6 +64,15 @@
 	}
 	function cardTypeRemove(){
 		$("#hidden_card_type_id").val("");
+		goodPageChange(1);
+	}
+	
+	function tradeTypeSelect(id){
+		$("#hidden_trade_type_id").val(id);
+		goodPageChange(1);
+	}
+	function tradeTypeRemove(){
+		$("#hidden_trade_type_id").val("");
 		goodPageChange(1);
 	}
 	
