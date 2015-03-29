@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfoMark;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfoMark;
 
 public interface CsUpdateInfoMarkMapper {
 
@@ -34,4 +35,12 @@ public interface CsUpdateInfoMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsUpdateInfoMark record);
+	
+	/**
+	 * select marks by cs_update_info_id
+	 * 
+	 * @param csUpdateId
+	 * @return
+	 */
+	List<CsUpdateInfoMark> selectByUpdateId(Integer csUpdateId);
 }

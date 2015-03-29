@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturnMark;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturnMark;
 
 public interface CsLeaseReturnMarkMapper {
 
@@ -34,4 +35,12 @@ public interface CsLeaseReturnMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsLeaseReturnMark record);
+	
+	/**
+	 * select marks by cs_lease_return_id
+	 * 
+	 * @param csLeaseId
+	 * @return
+	 */
+	List<CsLeaseReturnMark> selectBycsLeaseId(Integer csLeaseId);
 }

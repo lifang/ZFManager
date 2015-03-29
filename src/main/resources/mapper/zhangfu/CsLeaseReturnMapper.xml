@@ -88,4 +88,58 @@
     apply_num, order_types, contact, phone, return_address_id, customer_id, cs_cencel_id
     from cs_lease_returns
   </select>
+  
+  <sql id="pageWhere">
+    <where>
+      <if test="status != null"> AND cl.status = #{status} </if>
+      <if test="keyword != null"> AND cl.apply_num LIKE CONCAT('%', #{keyword}, '%')</if>
+    </where>
+  </sql>
+  
+  <sql id="selectFrom">
+    select cl.*, t.id t_id, t.serial_num t_serial_num, 
+    m.id m_id, m.title m_title, m.phone m_phone, 
+    pc.id pc_id, pc.name pc_name, g.id g_id, g.title g_title,
+    addr.id addr_id, addr.address addr_address, addr.phone addr_phone, addr.receiver addr_receiver 
+    from cs_lease_returns cl 
+    left join terminals t on cl.terminal_id=t.id 
+    left join goods g on t.good_id=g.id 
+    left join pay_channels pc on pc.id=t.pay_channel_id
+    left join merchants m on m.id=t.merchant_id 
+    left join cs_receiver_addresses addr on addr.id=cl.return_address_id 
+  </sql>
+  
+  <!-- count records by keyword and status -->
+  <select id="countSelective" resultType="long">
+    SELECT count(*) as count FROM cs_lease_returns cl
+    <include refid="pageWhere" />
+  </select>
+
+  <!-- select page records by keyword and status -->
+  <select id="findPageSelective" resultMap="DetailedResultMap">
+    <include refid="selectFrom" />
+    <include refid="pageWhere" />
+    order by created_at desc limit #{pageRequest.offset},
+    #{pageRequest.pageSize}
+  </select>
+  
+  <!-- select record info by primary key -->
+  <select id="selectInfoByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailedResultMap">
+    <include refid="selectFrom" /> where cl.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <resultMap extends="BaseResultMap" id="DetailedResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturn">
+    <association columnPrefix="t_" property="terminal" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper.BaseResultMap" />
+    <association columnPrefix="m_" property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" />
+    <association columnPrefix="pc_" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
+    <association columnPrefix="g_" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" /> 
+    <association columnPrefix="addr_" property="csReceiverAddress" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper.BaseResultMap" /> 
+  </resultMap>
+  
+  <!-- dispatch process user by cs_lease_return_ids -->
+  <update id="dispatchUserByIds">
+      update cs_lease_returns set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
+  
 </mapper>
