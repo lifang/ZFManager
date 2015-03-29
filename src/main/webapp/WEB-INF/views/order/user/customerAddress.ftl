@@ -22,18 +22,22 @@
 	  </tr>
 	  </thead>
 		<#if customerAddresses??>
+		<input id="customerAddressId" type="hidden" name="customerAddressId" value="" />
 		<#list customerAddresses as customerAddress>
 		  <tr>
 		    <td>
 		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
-		    		<input name="" type="radio" value="" checked="ture" />
+		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" checked="ture" />
+		    		<script type="text/javascript">
+		    			selectCustomerAddress(${customerAddress.id!""});
+		    		</script>
 		    	<#else>
-		    		<input name="" type="radio" value=""/>
+		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" />
 		    	</#if>
 		    </td>
 		    <td>${customerAddress.receiver!""}</td>
 		    <td><#if customerAddress.parentCity??>${customerAddress.parentCity.name!""}</#if>
-		    	<#if customerAddress.city??&&customerAddress.city.name!=customerAddress.parentCity.name>
+		    	<#if customerAddress.city??&&customerAddress.parentCity??&&customerAddress.city.name!=customerAddress.parentCity.name>
 		    		${customerAddress.city.name!""}
 		    	</#if>
 		    </td>

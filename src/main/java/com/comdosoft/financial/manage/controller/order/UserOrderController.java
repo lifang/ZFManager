@@ -16,124 +16,170 @@ import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
+import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerAddressService;
 import com.comdosoft.financial.manage.service.FactoryService;
+import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.OrderService;
+import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
 public class UserOrderController {
-	
+
 	@Autowired
-	private OrderService orderService ;
+	private OrderService orderService;
 	@Autowired
-	private FactoryService factoryService ;
+	private FactoryService factoryService;
 	@Autowired
 	private SessionService sessionService;
 	@Autowired
 	private CustomerAddressService customerAddressService;
 	@Autowired
 	private CityService cityService;
+	@Autowired
+	private GoodService goodService;
+	@Autowired
+	private PayChannelService payChannelService;
 	
-	@RequestMapping(value="/user/list",method=RequestMethod.GET)
-	public String list(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+	
+
+	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
+	public String list(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/list";
 	}
-	
-	@RequestMapping(value="/user/page",method=RequestMethod.GET)
-	public String page(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+
+	@RequestMapping(value = "/user/page", method = RequestMethod.GET)
+	public String page(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/pageOrder";
 	}
-	
-	
-	@RequestMapping(value="/agent/list",method=RequestMethod.GET)
-	public String listAgent(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+
+	@RequestMapping(value = "/agent/list", method = RequestMethod.GET)
+	public String listAgent(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/listAgent";
 	}
-	
-	@RequestMapping(value="/agent/page",method=RequestMethod.GET)
-	public String pageAgent(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+
+	@RequestMapping(value = "/agent/page", method = RequestMethod.GET)
+	public String pageAgent(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/pageOrderAgent";
 	}
-	@RequestMapping(value="/batch/list",method=RequestMethod.GET)
-	public String listBatch(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+
+	@RequestMapping(value = "/batch/list", method = RequestMethod.GET)
+	public String listBatch(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/listBatch";
 	}
-	
-	@RequestMapping(value="/batch/page",method=RequestMethod.GET)
-	public String pageBatch(Integer page, Byte status, String keys,Integer factoryId, Model model){
-		List<Byte> types=new ArrayList<Byte>();
+
+	@RequestMapping(value = "/batch/page", method = RequestMethod.GET)
+	public String pageBatch(Integer page, Byte status, String keys,
+			Integer factoryId, Model model) {
+		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(page, status, keys,factoryId, model,types);
+		findPage(page, status, keys, factoryId, model, types);
 		return "order/user/pageOrderBatch";
 	}
-	
-	private void findPage(Integer page, Byte status, String keys,Integer factoryId, Model model,List<Byte> types){
+
+	private void findPage(Integer page, Byte status, String keys,
+			Integer factoryId, Model model, List<Byte> types) {
 		if (page == null) {
 			page = 1;
 		}
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Order> orders = orderService.findPages(page, status, keys,factoryId,types);
-		List<Factory> findCheckedFactories = factoryService.findCheckedFactories();
-		model.addAttribute("factories",findCheckedFactories);
+		Page<Order> orders = orderService.findPages(page, status, keys,
+				factoryId, types);
+		List<Factory> findCheckedFactories = factoryService
+				.findCheckedFactories();
+		model.addAttribute("factories", findCheckedFactories);
 		model.addAttribute("orders", orders);
 	}
-	
-	@RequestMapping(value="/user/{id}/info",method=RequestMethod.GET)
-	public String info(@PathVariable Integer id, Model model){
-		Order order=orderService.findOrderInfo(id);
+
+	@RequestMapping(value = "/user/{id}/info", method = RequestMethod.GET)
+	public String info(@PathVariable Integer id, Model model) {
+		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/user/info";
 	}
 
-    @RequestMapping(value="/user/create",method = RequestMethod.GET)
-    public String createGet(HttpServletRequest request,Model model){
-    	Customer customer = sessionService.getLoginInfo(request);
-    	List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(customer.getId());
-    	List<City> cities = cityService.cities(0);
-    	model.addAttribute("customerAddresses", selectCustomerAddress);
-    	model.addAttribute("cities", cities);
-        return "order/user/create";
-    }
-    
-    @RequestMapping(value="/user/{id}/save",method=RequestMethod.GET)
-	public String save(@PathVariable Integer id,Byte status,Integer actualPrice, Model model){
-    	orderService.save(id, status, actualPrice,null);
-    	Order order=orderService.findOrderInfo(id);
+	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
+	public String createGet(HttpServletRequest request, Model model,
+			Integer goodId, Integer quantity,Integer payChannelId) {
+		Customer customer = sessionService.getLoginInfo(request);
+		List<CustomerAddress> selectCustomerAddress = customerAddressService
+				.selectCustomerAddress(customer.getId());
+		List<City> cities = cityService.cities(0);
+		Good good = goodService.findGoodInfo(goodId);
+		PayChannel payChannel = payChannelService.findChannelInfo(payChannelId);
+		
+		model.addAttribute("customerAddresses", selectCustomerAddress);
+		model.addAttribute("cities", cities);
+		model.addAttribute("good", good);
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("payChannel", payChannel);
+		return "order/user/create";
+	}
+
+	@RequestMapping(value = "/user/createSure", method = RequestMethod.GET)
+	public String createSureGet(HttpServletRequest request, Model model,
+			Integer goodId, Integer quantity, String comment,
+			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
+			Boolean needInvoice, int type, Integer payChannelId) {
+		Customer customer = sessionService.getLoginInfo(request);
+		orderService
+				.save(customer, goodId, quantity, comment, invoiceInfo,
+						customerAddressId, invoiceType, needInvoice, type,
+						payChannelId);
+		List<Byte> types = new ArrayList<Byte>();
+		types.add((byte) 1);
+		types.add((byte) 2);
+		findPage(1, null, null, null, model, types);
+		return "order/user/list";
+
+	}
+
+	@RequestMapping(value = "/user/{id}/save", method = RequestMethod.GET)
+	public String save(@PathVariable Integer id, Byte status,
+			Integer actualPrice, Model model) {
+		orderService.save(id, status, actualPrice, null);
+		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/user/pageRowOrder";
 	}
-    
-    @RequestMapping(value="/user/{id}/cancel",method=RequestMethod.GET)
-    public String cancle(@PathVariable Integer id, Model model){
-    	orderService.save(id, (byte) 5,null,null);
-    	Order order=orderService.findOrderInfo(id);
-    	model.addAttribute("order", order);
-    	return "order/user/pageRowOrder";
-    }
+
+	@RequestMapping(value = "/user/{id}/cancel", method = RequestMethod.GET)
+	public String cancle(@PathVariable Integer id, Model model) {
+		orderService.save(id, (byte) 5, null, null);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		return "order/user/pageRowOrder";
+	}
 }

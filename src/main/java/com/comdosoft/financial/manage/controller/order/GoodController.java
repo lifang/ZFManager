@@ -24,10 +24,12 @@ import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
+import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryService;
 import com.comdosoft.financial.manage.service.GoodBrandService;
+import com.comdosoft.financial.manage.service.GoodCommentService;
 import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.PosCategoryService;
@@ -46,6 +48,8 @@ public class GoodController {
 	private DictionaryService dictionaryService;
 	@Autowired
 	private GoodService goodService;
+	@Autowired
+	private GoodCommentService goodCommentService;
 
 	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Integer page,
@@ -146,8 +150,13 @@ public class GoodController {
 	}
 	
 	@RequestMapping(value = "/user/{id}/detail", method = RequestMethod.GET)
-	public String detail(@PathVariable Integer id, Model model){
+	public String detail(@PathVariable Integer id,Integer page, Model model){
+		if (page == null) {
+			page = 1;
+		}
 		Good good = goodService.findGoodInfo(id);
+		Page<GoodComment> goodComments = goodCommentService.findCommentPages(id, page);
+		model.addAttribute("goodComments", goodComments);
 		model.addAttribute("good", good);
 		return "order/user/goodDetail";
 	}

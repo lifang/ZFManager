@@ -56,9 +56,10 @@
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
+                    		<input id="payChannelId" type="hidden" name="payChannelId" value="" />
                     		<#if good.channels??>
                     			<#list good.channels as channel>
-                    				<a href="#">${channel.name!""}</a>
+                    				<a href="#" onclick="selectChannel(${channel.id!""});">${channel.name!""}</a>
                     			</#list>
                     		</#if>
                         </div>
@@ -71,14 +72,14 @@
                     </li>
                     <li><span>购买数量</span>
                     	<div class="text">
-                    		<div class="buy_numb"><a href="#">-</a><input type="text" value="1" /><a href="#">+</a>&nbsp;&nbsp;件</div>
+                    		<div class="buy_numb"><a href="#" onclick="reduceQuantity();">-</a><input id="quantity" type="text" value="1" /><a href="#" onclick="addQuantity();">+</a>&nbsp;&nbsp;件</div>
                             <em class="buy_stock">库存${good.quantity!""}件</em>
                     	</div>
                     </li>
              	</ul>
         	</div>
             <div class="buy_action">
-            	<a href="#" class="buy_btn">创建用户订单</a>
+            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""});">创建用户订单</a>
                 <a href="#" class="lease_btn">创建租赁订单</a>
             </div>
         </div>
@@ -278,9 +279,13 @@
                         </div>
                     </div>
                 </div>
+                
+                
+              <!--评论模块-->  
                 <div>
                 	<div class="pro_evaluate">
-                    	<div class="evaluate_title"><i></i>综合评分4.5</div>
+                    	<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
+                    	
                         <div class="evaluate_item">
                         	<div class="evaluate_star">
                             	<ul>
@@ -297,70 +302,8 @@ nunc eget odio.</div>
                                 <span>2014-12-19   20：05：30</span>
                             </div>
                         </div>
-                        <div class="evaluate_item">
-                        	<div class="evaluate_star">
-                            	<ul>
-                                    <li class="p_li_o">
-                                    </li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li></li>
-                                </ul>
-                            </div>
-                            <div class="evaluate_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus 
-accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient 
-montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien 
-nunc eget odio.</div>
-							<div class="evaluate_name">
-                            	<h3>维尼熊</h3>
-                                <span>2014-12-19   20：05：30</span>
-                            </div>
-                        </div>
-                        <div class="evaluate_item">
-                        	<div class="evaluate_star">
-                            	<ul>
-                                    <li class="p_li_o">
-                                    </li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li></li>
-                                </ul>
-                            </div>
-                            <div class="evaluate_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus 
-accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient 
-montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien 
-nunc eget odio.</div>
-							<div class="evaluate_name">
-                            	<h3>维尼熊</h3>
-                                <span>2014-12-19   20：05：30</span>
-                            </div>
-                        </div>
-                        <div class="evaluate_item">
-                        	<div class="evaluate_star">
-                            	<ul>
-                                    <li class="p_li_o">
-                                    </li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li></li>
-                                </ul>
-                            </div>
-                            <div class="evaluate_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus 
-accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient 
-montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien 
-nunc eget odio.</div>
-							<div class="evaluate_name">
-                            	<h3>维尼熊</h3>
-                                <span>2014-12-19   20：05：30</span>
-                            </div>
-                        </div>
-                        <div class="evaluate_item">
-                        	<div class="evaluate_star">
-                            	<ul>
-                                    <li class="p_li_o">
-                                    </li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li></li>
-                                </ul>
-                            </div>
-                            <div class="evaluate_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus 
-accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient 
-montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien 
-nunc eget odio.</div>
-							<div class="evaluate_name">
-                            	<h3>维尼熊</h3>
-                                <span>2014-12-19   20：05：30</span>
-                            </div>
-                        </div>
+
+
                         <div class="pageTurn"> 
                     <div class="p_num">
                     <a href="#" class="disabled">上一页</a> 
@@ -382,6 +325,8 @@ nunc eget odio.</div>
                 </div>
                     </div>
                 </div>
+                <!--评论模块结束-->
+                
                 <div>
                     <div class="pro_attributes">
                         <h2>租赁最小期限</h2>
@@ -443,4 +388,32 @@ nunc eget odio.</div>
     </div>
 </div>
 </div>
+<script type="text/javascript">	
+	function addQuantity() {
+		var quantity = $("#quantity").val();
+		$("#quantity").val(parseInt(quantity)+1);
+	}
+	
+	function reduceQuantity() {
+		var quantity = $("#quantity").val();
+		var result=parseInt(quantity)-1;
+		if(result<1)result=1;
+		$("#quantity").val(result);
+	}
+	
+	function selectChannel(id){
+		$("#payChannelId").val(id);	
+	}
+	
+	function createOrder(id){
+		var quantity = $("#quantity").val();
+		var payChannelId=$("#payChannelId").val();
+		if(""==payChannelId){
+			alert("请选择支付通道");
+			return;
+		}
+		location.href='<@spring.url "" />'+'/order/user/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId;
+		//window.open('<@spring.url "" />'+'/order/user/create?goodId='+id);
+	}
+</script>
 </@c.html>
