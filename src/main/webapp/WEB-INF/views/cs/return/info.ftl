@@ -10,9 +10,17 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>退货申请记录</h1>
-		<#if (csReturn.status=0) || (csReturn.status=1)>
+		<#if csReturn.status=0>
 		<div class="userTopBtnBox">
-			<a href="#" class="ghostBtn" onClick="onCancel();">取消申请</a> <a href="#" class="ghostBtn">确认退货</a>
+			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
+			<a class="ghostBtn">确认退货</a>
+			<a class="ghostBtn" onClick="onHandle();">标记为退货中</a>
+		</div>
+		<#elseif csReturn.status=1>
+		<div class="userTopBtnBox">
+			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
+			<a class="ghostBtn">确认退货</a>
+			<a class="ghostBtn" onClick="onFinish();">标记为退货完成</a>
 		</div>
 		</#if>
 	</div>
@@ -113,6 +121,20 @@
 	
 	function onCancel() {
 		$.post('<@spring.url "/cs/return/${csReturn.id}/cancel" />',
+	            {}, function (data) {
+	            	location='<@spring.url "/cs/return/list" />';
+	            });
+	}
+	
+	function onFinish() {
+		$.post('<@spring.url "/cs/return/${csReturn.id}/finish" />',
+	            {}, function (data) {
+	            	location='<@spring.url "/cs/return/list" />';
+	            });
+	}
+	
+	function onHandle() {
+		$.post('<@spring.url "/cs/return/${csReturn.id}/handle" />',
 	            {}, function (data) {
 	            	location='<@spring.url "/cs/return/list" />';
 	            });

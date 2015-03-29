@@ -3,8 +3,8 @@
 <div class="breadcrumb">
 	<ul>
 		<li><a href="#">售后</a></li>
-		<li><a href="#">维修</a></li>
-		<li><a href="#">创建维修单号</a></li>
+		<li><a href="<@spring.url "/cs/repair/list"/>">维修</a></li>
+		<li><a href="<@spring.url "/cs/repair/bill/edit"/>">创建维修单号</a></li>
 	</ul>
 </div>
 <div class="content clear">

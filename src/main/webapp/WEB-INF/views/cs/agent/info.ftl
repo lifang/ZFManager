@@ -10,9 +10,15 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>代理商售后申请记录</h1>
-		<#if (csAgent.status=0) || (csAgent.status=1)>
+		<#if csAgent.status=0>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
+			<a class="ghostBtn" onClick="onHandle();">标记为处理中</a>
+		</div>
+		<#elseif csAgent.status=1>
+		<div class="userTopBtnBox">
+			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
+			<a class="ghostBtn" onClick="onFinish();">标记为处理完成</a>
 		</div>
 		</#if>
 	</div>
@@ -85,6 +91,20 @@
 	            {}, function (data) {
 	            	location.href='<@spring.url "/cs/agent/list" />';
 	            });
+	}
+	
+	function onFinish() {
+		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/finish',
+				{}, function(data) {
+					location.href='<@spring.url "/cs/agent/list" />';
+				});
+	}
+	
+	function onHandle() {
+		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/handle',
+				{}, function(data) {
+					location.href='<@spring.url "/cs/agent/list" />';
+				});
 	}
 </script>
 </@c.html>

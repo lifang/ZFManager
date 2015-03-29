@@ -17,11 +17,12 @@
 		<#if csAgent.status=0>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csAgent.id});">取消</a>
+			<a class="a_btn" onClick="onHandle(${csAgent.id});">标记为处理中</a>
 		<#elseif csAgent.status=1>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csAgent.id});">取消</a>
 			<a href="#" class="a_btn">同步</a>
-			<a class="a_btn exchangeGoods_a" onClick="onIdChanged(${csAgent.id});">添加换货出库记录</a>
+			<a class="a_btn exchangeGoods_a" onClick="onPreOutput(${csAgent.id});">添加换货出库记录</a>
 			<a class="a_btn" onClick="onFinish(${csAgent.id});">标记为处理完成</a>
        	<#elseif csAgent.status=2>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>

@@ -234,4 +234,41 @@ public class CsUpdateInfo {
 	public void setTempleteInfoXml(String templeteInfoXml) {
 		this.templeteInfoXml = templeteInfoXml;
 	}
+	
+	private Terminal terminal;
+	private Merchant merchant;
+	private PayChannel payChannel;
+	private Good good;
+
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
+	}
+
+	public Merchant getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+
+	public PayChannel getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(PayChannel payChannel) {
+		this.payChannel = payChannel;
+	}
+
+	public Good getGood() {
+		return good;
+	}
+
+	public void setGood(Good good) {
+		this.good = good;
+	}
 }

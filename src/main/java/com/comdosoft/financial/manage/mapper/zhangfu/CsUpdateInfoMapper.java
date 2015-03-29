@@ -1,7 +1,12 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfo;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfo;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 public interface CsUpdateInfoMapper {
 
@@ -34,4 +39,44 @@ public interface CsUpdateInfoMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsUpdateInfo record);
+	
+	/**
+	 * count records by keyword and status
+	 * 
+	 * @param status
+	 *            the cs_update_infos status
+	 * @param keyword
+	 *            the keyword to search for apply_num
+	 */
+	long countSelective(@Param("status") Byte status, @Param("keyword") String keyword);
+	
+	/**
+	 * select page records by keyword and status
+	 * 
+	 * @param pageRequest
+	 *            {@link PageRequest}
+	 * @param status
+	 *            the cs_update_infos status
+	 * @param keyword
+	 *            the keyword to search for apply_num
+	 */
+	List<CsUpdateInfo> findPageSelective(
+			@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keyword") String keyword);
+	
+	/**
+	 * select record info by primary key
+	 * 
+	 * @param id
+	 *            primary key of cs_update_infos
+	 * @return
+	 */
+	CsUpdateInfo selectInfoByPrimaryKey(Integer id);
+	
+	/**
+	 * dispatch process user by cs_update_info_ids
+	 * 
+	 * @param params
+	 */
+	void dispatchUserByIds(Map<String, Object> params);
 }

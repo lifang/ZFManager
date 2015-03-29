@@ -59,6 +59,11 @@ public class CsAgentController {
 		return "cs/agent/info";
 	}
 	
+	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
+	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+		csAgentService.handle(id);
+	}
+	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
 	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.cancel(id);

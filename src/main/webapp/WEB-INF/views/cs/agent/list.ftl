@@ -44,51 +44,80 @@
 <script type="text/javascript">
 	var keyword;
 	var status;
+	var outputId;
 	
-	$(function(){
-	
-		$('#select_status').change(function(){
+	$(function() {
+		$('#select_status').change(function() {
 			status = $(this).children('option:selected').val();
 			pageChange(1);
 		});
-		
+
 		$("#btn_search").bind("click", function() {
 			keyword = $("#search_keyword").val();
 			pageChange(1);
-	    });
-	    
-	    $('#search_keyword').keydown(function(e){
-			if(e.keyCode==13){
-   				keyword = $("#search_keyword").val();
+		});
+
+		$('#search_keyword').keydown(function(e) {
+			if (e.keyCode == 13) {
+				keyword = $("#search_keyword").val();
 				pageChange(1);
 			}
 		});
 	});
-	
+
 	function pageChange(page) {
-	    $.get('<@spring.url "/cs/agent/page" />',
-	            {"page": page,
-	            "keyword": keyword,
-	            "status": status},
-	            function (data) {
-	                $('#page_fresh').html(data);
-	            });
+		$.get('<@spring.url "/cs/agent/page" />', {
+			"page" : page,
+			"keyword" : keyword,
+			"status" : status
+		}, function(data) {
+			$('#page_fresh').html(data);
+		});
 	}
-	
+
 	function onCancel(csAgentId) {
-		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/cancel',
-	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csAgentId).text("已取消");
-	            });
+		$.post('<@spring.url "" />' + '/cs/agent/' + csAgentId + '/cancel',
+				{}, function(data) {
+					$("#operation_" + csAgentId).html(
+						'<a href="<@spring.url "" />' + '/cs/agent/' + csAgentId + '/info" class="a_btn">查看详情</a>'
+					);
+					$("#status_" + csAgentId).text("已取消");
+				});
+	}
+
+	function onFinish(csAgentId) {
+		$.post('<@spring.url "" />' + '/cs/agent/' + csAgentId + '/finish',
+				{}, function(data) {
+					$("#operation_" + csAgentId).html(
+						'<a href="<@spring.url "" />' + '/cs/agent/'+ csAgentId+ '/info" class="a_btn">查看详情</a>'
+					);
+					$("#status_" + csAgentId).text("处理完成");
+				});
 	}
 	
-	function onFinish(csAgentId) {
-		$.post('<@spring.url "" />'+'/cs/agent/'+csAgentId+'/finish',
-	            {}, function (data) {
-	            	$("#operation_"+csAgentId).html('<a href="<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csAgentId).text("已完成");
-	            });
+	function onHandle(csAgentId) {
+		$.post('<@spring.url "" />' + '/cs/agent/' + csAgentId + '/handle',
+				{}, function(data) {
+					$("#operation_" + csAgentId).html(
+						'<a href="<@spring.url "" />' + '/cs/agent/'+ csAgentId+ '/info" class="a_btn">查看详情</a>'
+						+'<a class="a_btn" onClick="onCancel('+csAgentId+');">取消</a>'
+						+'<a href="#" class="a_btn">同步</a>'
+						+'<a class="a_btn exchangeGoods_a" onClick="onPreOutput('+csAgentId+');">添加换货出库记录</a>'
+						+'<a class="a_btn" onClick="onFinish('+csAgentId+');">标记为处理完成</a>'
+					);
+					$("#status_" + csAgentId).text("处理完成");
+					popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
+				});
+	}
+	
+	function onPreOutput(csAgentId) {
+		outputId = csAgentId;
+	}
+	
+	function onOutput() {
+		var terminalList = $("#output_content").val();
+		$.post('<@spring.url "" />'+'/cs/agent/'+outputId+'/output',
+	            {"terminalList": terminalList}, function (data) {});
 	}
 	
 </script>	

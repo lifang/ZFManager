@@ -3,13 +3,13 @@
 <div class="breadcrumb"> 
 	<ul> 
     	<li><a href="#">售后</a></li> 
-    	<li><a href="<@spring.url "/cs/change/list"/>">换货</a></li> 
+    	<li><a href="<@spring.url "/cs/lease/list"/>">租赁退还</a></li> 
 	</ul> 
 </div> 
 
 <div class="content clear"> 
 	<div class="user_title">
-    	<h1>换货申请列表</h1> 
+    	<h1>租赁退还申请列表</h1> 
 		<div class="userTopBtnBox"> 
 			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
 		</div> 
@@ -28,9 +28,9 @@
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
 						<option value="0">待处理</option> 
-						<option value="1">换货中</option> 
-						<option value="2">已取消</option> 
-						<option value="3">处理完成</option> 
+						<option value="1">退还中</option> 
+						<option value="2">处理完成</option>
+						<option value="3">已取消</option> 
 					</select> 
 				</div>
 			</li> 
@@ -66,7 +66,7 @@
 	});
 	
 	function pageChange(page) {
-	    $.get('<@spring.url "/cs/change/page" />',
+	    $.get('<@spring.url "/cs/lease/page" />',
 	            {"page": page,
 	            "keyword": keyword,
 	            "status": status},
@@ -75,31 +75,34 @@
 	            });
 	}
 	
-	function onCancel(csChangeId) {
-		$.post('<@spring.url "" />'+'/cs/change/'+csChangeId+'/cancel',
+	function onCancel(csLeaseId) {
+		$.post('<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/cancel',
 	            {}, function (data) {
-	            	$("#operation_"+csChangeId).html('<a href="<@spring.url "" />'+'/cs/change/'+csChangeId+'/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csChangeId).text("已取消");
-	            });
-	}
-	
-	function onFinish(csChangeId) {
-		$.post('<@spring.url "" />'+'/cs/change/'+csChangeId+'/finish',
-	            {}, function (data) {
-	            	$("#operation_"+csChangeId).html('<a href="<@spring.url "" />'+'/cs/change/'+csChangeId+'/info" class="a_btn">查看详情</a>');
-	            	$("#status_"+csChangeId).text("处理完成");
-	            });
-	}
-	
-	function onHandle(csChangeId) {
-		$.post('<@spring.url "" />'+'/cs/change/'+csChangeId+'/handle',
-	            {}, function (data) {
-	            	$("#operation_"+csChangeId).html(
-	            		'<a href="<@spring.url "" />'+'/cs/change/'+csChangeId+'/info" class="a_btn">查看详情</a>'
-	            		+'<a class="a_btn" onClick="onCancel('+csChangeId+');">取消</a>'
-						+'<a class="a_btn" onClick="onFinish('+csChangeId+');">标记为换货完成</a>'
+	            	$("#operation_"+csLeaseId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/info" class="a_btn">查看详情</a>'
 	            	);
-	            	$("#status_"+csChangeId).text("处理完成");
+	            	$("#status_"+csLeaseId).text("已取消");
+	            });
+	}
+	
+	function onFinish(csLeaseId) {
+		$.post('<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/finish',
+	            {}, function (data) {
+	            	$("#operation_"+csLeaseId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/info" class="a_btn">查看详情</a>'
+	            	);
+	            	$("#status_"+csLeaseId).text("处理完成");
+	            });
+	}
+	
+	function onHandle(csLeaseId) {
+		$.post('<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/handle',
+	            {}, function (data) {
+	            	$("#operation_"+csLeaseId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/info" class="a_btn">查看详情</a>'
+						+'<a class="a_btn" onClick="onFinish('+csLeaseId+');">标记为处理完成</a>	'
+	            	);
+	            	$("#status_"+csLeaseId).text("处理中");
 	            });
 	}
 

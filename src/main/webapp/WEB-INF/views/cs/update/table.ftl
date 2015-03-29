@@ -25,13 +25,13 @@
 			</tr>
 		</thead>
 		<tbody> 
-		<#if (csRepairs.content)??>
-			<#list csRepairs.content as csRepair>
+		<#if (csUpdates.content)??>
+			<#list csUpdates.content as csUpdate>
 				<#include "row.ftl" />
 			</#list>
 		</#if>
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="repair" page=csRepairs.currentPage/>
-<@pager.p page=csRepairs.currentPage totalPages=csRepairs.totalPage functionName="pageChange"/>	
+<@assign.assign name="update" page=csUpdates.currentPage/>
+<@pager.p page=csUpdates.currentPage totalPages=csUpdates.totalPage functionName="pageChange"/>	

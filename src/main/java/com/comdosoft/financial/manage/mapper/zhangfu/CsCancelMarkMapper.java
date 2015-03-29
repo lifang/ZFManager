@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsCancelMark;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.zhangfu.CsCancelMark;
 
 public interface CsCancelMarkMapper {
 
@@ -34,4 +35,12 @@ public interface CsCancelMarkMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsCancelMark record);
+	
+	/**
+	 * select marks by cs_cancel_id
+	 * 
+	 * @param csCancelId
+	 * @return
+	 */
+	List<CsCancelMark> selectByCancelId(Integer csCancelId);
 }

@@ -77,9 +77,13 @@ public class CsReturnService {
 		return csReturn;
 	}
 	
+	public void handle(Integer csReturnId) {
+		updateStatus(csReturnId, (byte)1);
+	}
+	
 	@Transactional("transactionManager")
-	private void cancelOrFinish(Integer csReturnId, Byte status) {
-		CsReturn csReturn = updateStatus(csReturnId, status);
+	public void cancel(Integer csReturnId) {
+		CsReturn csReturn = updateStatus(csReturnId, (byte)2);
 		
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
@@ -87,12 +91,14 @@ public class CsReturnService {
 		}
 	}
 	
-	public void cancel(Integer csReturnId) {
-		cancelOrFinish(csReturnId, (byte)2);
-	}
-	
+	@Transactional("transactionManager")
 	public void finish(Integer csReturnId) {
-		cancelOrFinish(csReturnId, (byte)3);
+		CsReturn csReturn = updateStatus(csReturnId, (byte)3);
+		
+		Integer terminalId = csReturn.getTerminalId();
+		if (null != terminalId) {
+			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {

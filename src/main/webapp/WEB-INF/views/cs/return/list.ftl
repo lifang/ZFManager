@@ -90,6 +90,18 @@
 	            	$("#status_"+csReturnId).text("处理完成");
 	            });
 	}
+	
+	function onHandle(csReturnId) {
+		$.post('<@spring.url "" />'+'/cs/return/'+csReturnId+'/handle',
+	            {}, function (data) {
+	            	$("#operation_"+csReturnId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/return/'+csReturnId+'/info" class="a_btn">查看详情</a>'
+	            		+'<a class="a_btn" onClick="onCancel('+csReturnId+');">取消</a>'
+						+'<a class="a_btn" onClick="onFinish('+csReturnId+');">标记为退货完成</a>'
+	            	);
+	            	$("#status_"+csReturnId).text("处理完成");
+	            });
+	}
 
 </script>	
 </@c.html>

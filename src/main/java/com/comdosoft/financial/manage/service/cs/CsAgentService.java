@@ -82,10 +82,14 @@ public class CsAgentService {
 		csAgentMapper.updateByPrimaryKey(csAgent);
 		return csAgent;
 	}
- 	
+	
+	public void handle(Integer csAgentId) {
+		updateStatus(csAgentId, (byte)1);
+	}
+	
 	@Transactional("transactionManager")
-	private void cancelOrFinish(Integer csAgentId, Byte status) {
-		CsAgent csAgent = updateStatus(csAgentId, status);
+	public void cancel(Integer csAgentId) {
+		CsAgent csAgent = updateStatus(csAgentId, (byte)2);
 		
 		String terminalsList = csAgent.getTerminalsList();
 		if (null != terminalsList && !"".equals(terminalsList)) {
@@ -94,12 +98,15 @@ public class CsAgentService {
 		}
 	}
 	
-	public void cancel(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)2);
-	}
-	
+	@Transactional("transactionManager")
 	public void finish(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)3);
+		CsAgent csAgent = updateStatus(csAgentId, (byte)3);
+		
+		String terminalsList = csAgent.getTerminalsList();
+		if (null != terminalsList && !"".equals(terminalsList)) {
+			String[] serialNums = terminalsList.split(",");
+			terminalMapper.closeCsReturnDepotsByNums(serialNums);
+		}
 	}
 	
 	public void output(Integer csAgentId, String terminalList) {
@@ -130,7 +137,7 @@ public class CsAgentService {
 	
 	@Transactional("transactionManager")
 	public CsAgentMark createMark(Customer customer, Integer csAgentId, String content) {
-		updateStatus(csAgentId, (byte)1);
+		handle(csAgentId);
 		
 		CsAgentMark csAgentMark = new CsAgentMark();
 		csAgentMark.setCustomerId(customer.getId());

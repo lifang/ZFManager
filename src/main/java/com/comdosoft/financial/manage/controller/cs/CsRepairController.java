@@ -59,6 +59,11 @@ public class CsRepairController {
 		return "cs/repair/info";
 	}
 	
+	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
+	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+		csRepairService.handle(id);
+	}
+	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
 	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
 		csRepairService.cancel(id);

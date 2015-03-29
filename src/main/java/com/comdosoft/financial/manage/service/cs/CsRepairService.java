@@ -87,12 +87,28 @@ public class CsRepairService {
 		}
 	}
 	
-	public void cancel(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)4);
+	public void handle(Integer csRepairId) {
+		updateStatus(csRepairId, (byte)2);
 	}
 	
-	public void finish(Integer csAgentId) {
-		cancelOrFinish(csAgentId, (byte)3);
+	@Transactional("transactionManager")
+	public void cancel(Integer csRepairId) {
+		CsRepair csRepair = updateStatus(csRepairId, (byte)4);
+		
+		Integer terminalId = csRepair.getTerminalId();
+		if (null != terminalId) {
+			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
+	}
+	
+	@Transactional("transactionManager")
+	public void finish(Integer csRepairId) {
+		CsRepair csRepair = updateStatus(csRepairId, (byte)3);
+		
+		Integer terminalId = csRepair.getTerminalId();
+		if (null != terminalId) {
+			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {
