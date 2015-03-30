@@ -30,7 +30,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
-public class UserOrderController {
+public class OrderUserController {
 
 	@Autowired
 	private OrderService orderService;
