@@ -15,7 +15,7 @@ import com.comdosoft.financial.manage.service.OrderService;
 import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
-@RequestMapping("/order/mark/user")
+@RequestMapping("/order/mark")
 public class OrderMarkController {
 	
 	@Autowired
@@ -25,8 +25,17 @@ public class OrderMarkController {
 	@Autowired
 	private OrderService orderService;
 
-    @RequestMapping(value="create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/create",method = RequestMethod.GET)
     public String createGet(HttpServletRequest request,Integer orderId,String content,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderMarkService.insert(customer.getId(), orderId, content);
+    	Order order=orderService.findOrderInfo(orderId);
+		model.addAttribute("order", order);
+        return "order/user/orderMark";
+    }
+    
+    @RequestMapping(value="/agent/create",method = RequestMethod.GET)
+    public String createAgentGet(HttpServletRequest request,Integer orderId,String content,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);

@@ -30,7 +30,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
-public class UserOrderController {
+public class OrderAgentController {
 
 	@Autowired
 	private OrderService orderService;
@@ -47,27 +47,27 @@ public class UserOrderController {
 	@Autowired
 	private PayChannelService payChannelService;
 	
-	
 
-	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
-	public String list(Integer page, Byte status, String keys,
+	@RequestMapping(value = "/agent/list", method = RequestMethod.GET)
+	public String listAgent(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 1);
-		types.add((byte) 2);
+		types.add((byte) 3);
+		types.add((byte) 4);
 		findPage(page, status, keys, factoryId, model, types);
-		return "order/user/list";
+		return "order/agent/list";
 	}
 
-	@RequestMapping(value = "/user/page", method = RequestMethod.GET)
-	public String page(Integer page, Byte status, String keys,
+	@RequestMapping(value = "/agent/page", method = RequestMethod.GET)
+	public String pageAgent(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 1);
-		types.add((byte) 2);
+		types.add((byte) 3);
+		types.add((byte) 4);
 		findPage(page, status, keys, factoryId, model, types);
-		return "order/user/pageOrder";
+		return "order/agent/page";
 	}
+
 
 	private void findPage(Integer page, Byte status, String keys,
 			Integer factoryId, Model model, List<Byte> types) {
@@ -85,14 +85,14 @@ public class UserOrderController {
 		model.addAttribute("orders", orders);
 	}
 
-	@RequestMapping(value = "/user/{id}/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/info", method = RequestMethod.GET)
 	public String info(@PathVariable Integer id, Model model) {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/user/info";
+		return "order/agent/info";
 	}
 
-	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity,Integer payChannelId) {
 		Customer customer = sessionService.getLoginInfo(request);
@@ -107,10 +107,10 @@ public class UserOrderController {
 		model.addAttribute("good", good);
 		model.addAttribute("quantity", quantity);
 		model.addAttribute("payChannel", payChannel);
-		return "order/user/create";
+		return "order/agent/create";
 	}
 
-	@RequestMapping(value = "/user/createSure", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/createSure", method = RequestMethod.GET)
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
@@ -124,24 +124,24 @@ public class UserOrderController {
 		types.add((byte) 1);
 		types.add((byte) 2);
 		findPage(1, null, null, null, model, types);
-		return "order/user/list";
+		return "order/agent/list";
 
 	}
 
-	@RequestMapping(value = "/user/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/save", method = RequestMethod.GET)
 	public String save(@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/user/pageRowOrder";
+		return "order/agent/row";
 	}
 
-	@RequestMapping(value = "/user/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/cancel", method = RequestMethod.GET)
 	public String cancle(@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/user/pageRowOrder";
+		return "order/agent/row";
 	}
 }

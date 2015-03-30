@@ -22,7 +22,7 @@ import com.comdosoft.financial.manage.service.OrderService;
 import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
-@RequestMapping("/order/payment/user")
+@RequestMapping("/order/payment")
 public class OrderPaymentContoller {
 	@Autowired
 	private OrderPaymentService orderPaymentService;
@@ -31,7 +31,7 @@ public class OrderPaymentContoller {
 	@Autowired
 	private OrderService orderService;
 	
-    @RequestMapping(value="create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/create",method = RequestMethod.GET)
     public String createGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -39,5 +39,15 @@ public class OrderPaymentContoller {
 		orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
 		model.addAttribute("order", order);
         return "order/user/pageRowOrder";
+    }
+    
+    @RequestMapping(value="/agent/create",method = RequestMethod.GET)
+    public String createAgentGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	Order order=orderService.findOrderInfo(orderId);
+		orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+		model.addAttribute("order", order);
+        return "order/agent/row";
     }
 }

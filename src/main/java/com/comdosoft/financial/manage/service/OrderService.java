@@ -41,20 +41,25 @@ public class OrderService {
 	private GoodMapper goodMapper;
 	
 	public Page<Order> findPages(int page, Byte status, String keys,Integer factoryId,List<Byte> types){
-		pageSize=2;
+		pageSize=3;
 		if (keys != null) {
-			keys = "%"+keys+"%";
+			if("".equals(keys.trim())){
+				keys=null;
+			}else{
+				keys = "%"+keys+"%";
+			}
 		}
 		long count = orderMapper.countByKeys(status, keys,factoryId,types);
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize), new ArrayList<Order>(), count);
 		}
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Order> result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
+		List<Order> result =null; 
+		result=orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
-			result = orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
+			result=orderMapper.findPageOrdersByKeys(request, status, keys,factoryId,types);
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds=new ArrayList<Integer>();

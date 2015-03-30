@@ -37,7 +37,7 @@
             </ul>
         </div>
       <div id="page_fresh">
-      		<#include "pageOrderAgent.ftl" />
+      		<#include "page.ftl" />
       </div>
 </div>
 <script type="text/javascript">
