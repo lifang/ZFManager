@@ -48,6 +48,7 @@
             
 
         <div class="proInfo_area">
+        	<input id="good_id" type="hidden" name="good_id" value="${good.id!""}" />
         	<h1>${good.title!""}</h1>
             <h3>${good.secondTitle!""}</h3>
             <div class="pac_summary">
@@ -91,7 +92,7 @@
                     <li><a href="javascript:void(0);">交易费率信息</a></li>
                     <li><a href="javascript:void(0);">开通申请条件</a></li>
                     <li><a href="javascript:void(0);">开通所需材料</a></li>
-                    <li><a href="javascript:void(0);">评价(<strong>208</strong>)</a></li>
+                    <li><a href="javascript:void(0);">评价(<strong>${good.totalComment!"0"}</strong>)</a></li>
                     <li><a href="javascript:void(0);">租赁说明</a></li>
                 </ul>
             </div>
@@ -282,48 +283,11 @@
                 
                 
               <!--评论模块-->  
-                <div>
+                <div id="page_fresh">
                 	<div class="pro_evaluate">
-                    	<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
-                    	
-                        <div class="evaluate_item">
-                        	<div class="evaluate_star">
-                            	<ul>
-                                    <li class="p_li_o">
-                                    </li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li></li>
-                                </ul>
-                            </div>
-                            <div class="evaluate_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus 
-accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient 
-montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien 
-nunc eget odio.</div>
-							<div class="evaluate_name">
-                            	<h3>维尼熊</h3>
-                                <span>2014-12-19   20：05：30</span>
-                            </div>
-                        </div>
-
-
-                        <div class="pageTurn"> 
-                    <div class="p_num">
-                    <a href="#" class="disabled">上一页</a> 
-                    <a href="#" class="current">1</a> 
-                    <a href="#?page=2">2</a> 
-                    <a href="#?page=3">3</a> 
-                    <a href="#?page=4">4</a> 
-                    <a href="#?page=5">5</a>
-                    ...
-                    <a href="#?page=199">199</a> 
-                    <a href="#?page=200">200</a> 
-                    <a href="#?page=2">下一页</a> 
-                    </div>
-                    <div class="p_skip">
-                         <span>共24页</span>
-                         <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页</span>
-                         <button>确定</button>
-                    </div>
-                </div>
-                    </div>
+    					<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
+                		<#include "pageGoodComment.ftl"/>
+                	</div>
                 </div>
                 <!--评论模块结束-->
                 
@@ -414,6 +378,16 @@ nunc eget odio.</div>
 		}
 		location.href='<@spring.url "" />'+'/order/user/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId;
 		//window.open('<@spring.url "" />'+'/order/user/create?goodId='+id);
+	}
+	
+	function goodCommentPageChange(page) {
+		var id=$("#good_id").val()
+	    $.get('<@spring.url "/good/user/comment/"+id+"/page" />',
+	            {"page": page
+	            },
+	            function (data) {
+	                $('#page_fresh').html(data);
+	            });
 	}
 </script>
 </@c.html>

@@ -155,9 +155,19 @@ public class GoodController {
 			page = 1;
 		}
 		Good good = goodService.findGoodInfo(id);
-		Page<GoodComment> goodComments = goodCommentService.findCommentPages(id, page);
+		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
 		model.addAttribute("goodComments", goodComments);
 		model.addAttribute("good", good);
 		return "order/user/goodDetail";
+	}
+	
+	@RequestMapping(value = "/user/comment/{id}/page", method = RequestMethod.GET)
+	public String commentPage(@PathVariable Integer id,Integer page, Model model){
+		if (page == null) {
+			page = 1;
+		}
+		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
+		model.addAttribute("goodComments", goodComments);
+		return "order/user/pageGoodComment";
 	}
 }

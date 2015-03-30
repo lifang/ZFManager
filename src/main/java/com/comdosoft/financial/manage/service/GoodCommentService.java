@@ -73,6 +73,27 @@ public class GoodCommentService {
     }
 
     /**
+     * 商品评论的总数加上goodId条件
+     * @param goodId
+     * @param page
+     * @return
+     */
+    public Page<GoodComment> findCommentPagesByGoodId(Integer goodId, Integer page){
+        PageRequest request = new PageRequest(page, pageSize);
+        long count = goodCommentMapper.countByGoodIdAndStatus(GoodComment.STATUS_CHECKED, goodId);
+        if (count == 0) {
+            return new Page<>(new PageRequest(1, pageSize), new ArrayList<>(), count);
+        }
+        List<GoodComment> result = goodCommentMapper.findPageCommentsByGoodIdAndStatus(request, GoodComment.STATUS_CHECKED, goodId);
+        Page<GoodComment> comments = new Page<>(request, result, count);
+        if (comments.getCurrentPage() > comments.getTotalPage()) {
+            request = new PageRequest(comments.getTotalPage(), pageSize);
+            result = goodCommentMapper.findPageCommentsByGoodIdAndStatus(request, GoodComment.STATUS_CHECKED, goodId);
+            comments = new Page<>(request, result, count);
+        }
+        return comments;
+    }
+    /**
      * 审核
      * @param customerId
      * @param id
