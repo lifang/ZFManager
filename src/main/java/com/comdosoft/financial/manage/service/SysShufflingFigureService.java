@@ -21,9 +21,6 @@ public class SysShufflingFigureService {
 
     public List<SysShufflingFigure> findSysShufflingFigures(){
         List<SysShufflingFigure> sysShufflingFigures = sysShufflingFigureMapper.selectAll();
-        if(sysShufflingFigures == null){
-            return new ArrayList<SysShufflingFigure>();
-        }
         return  sysShufflingFigureMapper.selectAll();
     }
 

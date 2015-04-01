@@ -19,13 +19,14 @@
         </div>
         <div class="user_title"><h1>首页轮播图</h1></div>
         <div class="slideShow">
+    <#assign count = (sysShufflingFigures?size)/>
+
         <#list 0..4 as i>
-            <#assign sysShufflingFigure = sysShufflingFigures[i] />
             <div class="ss_list">
                 <div class="ssl_box">
                     <form id="fileForm${i}" action="<@spring.url "/system/content/carousel/uploadImg" />" method="post" enctype="multipart/form-data">
                     <div class="ss_img">
-                        <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${(sysShufflingFigure.pictureUrl)!""}">
+                        <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${(sysShufflingFigures[i].pictureUrl)!""}">
                     </div>
                     <div class="ss_upImg">
                         <a href="javascript:void(0);" class="informImg_a">
@@ -34,7 +35,7 @@
                     </div>
                     </form>
                     <div class="ss_url">
-                        <label>URL：</label><input name="" value="${(sysShufflingFigure.websiteUrl)!""}" type="text">
+                        <label>URL：</label><input name="" value="${(sysShufflingFigures[i].websiteUrl)!""}" type="text">
                     </div>
                 </div>
                 <div class="ssl_btn"><a onclick="submitData(${i})" class="ghostBtn">确定</a></div>
