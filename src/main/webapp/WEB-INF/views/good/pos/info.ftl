@@ -95,7 +95,7 @@
                     <li><em>POS机图片：</em><span>
                     	<#if good.pictures??>
 						  <#list good.pictures as picture>
-						  	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="<@spring.url picture.urlPath />"> 
+						  	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${picture.urlPath}/b.jpg">
 						  </#list>
                     	</#if>
                     	</span></li>

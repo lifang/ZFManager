@@ -225,7 +225,7 @@
 							<form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             	<div class="item_photoBox">
                             	<#if (good.pictures[i])??>
-                                	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}/b.jpg" >
+                                	<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}/b.jpg" dbValue="${good.pictures[i].urlPath}" >
                                 	<a href="javascript:void(0);" class="informImg_a">
                                     	<span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                 	</a>
@@ -425,7 +425,7 @@ function submitData(){
 
     var photoUrls = new Array();
    	$("#photos .item_photoBox img").each(function(i) {
-            photoUrls[i]=$(this).attr("value");
+            photoUrls[i]=$(this).attr("dbValue");
     });
 
     var goods = new Array();
@@ -506,8 +506,9 @@ function fileChange(obj){
 				var img = $('#fileForm'+index).find(".item_photoBox img");
 				if(img.length > 0){
 					img.attr("value", data.result+"/b.jpg");
-				} else{
-					var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="'+data.result+'/b.jpg">';
+                    img.attr("dbValue", data.result);
+                } else{
+					var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" dbValue="'+data.result+'" value="'+data.result+'/b.jpg">';
 					$('#fileForm'+index).find(".item_photoBox")
 						.append(newImg);
 					$('#fileForm'+index).find(".item_photoBox a span").html("重新上传");
