@@ -159,7 +159,7 @@
 			<dependency>
 				<groupId>io.spring.platform</groupId>
 				<artifactId>platform-bom</artifactId>
-				<version>1.1.1.RELEASE</version>
+				<version>1.1.2.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -167,7 +167,6 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>ZFManager</finalName>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
 			<plugin>
