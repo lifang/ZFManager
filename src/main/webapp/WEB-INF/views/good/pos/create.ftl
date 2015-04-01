@@ -278,7 +278,7 @@ $(function(){
      $("#channel_result_id").hide();
     }
     else {
-	$.get('<@spring.url "/good/pos/searchChannel" />',
+	$.post('<@spring.url "/good/pos/searchChannel" />',
 		{"name": name},
         function (data) {
         	$("#channel_result_id").show();
@@ -320,7 +320,7 @@ $(function(){
      $("#rgood_result_id").hide();
     }
     else {
-	$.get('<@spring.url "/good/pos/searchGood" />',
+	$.post('<@spring.url "/good/pos/searchGood" />',
 		{"name": name},
         function (data) {
         	$("#rgood_result_id").show();

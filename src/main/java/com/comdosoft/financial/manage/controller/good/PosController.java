@@ -204,7 +204,7 @@ public class PosController {
 		return "good/pos/create";
 	}
 	
-	@RequestMapping(value="searchChannel",method=RequestMethod.GET)
+	@RequestMapping(value="searchChannel",method=RequestMethod.POST)
 	public String searchChannel(String name, Model model){
 		if (name != null && name.length() > 0) {
 			List<PayChannel> channels = payChannelService.findCheckedChannelsLikeName(name);
@@ -213,7 +213,7 @@ public class PosController {
 		return "good/pos/searchChannel";
 	}
 	
-	@RequestMapping(value="searchGood",method=RequestMethod.GET)
+	@RequestMapping(value="searchGood",method=RequestMethod.POST)
 	public String searchGood(String name, Model model){
 		if (name != null && name.length() > 0) {
 			List<Good> goods = goodService.findCheckedGoodsLikeKey(name);
