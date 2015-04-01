@@ -3,10 +3,10 @@
         	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
              <colgroup>
              	<col />
-                <col width="70" />
+                <col width="130" />
                 <col width="60" />
                 <col width="70" />
-                <col width="130" />
+                <col width="70" />
                 <col width="160" />
                 <col width="180" />
                 <col />
@@ -29,4 +29,4 @@
 		</#if>
 	</table>
 </div>
-<@pager.p page=orders.currentPage totalPages=orders.totalPage functionName="orderAgentPageChange"/>
+<@pager.p page=orders.currentPage totalPages=orders.totalPage functionName="orderBatchPageChange"/>

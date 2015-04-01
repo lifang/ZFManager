@@ -1,4 +1,4 @@
-<tbody>
+<tbody id="row_${order.id}">
       <tr class="order_hd">
         <td colspan="7"><span>订单号 ${order.orderNumber!""}</span><span>${order.createdAt?datetime}</span>
         	<span>类型：<#if order.types??>
@@ -42,88 +42,87 @@
                     </div>
                 </div>
             </td>
-            <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+            <td>
+            	<strong>￥${(orderGood.price/100)?string("0.00")}</strong>
+            	<p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p>
+            </td>
             <td>${orderGood.quantity!0}</td>
-            
-            <!-- <td><strong>￥918.00</strong></td>
-            <td>三峡格格</td>
-            <td><strong class="strong_status">未付款</strong></td>
-            <td><a href="#" class="a_btn priceOrder_a">修改价格</a>
-            <a href="#" class="a_btn">取消</a><a href="#" class="a_btn paymentRecord_a">增加付款记录</a>
-            <a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn remark_a">备注</a></td>
-            -->
+            <input id="hidden_good_title_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
+		    <input id="hidden_quantity_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
             <#if (order.orderGoods?size>1)& orderGood_index==0>
-                <td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(order.totalPrice/100)?string("0.00")} </strong></td>
-                <td rowspan="${order.orderGoods?size}"><#if order.customer??>${order.customer.name!""}</#if></td>
+                <td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(order.actualPrice/100)?string("0.00")} </strong></td>
+                <td rowspan="${order.orderGoods?size}">
+                	<strong>￥<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if> </strong>
+                </td>
           		<#if order.status??>
 			      	<#if order.status==1><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
 			      			<td rowspan="${order.orderGoods?size}">
-			      				<a href="#" class="a_btn priceOrder_a">修改价格</a>
-	                    		<a href="#" class="a_btn">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a">增加付款记录</a>
-	                    		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-	                    		<a href="#" class="a_btn remark_a">备注</a></td>
+			      				<a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
+	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
+	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#elseif order.status==2><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付款</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">取消</a>
-           						<a href="#" class="a_btn deliver_a">发货</a>
-           						<a href="#" class="a_btn">备注</a></td>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
+           						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
+           						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#elseif order.status==3><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已发货</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a></td>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#elseif order.status==4><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已评价</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a></td>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#elseif order.status==5><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已取消</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a></td>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#elseif order.status==6><td rowspan="${order.orderGoods?size}"><strong class="strong_status">交易关闭</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a></td>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
 				       <#else><td rowspan="${order.orderGoods?size}"><strong class="strong_status">状态不明</strong></td>	
 				     </#if>
 				</#if>
             <#elseif (order.orderGoods?size=1)>
-	            <td><strong>￥${(order.totalPrice/100)?string("0.00")}</strong></td>
-	            <td><#if order.customer??>${order.customer.name!""}</#if></td>
+	            <td><strong>￥${(order.actualPrice/100)?string("0.00")}</strong></td>
+	            <td><strong>￥<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if></strong></td>
 	            <#if order.status??>
 			      	<#if order.status==1><td><strong class="strong_status">未付款</strong></td>
-				      		<td><a href="#" class="a_btn priceOrder_a">修改价格</a>
-	                    		<a href="#" class="a_btn">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a">增加付款记录</a>
-	                    		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-	                    		<a href="#" class="a_btn remark_a">备注</a>
+				      		<td><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
+	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
+	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 	                    	</td>
 				       <#elseif order.status==2><td><strong class="strong_status">已付款 </strong></td>
-				       		<td><a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">取消</a>
-           						<a href="#" class="a_btn deliver_a">发货</a>
-           						<a href="#" class="a_btn">备注</a>
+				       		<td><a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
+           						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
+           						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
            					</td>
 				       <#elseif order.status==3><td><strong class="strong_status">已发货</strong></td>
 				       		<td>
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 				       		</td>
 				       <#elseif order.status==4><td><strong class="strong_status">已评价</strong></td>
 				       		<td>
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 				       		</td>
 				       <#elseif order.status==5><td><strong class="strong_status">已取消</strong></td>
 				       		<td>
-				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn">备注</a>
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 				       		</td>
 				       <#elseif order.status==6><td><strong class="strong_status">交易关闭</strong></td>
 				       		<td>
-					       		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-					       		<a href="#" class="a_btn">备注</a>
+					       		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+					       		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 				       		</td>
 				       <#else><td><strong class="strong_status">状态不明</strong></td>
 				     </#if>

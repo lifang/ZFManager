@@ -40,6 +40,15 @@ public class OrderMarkController {
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
-        return "order/user/orderMark";
+        return "order/agent/orderMark";
+    }
+    
+    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    public String createBatchGet(HttpServletRequest request,Integer orderId,String content,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderMarkService.insert(customer.getId(), orderId, content);
+    	Order order=orderService.findOrderInfo(orderId);
+		model.addAttribute("order", order);
+        return "order/batch/orderMark";
     }
 }

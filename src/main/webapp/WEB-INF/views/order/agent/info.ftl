@@ -4,6 +4,7 @@
 	<div class="breadcrumb">
         <ul>
             <li><a href="#">订单</a></li>
+            <li><a href="#">代理商代购</a></li>
             <li><a href="#">订单详情</a></li>
         </ul>
     </div>
@@ -140,7 +141,7 @@
 	function createOrderMark(){
 		var content = $("#order_mark_content").val();
 		var orderId = $("#hidden_order_id").val();
-		$.get('<@spring.url "/order/mark/user/create" />',
+		$.get('<@spring.url "/order/mark/agent/create" />',
 	            {"content": content,
 	             "orderId": orderId
 	            },
@@ -164,7 +165,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/user/info/'+id+'/save',
+		$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -177,7 +178,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/user/info/'+id+'/cancel',
+    	$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -195,7 +196,7 @@
     
     function paySure(id){
 		var payType = $('#pay_type').val();
-		$.get('<@spring.url "" />'+'/order/payment/user/info/create',
+		$.get('<@spring.url "" />'+'/order/payment/agent/info/create',
 				{"orderId":id,
 				"payType":payType
 				},
@@ -222,7 +223,7 @@
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
-		$.get('<@spring.url "" />'+'/order/logistic/info/create',
+		$.get('<@spring.url "" />'+'/order/logistic/agent/info/create',
 				{
 				"orderId":id,
 				"logisticsName":logisticsName,

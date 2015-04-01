@@ -41,6 +41,16 @@ public class OrderPaymentContoller {
         return "order/user/pageRowOrder";
     }
     
+    @RequestMapping(value="/user/info/create",method = RequestMethod.GET)
+    public String createInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	Order order=orderService.findOrderInfo(orderId);
+    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+    	model.addAttribute("order", order);
+    	return "order/user/infoUp";
+    }
+    
     @RequestMapping(value="/agent/create",method = RequestMethod.GET)
     public String createAgentGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
@@ -49,5 +59,32 @@ public class OrderPaymentContoller {
 		orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
 		model.addAttribute("order", order);
         return "order/agent/row";
+    }
+    @RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
+    public String createAgentInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	Order order=orderService.findOrderInfo(orderId);
+    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+    	model.addAttribute("order", order);
+    	return "order/agent/infoUp";
+    }
+    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    public String createBatchGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	Order order=orderService.findOrderInfo(orderId);
+    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+    	model.addAttribute("order", order);
+    	return "order/batch/row";
+    }
+    @RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
+    public String createBatchInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	Order order=orderService.findOrderInfo(orderId);
+    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+    	model.addAttribute("order", order);
+    	return "order/batch/infoUp";
     }
 }

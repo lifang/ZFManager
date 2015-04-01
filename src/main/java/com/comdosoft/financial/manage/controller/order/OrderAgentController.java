@@ -136,6 +136,15 @@ public class OrderAgentController {
 		model.addAttribute("order", order);
 		return "order/agent/row";
 	}
+	
+	@RequestMapping(value = "/agent/info/{id}/save", method = RequestMethod.GET)
+	public String saveInfo(@PathVariable Integer id, Byte status,
+			Integer actualPrice, Model model) {
+		orderService.save(id, status, actualPrice, null);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		return "order/agent/infoUp";
+	}
 
 	@RequestMapping(value = "/agent/{id}/cancel", method = RequestMethod.GET)
 	public String cancle(@PathVariable Integer id, Model model) {
@@ -143,5 +152,13 @@ public class OrderAgentController {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/agent/row";
+	}
+	
+	@RequestMapping(value = "/agent/info/{id}/cancel", method = RequestMethod.GET)
+	public String cancleInfo(@PathVariable Integer id, Model model) {
+		orderService.save(id, (byte) 5, null, null);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		return "order/agent/infoUp";
 	}
 }

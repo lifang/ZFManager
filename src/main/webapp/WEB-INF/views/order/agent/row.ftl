@@ -44,7 +44,8 @@
             </td>
             <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
             <td>${orderGood.quantity!0}</td>
-            
+            <input id="hidden_good_title_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
+		    <input id="hidden_quantity_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
             <!-- <td><strong>￥918.00</strong></td>
             <td>三峡格格</td>
             <td><strong class="strong_status">未付款</strong></td>
@@ -54,7 +55,7 @@
             -->
             <#if (order.orderGoods?size>1)& orderGood_index==0>
                 <td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(order.actualPrice/100)?string("0.00")} </strong></td>
-                <td rowspan="${order.orderGoods?size}"><#if order.customer??>${order.customer.name!""}</#if></td>
+                <td rowspan="${order.orderGoods?size}"><#if order.customer??>${order.customer.name!"未知"}</#if></td>
           		<#if order.status??>
 			      	<#if order.status==1><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
 			      			<td rowspan="${order.orderGoods?size}">
@@ -96,6 +97,7 @@
 	                	<strong>￥${(order.totalPrice/100)?string("0.00")} </strong>
 	                </#if>
 	            </td>
+	            <td><#if order.customer??>${order.customer.name!""}</#if></td>
 	            <#if order.status??>
 			      	<#if order.status==1><td><strong class="strong_status">未付款</strong></td>
 				      		<td><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>

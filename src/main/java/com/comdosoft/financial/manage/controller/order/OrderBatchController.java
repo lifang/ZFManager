@@ -130,7 +130,7 @@ public class OrderBatchController {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/batch/pageRowOrder";
+		return "order/batch/row";
 	}
 
 	@RequestMapping(value = "/batch/{id}/cancel", method = RequestMethod.GET)
@@ -138,6 +138,6 @@ public class OrderBatchController {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
-		return "order/batch/pageRowOrder";
+		return "order/batch/row";
 	}
 }

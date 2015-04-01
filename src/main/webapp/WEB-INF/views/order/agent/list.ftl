@@ -219,7 +219,7 @@
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
-		$.get('<@spring.url "" />'+'/order/logistic/create',
+		$.get('<@spring.url "" />'+'/order/logistic/agent/create',
 				{
 				"orderId":id,
 				"logisticsName":logisticsName,
