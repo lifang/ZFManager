@@ -94,7 +94,7 @@ public class OrderUserController {
 
 	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Model model,
-			Integer goodId, Integer quantity,Integer payChannelId) {
+			Integer goodId, Integer quantity,Integer payChannelId,Byte type) {
 		Customer customer = sessionService.getLoginInfo(request);
 		List<CustomerAddress> selectCustomerAddress = customerAddressService
 				.selectCustomerAddress(customer.getId());
@@ -107,6 +107,7 @@ public class OrderUserController {
 		model.addAttribute("good", good);
 		model.addAttribute("quantity", quantity);
 		model.addAttribute("payChannel", payChannel);
+		model.addAttribute("type", type);
 		return "order/user/create";
 	}
 

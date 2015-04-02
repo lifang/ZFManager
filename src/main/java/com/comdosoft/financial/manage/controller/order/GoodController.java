@@ -7,6 +7,7 @@
  */
 package com.comdosoft.financial.manage.controller.order;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +27,8 @@ import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
+import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
+import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryService;
@@ -150,14 +154,23 @@ public class GoodController {
 	}
 	
 	@RequestMapping(value = "/user/{id}/detail", method = RequestMethod.GET)
-	public String detail(@PathVariable Integer id,Integer page, Model model){
+	public String detail(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
 		if (page == null) {
 			page = 1;
 		}
-		Good good = goodService.findGoodInfo(id);
+		Good good = goodService.findGoodInfoEx(id);
 		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
+		if(null==payChannelId){
+			payChannelId=good.getChannels().get(0).getId();
+		}
+		PayChannel findChannelInfo = payChannelService.findChannelInfo(payChannelId);
+		System.out.println(findChannelInfo.getFactory().getName());
+		System.out.println(good.getRelativeGoods().get(0).getId());
+		System.out.println(good.getRelativeGoods().get(0).getPictures());
+		
 		model.addAttribute("goodComments", goodComments);
 		model.addAttribute("good", good);
+		model.addAttribute("payChannel", findChannelInfo);
 		return "order/user/goodDetail";
 	}
 	

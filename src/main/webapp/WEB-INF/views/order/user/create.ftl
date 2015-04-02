@@ -58,12 +58,13 @@
         <div class="myShopOrder">
         	<h3>您的订单信息
             <select id="type" name="" class="select_default">
-        	  <option value="0">选择订单类型</option>
-        	  <option value="1">用户订购</option>
-        	  <option value="2">用户租赁</option>
-        	  <option value="3">代理商代购</option>
-        	  <option value="4">代理商代租赁</option>
-        	  <option value="5">代理商批购</option>
+            	<#if type==1>
+            		<option value="1">用户订购</option>
+        	  		<option value="2">用户租赁</option>
+            	<#elseif type==2>
+        	  		<option value="2">用户租赁</option>
+            		<option value="1">用户订购</option>
+            	</#if>
         	</select></h3>
             <table width="100%" cellspacing="0" cellpadding="0" class="b_table">
              <colgroup>
