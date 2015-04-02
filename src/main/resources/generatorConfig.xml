@@ -317,6 +317,9 @@
         <table tableName="web_messages" domainObjectName="WebMessage">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="cs_out_storages" domainObjectName="">
+        	<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>
