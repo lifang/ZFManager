@@ -53,6 +53,7 @@ $(function(){
 //产品图片命名规则，最小图为mt、mt01、mt02等
 //大的展示图为mt_big、mt01_big、mt02_big，即在小图的后面加上_big
 //放大的图片为mt_show、mt01_show、mt02_show,即在小图后面加上_show
+/*原始的
 $(function(){
 	$('.smallImg > ul > li img').click(function(){
 		var imgSrc = $(this).attr('src');
@@ -66,6 +67,16 @@ $(function(){
 		//alert(0);
 	})	
 })
+*/
+
+$(function(){
+	$('.smallImg > ul > li img').click(function(){
+		var imgSrc = $(this).attr('src');
+		$('.bigImg img').attr('src',imgSrc);
+		$('.bigImg img').attr('jqimg',imgSrc);
+	})	
+})
+
 
 
 

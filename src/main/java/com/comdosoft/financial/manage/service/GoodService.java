@@ -16,6 +16,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.GoodCardType;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodRelation;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
+import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodCardTypeMapper;
@@ -76,6 +77,26 @@ public class GoodService {
 
 	public Good findGoodInfo(Integer id) {
 		return goodMapper.findGoodInfo(id);
+	}
+	
+	public Good findGoodInfoEx(Integer id) {
+		Good good = goodMapper.findGoodInfo(id);
+		List<Integer> goodIds=new ArrayList<Integer>();
+		for(Good relativeGood:good.getRelativeGoods()){
+			goodIds.add(relativeGood.getId());
+		}
+		if(!CollectionUtils.isEmpty(goodIds)){
+			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper.selectGoodsPictures(goodIds);
+			for(Good g:good.getRelativeGoods()){
+				g.setPictures(new ArrayList<GoodsPicture>());
+				for(GoodsPicture gp:selectGoodsPictures){
+					if(g.getId().equals(gp.getGoodId())){
+						g.getPictures().add(gp);
+					}
+				}
+			}
+		}
+		return good;
 	}
 	
 	public Good findRowGood(Integer id) {
