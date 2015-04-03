@@ -561,26 +561,31 @@ public class GoodService {
 	 */
 	public Page<Good> selectGoods(int page, Byte status, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId,
-			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId) {
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy, String orderType) {
 		if (pageSize == 1)
 			pageSize = 3;
-		PageRequest request = new PageRequest(page, pageSize);
+		PageRequest pageRequest = new PageRequest(page, pageSize);
 		long count = goodMapper.countGoods(status, goodBrandsId, posCategoryId,
-				signOrderWayId, payChannelId, cardTypeId, tradeTypeId);
+				signOrderWayId, payChannelId, cardTypeId, tradeTypeId,
+				billingCycleId, minPrice, maxPrice, hasLease);
 		if (count == 0) {
 			return new Page<Good>(new PageRequest(1, pageSize),
 					new ArrayList<Good>(), count);
 		}
-		List<Good> result = goodMapper.selectGoods(request, status,
+		List<Good> result = goodMapper.selectGoods(pageRequest, status,
 				goodBrandsId, posCategoryId, signOrderWayId, payChannelId,
-				cardTypeId, tradeTypeId);
-		Page<Good> goods = new Page<>(request, result, count);
+				cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice,
+				hasLease, orderBy, orderType);
+		Page<Good> goods = new Page<>(pageRequest, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
-			request = new PageRequest(goods.getTotalPage(), pageSize);
-			result = goodMapper.selectGoods(request, status, goodBrandsId,
+			pageRequest = new PageRequest(goods.getTotalPage(), pageSize);
+			result = goodMapper.selectGoods(pageRequest, status, goodBrandsId,
 					posCategoryId, signOrderWayId, payChannelId, cardTypeId,
-					tradeTypeId);
-			goods = new Page<>(request, result, count);
+					tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease,
+					orderBy, orderType);
+			goods = new Page<>(pageRequest, result, count);
 		}
 		List<Integer> goodIds = new ArrayList<Integer>();
 		for (Good good : result) {

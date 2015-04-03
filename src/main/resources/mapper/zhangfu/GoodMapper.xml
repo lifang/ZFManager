@@ -209,6 +209,10 @@
 			<if test="payChannelId != null"> AND g.id in(select gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id=#{payChannelId}) </if>
 			<if test="cardTypeId != null"> AND g.id in(select gct.good_id from good_card_types gct where gct.card_type_id=#{cardTypeId}) </if>
 			<if test="tradeTypeId != null"> AND g.id in(select distinct gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id in (SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id=#{tradeTypeId})) </if>
+			<if test="billingCycleId != null"> AND g.id in(select distinct gpc.good_id from goods_pay_channels gpc where gpc.pay_channel_id in (select pcby.pay_channel_id from pay_channel_billing_cycles pcby where pcby.billing_cycles_id=#{billingCycleId})) </if>
+			<if test="minPrice != null"> AND g.price &gt;=#{minPrice}*100 </if>
+			<if test="maxPrice != null"> AND g.price &lt;=#{maxPrice}*100 </if>
+			<if test="hasLease != null"> AND g.has_lease = #{hasLease} </if>
 		</where>
 	</sql>
 	<select id="selectGoods" resultMap="goodsResultMap">
@@ -216,7 +220,10 @@
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
 		<include refid="whereGoods" />
-		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by 
+		<if test="orderBy != null and orderType !=null"> ${orderBy} ${orderType},</if>
+		created_at desc 
+		limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countGoods" resultType="long">

@@ -7,7 +7,6 @@
  */
 package com.comdosoft.financial.manage.controller.order;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,19 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryBillingCycle;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
-import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryService;
@@ -59,7 +56,9 @@ public class GoodController {
 	public String createGet(HttpServletRequest request, Integer page,
 			Integer goodBrandsId, Integer posCategoryId,
 			Integer signOrderWayId, Model model, Integer payChannelId,
-			Integer cardTypeId, Integer tradeTypeId) {
+			Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType) {
 		List<GoodBrand> goodBrands = goodBrandService.selectAll();
 		Collection<PosCategory> posCategorys = posCategoryService.listAll();
 		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
@@ -69,14 +68,16 @@ public class GoodController {
 				.listAllDictionaryCardTypes();
 		List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService
 				.listAllDictionaryTradeTypes();
-		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model,
-				payChannelId, cardTypeId, tradeTypeId);
+		List<DictionaryBillingCycle> dictionaryBillingCycles = dictionaryService
+				.listAllDictionaryBillingCycles();
+		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
 		model.addAttribute("goodBrands", goodBrands);
 		model.addAttribute("posCategorys", posCategorys);
 		model.addAttribute("payChannels", payChannels);
 		model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
 		model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
 		model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
+		model.addAttribute("dictionaryBillingCycles", dictionaryBillingCycles);
 		return "order/user/goodList";
 	}
 
@@ -88,7 +89,9 @@ public class GoodController {
 	@RequestMapping(value = "/user/page", method = RequestMethod.GET)
 	public String page(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
-			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId) {
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType) {
 		List<GoodBrand> goodBrands = goodBrandService.selectAll();
 		Collection<PosCategory> posCategorys = posCategoryService.listAll();
 		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
@@ -98,14 +101,21 @@ public class GoodController {
 				.listAllDictionaryCardTypes();
 		List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService
 				.listAllDictionaryTradeTypes();
-		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model,
-				payChannelId, cardTypeId, tradeTypeId);
+		List<DictionaryBillingCycle> dictionaryBillingCycles = dictionaryService
+				.listAllDictionaryBillingCycles();
+		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
 		model.addAttribute("goodBrands", goodBrands);
 		model.addAttribute("posCategorys", posCategorys);
 		model.addAttribute("payChannels", payChannels);
 		model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
 		model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
 		model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
+		model.addAttribute("dictionaryBillingCycles", dictionaryBillingCycles);
+		model.addAttribute("minPrice", minPrice);
+		model.addAttribute("maxPrice", maxPrice);
+		model.addAttribute("hasLease", hasLease);
+		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("orderType", orderType);
 		for (GoodBrand goodBrand : goodBrands) {
 			if (null != goodBrandsId && goodBrand.getId() == goodBrandsId) {
 				model.addAttribute("goodBrandSelected", goodBrand);
@@ -138,18 +148,27 @@ public class GoodController {
 						dictionarySignOrderWay);
 			}
 		}
+		if(null!=billingCycleId){
+			for (DictionaryBillingCycle dictionaryBillingCycle : dictionaryBillingCycles) {
+				if(billingCycleId==dictionaryBillingCycle.getId()){
+					model.addAttribute("dictionaryBillingCycleSelected", dictionaryBillingCycle);
+				}
+			}
+		}
 		return "order/user/goodListFresh";
 	}
 
 	private void findPage(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
-			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId) {
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType) {
 		if (page == null) {
 			page = 1;
 		}
 		Page<Good> goods = goodService.selectGoods(page, (byte) 5,
 				goodBrandsId, posCategoryId, signOrderWayId, payChannelId,
-				cardTypeId, tradeTypeId);
+				cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
 		model.addAttribute("goods", goods);
 	}
 	
@@ -164,10 +183,6 @@ public class GoodController {
 			payChannelId=good.getChannels().get(0).getId();
 		}
 		PayChannel findChannelInfo = payChannelService.findChannelInfo(payChannelId);
-		System.out.println(findChannelInfo.getFactory().getName());
-		System.out.println(good.getRelativeGoods().get(0).getId());
-		System.out.println(good.getRelativeGoods().get(0).getPictures());
-		
 		model.addAttribute("goodComments", goodComments);
 		model.addAttribute("good", good);
 		model.addAttribute("payChannel", findChannelInfo);

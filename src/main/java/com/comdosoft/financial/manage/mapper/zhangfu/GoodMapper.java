@@ -68,7 +68,11 @@ public interface GoodMapper {
     		@Param("signOrderWayId") Integer signOrderWayId,
     		@Param("payChannelId") Integer payChannelId,
     		@Param("cardTypeId") Integer cardTypeId,
-    		@Param("tradeTypeId") Integer tradeTypeId
+    		@Param("tradeTypeId") Integer tradeTypeId,
+    		@Param("billingCycleId") Integer billingCycleId,
+    		@Param("minPrice") Integer minPrice,
+    		@Param("maxPrice") Integer maxPrice,
+    		@Param("hasLease") Boolean hasLease
     		);
     
     List<Good> selectGoods(
@@ -79,6 +83,13 @@ public interface GoodMapper {
     		@Param("signOrderWayId") Integer signOrderWayId,
     		@Param("payChannelId") Integer payChannelId,
     		@Param("cardTypeId") Integer cardTypeId,
-    		@Param("tradeTypeId") Integer tradeTypeId);
+    		@Param("tradeTypeId") Integer tradeTypeId,
+    		@Param("billingCycleId") Integer billingCycleId,
+    		@Param("minPrice") Integer minPrice,
+    		@Param("maxPrice") Integer maxPrice,
+    		@Param("hasLease") Boolean hasLease,
+    		@Param("orderBy") String orderBy,
+    		@Param("orderType") String orderType
+    		);
     
 }

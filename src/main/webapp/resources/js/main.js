@@ -338,6 +338,7 @@ $(function(){
 
 
 //selectBox div模拟select
+/*放到了goodListFresh下面了
 $(function(){
 	$(".tag_select").click(function() {
 		$(this).parent(".selectBox").find("ul").toggle();
@@ -357,7 +358,7 @@ $(function(){
 		$(".selectBox ul").hide();
 		
 	});
-})
+})*/
 
 //用户确认订单 搜索 创建 切换
 $(function(){

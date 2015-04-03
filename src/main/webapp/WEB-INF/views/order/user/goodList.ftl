@@ -11,6 +11,12 @@
 			var signOrderWayId=$("#hidden_sign_order_way_id").val();
 			var cardTypeId=$("#hidden_card_type_id").val();
 			var tradeTypeId=$("#hidden_trade_type_id").val();
+			var billingCycleId=$("#billingCycleId").val();
+			var minPrice=$("#minPrice").val();
+			var maxPrice=$("#maxPrice").val();
+			var hasLease=$("#hasLease").is(':checked');
+			var orderBy=$("#orderBy").val();
+			var orderType=$("#orderType").val();
 		    $.get('<@spring.url "/good/user/page" />',
 		            {"page": page,
 		             "goodBrandsId": goodBrandsId,
@@ -18,11 +24,18 @@
 		             "payChannelId": payChannelId,
 		             "cardTypeId": cardTypeId,
 		             "tradeTypeId": tradeTypeId,
-		             "signOrderWayId":signOrderWayId
+		             "signOrderWayId":signOrderWayId,
+		             "billingCycleId": billingCycleId,
+		             "minPrice": minPrice,
+		             "maxPrice": maxPrice,
+		             "hasLease":hasLease,
+		             "orderBy":orderBy,
+		             "orderType":orderType
 		            },
 		            function (data) {
 		                $('#page_fresh').html(data);
 		            });
+		      
 		}
 		
 	function goodBrandSelect(id){
@@ -84,6 +97,13 @@
 		$("#hidden_sign_order_way_id").val("");
 		goodPageChange(1);
 	}
+	
+	function orderSelect(orderBy,orderType){
+		$("#orderBy").val(orderBy);
+		$("#orderType").val(orderType);
+		goodPageChange(1);
+	}
+	
 	
 	//废弃
 	function add(txt,id,idLast,brandName) {

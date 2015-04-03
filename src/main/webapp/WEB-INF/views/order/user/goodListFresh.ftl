@@ -154,40 +154,55 @@
     </div>
     <div class="sortbar clear">
     	<div class="sortbar_ul">
+        	<input id="orderBy" type="hidden" name="orderBy" value="${orderBy!""}" />
+        	<input id="orderType" type="hidden" name="orderType" value="${orderType!""}" />
             <ul>
-                <li class="default_sort hover"><a href="javasrcipt:void(0);">综合排序</a></li>
-                <li class="on_1"><span>按价格</span>
-                    <div class="droplist">
-                        <a href="javascript:void(0);" class="dashed">按价格从高到低</a>
-                        <a href="javascript:void(0);">按价格从低到高</a>
+        		<#if !orderBy?? || orderBy=='created_at'><li class="default_sort hover"><#else><li class="default_sort"></#if>
+        			<a href="#" onclick="orderSelect('created_at','desc');">综合排序</a></li>
+                <#if orderBy?? && orderBy=='price'><li class="on_1 hover"><#else><li class="on_1"></#if>
+                	<span>按价格</span>
+                    <div style="display: none;" class="droplist">
+                        <a href="javascript:void(0);" class="dashed" onclick="orderSelect('price','desc');">按价格从高到低</a>
+                        <a href="javascript:void(0);" onclick="orderSelect('price','asc');">按价格从低到高</a>
                     </div>
                 </li>
-                <li class="default_sort" title="按销量从高到低"><a href="javascript:void(0);">按销量</a></li>
-                <li class="default_sort" title="按评价从多到少"><a href="javascript:void(0);">按评价</a></li>
+                <#if orderBy?? && orderBy=='volume_number'><li class="default_sort hover" title="按销量从高到低"><#else><li class="default_sort" title="按销量从高到低"></#if>
+                	<a href="javascript:void(0);" onclick="orderSelect('volume_number','desc');">按销量</a></li>
+                <#if orderBy?? && orderBy=='total_score'><li class="default_sort hover" title="按评价从多到少"><#else><li class="default_sort" title="按评价从多到少"></#if>
+                	<a href="javascript:void(0);" onclick="orderSelect('total_score','desc');">按评价</a></li>
             </ul>
         </div>
         <div class="accountTime">
         	<label>到账时间</label>
             <div class="selectBox">
             	<i></i>
-            	<div class="tag_select"><span>选择到账时间选择到账时间</span></div>
-                <input name="" type="text" value="" class="tag_input">
+            	<div class="tag_select"><span><#if dictionaryBillingCycleSelected??>${dictionaryBillingCycleSelected.name!""}<#else>选择到账时间选择到账时间</#if></span></div>
+                <input name="" type="text" value="<#if dictionaryBillingCycleSelected??>${dictionaryBillingCycleSelected.name!""}</#if>" class="tag_input">
+                <input id="billingCycleId" type="hidden" name="" value="<#if dictionaryBillingCycleSelected??>${dictionaryBillingCycleSelected.id!""}</#if>" />
                 <ul>
-                	<li>T+1<input name="" type="text" value="1"></li>
-                	<li>T+2<input name="" type="text" value="2"></li>
-                	<li>T+4<input name="" type="text" value="3"></li>
-                	<li>T+3<input name="" type="text" value="4"></li>
+                	<#if dictionaryBillingCycles??>
+                		<#list dictionaryBillingCycles as dictionaryBillingCycle>
+	                		<li onclick="billingCycleSelect(${dictionaryBillingCycle.id!""});">${dictionaryBillingCycle.name!""}<input name="" type="text" value="${dictionaryBillingCycle.id!""}"></li>
+	                	</#list>
+                	</#if>
             	</ul>
            </div>
         </div>
         <div class="price">
         	<label>价格</label>
-            <input name="" type="text" placeholder="¥" /> - <input name="" type="text" placeholder="¥" />
+            <input id="minPrice" name="" type="text" placeholder="¥" value="${minPrice!""}" /> - <input id="maxPrice" name="" type="text" placeholder="¥" value="${maxPrice!""}"/>
         </div>
-        <div class="lease"><input name="" type="checkbox" value="" /> 支持租赁</div>
-        <div class="sortBtn"><button class="btn">确定</button></div>
+        <div class="lease">
+        	<#if hasLease??&&hasLease>
+        		<input id="hasLease" name="" type="checkbox" value="" checked="true"/>
+        	<#else>
+        		<input id="hasLease" name="" type="checkbox" value="" />
+        	</#if> 
+        	支持租赁
+        </div>
+        <div class="sortBtn"><button class="btn" onclick="goodPageChange(1);">确定</button></div>
         <div class="page_top">
-        	<div class="page_info"><span>2</span>/20</div>
+        	<div class="page_info"><span>${goods.page!""}</span>/${goods.total!""}</div>
             <a href="javascript:void(0);" class="page_prev"><i></i></a>
             <a href="javascript:void(0);" class="page_next"><i></i></a>
         </div>
@@ -199,4 +214,58 @@
     
 </div>
 </div>
-
+<script type="text/javascript">
+		$(function(){
+			$(".sortbar li").hover(
+				function(){
+					$(this).find(".droplist").css("display","block");
+				},
+				function(){
+					$(this).find(".droplist").css("display","none");
+				}
+			)
+		});
+		//商品分类 category_item_con
+		$(function(){
+			var a=1;
+			$(".category_item a.more").click(function(){
+				if(a==1){
+					$(this).parent(".category_item").addClass("category_item_maxHeight");
+					$(this).addClass("up").html("收起<i></i>");
+					a=0;
+				}else if(a==0){
+					$(this).parent(".category_item").removeClass("category_item_maxHeight");
+					$(this).removeClass("up").html("更多<i></i>");
+					a =1;
+				}
+				
+			});
+			
+		});
+		
+		//selectBox div模拟select
+		$(function(){
+			$(".tag_select").click(function() {
+				$(this).parent(".selectBox").find("ul").toggle();
+			});
+			$(".selectBox ul li").click(function() {
+				var text = $(this).html();
+				var $val = $(this).find("input").val();
+				$(this).parents(".selectBox").find(".tag_select span").html(text);
+				$(this).parents(".selectBox").find("input.tag_input").val($val);
+				
+				$(this).parents(".selectBox").find("ul").hide();
+			});
+			
+			$(document).bind('click', function(e) {
+				var $clicked = $(e.target);
+				if (! $clicked.parents().hasClass("selectBox"))
+				$(".selectBox ul").hide();
+				
+			});
+		});
+		
+		function billingCycleSelect(id){
+			$("#billingCycleId").val(id);
+		}
+</script>
