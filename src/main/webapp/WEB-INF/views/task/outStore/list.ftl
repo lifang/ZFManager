@@ -69,30 +69,30 @@
 		$('#select_status').change(function(){
 			var status = $(this).children('option:selected').val();
 			$("#hidden_status").val(status);
-			posPageChange(1);
+			outStorePageChange(1);
 		});
 		
 		$("#btn_search").bind("click",
 	        function() {
 			var keys = $("#search_keys").val();
 			$("#hidden_keys").val(keys);
-			posPageChange(1);
+			outStorePageChange(1);
 	    });
        
 	});
 	
-	function posPageChange(page) {
+	function outStorePageChange(page) {
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/good/pos/page" />',
+	    $.get('<@spring.url "/task/outStore/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
+					popup(".putStorage_tab",".putStorage_a");//
+					popup(".approve_tab",".approve_a");//
 	            });
 	}
 

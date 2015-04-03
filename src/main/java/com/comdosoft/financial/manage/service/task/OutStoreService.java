@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.comdosoft.financial.manage.domain.zhangfu.OutStore;
+import com.comdosoft.financial.manage.domain.zhangfu.task.Good;
+import com.comdosoft.financial.manage.domain.zhangfu.task.OutStore;
 import com.comdosoft.financial.manage.mapper.zhangfu.OutStoreMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -39,5 +40,19 @@ public class OutStoreService {
 			outStores = new Page<>(request, result, count);
 		}
 		return outStores;
+	}
+	
+	
+	public OutStore findOutStoreInfo(int id){
+		OutStore outStore=outStoreMapper.findOutStoreInfo(id);
+		return null;
+	}
+	
+	public List<Good> getGoodInfoInit(int id){
+		return outStoreMapper.getGoodInfoInit(id);
+	}
+	
+	public String getAddressInit(int id){
+		return outStoreMapper.getAddressInit(id);
 	}
 }

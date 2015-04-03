@@ -29,4 +29,4 @@
        </table> 
 	</div> 
       
-	<@pager.p page=outStores.currentPage totalPages=outStores.totalPage functionName="posPageChange"/>	
+	<@pager.p page=outStores.currentPage totalPages=outStores.totalPage functionName="outStorePageChange"/>	

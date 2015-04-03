@@ -1,4 +1,4 @@
-package com.comdosoft.financial.manage.domain.zhangfu;
+package com.comdosoft.financial.manage.domain.zhangfu.task;
 
 public class OutStore {
 	
