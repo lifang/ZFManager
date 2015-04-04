@@ -174,7 +174,7 @@ public class PosController {
 	public String edit(@PathVariable Integer id, Model model){
 		Good good = goodService.findGoodInfo(id);
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
-		List<Factory> factories = factoryService.findCheckedFactories();
+		List<Factory> factories = factoryService.findCheckedPayFactories();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
 		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
@@ -191,7 +191,7 @@ public class PosController {
 	@RequestMapping(value="create",method=RequestMethod.GET)
 	public String create(Model model){
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
-		List<Factory> factories = factoryService.findCheckedFactories();
+		List<Factory> factories = factoryService.findCheckedPayFactories();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
 		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();

@@ -188,7 +188,7 @@
                                                 <td>
                                                     <select name="" class="select_xl selectTradeType">
                                                         <#list tradeTypes as tradeType>
-                                                            <#if tradeType.tradeType != 1>
+                                                            <#if tradeType.tradeType==DictionaryTradeType.TYPE_OTHER>
                                                             <option value="${tradeType.id}"
                                                             ${((tradeType.id) = (channelSupportTradeType.tradeTypeId))?string("selected='selected'","")}
                                                                     >${tradeType.tradeValue}</option>
@@ -384,7 +384,9 @@
     <td>
         <select name="" class="select_xl selectTradeType">
             <#list tradeTypes as tradeType>
-                <option value="${tradeType.id}">${tradeType.tradeValue}</option>
+                <#if tradeType.tradeType==DictionaryTradeType.TYPE_OTHER>
+                    <option value="${tradeType.id}">${tradeType.tradeValue}</option>
+                </#if>
             </#list>
         </select>
     </td>

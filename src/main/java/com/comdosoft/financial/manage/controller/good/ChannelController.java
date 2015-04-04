@@ -4,8 +4,10 @@ import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.FileUtil;
+import com.comdosoft.financial.manage.utils.FreeMarkerUtils;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,8 +150,8 @@ public class ChannelController {
     }
 
     @RequestMapping(value="create",method=RequestMethod.GET)
-    public String create(Model model){
-        List<Factory> factories = factoryService.findCheckedFactories();
+    public String create(Model model) throws TemplateModelException {
+        List<Factory> factories = factoryService.findCheckedPayFactories();
         List<City> provinces = cityService.provinces();
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
@@ -161,6 +163,7 @@ public class ChannelController {
         model.addAttribute("billingCycles", billingCycles);
         model.addAttribute("tradeTypes", tradeTypes);
         model.addAttribute("openPrivateInfos", openPrivateInfos);
+        model.addAttribute("DictionaryTradeType", FreeMarkerUtils.useClass(DictionaryTradeType.class.getName()));
         return "good/channel/create";
     }
 
@@ -197,7 +200,7 @@ public class ChannelController {
     }
 
     @RequestMapping(value="{id}/edit",method=RequestMethod.GET)
-    public String edit(@PathVariable Integer id, Model model){
+    public String edit(@PathVariable Integer id, Model model) throws TemplateModelException {
         PayChannel channel = payChannelService.findChannelInfo(id);
         for(Iterator<SupportTradeType> it=channel.getSupportTradeTypes().iterator();it.hasNext();){
             SupportTradeType supportTradeType = (SupportTradeType)it.next();
@@ -206,7 +209,7 @@ public class ChannelController {
             }
         }
         model.addAttribute("channel", channel);
-        List<Factory> factories = factoryService.findCheckedFactories();
+        List<Factory> factories = factoryService.findCheckedPayFactories();
         List<City> provinces = cityService.provinces();
         List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
         List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycles();
@@ -218,6 +221,7 @@ public class ChannelController {
         model.addAttribute("billingCycles", billingCycles);
         model.addAttribute("tradeTypes", tradeTypes);
         model.addAttribute("openPrivateInfos", openPrivateInfos);
+        model.addAttribute("DictionaryTradeType", FreeMarkerUtils.useClass(DictionaryTradeType.class.getName()));
         return "good/channel/create";
     }
 

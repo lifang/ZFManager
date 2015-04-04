@@ -101,6 +101,11 @@
     from factories f where f.status=#{param1}
   </select>
 
+    <select id="selectFactoriesByTypeAndStatus" resultMap="BaseResultMap">
+        select *
+        from factories f where f.types=#{param1} and f.status=#{param2}
+    </select>
+
     <sql id="pageWhere">
         <where>
             <if test="status != null"> AND status =#{status} </if>
