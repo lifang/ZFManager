@@ -28,11 +28,11 @@
 					<label>状态筛选</label> 
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
-						<option value="0">未付款</option>
-						<option value="1">待发回</option> 
-						<option value="2">维修中</option> 
-						<option value="3">处理完成</option> 
-						<option value="4">已取消</option> 
+						<option value="1">未付款</option>
+						<option value="2">待发回</option> 
+						<option value="3">维修中</option> 
+						<option value="4">处理完成</option> 
+						<option value="5">已取消</option> 
 					</select> 
 				</div>
 			</li> 

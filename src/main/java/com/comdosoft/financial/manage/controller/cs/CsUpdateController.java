@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfo;
 import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfoMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
 import com.comdosoft.financial.manage.service.SessionService;
+import com.comdosoft.financial.manage.service.cs.CsCommonService;
+import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
 import com.comdosoft.financial.manage.service.cs.CsUpdateService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
@@ -27,6 +30,8 @@ public class CsUpdateController {
 	private SessionService sessionService;
 	@Autowired
 	private CsUpdateService csUpdateService;
+	@Autowired
+	private CsCommonService csCommonService;
 
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -54,8 +59,10 @@ public class CsUpdateController {
 	public String info(@PathVariable Integer id, Model model) {
 		CsUpdateInfo csUpdate = csUpdateService.findInfoById(id);
 		List<CsUpdateInfoMark> csUpdateMarks = csUpdateService.findMarksByCsUpdateId(id);
+		List<OtherRequirement> materials = csCommonService.findRequirementByType(MaterialType.UPDATE);
 		model.addAttribute("csUpdate", csUpdate);
 		model.addAttribute("csUpdateMarks", csUpdateMarks);
+		model.addAttribute("materials", materials);
 		return "cs/update/info";
 	}
 	

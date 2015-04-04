@@ -1,4 +1,4 @@
-<#macro assign name page> 
+<#macro assign name page suspend> 
 
 <div class="tab assign_tab">
 	<a class="close">关闭</a>
@@ -30,7 +30,7 @@
 				var status = $(this).attr("cs_status");
 				var num = $(this).attr("cs_num");
            		if($(this).prop("checked") ) {
-           			if (status==0) {
+           			if (status==${suspend}) {
            				dispatchIds.push(id);
            			} else {
            				dispatchedNums.push(num);
@@ -77,7 +77,7 @@
 		$("input[name='cb_row']").each(function () {
 				var id = $(this).attr("cs_id");
 				var status = $(this).attr("cs_status");
-           		if($(this).prop("checked") && status==0) {
+           		if($(this).prop("checked") && status==${suspend}) {
            			ids.push(id);
            		}
             });

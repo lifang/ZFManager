@@ -33,5 +33,5 @@
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="return" page=csReturns.currentPage/>
+<@assign.assign name="return" page=csReturns.currentPage suspend=1/>
 <@pager.p page=csReturns.currentPage totalPages=csReturns.totalPage functionName="pageChange"/>	

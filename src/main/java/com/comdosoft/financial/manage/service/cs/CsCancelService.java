@@ -1,5 +1,9 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.CANCEL;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.FINISH;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.HANDLE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,12 +82,12 @@ public class CsCancelService {
 	}
 	
 	public void handle(Integer csCancelId) {
-		updateStatus(csCancelId, 1);
+		updateStatus(csCancelId, HANDLE);
 	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer csCancelId) {
-		CsCancel csCancel = updateStatus(csCancelId, 3);
+		CsCancel csCancel = updateStatus(csCancelId, CANCEL);
 		Integer terminalId = csCancel.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
@@ -92,7 +96,7 @@ public class CsCancelService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer csCancelId) {
-		CsCancel csCancel = updateStatus(csCancelId, 2);
+		CsCancel csCancel = updateStatus(csCancelId, FINISH);
 		Integer terminalId = csCancel.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);

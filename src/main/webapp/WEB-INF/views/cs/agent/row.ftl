@@ -6,27 +6,27 @@
 	<td>${csAgent.terminalsQuantity!}</td>
 	<td>
 		<strong id="status_${csAgent.id}" class="strong_status">
-		<#if csAgent.status=0>待处理
-       	<#elseif csAgent.status=1>处理中
-       	<#elseif csAgent.status=2>已取消
-		<#elseif csAgent.status=3>已完成
+		<#if csAgent.status=1>待处理
+       	<#elseif csAgent.status=2>处理中
+       	<#elseif csAgent.status=3>处理完成
+		<#elseif csAgent.status=4>已取消
 		</#if>
 		</strong>
 	</td>
 	<td id="operation_${csAgent.id}">
-		<#if csAgent.status=0>
+		<#if csAgent.status=1>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csAgent.id});">取消</a>
 			<a class="a_btn" onClick="onHandle(${csAgent.id});">标记为处理中</a>
-		<#elseif csAgent.status=1>
+		<#elseif csAgent.status=2>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csAgent.id});">取消</a>
 			<a href="#" class="a_btn">同步</a>
 			<a class="a_btn exchangeGoods_a" onClick="onPreOutput(${csAgent.id});">添加换货出库记录</a>
 			<a class="a_btn" onClick="onFinish(${csAgent.id});">标记为处理完成</a>
-       	<#elseif csAgent.status=2>
+       	<#elseif csAgent.status=3>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
-		<#elseif csAgent.status=3>
+		<#elseif csAgent.status=4>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
        	</#if>
 	</td>

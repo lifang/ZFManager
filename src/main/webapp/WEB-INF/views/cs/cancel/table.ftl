@@ -33,5 +33,5 @@
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="cancel" page=csCancels.currentPage/>
+<@assign.assign name="cancel" page=csCancels.currentPage suspend=1/>
 <@pager.p page=csCancels.currentPage totalPages=csCancels.totalPage functionName="pageChange"/>	

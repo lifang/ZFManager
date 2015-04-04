@@ -33,5 +33,5 @@
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="change" page=csChanges.currentPage/>
+<@assign.assign name="change" page=csChanges.currentPage suspend=1/>
 <@pager.p page=csChanges.currentPage totalPages=csChanges.totalPage functionName="pageChange"/>	

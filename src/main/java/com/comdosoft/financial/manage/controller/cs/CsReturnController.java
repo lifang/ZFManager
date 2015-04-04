@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
 import com.comdosoft.financial.manage.service.SessionService;
+import com.comdosoft.financial.manage.service.cs.CsCommonService;
 import com.comdosoft.financial.manage.service.cs.CsReturnService;
+import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
@@ -27,6 +30,8 @@ public class CsReturnController {
 	private SessionService sessionService;
 	@Autowired
 	private CsReturnService csReturnService;
+	@Autowired
+	private CsCommonService csCommonService;
 
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -56,6 +61,10 @@ public class CsReturnController {
 		List<CsReturnMark> csReturnMarks = csReturnService.findMarksByCsReturnId(id);
 		model.addAttribute("csReturn", csReturn);
 		model.addAttribute("csReturnMarks", csReturnMarks);
+		if (null != csReturn.getCsCencelId() && csReturn.getCsCencelId() > 0) {
+			List<OtherRequirement> materials = csCommonService.findRequirementByType(MaterialType.CANCEL);
+			model.addAttribute("materials", materials);
+		}
 		return "cs/return/info";
 	}
 	

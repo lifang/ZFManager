@@ -12,26 +12,26 @@
 	</td>
 	<td>
 		<strong id="status_${csChange.id}" class="strong_status">
-		<#if csChange.status=0>待处理
-       	<#elseif csChange.status=1>换货中
-       	<#elseif csChange.status=2>已取消
-		<#elseif csChange.status=3>处理完成
+		<#if csChange.status=1>待处理
+       	<#elseif csChange.status=2>换货中
+       	<#elseif csChange.status=4>处理完成
+		<#elseif csChange.status=5>已取消
 		</#if>
 		</strong>
 	</td>
 	<td id="operation_${csChange.id}">
-		<#if csChange.status=0>
+		<#if csChange.status=1>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn">确认换货</a>
 			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
 			<a class="a_btn" onClick="onHandle(${csChange.id});">标记为换货中</a>
-		<#elseif csChange.status=1>
+		<#elseif csChange.status=2>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
 			<a class="a_btn" onClick="onFinish(${csChange.id});">标记为换货完成</a>
-       	<#elseif csChange.status=2>
+       	<#elseif csChange.status=4>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
-		<#elseif csChange.status=3>
+		<#elseif csChange.status=5>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
        	</#if>
 	</td>

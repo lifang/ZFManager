@@ -49,5 +49,5 @@
 	});
 	
 </script>
-<@assign.assign name="agent" page=csAgents.currentPage/>
+<@assign.assign name="agent" page=csAgents.currentPage suspend=1/>
 <@pager.p page=csAgents.currentPage totalPages=csAgents.totalPage functionName="pageChange"/>	

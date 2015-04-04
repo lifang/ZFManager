@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
+import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
+
 import java.util.List;
 
 public interface OtherRequirementMapper {
@@ -41,4 +43,10 @@ public interface OtherRequirementMapper {
 
     void deleteOtherRequirements(Integer channelId);
 
+    /**
+     * find other requirements by type
+     * 
+     * @param type {@link MaterialType}
+     */
+    List<OtherRequirement> findByType(int type);
 }

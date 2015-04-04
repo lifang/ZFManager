@@ -33,5 +33,5 @@
 		</tbody> 
 	</table>
 </div>
-<@assign.assign name="repair" page=csRepairs.currentPage/>
+<@assign.assign name="repair" page=csRepairs.currentPage suspend=2/>
 <@pager.p page=csRepairs.currentPage totalPages=csRepairs.totalPage functionName="pageChange"/>	

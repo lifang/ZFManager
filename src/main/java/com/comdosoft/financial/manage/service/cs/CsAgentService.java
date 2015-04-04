@@ -1,5 +1,9 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.CANCEL;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.FINISH;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.HANDLE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -84,12 +88,12 @@ public class CsAgentService {
 	}
 	
 	public void handle(Integer csAgentId) {
-		updateStatus(csAgentId, (byte)1);
+		updateStatus(csAgentId, HANDLE);
 	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer csAgentId) {
-		CsAgent csAgent = updateStatus(csAgentId, (byte)2);
+		CsAgent csAgent = updateStatus(csAgentId, CANCEL);
 		
 		String terminalsList = csAgent.getTerminalsList();
 		if (null != terminalsList && !"".equals(terminalsList)) {
@@ -100,7 +104,7 @@ public class CsAgentService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer csAgentId) {
-		CsAgent csAgent = updateStatus(csAgentId, (byte)3);
+		CsAgent csAgent = updateStatus(csAgentId, FINISH);
 		
 		String terminalsList = csAgent.getTerminalsList();
 		if (null != terminalsList && !"".equals(terminalsList)) {

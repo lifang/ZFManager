@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsLeaseStatus.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,12 +79,12 @@ public class CsLeaseService {
 	}
 	
 	public void handle(Integer csLeaseId) {
-		updateStatus(csLeaseId, 1);
+		updateStatus(csLeaseId, HANDLE);
 	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer csLeaseId) {
-		CsLeaseReturn csLease = updateStatus(csLeaseId, 3);
+		CsLeaseReturn csLease = updateStatus(csLeaseId, CANCEL);
 		
 		Integer terminalId = csLease.getTerminalId();
 		if (null != terminalId) {
@@ -93,7 +94,7 @@ public class CsLeaseService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer csLeaseId) {
-		CsLeaseReturn csLease = updateStatus(csLeaseId, 2);
+		CsLeaseReturn csLease = updateStatus(csLeaseId, FINISH);
 		
 		Integer terminalId = csLease.getTerminalId();
 		if (null != terminalId) {

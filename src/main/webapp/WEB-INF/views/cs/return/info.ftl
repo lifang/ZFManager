@@ -1,4 +1,5 @@
 <#import "../../common.ftl" as c />
+<#import "../material.ftl" as material />
 <@c.html>
 <div class="breadcrumb">
 	<ul>
@@ -10,13 +11,13 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>退货申请记录</h1>
-		<#if csReturn.status=0>
+		<#if csReturn.status=1>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn">确认退货</a>
 			<a class="ghostBtn" onClick="onHandle();">标记为退货中</a>
 		</div>
-		<#elseif csReturn.status=1>
+		<#elseif csReturn.status=2>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn">确认退货</a>
@@ -31,10 +32,10 @@
 				<li>编号：${csReturn.applyNum!}</li>
 				<li>处理人：${csReturn.processUserName!}</li>
 				<li>状态：<span class="orangeText">
-					<#if csReturn.status=0>待处理
-       				<#elseif csReturn.status=1>退货中
-       				<#elseif csReturn.status=2>已取消
-					<#elseif csReturn.status=3>处理完成
+					<#if csReturn.status=1>待处理
+       				<#elseif csReturn.status=2>退货中
+       				<#elseif csReturn.status=4>处理完成
+					<#elseif csReturn.status=5>已取消
 					</#if>
 				</span></li>
 				<li>申请日期：${csReturn.createdAt?datetime}</li>
@@ -65,21 +66,9 @@
 		</div>
 	</div>
 
-	<div class="attributes_box">
-		<h2>申请资料</h2>
-		<div class="attributes_list_s clear">
-			<div class="af_con">
-				<div class="af_con_n">
-					1.注销申请资料01 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-			<div class="af_con">
-				<div class="af_con_n">
-					2.注销申请资料02 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<#if materials??>
+		<@material.material title="申请资料" materials=materials/>
+	</#if>
 
 	<div class="user_remark">
 		<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
@@ -110,7 +99,7 @@
 	    	{"csReturnId": csReturnId,
 	    	 "content": content},
 	    	 function (data) {
-	         	if (status==1) {
+	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
