@@ -38,7 +38,10 @@ public interface FactoryMapper {
 	 */
 	int updateByPrimaryKey(Factory record);
 
-	List<Factory> selectFactoriesByStatus(byte status);
+	List<Factory> selectFactoriesByTypeAndStatus(byte type, byte status);
+
+    List<Factory> selectFactoriesByStatus(byte status);
+
 
     List<Factory> findPageFactoryByKeys(@Param("pageRequest") PageRequest pageRequest,
                                     @Param("status") Byte status, @Param("keys") String keys);

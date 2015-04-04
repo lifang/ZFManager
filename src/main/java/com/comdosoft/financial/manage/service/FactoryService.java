@@ -34,8 +34,12 @@ public class FactoryService {
     private CustomerAddressMapper customerAddressMapper;
 
 	public List<Factory> findCheckedFactories(){
-		return factoryMapper.selectFactoriesByStatus(Factory.STATUS_CHECKED);
+		return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_PAYMENT, Factory.STATUS_CHECKED);
 	}
+
+    public List<Factory> findCheckedPayFactories(){
+        return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_PAYMENT, Factory.STATUS_CHECKED);
+    }
 
     public Page<Factory> findPages(int page, Byte status, String keys){
         if (keys != null) {
