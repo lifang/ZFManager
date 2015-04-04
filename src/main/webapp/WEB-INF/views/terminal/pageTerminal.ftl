@@ -30,11 +30,13 @@
             <td>${(terminal.merchant.title)!""}</td>
             <td>${(terminal.merchant.phone)!""}</td>
             <td><strong class="strong_status">
+                <#if (terminal.status)??>
                 <#if terminal.status=1>已开通
                 <#elseif terminal.status=2>部分开通
                 <#elseif terminal.status=3>未开通
                 <#elseif terminal.status=4>已注销
                 <#elseif terminal.status=5>已停用
+                </#if>
                 </#if>
             </strong></td>
             <td><a href="<@spring.url "/terminal/${terminal.id}/info" />" class="a_btn">查看详情</a></td>

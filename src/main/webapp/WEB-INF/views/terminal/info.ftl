@@ -22,11 +22,13 @@
                     <li>Email：${(terminal.customer.email)!""}</li>
                     <li>所属代理商：${(terminal.agent.name)!""}</li>
                     <li>终端状态：
+                        <#if (terminal.status)??>
                         <#if terminal.status=1>已开通
                         <#elseif terminal.status=2>部分开通
                         <#elseif terminal.status=3>未开通
                         <#elseif terminal.status=4>已注销
                         <#elseif terminal.status=5>已停用
+                        </#if>
                         </#if>
                     </li>
                     <li>开通申请状态：
