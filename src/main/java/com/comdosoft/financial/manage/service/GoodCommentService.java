@@ -58,7 +58,7 @@ public class GoodCommentService {
      */
     public Page<GoodComment> findCommentPages(Integer goodId, Integer page){
         PageRequest request = new PageRequest(page, pageSize);
-        long count = goodCommentMapper.countByStatus(GoodComment.STATUS_CHECKED);
+        long count = goodCommentMapper.countByGoodIdAndStatus(goodId, GoodComment.STATUS_CHECKED);
         if (count == 0) {
             return new Page<>(new PageRequest(1, pageSize), new ArrayList<>(), count);
         }
@@ -80,7 +80,7 @@ public class GoodCommentService {
      */
     public Page<GoodComment> findCommentPagesByGoodId(Integer goodId, Integer page){
         PageRequest request = new PageRequest(page, pageSize);
-        long count = goodCommentMapper.countByGoodIdAndStatus(GoodComment.STATUS_CHECKED, goodId);
+        long count = goodCommentMapper.countByGoodIdAndStatus(goodId, GoodComment.STATUS_CHECKED);
         if (count == 0) {
             return new Page<>(new PageRequest(1, pageSize), new ArrayList<>(), count);
         }
@@ -146,7 +146,7 @@ public class GoodCommentService {
         GoodComment comment = new GoodComment();
         comment.setGoodId(goodId);
         comment.setCustomerId(customerId);
-        comment.setScore(score);
+        comment.setScore(score*10);
         comment.setContent(content);
         comment.setStatus(GoodComment.STATUS_WAITING);
         comment.setCreatedAt(new Date());

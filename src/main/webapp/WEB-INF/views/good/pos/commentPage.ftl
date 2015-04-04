@@ -23,14 +23,14 @@
         </div>
 
         <div class="evaluate_title"><i></i>综合评分
-            <#if good.totalComment?? && (good.totalComment) gt 0>${((good.totalScore)/(good.totalComment))?string("0.0")}<#else>0.0 </#if>
+            <#if good.totalComment?? && (good.totalComment) gt 0>${((good.totalScore)/(good.totalComment*10))?string("0.0")}<#else>0.0 </#if>
         </div>
         <#list comments.content as comment>
         <div class="evaluate_item">
             <div class="evaluate_star">
                 <ul>
                 <#list 0..4 as i>
-                    <#if (comment.score)?? && (i < comment.score) >
+                    <#if (comment.score)?? && (i < comment.score/10) >
                         </li><li class="p_li_o"></li>
                     <#else>
                         <li></li>
