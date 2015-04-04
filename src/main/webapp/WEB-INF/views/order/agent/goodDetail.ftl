@@ -84,8 +84,8 @@
              	</ul>
         	</div>
             <div class="buy_action">
-            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建用户订单</a>
-                <a href="#" class="lease_btn" onclick="createOrder(${good.id!""},2);">创建租赁订单</a>
+            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建代购订单</a>
+                <a href="#" class="lease_btn" onclick="createOrder(${good.id!""},2);">租赁</a>
             </div>
         </div>
         </div>
@@ -277,9 +277,9 @@
              	<!--评论模块-->  
             	<div class="pro_evaluate">
 					<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
-					<div id="page_fresh">
-            			<#include "pageGoodComment.ftl"/>
-            		</div>
+            	 	<div id="page_fresh">
+            			<#include "goodCommentPage.ftl"/>
+            		 </div>
             	</div>
                 <!--评论模块结束-->
                 
@@ -347,7 +347,7 @@
 		                    		</#if>
 	                    		</a>
 		                	</div>
-		                    <h2><a href="<@spring.url "/good/user/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
+		                    <h2><a href="<@spring.url "/good/agent/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
 		                    <h2><a href="#" class="hp_price">￥${(good.price/100)?string("0.00")}</a></h2>
 		                </li>
         			</#list>
@@ -372,7 +372,7 @@
 	
 	function selectChannel(goodId,payChannelId){
 		$("#payChannelId").val(payChannelId);	
-		location.href='<@spring.url "" />'+'/good/user/'+goodId+'/detail?payChannelId='+payChannelId;
+		location.href='<@spring.url "" />'+'/good/agent/'+goodId+'/detail?payChannelId='+payChannelId;
 	}
 	
 	function createOrder(id,type){
@@ -382,13 +382,13 @@
 			alert("请选择支付通道");
 			return;
 		}
-		location.href='<@spring.url "" />'+'/order/user/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
-		//window.open('<@spring.url "" />'+'/order/user/create?goodId='+id);
+		location.href='<@spring.url "" />'+'/order/agent/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
+		//window.open('<@spring.url "" />'+'/order/agent/create?goodId='+id);
 	}
 	
 	function goodCommentPageChange(page) {
 		var id=$("#good_id").val()
-	    $.get('<@spring.url "/good/user/comment/"+id+"/page" />',
+	    $.get('<@spring.url "/good/agent/comment/"+id+"/page" />',
 	            {"page": page
 	            },
 	            function (data) {

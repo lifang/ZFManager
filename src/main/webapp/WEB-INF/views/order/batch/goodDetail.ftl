@@ -53,8 +53,10 @@
             <h3>${good.secondTitle!""}</h3>
             <div class="pac_summary">
             	<ul>
+            		<li class="price_li"><span>零售价</span><div class="text"><strong class="original">￥${(good.retailPrice/100)?string("0.0")}</strong></div></li>
                 	<li class="price_li"><span>现价</span><div class="text"><strong>￥${(good.price/100)?string("0.00")}</strong></div></li>
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
+                    <li class="selected_li"><span>最小批购量</span><div class="text">${good.leaseTime!""}台</div></li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
                     		<input id="payChannelId" type="hidden" name="payChannelId" value="${payChannel.id!""}" />
@@ -69,12 +71,6 @@
                     		</#if>
                         </div>
                     </li>
-                    <li class="selected_li"><span>购买/租赁</span>
-                    	<div class="text">
-                        	<a href="#" class="buy_a hover">购买</a>
-                        	<a href="#" class="lease_a">租赁</a>
-                        </div>
-                    </li>
                     <li><span>购买数量</span>
                     	<div class="text">
                     		<div class="buy_numb"><a href="#" onclick="reduceQuantity();">-</a><input id="quantity" type="text" value="1" /><a href="#" onclick="addQuantity();">+</a>&nbsp;&nbsp;件</div>
@@ -84,8 +80,7 @@
              	</ul>
         	</div>
             <div class="buy_action">
-            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建用户订单</a>
-                <a href="#" class="lease_btn" onclick="createOrder(${good.id!""},2);">创建租赁订单</a>
+            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建批购订单</a>
             </div>
         </div>
         </div>
@@ -274,12 +269,12 @@
                 </div>
                 
                 
-             	<!--评论模块-->  
+              	<!--评论模块-->  
             	<div class="pro_evaluate">
 					<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
-					<div id="page_fresh">
-            			<#include "pageGoodComment.ftl"/>
-            		</div>
+            	 	<div id="page_fresh">
+            			<#include "goodCommentPage.ftl"/>
+            		 </div>
             	</div>
                 <!--评论模块结束-->
                 
@@ -347,7 +342,7 @@
 		                    		</#if>
 	                    		</a>
 		                	</div>
-		                    <h2><a href="<@spring.url "/good/user/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
+		                    <h2><a href="<@spring.url "/good/batch/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
 		                    <h2><a href="#" class="hp_price">￥${(good.price/100)?string("0.00")}</a></h2>
 		                </li>
         			</#list>
@@ -372,7 +367,7 @@
 	
 	function selectChannel(goodId,payChannelId){
 		$("#payChannelId").val(payChannelId);	
-		location.href='<@spring.url "" />'+'/good/user/'+goodId+'/detail?payChannelId='+payChannelId;
+		location.href='<@spring.url "" />'+'/good/batch/'+goodId+'/detail?payChannelId='+payChannelId;
 	}
 	
 	function createOrder(id,type){
@@ -382,13 +377,13 @@
 			alert("请选择支付通道");
 			return;
 		}
-		location.href='<@spring.url "" />'+'/order/user/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
-		//window.open('<@spring.url "" />'+'/order/user/create?goodId='+id);
+		location.href='<@spring.url "" />'+'/order/batch/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
+		//window.open('<@spring.url "" />'+'/order/batch/create?goodId='+id);
 	}
 	
 	function goodCommentPageChange(page) {
 		var id=$("#good_id").val()
-	    $.get('<@spring.url "/good/user/comment/"+id+"/page" />',
+	    $.get('<@spring.url "/good/batch/comment/"+id+"/page" />',
 	            {"page": page
 	            },
 	            function (data) {

@@ -94,6 +94,6 @@
     from customer_addresses ca
     left join cities c on ca.city_id=c.id
     left join cities pc on c.parent_id=pc.id 
-    where ca.customer_id=#{customerId} order by ca.is_default asc,ca.updated_at desc
+    where ca.customer_id=#{customerId} and ca.status=1 order by ca.is_default asc,ca.updated_at desc
   </select>
 </mapper>

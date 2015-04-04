@@ -17,7 +17,7 @@
 			var hasLease=$("#hasLease").is(':checked');
 			var orderBy=$("#orderBy").val();
 			var orderType=$("#orderType").val();
-		    $.get('<@spring.url "/good/user/page" />',
+		    $.get('<@spring.url "/good/batch/page" />',
 		            {"page": page,
 		             "goodBrandsId": goodBrandsId,
 		             "posCategoryId": posCategoryId,
@@ -104,14 +104,5 @@
 		goodPageChange(1);
 	}
 	
-	
-	//废弃
-	function add(txt,id,idLast,brandName) {
-		var ul=$("#select_ul");
-		var str="<li class='crumbs_nav_drop' id='"+txt+id+"'><a href='#' class='hover'><span class='cnd_p'>POS机品牌："+brandName+"</span><span class='cnd_x'></span></a><i></i></li>";
-		var li=$("#"+txt+idLast);
-		li.remove();
-		$(str).appendTo(ul);
-	}
 </script>
 </@c.html>

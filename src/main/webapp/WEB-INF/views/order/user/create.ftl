@@ -1,4 +1,4 @@
-<#import "commonOrder.ftl" as c />
+<#import "../commonOrder.ftl" as c />
 <@c.html>
 <div class="main">
 	<div class="box">
@@ -186,12 +186,23 @@
 		var address = $("#address").val();
 		var moblephone = $("#moble_phone").val();
 		var zipCode = $("#zip_code").val();
-		$.get('<@spring.url "/order/customer/address/create" />',
+		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"cityId": cityId,
 	             "receiver": receiver,
 	             "address": address,
 	             "moblephone": moblephone,
 	             "zipCode": zipCode
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
+	function updateAddress(id,status){
+		console.info("saveOrUpdate");
+		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+	            {"id": id,
+	            "status":status
 	            },
 	            function (data) {
 	               $('#customer_address_fresh').html(data);
@@ -255,5 +266,6 @@
 					'&invoiceType='+invoiceType;
 		location.href='<@spring.url "" />'+'/order/user/createSure'+param;
 	}
+	
 </script>
 </@c.html>

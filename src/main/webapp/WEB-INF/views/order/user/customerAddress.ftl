@@ -44,7 +44,7 @@
 		    <td>${customerAddress.address!""}</td>
 		    <td>${customerAddress.zipCode!""}</td>
 		    <td>${customerAddress.moblephone!""}</td>
-		    <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn">删除</a></td>
+		    <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2);">删除</a></td>
 		    <td>
 		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 		    		<span class="defaultAddr">默认地址</span>

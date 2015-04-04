@@ -18,7 +18,7 @@
           <tr>
             <td>
             	<div class="td_proBox clear">
-                     <a href="#" class="cn_img">
+                     <a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />" class="cn_img">
                     	<#if orderGood.good??>
                     		<#if orderGood.good.pictures??>
                     			<#list orderGood.good.pictures as picture>
@@ -33,7 +33,7 @@
                     
                     
                      <div class="td_proBox_info">
-                        <h1><a href="#"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
+                        <h1><a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
                         <h3><#if orderGood.good??>${orderGood.good.secondTitle!""}</#if></h3>
                         <ul>
                             <li><span>品牌型号：</span><div class="c_text"><#if orderGood.goodBrand??>${orderGood.goodBrand.name!""}</#if></div></li>

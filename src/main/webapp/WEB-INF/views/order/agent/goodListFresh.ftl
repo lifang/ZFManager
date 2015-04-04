@@ -209,7 +209,7 @@
     </div>
     
     <div id="page_fresh">
-      	<#include "pageGood.ftl" />
+      	<#include "goodPage.ftl" />
      </div>
     
 </div>
