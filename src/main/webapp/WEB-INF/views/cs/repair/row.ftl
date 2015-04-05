@@ -24,8 +24,8 @@
 		<#if csRepair.status=1>
 			<a href="<@spring.url "/cs/repair/${csRepair.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csRepair.id});">取消</a>
-			<a class="a_btn">添加付款记录</a>
-			<a class="a_btn">修改维修价格</a>
+			<a class="a_btn paymentRecord_a" onClick="onPreAddPay(${csRepair.id},${csRepair.repairPrice!0},${csRepair.payTypes!1});">添加付款记录</a>
+			<a class="a_btn priceOrder_a" onClick="onPreUpdatePay(${csRepair.id},${csRepair.repairPrice!0});">修改维修价格</a>
 		<#elseif csRepair.status=2>
 			<a href="<@spring.url "/cs/repair/${csRepair.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csRepair.id});">取消</a>

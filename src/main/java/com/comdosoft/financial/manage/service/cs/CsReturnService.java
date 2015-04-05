@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
@@ -38,6 +40,8 @@ public class CsReturnService {
 	private TerminalMapper terminalMapper;
 	@Autowired
 	private CsReturnMarkMapper csReturnMarkMapper;
+	@Autowired
+	private CsReceiverAddressMapper csReceiverAddressMapper;
 	
 	public Page<CsReturn> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csReturnMapper.countSelective(status, keyword);
@@ -102,6 +106,19 @@ public class CsReturnService {
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
+	}
+	
+	@Transactional("transactionManager")
+	public void confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress) {
+		csReceiverAddress.setCreatedAt(new Date());
+		csReceiverAddressMapper.insert(csReceiverAddress);
+		
+		CsReturn csReturn = csReturnMapper.selectByPrimaryKey(csReturnId);
+		if (null != csReturn) {
+			csReturn.setReturnAddressId(csReceiverAddress.getId());
+			csReturn.setUpdatedAt(new Date());
+			csReturnMapper.updateByPrimaryKey(csReturn);
 		}
 	}
 	

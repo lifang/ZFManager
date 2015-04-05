@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
@@ -81,6 +82,11 @@ public class CsReturnController {
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
 	public void finish(HttpServletResponse response, @PathVariable Integer id) {
 		csReturnService.finish(id);
+	}
+	
+	@RequestMapping(value = "{csReturnId}/confirm", method = RequestMethod.POST)
+	public void confirm(CsReceiverAddress csReceiverAddress, HttpServletResponse response, @PathVariable Integer csReturnId) {
+		csReturnService.confirm(csReturnId, csReceiverAddress);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)

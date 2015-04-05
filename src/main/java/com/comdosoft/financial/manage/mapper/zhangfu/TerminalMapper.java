@@ -64,6 +64,14 @@ public interface TerminalMapper {
 	int closeCsReturnDepotsById(Integer id);
 
 	/**
+	 * find terminal by serial_num
+	 * 
+	 * @param serialNum
+	 * @return
+	 */
+	Terminal findTerminalByNum(String serialNum);
+	
+	/**
 	 * find terminals by serial_nums
 	 * 
 	 * @param serialNums

@@ -43,10 +43,59 @@
 	</div>
 </div>
 
+<div class="tab priceOrder_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">修改维修价格</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li><span class="labelSpan">原价格</span>
+				<div class="text">
+						<strong id="update_repair_price"></strong>
+					</div></li>
+				<li><span class="labelSpan">新价格</span>
+				<div class="text">
+						<input name="update_repair_price" type="text" />
+					</div></li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onUpdatePay();">确定</button>
+	</div>
+</div>
+
+<div class="tab paymentRecord_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">添加付款记录</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li><span class="labelSpan">付款金额</span>
+				<div class="text">
+						<strong id="add_repair_price"></strong>
+					</div></li>
+				<li><span class="labelSpan">付款方式</span>
+				<div class="text">
+						<select id="repair_price_type" name="">
+							<option value="1">支付宝</option>
+							<option value="2">银联</option>
+							<option value="3">现金</option>
+						</select>
+					</div></li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onAddPay();">确定</button>
+	</div>
+</div>
+
 <script type="text/javascript">
 
 	var keyword;
 	var status;
+	var currentPage;
 
 	$(function(){
 		$('#select_status').change(function(){
@@ -68,6 +117,8 @@
 	});
 	
 	function pageChange(page) {
+		currentPage = page;
+	
 	    $.get('<@spring.url "/cs/repair/page" />',
 	            {"page": page,
 	            "keyword": keyword,
@@ -91,6 +142,40 @@
 	            	$("#operation_"+csRepairId).html('<a href="<@spring.url "" />'+'/cs/repair/'+csRepairId+'/info" class="a_btn">查看详情</a>');
 	            	$("#status_"+csRepairId).text("处理完成");
 	            });
+	}
+
+	var repairId;
+
+	function onPreAddPay(csRepairId, repairPrice, payType) {
+		repairId = csRepairId;
+		$('#add_repair_price').text('￥'+repairPrice);
+		$("#repair_price_type").val(payType);
+	}
+	
+	function onAddPay() {
+		var payType = $("#repair_price_type").val();
+		$.post('<@spring.url "" />'+'/cs/repair/'+repairId+'/addPay',
+			{'payType':payType}, function(){
+				$(".paymentRecord_tab").css('display','none');
+				$(".mask").css('display','none');
+				pageChange(currentPage);
+			});
+	}
+	
+	function onPreUpdatePay(csRepairId, repairPrice) {
+		repairId = csRepairId;
+		$('#update_repair_price').text('￥'+repairPrice);
+	}
+	
+	function onUpdatePay() {
+		var repairPrice = $("input[name='update_repair_price']").val();
+		$.post('<@spring.url "" />'+'/cs/repair/'+repairId+'/updatePay',
+			{'repairPrice':repairPrice}, function(){
+				$(".priceOrder_tab").css('display','none');
+				$(".mask").css('display','none');
+				$("input[name='update_repair_price']").val("");
+				pageChange(currentPage);
+			});
 	}
 
 </script>	

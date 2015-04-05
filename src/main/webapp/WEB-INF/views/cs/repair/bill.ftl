@@ -17,42 +17,64 @@
 
 				<li class="block"><span class="labelSpan">设备号：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="terminalNum" type="text" />
 					</div></li>
 				<li class="block"><span class="labelSpan">维修价格：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="repairPrice" type="text" />
 					</div></li>
 				<li class="block"><span class="labelSpan">故障描述：</span>
 					<div class="text">
-						<textarea name="" cols="" rows=""></textarea>
+						<textarea name="description" cols="" rows=""></textarea>
 					</div></li>
 				<li class="block"><span class="labelSpan">收件人：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="receiver" type="text" />
 					</div></li>
 				<li class="block"><span class="labelSpan">电话：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="phone" type="text" />
 					</div></li>
 				<li class="block"><span class="labelSpan">邮编：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="zipCode" type="text" />
 					</div></li>
 				<li class="block"><span class="labelSpan">地址：</span>
 					<div class="text">
-						<input name="" type="text" />
+						<input name="address" type="text" />
 					</div></li>
 			</ul>
 		</div>
 
 	</div>
 	<div class="btnBottom">
-		<button class="blueBtn">创建</button>
+		<button class="blueBtn" onClick="onCreateBill();">创建</button>
 	</div>
 </div>
 
 <script type="text/javascript">
 
+	function onCreateBill() {
+		var terminalNum = $("input[name='terminalNum']").val();
+		var repairPrice = $("input[name='repairPrice']").val();
+		var description = $("textarea[name='description']").val();
+	
+		var receiver = $("input[name='receiver']").val();
+		var phone = $("input[name='phone']").val();
+		var zipCode = $("input[name='zipCode']").val();
+		var address = $("input[name='address']").val();
+		
+		$.post('<@spring.url "/cs/repair/bill/create" />',
+			{'terminalNum':terminalNum,
+			 'repairPrice':repairPrice,
+			 'description':description,
+			 'receiver':receiver, 
+			 'phone':phone,
+			 'zipCode':zipCode,
+			 'address':address
+			 }, function(data) {
+			 	location.href='<@spring.url "/cs/repair/list" />';
+			 });
+	}
 </script>
 </@c.html>

@@ -13,8 +13,8 @@
 		<#if (csRepair.status=1) || (csRepair.status=2)>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
-			<a href="#" class="ghostBtn">修改维修价格</a>
-			<a href="#" class="ghostBtn">添加付款记录</a>
+			<a href="#" class="ghostBtn priceOrder_a" onClick="onPreUpdatePay(${csRepair.repairPrice!0});">修改维修价格</a>
+			<a href="#" class="ghostBtn paymentRecord_a" onClick="onPreAddPay(${csRepair.repairPrice!0},${csRepair.payTypes!1});">添加付款记录</a>
 		</div>
 		</#if>
 	</div>
@@ -75,6 +75,53 @@
 	</div>
 </div>
 
+<div class="tab priceOrder_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">修改维修价格</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li><span class="labelSpan">原价格</span>
+				<div class="text">
+						<strong id="update_repair_price"></strong>
+					</div></li>
+				<li><span class="labelSpan">新价格</span>
+				<div class="text">
+						<input name="update_repair_price" type="text" />
+					</div></li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onUpdatePay();">确定</button>
+	</div>
+</div>
+
+<div class="tab paymentRecord_tab">
+	<a href="#" class="close">关闭</a>
+	<div class="tabHead">添加付款记录</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li><span class="labelSpan">付款金额</span>
+				<div class="text">
+						<strong id="add_repair_price"></strong>
+					</div></li>
+				<li><span class="labelSpan">付款方式</span>
+				<div class="text">
+						<select id="repair_price_type" name="">
+							<option value="1">支付宝</option>
+							<option value="2">银联</option>
+							<option value="3">现金</option>
+						</select>
+					</div></li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onAddPay();">确定</button>
+	</div>
+</div>
 
 <script type="text/javascript">
 
@@ -105,5 +152,31 @@
 	            	location='<@spring.url "/cs/repair/list" />';
 	            });
 	}
+	
+	function onPreAddPay(repairPrice, payType) {
+		$('#add_repair_price').text('￥'+repairPrice);
+		$("#repair_price_type").val(payType);
+	}
+	
+	function onAddPay() {
+		var payType = $("#repair_price_type").val();
+		$.post('<@spring.url "" />'+'/cs/repair/${csRepair.id}/addPay',
+			{'payType':payType}, function(){
+				location.reload();
+			});
+	}
+	
+	function onPreUpdatePay(repairPrice) {
+		$('#update_repair_price').text('￥'+repairPrice);
+	}
+	
+	function onUpdatePay() {
+		var repairPrice = $("input[name='update_repair_price']").val();
+		$.post('<@spring.url "" />'+'/cs/repair/${csRepair.id}/updatePay',
+			{'repairPrice':repairPrice}, function(){
+				location.reload();
+			});
+	}
+	
 </script>
 </@c.html>

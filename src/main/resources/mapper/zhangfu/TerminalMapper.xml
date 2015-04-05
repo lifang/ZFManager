@@ -231,6 +231,10 @@
         update terminals set is_return_cs_depots = 0 where id = #{id,jdbcType=INTEGER}
     </update>
     
+    <select id="findTerminalByNum" resultMap="TerminalLazyResultMap">
+        select * from terminals where serial_num = #{serialNum,jdbcType=VARCHAR}
+    </select>
+    
     <select id="findTerminalsByNums" resultMap="TerminalLazyResultMap">
         select * from terminals where serial_num in 
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach> 

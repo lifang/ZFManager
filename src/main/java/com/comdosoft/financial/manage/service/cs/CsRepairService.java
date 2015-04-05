@@ -17,12 +17,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepair;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
+import com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -38,6 +42,8 @@ public class CsRepairService {
 	private TerminalMapper terminalMapper;
 	@Autowired
 	private CsRepairMarkMapper csRepairMarkMapper;
+	@Autowired
+	private CsReceiverAddressMapper csReceiverAddressMapper;
 
 	public Page<CsRepair> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csRepairMapper.countSelective(status, keyword);
@@ -115,6 +121,22 @@ public class CsRepairService {
 		}
 	}
 	
+	public void addPay(Integer csRepairId, Byte payType) {
+		CsRepair csRepair = csRepairMapper.selectByPrimaryKey(csRepairId);
+		if (null != csRepair) {
+			csRepair.setPayTypes(payType);
+			csRepairMapper.updateByPrimaryKey(csRepair);
+		}
+	}
+	
+	public void updatePay(Integer csRepairId, Integer repairPrice) {
+		CsRepair csRepair = csRepairMapper.selectByPrimaryKey(csRepairId);
+		if (null != csRepair) {
+			csRepair.setRepairPrice(repairPrice);
+			csRepairMapper.updateByPrimaryKey(csRepair);
+		}
+	}
+	
 	public void dispatch(String ids, Integer customerId, String customerName) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ids", ids.split(","));
@@ -139,5 +161,29 @@ public class CsRepairService {
 	
 	public List<CsRepairMark> findMarksByCsRepairId(Integer csRepairId) {
 		return csRepairMarkMapper.selectByRepairId(csRepairId);
+	}
+	
+	@Transactional("transactionManager")
+	public void createBill(Customer customer, CsReceiverAddress csReceiverAddress, 
+			String terminalNum, Integer repairPrice, String description) {
+		CsRepair csRepair = new CsRepair();
+		Terminal terminal = terminalMapper.findTerminalByNum(terminalNum);
+		if (null != terminal) {
+			csRepair.setTerminalId(terminal.getId());
+		}
+		csReceiverAddress.setCreatedAt(new Date());
+		csReceiverAddressMapper.insert(csReceiverAddress);
+		
+		csRepair.setReturnAddressId(csReceiverAddress.getId());
+		csRepair.setProcessUserId(customer.getId());
+		csRepair.setProcessUserName(customer.getName());
+		csRepair.setRepairPrice(repairPrice);
+		csRepair.setDescription(description);
+		csRepair.setCreatedAt(new Date());
+		csRepair.setUpdatedAt(new Date());
+		csRepair.setStatus(CsRepairStatus.NOT_PAID);
+		csRepair.setCsRepairMarksId(0);
+		
+		csRepairMapper.insert(csRepair);
 	}
 }

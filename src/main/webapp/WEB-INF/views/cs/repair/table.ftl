@@ -33,5 +33,14 @@
 		</tbody> 
 	</table>
 </div>
+
+<script type="text/javascript">
+
+	$(function() {
+		popup(".priceOrder_tab",".priceOrder_a");//修改订单价格 订单用户
+		popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
+	});
+
+</script>
 <@assign.assign name="repair" page=csRepairs.currentPage suspend=2/>
 <@pager.p page=csRepairs.currentPage totalPages=csRepairs.totalPage functionName="pageChange"/>	
