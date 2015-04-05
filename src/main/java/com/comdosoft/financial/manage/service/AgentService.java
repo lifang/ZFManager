@@ -57,6 +57,26 @@ public class AgentService {
         }
         return agent;
     }
+    
+    public Page<Agent> findPages(int page, Byte status, String keys,Integer pageSize){
+        if (keys != null) {
+            keys = "%"+keys+"%";
+        }
+        long count = agentMapper.countByKeys(status, keys);
+        if (count == 0) {
+            return new Page<Agent>(new PageRequest(1, pageSize), new ArrayList<Agent>(), count);
+        }
+
+        PageRequest request = new PageRequest(page, pageSize);
+        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys);
+        Page<Agent> agent = new Page<>(request, result, count);
+        if (agent.getCurrentPage() > agent.getTotalPage()) {
+            request = new PageRequest(agent.getTotalPage(), pageSize);
+            result = agentMapper.findPageAgentByKeys(request, status, keys);
+            agent = new Page<>(request, result, count);
+        }
+        return agent;
+    }
 
     public Agent findAgentInfo(Integer id){
         return agentMapper.findAgentInfo(id);

@@ -1,11 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Agent;
-import com.comdosoft.financial.manage.domain.zhangfu.Good;
-import com.comdosoft.financial.manage.utils.page.PageRequest;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.comdosoft.financial.manage.domain.zhangfu.Agent;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 public interface AgentMapper {
 

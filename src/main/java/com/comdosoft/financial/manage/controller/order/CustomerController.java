@@ -24,6 +24,17 @@ public class CustomerController {
     public String search(HttpServletRequest request,String customerName,Model model){
     	List<Customer> searchCustomer = customerService.searchCustomer(customerName);
 		model.addAttribute("customers", searchCustomer);
-        return "order/user/customerSearch";
+        return "order/customerSearch";
+    }
+    
+    @RequestMapping(value="saveOrUpdate",method = RequestMethod.GET)
+    public String saveOrUpdate(HttpServletRequest request,Model model,String phone,String passport,
+			String password,String repassword,Integer city) throws Exception{
+    	if(!password.equals(repassword)){
+    		throw new Exception("两次输入密码不同");
+    	}
+    	Customer customer = customerService.saveAndReturn(passport, password, phone, city);
+    	model.addAttribute("customer", customer);
+        return "order/customer";
     }
 }

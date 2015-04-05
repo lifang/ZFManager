@@ -126,7 +126,7 @@ public class OrderService {
 	}
 	
 	@Transactional("transactionManager")
-	public int save(Customer customer,Integer goodId,Integer quantity,String comment,String invoiceInfo,
+	public int save(Integer customerId,Integer goodId,Integer quantity,String comment,String invoiceInfo,
 			Integer customerAddressId,Integer invoiceType,Boolean needInvoice,int type,Integer payChannelId){
 		Order order=new Order();
 		Good good=goodMapper.findGoodLazyInfo(goodId);
@@ -134,12 +134,12 @@ public class OrderService {
 		order.setComment(comment);
 		Date createdAt = new Date();
 		order.setCreatedAt(createdAt);
-		order.setCreatedUserId(customer.getId());
+		order.setCreatedUserId(customerId);
 		order.setCustomerAddressId(customerAddressId);
 		order.setInvoiceInfo(invoiceInfo);
 		order.setInvoiceType(invoiceType);
 		order.setNeedInvoice(needInvoice);
-		order.setCustomerId(customer.getId());
+		order.setCustomerId(customerId);
 		order.setTotalPrice(good.getPrice()* quantity);
 		order.setTypes((byte) type);
 		order.setUpdatedAt(createdAt);

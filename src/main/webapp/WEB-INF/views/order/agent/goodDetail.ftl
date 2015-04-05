@@ -84,8 +84,8 @@
              	</ul>
         	</div>
             <div class="buy_action">
-            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建代购订单</a>
-                <a href="#" class="lease_btn" onclick="createOrder(${good.id!""},2);">租赁</a>
+            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},3);">创建代购订单</a>
+                <a href="#" class="lease_btn" onclick="createOrder(${good.id!""},4);">租赁</a>
             </div>
         </div>
         </div>

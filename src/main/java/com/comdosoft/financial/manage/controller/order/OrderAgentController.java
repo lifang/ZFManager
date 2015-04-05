@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -94,35 +93,50 @@ public class OrderAgentController {
 
 	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Model model,
-			Integer goodId, Integer quantity,Integer payChannelId) {
-		Customer customer = sessionService.getLoginInfo(request);
-		List<CustomerAddress> selectCustomerAddress = customerAddressService
-				.selectCustomerAddress(customer.getId());
+			Integer goodId, Integer quantity,Integer payChannelId,Byte type) {
+		List<CustomerAddress> selectCustomerAddress = null;
 		List<City> cities = cityService.cities(0);
 		Good good = goodService.findGoodInfo(goodId);
 		PayChannel payChannel = payChannelService.findChannelInfo(payChannelId);
-		
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
 		model.addAttribute("good", good);
 		model.addAttribute("quantity", quantity);
 		model.addAttribute("payChannel", payChannel);
+		model.addAttribute("type", type);
 		return "order/agent/create";
 	}
-
+	
+	@RequestMapping(value = "/agent/createAgain", method = RequestMethod.GET)
+	public String createAgainGet(HttpServletRequest request, Model model,
+			Integer orderId) {
+//		Order order = orderService.findOrderInfo(orderId);
+//		List<CustomerAddress> selectCustomerAddress = null;
+//		List<City> cities = cityService.cities(0);
+//		Good good = goodService.findGoodInfo(goodId);
+//		PayChannel payChannel = payChannelService.findChannelInfo(payChannelId);
+//		model.addAttribute("customerAddresses", selectCustomerAddress);
+//		model.addAttribute("cities", cities);
+//		model.addAttribute("good", good);
+//		model.addAttribute("quantity", quantity);
+//		model.addAttribute("payChannel", payChannel);
+//		model.addAttribute("type", type);
+		return "order/agent/create";
+	}
+	
 	@RequestMapping(value = "/agent/createSure", method = RequestMethod.GET)
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer payChannelId) {
-		Customer customer = sessionService.getLoginInfo(request);
+			Boolean needInvoice, int type, Integer payChannelId,
+			Integer customerId) {
 		orderService
-				.save(customer, goodId, quantity, comment, invoiceInfo,
+				.save(customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
 						payChannelId);
 		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 1);
-		types.add((byte) 2);
+		types.add((byte) 3);
+		types.add((byte) 4);
 		findPage(1, null, null, null, model, types);
 		return "order/agent/list";
 

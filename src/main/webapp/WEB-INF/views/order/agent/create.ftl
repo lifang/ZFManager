@@ -9,6 +9,25 @@
         </ul>
     </div>
     <div class="inner">
+    
+    	<div class="searchUser">
+        	<div class="su_title01">
+            	<ul>
+                	<li class="hover">确认代理商</li>
+                </ul>
+            </div>
+            <div class="su_con01">
+            	<div>
+                	<div class="su_search">
+                    	<input id="agentCompanyName" name="" type="text" /><button onclick="searchAgent();">搜索</button>
+                    </div>
+                    <div id="agent_fresh" class="su_s_box">
+                    	<#include "../agentSearch.ftl" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    	
     	<div class="searchUser">
         	<div class="su_title">
             	<ul>
@@ -59,12 +78,12 @@
         <div class="myShopOrder">
         	<h3>您的订单信息
             <select id="type" name="" class="select_default">
-            	<#if type==1>
-            		<option value="1">用户订购</option>
-        	  		<option value="2">用户租赁</option>
-            	<#elseif type==2>
-        	  		<option value="2">用户租赁</option>
-            		<option value="1">用户订购</option>
+            	<#if type==3>
+            		<option value="3">代理商代购</option>
+        	  		<option value="4">代理商代租赁</option>
+            	<#elseif type==4>
+        	  		<option value="4">代理商代租赁</option>
+            		<option value="3">代理商代购</option>
             	</#if>
         	</select></h3>
             <#include "../customerGood.ftl" />
@@ -78,23 +97,10 @@
                     <p>留言最多100个汉字</p>
                 </div>
             </div>
-            <div class="oi_right">
-            	<div class="oi_title">
-                	<div class="invoice_checkbox"> <input id="needInvoice" name="" type="checkbox" value=""  /> 需要发票</div>
-                	<div class="invoice"><span>类型：</span>
-                		<input id="invoiceType" type="hidden" name="invoiceType" value="0" />
-                    	<a href="javascript:void(0);" onclick="selectInvoiceType(0);" class="hover">个人</a>
-                        <a href="javascript:void(0);" onclick="selectInvoiceType(0);">公司</a>
-                    </div>
-                </div>
-                <div class="oi_area">
-                	<textarea id="invoiceInfo" name="" cols="" rows="" class="invoice_area" disabled="disabled">发票抬头</textarea>
-                </div>
-            </div>
         </div>
         <div class="settleAccount">
         	<p>实付：<strong>￥1377.00</strong></p>
-        	<button class="blueBtn" onclick="createSure(${good.id!""});">创建订单</button>
+        	<button class="blueBtn" onclick="createSure(${good.id!""});">创建代购订单</button>
         </div>
     </div>
 </div>
@@ -111,6 +117,16 @@
 	            });
 	};
 	
+	function searchAgent(agentCompanyName) {
+		var agentCompanyName = $("#agentCompanyName").val();
+	    $.get('<@spring.url "/order/agent/search" />',
+	            {
+	            	"keys": agentCompanyName
+	            },
+	            function (data) {
+	                $('#agent_fresh').html(data);
+	            });
+	};
 
         
  	 $('#provinceCreateSelect').change(function(){
@@ -178,6 +194,18 @@
 		            });
 	}
 	
+	function agentSelected(customerId){
+		$("a[name=agentCompanyName]").removeClass("hover");
+		$("#agentCustomer_"+customerId).addClass("hover");
+		$("#customerId").val(customerId);
+		/*$.get('<@spring.url "/order/customer/address/query" />',
+		            {"customerId": customerId
+		            },
+		            function (data) {
+		               $('#customer_address_fresh').html(data);
+		            });*/
+	}
+	
 	function addAddress(){
         $("#add_address_box").show();
     }
@@ -212,8 +240,9 @@
 			alert("请选择地址");
 			return;
 		}
-		var invoiceInfo=$("#invoiceInfo").val();
-		var needInvoice=$("#needInvoice").prop("checked");
+		var invoiceInfo=null;
+		var needInvoice=null;
+		var invoiceType= null;
 		var type=$("#type").val();
 		if("0"==type){
 			alert("请选择订单类型");
@@ -229,18 +258,17 @@
 			alert("请确定用户");
 			return;
 		}
-		var invoiceType= $("#invoiceType").val();
 		var param='?goodId='+goodId+
 					'&quantity='+quantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
-					'&invoiceInfo='+invoiceInfo+
-					'&needInvoice='+needInvoice+
+					//'&invoiceInfo='+invoiceInfo+
+					//'&needInvoice='+needInvoice+
+					//'&invoiceType='+invoiceType+
 					'&type='+type+
 					'&payChannelId='+payChannelId+
-					'&customerId='+customerId+
-					'&invoiceType='+invoiceType;
-		location.href='<@spring.url "" />'+'/order/user/createSure'+param;
+					'&customerId='+customerId;
+		location.href='<@spring.url "" />'+'/order/agent/createSure'+param;
 	}
 	
 	function saveCustomer(){

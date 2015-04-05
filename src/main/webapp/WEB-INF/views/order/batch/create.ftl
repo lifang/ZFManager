@@ -9,42 +9,21 @@
         </ul>
     </div>
     <div class="inner">
+    
     	<div class="searchUser">
-        	<div class="su_title">
+        	<div class="su_title01">
             	<ul>
-                	<li class="hover">搜索现有用户</li>
-                    <li>创建新用户</li>
+                	<li class="hover">确认代理商</li>
                 </ul>
             </div>
-            <div class="su_con">
+            <div class="su_con01">
             	<div>
                 	<div class="su_search">
-                    	<input id="customer_name" name="" type="text" /><button onclick="searchCustomer();">搜索</button>
+                    	<input id="agentCompanyName" name="" type="text" /><button onclick="searchAgent();">搜索</button>
                     </div>
-                    <div id="customer_fresh" class="su_s_box">
-                    	<!--<a href="#" class="hover">张三</a>-->
-                        <#include "../customerSearch.ftl" />
-                    </div>
-                </div>
-                <div>
-               	  <div class="suc_selectInput">
-                    	<select name="" id="provinceCreateSelect">
-                    	  <option>省</option>
-                    	  <#include "../../common/city_option.ftl" />
-                   	  </select>
-                      <select name="" id="cityCreateSelect">
-                    	  <option>市/地区</option>
-                   	  </select>
-                  </div>
-                  <div class="suc_selectInput">
-                    	<input id="phone" name="" type="text" value="手机号 / 邮箱" />
-                        <input id="passport" name="" type="text" value="用户姓名（可选）" />
-                        <input id="password" name="" type="text" value="密码" />
-                        <input id="repassword" name="" type="text" value="确认密码" />
-                        <button onclick="saveCustomer();">创建</button>
-                  </div>
-                  <div class="su_s_box" id="customer_save_fresh">
-                    	<#include "../customer.ftl" />
+                    <input id="customerId" type="hidden" name="customerId" value="<#if customer??>${customer.id!""}</#if>" />
+                    <div id="agent_fresh" class="su_s_box">
+                    	<#include "../agentSearch.ftl" />
                     </div>
                 </div>
             </div>
@@ -57,16 +36,7 @@
 			<div class="addAddr_btn"><button onclick="addAddress();">使用新地址</button></div>
         </div>
         <div class="myShopOrder">
-        	<h3>您的订单信息
-            <select id="type" name="" class="select_default">
-            	<#if type==1>
-            		<option value="1">用户订购</option>
-        	  		<option value="2">用户租赁</option>
-            	<#elseif type==2>
-        	  		<option value="2">用户租赁</option>
-            		<option value="1">用户订购</option>
-            	</#if>
-        	</select></h3>
+        	<h3>您的订单信息</h3>
             <#include "../customerGood.ftl" />
         </div>
         <div class="total_info">含配送费合计<strong>￥9.99</strong>（配送费￥0.00）</div>
@@ -78,23 +48,10 @@
                     <p>留言最多100个汉字</p>
                 </div>
             </div>
-            <div class="oi_right">
-            	<div class="oi_title">
-                	<div class="invoice_checkbox"> <input id="needInvoice" name="" type="checkbox" value=""  /> 需要发票</div>
-                	<div class="invoice"><span>类型：</span>
-                		<input id="invoiceType" type="hidden" name="invoiceType" value="0" />
-                    	<a href="javascript:void(0);" onclick="selectInvoiceType(0);" class="hover">个人</a>
-                        <a href="javascript:void(0);" onclick="selectInvoiceType(0);">公司</a>
-                    </div>
-                </div>
-                <div class="oi_area">
-                	<textarea id="invoiceInfo" name="" cols="" rows="" class="invoice_area" disabled="disabled">发票抬头</textarea>
-                </div>
-            </div>
         </div>
         <div class="settleAccount">
         	<p>实付：<strong>￥1377.00</strong></p>
-        	<button class="blueBtn" onclick="createSure(${good.id!""});">创建订单</button>
+        	<button class="blueBtn" onclick="createSure(${good.id!""});">创建批购订单</button>
         </div>
     </div>
 </div>
@@ -111,6 +68,16 @@
 	            });
 	};
 	
+	function searchAgent(agentCompanyName) {
+		var agentCompanyName = $("#agentCompanyName").val();
+	    $.get('<@spring.url "/order/agent/search" />',
+	            {
+	            	"keys": agentCompanyName
+	            },
+	            function (data) {
+	                $('#agent_fresh').html(data);
+	            });
+	};
 
         
  	 $('#provinceCreateSelect').change(function(){
@@ -178,6 +145,19 @@
 		            });
 	}
 	
+	function agentSelected(customerId){
+		
+		$("a[name=agentCompanyName]").removeClass("hover");
+		$("#agentCustomer_"+customerId).addClass("hover");
+		$("#customerId").val(customerId);
+		$.get('<@spring.url "/order/customer/address/query" />',
+		            {"customerId": customerId
+		            },
+		            function (data) {
+		               $('#customer_address_fresh').html(data);
+		            });
+	}
+	
 	function addAddress(){
         $("#add_address_box").show();
     }
@@ -208,13 +188,13 @@
 		var quantity = $("#quantity").val();
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
-		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){
+		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId || 'undefined'==customerAddressId){
 			alert("请选择地址");
 			return;
 		}
 		var invoiceInfo=$("#invoiceInfo").val();
 		var needInvoice=$("#needInvoice").prop("checked");
-		var type=$("#type").val();
+		var type=5;
 		if("0"==type){
 			alert("请选择订单类型");
 			return;
@@ -234,13 +214,13 @@
 					'&quantity='+quantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
-					'&invoiceInfo='+invoiceInfo+
-					'&needInvoice='+needInvoice+
+					//'&invoiceInfo='+invoiceInfo+
+					//'&needInvoice='+needInvoice+
+					//'&invoiceType='+invoiceType+
 					'&type='+type+
 					'&payChannelId='+payChannelId+
-					'&customerId='+customerId+
-					'&invoiceType='+invoiceType;
-		location.href='<@spring.url "" />'+'/order/user/createSure'+param;
+					'&customerId='+customerId;
+		location.href='<@spring.url "" />'+'/order/batch/createSure'+param;
 	}
 	
 	function saveCustomer(){
