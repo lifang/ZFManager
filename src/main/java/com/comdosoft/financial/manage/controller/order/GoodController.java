@@ -59,25 +59,26 @@ public class GoodController {
 			Integer cardTypeId, Integer tradeTypeId,
 			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
 			String orderBy,String orderType) {
-		List<GoodBrand> goodBrands = goodBrandService.selectAll();
-		Collection<PosCategory> posCategorys = posCategoryService.listAll();
-		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
-		List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService
-				.listAllDictionarySignOrderWays();
-		List<DictionaryCardType> dictionaryCardTypes = dictionaryService
-				.listAllDictionaryCardTypes();
-		List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService
-				.listAllDictionaryTradeTypes();
-		List<DictionaryBillingCycle> dictionaryBillingCycles = dictionaryService
-				.listAllDictionaryBillingCycles();
-		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
-		model.addAttribute("goodBrands", goodBrands);
-		model.addAttribute("posCategorys", posCategorys);
-		model.addAttribute("payChannels", payChannels);
-		model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
-		model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
-		model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
-		model.addAttribute("dictionaryBillingCycles", dictionaryBillingCycles);
+		find(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
+//		List<GoodBrand> goodBrands = goodBrandService.selectAll();
+//		Collection<PosCategory> posCategorys = posCategoryService.listAll();
+//		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
+//		List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService
+//				.listAllDictionarySignOrderWays();
+//		List<DictionaryCardType> dictionaryCardTypes = dictionaryService
+//				.listAllDictionaryCardTypes();
+//		List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService
+//				.listAllDictionaryTradeTypes();
+//		List<DictionaryBillingCycle> dictionaryBillingCycles = dictionaryService
+//				.listAllDictionaryBillingCycles();
+//		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
+//		model.addAttribute("goodBrands", goodBrands);
+//		model.addAttribute("posCategorys", posCategorys);
+//		model.addAttribute("payChannels", payChannels);
+//		model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
+//		model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
+//		model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
+//		model.addAttribute("dictionaryBillingCycles", dictionaryBillingCycles);
 		return "order/user/goodList";
 	}
 
@@ -92,6 +93,43 @@ public class GoodController {
 			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
 			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
 			String orderBy,String orderType) {
+		find(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
+		return "order/user/goodListFresh";
+	}
+	
+	@RequestMapping(value = "/agent/page", method = RequestMethod.GET)
+	public String agentPage(Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId, Model model,
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType) {
+		String path="order/agent/goodList";
+		find(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
+		if(null!=page){
+			path="order/agent/goodListFresh";
+		}
+		return path;
+	}
+	
+	@RequestMapping(value = "/batch/page", method = RequestMethod.GET)
+	public String batchPage(Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId, Model model,
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType) {
+		String path="order/batch/goodList";
+		find(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
+		if(null!=page){
+			path="order/batch/goodListFresh";
+		}
+		return path;
+	}
+
+	public void find(Integer page, Integer goodBrandsId,
+			Integer posCategoryId, Integer signOrderWayId, Model model,
+			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
+			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
+			String orderBy,String orderType){
 		List<GoodBrand> goodBrands = goodBrandService.selectAll();
 		Collection<PosCategory> posCategorys = posCategoryService.listAll();
 		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
@@ -116,55 +154,76 @@ public class GoodController {
 		model.addAttribute("hasLease", hasLease);
 		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("orderType", orderType);
-		for (GoodBrand goodBrand : goodBrands) {
-			if (null != goodBrandsId && goodBrand.getId() == goodBrandsId) {
-				model.addAttribute("goodBrandSelected", goodBrand);
+		if(null != goodBrandsId){
+			for (GoodBrand goodBrand : goodBrands) {
+				if ( goodBrand.getId() == goodBrandsId) {
+					model.addAttribute("goodBrandSelected", goodBrand);
+					break;
+				}
 			}
 		}
-		for (PosCategory posCategory : posCategorys) {
-			if (null != posCategoryId && posCategory.getId() == posCategoryId) {
-				model.addAttribute("posCategorySelected", posCategory);
+		if(null != posCategoryId){
+			for (PosCategory posCategory : posCategorys) {
+				if (posCategory.getId() == posCategoryId) {
+					model.addAttribute("posCategorySelected", posCategory);
+					break;
+				}
 			}
 		}
-		for (PayChannel payChannel : payChannels) {
-			if (null != payChannelId && payChannel.getId() == payChannelId) {
-				model.addAttribute("payChannelSelected", payChannel);
+		if(null != payChannelId){
+			for (PayChannel payChannel : payChannels) {
+				if (payChannel.getId() == payChannelId) {
+					model.addAttribute("payChannelSelected", payChannel);
+					break;
+				}
 			}
 		}
-		for (DictionaryCardType dictionaryCardType : dictionaryCardTypes) {
-			if (null != cardTypeId && dictionaryCardType.getId() == cardTypeId) {
-				model.addAttribute("cardTypeSelected", dictionaryCardType);
+		if(null != cardTypeId){
+			for (DictionaryCardType dictionaryCardType : dictionaryCardTypes) {
+				if (dictionaryCardType.getId() == cardTypeId) {
+					model.addAttribute("cardTypeSelected", dictionaryCardType);
+					break;
+				}
 			}
 		}
-		for (DictionaryTradeType dictionaryTradeType : dictionaryTradeTypes) {
-			if (null != tradeTypeId && dictionaryTradeType.getId() == tradeTypeId) {
-				model.addAttribute("tradeTypeSelected", dictionaryTradeType);
+		if(null != tradeTypeId){
+			for (DictionaryTradeType dictionaryTradeType : dictionaryTradeTypes) {
+				if (dictionaryTradeType.getId() == tradeTypeId) {
+					model.addAttribute("tradeTypeSelected", dictionaryTradeType);
+					break;
+				}
 			}
 		}
-		for (DictionarySignOrderWay dictionarySignOrderWay : dictionarySignOrderWays) {
-			if (null != signOrderWayId
-					&& dictionarySignOrderWay.getId() == signOrderWayId) {
-				model.addAttribute("dictionarySignOrderWaySelected",
-						dictionarySignOrderWay);
+		if(null != signOrderWayId){
+			for (DictionarySignOrderWay dictionarySignOrderWay : dictionarySignOrderWays) {
+				if (dictionarySignOrderWay.getId() == signOrderWayId) {
+					model.addAttribute("dictionarySignOrderWaySelected",
+							dictionarySignOrderWay);
+					break;
+				}
 			}
 		}
 		if(null!=billingCycleId){
 			for (DictionaryBillingCycle dictionaryBillingCycle : dictionaryBillingCycles) {
 				if(billingCycleId==dictionaryBillingCycle.getId()){
 					model.addAttribute("dictionaryBillingCycleSelected", dictionaryBillingCycle);
+					break;
 				}
 			}
 		}
-		return "order/user/goodListFresh";
+		
 	}
-
+	
 	private void findPage(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
 			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
 			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
 			String orderBy,String orderType) {
-		if (page == null) {
+		if (page == null || page<1) {
 			page = 1;
+		}
+		if(null!=hasLease&&!hasLease){
+			hasLease=null;
 		}
 		Page<Good> goods = goodService.selectGoods(page, (byte) 5,
 				goodBrandsId, posCategoryId, signOrderWayId, payChannelId,
@@ -174,6 +233,23 @@ public class GoodController {
 	
 	@RequestMapping(value = "/user/{id}/detail", method = RequestMethod.GET)
 	public String detail(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
+		getDetail(model, id, page, payChannelId);
+		return "order/user/goodDetail";
+	}
+	
+	@RequestMapping(value = "/agent/{id}/detail", method = RequestMethod.GET)
+	public String detailAgent(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
+		getDetail(model, id, page, payChannelId);
+		return "order/agent/goodDetail";
+	}
+	
+	@RequestMapping(value = "/batch/{id}/detail", method = RequestMethod.GET)
+	public String detailBatch(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
+		getDetail(model, id, page, payChannelId);
+		return "order/batch/goodDetail";
+	}
+	
+	public void getDetail(Model model,Integer id,Integer page, Integer payChannelId){
 		if (page == null) {
 			page = 1;
 		}
@@ -186,8 +262,9 @@ public class GoodController {
 		model.addAttribute("goodComments", goodComments);
 		model.addAttribute("good", good);
 		model.addAttribute("payChannel", findChannelInfo);
-		return "order/user/goodDetail";
 	}
+	
+	
 	
 	@RequestMapping(value = "/user/comment/{id}/page", method = RequestMethod.GET)
 	public String commentPage(@PathVariable Integer id,Integer page, Model model){
@@ -198,4 +275,26 @@ public class GoodController {
 		model.addAttribute("goodComments", goodComments);
 		return "order/user/pageGoodComment";
 	}
+	
+	@RequestMapping(value = "/agent/comment/{id}/page", method = RequestMethod.GET)
+	public String commentAgentPage(@PathVariable Integer id,Integer page, Model model){
+		if (page == null) {
+			page = 1;
+		}
+		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
+		model.addAttribute("goodComments", goodComments);
+		return "order/agent/goodCommentPage";
+	}
+
+	@RequestMapping(value = "/batch/comment/{id}/page", method = RequestMethod.GET)
+	public String commentBatchPage(@PathVariable Integer id,Integer page, Model model){
+		if (page == null) {
+			page = 1;
+		}
+		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
+		model.addAttribute("goodComments", goodComments);
+		return "order/batch/goodCommentPage";
+	}
+	
+	
 }

@@ -90,7 +90,7 @@
     <select id="countByGoodIdAndStatus" resultType="long">
         SELECT count(*) as count
         FROM good_comments
-        WHERE status = #{status} and good_id=#{goodId}
+        WHERE good_id=#{goodId} and status = #{status}
     </select>
 
     <resultMap extends="BaseResultMap" id="CommentInfoResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.GoodComment">

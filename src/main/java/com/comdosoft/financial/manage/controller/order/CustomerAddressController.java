@@ -34,8 +34,8 @@ public class CustomerAddressController {
 	@Autowired
 	private CityService cityService;
 
-	@RequestMapping(value = "create", method = RequestMethod.GET)
-	public String create(HttpServletRequest request, Integer id,
+	@RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET)
+	public String saveOrUpdate(HttpServletRequest request, Integer id,
 			Integer cityId, String receiver, String address, String moblephone,
 			String zipCode, Integer isDefault, Byte status, Model model) {
 		Customer customer = sessionService.getLoginInfo(request);

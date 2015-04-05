@@ -164,9 +164,9 @@ public class GoodService {
 				|| good.getStatus() == Good.STATUS_UN_CHECKED) {
 			good.setStatus(Good.STATUS_CHECKED);
 			if (isThird == null || isThird == false) {
-				good.setBelongsTo(good.getFactoryId());
-			} else {
-				good.setBelongsTo(null);
+                good.setBelongsTo(null);
+            } else {
+                good.setBelongsTo(good.getFactoryId());
 			}
 			goodMapper.updateByPrimaryKey(good);
 		}

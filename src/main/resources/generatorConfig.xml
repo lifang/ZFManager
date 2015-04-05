@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="E:\maven\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>
+	<classPathEntry location="/Users/quqiang/maven/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
 	<context id="trades" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 		<property name="javaFileEncoding" value="UTF-8"/>
 		<commentGenerator>
