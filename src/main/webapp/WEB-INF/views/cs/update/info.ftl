@@ -1,4 +1,5 @@
 <#import "../../common.ftl" as c />
+<#import "../material.ftl" as material />
 <@c.html>
 <div class="breadcrumb">
 	<ul>
@@ -10,12 +11,12 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>资料更新申请记录</h1>
-		<#if csUpdate.status=0>
+		<#if csUpdate.status=1>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn" onClick="onHandle();">标记为处理中</a>
 		</div>
-		<#elseif csUpdate.status=1>
+		<#elseif csUpdate.status=2>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn" onClick="onFinish();">标记为处理完成</a>
@@ -29,10 +30,10 @@
 				<li>编号：${csUpdate.applyNum!}</li>
 				<li>处理人：${csUpdate.processUserName!}</li>
 				<li>状态：<span class="orangeText">
-					<#if csUpdate.status=0>待处理
-       				<#elseif csUpdate.status=1>资料更新中
-       				<#elseif csUpdate.status=2>已取消
-					<#elseif csUpdate.status=3>处理完成
+					<#if csUpdate.status=1>待处理
+       				<#elseif csUpdate.status=2>处理中
+       				<#elseif csUpdate.status=4>处理完成
+					<#elseif csUpdate.status=5>已取消
 					</#if>
 				</span></li>
 				<li>申请日期：${csUpdate.createdAt?datetime}</li>
@@ -52,21 +53,9 @@
 		</div>
 	</div>
 
-	<div class="attributes_box">
-		<h2>申请资料</h2>
-		<div class="attributes_list_s clear">
-			<div class="af_con">
-				<div class="af_con_n">
-					1.资料更新申请资料01 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-			<div class="af_con">
-				<div class="af_con_n">
-					2.资料更新申请资料02 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<#if materials??>
+		<@material.material title="更新申请资料" materials=materials/>
+	</#if>
 
 	<div class="user_remark">
 		<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
@@ -97,11 +86,11 @@
 	    	{"csUpdateId": csUpdateId,
 	    	 "content": content},
 	    	 function (data) {
-	         	if (status==1) {
+	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/update/'+csUpdateId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -109,21 +98,21 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/finish" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	

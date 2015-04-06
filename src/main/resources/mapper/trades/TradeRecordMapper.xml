@@ -190,4 +190,11 @@
             </if>
         </where>
     </select>
+    
+    <select id="getTradeRecords" resultMap="BaseResultMap">
+		SELECT r.traded_at, r.amount
+		  FROM trade_records r
+		 WHERE r.terminal_number = #{terminalNumber} and r.traded_status = #{status} 
+		   AND r.traded_at BETWEEN #{startDate} AND #{endDate}
+	</select>
 </mapper>

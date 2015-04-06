@@ -27,10 +27,10 @@
 					<label>状态筛选</label> 
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
-						<option value="0">待处理</option> 
-						<option value="1">处理中</option> 
-						<option value="2">已取消</option> 
-						<option value="3">已完成</option> 
+						<option value="1">待处理</option> 
+						<option value="2">处理中</option> 
+						<option value="3">处理完成</option> 
+						<option value="4">已取消</option> 
 					</select> 
 				</div>
 			</li> 
@@ -41,10 +41,20 @@
 	</div>
 </div>
 
+<div class="tab exchangeGoods_tab">
+	<a class="close">关闭</a>
+	<div class="tabHead">添加换货出库记录</div>
+	<div class="tabBody">
+		<textarea id="output_content" name="" cols="" rows="" class="textarea_pe"></textarea>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn close" onClick="onOutput();">确定</button>
+	</div>
+</div>
+
 <script type="text/javascript">
 	var keyword;
 	var status;
-	var outputId;
 	
 	$(function() {
 		$('#select_status').change(function() {
@@ -109,6 +119,8 @@
 					popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
 				});
 	}
+	
+	var outputId;
 	
 	function onPreOutput(csAgentId) {
 		outputId = csAgentId;

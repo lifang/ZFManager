@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsChange;
 import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsChangeService;
+import com.comdosoft.financial.manage.service.cs.CsCommonService;
+import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
@@ -27,6 +31,8 @@ public class CsChangeController {
 	private SessionService sessionService;
 	@Autowired
 	private CsChangeService csChangeService;
+	@Autowired
+	private CsCommonService csCommonService;
 
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -56,6 +62,10 @@ public class CsChangeController {
 		List<CsChangeMark> csChangeMarks = csChangeService.findMarksByCsChangeId(id);
 		model.addAttribute("csChange", csChange);
 		model.addAttribute("csChangeMarks", csChangeMarks);
+		if (null != csChange.getCsCencelId() && csChange.getCsCencelId() > 0) {
+			List<OtherRequirement> materials = csCommonService.findRequirementByType(MaterialType.CANCEL);
+			model.addAttribute("materials", materials);
+		}
 		return "cs/change/info";
 	}
 	
@@ -72,6 +82,11 @@ public class CsChangeController {
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
 	public void finish(HttpServletResponse response, @PathVariable Integer id) {
 		csChangeService.finish(id);
+	}
+	
+	@RequestMapping(value = "{csChangeId}/confirm", method = RequestMethod.POST)
+	public void confirm(CsReceiverAddress csReceiverAddress, HttpServletResponse response, @PathVariable Integer csChangeId) {
+		csChangeService.confirm(csChangeId, csReceiverAddress);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)

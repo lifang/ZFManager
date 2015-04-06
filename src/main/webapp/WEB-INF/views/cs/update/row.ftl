@@ -12,24 +12,24 @@
 	</td>
 	<td>
 		<strong id="status_${csUpdate.id}" class="strong_status">
-		<#if csUpdate.status=0>待处理
-       	<#elseif csUpdate.status=1>处理中
-       	<#elseif csUpdate.status=2>处理完成
-		<#elseif csUpdate.status=3>已取消
+		<#if csUpdate.status=1>待处理
+       	<#elseif csUpdate.status=2>处理中
+       	<#elseif csUpdate.status=4>处理完成
+		<#elseif csUpdate.status=5>已取消
 		</#if>
 		</strong>
 	</td>
 	<td id="operation_${csUpdate.id}">
-		<#if csUpdate.status=0>
+		<#if csUpdate.status=1>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csUpdate.id});">取消</a>
 			<a class="a_btn" onClick="onHandle(${csUpdate.id});">标记为处理中</a>
-		<#elseif csUpdate.status=1>
+		<#elseif csUpdate.status=2>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onFinish(${csUpdate.id});">标记为处理完成</a>
-       	<#elseif csUpdate.status=2>
+       	<#elseif csUpdate.status=4>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
-		<#elseif csUpdate.status=3>
+		<#elseif csUpdate.status=5>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
        	</#if>
 	</td>

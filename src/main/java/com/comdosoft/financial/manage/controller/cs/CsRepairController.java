@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepair;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
@@ -74,6 +75,16 @@ public class CsRepairController {
 		csRepairService.finish(id);
 	}
 	
+	@RequestMapping(value = "{id}/addPay", method = RequestMethod.POST)
+	public void addPay(HttpServletResponse response, @PathVariable Integer id, Byte payType) {
+		csRepairService.addPay(id, payType);
+	}
+	
+	@RequestMapping(value = "{id}/updatePay", method = RequestMethod.POST)
+	public void updatePay(HttpServletResponse response, @PathVariable Integer id, Integer repairPrice) {
+		csRepairService.updatePay(id, repairPrice);
+	}
+	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
 	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csRepairService.dispatch(ids, customerId, customerName);
@@ -88,7 +99,15 @@ public class CsRepairController {
     }
 	
 	@RequestMapping(value = "bill/edit", method = RequestMethod.GET)
-	public String createBill(HttpServletRequest request, Model model) {
+	public String editBill(HttpServletRequest request, Model model) {
         return "cs/repair/bill";
     }
+	
+	@RequestMapping(value = "bill/create", method = RequestMethod.POST)
+	public void createBill(CsReceiverAddress csReceiverAddress,
+			String terminalNum, Integer repairPrice, String description, 
+			HttpServletRequest request, HttpServletResponse response) {
+		Customer customer = sessionService.getLoginInfo(request);
+		csRepairService.createBill(customer, csReceiverAddress, terminalNum, repairPrice, description);
+	}
 }

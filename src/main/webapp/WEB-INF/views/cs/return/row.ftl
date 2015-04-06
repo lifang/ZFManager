@@ -12,26 +12,26 @@
 	</td>
 	<td>
 		<strong id="status_${csReturn.id}" class="strong_status">
-		<#if csReturn.status=0>待处理
-       	<#elseif csReturn.status=1>退货中
-       	<#elseif csReturn.status=2>已取消
-		<#elseif csReturn.status=3>处理完成
+		<#if csReturn.status=1>待处理
+       	<#elseif csReturn.status=2>退货中
+       	<#elseif csReturn.status=4>处理完成
+		<#elseif csReturn.status=5>已取消
 		</#if>
 		</strong>
 	</td>
 	<td id="operation_${csReturn.id}">
-		<#if csReturn.status=0>
+		<#if csReturn.status=1>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn">确认退货</a>
+			<a class="a_btn replace_a" onClick="onPreConfirm(${csReturn.id});">确认退货</a>
 			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
 			<a class="a_btn" onClick="onHandle(${csReturn.id});">标记为退货中</a>
-		<#elseif csReturn.status=1>
+		<#elseif csReturn.status=2>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
 			<a class="a_btn" onClick="onFinish(${csReturn.id});">标记为退货完成</a>
-       	<#elseif csReturn.status=2>
+       	<#elseif csReturn.status=4>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
-		<#elseif csReturn.status=3>
+		<#elseif csReturn.status=5>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
        	</#if>
 	</td>

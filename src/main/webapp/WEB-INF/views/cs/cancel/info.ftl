@@ -1,4 +1,5 @@
 <#import "../../common.ftl" as c />
+<#import "../material.ftl" as material />
 <@c.html>
 <div class="breadcrumb">
 	<ul>
@@ -10,15 +11,19 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>注销申请记录</h1>
-		<#if csCancel.status=0>
+		<#if csCancel.status=1>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn" onClick="onHandle();">标记为处理中</a>
 		</div>
-		<#elseif csCancel.status=1>
+		<#elseif csCancel.status=2>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn" onClick="onFinish();">标记为处理完成</a>
+		</div>
+		<#elseif csCancel.status=5>
+		<div class="userTopBtnBox">
+			<a class="ghostBtn" onClick="onResubmit();">重新提交</a> 
 		</div>
 		</#if>
 	</div>
@@ -29,10 +34,10 @@
 				<li>编号：${csCancel.applyNum!}</li>
 				<li>处理人：${csCancel.processUserName!}</li>
 				<li>状态：<span class="orangeText">
-					<#if csCancel.status=0>待处理
-       				<#elseif csCancel.status=1>注销中
-       				<#elseif csCancel.status=2>已取消
-					<#elseif csCancel.status=3>处理完成
+					<#if csCancel.status=1>待处理
+       				<#elseif csCancel.status=2>处理中
+       				<#elseif csCancel.status=4>处理完成
+					<#elseif csCancel.status=5>已取消
 					</#if>
 				</span></li>
 				<li>申请日期：${csCancel.createdAt?datetime}</li>
@@ -52,21 +57,9 @@
 		</div>
 	</div>
 
-	<div class="attributes_box">
-		<h2>申请资料</h2>
-		<div class="attributes_list_s clear">
-			<div class="af_con">
-				<div class="af_con_n">
-					1.注销申请资料01 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-			<div class="af_con">
-				<div class="af_con_n">
-					2.注销申请资料02 <a href="#" class="a_btn">下载模版</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<#if materials??>
+		<@material.material title="申请资料" materials=materials/>
+	</#if>
 
 	<div class="user_remark">
 		<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
@@ -97,11 +90,11 @@
 	    	{"csCancelId": csCancelId,
 	    	 "content": content},
 	    	 function (data) {
-	         	if (status==1) {
+	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -109,7 +102,7 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/cancel/${csCancel.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/cancel/list" />';
+	            	location.reload();
 	            });
 	}
 	
@@ -123,7 +116,14 @@
 	function onHandle() {
 		$.post('<@spring.url "/cs/cancel/${csCancel.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/cancel/list" />';
+	            	location.reload();
+	            });
+	}
+	
+	function onResubmit() {
+		$.post('<@spring.url "/cs/cancel/${csCancel.id}/resubmit" />',
+	            {}, function (data) {
+	            	location.reload();
 	            });
 	}
 	

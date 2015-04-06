@@ -1,5 +1,9 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsReturnStatus.CANCEL;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsReturnStatus.FINISH;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsReturnStatus.HANDLE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,9 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
@@ -34,6 +40,8 @@ public class CsReturnService {
 	private TerminalMapper terminalMapper;
 	@Autowired
 	private CsReturnMarkMapper csReturnMarkMapper;
+	@Autowired
+	private CsReceiverAddressMapper csReceiverAddressMapper;
 	
 	public Page<CsReturn> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csReturnMapper.countSelective(status, keyword);
@@ -78,12 +86,12 @@ public class CsReturnService {
 	}
 	
 	public void handle(Integer csReturnId) {
-		updateStatus(csReturnId, (byte)1);
+		updateStatus(csReturnId, HANDLE);
 	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer csReturnId) {
-		CsReturn csReturn = updateStatus(csReturnId, (byte)2);
+		CsReturn csReturn = updateStatus(csReturnId, CANCEL);
 		
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
@@ -93,11 +101,24 @@ public class CsReturnService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer csReturnId) {
-		CsReturn csReturn = updateStatus(csReturnId, (byte)3);
+		CsReturn csReturn = updateStatus(csReturnId, FINISH);
 		
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
+		}
+	}
+	
+	@Transactional("transactionManager")
+	public void confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress) {
+		csReceiverAddress.setCreatedAt(new Date());
+		csReceiverAddressMapper.insert(csReceiverAddress);
+		
+		CsReturn csReturn = csReturnMapper.selectByPrimaryKey(csReturnId);
+		if (null != csReturn) {
+			csReturn.setReturnAddressId(csReceiverAddress.getId());
+			csReturn.setUpdatedAt(new Date());
+			csReturnMapper.updateByPrimaryKey(csReturn);
 		}
 	}
 	

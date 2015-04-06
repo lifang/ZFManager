@@ -80,5 +80,8 @@
         delete from other_requirements
         where pay_channel_id=#{param1}
     </delete>
-
+    
+  <select id="findByType" resultMap="BaseResultMap">
+    select * from other_requirements where types = #{type,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -100,10 +100,13 @@
     select cl.*, t.id t_id, t.serial_num t_serial_num, 
     m.id m_id, m.title m_title, m.phone m_phone, 
     pc.id pc_id, pc.name pc_name, g.id g_id, g.title g_title,
+    g.lease_price g_lease_price, g.lease_time g_lease_time, g.return_time g_return_time, 
+    g.lease_deposit g_lease_deposit, o.id o_id, o.updated_at o_updated_at, 
     addr.id addr_id, addr.address addr_address, addr.phone addr_phone, addr.receiver addr_receiver 
     from cs_lease_returns cl 
     left join terminals t on cl.terminal_id=t.id 
     left join goods g on t.good_id=g.id 
+    left join orders o on t.order_id=o.id 
     left join pay_channels pc on pc.id=t.pay_channel_id
     left join merchants m on m.id=t.merchant_id 
     left join cs_receiver_addresses addr on addr.id=cl.return_address_id 
@@ -129,11 +132,12 @@
   </select>
   
   <resultMap extends="BaseResultMap" id="DetailedResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturn">
-    <association columnPrefix="t_" property="terminal" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper.BaseResultMap" />
-    <association columnPrefix="m_" property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" />
-    <association columnPrefix="pc_" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
-    <association columnPrefix="g_" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" /> 
-    <association columnPrefix="addr_" property="csReceiverAddress" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper.BaseResultMap" /> 
+    <association fetchType="lazy" columnPrefix="t_" property="terminal" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper.BaseResultMap" />
+    <association fetchType="lazy" columnPrefix="m_" property="merchant" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.MerchantMapper.BaseResultMap" />
+    <association fetchType="lazy" columnPrefix="pc_" property="payChannel" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper.BaseResultMap" />
+    <association fetchType="lazy" columnPrefix="g_" property="good" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper.BaseResultMap" /> 
+    <association fetchType="lazy" columnPrefix="o_" property="order" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper.BaseResultMap" /> 
+    <association fetchType="lazy" columnPrefix="addr_" property="csReceiverAddress" resultMap="com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper.BaseResultMap" /> 
   </resultMap>
   
   <!-- dispatch process user by cs_lease_return_ids -->

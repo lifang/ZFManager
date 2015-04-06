@@ -1,5 +1,9 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.CANCEL;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.FINISH;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.HANDLE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,12 +82,12 @@ public class CsUpdateService {
 	}
 	
 	public void handle(Integer csUpdateId) {
-		updateStatus(csUpdateId, (byte)1);
+		updateStatus(csUpdateId, HANDLE);
 	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer csUpdateId) {
-		CsUpdateInfo csUpdate = updateStatus(csUpdateId, (byte)3);
+		CsUpdateInfo csUpdate = updateStatus(csUpdateId, CANCEL);
 		
 		Integer terminalId = csUpdate.getTerminalId();
 		if (null != terminalId) {
@@ -93,7 +97,7 @@ public class CsUpdateService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer csUpdateId) {
-		CsUpdateInfo csUpdate = updateStatus(csUpdateId, (byte)2);
+		CsUpdateInfo csUpdate = updateStatus(csUpdateId, FINISH);
 		
 		Integer terminalId = csUpdate.getTerminalId();
 		if (null != terminalId) {

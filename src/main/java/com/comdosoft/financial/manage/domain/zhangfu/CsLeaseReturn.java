@@ -331,6 +331,7 @@ public class CsLeaseReturn {
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;
+	private Order order;
 	private CsReceiverAddress csReceiverAddress;
 
 	public Terminal getTerminal() {
@@ -363,6 +364,14 @@ public class CsLeaseReturn {
 
 	public void setGood(Good good) {
 		this.good = good;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public CsReceiverAddress getCsReceiverAddress() {

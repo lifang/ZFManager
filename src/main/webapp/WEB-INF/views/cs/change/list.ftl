@@ -27,10 +27,10 @@
 					<label>状态筛选</label> 
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
-						<option value="0">待处理</option> 
-						<option value="1">换货中</option> 
-						<option value="2">已取消</option> 
-						<option value="3">处理完成</option> 
+						<option value="1">待处理</option> 
+						<option value="2">换货中</option> 
+						<option value="4">处理完成</option> 
+						<option value="5">已取消</option> 
 					</select> 
 				</div>
 			</li> 
@@ -38,6 +38,36 @@
 	</div> 
 	<div id="page_fresh">
 		<#include "table.ftl" />
+	</div>
+</div>
+
+<div class="tab replace_tab">
+	<a href="" class="close">关闭</a>
+	<div class="tabHead">退换地址电话</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li>
+					<span class="labelSpan">收件人：</span>
+					<div class="text"><input name="receiver" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">电话：</span>
+					<div class="text"><input name="phone" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">邮编：</span>
+					<div class="text"><input name="zipCode" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">地址：</span>
+					<div class="text"><input name="address" type="text" /></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onConfirm();">确定</button>
 	</div>
 </div>
 
@@ -101,6 +131,28 @@
 	            	);
 	            	$("#status_"+csChangeId).text("处理完成");
 	            });
+	}
+	
+	var confirmId;
+	
+	function onPreConfirm(csChangeId) {
+		confirmId = csChangeId;
+	}
+	
+	function onConfirm() {
+		var receiver = $("input[name='receiver']").val();
+		var phone = $("input[name='phone']").val();
+		var zipCode = $("input[name='zipCode']").val();
+		var address = $("input[name='address']").val();
+		
+		$.post('<@spring.url "" />'+'/cs/change/'+confirmId+'/confirm',
+			{'receiver':receiver, 
+			 'phone':phone,
+			 'zipCode':zipCode,
+			 'address':address
+			 }, function(data) {
+			 	location.reload();
+			 });
 	}
 
 </script>	

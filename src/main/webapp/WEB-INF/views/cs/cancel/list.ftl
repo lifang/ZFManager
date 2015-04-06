@@ -27,10 +27,10 @@
 					<label>状态筛选</label> 
 					<select id="select_status"> 
 						<option value="-1">全部</option> 
-						<option value="0">待处理</option> 
-						<option value="1">处理中</option> 
-						<option value="2">处理完成</option>
-						<option value="3">已取消</option> 
+						<option value="1">待处理</option> 
+						<option value="2">处理中</option> 
+						<option value="4">处理完成</option>
+						<option value="5">已取消</option> 
 					</select> 
 				</div>
 			</li> 
@@ -103,6 +103,18 @@
 						+'<a class="a_btn" onClick="onFinish('+csCancelId+');">标记为处理完成</a>	'
 	            	);
 	            	$("#status_"+csCancelId).text("处理中");
+	            });
+	}
+	
+	function onResubmit(csCancelId) {
+		$.post('<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/resubmit',
+	            {}, function (data) {
+	            	$("#operation_"+csCancelId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/info" class="a_btn">查看详情</a>'
+						+'<a class="a_btn" onClick="onCancel('+csCancelId+');">取消</a>'
+						+'<a class="a_btn" onClick="onHandle('+csCancelId+');">标记为处理中</a>'
+	            	);
+	            	$("#status_"+csCancelId).text("待处理");
 	            });
 	}
 

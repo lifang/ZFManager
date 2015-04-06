@@ -32,22 +32,11 @@
 	</table> 
 </div>
 
-<div class="tab exchangeGoods_tab">
-	<a class="close">关闭</a>
-	<div class="tabHead">添加换货出库记录</div>
-	<div class="tabBody">
-		<textarea id="output_content" name="" cols="" rows="" class="textarea_pe"></textarea>
-	</div>
-	<div class="tabFoot">
-		<button class="blueBtn close" onClick="onOutput();">确定</button>
-	</div>
-</div>
-
 <script type="text/javascript">
 	$(function() {
 		popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
 	});
 	
 </script>
-<@assign.assign name="agent" page=csAgents.currentPage/>
+<@assign.assign name="agent" page=csAgents.currentPage suspend=1/>
 <@pager.p page=csAgents.currentPage totalPages=csAgents.totalPage functionName="pageChange"/>	

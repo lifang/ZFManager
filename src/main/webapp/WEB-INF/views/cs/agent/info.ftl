@@ -10,12 +10,12 @@
 <div class="content clear">
 	<div class="user_title">
 		<h1>代理商售后申请记录</h1>
-		<#if csAgent.status=0>
+		<#if csAgent.status=1>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
 			<a class="ghostBtn" onClick="onHandle();">标记为处理中</a>
 		</div>
-		<#elseif csAgent.status=1>
+		<#elseif csAgent.status=2>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a>
 			<a class="ghostBtn" onClick="onFinish();">标记为处理完成</a>
@@ -29,10 +29,10 @@
 				<li>编号：${csAgent.applyNum!}</li>
 				<li>处理人：${csAgent.processUserName!}</li>
 				<li>状态：<span class="orangeText">
-					<#if csAgent.status=0>待处理
-       				<#elseif csAgent.status=1>处理中
-       				<#elseif csAgent.status=2>已取消
-					<#elseif csAgent.status=3>已完成
+					<#if csAgent.status=1>待处理
+       				<#elseif csAgent.status=2>处理中
+       				<#elseif csAgent.status=3>处理完成
+					<#elseif csAgent.status=4>已取消
 					</#if>
 				</span></li>
 				<li>申请日期：${csAgent.createdAt?datetime}</li>
@@ -77,11 +77,11 @@
 	    	{"csAgentId": csAgentId,
 	    	 "content": content},
 	    	 function (data) {
-	    	 	if (status==1) {
+	    	 	if (status==2) {
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -89,21 +89,21 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/agent/${csAgent.id}/cancel" />',
 	            {}, function (data) {
-	            	location.href='<@spring.url "/cs/agent/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/finish',
 				{}, function(data) {
-					location.href='<@spring.url "/cs/agent/list" />';
+					location.reload();
 				});
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/handle',
 				{}, function(data) {
-					location.href='<@spring.url "/cs/agent/list" />';
+					location.reload();
 				});
 	}
 </script>
