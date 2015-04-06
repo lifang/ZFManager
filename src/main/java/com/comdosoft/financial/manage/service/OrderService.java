@@ -162,6 +162,11 @@ public class OrderService {
 		return insert;
 	}
 	
+	public int save(){
+		
+		return 1;
+	}
+	
 	/**
      * 
      * @param type

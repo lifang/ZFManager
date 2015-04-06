@@ -233,8 +233,12 @@
 	            });
     }
     
-    function createOrderAgain(){
-    	
-    }
+    /*function createOrderAgain(orderId){
+    	$.get('<@spring.url "" />'+'/order/agent/createAgain',
+				{"orderId":orderId
+				},
+	            function (data) {
+	            });
+    }*/
 </script>
 </@c.html>

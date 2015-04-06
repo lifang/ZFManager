@@ -73,7 +73,8 @@
 				       <#elseif order.status==3><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已发货</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/agent/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+				       			<a href="<@spring.url "/order/agent/${order.id}/createAgain" />" class="a_btn">再次代购</a></td>
 				       <#elseif order.status==4><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已评价</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/agent/${order.id}/info" />" class="a_btn">查看详情</a>
@@ -116,6 +117,7 @@
 				       		<td>
 				       			<a href="<@spring.url "/order/agent/${order.id}/info" />" class="a_btn">查看详情</a>
 				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+				       			<a href="<@spring.url "/order/agent/${order.id}/createAgain" />" class="a_btn">再次代购</a>
 				       		</td>
 				       <#elseif order.status==4><td><strong class="strong_status">已评价</strong></td>
 				       		<td>

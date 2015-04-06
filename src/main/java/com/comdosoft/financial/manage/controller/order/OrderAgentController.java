@@ -107,20 +107,16 @@ public class OrderAgentController {
 		return "order/agent/create";
 	}
 	
-	@RequestMapping(value = "/agent/createAgain", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{orderId}/createAgain", method = RequestMethod.GET)
 	public String createAgainGet(HttpServletRequest request, Model model,
-			Integer orderId) {
-//		Order order = orderService.findOrderInfo(orderId);
-//		List<CustomerAddress> selectCustomerAddress = null;
-//		List<City> cities = cityService.cities(0);
-//		Good good = goodService.findGoodInfo(goodId);
-//		PayChannel payChannel = payChannelService.findChannelInfo(payChannelId);
-//		model.addAttribute("customerAddresses", selectCustomerAddress);
-//		model.addAttribute("cities", cities);
-//		model.addAttribute("good", good);
-//		model.addAttribute("quantity", quantity);
-//		model.addAttribute("payChannel", payChannel);
-//		model.addAttribute("type", type);
+			@PathVariable Integer orderId) {
+		Order order = orderService.findOrderInfo(orderId);
+		List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(order.getCustomerId());
+		List<City> cities = cityService.cities(0);
+		model.addAttribute("customerAddresses", selectCustomerAddress);
+		model.addAttribute("cities", cities);
+		model.addAttribute("order", order);
+		model.addAttribute("type", order.getTypes());
 		return "order/agent/create";
 	}
 	
@@ -139,7 +135,23 @@ public class OrderAgentController {
 		types.add((byte) 4);
 		findPage(1, null, null, null, model, types);
 		return "order/agent/list";
-
+	}
+	
+	@RequestMapping(value = "/agent/createSureAgain", method = RequestMethod.GET)
+	public String createSureAgainGet(HttpServletRequest request, Model model,
+			Integer orderId, Integer quantity, String comment,
+			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
+			Boolean needInvoice, int type, Integer payChannelId,
+			Integer customerId) {
+		orderService
+				.save(customerId, orderId, quantity, comment, invoiceInfo,
+						customerAddressId, invoiceType, needInvoice, type,
+						payChannelId);
+		List<Byte> types = new ArrayList<Byte>();
+		types.add((byte) 3);
+		types.add((byte) 4);
+		findPage(1, null, null, null, model, types);
+		return "order/agent/list";
 	}
 
 	@RequestMapping(value = "/agent/{id}/save", method = RequestMethod.GET)

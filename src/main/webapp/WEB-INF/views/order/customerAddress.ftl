@@ -44,7 +44,7 @@
 		    <td>${customerAddress.address!""}</td>
 		    <td>${customerAddress.zipCode!""}</td>
 		    <td>${customerAddress.moblephone!""}</td>
-		    <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2);">删除</a></td>
+		    <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2,${customerAddress.customerId!""});">删除</a></td>
 		    <td>
 		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 		    		<span class="defaultAddr">默认地址</span>
@@ -90,4 +90,16 @@
             $("#citySelect").empty();
         }
     });
+    
+    function updateAddress(id,status,customerId){
+		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+	            {"id": id,
+	            "status":status,
+	            "customerId":customerId
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
 </script>

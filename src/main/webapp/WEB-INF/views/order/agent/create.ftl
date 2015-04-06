@@ -100,7 +100,12 @@
         </div>
         <div class="settleAccount">
         	<p>实付：<strong>￥1377.00</strong></p>
-        	<button class="blueBtn" onclick="createSure(${good.id!""});">创建代购订单</button>
+        	<#if order??>
+        		<button class="blueBtn">创建代购订单</button>
+        	<#else>
+        		<button class="blueBtn" onclick="createSure(${good.id!""});">创建代购订单</button>
+        	</#if>
+        	
         </div>
     </div>
 </div>
@@ -172,15 +177,6 @@
 	            });
 	}
 	
-	function updateAddress(id,status){
-		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
-	            {"id": id,
-	            "status":status
-	            },
-	            function (data) {
-	               $('#customer_address_fresh').html(data);
-	            });
-	}
 	
 	function queryAddress(customerId){
 		$("a[name=customerName]").removeClass("hover");
@@ -193,6 +189,8 @@
 		               $('#customer_address_fresh').html(data);
 		            });
 	}
+	
+
 	
 	function agentSelected(customerId){
 		$("a[name=agentCompanyName]").removeClass("hover");
@@ -209,18 +207,7 @@
 	function addAddress(){
         $("#add_address_box").show();
     }
-    
-    function addQuantity() {
-		var quantity = $("#quantity").val();
-		$("#quantity").val(parseInt(quantity)+1);
-	}
 	
-	function reduceQuantity() {
-		var quantity = $("#quantity").val();
-		var result=parseInt(quantity)-1;
-		if(result<1)result=1;
-		$("#quantity").val(result);
-	}
 	
 	function selectCustomerAddress(id){
 		//$("input[name=customerAddressId]").removeAttr("checked");

@@ -42,11 +42,15 @@ public class CustomerAddressController {
 			Integer cityId, String receiver, String address, String moblephone,
 			String zipCode, Integer isDefault, Byte status,Integer customerId) {
 		Customer customer = customerService.customer(customerId);
+		Integer id2 = null;
+		if(null!=customer){
+			id2 = customer.getId();
+		}
 		customerAddressService.saveOrUpdateCustomerAddress(id, cityId,
 				receiver, address, moblephone, zipCode, isDefault,
-				customer.getId(), status);
+				id2, status);
 		List<CustomerAddress> selectCustomerAddress = customerAddressService
-				.selectCustomerAddress(customer.getId());
+				.selectCustomerAddress(id2);
 		List<City> cities = cityService.cities(0);
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
