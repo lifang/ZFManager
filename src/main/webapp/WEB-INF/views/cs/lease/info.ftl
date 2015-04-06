@@ -51,12 +51,12 @@
 				<li>终端号：<#if csLease.terminal??>${csLease.terminal.serialNum!}</#if></li>
 				<li>商户名称：<#if csLease.merchant??>${csLease.merchant.title!}</#if></li>
 				<li>商户电话：<#if csLease.merchant??>${csLease.merchant.phone!}</#if></li>
-				<li>租赁日期：2015/1/6</li>
-				<li>最短租赁时间：12个月</li>
-				<li>最长租赁时间：12个月</li>
-				<li>租赁押金：<strong>￥200.00</strong></li>
-				<li>租赁时长：20天</li>
-				<li>租金：<strong>￥200.00</strong></li>
+				<li>租赁日期：<#if leaseStart??>${leaseStart?datetime}</#if></li>
+				<li>最短租赁时间：${minLeaseMonth!}个月</li>
+				<li>最长租赁时间：${maxLeaseMonth!}个月</li>
+				<li>租赁押金：<strong>￥${deposit!}</strong></li>
+				<li>租赁时长：${daysApart!}天</li>
+				<li>租金：<strong>￥${rentTotal!}</strong></li>
 			</ul>
 		</div>
 	</div>
@@ -65,7 +65,7 @@
 		<h2>退还信息</h2>
 		<div class="attributes_list_s clear">
 			<ul>
-				<li>退款金额：未确认</li>
+				<li>退款金额：${refundAmount!}</li>
 				<li>联系人：<#if csLease.csReceiverAddress??>${csLease.csReceiverAddress.receiver!}</#if></li>
 				<li>联系电话：<#if csLease.csReceiverAddress??>${csLease.csReceiverAddress.phone!}</#if></li>
 			</ul>
@@ -88,21 +88,15 @@
 						<th>月交易汇总</th>
 					</tr>
 				</thead>
-				<tr>
-					<td>1</td>
-					<td>2014/1/2 - 2014/2/1</td>
-					<td><strong>￥400.00</strong></td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>2014/1/2 - 2014/2/1</td>
-					<td><strong>￥400.00</strong></td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>2014/1/2 - 2014/2/1</td>
-					<td><strong>￥400.00</strong></td>
-				</tr>
+				<#if statistics??>
+				<#list statistics as statistic>
+					<tr>
+						<td>${statistic_index + 1}</td>
+						<td>${statistic.start?string("yyyy/MM/dd")} - ${statistic.end?string("yyyy/MM/dd")}</td>
+						<td><strong>￥${statistic.amount!}</strong></td>
+					</tr>
+				</#list>
+				</#if>
 			</table>
 		</div>
 	</div>
@@ -144,7 +138,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -152,21 +146,21 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/lease/${csLease.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/lease/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "/cs/lease/${csLease.id}/finish" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/lease/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "/cs/lease/${csLease.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/lease/list" />';
+	            	location.reload();
 	            });
 	}
 	

@@ -74,6 +74,11 @@ public class CsCancelController {
 		csCancelService.finish(id);
 	}
 	
+	@RequestMapping(value = "{id}/resubmit", method = RequestMethod.POST)
+	public void resubmit(HttpServletResponse response, @PathVariable Integer id) {
+		csCancelService.resubmit(id);
+	}
+	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
 	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csCancelService.dispatch(ids, customerId, customerName);

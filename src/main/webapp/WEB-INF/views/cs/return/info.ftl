@@ -14,13 +14,12 @@
 		<#if csReturn.status=1>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
-			<a class="ghostBtn">确认退货</a>
+			<a class="ghostBtn replace_a">确认退货</a>
 			<a class="ghostBtn" onClick="onHandle();">标记为退货中</a>
 		</div>
 		<#elseif csReturn.status=2>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
-			<a class="ghostBtn">确认退货</a>
 			<a class="ghostBtn" onClick="onFinish();">标记为退货完成</a>
 		</div>
 		</#if>
@@ -84,6 +83,35 @@
 	</div>
 </div>
 
+<div class="tab replace_tab">
+	<a href="" class="close">关闭</a>
+	<div class="tabHead">退换地址电话</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li>
+					<span class="labelSpan">收件人：</span>
+					<div class="text"><input name="receiver" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">电话：</span>
+					<div class="text"><input name="phone" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">邮编：</span>
+					<div class="text"><input name="zipCode" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">地址：</span>
+					<div class="text"><input name="address" type="text" /></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onConfirm();">确定</button>
+	</div>
+</div>
 
 <script type="text/javascript">
 
@@ -103,7 +131,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/return/'+csReturnId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -111,22 +139,39 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/return/${csReturn.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/return/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "/cs/return/${csReturn.id}/finish" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/return/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "/cs/return/${csReturn.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/return/list" />';
+	            	location.reload();
 	            });
 	}
+	
+	function onConfirm() {
+		var receiver = $("input[name='receiver']").val();
+		var phone = $("input[name='phone']").val();
+		var zipCode = $("input[name='zipCode']").val();
+		var address = $("input[name='address']").val();
+		
+		$.post('<@spring.url "/cs/return/${csReturn.id}/confirm" />',
+			{'receiver':receiver, 
+			 'phone':phone,
+			 'zipCode':zipCode,
+			 'address':address
+			 }, function(data) {
+			 	location.reload();
+			 });
+	}
+	
 </script>
 </@c.html>

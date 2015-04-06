@@ -21,6 +21,10 @@
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 			<a class="ghostBtn" onClick="onFinish();">标记为处理完成</a>
 		</div>
+		<#elseif csCancel.status=5>
+		<div class="userTopBtnBox">
+			<a class="ghostBtn" onClick="onResubmit();">重新提交</a> 
+		</div>
 		</#if>
 	</div>
 	<div class="attributes_box">
@@ -90,7 +94,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -98,7 +102,7 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/cancel/${csCancel.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/cancel/list" />';
+	            	location.reload();
 	            });
 	}
 	
@@ -112,7 +116,14 @@
 	function onHandle() {
 		$.post('<@spring.url "/cs/cancel/${csCancel.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/cancel/list" />';
+	            	location.reload();
+	            });
+	}
+	
+	function onResubmit() {
+		$.post('<@spring.url "/cs/cancel/${csCancel.id}/resubmit" />',
+	            {}, function (data) {
+	            	location.reload();
 	            });
 	}
 	

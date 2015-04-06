@@ -105,6 +105,18 @@
 	            	$("#status_"+csCancelId).text("处理中");
 	            });
 	}
+	
+	function onResubmit(csCancelId) {
+		$.post('<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/resubmit',
+	            {}, function (data) {
+	            	$("#operation_"+csCancelId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/cancel/'+csCancelId+'/info" class="a_btn">查看详情</a>'
+						+'<a class="a_btn" onClick="onCancel('+csCancelId+');">取消</a>'
+						+'<a class="a_btn" onClick="onHandle('+csCancelId+');">标记为处理中</a>'
+	            	);
+	            	$("#status_"+csCancelId).text("待处理");
+	            });
+	}
 
 </script>	
 </@c.html>

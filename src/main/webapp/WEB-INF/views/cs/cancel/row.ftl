@@ -31,7 +31,7 @@
 			<a href="<@spring.url "/cs/cancel/${csCancel.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csCancel.status=5>
 			<a href="<@spring.url "/cs/cancel/${csCancel.id}/info" />" class="a_btn">查看详情</a>
-			<a href="#" class="a_btn">重新提交</a>
+			<a class="a_btn" onClick="onResubmit(${csCancel.id});">重新提交</a>
        	</#if>
 	</td>
 </tr>

@@ -55,4 +55,10 @@ public interface TradeRecordMapper {
                                       @Param("end") Date end,
                                       @Param("type") Integer type,
                                       @Param("status") Integer status);
+    
+    List<TradeRecord> getTradeRecords(
+    		@Param("terminalNumber") String terminalNumber,
+    		@Param("status") Integer status,
+    		@Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
 }

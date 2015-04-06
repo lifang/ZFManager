@@ -81,7 +81,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/agent/'+csAgentId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -89,21 +89,21 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/agent/${csAgent.id}/cancel" />',
 	            {}, function (data) {
-	            	location.href='<@spring.url "/cs/agent/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/finish',
 				{}, function(data) {
-					location.href='<@spring.url "/cs/agent/list" />';
+					location.reload();
 				});
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "" />' + '/cs/agent/${csAgent.id}/handle',
 				{}, function(data) {
-					location.href='<@spring.url "/cs/agent/list" />';
+					location.reload();
 				});
 	}
 </script>

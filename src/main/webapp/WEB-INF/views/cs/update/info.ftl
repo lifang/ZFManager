@@ -90,7 +90,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/update/'+csUpdateId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -98,21 +98,21 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onFinish() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/finish" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	
 	function onHandle() {
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/handle" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/update/list" />';
+	            	location.reload();
 	            });
 	}
 	

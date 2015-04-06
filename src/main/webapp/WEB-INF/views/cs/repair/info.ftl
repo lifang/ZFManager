@@ -13,8 +13,8 @@
 		<#if (csRepair.status=1) || (csRepair.status=2)>
 		<div class="userTopBtnBox">
 			<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
-			<a href="#" class="ghostBtn priceOrder_a" onClick="onPreUpdatePay(${csRepair.repairPrice!0});">修改维修价格</a>
-			<a href="#" class="ghostBtn paymentRecord_a" onClick="onPreAddPay(${csRepair.repairPrice!0},${csRepair.payTypes!1});">添加付款记录</a>
+			<a class="ghostBtn priceOrder_a" onClick="onPreUpdatePay(${csRepair.repairPrice!0});">修改维修价格</a>
+			<a class="ghostBtn paymentRecord_a" onClick="onPreAddPay(${csRepair.repairPrice!0},${csRepair.payTypes!1});">添加付款记录</a>
 		</div>
 		</#if>
 	</div>
@@ -141,7 +141,7 @@
 	    	 		$('#mark_container').prepend(data);
 	            	$("#textarea_mark").val("");
 	    	 	} else {
-	    	 		location.href='<@spring.url "" />'+'/cs/repair/'+csRepairId+'/info';
+	    	 		location.reload();
 	    	 	}
 	         });
 	}
@@ -149,7 +149,7 @@
 	function onCancel() {
 		$.post('<@spring.url "/cs/repair/${csRepair.id}/cancel" />',
 	            {}, function (data) {
-	            	location='<@spring.url "/cs/repair/list" />';
+	            	location.reload();
 	            });
 	}
 	

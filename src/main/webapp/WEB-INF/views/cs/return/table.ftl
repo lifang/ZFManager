@@ -33,5 +33,11 @@
 		</tbody> 
 	</table>
 </div>
+<script type="text/javascript">
+	$(function() {
+		popup(".replace_tab",".replace_a");//换货
+	});
+	
+</script>
 <@assign.assign name="return" page=csReturns.currentPage suspend=1/>
 <@pager.p page=csReturns.currentPage totalPages=csReturns.totalPage functionName="pageChange"/>	

@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.service.cs;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.CANCEL;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.FINISH;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.HANDLE;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.SUSPEND;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,6 +102,10 @@ public class CsCancelService {
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
 		}
+	}
+	
+	public void resubmit(Integer csCancelId) {
+		updateStatus(csCancelId, SUSPEND);
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {
