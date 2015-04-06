@@ -60,25 +60,6 @@ public class GoodController {
 			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
 			String orderBy,String orderType) {
 		find(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
-//		List<GoodBrand> goodBrands = goodBrandService.selectAll();
-//		Collection<PosCategory> posCategorys = posCategoryService.listAll();
-//		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
-//		List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService
-//				.listAllDictionarySignOrderWays();
-//		List<DictionaryCardType> dictionaryCardTypes = dictionaryService
-//				.listAllDictionaryCardTypes();
-//		List<DictionaryTradeType> dictionaryTradeTypes = dictionaryService
-//				.listAllDictionaryTradeTypes();
-//		List<DictionaryBillingCycle> dictionaryBillingCycles = dictionaryService
-//				.listAllDictionaryBillingCycles();
-//		findPage(page, goodBrandsId, posCategoryId, signOrderWayId, model, payChannelId, cardTypeId, tradeTypeId, billingCycleId, minPrice, maxPrice, hasLease, orderBy, orderType);
-//		model.addAttribute("goodBrands", goodBrands);
-//		model.addAttribute("posCategorys", posCategorys);
-//		model.addAttribute("payChannels", payChannels);
-//		model.addAttribute("dictionarySignOrderWays", dictionarySignOrderWays);
-//		model.addAttribute("dictionaryCardTypes", dictionaryCardTypes);
-//		model.addAttribute("dictionaryTradeTypes", dictionaryTradeTypes);
-//		model.addAttribute("dictionaryBillingCycles", dictionaryBillingCycles);
 		return "order/user/goodList";
 	}
 

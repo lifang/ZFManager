@@ -157,7 +157,7 @@
 	
 	<select id="searchCustomer" resultMap="BaseResultMap">
         select * from customers
-        where name like #{customerName} or username like #{customerName}
+        where name like #{customerName} or username like #{customerName} or phone like #{customerName} or email like #{customerName}
     </select>
     
     <!-- find users who have permission to operate -->

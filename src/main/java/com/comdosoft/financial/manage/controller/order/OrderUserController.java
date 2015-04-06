@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -21,6 +20,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerAddressService;
+import com.comdosoft.financial.manage.service.CustomerService;
 import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.OrderService;
@@ -46,8 +46,8 @@ public class OrderUserController {
 	private GoodService goodService;
 	@Autowired
 	private PayChannelService payChannelService;
-	
-	
+	@Autowired
+	private CustomerService customerService;
 
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String list(Integer page, Byte status, String keys,
@@ -94,14 +94,11 @@ public class OrderUserController {
 
 	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Model model,
-			Integer goodId, Integer quantity,Integer payChannelId,Byte type) {
-		Customer customer = sessionService.getLoginInfo(request);
-		List<CustomerAddress> selectCustomerAddress = customerAddressService
-				.selectCustomerAddress(customer.getId());
+			Integer goodId, Integer quantity, Integer payChannelId, Byte type) {
+		List<CustomerAddress> selectCustomerAddress = null;
 		List<City> cities = cityService.cities(0);
 		Good good = goodService.findGoodInfo(goodId);
 		PayChannel payChannel = payChannelService.findChannelInfo(payChannelId);
-		
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
 		model.addAttribute("good", good);
@@ -115,10 +112,10 @@ public class OrderUserController {
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer payChannelId) {
-		Customer customer = sessionService.getLoginInfo(request);
+			Boolean needInvoice, int type, Integer payChannelId,
+			Integer customerId) {
 		orderService
-				.save(customer, goodId, quantity, comment, invoiceInfo,
+				.save(customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
 						payChannelId);
 		List<Byte> types = new ArrayList<Byte>();
@@ -137,7 +134,7 @@ public class OrderUserController {
 		model.addAttribute("order", order);
 		return "order/user/pageRowOrder";
 	}
-	
+
 	@RequestMapping(value = "/user/info/{id}/save", method = RequestMethod.GET)
 	public String saveInfo(@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
@@ -154,7 +151,7 @@ public class OrderUserController {
 		model.addAttribute("order", order);
 		return "order/user/pageRowOrder";
 	}
-	
+
 	@RequestMapping(value = "/user/info/{id}/cancel", method = RequestMethod.GET)
 	public String cancleInfo(@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);

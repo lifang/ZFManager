@@ -22,6 +22,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerAddressService;
+import com.comdosoft.financial.manage.service.CustomerService;
 import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
@@ -33,12 +34,14 @@ public class CustomerAddressController {
 	private CustomerAddressService customerAddressService;
 	@Autowired
 	private CityService cityService;
-
+	@Autowired
+	private CustomerService customerService;
+	
 	@RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET)
-	public String saveOrUpdate(HttpServletRequest request, Integer id,
+	public String saveOrUpdate(HttpServletRequest request, Model model, Integer id,
 			Integer cityId, String receiver, String address, String moblephone,
-			String zipCode, Integer isDefault, Byte status, Model model) {
-		Customer customer = sessionService.getLoginInfo(request);
+			String zipCode, Integer isDefault, Byte status,Integer customerId) {
+		Customer customer = customerService.customer(customerId);
 		customerAddressService.saveOrUpdateCustomerAddress(id, cityId,
 				receiver, address, moblephone, zipCode, isDefault,
 				customer.getId(), status);
@@ -47,6 +50,18 @@ public class CustomerAddressController {
 		List<City> cities = cityService.cities(0);
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
-		return "order/user/customerAddress";
+		return "order/customerAddress";
+	}
+	
+	@RequestMapping(value = "query", method = RequestMethod.GET)
+	public String query(HttpServletRequest request, Model model, Integer customerId) {
+		List<CustomerAddress> selectCustomerAddress = customerAddressService
+				.selectCustomerAddress(customerId);
+		List<City> cities = cityService.cities(0);
+		model.addAttribute("customerAddresses", selectCustomerAddress);
+		model.addAttribute("cities", cities);
+		Customer customer=customerService.customer(customerId);
+		model.addAttribute("customer", customer);
+		return "order/customerAddress";
 	}
 }

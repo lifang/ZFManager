@@ -232,5 +232,9 @@
 					popupPage();
 	            });
     }
+    
+    function createOrderAgain(){
+    	
+    }
 </script>
 </@c.html>

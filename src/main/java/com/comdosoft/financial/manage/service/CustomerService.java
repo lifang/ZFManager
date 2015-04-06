@@ -61,6 +61,29 @@ public class CustomerService {
 		}
 		customerMapper.insert(customer);
 	}
+	
+	@Transactional("transactionManager")
+	public Customer saveAndReturn(String passport, String password,
+                               String phone, Integer city){
+		Customer customer = new Customer();
+		customer.setTypes(Customer.TYPE_CUSTOMER);
+		customer.setPhone(phone);
+		customer.setCityId(city);
+		customer.setPassword(DigestUtils.md5Hex(password));
+		customer.setIntegral(0);
+        customer.setCreatedAt(new Date());
+        customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setUpdatedAt(new Date());
+		if(Strings.isNullOrEmpty(passport)){
+			customer.setUsername(phone);
+			customer.setName(phone);
+		}else{
+			customer.setUsername(passport);
+			customer.setName(passport);
+		}
+		customerMapper.insert(customer);
+		return customer;
+	}
 
     @Transactional("transactionManager")
     public void createOperate(String account,String name,

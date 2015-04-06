@@ -61,7 +61,7 @@
 		    <td>
 		    	<select name="" id="provinceSelect">
 		    	  <option>省</option>
-		    	  <#include "../../common/city_option.ftl" />
+		    	  <#include "../common/city_option.ftl" />
 		    	</select>
 		        <select name="" id="citySelect">
 		    	  <option>市</option>
@@ -74,3 +74,20 @@
 		    <td>&nbsp;</td>
 		  </tr>
         </table>
+<script type="text/javascript">
+	 $('#provinceSelect').change(function(){
+        var provinceId = $(this).children('option:selected').val();
+        if(isNotNull(provinceId)){
+            $.post('<@spring.url "/common/cities" />',
+                    {'id':provinceId},
+                    function (data) {
+                        $("#citySelect").empty();
+                        $("#citySelect").append("<option>市</option>");
+                        $("#citySelect").append(data);
+                        //$("#citySelect").append("<option></option>"+data);
+                    });
+        } else {
+            $("#citySelect").empty();
+        }
+    });
+</script>

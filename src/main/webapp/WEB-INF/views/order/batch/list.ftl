@@ -134,7 +134,6 @@
         popup(".priceOrder_tab",".priceOrder_a");//修改价格
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
         popup(".deliver_tab",".deliver_a");//发货
-        
 	}
 	
 	function markBtn(id){

@@ -80,7 +80,7 @@
              	</ul>
         	</div>
             <div class="buy_action">
-            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},1);">创建批购订单</a>
+            	<a href="#" class="buy_btn" onclick="createOrder(${good.id!""},5);">创建批购订单</a>
             </div>
         </div>
         </div>
