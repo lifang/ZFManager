@@ -39,10 +39,10 @@ public interface GoodMapper {
 	 */
 	int updateByPrimaryKey(Good record);
 
-	List<Good> findPageGoodsByKeys(@Param("pageRequest") PageRequest pageRequest,
+	List<Good> findPageGoodsByKeys(@Param("pageRequest") PageRequest pageRequest, @Param("factoryId")Integer factoryId,
 			@Param("status") Byte status, @Param("keys") String keys);
 			
-	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+	long countByKeys(@Param("factoryId")Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
 	
 	Good findGoodInfo(Integer id);
 	

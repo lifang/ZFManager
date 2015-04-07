@@ -45,8 +45,8 @@
             <div class="login_area">
                 <form action="<@spring.url "/login"/>" method="post">
                     <ul>
-                        <li><input name="passport" type="text" value="ID"/></li>
-                        <li><input name="password" type="text" value="密码"/></li>
+                        <li><input name="passport" type="text"/></li>
+                        <li><input name="password" type="password"/></li>
                         <li><input name="captcha" type="text" value="输入图片校验码" class="l"/>
                             <div class="yzm"><img src="<@spring.url "/captcha"/>"/></div>
                         </li>

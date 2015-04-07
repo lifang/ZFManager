@@ -48,4 +48,5 @@ public interface FactoryMapper {
     long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 
     Factory findFactoryInfo(Integer id);
+	Factory findFactoryByCustomerId(Integer customerId);
 }

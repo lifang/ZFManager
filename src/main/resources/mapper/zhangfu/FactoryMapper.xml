@@ -133,5 +133,10 @@
         select * from factories
         where id=#{param1}
     </select>
-  
+
+  <select id="findFactoryByCustomerId" resultMap="FactoryLazyResultMap">
+    select * from factories
+    where customer_id=#{param1} limit 1
+  </select>
+
 </mapper>
