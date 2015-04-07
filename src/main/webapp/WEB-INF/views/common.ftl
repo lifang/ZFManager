@@ -114,7 +114,7 @@
             <ol>
                 <li><a href="#">售后库存管理</a></li>
                 <li><a href="#">认证开通</a></li>
-                <li><a href="#">积分兑换</a></li>
+                <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li>
                 <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li>
                 <li><a href="#">退款</a></li>
             </ol>

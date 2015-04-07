@@ -18,6 +18,16 @@
     <result column="process_user_id" jdbcType="INTEGER" property="processUserId" />
     <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
   </resultMap>
+  
+  <resultMap id="marksResultMap" type="com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="intention_id" jdbcType="INTEGER" property="intentionId" />
+    <result column="custom_id" jdbcType="INTEGER" property="customId" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="process_user_id" jdbcType="INTEGER" property="processUserId" />
+    <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbggenerated
@@ -79,5 +89,39 @@
     select id, quantity, name, phone, price, status, created_at, updated_at, customer_id, 
     process_user_id, process_user_name
     from customer_integral_converts
+  </select>
+  
+  <select id="count" resultType="int">
+  	 select count(id)
+    from customer_integral_converts
+    <where>
+    	    <if test="param1!=null">
+                and status=#{param1}
+            </if>
+    	    <if test="param2!=null">
+                and name like '%'#{param2}'%'
+            </if>
+    </where>
+  </select>
+  <select id="findPage" resultMap="BaseResultMap">
+ 
+    select id, quantity, name, phone,  status, created_at,  customer_id
+    from customer_integral_converts
+    <where>
+    	    <if test="param2!=null">
+                and status=#{param2}
+            </if>
+    	    <if test="param3!=null">
+                and name like '%'#{param3}'%'
+            </if>
+    </where>
+      order by created_at desc
+        limit #{param1.offset}, #{param1.pageSize}
+  </select>
+  
+  <select id="selectMarksById" resultMap="marksResultMap">
+ 	 select m.id,m.content,c.`name`,m.created_at from customer_intention_marks m 
+	left JOIN customers c on m.custom_id = c.id
+	where m.intention_id = #{param1}
   </select>
 </mapper>
