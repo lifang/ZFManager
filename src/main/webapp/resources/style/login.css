@@ -4,8 +4,6 @@ body { font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; color: #333; background: url(
 li { list-style: none;}
 a { text-decoration: none;}
 
-.red { color: #F00;}
-
 
 .login { width: 710px; height: 420px; background: #FFF; margin: 100px auto; box-shadow: 0 0 5px rgba(0,0,0,0.6);}
 .login_left { width: 309px; float: left; height: 420px;}
@@ -30,7 +28,6 @@ a { text-decoration: none;}
 .login_area { padding: 40px 20px;}
 .login_area li { margin-bottom: 20px; overflow: hidden;}
 .login_area li input { height: 42px; border: 1px #CCCCCC solid; width: 335px; padding: 0 10px; color: #999; float: left;}
-.login_area li input.error { border: 1px #F00 solid;}
 .login_area li input.l { width: 175px;}
 .login_area li .yzm { width: 150px; height: 42px; float: left; margin-left: 10px;}
 
@@ -54,13 +51,6 @@ a { text-decoration: none;}
 .btn button:hover { background: #037de2;}
 
 
-/*-------foot-------*/
-.foot { padding: 10px 0; overflow: hidden; color: #fff; width: 1200px; margin: 0 auto;}
-.foot .foot_nav { float: left; color: #fff;}
-.foot .foot_nav li { float: left;}
-.foot .foot_nav li a { color: #fff; margin: 0 10px;}
-.foot .foot_nav li a:hover { color: #0292f7;}
-.copyright { float: right; color: #666; color: #fff;}
 
 
 

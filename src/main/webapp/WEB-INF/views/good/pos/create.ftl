@@ -395,19 +395,19 @@ function submitData(){
     var shellMaterial=$("input[name='g_shellMaterial']").val();
     if(isNull(shellMaterial, "外壳材质不能为空!")){return false;}
     var price=$("input[name='g_price']").val();
-    if(isNull(price, "原价不能为空!") || isNotTwoDecimal(price, "原价必须为2位小数!")){return false;}
+    if(isNull(price, "原价不能为空!") || isNotTwoDecimal(price, "原价最多为2位小数!")){return false;}
     var retailPrice=$("input[name='g_retailPrice']").val();
-    if(isNull(retailPrice, "现价不能为空!") || isNotTwoDecimal(price, "现价必须为2位小数!")){return false;}
+    if(isNull(retailPrice, "现价不能为空!") || isNotTwoDecimal(price, "现价最多为2位小数!")){return false;}
 	var purchasePrice=$("input[name='g_purchasePrice']").val();
-    if(isNull(purchasePrice, "批购价不能为空!") || isNotTwoDecimal(purchasePrice, "批购价必须为2位小数!")){return false;}
+    if(isNull(purchasePrice, "批购价不能为空!") || isNotTwoDecimal(purchasePrice, "批购价最多为2位小数!")){return false;}
  	var floorPrice=$("input[name='g_floorPrice']").val();
-    if(isNull(floorPrice, "最低限价不能为空!") || isNotTwoDecimal(purchasePrice, "最低限价必须为2位小数!")){return false;}
+    if(isNull(floorPrice, "最低限价不能为空!") || isNotTwoDecimal(purchasePrice, "最低限价最多为2位小数!")){return false;}
  	var floorPurchaseQuantity=$("input[name='g_floorPurchaseQuantity']").val();
     if(isNull(floorPurchaseQuantity, "最小批购量不能为空!")){return false;}
  	var leaseDeposit=$("input[name='g_leaseDeposit']").val();
-    if(isNotTwoDecimal(leaseDeposit, "租赁押金必须为2位小数!")){return false;}
+    if(isNotTwoDecimal(leaseDeposit, "租赁押金最多为2位小数!")){return false;}
  	var leasePrice=$("input[name='g_leasePrice']").val();
-    if(isNotTwoDecimal(leasePrice, "月租金必须为2位小数!")){return false;}
+    if(isNotTwoDecimal(leasePrice, "月租金最多为2位小数!")){return false;}
     
  	var leaseTime=$("input[name='g_leaseTime']").val();
  	var returnTime=$("input[name='g_returnTime']").val();
@@ -490,7 +490,7 @@ function isNotNull(value){
 }
 
 function isNotTwoDecimal(value, error){
-	var re=/^\d+\.\d{2}$/;//2位小数
+	var re=/^\d+(\.\d{1,2})?$/;//2位小数
 	if(isNotNull(value) && !(re.test(value))){
 	 	showErrorTip(error);
 		return true;
