@@ -18,8 +18,18 @@ public class Good {
 	private String payChannelName;
 	//数量
 	private int quantity;
+	//终端号
+	private String terminalPort;
 	
 	
+	
+	
+	public String getTerminalPort() {
+		return terminalPort;
+	}
+	public void setTerminalPort(String terminalPort) {
+		this.terminalPort = terminalPort;
+	}
 	public int getBrandId() {
 		return brandId;
 	}

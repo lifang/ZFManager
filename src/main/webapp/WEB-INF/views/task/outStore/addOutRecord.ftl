@@ -2,30 +2,27 @@
 <@c.html>
      <div class="breadcrumb"> 
       <ul> 
-       <li><a href="#">商品</a></li> 
+       <li><a href="#">售后</a></li> 
        <li><a href="#">出库</a></li>
        <li><a href="#">添加出库记录</a></li> 
       </ul> 
      </div> 
      <div class="content clear"> 
       <div class="user_title">
+       <#if (outStorageId)??>
+      	<input type="text" id="outStorageId" style="display: none;" value="${outStorageId}"/>
+      </#if>	
        <h1>添加出库记录</h1> 
-       <div class="userTopBtnBox"> 
-        
-	   </div>
-      </div> 
-      <div class="seenBox clear"> 
+      </div>
        <div class="uesr_table"> 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table"> 
-		    <colgroup> 
-		     <col width="150"> 
-		     <col width="350"> 
-		     <col width="50"> 
-		     <col width="350">
+		    <colgroup>
+		      <col width="510"> 
+		      <col />
+              <col />
 		    </colgroup> 
 		    <thead> 
 		     <tr>
-		      <th></th> 
 		      <th>商品</th> 
 		      <th>数量</th> 
 		      <th>终端号</th>
@@ -34,201 +31,86 @@
 		    <tbody> 
 		     <#if (goods)??>
 			  <#list goods as good>
-			  	  <tr id="row_${good.id}"> 
-				      <td>${good.urlPath}</td> 
-				      <td>${good.title}<br/>
-				      		${good.brandName}<br/>
-				      		${good.channelName}
-				      </td>
-				      <td>${good.quantity}</td> 
-				      <td>
-				      	<input type="text"/>
-				      </td>
+			  	  <tr id="row_${good.id}">
+			  	  	<td>
+                        <div class="td_proBox clear">
+                            <a href="#" class="cn_img"><img src="${good.urlPath}" /></a>
+                            <div class="td_proBox_info">
+                                <h1><a href="#">${good.title}</a></h1>
+                                <h3>热销5000件</h3>
+                                <ul>
+                                    <li><span>品牌型号：</span><div class="c_text">${good.brandName}</div></li>
+                                    <li><span>支付通道：</span><div class="c_text">${good.channelName}</div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+			      	<td>${good.quantity}</td> 
+			      	<td class="text">
+			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}"></textarea>
+			      	</td>
 				   </tr>
 			  </#list>
 			</#if>
 		    </tbody> 
 		 </table> 
-		</div> 
-      </div> 
-      <div>
-		
-      	收货地址： <#if (address)??>${address}</#if> <br/>
-      	物流公司:<input type="text"/>
-      	物流单号：<input type="text"/>
-      </div>
-      <div class="btnBottom"><button class="blueBtn" onClick="submitData()">
-			确定
-		</button></div>
-     </div>
-<div class="mask"></div>
-
-<div class="tab putStorage_tab">
-    <a href="#" class="close">关闭</a>
-    <div class="tabHead">入库</div>
-    <div class="tabBody">
-        <textarea name="" cols="" rows="">输入终端号</textarea>
-    </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
-</div>
-
-<div class="tab approve_tab">
-    <a href="javascript:void(0);" class="close">关闭</a>
-    <div class="tabBody">
-        <div class="approve_con">
-            <h2>请确认产品可以通过审核</h2>
-            <p><input id="isThird" type="checkbox" /> 第三方库存</p>
+		</div>
+		<div class="attributes_box">
+        	<div class="item_list clear">
+            	<ul>
+                	<li class="b"><span class="labelSpan">收货地址：</span>
+                    <div class="text"> <#if (address)??>${address}</#if></div></li>
+                    <li class="block"><span class="labelSpan">物流公司：</span>
+                    <div class="text"><input name="" type="text" /></div></li>
+                    <li class="block"><span class="labelSpan">物流单号：</span>
+                    <div class="text"><input name="" type="text" /></div></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="tabFoot"><button class="blueBtn" id="checkSure">确认</button></div>
-</div>
+        <div class="btnBottom"><button class="blueBtn" onClick="submitData()">确认</button></div>
+      </div>
+     </div>
 
 <script type="text/javascript">
-
-	$(function(){
-		$('#select_status').change(function(){
-			var status = $(this).children('option:selected').val();
-			$("#hidden_status").val(status);
-			outStorePageChange(1);
-		});
+	function submitData(){
+		//物流公司
+		var wlCompanyStr=$("#wlCompany").val();
+		//物流单号
+		var wlNumStr=$("#wlNumStr").val();
 		
-		$("#btn_search").bind("click",
-	        function() {
-			var keys = $("#search_keys").val();
-			$("#hidden_keys").val(keys);
-			outStorePageChange(1);
-	    });
-       
-	});
-	
-	function outStorePageChange(page) {
-		var keys = $("#hidden_keys").val();
-		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/task/outStore/page" />',
-	            {"page": page,
-	             "keys": keys,
-	             "status": status
-	            },
-	            function (data) {
-	                $('#page_fresh').html(data);
-					popup(".putStorage_tab",".putStorage_a");//
-					popup(".approve_tab",".approve_a");//
-	            });
+	 	var terminals=$("input[id^='terminal_']");
+	 	var temp="";
+		for(var i=0;i<terminals.length;i++){
+			var id=$(terminals[i]).attr("id");
+			var goodId=id.substr(9,id.length-9);
+			var value=$(terminals[i]).val();
+			if(temp.length<1){
+				temp=goodId+"_"+value;
+			}else{
+				temp=temp+"|"+goodId+"_"+value;
+			}
+		}
+		
+		var outStorageIdStr=$("#outStorageId").val();
+		 $.ajax({
+            type: "post",
+            url: "/task/outStore/save",
+            data: {
+                id:outStorageIdStr,
+                wlCompany: wlCompanyStr,
+                wlNum:wlNumStr,
+                terminalNum:temp
+                    },
+            success: function (ret) {
+            	if(ret.resultCode=="-1"){
+            		alert("操作出错，错误信息为："+ret.resultInfo);
+            	}else if(ret.resultCode=="1"){
+            		//跳转
+            		window.location.href="#/task/outStore/list";
+            	}
+            }
+        });
+		
 	}
-
-    function checkBtn(id){
- 		$("#checkSure").click(function(){check(id)});
-    }
-
-	function firstUnCheck(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/firstUnCheck',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function firstCheck(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/firstCheck',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });	
-	}
-	
-	function unCheck(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/unCheck',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });	
-	}
-	
-	function check(id){
-		var isThird = $('#isThird').prop("checked");
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/check',
-				{"isThird":isThird},
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-					$('.approve_tab').hide();
-					$('.mask').hide();
-	            });
-	}
-	function stop(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/stop',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	function start(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/start',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function publish(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/publish',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function unPublish(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/unPublish',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function lease(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/lease',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function unLease(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/unLease',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function purchase(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/purchase',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
-	function unPurchase(id){
-		$.get('<@spring.url "" />'+'/good/pos/'+id+'/unPurchase',
-	            function (data) {
-	                $('#row_'+id).replaceWith(data);
-					popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
-					popup(".approve_tab",".approve_a");//通过审核
-	            });
-	}
-	
 </script>    
 </@c.html>
