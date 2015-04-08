@@ -7,6 +7,4 @@
         </ul>
     </div>
 <#include "../../common/pos/info_part.ftl"/>
-
-
 </@c.html>

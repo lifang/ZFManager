@@ -10,7 +10,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 public class SessionService {
 	
 	private static final String LOGIN_SESSION_KEY = "__LOGIN_KEY__";
-	
+
 	public boolean isLogged(HttpServletRequest request){
 		return getLoginInfo(request)!=null;
 	}
@@ -22,7 +22,7 @@ public class SessionService {
 	public Customer getLoginInfo(HttpServletRequest request) {
 		return (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);
 	}
-	
+
 	public void clear(HttpServletRequest request){
 		request.getSession().removeAttribute(LOGIN_SESSION_KEY);
 	}
