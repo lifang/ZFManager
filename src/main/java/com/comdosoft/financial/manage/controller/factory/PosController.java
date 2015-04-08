@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by Administrator on 15-4-7.
  */
-@Controller
+@Controller("FactoryPosController")
 @RequestMapping("/factory/pos")
 public class PosController {
 
