@@ -371,7 +371,7 @@
         var signOrderWayId=$("select[name='g_signOrderWay']").find("option:selected").val();
         if(isNull(signOrderWayId, "签购单打印方式不能为空!")){return false;}
         var cardTypes = new Array();
-        int index = 0;
+        var index = 0;
         $("input[name='g_cardType']").each(function(i) {
             if (this.checked) {
                 cardTypes[index]=$(this).attr("value");
