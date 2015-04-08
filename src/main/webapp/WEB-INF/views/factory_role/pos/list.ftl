@@ -61,7 +61,7 @@
     function posPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/factory/pos/page" />',
+        $.post('<@spring.url "/factory/pos/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status

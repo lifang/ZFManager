@@ -8,7 +8,7 @@
      </div> 
      <div class="content clear"> 
       <div class="user_title">
-       <h1>POS机列表</h1> 
+       <h1>POS机列表</h1>
        <div class="userTopBtnBox"> 
         <a href="<@spring.url "/good/pos/waitComment/list" />" class="ghostBtn">评论审核</a>
         <a href="<@spring.url "/good/pos/category/list" />" class="ghostBtn">管理POS机分类</a>
@@ -86,7 +86,7 @@
 	function posPageChange(page) {
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/good/pos/page" />',
+	    $.post('<@spring.url "/good/pos/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status
