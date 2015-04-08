@@ -57,6 +57,7 @@ public class OutStoreController {
 		model.addAttribute("outStorageId",id);
 		model.addAttribute("orderId",outStoreService.getOrderIdByOutStorageId(id));
 		model.addAttribute("operater",outStoreService.getOperater(id));
+		
 		model.addAttribute("orderDetails",outStoreService.getOrderDetailInfo(id));
 		Map<String, Object> map=outStoreService.getWLInfo(id);
 		if(null !=map){
@@ -91,12 +92,14 @@ public class OutStoreController {
 	 * @return
 	 */
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String saveTerminalNum(@RequestBody OutStore req,HttpServletRequest request,Model model){
+	@ResponseBody
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNum,HttpServletRequest request){
+		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.save(req,customer.getId());
-		model.addAttribute("resultCode",map.get("resultCode"));
-		model.addAttribute("resultInfo",map.get("resultInfo"));
-		return "task/outStore/addOutRecord";
+		Map<String, Object> map= outStoreService.save(id,wlCompany,wlNum,terminalNum,customer.getId());
+		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+		response.setMessage(map.get("resultInfo").toString());
+		return response;
 	}
 	/**
 	 * 将出库单状态改为取消 status=1
@@ -110,7 +113,7 @@ public class OutStoreController {
 	public Response checkCancel(Integer id,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.checkCancel(1,customer.getId(),id);
+		Map<String, Object> map= outStoreService.checkCancel(2,customer.getId(),id);
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -123,13 +126,15 @@ public class OutStoreController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/saveRemark",method=RequestMethod.POST)
-	public String saveRemark(@RequestBody OutStore req,HttpServletRequest request,Model model){
+	@RequestMapping(value="saveRemark",method=RequestMethod.POST)
+	@ResponseBody
+	public Response saveRemark(int id,String remarkContent,HttpServletRequest request){
+		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.saveRemark(req,customer.getId());
-		model.addAttribute("resultCode",map.get("resultCode"));
-		model.addAttribute("resultInfo",map.get("resultInfo"));
-		return "task/outStore/addOutRecord";
+		Map<String, Object> map= outStoreService.saveRemark(id,remarkContent,customer.getId());
+		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+		response.setMessage(map.get("resultInfo").toString());
+		return response;
 	}
 	
 	private void findPage(Integer page, Byte status, String keys, Model model){
@@ -143,5 +148,15 @@ public class OutStoreController {
 		model.addAttribute("outStores", outStores);
 	}
 	
+	@RequestMapping(value="distribute",method=RequestMethod.POST)
+	@ResponseBody
+	public Response distribute(String ids,String customerId,String customerName,HttpServletRequest request){
+		Response response=new Response();
+		Customer customer=sessionService.getLoginInfo(request);
+		Map<String, Object> map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId());
+		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+		response.setMessage(map.get("resultInfo").toString());
+		return response;
+	}
 	
 }
