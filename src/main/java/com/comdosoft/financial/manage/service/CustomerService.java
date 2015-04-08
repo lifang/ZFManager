@@ -29,7 +29,7 @@ public class CustomerService {
     private CustomerRoleRelationMapper customerRoleRelationMapper;
 
 	/**
-	 * 登陆查询
+	 * 登陆查询 超级管理员 运营 第三方机构
 	 * @param passport
 	 * @param password
 	 * @return

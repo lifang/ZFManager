@@ -26,7 +26,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="renderer" content="webkit">
-    <title>运营中心</title>
+    <title>第三方机构</title>
     <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css"/>
     <link href="<@spring.url "/resources/jquery-ui-1.11.3/jquery-ui.min.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
@@ -83,7 +83,7 @@
     <ul>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>订单管理</a></li>
         <li><a href="<@spring.url "factory/channel/list"/>"<#if urlCheck(request,"factory/channel")> class="hover"</#if>>支付通道</a></li>
-        <li><a href="<@spring.url "factory/channel/pos"/>"<#if urlCheck(request,"factory/pos")> class="hover"</#if>>POS机管理</a></li>
+        <li><a href="<@spring.url "factory/pos/list"/>"<#if urlCheck(request,"factory/pos")> class="hover"</#if>>POS机管理</a></li>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>管理终端</a></li>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>管理账号</a></li>
     </ul>

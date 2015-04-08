@@ -8,6 +8,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -32,11 +33,18 @@ public class PosController {
         return "factory_role/pos/list";
     }
 
-    @RequestMapping(value="page",method=RequestMethod.GET)
+    @RequestMapping(value="page",method=RequestMethod.POST)
     public String page(Integer page, Byte status, String keys, Model model, HttpServletRequest request){
         Customer customer = sessionService.getLoginInfo(request);
         findPage(customer.getId(), page, status, keys, model);
         return "factory_role/pos/pagePos";
+    }
+
+    @RequestMapping(value="{id}/info",method=RequestMethod.GET)
+    public String info(@PathVariable Integer id, Model model){
+        Good good = goodService.findGoodInfo(id);
+        model.addAttribute("good", good);
+        return "factory_role/pos/info";
     }
 
     private void findPage(Integer customerId, Integer page, Byte status, String keys, Model model){
