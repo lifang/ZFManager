@@ -1,4 +1,5 @@
 <#import "../../page.ftl" as pager>
+<#import "assign.ftl" as assign />
 <div class="user_table">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
 		<colgroup>
@@ -30,4 +31,5 @@
 		</tbody> 
 	</table>
 </div>
+<@assign.assign name="calculus" page=integral.currentPage suspend=1/>
 <@pager.p page=integral.currentPage totalPages=integral.totalPage functionName="pageChange"/>	

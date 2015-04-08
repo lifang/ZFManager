@@ -103,4 +103,12 @@ public class CustomerIntegralConvertService {
 	public List<CustomerIntentionMark> findMarksById(Integer id) {
 		return customerIntegralConvertMapper.selectMarksById(id);
 	}
+
+	public void dispatch(String ids, Integer customerId, String customerName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", ids.split(","));
+		params.put("customerId", customerId);
+		params.put("customerName", customerName);
+		customerIntegralConvertMapper.dispatchUserByIds(params);
+	}
 }

@@ -5,6 +5,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerIntegralConvertMapper {
 
@@ -48,4 +49,6 @@ public interface CustomerIntegralConvertMapper {
 	int insertMark(CustomerIntentionMark record);
 	
 	List<CustomerIntentionMark> selectMarksById(Integer id);
+
+	void dispatchUserByIds(Map<String, Object> params);
 }

@@ -80,10 +80,10 @@ public class CalculusController {
 		customerIntegralConvertService.finish(id);
 	}
 	
-//	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-//	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
-//		csUpdateService.dispatch(ids, customerId, customerName);
-//	}
+	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
+	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+		customerIntegralConvertService.dispatch(ids, customerId, customerName);
+	}
 	
 	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
 	public String createMark(HttpServletRequest request, Integer csUpdateId, String content, Model model) {

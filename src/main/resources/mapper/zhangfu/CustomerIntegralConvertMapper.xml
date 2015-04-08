@@ -135,4 +135,9 @@
 	      #{processUserName,jdbcType=VARCHAR})
   </insert>
   
+   <update id="dispatchUserByIds">
+      update customer_integral_converts set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
+  
 </mapper>

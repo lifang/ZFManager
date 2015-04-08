@@ -1,4 +1,5 @@
 <#import "../../common.ftl" as c />
+
 <@c.html>
 <div class="breadcrumb">
                     <ul>
@@ -11,7 +12,7 @@
                     <div class="user_title">
                     	<h1>积分兑换申请详情</h1>
                         <div class="userTopBtnBox">
-                        	<a href="#" class="ghostBtn">分派</a>
+                        		<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
                      	</div>
                     </div>
                     <div class="attributes_box">
