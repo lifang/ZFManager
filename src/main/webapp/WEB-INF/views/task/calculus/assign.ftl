@@ -37,7 +37,7 @@
            		}
             });
             
-            $.get('<@spring.url "/task/calculus/dispatch" />',
+            $.get('<@spring.url "/cs/dispatch" />',
 	            {}, function (data) {
 	            	$('#dispatch_select').append('<p class="assign_tab_p">将选中的 <span class="orangeText">'+dispatchIds.length+'</span> 条<span class="orangeText">待处理</span>任务分派给</p>')
 	                $('#dispatch_select').append(data);

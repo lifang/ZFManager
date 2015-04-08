@@ -57,9 +57,12 @@ public class CalculusController {
 	}
 	
 	@RequestMapping(value = "{id}/info", method = RequestMethod.GET)
-	public String info(@PathVariable Integer id, Model model) {
+	public String info(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		CustomerIntegralConvert integralInfo = customerIntegralConvertService.findInfoById(id);
 		List<CustomerIntentionMark> integralInfoMarks = customerIntegralConvertService.findMarksById(id);
+		Customer customer = sessionService.getLoginInfo(request);
+		model.addAttribute("user_id", customer.getId());
+		model.addAttribute("user_name", customer.getName());
 		model.addAttribute("integralInfo", integralInfo);
 		model.addAttribute("integralInfoMarks", integralInfoMarks);
 		return "task/calculus/info";

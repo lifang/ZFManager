@@ -1,5 +1,4 @@
 <#import "../../common.ftl" as c />
-
 <@c.html>
 <div class="breadcrumb">
                     <ul>
@@ -13,23 +12,26 @@
                     	<h1>积分兑换申请详情</h1>
                         <div class="userTopBtnBox">
                         		<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+                        		
+                        		
                      	</div>
                     </div>
                     <div class="attributes_box">
                     	<h2>兑换信息</h2>
                         <div class="attributes_list_s clear">
                             <ul>
-                                <li>编号：${integralInfo.applyNum}</li>
+                                <li>编号：${integralInfo.applyNum!}</li>
                                 <li>处理人：${integralInfo.processUserName!}</li>
                                 <li>申请用户：${integralInfo.name!}</li>
                                 <li>用户电话：${integralInfo.phone!}</li>
                                 <li>申请时间：${integralInfo.createdAt?datetime}</li>
                                 <li>兑换积分数：${integralInfo.quantity!}</li>
-                                <li>兑换金额：<strong>￥${integralInfo.price/100!}</strong></li>
+                                <li>兑换金额：<strong>￥${integralInfo.price/100!}</strong></li><
+								<input type="hidden" name="sq_person" id="sq_person" value="${integralInfo.processUserName!}">
                             </ul>
                         </div> 
                     </div>
-                 
+              
                     <div class="user_remark">
 						<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
 						<button class="whiteBtn" onClick="onMark();">备注</button>
@@ -43,6 +45,15 @@
 					</div>
                   
             	</div>
+			<div class="tab assign_tab">
+				<a class="close">关闭</a>
+				<div class="tabHead">任务分派</div>
+				<div id="dispatch_select" class="tabBody">
+				</div>
+				<div id="dispatch_submit" class="tabFoot">
+					<button class="blueBtn close" onClick="onDispatch();">确定</button>
+				</div>
+			</div>
 
 <script type="text/javascript">
 
@@ -66,5 +77,38 @@
 	    	 	}
 	         });
 	}	
+	
+	
+	$(function() {
+		var person = $("#sq_person").val();
+		$("#btn_dispatch").unbind("click");
+		$("#btn_dispatch").bind("click", function() {
+		if(person !=""){
+			  	alert("已经分派给："+person);
+			    return;
+	   }else{
+	   		console.log("还没指派");
+	  	 $('#dispatch_select').empty();
+		 	$('#dispatch_select').append('<p class="assign_tab_p">1条待处理</span>任务分派给${user_name}</p>')
+            popup(".assign_tab",".assign_a");//分派
+		  }
+	    });
+	});
+	
+	function onDispatch() {
+		var ids = [];
+		ids.push(${integralInfo.id!});
+		var customerId = "${user_id}";
+		var customerName = "${user_name}";
+		$.post('<@spring.url "" />'+'/task/calculus/dispatch',
+	            {"ids": ids.join(','),
+	            "customerId":customerId,
+	            "customerName":customerName}, function (data) {
+	            	location.reload();
+	            });
+	}
+	
+	
+	
 </script>
 </@c.html>
