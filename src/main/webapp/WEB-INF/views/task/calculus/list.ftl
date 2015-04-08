@@ -26,7 +26,7 @@
 				<div class="user_select"> 
 					<label>状态筛选</label> 
 					<select id="select_status"> 
-						<option value="-1">全部</option> 
+						<option value="">全部</option> 
 						<option value="1">待处理</option> 
 						<option value="2">处理中</option> 
 						<option value="4">处理完成</option>

@@ -88,7 +88,7 @@ public class CalculusController {
 	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
 	public String createMark(HttpServletRequest request, Integer csUpdateId, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsUpdateInfoMark csUpdateMark = customerIntegralConvertService.createMark(customer, csUpdateId, content);
+    	CustomerIntentionMark csUpdateMark = customerIntegralConvertService.createMark(customer, csUpdateId, content);
     	model.addAttribute("mark", csUpdateMark);
         return "cs/mark";
     }

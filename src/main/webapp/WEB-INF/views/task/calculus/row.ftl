@@ -1,6 +1,6 @@
 <tr>
 	<td><input name="cb_row" type="checkbox" value="" cs_id="${integral.id!}" cs_status="${integral.status!}" cs_num="${integral.applyNum!}"/></td>
-	<td>${integral.id!}</td>
+	<td>${integral.applyNum!}</td>
 	<td>${integral.name!}</td>
 	<td>${integral.phone!}</td>
 	<td>${integral.createdAt?datetime}</td>

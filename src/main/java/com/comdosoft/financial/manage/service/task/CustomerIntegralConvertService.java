@@ -86,17 +86,18 @@ public class CustomerIntegralConvertService {
  
 	
 	@Transactional("transactionManager")
-	public CsUpdateInfoMark createMark(Customer customer, Integer csUpdateId, String content) {
-//		handle(csUpdateId);
+	public CustomerIntentionMark createMark(Customer customer, Integer csUpdateId, String content) {
+		handle(csUpdateId);
 //		
-		CsUpdateInfoMark csUpdateMark = new CsUpdateInfoMark();
-//		csUpdateMark.setCustomerId(customer.getId());
-//		csUpdateMark.setCsUpdateInfoId(csUpdateId);
-//		csUpdateMark.setCreatedAt(new Date());
-//		csUpdateMark.setContent(content);
-//		customerIntegralConvertMapper.insert(csUpdateMark);
-//		csUpdateMark.setCustomer(customer);
-		return csUpdateMark;
+		CustomerIntentionMark intentionMark = new CustomerIntentionMark();
+		intentionMark.setCustomId(customer.getId());
+		intentionMark.setContent(content);
+		intentionMark.setCreatedAt(new Date());
+		intentionMark.setIntentionId(csUpdateId);
+		intentionMark.setProcessUserId(customer.getId());
+		intentionMark.setProcessUserName(customer.getName());
+		customerIntegralConvertMapper.insertMark(intentionMark);
+		return intentionMark;
 	}
 	
 	public List<CustomerIntentionMark> findMarksById(Integer id) {

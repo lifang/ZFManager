@@ -45,5 +45,7 @@ public interface CustomerIntegralConvertMapper {
 
 	void updateStatus(CustomerIntegralConvert integralConvert);
 
+	int insertMark(CustomerIntentionMark record);
+	
 	List<CustomerIntentionMark> selectMarksById(Integer id);
 }
