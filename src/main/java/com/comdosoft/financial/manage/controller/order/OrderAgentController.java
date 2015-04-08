@@ -45,7 +45,6 @@ public class OrderAgentController {
 	private GoodService goodService;
 	@Autowired
 	private PayChannelService payChannelService;
-	
 
 	@RequestMapping(value = "/agent/list", method = RequestMethod.GET)
 	public String listAgent(Integer page, Byte status, String keys,
@@ -66,7 +65,6 @@ public class OrderAgentController {
 		findPage(page, status, keys, factoryId, model, types);
 		return "order/agent/page";
 	}
-
 
 	private void findPage(Integer page, Byte status, String keys,
 			Integer factoryId, Model model, List<Byte> types) {
@@ -93,7 +91,7 @@ public class OrderAgentController {
 
 	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request, Model model,
-			Integer goodId, Integer quantity,Integer payChannelId,Byte type) {
+			Integer goodId, Integer quantity, Integer payChannelId, Byte type) {
 		List<CustomerAddress> selectCustomerAddress = null;
 		List<City> cities = cityService.cities(0);
 		Good good = goodService.findGoodInfo(goodId);
@@ -106,12 +104,13 @@ public class OrderAgentController {
 		model.addAttribute("type", type);
 		return "order/agent/create";
 	}
-	
+
 	@RequestMapping(value = "/agent/{orderId}/createAgain", method = RequestMethod.GET)
 	public String createAgainGet(HttpServletRequest request, Model model,
 			@PathVariable Integer orderId) {
 		Order order = orderService.findOrderInfo(orderId);
-		List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(order.getCustomerId());
+		List<CustomerAddress> selectCustomerAddress = customerAddressService
+				.selectCustomerAddress(order.getCustomerId());
 		List<City> cities = cityService.cities(0);
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
@@ -119,7 +118,7 @@ public class OrderAgentController {
 		model.addAttribute("type", order.getTypes());
 		return "order/agent/create";
 	}
-	
+
 	@RequestMapping(value = "/agent/createSure", method = RequestMethod.GET)
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
@@ -136,17 +135,18 @@ public class OrderAgentController {
 		findPage(1, null, null, null, model, types);
 		return "order/agent/list";
 	}
-	
+
+	/**
+	 * 再次订购确认订单
+	 * @throws Exception 
+	 */
 	@RequestMapping(value = "/agent/createSureAgain", method = RequestMethod.GET)
 	public String createSureAgainGet(HttpServletRequest request, Model model,
-			Integer orderId, Integer quantity, String comment,
+			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer payChannelId,
-			Integer customerId) {
-		orderService
-				.save(customerId, orderId, quantity, comment, invoiceInfo,
-						customerAddressId, invoiceType, needInvoice, type,
-						payChannelId);
+			Boolean needInvoice, int type, Integer customerId) throws Exception {
+		orderService.save(customerId, orderId, goodQuantity, comment,
+				invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
@@ -162,7 +162,7 @@ public class OrderAgentController {
 		model.addAttribute("order", order);
 		return "order/agent/row";
 	}
-	
+
 	@RequestMapping(value = "/agent/info/{id}/save", method = RequestMethod.GET)
 	public String saveInfo(@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
@@ -179,7 +179,7 @@ public class OrderAgentController {
 		model.addAttribute("order", order);
 		return "order/agent/row";
 	}
-	
+
 	@RequestMapping(value = "/agent/info/{id}/cancel", method = RequestMethod.GET)
 	public String cancleInfo(@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);

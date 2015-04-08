@@ -28,9 +28,10 @@
 		    <td>
 		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" checked="ture" />
+		    		<!--
 		    		<script type="text/javascript">
 		    			selectCustomerAddress(${customerAddress.id!""});
-		    		</script>
+		    		</script>-->
 		    	<#else>
 		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" />
 		    	</#if>
@@ -44,7 +45,7 @@
 		    <td>${customerAddress.address!""}</td>
 		    <td>${customerAddress.zipCode!""}</td>
 		    <td>${customerAddress.moblephone!""}</td>
-		    <td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2,${customerAddress.customerId!""});">删除</a></td>
+		    <td><a href="#" class="a_btn remark_a" onclick="updateAddressEx(${customerAddress.id!""});">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2,${customerAddress.customerId!""});">删除</a></td>
 		    <td>
 		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 		    		<span class="defaultAddr">默认地址</span>
@@ -74,6 +75,12 @@
 		    <td>&nbsp;</td>
 		  </tr>
         </table>
+        
+<div class="tab remark_tab" id="customerAddressTab_fresh">
+    	<#include "customerAddressTab.ftl" />
+</div>
+
+
 <script type="text/javascript">
 	 $('#provinceSelect').change(function(){
         var provinceId = $(this).children('option:selected').val();
@@ -99,6 +106,16 @@
 	            },
 	            function (data) {
 	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
+	function updateAddressEx(id){
+		popup(".remark_tab",".remark_a");
+		$.get('<@spring.url "/order/customer/address/get" />',
+	            {"id": id
+	            },
+	            function (data) {
+	               $('#customerAddressTab_fresh').html(data);
 	            });
 	}
 	

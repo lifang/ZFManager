@@ -308,4 +308,13 @@
         where g.id=#{param1}
     </select>
 
+	<select id="selectGoodsByIds" resultMap="BaseResultMap">
+        select g.*
+        from goods g
+        where g.id in 
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
+		  #{item}  
+		</foreach>   
+    </select>
+	
 </mapper>

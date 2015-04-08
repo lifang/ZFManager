@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.mapper.zhangfu.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -610,6 +611,10 @@ public class GoodService {
 			}
 		}
 		return goods;
+	}
+	
+	public List<Good> selectGoodsByIds(List<Integer> goodIds){
+		return goodMapper.selectGoodsByIds(goodIds);
 	}
 
 }
