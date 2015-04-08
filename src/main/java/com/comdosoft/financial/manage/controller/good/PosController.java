@@ -343,7 +343,7 @@ public class PosController {
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Good> goods = goodService.findPages(page, status, keys);
+		Page<Good> goods = goodService.findPages(null, page, status, keys);
 		model.addAttribute("goods", goods);
 	}
 

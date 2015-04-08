@@ -27,11 +27,6 @@
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
   </resultMap>
 
-
-
-
-
-
 	<sql id="pageWhere">
 		<where>
 			<if test="status != null"> AND status =#{status} </if>
@@ -40,7 +35,7 @@
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
-		select a.id,a.created_at,a.order_id,a.status from cs_out_storages a 
+		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_id,a.status from cs_out_storages a 
 		where 1=1 order by a.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 		
 		<!-- 	<include refid="pageWhere" /> -->
@@ -66,10 +61,62 @@
 		left join goods b on a.good_id=b.id where a.order_id=#{id}
 	</select>
 	
-	<select id="getAddressInit" resultType="java.lang.String">
+	<select id="getAddressInit" resultType="String">
 		select a.address from customer_addresses a where a.id=
 		(select b.customer_address_id from orders b where b.id=
 		(select c.order_id from cs_out_storages c where c.id=#{id} ))
 	</select>
-
+	
+	<select id="getInfoInit" resultType="map">
+select c.address,c.receiver,a.invoice_info as invoiceInfo,a.invoice_type as invoiceType,a.comment,a.types,a.order_number as orderNumber,
+b.name,a.payed_at as payedAt,d.pay_type as payType,
+ifnull((select name from factories where id=(select factory_id from goods where id=(select good_id from order_goods where order_id=1))),'掌富') as factoryName,
+process_user_name as processUserName,
+a.total_price as oldPrice,a.actual_price as actualPrice from orders a left join customers b on a.customer_id=b.id
+left join customer_addresses c on c.customer_id=a.customer_id
+left join order_payments d on a.id=d.order_id
+left join order_goods e on e.order_id =a.id
+where a.id=#{orderId}
+	</select>
+	
+	<select id="getOrderIdByOutStorageId" resultType="int">
+		select order_id as orderId from cs_out_storages where id=#{id}
+	</select>
+	
+	
+	<insert id="saveWLInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into order_logistics(order_id,logistics_name,logistics_number,created_at,updated_at)
+		values(#{orderId},#{wlCompany},#{wlNum},now(),now())
+   </insert>
+	
+   <insert id="saveTerminalNum" useGeneratedKeys="true" keyProperty="id">
+		insert into in_out_storages(order_id,good_id,terminal_number,created_at,created_user_id) 
+		values(#{orderId},#{goodId},#{port},now(),#{loginId})
+   </insert>
+   
+   <select id="getTerminalNum" resultType="map">
+		select terminal_number as num from in_out_storages where order_id=#{orderId} and good_id=#{goodId}
+	</select>
+   
+   <select id="getOperater" resultType="map">
+		select a.name from customers a left join in_out_storages b on a.id=b.created_user_id
+			where b.order_id=#{orderId} group by b.order_id
+	</select>
+   
+   <select id="getRemarks" resultType="map">
+		select a.content,b.name as userName,a.created_at as operateTime from  cs_out_storage_marks a left join customers b on a.customer_id = b.id where a.cs_out_storage_id=#{id} order by a.created_at desc
+	</select>
+   
+	<select id="getWLByOrderId" resultType="map">
+		select logistics_name as wlName,logistics_number as wlNum,id from order_logistics where order_id=#{orderId}
+	</select>
+	
+	<update id="changeStatus">
+		update cs_out_storages set process_user_id=#{loginId},process_user_name=(select name from customers where id=#{loginId}),status=#{status},updated_at=now() where id=#{id}
+	</update>
+	
+	<insert id="saveRemark" useGeneratedKeys="true" keyProperty="id">
+		insert into cs_out_storage_marks(cs_out_storage_id,customer_id,content,created_at) 
+		values(#{id},#{loginId},#{content},now())
+   </insert>
 </mapper>

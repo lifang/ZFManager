@@ -175,7 +175,8 @@
 
 	<sql id="pageWhere">
 		<where>
-			<if test="status != null"> AND status =#{status} </if>
+          <if test="factoryId != null"> AND factory_id =#{factoryId} </if>
+          <if test="status != null"> AND status =#{status} </if>
 			<if test="keys != null"> AND (title like #{keys} or second_title like #{keys} or
 				key_worlds like #{keys}) </if>
 		</where>

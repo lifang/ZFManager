@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,25 @@ public interface OutStoreMapper {
 	
     List<Good> getGoodInfoInit(int id);
 	
-	String getAddressInit(int id);
+	Map<String, Object> getAddressInit(int id);
+	
+	Map<String, Object> getOrderIdByOutStorageId(@Param("id") int id);
+	
+	int saveWLInfo(@Param("wlCompany") String wlCompany,@Param("wlNum") String wlNum,@Param("orderId") int orderId);
+	
+	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId);
+	
+	Map<String, Object> getWLByOrderId(@Param("orderId") int orderId);
+	
+	int changeStatus(@Param("status") int status,@Param("loginId") int loginId,@Param("id") int id);
+	
+	List<String> getTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId);
+	
+	String getOperater(@Param("orderId") int orderId);
+	
+	List<Map<String, Object>> getRemarks(@Param("id") int id);
+	
+	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
+	
+	Map<String, Object> getInfoInit(@Param("orderId") int orderId);
 }

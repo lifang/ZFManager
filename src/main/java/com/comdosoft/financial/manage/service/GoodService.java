@@ -4,26 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.comdosoft.financial.manage.domain.zhangfu.*;
+import com.comdosoft.financial.manage.mapper.zhangfu.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Good;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodBrand;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodCardType;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodRelation;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodsPayChannel;
-import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
-import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
-import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodBrandMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodCardTypeMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodRelationMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPayChannelMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -44,23 +32,33 @@ public class GoodService {
 	@Autowired
 	private GoodsPictureMapper goodsPictureMapper;
 	@Autowired
-	private GoodRelationMapper goodRelationMapper ;
+	private GoodRelationMapper goodRelationMapper;
+	@Autowired
+	private FactoryMapper factoryMapper;
 	
-	public Page<Good> findPages(int page, Byte status, String keys){
+	public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
+		Integer factoryId = null;
+		if(customerId != null){
+			Factory factory = factoryMapper.findFactoryByCustomerId(customerId);
+			if(factory != null) {
+				factoryId = factory.getId();
+			}
+		}
+
 		if (keys != null) {
 			keys = "%"+keys+"%";
 		}
-		long count = goodMapper.countByKeys(status, keys);
+		long count = goodMapper.countByKeys(factoryId, status, keys);
 		if (count == 0) {
 			return new Page<Good>(new PageRequest(1, pageSize), new ArrayList<Good>(), count);
 		}
 		
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Good> result = goodMapper.findPageGoodsByKeys(request, status, keys);
+		List<Good> result = goodMapper.findPageGoodsByKeys(request, factoryId, status, keys);
 		Page<Good> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
-			result = goodMapper.findPageGoodsByKeys(request, status, keys);
+			result = goodMapper.findPageGoodsByKeys(request, factoryId, status, keys);
 			goods = new Page<>(request, result, count);
 		}
 		return goods;
@@ -613,4 +611,5 @@ public class GoodService {
 		}
 		return goods;
 	}
+
 }
