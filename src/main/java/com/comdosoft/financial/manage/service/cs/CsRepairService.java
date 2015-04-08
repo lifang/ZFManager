@@ -174,7 +174,8 @@ public class CsRepairService {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
-		csRepair.setReturnAddressId(csReceiverAddress.getId());
+		csRepair.setApplyNum(String.valueOf(System.currentTimeMillis()));
+		csRepair.setReceiveAddressId(csReceiverAddress.getId());
 		csRepair.setProcessUserId(customer.getId());
 		csRepair.setProcessUserName(customer.getName());
 		csRepair.setRepairPrice(repairPrice);
