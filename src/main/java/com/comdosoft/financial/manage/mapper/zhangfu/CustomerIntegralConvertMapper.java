@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerIntegralConvertMapper {
 
@@ -34,4 +38,17 @@ public interface CustomerIntegralConvertMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CustomerIntegralConvert record);
+	
+	int count(Byte status, String keyword);
+
+	List<CustomerIntegralConvert> findPage(PageRequest request, Byte status,
+			String keyword);
+
+	void updateStatus(CustomerIntegralConvert integralConvert);
+
+	int insertMark(CustomerIntentionMark record);
+	
+	List<CustomerIntentionMark> selectMarksById(Integer id);
+
+	void dispatchUserByIds(Map<String, Object> params);
 }

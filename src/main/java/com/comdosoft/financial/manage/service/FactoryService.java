@@ -37,6 +37,10 @@ public class FactoryService {
 		return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_PAYMENT, Factory.STATUS_CHECKED);
 	}
 
+    public Factory findCustomerFactory(Integer customerId){
+        return factoryMapper.findFactoryByCustomerId(customerId);
+    }
+
     public List<Factory> findCheckedPayFactories(){
         return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_PAYMENT, Factory.STATUS_CHECKED);
     }

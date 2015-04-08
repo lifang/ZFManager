@@ -52,7 +52,7 @@ public class PosController {
 		return "good/pos/list";
 	}
 	
-	@RequestMapping(value="page",method=RequestMethod.GET)
+	@RequestMapping(value="page",method=RequestMethod.POST)
 	public String page(Integer page, Byte status, String keys, Model model){
 		findPage(page, status, keys, model);
 		return "good/pos/pagePos";

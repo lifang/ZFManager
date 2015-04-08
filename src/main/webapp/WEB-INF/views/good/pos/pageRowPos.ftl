@@ -1,7 +1,7 @@
      <tr id="row_${good.id}"> 
       <td>${good.title!}</td> 
       <td> ${(good.goodBrand.name)!""}&nbsp;${good.modelNumber!""}</td>
-      <td>${good.quantity}</td> 
+      <td>${good.quantity!0}</td>
       <td><#if good.belongsTo??>是</#if></td> 
       <td><strong class="strong_status">
        <#if good.status=1>待审核

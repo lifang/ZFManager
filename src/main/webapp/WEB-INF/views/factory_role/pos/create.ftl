@@ -3,7 +3,6 @@
 
 	<div class="breadcrumb">
         <ul>
-            <li><a href="#">商品</a></li>
             <li><a href="#">POS机管理</a></li>
             <#if good??>
             <li><a href="#">编辑POS机</a></li>

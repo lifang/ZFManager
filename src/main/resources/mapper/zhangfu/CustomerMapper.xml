@@ -96,11 +96,15 @@
   </select>
   
   <select id="selectByLogin" resultMap="BaseResultMap">
-  	<bind name="NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL" />
-  	select id, username, password, account_type, name, city_id, types, last_logined_at, 
+    <bind name="NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL" />
+    <bind name="TYPE_OPERATE" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_OPERATE" />
+    <bind name="TYPE_SUPER" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_SUPER" />
+    <bind name="TYPE_THIRD_PARTY" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_THIRD_PARTY" />
+      select id, username, password, account_type, name, city_id, types, last_logined_at,
     integral, status, device_code, created_at, updated_at, phone, email
     from customers
     where username=#{param1} and password=#{param2} and status=#{NORMAL}
+      and types in (#{TYPE_OPERATE},#{TYPE_SUPER},#{TYPE_THIRD_PARTY})
   </select>
   
   <select id="selectCustomerPageList" resultMap="BaseResultMap">

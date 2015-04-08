@@ -8,7 +8,7 @@
     <div class="content clear">
         <div class="user_title"><h1>POS机列表</h1>
             <div class="userTopBtnBox">
-                <a href="#" class="ghostBtn">创建POS机</a>
+                <a href="<@spring.url "/factory/pos/create" />" class="ghostBtn">创建POS机</a>
             </div>
         </div>
 
@@ -61,7 +61,7 @@
     function posPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/factory/pos/page" />',
+        $.post('<@spring.url "/factory/pos/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status
