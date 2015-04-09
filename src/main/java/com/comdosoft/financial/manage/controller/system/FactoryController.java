@@ -126,7 +126,7 @@ public class FactoryController {
     }
 
     @RequestMapping(value="{id}/edit",method=RequestMethod.GET)
-    public String edit(@PathVariable Integer id, Model model) throws Exception{
+    public String edit(@PathVariable Integer id, Model model) {
         Factory factory = factoryService.findFactoryInfo(id);
         List<CustomerAddress> addresses = customerAddressService.selectCustomerAddress(factory.getCustomerId());
         if(addresses != null && addresses.size() > 0){

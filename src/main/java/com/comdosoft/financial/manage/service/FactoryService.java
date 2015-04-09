@@ -232,6 +232,8 @@ public class FactoryService {
             customerAddress.setAddress(address);
             customerAddress.setMoblephone(cellphone);
             customerAddress.setCustomerId(factory.getCustomerId());
+            customerAddress.setIsDefault(CustomerAddress.DEFAULT_TRUE);
+            customerAddress.setStatus(CustomerAddress.STATUS_NORMAL);
             customerAddress.setCreatedAt(new Date());
             customerAddress.setUpdatedAt(new Date());
             customerAddressMapper.insert(customerAddress);

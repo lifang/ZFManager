@@ -1,7 +1,9 @@
 package com.comdosoft.financial.manage.service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -27,6 +29,8 @@ public class CustomerService {
 	private CustomerMapper customerMapper;
     @Autowired
     private CustomerRoleRelationMapper customerRoleRelationMapper;
+    @Autowired
+    private CustomerAddressMapper customerAddressMapper;
 
 	/**
 	 * 登陆查询 超级管理员 运营 第三方机构
@@ -227,5 +231,47 @@ public class CustomerService {
     		customerName="%"+customerName+"%";
     	}
     	return customerMapper.searchCustomer(customerName);
+    }
+
+    @Transactional("transactionManager")
+    public boolean modifyPwdAndAddress(Integer id, String oldPwd, String newPwd,
+                                    Integer cityId, String address, String cellphone){
+        Customer c = customerMapper.selectByPrimaryKey(id);
+        if(oldPwd != null && newPwd != null
+                && !oldPwd.equals("") && !newPwd.equals("")){
+            String md5Password = DigestUtils.md5Hex(oldPwd);
+            if(!md5Password.equals(c.getPassword())){
+                return false;
+            }
+            md5Password = DigestUtils.md5Hex(newPwd);
+            c.setPassword(md5Password);
+            customerMapper.updateByPrimaryKey(c);
+        }
+
+        List<CustomerAddress> customerAddresses = customerAddressMapper.selectCustomerAddress(c.getId());
+        CustomerAddress customerAddress = null;
+        if(customerAddresses ==null || customerAddresses.size() == 0){
+            customerAddress = new CustomerAddress();
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setCustomerId(c.getId());
+            customerAddress.setIsDefault(CustomerAddress.DEFAULT_TRUE);
+            customerAddress.setStatus(CustomerAddress.STATUS_NORMAL);
+            customerAddress.setCreatedAt(new Date());
+            customerAddress.setUpdatedAt(new Date());
+            customerAddressMapper.insert(customerAddress);
+        } else {
+            customerAddress = customerAddresses.get(0);
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setUpdatedAt(new Date());
+        }
+
+        customerAddressMapper.updateByPrimaryKey(customerAddress);
+
+        return true;
+
     }
 }
