@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import com.comdosoft.financial.manage.domain.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import com.comdosoft.financial.manage.service.MerchantService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.google.common.collect.Lists;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
@@ -45,8 +47,6 @@ public class UserController {
 	
 	/**
 	 * 用户列表
-	 * @param page
-	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
@@ -80,18 +80,23 @@ public class UserController {
 	/**
 	 * 创建用户，表单提交
 	 * @param phone
-	 * @param passport
+	 * @param name
 	 * @param password
-	 * @param repassword
-	 * @param city
+	 * @param cityId
 	 * @return
 	 */
 	@RequestMapping(value="create",method=RequestMethod.POST)
-	public String createPost(String phone,String passport,
-			String password,String repassword,Integer city){
-		customerService.createCustomer(passport, password, phone, city);
-		return "redirect:/user/list";
-	}
+    @ResponseBody
+	public Response createPost(String phone,String name,
+			String password,Integer cityId){
+		boolean result = customerService.createCustomer(name, password, phone, cityId);
+	    if(result){
+            return Response.getSuccess(null);
+        } else{
+            return Response.getError("手机号对应账号已存在！");
+        }
+    }
+
 	
 	@RequestMapping(value="{id}/edit",method=RequestMethod.GET)
 	public String editGet(@PathVariable Integer id,Model model){
@@ -111,12 +116,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="{id}/edit",method=RequestMethod.POST)
-	public String editPost(@PathVariable Integer id,Model model,
-			String phone,String passport,
-			String password,String repassword,Integer city){
-		customerService.update(id, passport, password, phone, city);
-		return "redirect:/user/list";
-	}
+    @ResponseBody
+	public Response editPost(@PathVariable Integer id,Model model,
+			String phone,String name,
+			String password,Integer cityId){
+		boolean result = customerService.update(id, name, password, phone, cityId);
+        if(result){
+            return Response.getSuccess(null);
+        } else{
+            return Response.getError("修改失败！");
+        }
+    }
 
 	/**
 	 * 停用/启用

@@ -4,10 +4,26 @@
     <td>${customer.email!"- -"}</td>
     <td>${terminal}</td>
     <td><#if customer.lastLoginedAt??>${customer.lastLoginedAt?datetime}<#else>- -</#if></td>
-    <td><strong class="strong_status"><#if customer.status==1>正常<#else>停用</#if></strong></td>
-    <td><a href="#" class="a_btn">重置密码</a>
+    <td><strong class="strong_status">
+    <#if customer.status==1>未激活
+    <#elseif customer.status==2>正常
+    <#elseif customer.status==3>停用
+    </#if></strong></td>
+    <td>
+    <#if customer.status==1>
+        <a href="#" class="a_btn">重置密码</a>
         <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
-        <a href="javascript:userStatus(${customer.id});" class="a_btn"><#if customer.status==1>停用<#else>启用</#if></a>
-        <a href="<@spring.url "/user/${customer.id}/info"/>" target="info" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>
+    <#elseif customer.status==2>
+        <a href="#" class="a_btn">重置密码</a>
+        <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
+        <a href="javascript:userStatus(${customer.id});" class="a_btn">停用</a>
+        <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>
+    <#elseif customer.status==3>
+        <a href="#" class="a_btn">重置密码</a>
+        <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
+        <a href="javascript:userStatus(${customer.id});" class="a_btn">启用</a>
+        <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>
+    </#if>
     </td>
 </tr>

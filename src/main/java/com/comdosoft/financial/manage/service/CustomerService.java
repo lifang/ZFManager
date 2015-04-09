@@ -47,23 +47,28 @@ public class CustomerService {
 	 * 创建
 	 */
 	@Transactional("transactionManager")
-	public void createCustomer(String passport, String password,
+	public boolean createCustomer(String name, String password,
                                String phone, Integer city){
-		Customer customer = new Customer();
+        Customer customer = customerMapper.selectByUsername(phone);
+		if(customer != null){
+            return false;
+        }
+        customer = new Customer();
 		customer.setTypes(Customer.TYPE_CUSTOMER);
+        customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
+        customer.setName(name);
 		customer.setPhone(phone);
-		customer.setCityId(city);
+        customer.setUsername(phone);
+        customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
+        customer.setCityId(city);
 		customer.setPassword(DigestUtils.md5Hex(password));
 		customer.setIntegral(0);
-        customer.setCreatedAt(new Date());
         customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setCreatedAt(new Date());
         customer.setUpdatedAt(new Date());
-		if(Strings.isNullOrEmpty(passport)){
-			customer.setUsername(phone);
-		}else{
-			customer.setUsername(passport);
-		}
+		customer.setUsername(phone);
 		customerMapper.insert(customer);
+        return true;
 	}
 	
 	@Transactional("transactionManager")
@@ -161,24 +166,21 @@ public class CustomerService {
 	}
 	
 	/**
-	 * 创建
+	 * 更新
 	 */
 	@Transactional("transactionManager")
-	public void update(Integer id,String passport,String password,
+	public boolean update(Integer id,String name,String password,
 			String phone,Integer city){
 		Customer customer = customer(id);
 		customer.setPhone(phone);
 		customer.setCityId(city);
 		if(!Strings.isNullOrEmpty(password)){
 			customer.setPassword(DigestUtils.md5Hex(password));
-		}
-		customer.setUpdatedAt(new Date());
-		if(Strings.isNullOrEmpty(passport)){
-			customer.setUsername(phone);
-		}else{
-			customer.setUsername(passport);
-		}
+        }
+        customer.setName(name);
+        customer.setUpdatedAt(new Date());
 		customerMapper.updateByPrimaryKey(customer);
+        return true;
 	}
 	/**
 	 * 停用/启用
