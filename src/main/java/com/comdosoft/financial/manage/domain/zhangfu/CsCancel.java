@@ -295,4 +295,9 @@ public class CsCancel {
 		this.good = good;
 	}
 
+	public static final byte STATUS_1 = 1;	// 待处理
+    public static final byte STATUS_2 = 2	;	// 处理中
+    public static final byte STATUS_3 = 3;	// 处理完成
+    public static final byte STATUS_4 = 4;	// 已取消
+	
 }
