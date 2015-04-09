@@ -34,8 +34,6 @@ import java.util.Date;
 public class TerminalController {
 
     private Logger LOG = LoggerFactory.getLogger(TerminalController.class);
-    @Value("${page.size}")
-    private Integer pageSize;
     @Value("${path.root}")
     private String rootPath;
     @Value("${path.prefix.export}")
@@ -52,7 +50,7 @@ public class TerminalController {
         return "terminal/list";
     }
 
-    @RequestMapping(value="page",method=RequestMethod.GET)
+    @RequestMapping(value="page",method=RequestMethod.POST)
     public String page(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
         return "terminal/pageTerminal";
@@ -80,7 +78,7 @@ public class TerminalController {
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Terminal> terminals = terminalService.findPages(page, status, keys);
+        Page<Terminal> terminals = terminalService.findPages(null, page, status, keys);
         model.addAttribute("terminals", terminals);
     }
 

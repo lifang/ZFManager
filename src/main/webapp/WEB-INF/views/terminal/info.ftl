@@ -144,36 +144,6 @@
         </div>
     </div>
 
-<div class="tab leaseExplain_tab">
-	<a href="javascript:void(0);" class="close">关闭</a>
-	<div class="tabHead">租赁说明</div>
-	<div class="tabBody">
-    	<div class="leaseExplain_con">
-            ${(terminal.good.leaseDescription)!""}
-        </div>
-	</div>
-</div>
-<script>
-    function writeMark(){
-        var content = $("#textWriteMark").val();
-        if(content!=""){
-            $.post('<@spring.url "/terminal/${terminal.id}/mark" />',
-                    {"content": content},
-                    function (data) {
-                        $(".user_record").children("h2").after(data);
-                    });
-        }
-    }
+    <#include "../common/terminal/info_part.ftl"/>
 
-    function downloadFile(){
-        $.get('<@spring.url "/terminal/${terminal.id}/exportOpenInfo" />',
-                function (data) {
-                    if(data.code==1){
-                        window.open(data.result);
-                    }
-                });
-    }
-
-
-</script>
 </@c.html>

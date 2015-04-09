@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.domain.zhangfu.TerminalMark;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMarkMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -23,6 +27,11 @@ public class TerminalService {
 	private TerminalMapper terminalMapper;
     @Autowired
     private TerminalMarkMapper terminalMarkMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Autowired
+    private FactoryMapper factoryMapper;
+
 	public long countCustomerTerminals(Integer customerId){
 		return terminalMapper.countCustomerTerminals(customerId);
 	}
@@ -34,21 +43,34 @@ public class TerminalService {
 		return new Page<>(request,terminals,count);
 	}
 
-    public Page<Terminal> findPages(Integer page, Byte status, String keys) {
+    public Page<Terminal> findPages(Integer customerId, Integer page, Byte status, String keys) {
+
+        Integer factoryId = null;
+        if(customerId != null){
+            Factory factory = factoryMapper.findFactoryByCustomerId(customerId);
+            if(factory != null) {
+                factoryId = factory.getId();
+            } else {
+                Customer customer = customerMapper.selectByPrimaryKey(customerId);
+                if (customer.getTypes() == Customer.TYPE_THIRD_PARTY){
+                    factoryId = 0;
+                }
+            }
+        }
         if (keys != null) {
             keys = "%"+keys+"%";
         }
-        long count = terminalMapper.countByKeys(status, keys);
+        long count = terminalMapper.countByKeys(factoryId, status, keys);
         if (count == 0) {
             return new Page<>(new PageRequest(1, pageSize), new ArrayList<Terminal>(), count);
         }
 
         PageRequest request = new PageRequest(page, pageSize);
-        List<Terminal> result = terminalMapper.selectPageTerminalsByKeys(request, status, keys);
+        List<Terminal> result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, keys);
         Page<Terminal> terminals = new Page<>(request, result, count);
         if (terminals.getCurrentPage() > terminals.getTotalPage()) {
             request = new PageRequest(terminals.getTotalPage(), pageSize);
-            result = terminalMapper.selectPageTerminalsByKeys(request, status, keys);
+            result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, keys);
             terminals = new Page<>(request, result, count);
         }
         return terminals;
