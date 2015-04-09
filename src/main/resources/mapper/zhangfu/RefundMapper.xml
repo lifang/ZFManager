@@ -5,7 +5,7 @@
 	<sql id="pageWhere">
 		<where>
 			<if test="status != null"> AND c.`status` = #{status} </if>
-			<if test="orderNumber != null"> AND c.apply_num like '%${orderNumber}%'</if>
+			<if test="orderNumber != null"> AND c.apply_num like '${orderNumber}'</if>
 		</where>
 	</sql>
 	
