@@ -135,6 +135,28 @@
 	      #{processUserName,jdbcType=VARCHAR})
   </insert>
   
+   <insert id="updateStatus" parameterType="com.comdosoft.financial.manage.domain.zhangfu.OperateRecord">
+	INSERT INTO operate_records (
+		operate_user_id,
+		operate_user_type,
+		types,
+		content,
+		created_at,
+		operate_target_id,
+		operate_user_name
+	)
+	VALUES
+		(
+			#{operateUserId,jdbcType=INTEGER},
+			#{operateUserType,jdbcType=INTEGER},
+			#{types,jdbcType=INTEGER}, 
+			#{content,jdbcType=VARCHAR},
+			#{createdAt,jdbcType=TIMESTAMP}, 
+			#{operateTargetId,jdbcType=INTEGER}, 
+			#{operateUserName,jdbcType=VARCHAR}
+	)
+  </insert>
+  
    <update id="dispatchUserByIds">
       update customer_integral_converts set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
       <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  

@@ -5,8 +5,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStat
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.HANDLE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,20 +12,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfo;
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfoMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
-import com.comdosoft.financial.manage.mapper.zhangfu.CsUpdateInfoMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.CsUpdateInfoMarkMapper;
+import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralConvertMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -110,5 +103,23 @@ public class CustomerIntegralConvertService {
 		params.put("customerId", customerId);
 		params.put("customerName", customerName);
 		customerIntegralConvertMapper.dispatchUserByIds(params);
+	}
+	
+	/**
+	 * 
+	 * @param customer 用户
+	 * @param id		操作的id
+	 * @param type 操作名称
+	 */
+	public void record(Customer customer, Integer id,String type) {
+		OperateRecord or = new OperateRecord();
+		or.setCreatedAt(new Date());
+		or.setTypes(OperateRecord.TYPES_POINTS_EXCHANGE);
+		or.setOperateUserId(customer.getId());
+		or.setOperateUserType(customer.getTypes());
+		or.setOperateUserName(customer.getName());
+		or.setOperateTargetId(id);//操作id
+		or.setContent(customer.getName()+"执行了'积分兑换操作'的"+type+"操作，操作记录的id是"+id);
+		customerIntegralConvertMapper.updateStatus(or);
 	}
 }
