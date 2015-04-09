@@ -47,6 +47,7 @@
 
 <script type="text/javascript">
 	$(function() {
+		$("#search_keys").val("");
 		$('#select_status').change(function(){
 			var status = $(this).children('option:selected').val();
 			$("#hidden_status").val(status);

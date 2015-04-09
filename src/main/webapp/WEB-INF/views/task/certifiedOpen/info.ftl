@@ -37,7 +37,7 @@
 		<div class="attributes_list_s clear">
 			<ul>
 				<li>终端号：<span class="orangeText">${tinfo.serial_num!}</span></li>
-				<li>处理人：${tinfo.serial_num!}</li>
+				<li>处理人：${tinfo.c2name!}</li>
 				<li>终端状态：
 				   <#if tinfo.tstatus=1>已开通
 			       <#elseif tinfo.tstatus=2>部分开通
