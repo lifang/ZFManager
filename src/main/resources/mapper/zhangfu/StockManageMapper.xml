@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.StockManageMapper">
-
+	
 	<update id="toAfterSaleStock">
 		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and a.is_return_cs_depots=0 and a.account =#{account} 
 	</update>
@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="checkAccountIsInAfterSale" resultType="hashmap">
-		select account from terminals where 1=1 and account=#{account} and is_return_cs_depots=1 
+		select account,id from terminals where 1=1 and account=#{account} and is_return_cs_depots=1 
 	</select>
 	
 	

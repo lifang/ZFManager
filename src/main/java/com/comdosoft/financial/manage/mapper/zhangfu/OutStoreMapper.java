@@ -31,7 +31,7 @@ public interface OutStoreMapper {
 	
 	int changeStatus(@Param("status") int status,@Param("loginId") int loginId,@Param("id") int id);
 	
-	List<String> getTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId);
+	List<Map<String, Object>> getTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId);
 	
 	String getOperater(@Param("orderId") int orderId);
 	

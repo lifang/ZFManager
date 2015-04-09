@@ -3,7 +3,7 @@
      <div class="breadcrumb"> 
       <ul> 
        <li><a href="#">售后</a></li> 
-       <li><a href="#">出库</a></li>
+       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
        <li><a href="#">添加出库记录</a></li> 
       </ul> 
      </div> 
@@ -34,13 +34,13 @@
 			  	  <tr id="row_${good.id}">
 			  	  	<td>
                         <div class="td_proBox clear">
-                            <a href="#" class="cn_img"><img src="${good.urlPath}" /></a>
+                            <a href="#" class="cn_img"><img src="${good.urlPath}"  style="width:130px;height:130px" /></a>
                             <div class="td_proBox_info">
                                 <h1><a href="#">${good.title}</a></h1>
                                 <h3>热销5000件</h3>
                                 <ul>
                                     <li><span>品牌型号：</span><div class="c_text">${good.brandName}</div></li>
-                                    <li><span>支付通道：</span><div class="c_text">${good.channelName}</div></li>
+                                    <li><span>支付通道：</span><div class="c_text">${good.payChannelName}</div></li>
                                 </ul>
                             </div>
                         </div>

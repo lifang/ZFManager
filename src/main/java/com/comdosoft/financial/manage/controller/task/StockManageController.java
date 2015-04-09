@@ -58,7 +58,7 @@ public class StockManageController {
 	public Response checkAccount(String account,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.checkAccount(account, customer.getId());
+		Map<String, Object> map= stockManageService.checkAccount(account, customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -75,7 +75,7 @@ public class StockManageController {
 	public Response toAfterSaleStock(String account,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toAfterSaleStock(account, customer.getId());
+		Map<String, Object> map= stockManageService.toAfterSaleStock(account, customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -91,7 +91,7 @@ public class StockManageController {
 	public Response toNormalStock(String account,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toNormalStock(account, customer.getId());
+		Map<String, Object> map= stockManageService.toNormalStock(account, customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -108,7 +108,7 @@ public class StockManageController {
 	public Response breakDown(String account,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.breakDown(account, customer.getId());
+		Map<String, Object> map= stockManageService.breakDown(account, customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;

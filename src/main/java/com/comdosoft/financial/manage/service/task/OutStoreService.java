@@ -72,13 +72,14 @@ public class OutStoreService {
 			for(int i=0;i<goods.size();i++){
 				str.setLength(0);
 				Good goodTemp=goods.get(i);
-				List<String> terminals=outStoreMapper.getTerminalNum(orderId, goodTemp.getId());
+				List<Map<String, Object>> terminals=outStoreMapper.getTerminalNum(orderId, goodTemp.getId());
 				
 				for(int j=0;j<terminals.size();j++){
+					
 					if(str.length()==0){
-						str.append(terminals.get(j));
+						str.append(terminals.get(j).get("num").toString());
 					}else{
-						str.append(" "+terminals.get(j));
+						str.append(" "+terminals.get(j).get("num").toString());
 					}
 				}
 				goodTemp.setTerminalPort(str.toString());
@@ -221,7 +222,7 @@ public class OutStoreService {
 			}
 		}
 		//修改出库单状态
-		int temp4=outStoreMapper.changeStatus(2,loginId,id);
+		int temp4=outStoreMapper.changeStatus(3,loginId,id);
 		if(temp4<1){
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);

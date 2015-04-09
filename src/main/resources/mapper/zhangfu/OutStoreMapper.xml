@@ -57,10 +57,10 @@
 		b.title,b.model_number as modelNum,b.good_brands_id as brandId,(select name from good_brands where id=b.good_brands_id) as brandName,b.id,
 		(select c.url_path from (select good_id,url_path from goods_pictures group by good_id) c where c.good_id=b.id)as urlPath
 		 from order_goods a 
-		left join goods b on a.good_id=b.id where a.order_id=#{id}
+		left join goods b on a.good_id=b.id where a.order_id=(select order_id from cs_out_storages where id=#{id})
 	</select>
 	
-	<select id="getAddressInit" resultType="String">
+	<select id="getAddressInit" resultType="hashmap">
 		select a.address from customer_addresses a where a.id=
 		(select b.customer_address_id from orders b where b.id=
 		(select c.order_id from cs_out_storages c where c.id=#{id} ))
@@ -96,10 +96,10 @@ where a.id=#{orderId}
    </insert>
    
    <select id="getTerminalNum" resultType="hashmap">
-		select terminal_number as num from in_out_storages where order_id=#{orderId} and good_id=#{goodId}
+		select terminal_number as num,good_id as goodId from in_out_storages where order_id=#{orderId} and good_id=#{goodId}
 	</select>
    
-   <select id="getOperater" resultType="hashmap">
+   <select id="getOperater" resultType="String">
 		select a.name from customers a left join in_out_storages b on a.id=b.created_user_id
 			where b.order_id=#{orderId} group by b.order_id
 	</select>
