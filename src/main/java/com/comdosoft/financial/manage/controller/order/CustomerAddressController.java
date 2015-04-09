@@ -68,4 +68,12 @@ public class CustomerAddressController {
 		model.addAttribute("customer", customer);
 		return "order/customerAddress";
 	}
+	
+	@RequestMapping(value = "get", method = RequestMethod.GET)
+	public String get(HttpServletRequest request, Model model, Integer id) {
+		CustomerAddress customerAddress=customerAddressService.get(id);
+		model.addAttribute("customerAddress", customerAddress);
+		return "order/customerAddressTab";
+	}
+	
 }

@@ -51,8 +51,15 @@
 		        </div>
 		    </td>
 		    <td><a href="#"><strong>￥${(orderGood.good.price/100)?string("0.00")}</strong></a></td>
-		    <td><div class="choose_amount"><a href="javascript:void(0);" onclick="reduceQuantity();">-</a><input id="quantity_${orderGood.good.id}" type="text" value="${orderGood.quantity!""}" /><a href="javascript:void(0);"  onclick="addQuantity(${orderGood.good.id});">+</a></div></td>
-		    <td><a href="#"><strong>￥${(orderGood.good.price*orderGood.quantity/100)?string("0.00")}</strong></a></td>
+		    <td>
+		    	<div class="choose_amount">
+		    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${orderGood.good.price});">-</a>
+		    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
+		    		<input id="" type="hidden" name="price" value="${orderGood.good.price!""}" />
+		    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${orderGood.good.price});">+</a>
+		    	</div>
+		    </td>
+		    <td><a href="#"><strong id="goodPriceStrong_${orderGood.good.id}">￥${(orderGood.good.price*orderGood.quantity/100)?string("0.00")}</strong></a></td>
 		  </tr>
 		 </#list>
 	  </#if>
@@ -105,21 +112,82 @@
 	        </div>
 	    </td>
 	    <td><a href="#"><strong>￥${(good.price/100)?string("0.00")}</strong></a></td>
-	    <td><div class="choose_amount"><a href="javascript:void(0);" onclick="reduceQuantity();">-</a><input id="quantity_${good.id}" type="text" value="${quantity!""}" /><a href="javascript:void(0);"  onclick="addQuantity(${good.id});">+</a></div></td>
-	    <td><a href="#"><strong>￥${(good.price*quantity/100)?string("0.00")}</strong></a></td>
+	    <td>
+	    	<div class="choose_amount">
+	    		<a href="javascript:void(0);" onclick="reduceQuantity(${good.id},${good.price});">-</a>
+	    		<input id="quantity_${good.id}" name="quantity" type="text" value="${quantity!""}" />
+	    		<a href="javascript:void(0);"  onclick="addQuantity(${good.id},${good.price});">+</a>
+	    	</div>
+	    </td>
+	    <td><a href="#"><strong id="goodPriceStrong_"+${good.id}>￥${(good.price*quantity/100)?string("0.00")}</strong></a></td>
 	  </tr>
 	</table>
 </#if>	
 <script type="text/javascript">	
-	function addQuantity(goodId) {
-		var quantity = $("#quantity_"+goodId).val();
+	function addQuantity(goodId,price) {
+		var quantity = parseInt($("#quantity_"+goodId).val())+1;
+		var price=Math.round(price*quantity)/100;
+		var goodPriceStrong="￥"+price;
+		$("#totalStrong").html(goodPriceStrong);
+		$("#actualStrong").html(goodPriceStrong);
+		$("#goodPriceStrong_"+goodId).html(goodPriceStrong);
 		$("#quantity_"+goodId).val(parseInt(quantity)+1);
 	}
 	
-	function reduceQuantity(goodId) {
+	function reduceQuantity(goodId,price) {
 		var quantity = $("#quantity_"+goodId).val();
 		var result=parseInt(quantity)-1;
 		if(result<1)result=1;
+		var price=Math.round(price*result)/100;
+		var goodPriceStrong="￥"+price;
+		$("#totalStrong").html(goodPriceStrong);
+		$("#actualStrong").html(goodPriceStrong);
+		$("#goodPriceStrong_"+goodId).html(goodPriceStrong);
+		$("#quantity_"+goodId).val(result);
+	}
+	
+	function addQuantityEx(goodId,price) {
+		var allPrice=document.getElementsByName("price");
+		var allQuantity=document.getElementsByName("quantity");
+		var total=price;
+		for(var i=0,size=allPrice.length;i<size;i++){
+			total+=allPrice[i].value*allQuantity[i].value;
+		}
+		total="￥"+Math.round(total)/100
+	
+		var quantity = parseInt($("#quantity_"+goodId).val())+1;
+		var price=Math.round(price*quantity)/100;
+		var goodPriceStrong="￥"+price;
+
+		
+		$("#totalStrong").html(total);
+		$("#actualStrong").html(total);
+		$("#goodPriceStrong_"+goodId).html(goodPriceStrong);
+		$("#quantity_"+goodId).val(parseInt(quantity)+1);
+	}
+	
+	
+	function reduceQuantityEx(goodId,price) {
+		var quantity = $("#quantity_"+goodId).val();
+		var result=parseInt(quantity)-1;
+		var total=price*-1;
+		if(result<1){
+			result=1;
+			total=0;
+		}
+		var allPrice=document.getElementsByName("price");
+		var allQuantity=document.getElementsByName("quantity");
+		
+		for(var i=0,size=allPrice.length;i<size;i++){
+			total+=allPrice[i].value*allQuantity[i].value;
+		}
+		total="￥"+Math.round(total)/100
+		
+		var price=Math.round(price*result)/100;
+		var goodPriceStrong="￥"+price;
+		$("#totalStrong").html(total);
+		$("#actualStrong").html(total);
+		$("#goodPriceStrong_"+goodId).html(goodPriceStrong);
 		$("#quantity_"+goodId).val(result);
 	}
 </script>	

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.StockManageMapper">
+
+	<update id="toAfterSaleStock">
+		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and a.is_return_cs_depots=0 and a.account =#{account} 
+	</update>
+
+	<update id="toNormalStock">
+		update terminals a set a.stauts=3,a.updated_at=now(),a.is_return_cs_depots=0,
+		a.agent_id="",a.customer_id="",a.order_id="",a.is_rate_wrong="",a.base_rate="",
+		a.billing_cycles_id="",a.opened_at="",a.top_charge=""
+		  where a.account=#{account} and a.is_return_cs_depots=1 
+	</update>
+	
+	<update id="breakDown">
+		update terminals a set a.status=5,a.updated_at=now() where a.account=#{account} and a.is_return_cs_depots=1
+	</update>
+	
+	<select id="checkAccount" resultType="hashmap">
+		select account,id from terminals where 1=1 and account=#{account}
+	</select>
+	
+	<select id="checkAccountIsInAfterSale" resultType="hashmap">
+		select account from terminals where 1=1 and account=#{account} and is_return_cs_depots=1 
+	</select>
+	
+	
+	<select id="isAgents" resultType="hashmap">
+		select id from cs_agents where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+	<select id="isCancels" resultType="hashmap">
+		select id from cs_cancels where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+	<select id="isChanges" resultType="hashmap">
+		select id from cs_changes where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+	<select id="isLeaseReturns" resultType="hashmap">
+		select id from cs_lease_returns where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+	<select id="isRepairs" resultType="hashmap">
+		select id from cs_repairs where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+	<select id="isReturns" resultType="hashmap">
+		select id from cs_returns where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
+	</select>
+</mapper>
