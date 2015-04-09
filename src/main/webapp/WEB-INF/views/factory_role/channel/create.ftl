@@ -3,7 +3,6 @@
 
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">商品</a></li>
         <li><a href="#">支付通道</a></li>
         <#if channel??>
             <li><a href="#">编辑支付通道</a></li>

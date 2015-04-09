@@ -55,6 +55,8 @@ public class ChannelController {
     public String info(@PathVariable Integer id, Model model){
         PayChannel channel = payChannelService.findChannelInfo(id);
         model.addAttribute("channel", channel);
+        model.addAttribute("isFactory", true);
+
         return "factory_role/channel/info";
     }
 

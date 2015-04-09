@@ -55,7 +55,7 @@
     function terminalPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/terminal/page" />',
+        $.post('<@spring.url "/terminal/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status

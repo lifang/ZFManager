@@ -36,10 +36,10 @@ public interface TerminalMapper {
 	long countCustomerTerminals(Integer customerId);
 	List<Terminal> selectCustomerTerminals(Integer customerId,PageRequest request);
 
-    List<Terminal> selectPageTerminalsByKeys(@Param("pageRequest") PageRequest pageRequest,
+    List<Terminal> selectPageTerminalsByKeys(@Param("pageRequest") PageRequest pageRequest, @Param("factoryId") Integer factoryId,
                                    @Param("status") Byte status, @Param("keys") String keys);
 
-    long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+    long countByKeys(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
 
     Terminal findTerminalInfo(Integer id);
 

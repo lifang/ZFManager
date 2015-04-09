@@ -3,6 +3,6 @@
 <mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.ReocrdOperateMapper">
 <insert id="save" keyProperty="id">
 		insert into operate_records(operate_user_id,operate_user_name,operate_user_type,types,content,created_at,updated_at,operate_target_id) values
-		(#{operateUserId},#{operateUserName},#{operateUsreType},#{content},now(),now(),#{operateTargetId})
+		(#{operateUserId},#{operateUserName},#{operateUsreType},#{types},#{content},now(),now(),#{operateTargetId})
    </insert>
 </mapper>
