@@ -25,8 +25,8 @@
 	</update>
 	
 	<select id="findPageRefundByKeys" resultType="map">
-		select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.order_number as orderNumber
-		from cs_refunds  c LEFT JOIN orders o ON o.id = c.target_id
+		select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
+		from cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
 		<include refid="pageWhere" />
 		order by c.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
@@ -38,8 +38,8 @@
 	</select>
 
 	<select id="getRefundDetails" resultType="map">
-		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.order_number as orderNumber,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
-		FROM cs_refunds  c LEFT JOIN orders o ON o.id = c.target_id
+		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		FROM cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
 		WHERE c.id = #{id}
 	</select>
 	

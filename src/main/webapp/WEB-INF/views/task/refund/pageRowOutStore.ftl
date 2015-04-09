@@ -2,7 +2,7 @@
                            			<td><input name="re_row" cs_id="${refu.id!}" cs_status="${refu.status!}" cs_num="${refu.applyNum!}" type="checkbox" value="" /></td>
                             		<td>${(refu.applyNum)!''}</td>
                             		<td>${(refu.createdAt)!''}</td>
-                            		<td>${(refu.orderNumber)!''}</td>
+                            		<td>${(refu.returnApplyNum)!''}</td>
                             		<td><strong class="strong_status">
                             		<#if refu.status == 1>
                             		待处理
