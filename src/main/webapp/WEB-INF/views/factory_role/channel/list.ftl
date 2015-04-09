@@ -1,15 +1,14 @@
-<#import "../../common.ftl" as c />
+<#import "../common.ftl" as c />
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">商品</a></li>
         <li><a href="#">支付通道</a></li>
     </ul>
 </div>
 <div class="content clear">
     <div class="user_title"><h1>支付通道列表</h1>
         <div class="userTopBtnBox">
-            <a href="<@spring.url "/good/channel/create" />" class="ghostBtn">创建支付通道</a>
+            <a href="<@spring.url "/factory/channel/create" />" class="ghostBtn">创建支付通道</a>
         </div>
     </div>
 
@@ -60,7 +59,7 @@
     function channelPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.post('<@spring.url "/good/channel/page" />',
+        $.post('<@spring.url "/factory/channel/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status
@@ -69,48 +68,6 @@
                     $('#page_fresh').html(data);
                 });
     }
-
-
-    function firstUnCheck(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/firstUnCheck',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-
-    function firstCheck(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/firstCheck',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-
-    function unCheck(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/unCheck',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-
-    function check(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/check',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-    function stop(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/stop',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-    function start(id){
-        $.get('<@spring.url "" />'+'/good/channel/'+id+'/start',
-                function (data) {
-                    $('#row_'+id).replaceWith(data);
-                });
-    }
-
 
 </script>
 </@c.html>

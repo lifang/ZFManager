@@ -82,8 +82,8 @@
 <div class="left">
     <ul>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>订单管理</a></li>
-        <li><a href="<@spring.url "factory/channel/list"/>"<#if urlCheck(request,"factory/channel")> class="hover"</#if>>支付通道</a></li>
-        <li><a href="<@spring.url "factory/pos/list"/>"<#if urlCheck(request,"factory/pos")> class="hover"</#if>>POS机管理</a></li>
+        <li><a href="<@spring.url "/factory/channel/list"/>"<#if urlCheck(request,"factory/channel")> class="hover"</#if>>支付通道</a></li>
+        <li><a href="<@spring.url "/factory/pos/list"/>"<#if urlCheck(request,"factory/pos")> class="hover"</#if>>POS机管理</a></li>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>管理终端</a></li>
         <li><a href="<@spring.url ""/>"<#if urlCheck(request,"")> class="hover"</#if>>管理账号</a></li>
     </ul>

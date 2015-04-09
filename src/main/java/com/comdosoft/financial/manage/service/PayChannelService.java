@@ -35,6 +35,10 @@ public class PayChannelService {
     private OtherRequirementMapper otherRequirementMapper;
     @Autowired
     private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
+    @Autowired
+    private FactoryMapper factoryMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
 
     public List<PayChannel> findCheckedChannelsLikeName(String name) {
         return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, "%" + name + "%");
@@ -44,21 +48,34 @@ public class PayChannelService {
         return payChannelMapper.selectByStatusAndName(PayChannel.STATUS_CHECKED, null);
     }
 
-    public Page<PayChannel> findPages(int page, Byte status, String keys) {
+    public Page<PayChannel> findPages(Integer customerId, int page, Byte status, String keys) {
+        Integer factoryId = null;
+        if(customerId != null){
+            Factory factory = factoryMapper.findFactoryByCustomerId(customerId);
+            if(factory != null) {
+                factoryId = factory.getId();
+            } else {
+                Customer customer = customerMapper.selectByPrimaryKey(customerId);
+                if (customer.getTypes() == Customer.TYPE_THIRD_PARTY){
+                    factoryId = 0;
+                }
+            }
+        }
+
         if (keys != null) {
             keys = "%" + keys + "%";
         }
-        long count = payChannelMapper.countByKeys(status, keys);
+        long count = payChannelMapper.countByKeys(factoryId, status, keys);
         if (count == 0) {
             return new Page<>(new PageRequest(1, pageSize), new ArrayList<PayChannel>(), count);
         }
 
         PageRequest request = new PageRequest(page, pageSize);
-        List<PayChannel> result = payChannelMapper.findPageChannelsByKeys(request, status, keys);
+        List<PayChannel> result = payChannelMapper.findPageChannelsByKeys(request, factoryId, status, keys);
         Page<PayChannel> channels = new Page<>(request, result, count);
         if (channels.getCurrentPage() > channels.getTotalPage()) {
             request = new PageRequest(channels.getTotalPage(), pageSize);
-            result = payChannelMapper.findPageChannelsByKeys(request, status, keys);
+            result = payChannelMapper.findPageChannelsByKeys(request, factoryId, status, keys);
             channels = new Page<>(request, result, count);
         }
         return channels;

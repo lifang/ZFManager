@@ -40,10 +40,29 @@
             </strong></td>
             <td>${good.isPublished???string("是","")}</td>
             <td>
-                <#if good.status != 5>
-                <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                <#if good.status=1>
+                    <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                    <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+
+                <#elseif good.status=2>
+                    <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                    <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+
+                <#elseif good.status=3>
+                    <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                    <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+
+                <#elseif good.status=4>
+                    <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                    <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+
+                <#elseif good.status=5>
+                    <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+
+                <#elseif good.status=6>
+                    <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+
                 </#if>
-                <a href="<@spring.url "/factory/pos/${good.id}/info" />" class="a_btn">查看详情</a>
             </td>
         </tr>
             </#list>
