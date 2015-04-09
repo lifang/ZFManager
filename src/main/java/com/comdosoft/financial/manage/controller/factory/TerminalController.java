@@ -45,7 +45,7 @@ public class TerminalController {
         Terminal terminal = terminalService.findTerminalInfo(id);
         model.addAttribute("terminal", terminal);
         model.addAttribute("isFactory", true);
-        return "terminal/info";
+        return "factory_role/terminal/info";
     }
 
     private void findPage(Integer customerId, Integer page, Byte status, String keys, Model model){

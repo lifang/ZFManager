@@ -127,11 +127,11 @@
             <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="<@spring.url "/resources/images/mt_big.jpg" />"></div>
         </div>
     </div>
+    <#if !(isFactory??) || !isFactory>
     <div class="user_remark">
         <textarea id="textWriteMark" name="" cols="" rows=""></textarea>
         <button class="whiteBtn" onclick="writeMark()">备注</button>
     </div>
-    <#if !(isFactory??) || !isFactory>
     <div class="user_record">
         <h2>追踪记录</h2>
     <#list terminal.terminalMarks as terminalMark>
@@ -152,7 +152,6 @@
 </div>
 <script>
 
-    </#if>
     function writeMark(){
         var content = $("#textWriteMark").val();
         if(content!=""){

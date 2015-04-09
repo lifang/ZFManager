@@ -1,4 +1,4 @@
-<#import "../page.ftl" as pager>
+<#import "../../page.ftl" as pager>
 <div class="uesr_table">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
         <colgroup>
