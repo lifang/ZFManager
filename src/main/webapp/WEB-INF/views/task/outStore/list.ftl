@@ -3,14 +3,14 @@
      <div class="breadcrumb"> 
       <ul> 
        <li><a href="#">商品</a></li> 
-       <li><a href="#">出库</a></li> 
+       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
       </ul> 
      </div> 
      <div class="content clear"> 
       <div class="user_title">
        <h1>出库单列表</h1> 
-       <div class="userTopBtnBox">
-       	<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+       <div class="userTopBtnBox"> 
+        <a href="<@spring.url "/task/outStore/distribute" />" class="ghostBtn">分派</a>
 	   </div>
       </div> 
       <div class="seenBox clear"> 

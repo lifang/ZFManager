@@ -87,7 +87,7 @@
 	 			<#list remarks as remark>
             <div class="ur_item">
             	<div class="ur_item_text">${remark.content}</div>
-                <div class="ur_item_name">${remark.userName} <em>${remark.operateTime}</em></div>
+                <div class="ur_item_name">${remark.userName}<em>${remark.operateTime}</em></div>
             </div>
 	            </#list>
 		 	</#if>
@@ -98,9 +98,9 @@
     <div class="tabHead">订单详情</div>
     <div class="tabBody">
     	<div class="orderDetail_info_tab">
-    		
+    		<#if (orderDetails)??>
             <dl>
-            	<dt>收货地址：</dt><dd>${orderDetails.address} ${orderDetails.receiver}</dd>
+            	<dt>收货地址：</dt><dd>${orderDetails.address}&nbsp;${orderDetails.receiver}</dd>
             </dl>
             <dl>
             	<dt>发票类型：</dt><dd>${orderDetails.invoiceName}</dd><dt>发票抬头：</dt><dd>${orderDetails.invoiceInfo}</dd>
@@ -124,7 +124,7 @@
             <dl>
             	<dt>订单原金额：</dt><dd class="line_through">￥${orderDetails.oldPrice}</dd><dt>订单金额：</dt><dd><strong>￥${orderDetails.actualPrice}</strong></dd>
             </dl>
-            
+            </#if>
         </div>
     </div>
     <div class="tabFoot"><button class="blueBtn">确定</button></div>

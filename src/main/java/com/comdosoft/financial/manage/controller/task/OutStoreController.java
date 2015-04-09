@@ -57,7 +57,6 @@ public class OutStoreController {
 		model.addAttribute("outStorageId",id);
 		model.addAttribute("orderId",outStoreService.getOrderIdByOutStorageId(id));
 		model.addAttribute("operater",outStoreService.getOperater(id));
-		
 		model.addAttribute("orderDetails",outStoreService.getOrderDetailInfo(id));
 		Map<String, Object> map=outStoreService.getWLInfo(id);
 		if(null !=map){
@@ -102,7 +101,7 @@ public class OutStoreController {
 		return response;
 	}
 	/**
-	 * 将出库单状态改为取消 status=1
+	 * 将出库单状态改为取消 status=2
 	 * @param id
 	 * @param request
 	 * @param model
@@ -158,5 +157,4 @@ public class OutStoreController {
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
 	}
-	
 }

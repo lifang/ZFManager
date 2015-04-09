@@ -12,16 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfo;
-import com.comdosoft.financial.manage.domain.zhangfu.CsUpdateInfoMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
-import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
 import com.comdosoft.financial.manage.service.SessionService;
-import com.comdosoft.financial.manage.service.cs.CsCommonService;
-import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
-import com.comdosoft.financial.manage.service.cs.CsUpdateService;
 import com.comdosoft.financial.manage.service.task.CustomerIntegralConvertService;
 import com.comdosoft.financial.manage.utils.page.Page;
 

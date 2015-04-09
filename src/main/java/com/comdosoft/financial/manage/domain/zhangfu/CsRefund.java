@@ -349,4 +349,21 @@ public class CsRefund {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	/**
+	 * 退款状态1.待处理
+	 */
+	public static int STATIC_1 = 1;
+	/**
+	 * 退款状态2.处理完成
+	 */
+	public static int STATIC_2 = 2;
+	/**
+	 * 退款状态3.已取消
+	 */
+	public static int STATIC_3 = 3;
+	
+	/**
+	 * 退款操作类型
+	 */
+	public static int REFUND_TYPE = 10;
 }

@@ -95,6 +95,7 @@
 
   <sql id="pageWhere">
     <where>
+      <if test="factoryId != null"> AND factory_id =#{factoryId} </if>
       <if test="status != null"> AND status =#{status} </if>
       <if test="keys != null"> AND name like #{keys} </if>
     </where>

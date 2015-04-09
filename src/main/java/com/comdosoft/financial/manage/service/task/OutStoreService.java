@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -157,7 +156,7 @@ public class OutStoreService {
 		resultInfo.append("保存备注成功");
 		
 		//保存备注
-		int temp=outStoreMapper.saveRemark(id,loginId,remarkContent);
+		int temp=outStoreMapper.saveRemark(loginId,id,remarkContent);
 		if(temp<1){
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);
@@ -284,5 +283,4 @@ public class OutStoreService {
 		result.put("resultInfo", resultInfo);
 		return result;
 	}
-	
 }

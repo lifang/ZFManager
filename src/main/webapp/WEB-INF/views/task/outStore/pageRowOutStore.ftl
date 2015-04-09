@@ -1,12 +1,12 @@
      <tr id="row_${outStore.id}"> 
-      <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}"></td> 
+      <td><input type="checkBox" value=${outStore.id}></td> 
       <td>${outStore.id}</td>
       <td>${outStore.createdAt}</td> 
       <td>${outStore.orderId}</td> 
       <td><strong class="strong_status">
-       <#if outStore.status=3>处理完成
-       <#elseif outStore.status=1>待处理
+       <#if outStore.status=1>待处理
        <#elseif outStore.status=2>已取消
+       <#elseif outStore.status=3>处理完成
        </#if>
       </strong></td> 
       <td>

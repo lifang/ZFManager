@@ -1,3 +1,4 @@
+    
 <#import "../../common.ftl" as c />
 <@c.html>
 <div class="breadcrumb">
@@ -131,6 +132,5 @@
 	        	}
 	        });	
 	}
-	
-</script>    
+</script>
 </@c.html>

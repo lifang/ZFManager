@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.RefundMapper">
+
+	<sql id="pageWhere">
+		<where>
+			<if test="status != null"> AND c.`status` = #{status} </if>
+			<if test="orderNumber != null"> AND c.apply_num like '%${orderNumber}%'</if>
+		</where>
+	</sql>
+	
+	<insert id="addRefundMark">
+		INSERT INTO cs_refund_marks(refund_id,content,customer_id,created_at)
+		VALUES(#{refundId},#{content},#{customerId},NOW())
+	</insert>
+	
+	<update id="updateRefund">
+		UPDATE cs_refunds SET return_voucher_file_path = #{returnVoucherFilePath}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updsateRefundStatus">
+		UPDATE cs_refunds SET status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findPageRefundByKeys" resultType="map">
+		select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
+		from cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
+		<include refid="pageWhere" />
+		order by c.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+	
+	<select id="getRefundCount" resultType="long">
+		SELECT count(c.id) as count
+		FROM cs_refunds c
+		<include refid="pageWhere" />
+	</select>
+
+	<select id="getRefundDetails" resultType="map">
+		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		FROM cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
+		WHERE c.id = #{id}
+	</select>
+	
+	<select id="getRefundByDetailRecord" resultType="map">
+		SELECT u.`name`,m.content,m.created_at as createdAt
+		FROM cs_refunds  c 
+		LEFT JOIN cs_refund_marks m ON m.refund_id = c.id
+		LEFT JOIN customers u ON u.id = m.customer_id
+		WHERE c.id = #{id}
+	</select>
+	
+	<!-- dispatch process user by cs_cancel_ids -->
+  <update id="dispatchUserByIds">
+      update cs_refunds set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
+	
+</mapper>

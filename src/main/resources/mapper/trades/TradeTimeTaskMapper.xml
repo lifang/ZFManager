@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.manage.mapper.trades.TradeTimeTaskMapper">
+	
+	<select id="getAllAmount" resultType="hashmap">
+		select SUM(amount) as num from trade_records
+	</select>
+
+	<select id="getAllNum" resultType="hashmap">
+		select count(id) as num from trade_records
+	</select>
+	
+	<select id="getRecent24Amount" resultType="hashmap">
+		select SUM(amount) as num from trade_records where updated_at>=  NOW() - interval 24 hour
+	</select>
+
+	<select id="getRecent24Num" resultType="hashmap">
+		select count(id) as num from trade_records where updated_at>=  NOW() - interval 24 hour
+	</select>
+	
+	<select id="getDetailRecordByCityId" resultType="hashmap">
+		select city_id as cityId,SUM(amount) as amount,count(id) as num from trade_records group by city_id
+	</select>
+	
+	<select id="getDetailRecordByProId" resultType="hashmap">
+		select sum(amount) as amount,count(id) as num from trade_records where city_id in (#{cityStr})
+	</select>
+	
+	
+	<insert id="saveToTotalDayReports">
+	insert into trade_total_day_reports(trade_date,trade_num,trade_sum,order_num,new_user_num,terminal_apply_num,created_at)
+		VALUES(now(),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
+	</insert>
+	
+	<insert id="saveToDayReports">
+	insert into trade_day_reports(trade_date,trade_num,trade_sum,order_num,new_user_num,terminal_apply_num,created_at)
+		VALUES(now(),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
+	</insert>
+	
+	<insert id="saveByProId">
+	insert into trade_total_region_reports(trade_time,region_id,trade_num,trade_sum,created_at,updated_at)
+		values(now(),#{proId},#{amount},#{num},now(),now())
+	</insert>
+	
+</mapper>

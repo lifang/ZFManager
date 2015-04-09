@@ -52,7 +52,7 @@
 		<!-- 	<include refid="pageWhere" />-->
 	</select>
 	
-	<select id="getGoodInfoInit" resultMap="GoodsMap">
+		<select id="getGoodInfoInit" resultMap="GoodsMap">
 		select a.pay_channel_id as payChannelId,(select name from pay_channels where id=a.pay_channel_id) as payChannelName,a.quantity,
 		b.title,b.model_number as modelNum,b.good_brands_id as brandId,(select name from good_brands where id=b.good_brands_id) as brandName,b.id,
 		(select c.url_path from (select good_id,url_path from goods_pictures group by good_id) c where c.good_id=b.id)as urlPath
@@ -119,7 +119,6 @@ where a.id=#{orderId}
 	<update id="saveProcessUser">
 		update cs_out_storages set process_user_id=#{processUserId},process_user_name=#{processUserName},updated_at=now() where id=#{id}
 	</update>
-	
 	
 	<insert id="saveRemark" useGeneratedKeys="true" keyProperty="id">
 		insert into cs_out_storage_marks(cs_out_storage_id,customer_id,content,created_at) 

@@ -54,7 +54,7 @@ public class ChannelController {
 		return "good/channel/list";
 	}
 
-	@RequestMapping(value="page",method=RequestMethod.GET)
+	@RequestMapping(value="page",method=RequestMethod.POST)
 	public String page(Integer page, Byte status, String keys, Model model){
 		findPage(page, status, keys, model);
 		return "good/channel/pageChannel";
@@ -265,7 +265,7 @@ public class ChannelController {
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<PayChannel> channels = payChannelService.findPages(page, status, keys);
+		Page<PayChannel> channels = payChannelService.findPages(null, page, status, keys);
 		model.addAttribute("channels", channels);
 	}
 

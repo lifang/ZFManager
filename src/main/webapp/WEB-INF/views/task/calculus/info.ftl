@@ -10,11 +10,10 @@
                 <div class="content clear">
                     <div class="user_title">
                     	<h1>积分兑换申请详情</h1>
-                        <div class="userTopBtnBox">
+                       <#-- <div class="userTopBtnBox">
                         		<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
-                        		
-                        		
                      	</div>
+						-->
                     </div>
                     <div class="attributes_box">
                     	<h2>兑换信息</h2>
@@ -78,7 +77,7 @@
 	         });
 	}	
 	
-	
+	<#-- 
 	$(function() {
 		var person = $("#sq_person").val();
 		$("#btn_dispatch").unbind("click");
@@ -108,7 +107,7 @@
 	            });
 	}
 	
-	
+	 -->
 	
 </script>
 </@c.html>

@@ -43,9 +43,9 @@ public interface PayChannelMapper {
 
 	List<PayChannel> selectChannels(Integer goodId);
 
-	long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+	long countByKeys(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
 
-	List<PayChannel> findPageChannelsByKeys(@Param("pageRequest") PageRequest pageRequest,
+	List<PayChannel> findPageChannelsByKeys(@Param("pageRequest") PageRequest pageRequest, @Param("factoryId")Integer factoryId,
 											@Param("status") Byte status, @Param("keys") String keys);
 
 	PayChannel findChannelLazyInfo(Integer id);

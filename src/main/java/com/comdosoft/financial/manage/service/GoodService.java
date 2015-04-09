@@ -35,14 +35,21 @@ public class GoodService {
 	private GoodRelationMapper goodRelationMapper;
 	@Autowired
 	private FactoryMapper factoryMapper;
-	
-	public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
 		Integer factoryId = null;
 		if(customerId != null){
 			Factory factory = factoryMapper.findFactoryByCustomerId(customerId);
 			if(factory != null) {
 				factoryId = factory.getId();
-			}
+			} else {
+                Customer customer = customerMapper.selectByPrimaryKey(customerId);
+                if (customer.getTypes() == Customer.TYPE_THIRD_PARTY){
+                    factoryId = 0;
+                }
+            }
 		}
 
 		if (keys != null) {

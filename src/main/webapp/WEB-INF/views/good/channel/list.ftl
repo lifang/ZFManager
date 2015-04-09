@@ -60,7 +60,7 @@
     function channelPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/good/channel/page" />',
+        $.post('<@spring.url "/good/channel/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status

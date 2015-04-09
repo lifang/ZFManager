@@ -112,11 +112,11 @@
         </li>
         <li class="second"><a href="javascript:void(0);">任务<i class="off"></i></a>
             <ol>
-                <li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>售后库存管理</a></li>
-                <li><a href="#">认证开通</a></li>
+                <li><a href="<@spring.url "/task/stockManage/index"/>" class="hover">售后库存管理</a></li>
+                <li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li>
                 <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li>
                 <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li>
-                <li><a href="#">退款</a></li>
+                <li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/refund")> class="hover"</#if>>退款</a></li>
             </ol>
         </li>
         <li><a href="#">购买意向</a></li>

@@ -16,13 +16,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by Administrator on 15-4-7.
+ * Created by quqiang on 15-4-7.
  */
 @Controller("FactoryPosController")
 @RequestMapping("/factory/pos")
 public class PosController {
-
-
     @Autowired
     private GoodService goodService ;
     @Autowired
@@ -56,6 +54,7 @@ public class PosController {
     public String info(@PathVariable Integer id, Model model){
         Good good = goodService.findGoodInfo(id);
         model.addAttribute("good", good);
+        model.addAttribute("isFactory", true);
         return "factory_role/pos/info";
     }
 
@@ -80,7 +79,7 @@ public class PosController {
         model.addAttribute("encryptCardWays", encryptCardWays);
         model.addAttribute("isFactory", true);
 
-        return "good/pos/create";
+        return "factory_role/pos/create";
     }
 
     @RequestMapping(value="create",method=RequestMethod.GET)
@@ -102,7 +101,7 @@ public class PosController {
         model.addAttribute("encryptCardWays", encryptCardWays);
         model.addAttribute("isFactory", true);
 
-        return "good/pos/create";
+        return "factory_role/pos/create";
     }
 
     private void findPage(Integer customerId, Integer page, Byte status, String keys, Model model){

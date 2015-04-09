@@ -1,10 +1,26 @@
 <div class="content clear">
     <div class="user_title"><h1>POS机详情</h1>
-    <#if good.status != 5>
+        <#if isFactory?? && isFactory>
         <div class="userTopBtnBox">
+        <#if good.status=1>
             <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
+
+        <#elseif good.status=2>
+            <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
+
+        <#elseif good.status=3>
+            <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
+
+        <#elseif good.status=4>
+            <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
+
+        <#elseif good.status=5>
+        <#elseif good.status=6>
+        </#if>
         </div>
-    </#if>
+        <#else>
+            <#include "../../good/pos/infoStatus.ftl" />
+        </#if>
     </div>
     <div class="attributes_box">
         <h2>基础信息</h2>
