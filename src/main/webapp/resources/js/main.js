@@ -121,8 +121,6 @@ $(function(){
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 	
 	popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
-	
-	popup(".tab",".close");//售后库存管理提示弹层
 })
 
 

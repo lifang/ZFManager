@@ -69,12 +69,7 @@
         	</select></h3>
             <#include "../customerGood.ftl" />
         </div>
-        <div class="total_info">含配送费合计
-        	<strong id="totalStrong">
-        		￥${(good.price*quantity/100)?string("0.00")}
-        	</strong>
-        	（配送费￥0.00）
-        </div>
+        <div class="total_info">含配送费合计<strong>￥9.99</strong>（配送费￥0.00）</div>
         <div class="other_info">
         	<div class="oi_left">
             	<div class="oi_title">留言</div>
@@ -98,7 +93,7 @@
             </div>
         </div>
         <div class="settleAccount">
-        	<p>实付：<strong id="actualStrong">￥${(good.price*quantity/100)?string("0.00")}</strong></p>
+        	<p>实付：<strong>￥1377.00</strong></p>
         	<button class="blueBtn" onclick="createSure(${good.id!""});">创建订单</button>
         </div>
     </div>

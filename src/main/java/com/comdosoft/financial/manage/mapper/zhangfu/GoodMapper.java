@@ -92,11 +92,4 @@ public interface GoodMapper {
     		@Param("orderType") String orderType
     		);
     
-    /**
-     * 通过id获取good列表
-     * @author Tory
-     * @param goodIds
-     */
-    List<Good> selectGoodsByIds(List<Integer> goodIds);
-    
 }

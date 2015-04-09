@@ -88,12 +88,7 @@
         	</select></h3>
             <#include "../customerGood.ftl" />
         </div>
-        <div class="total_info">含配送费合计
-        	<strong id="totalStrong">￥
-        		<#include "../totalPrice.ftl" />
-        	</strong>
-        	（配送费￥0.00）
-        </div>
+        <div class="total_info">含配送费合计<strong>￥9.99</strong>（配送费￥0.00）</div>
         <div class="other_info">
         	<div class="oi_left">
             	<div class="oi_title">留言</div>
@@ -104,9 +99,9 @@
             </div>
         </div>
         <div class="settleAccount">
-        	<p>实付：<strong id="actualStrong">￥<#include "../totalPrice.ftl" /></strong></p>
+        	<p>实付：<strong>￥1377.00</strong></p>
         	<#if order??>
-        		<button class="blueBtn" onclick="createSureAgain(${order.id!""});">创建代购订单</button>
+        		<button class="blueBtn">创建代购订单</button>
         	<#else>
         		<button class="blueBtn" onclick="createSure(${good.id!""});">创建代购订单</button>
         	</#if>
@@ -228,13 +223,6 @@
 		var quantity = $("#quantity").val();
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
-		var allCustomerAddress=document.getElementsByName("customerAddressId");
-		for(var i=0,size=allCustomerAddress.length;i<size;i++){
-			if(allCustomerAddress[i].checked){
-				customerAddressId=allCustomerAddress[i].id.replace("customerAddressId_","");
-				break;
-			}
-		}
 		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){
 			alert("请选择地址");
 			return;
@@ -268,54 +256,6 @@
 					'&payChannelId='+payChannelId+
 					'&customerId='+customerId;
 		location.href='<@spring.url "" />'+'/order/agent/createSure'+param;
-	}
-	
-	//再次订购
-	function createSureAgain(orderId){
-		var goodQuantity="";
-		var allinput=document.getElementsByName("quantity");
-		for(var i=0,size=allinput.length;i<size;i++){
-			goodQuantity+=allinput[i].id+":"+allinput[i].value;
-			if(i<size-1){
-				goodQuantity+=",";
-			}
-		}
-		var comment=$("#comment").val();
-		var customerAddressId=$("#customerAddressId").val();
-		var allCustomerAddress=document.getElementsByName("customerAddressId");
-		for(var i=0,size=allCustomerAddress.length;i<size;i++){
-			if(allCustomerAddress[i].checked){
-				customerAddressId=allCustomerAddress[i].id.replace("customerAddressId_","");
-				break;
-			}
-		}
-		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){
-			alert("请选择地址");
-			return;
-		}
-		var invoiceInfo=null;
-		var needInvoice=null;
-		var invoiceType= null;
-		var type=$("#type").val();
-		if("0"==type){
-			alert("请选择订单类型");
-			return;
-		}
-		var customerId= $("#customerId").val();
-		if(null==customerId||'undefined'==customerId){
-			alert("请确定用户");
-			return;
-		}
-		var param='?orderId='+orderId+
-					'&goodQuantity='+goodQuantity+
-					'&comment='+comment+
-					'&customerAddressId='+customerAddressId+
-					//'&invoiceInfo='+invoiceInfo+
-					//'&needInvoice='+needInvoice+
-					//'&invoiceType='+invoiceType+
-					'&type='+type+
-					'&customerId='+customerId;
-		location.href='<@spring.url "" />'+'/order/agent/createSureAgain'+param;
 	}
 	
 	function saveCustomer(){

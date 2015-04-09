@@ -45,9 +45,4 @@ public class CustomerAddressService {
     	}
 		return result;
     }
-    
-    public CustomerAddress get(Integer id){
-    	return customerAddressMapper.selectByPrimaryKey(id);
-    }
-    
 }

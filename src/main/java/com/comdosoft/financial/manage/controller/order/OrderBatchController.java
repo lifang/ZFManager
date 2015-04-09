@@ -102,20 +102,6 @@ public class OrderBatchController {
 		model.addAttribute("type", type);
 		return "order/batch/create";
 	}
-	
-	@RequestMapping(value = "/batch/{orderId}/createAgain", method = RequestMethod.GET)
-	public String createAgainGet(HttpServletRequest request, Model model,
-			@PathVariable Integer orderId) {
-		Order order = orderService.findOrderInfo(orderId);
-		List<CustomerAddress> selectCustomerAddress = customerAddressService
-				.selectCustomerAddress(order.getCustomerId());
-		List<City> cities = cityService.cities(0);
-		model.addAttribute("customerAddresses", selectCustomerAddress);
-		model.addAttribute("cities", cities);
-		model.addAttribute("order", order);
-		model.addAttribute("type", order.getTypes());
-		return "order/batch/create";
-	}
 
 	@RequestMapping(value = "/batch/createSure", method = RequestMethod.GET)
 	public String createSureGet(HttpServletRequest request, Model model,
@@ -131,23 +117,7 @@ public class OrderBatchController {
 		types.add((byte) 5);
 		findPage(1, null, null, null, model, types);
 		return "order/batch/list";
-	}
-	
-	/**
-	 * 再次订购确认订单
-	 * @throws Exception 
-	 */
-	@RequestMapping(value = "/batch/createSureAgain", method = RequestMethod.GET)
-	public String createSureAgainGet(HttpServletRequest request, Model model,
-			Integer orderId, String goodQuantity, String comment,
-			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer customerId) throws Exception {
-		orderService.save(customerId, orderId, goodQuantity, comment,
-				invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
-		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 5);
-		findPage(1, null, null, null, model, types);
-		return "order/batch/list";
+
 	}
 
 	@RequestMapping(value = "/batch/{id}/save", method = RequestMethod.GET)

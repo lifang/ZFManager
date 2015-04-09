@@ -1,22 +1,22 @@
      <tr id="row_${outStore.id}"> 
-      <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}"></td> 
+      <td><input type="checkBox" value=${outStore.id}></td> 
       <td>${outStore.id}</td>
       <td>${outStore.createdAt}</td> 
       <td>${outStore.orderId}</td> 
       <td><strong class="strong_status">
-       <#if outStore.status=3>处理完成
-       <#elseif outStore.status=1>待处理
-       <#elseif outStore.status=2>已取消
+       <#if outStore.status=0>待处理
+       <#elseif outStore.status=1>已取消
+       <#elseif outStore.status=2>处理完成
        </#if>
       </strong></td> 
       <td>
-       <#if outStore.status=1>
+       <#if outStore.status=0>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>
        		<a href="#" class="a_btn" onclick="changeStatus(${outStore.id})">取消</a><br/>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/add" />" class="a_btn">添加出库记录</a>
-       	<#elseif outStore.status=2>
+       	<#elseif outStore.status=1>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>
-       	<#elseif outStore.status=3>
+       	<#elseif outStore.status=2>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>
        	</#if>	
 	 </td> 

@@ -47,7 +47,7 @@
                     </td>
 			      	<td>${good.quantity}</td> 
 			      	<td class="text">
-			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}" id="terminal_${good.id}"></textarea>
+			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}"></textarea>
 			      	</td>
 				   </tr>
 			  </#list>
@@ -61,9 +61,9 @@
                 	<li class="b"><span class="labelSpan">收货地址：</span>
                     <div class="text"> <#if (address)??>${address}</#if></div></li>
                     <li class="block"><span class="labelSpan">物流公司：</span>
-                    <div class="text"><input name="" type="text" id="wlCompany" /></div></li>
+                    <div class="text"><input name="" type="text" /></div></li>
                     <li class="block"><span class="labelSpan">物流单号：</span>
-                    <div class="text"><input name="" type="text" id="wlNumStr" /></div></li>
+                    <div class="text"><input name="" type="text" /></div></li>
                 </ul>
             </div>
         </div>
@@ -92,20 +92,25 @@
 		}
 		
 		var outStorageIdStr=$("#outStorageId").val();
-		
-		$.post('<@spring.url "/task/outStore/save" />',
-	        {   "id": outStorageIdStr,
-	        "wlCompany":wlCompanyStr,
-	        "wlNum":wlNumStr,
-	        "terminalNum":temp},
-	        function (ret) {
-	        	if(ret.code=='-1'){
-            		alert("操作出错，错误信息为："+ret.message);
-            	}else if(ret.code=='1'){
+		 $.ajax({
+            type: "post",
+            url: "/task/outStore/save",
+            data: {
+                id:outStorageIdStr,
+                wlCompany: wlCompanyStr,
+                wlNum:wlNumStr,
+                terminalNum:temp
+                    },
+            success: function (ret) {
+            	if(ret.resultCode=="-1"){
+            		alert("操作出错，错误信息为："+ret.resultInfo);
+            	}else if(ret.resultCode=="1"){
             		//跳转
             		window.location.href="#/task/outStore/list";
             	}
-	        });	
+            }
+        });
+		
 	}
 </script>    
 </@c.html>

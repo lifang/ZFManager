@@ -3,9 +3,7 @@ package com.comdosoft.financial.manage.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
@@ -163,83 +162,8 @@ public class OrderService {
 		return insert;
 	}
 	
-	public int save(Integer customerId,Integer orderId,String goodQuantity,String comment,String invoiceInfo,Integer customerAddressId,Integer invoiceType,Boolean needInvoice,int type) throws Exception{
-		Order orderOld=orderMapper.findOrderInfo(orderId);
-		List<OrderGood> orderGoods = orderOld.getOrderGoods();
-		List<Map<String,Integer>> goodQuantityList=new ArrayList<Map<String,Integer>>();
-		List<Integer> goodIds=new ArrayList<Integer>();
-		String[] split = goodQuantity.split(",");
-		Integer totalQuantity=0;
-		for(String goodQuantityE:split){
-			String[] split2 = goodQuantityE.split(":");
-			Integer goodId = Integer.parseInt(split2[0].replaceAll("quantity_", ""));
-			goodIds.add(goodId);
-			Map<String, Integer> map=new HashMap<String, Integer>();
-			map.put("goodId", goodId);
-			int quantity = Integer.parseInt(split2[1]);
-			map.put("quantity", quantity);
-			totalQuantity+=quantity;
-			goodQuantityList.add(map);
-		}
-		List<Good> selectGoodsByIds = goodMapper.selectGoodsByIds(goodIds);
-		Integer totalPrice=0;
-		for(Good good:selectGoodsByIds){
-			for(Map<String,Integer> map:goodQuantityList){
-				if(map.get("goodId").equals(good.getId())){
-					totalPrice+=good.getPrice()*map.get("quantity");
-					break;
-				}
-			}
-		}
-		Order orderNew=new Order();
-		orderNew.setActualPrice(totalPrice);
-		orderNew.setComment(comment);
-		Date createdAt = new Date();
-		orderNew.setCreatedAt(createdAt);
-		orderNew.setCreatedUserId(customerId);
-		orderNew.setCustomerAddressId(customerAddressId);
-		orderNew.setInvoiceInfo(invoiceInfo);
-		orderNew.setInvoiceType(invoiceType);
-		orderNew.setNeedInvoice(needInvoice);
-		if (null != customerId) {
-			orderNew.setCustomerId(customerId);
-		} else {
-			orderNew.setCustomerId(orderOld.getCustomerId());
-		}
-		orderNew.setTotalPrice(totalPrice);
-		orderNew.setTypes((byte) type);
-		orderNew.setUpdatedAt(createdAt);
-		orderNew.setTotalQuantity(totalQuantity);
-		String orderNumber=getOrderNum(type);
-		orderNew.setOrderNumber(orderNumber);
-		orderNew.setStatus((byte) 1);
-		orderMapper.insert(orderNew);
-		int newOrderId=orderNew.getId();
-		for(Good good:selectGoodsByIds){
-			for(Map<String,Integer> map:goodQuantityList){
-				if(map.get("goodId").equals(good.getId())){
-					OrderGood orderGood=new OrderGood();
-					orderGood.setOrderId(newOrderId);
-					orderGood.setGoodId(good.getId());
-					orderGood.setCreatedAt(createdAt);
-					orderGood.setUpdatedAt(createdAt);
-					orderGood.setQuantity(map.get("quantity"));
-					orderGood.setPrice(good.getPrice());
-					orderGood.setActualPrice(good.getPrice()* map.get("quantity"));
-					for(OrderGood orderGoodOld:orderGoods){
-						if(orderGoodOld.getGoodId().equals(good.getId())){
-							orderGood.setPayChannelId(orderGoodOld.getPayChannelId());
-							break;
-						}
-					}
-					int insert = orderGoodMapper.insert(orderGood);
-					if(insert!=1){
-						throw new Exception("保存订单商品失败");
-					}
-					break;
-				}
-			}
-		}
+	public int save(){
+		
 		return 1;
 	}
 	
