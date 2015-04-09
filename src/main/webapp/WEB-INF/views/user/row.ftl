@@ -11,16 +11,16 @@
     </#if></strong></td>
     <td>
     <#if customer.status==1>
-        <a href="#" class="a_btn">重置密码</a>
+        <a href="<@spring.url "/user/${customer.id}/resetpwd"/>" class="a_btn">重置密码</a>
         <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
         <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>
     <#elseif customer.status==2>
-        <a href="#" class="a_btn">重置密码</a>
+        <a href="<@spring.url "/user/${customer.id}/resetpwd"/>" class="a_btn">重置密码</a>
         <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
         <a href="javascript:userStatus(${customer.id});" class="a_btn">停用</a>
         <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>
     <#elseif customer.status==3>
-        <a href="#" class="a_btn">重置密码</a>
+        <a href="<@spring.url "/user/${customer.id}/resetpwd"/>" class="a_btn">重置密码</a>
         <a href="<@spring.url "/user/${customer.id}/edit"/>" class="a_btn">编辑</a>
         <a href="javascript:userStatus(${customer.id});" class="a_btn">启用</a>
         <a href="<@spring.url "/user/${customer.id}/info"/>" class="a_btn">查看详情</a>

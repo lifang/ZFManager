@@ -9,10 +9,8 @@
 <div class="content clear">
     <div class="user_title"><h1>用户详情</h1>
         <div class="userTopBtnBox">
-            <a href="#" class="ghostBtn">编辑用户信息</a>
-            <a href="#" class="ghostBtn">重置密码</a><a href="#" class="ghostBtn ce_a">调整积分</a>
-            <a href="#" class="ghostBtn">停用</a>
-        </div>
+         <#include "info_status.ftl"/>
+         </div>
     </div>
     <div class="detailCon">
         <div class="attributes_list clear">
@@ -41,6 +39,26 @@
         </div>
     </div>
 </div>
+<div class="tab creditsExchange_tab" style="top: 272.5px; left: 495px; display: none;">
+    <a href="#" class="close">close</a>
+    <div class="tabHead">调整积分</div>
+    <div class="tabBody">
+        <div class="item_list clear">
+            <ul>
+                <li><span class="labelSpan"><input name="types" type="radio" value="1" class=""> 增加：</span>
+                    <div class="text"><input name="" type="text" class=""></div>
+                </li>
+                <li><span class="labelSpan"><input name="types" type="radio" value="2" class=""> 减少：</span>
+                    <div class="text"><input name="" type="text" class=""></div>
+                </li>
+                <li><span class="labelSpan"> 调整原因：</span>
+                    <div class="text"><textarea name="reason" cols="" rows=""></textarea></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
 <script>
     function merchantPageChange(page){
         $.post("<@spring.url "/user/${customer.id}/info/merchants"/>",
@@ -62,6 +80,11 @@
                 function(data){
                     $("#agents").html(data);
                 });
+    }
+    function userStatus(id){
+        $.post("<@spring.url "/user/"/>"+id+"/status?source=info",function(data){
+            $(".userTopBtnBox").replaceWith(data);
+        });
     }
     $(function(){
         merchantPageChange(0);

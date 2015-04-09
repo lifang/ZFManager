@@ -223,6 +223,9 @@ public class CustomerService {
     public Customer selectByUsername(String username){
         return customerMapper.selectByUsername(username);
     }
+    public Customer selectById(Integer id){
+        return customerMapper.selectByPrimaryKey(id);
+    }
 
     public List<Customer> findUserAndAgent(String username) {
         return customerMapper.selectUserAndAgent(username + "%");

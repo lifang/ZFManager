@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Agent;
-import com.comdosoft.financial.manage.domain.zhangfu.City;
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
-import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerAgentRelationService;
 import com.comdosoft.financial.manage.service.CustomerService;
@@ -133,13 +129,23 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="{id}/status",method=RequestMethod.POST)
-	public String userStatus(@PathVariable Integer id,Model model){
+	public String userStatus(@PathVariable Integer id, String source, Model model){
 		Customer customer = customerService.updateStatus(id);
 		model.addAttribute("customer", customer);
 		long terminal = terminalService.countCustomerTerminals(id);
 		model.addAttribute("terminal", terminal);
+        if("info".equals(source)){
+            return "user/info_status";
+        }
 		return "user/row";
 	}
+
+    @RequestMapping(value="{id}/resetpwd",method=RequestMethod.GET)
+    public String resetPassword(@PathVariable Integer id, Model model){
+        Customer customer = customerService.selectById(id);
+        model.addAttribute("customer", customer);
+        return "user/customer_reset_pwd";
+    }
 	
 	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
 	public String userInfo(@PathVariable Integer id,Model model){
