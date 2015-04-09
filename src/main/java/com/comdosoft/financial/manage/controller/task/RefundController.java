@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsRefund;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.service.RecordOperateService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsCommonService;
 import com.comdosoft.financial.manage.service.task.RefundService;
@@ -32,6 +33,8 @@ import com.comdosoft.financial.manage.utils.page.Page;
 public class RefundController {
 	private Logger LOG = LoggerFactory.getLogger(RefundController.class);
 	
+	private String content = "name执行了A page的button操作，操作记录的id是 nowId";
+	
 	@Autowired
 	private RefundService refundService ;
 	
@@ -40,6 +43,9 @@ public class RefundController {
 	
 	@Autowired
 	private CsCommonService csCommonService;
+	
+	@Autowired
+	private RecordOperateService recordOperateService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(Integer page, Byte status, String orderNumber, Model model){
@@ -86,7 +92,8 @@ public class RefundController {
 	}
 	
 	@RequestMapping(value="{id}/updsateRefundStatus",method=RequestMethod.GET)
-	public String updsateRefundStatus(@PathVariable("id") int id,Model model){
+	public String updsateRefundStatus(HttpServletRequest request,@PathVariable("id") int id,Model model){
+		operationRefundContent(request,"标记退款完成",id);
 		
 		refundService.updsateRefundStatus(id,CsRefund.STATIC_2);
 		
@@ -97,14 +104,19 @@ public class RefundController {
 	}
 	
 	@RequestMapping(value="{id}/updsateListRefundStatus",method=RequestMethod.GET)
-	public String updsateListRefundStatus(@PathVariable("id") int id,Integer page, Byte status, String orderNumber,Model model){
+	public String updsateListRefundStatus(HttpServletRequest request,@PathVariable("id") int id,Integer page, Byte status, String orderNumber,Model model){
+		operationRefundContent(request,"标记退款完成",id);
+		
 		refundService.updsateRefundStatus(id,CsRefund.STATIC_2);
 		findPage(page, status, orderNumber, model);
 		return "task/refund/list";
 	}
 	
 	@RequestMapping(value="{id}/updsateRefundDeStatus",method=RequestMethod.GET)
-	public String updsateRefundDeStatus(@PathVariable("id") int id,Integer page, Byte status, String orderNumber,Model model){
+	public String updsateRefundDeStatus(HttpServletRequest request,@PathVariable("id") int id,Integer page, Byte status, String orderNumber,Model model){
+		
+		operationRefundContent(request,"取消",id);
+		
 		refundService.updsateRefundStatus(id,CsRefund.STATIC_3);
 		findPage(page, status, orderNumber, model);
 		return "task/refund/list";
@@ -145,5 +157,15 @@ public class RefundController {
         	e.printStackTrace();
         	return null;
         }
+    }
+    
+    public void operationRefundContent(HttpServletRequest request,String button,int id){
+    	Customer customer = sessionService.getLoginInfo(request);
+		content = content.replace("name", customer.getName())
+				.replace("A page", "任务退款页面")
+				.replace("button", button)
+				.replace("nowId", String.valueOf(id));
+		recordOperateService.saveOperateRecord(customer.getId(), customer.getName(), customer.getTypes(), CsRefund.REFUND_TYPE, content, id);
+		
     }
 }
