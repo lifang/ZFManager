@@ -361,9 +361,4 @@ public class CsRefund {
 	 * 退款状态3.已取消
 	 */
 	public static int STATIC_3 = 3;
-	
-	/**
-	 * 退款操作类型
-	 */
-	public static int REFUND_TYPE = 10;
 }
