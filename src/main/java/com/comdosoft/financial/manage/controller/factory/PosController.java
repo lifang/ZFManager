@@ -79,7 +79,7 @@ public class PosController {
         model.addAttribute("encryptCardWays", encryptCardWays);
         model.addAttribute("isFactory", true);
 
-        return "good/pos/create";
+        return "factory_role/pos/create";
     }
 
     @RequestMapping(value="create",method=RequestMethod.GET)
@@ -101,7 +101,7 @@ public class PosController {
         model.addAttribute("encryptCardWays", encryptCardWays);
         model.addAttribute("isFactory", true);
 
-        return "good/pos/create";
+        return "factory_role/pos/create";
     }
 
     private void findPage(Integer customerId, Integer page, Byte status, String keys, Model model){
