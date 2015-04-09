@@ -22,7 +22,7 @@
                             <ul>
                                 <li>编号：${(refundDetails.applyNum)!""}</li>
                                 <li>处理人：${(refundDetails.processUserName)!""}</li>
-                                <li>相关业务：<a href="#" class="a_btn">${(refundDetails.orderNumber)!""}</a></li>
+                                <li>相关业务：<a href="<@spring.url '/cs/lease/${refundDetails.returnId}/info' />" class="a_btn">${(refundDetails.returnApplyNum)!""}</a></li>
                                 <li>联系人：${(refundDetails.payee)!""}</li>
                                 <li>联系电话：${(refundDetails.payeePhone)!""}</li>
                                 <li>退款金额：<strong>￥${(refundDetails.returnPrice)!""}</strong></li>
@@ -37,7 +37,7 @@
                                 	<div class="text">
                                     	<div class="item_photoBox">
                                     	 <form id="fileForm" method="post" action="<@spring.url '/task/refund/${refundDetails.id}/upload/tempImage' />" enctype="multipart/form-data">  
-                                            <img id="refundeims" src="${refundDetails.returnVoucherFilePath}" class="cover" />
+                                            <img id="refundeims" src="../../../resources/images/zp.jpg" class="cover" />
                                             <a href="javascript:void(0);" class="informImg_a">
                                                 <span>重新上传退款凭证</span><input name="img" multiple type="file" onchange="setSpanName()">
                                             </a>
@@ -46,7 +46,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="img_info"><img src="images/mt_big.jpg" /></div>
+                            <div class="img_info"><img src="${refundDetails.returnVoucherFilePath}" /></div>
                         </div> 
                     </div>
                     <div class="user_remark">

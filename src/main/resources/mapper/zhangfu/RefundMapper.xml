@@ -38,7 +38,7 @@
 	</select>
 
 	<select id="getRefundDetails" resultType="map">
-		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
 		FROM cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
 		WHERE c.id = #{id}
 	</select>
