@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
+import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public interface CustomerIntegralConvertMapper {
 	List<CustomerIntegralConvert> findPage(PageRequest request, Byte status,
 			String keyword);
 
-	void updateStatus(CustomerIntegralConvert integralConvert);
+	void updateStatus(OperateRecord operateRecord);
 
 	int insertMark(CustomerIntentionMark record);
 	

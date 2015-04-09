@@ -1,5 +1,5 @@
 <tr>
-	<td><input name="" type="checkbox" value="" /></td>
+	<td><input name="cb_row" type="checkbox" value="" cs_id="${one.id!}" cs_status="${one.status!}" cs_num="${one.serial_num!}"/></td>
 	<td><#if one.credit??><i class="danger" title="${one.credit!}"></i></#if>${one.serial_num!}</td>
 	<td>${one.created_at!}</td>
 	<td>

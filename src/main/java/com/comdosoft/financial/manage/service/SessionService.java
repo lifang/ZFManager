@@ -34,7 +34,7 @@ public class SessionService {
 		return (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);
 	}
 
-	public void clear(HttpServletRequest request){
+    public void clear(HttpServletRequest request){
 		request.getSession().removeAttribute(LOGIN_SESSION_KEY);
 	}
 }

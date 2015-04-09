@@ -1,7 +1,9 @@
 package com.comdosoft.financial.manage.service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -27,6 +29,8 @@ public class CustomerService {
 	private CustomerMapper customerMapper;
     @Autowired
     private CustomerRoleRelationMapper customerRoleRelationMapper;
+    @Autowired
+    private CustomerAddressMapper customerAddressMapper;
 
 	/**
 	 * 登陆查询 超级管理员 运营 第三方机构
@@ -43,23 +47,28 @@ public class CustomerService {
 	 * 创建
 	 */
 	@Transactional("transactionManager")
-	public void createCustomer(String passport, String password,
+	public boolean createCustomer(String name, String password,
                                String phone, Integer city){
-		Customer customer = new Customer();
+        Customer customer = customerMapper.selectByUsername(phone);
+		if(customer != null){
+            return false;
+        }
+        customer = new Customer();
 		customer.setTypes(Customer.TYPE_CUSTOMER);
+        customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
+        customer.setName(name);
 		customer.setPhone(phone);
-		customer.setCityId(city);
+        customer.setUsername(phone);
+        customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
+        customer.setCityId(city);
 		customer.setPassword(DigestUtils.md5Hex(password));
 		customer.setIntegral(0);
-        customer.setCreatedAt(new Date());
         customer.setStatus(Customer.STATUS_NORMAL);
+        customer.setCreatedAt(new Date());
         customer.setUpdatedAt(new Date());
-		if(Strings.isNullOrEmpty(passport)){
-			customer.setUsername(phone);
-		}else{
-			customer.setUsername(passport);
-		}
+		customer.setUsername(phone);
 		customerMapper.insert(customer);
+        return true;
 	}
 	
 	@Transactional("transactionManager")
@@ -157,24 +166,21 @@ public class CustomerService {
 	}
 	
 	/**
-	 * 创建
+	 * 更新
 	 */
 	@Transactional("transactionManager")
-	public void update(Integer id,String passport,String password,
+	public boolean update(Integer id,String name,String password,
 			String phone,Integer city){
 		Customer customer = customer(id);
 		customer.setPhone(phone);
 		customer.setCityId(city);
 		if(!Strings.isNullOrEmpty(password)){
 			customer.setPassword(DigestUtils.md5Hex(password));
-		}
-		customer.setUpdatedAt(new Date());
-		if(Strings.isNullOrEmpty(passport)){
-			customer.setUsername(phone);
-		}else{
-			customer.setUsername(passport);
-		}
+        }
+        customer.setName(name);
+        customer.setUpdatedAt(new Date());
 		customerMapper.updateByPrimaryKey(customer);
+        return true;
 	}
 	/**
 	 * 停用/启用
@@ -217,6 +223,9 @@ public class CustomerService {
     public Customer selectByUsername(String username){
         return customerMapper.selectByUsername(username);
     }
+    public Customer selectById(Integer id){
+        return customerMapper.selectByPrimaryKey(id);
+    }
 
     public List<Customer> findUserAndAgent(String username) {
         return customerMapper.selectUserAndAgent(username + "%");
@@ -227,5 +236,47 @@ public class CustomerService {
     		customerName="%"+customerName+"%";
     	}
     	return customerMapper.searchCustomer(customerName);
+    }
+
+    @Transactional("transactionManager")
+    public boolean modifyPwdAndAddress(Integer id, String oldPwd, String newPwd,
+                                    Integer cityId, String address, String cellphone){
+        Customer c = customerMapper.selectByPrimaryKey(id);
+        if(oldPwd != null && newPwd != null
+                && !oldPwd.equals("") && !newPwd.equals("")){
+            String md5Password = DigestUtils.md5Hex(oldPwd);
+            if(!md5Password.equals(c.getPassword())){
+                return false;
+            }
+            md5Password = DigestUtils.md5Hex(newPwd);
+            c.setPassword(md5Password);
+            customerMapper.updateByPrimaryKey(c);
+        }
+
+        List<CustomerAddress> customerAddresses = customerAddressMapper.selectCustomerAddress(c.getId());
+        CustomerAddress customerAddress = null;
+        if(customerAddresses ==null || customerAddresses.size() == 0){
+            customerAddress = new CustomerAddress();
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setCustomerId(c.getId());
+            customerAddress.setIsDefault(CustomerAddress.DEFAULT_TRUE);
+            customerAddress.setStatus(CustomerAddress.STATUS_NORMAL);
+            customerAddress.setCreatedAt(new Date());
+            customerAddress.setUpdatedAt(new Date());
+            customerAddressMapper.insert(customerAddress);
+        } else {
+            customerAddress = customerAddresses.get(0);
+            customerAddress.setCityId(cityId);
+            customerAddress.setAddress(address);
+            customerAddress.setMoblephone(cellphone);
+            customerAddress.setUpdatedAt(new Date());
+        }
+
+        customerAddressMapper.updateByPrimaryKey(customerAddress);
+
+        return true;
+
     }
 }

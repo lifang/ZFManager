@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.IndexMessageMapper">
+  
+    <select id="CommentModeration" resultType="int">
+        SELECT count(*) FROM good_comments WHERE status = #{status}
+    </select>
+    
+    <select id="GoodModeration" resultType="int">
+        SELECT count(*) FROM goods WHERE status = #{status}
+    </select>
+    
+    <select id="openingAppliesModeration" resultType="int">
+        SELECT count(*) FROM opening_applies WHERE status = #{status}
+    </select>
+    
+    <select id="returnModeration" resultType="int">
+        SELECT count(*) FROM cs_returns WHERE status = #{status}
+    </select>
+    
+    <select id="changeModeration" resultType="int">
+        SELECT count(*) FROM cs_changes WHERE status = #{status}
+    </select>
+    
+    <select id="repairsModeration" resultType="int">
+        SELECT count(*) FROM cs_repairs WHERE status = #{status}
+    </select>
+    
+    <select id="cancelsModeration" resultType="int">
+        SELECT count(*) FROM cs_cancels WHERE status = #{status}
+    </select>
+    
+    <select id="updateInfosModeration" resultType="int">
+        SELECT count(*) FROM cs_update_infos WHERE status = #{status}
+    </select>
+    
+    <select id="storagesModeration" resultType="int">
+        SELECT count(*) FROM cs_out_storages WHERE status = #{status}
+    </select>
+    
+    <select id="srefundsModeration" resultType="int">
+        SELECT count(*) FROM cs_refunds WHERE status = #{status}
+    </select>
+    
+    <select id="agentModeration" resultType="int">
+        SELECT count(*) FROM cs_agents WHERE status = #{status}
+    </select>
+</mapper>

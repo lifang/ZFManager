@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsRefund;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.service.RecordOperateService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsCommonService;
@@ -161,11 +162,11 @@ public class RefundController {
     
     public void operationRefundContent(HttpServletRequest request,String button,int id){
     	Customer customer = sessionService.getLoginInfo(request);
-		content = content.replace("name", customer.getName())
+		String contentNew = content.replace("name", customer.getName())
 				.replace("A page", "任务退款页面")
 				.replace("button", button)
 				.replace("nowId", String.valueOf(id));
-		recordOperateService.saveOperateRecord(customer.getId(), customer.getName(), customer.getTypes(), CsRefund.REFUND_TYPE, content, id);
+		recordOperateService.saveOperateRecord(customer.getId(), customer.getName(), customer.getTypes(), OperateRecord.TYPES_REFUND, contentNew, id);
 		
     }
 }

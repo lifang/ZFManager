@@ -395,5 +395,11 @@ public class CsRepair {
 	public void setCsReceiverAddress(CsReceiverAddress csReceiverAddress) {
 		this.csReceiverAddress = csReceiverAddress;
 	}
+	
+	public static final byte STATUS_1 = 1;	// 未付款
+    public static final byte STATUS_2 = 2	;	// 代发回
+    public static final byte STATUS_3 = 3;	// 维修中
+    public static final byte STATUS_4 = 4;	// 处理完成
+    public static final byte STATUS_5 = 5;	// 已取消
 
 }

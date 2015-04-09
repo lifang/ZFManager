@@ -281,7 +281,11 @@ public class CustomerAddress {
 		this.telphone = telphone;
 	}
 
-	private City city;
+    public static final Integer DEFAULT_TRUE = 1;
+    public static final Integer DEFAULT_FALSE = 2;
+    public static final Byte STATUS_NORMAL = 1;
+    public static final Byte STATUS_DELETE = 2;
+    private City city;
 	private City parentCity;
 
 	public City getCity() {

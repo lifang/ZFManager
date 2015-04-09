@@ -90,10 +90,11 @@
 	</resultMap>
   
   <select id="selectCustomerAddress" resultMap="CustomerAddressResultMap">
+      <bind name="STATUS_NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress@STATUS_NORMAL" />
     select ca.*,c.id as c_id,c.name as c_name,pc.id as pc_id,pc.name as pc_name
     from customer_addresses ca
     left join cities c on ca.city_id=c.id
     left join cities pc on c.parent_id=pc.id 
-    where ca.customer_id=#{customerId} and ca.status=1 order by ca.is_default asc,ca.updated_at desc
+    where ca.customer_id=#{customerId} and ca.status=#{STATUS_NORMAL} order by ca.is_default asc,ca.updated_at desc
   </select>
 </mapper>

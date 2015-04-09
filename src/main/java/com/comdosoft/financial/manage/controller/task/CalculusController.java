@@ -63,18 +63,24 @@ public class CalculusController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) {
 		customerIntegralConvertService.handle(id);
+		Customer customer = sessionService.getLoginInfo(request);
+		customerIntegralConvertService.record(customer,id,"标记为处理中");
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) {
 		customerIntegralConvertService.cancel(id);
+		Customer customer = sessionService.getLoginInfo(request);
+		customerIntegralConvertService.record(customer,id,"取消");
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request,HttpServletResponse response, @PathVariable Integer id) {
 		customerIntegralConvertService.finish(id);
+		Customer customer = sessionService.getLoginInfo(request);
+		customerIntegralConvertService.record(customer,id,"标记为完成");
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)

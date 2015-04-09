@@ -119,7 +119,7 @@
                 <li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/refund")> class="hover"</#if>>退款</a></li>
             </ol>
         </li>
-        <li><a href="#">购买意向</a></li>
+        <li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买意向</a></li>
         <li class="second"><a href="javascript:void(0);"<#if urlCheck(request,"/system")> class="hover"</#if>>系统<i class="<#if urlCheck(request,"/system")>on<#else>off</#if>"></i></a>
             <ol<#if urlCheck(request,"/system")> style="display: block;"</#if>>
                 <li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li>

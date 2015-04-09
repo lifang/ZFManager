@@ -326,4 +326,21 @@ public class CsAgent {
 	public void setTerminalsList(String terminalsList) {
 		this.terminalsList = terminalsList;
 	}
+	
+	/**
+	 * 退款状态1.待处理
+	 */
+	public static int STATIC_1 = 1;
+	/**
+	 * 退款状态2.处理中
+	 */
+	public static int STATIC_2 = 2;
+	/**
+	 * 退款状态3.处理完成
+	 */
+	public static int STATIC_3 = 3;
+	/**
+	 * 退款状态4.已取消
+	 */
+	public static int STATIC_4 = 4;
 }

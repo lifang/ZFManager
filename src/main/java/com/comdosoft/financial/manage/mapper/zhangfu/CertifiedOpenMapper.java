@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -35,6 +36,8 @@ public interface CertifiedOpenMapper {
     int videoStatus(int id);
 
     int upMstatus(@Param("id")Integer id,@Param("status") Integer status);
+
+    void dispatch(Map<String, Object> params);
 
 	
 

@@ -1,7 +1,9 @@
 package com.comdosoft.financial.manage.service.task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,6 +93,18 @@ public class CertifiedOpenService {
 
     public int upMstatus(Integer id, Integer status) {
         return  certifiedOpenMapper.upMstatus(id,status);
+    }
+
+
+
+
+    public void dispatch(String ids, Integer customerId, String customerName) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("ids", ids.split(","));
+        params.put("customerId", customerId);
+        params.put("customerName", customerName);
+        certifiedOpenMapper.dispatch(params);
+        
     }
 	
 }

@@ -15,6 +15,7 @@ import com.comdosoft.financial.manage.service.task.CertifiedOpenService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -124,7 +125,10 @@ public class CertifiedOpenController {
 		model.addAttribute("apply", app);
 	}
 	
-	
+	@RequestMapping(value="dispatch",method=RequestMethod.POST)
+    public void dispatch(String ids, Integer customerId, String customerName){
+	    certifiedOpenService.dispatch(ids, customerId, customerName);
+    }
 
     
 
