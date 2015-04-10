@@ -1,4 +1,4 @@
-<#import "../../common.ftl" as c />
+<#import "../common.ftl" as c />
 <@c.html>
 <div class="right" >
 	<div class="breadcrumb">

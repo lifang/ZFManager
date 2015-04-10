@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,13 @@ public class OrderController {
 			Integer factoryId, Model model) {
 		Factory factory = (Factory) request.getSession().getAttribute("__SESSION_FACTORY_KEY__");
 		factoryId = factory.getId();
-//		List<Byte> types = new ArrayList<Byte>();
-//		types.add((byte) 1);
-//		types.add((byte) 2);
-		findPage(page, status, keys, factoryId, model, null);
+		List<Byte> types = new ArrayList<Byte>();
+		types.add((byte) 1);
+		types.add((byte) 2);
+		types.add((byte) 3);
+		types.add((byte) 4);
+		types.add((byte) 5);
+		findPage(page, status, keys, factoryId, model, types);
 		return "factory_role/order/list";
 	}
 
@@ -52,10 +56,13 @@ public class OrderController {
 			Integer factoryId, Model model) {
 		Factory factory = (Factory) request.getSession().getAttribute("__SESSION_FACTORY_KEY__");
 		factoryId = factory.getId();
-//		List<Byte> types = new ArrayList<Byte>();
-//		types.add((byte) 1);
-//		types.add((byte) 2);
-		findPage(page, status, keys, factoryId, model, null);
+		List<Byte> types = new ArrayList<Byte>();
+		types.add((byte) 1);
+		types.add((byte) 2);
+		types.add((byte) 3);
+		types.add((byte) 4);
+		types.add((byte) 5);
+		findPage(page, status, keys, factoryId, model, types);
 		return "factory_role/order/pageOrder";
 	}
 
