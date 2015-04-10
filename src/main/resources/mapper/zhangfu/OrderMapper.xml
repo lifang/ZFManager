@@ -152,6 +152,32 @@
 		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
+  <select id="findFactoryPageOrdersByKeys" resultMap="PageOrderResultMap">
+		select o.*,c.id as c_id,c.username as c_username,c.name as c_name,c.phone as c_phone
+		,a.id as a_id,a.company_name as a_company_name,a.phone as a_phone
+		from orders o left join customers c on o.customer_id=c.id 
+		left join agents a on o.customer_id=a.customer_id
+		<where>
+			o.created_user_id = #{customerId}  and LENGTH(o.belongs_to)>0
+			<if test="status != null"> AND o.status =#{status} </if>
+			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
+				order_number like #{keys}) </if>
+		</where>
+		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+	
+	<select id="countFactoryByKeys" resultType="long">
+		SELECT count(*) as count
+		FROM orders o
+		<where>
+			o.created_user_id = #{customerId}  and LENGTH(o.belongs_to)>0
+			<if test="status != null"> AND o.status =#{status} </if>
+			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
+				order_number like #{keys}) </if>
+		</where>
+	</select>
+	
+	
 	<select id="countByKeys" resultType="long">
 		SELECT count(*) as count
 		FROM orders o

@@ -1,10 +1,5 @@
 package com.comdosoft.financial.manage.controller.factory;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Factory;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.service.CustomerService;
 import com.comdosoft.financial.manage.service.FactoryService;
@@ -39,43 +34,27 @@ public class OrderController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(HttpServletRequest request,Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
-		Factory factory = (Factory) request.getSession().getAttribute("__SESSION_FACTORY_KEY__");
-		factoryId = factory.getId();
-		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 1);
-		types.add((byte) 2);
-		types.add((byte) 3);
-		types.add((byte) 4);
-		types.add((byte) 5);
-		findPage(page, status, keys, factoryId, model, types);
+		Customer c = sessionService.getLoginInfo(request);
+		findPage(page, status, keys, model, c.getId());
 		return "factory_role/order/list";
 	}
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public String page(HttpServletRequest request,Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
-		Factory factory = (Factory) request.getSession().getAttribute("__SESSION_FACTORY_KEY__");
-		factoryId = factory.getId();
-		List<Byte> types = new ArrayList<Byte>();
-		types.add((byte) 1);
-		types.add((byte) 2);
-		types.add((byte) 3);
-		types.add((byte) 4);
-		types.add((byte) 5);
-		findPage(page, status, keys, factoryId, model, types);
+		Customer c = sessionService.getLoginInfo(request);
+		findPage(page, status, keys, model, c.getId());
 		return "factory_role/order/pageOrder";
 	}
 
-	private void findPage(Integer page, Byte status, String keys,Integer factoryId, Model model, List<Byte> types) {
+	private void findPage(Integer page, Byte status, String keys, Model model, Integer customerId) {
 		if (page == null) {
 			page = 1;
 		}
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Order> orders = orderService.findPages(page, status, keys,factoryId, types);
-//		List<Factory> findCheckedFactories = factoryService.findCheckedFactories();
-//		model.addAttribute("factories", findCheckedFactories);
+		Page<Order> orders = orderService.findFactoryPages(page, status, keys, customerId);
 		model.addAttribute("orders", orders);
 	}
 

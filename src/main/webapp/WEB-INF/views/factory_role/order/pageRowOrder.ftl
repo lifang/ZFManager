@@ -1,16 +1,6 @@
 <tbody id="row_${order.id}">
     <tr class="order_hd">
         <td colspan="6"><span>订单号 ${order.orderNumber!""}</span><span>${order.createdAt?datetime}</span>
-            <span>类型：
-            	<#if order.types??>
-			      	<#if order.types==1>用户订购
-				       <#elseif order.types==2>用户租赁 
-				       <#elseif order.types==3>代理商代购
-				       <#elseif order.types==4>代理商代租赁
-				       <#elseif order.types==5>代理商批购
-				     </#if>
-				</#if>
-			</span>
             <span>用户：<#if order.customer??>${order.customer.name!""}</#if></span><span>电话：<#if order.customer??>${order.customer.phone!""}</#if></span></td>
     </tr>
     <#if order.orderGoods??>

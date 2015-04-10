@@ -272,4 +272,59 @@ public class OrderService {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmmssSSS");
 		return type + sdf.format(new Date());
 	}
+
+	public Page<Order> findFactoryPages(Integer page, Byte status, String keys,Integer customerId) {
+		pageSize = 3;
+		if (keys != null) {
+			if ("".equals(keys.trim())) {
+				keys = null;
+			} else {
+				keys = "%" + keys + "%";
+			}
+		}
+		long count = orderMapper.countFactoryByKeys(status, keys, customerId);
+		if (count == 0) {
+			return new Page<Order>(new PageRequest(1, pageSize),
+					new ArrayList<Order>(), count);
+		}
+		PageRequest request = new PageRequest(page, pageSize);
+		List<Order> result = null;
+		result = orderMapper.findFactoryPageOrdersByKeys(request, status, keys,customerId);
+		Page<Order> orders = new Page<>(request, result, count);
+		if (orders.getCurrentPage() > orders.getTotalPage()) {
+			request = new PageRequest(orders.getTotalPage(), pageSize);
+			result = orderMapper.findFactoryPageOrdersByKeys(request, status, keys,customerId);
+			orders = new Page<>(request, result, count);
+		}
+		List<Integer> orderIds = new ArrayList<Integer>();
+		for (Order o : result) {
+			orderIds.add(o.getId());
+		}
+		List<OrderGood> selectOrderGoods = orderGoodMapper.selectOrderGoods(orderIds);
+		List<Integer> goodIds = new ArrayList<Integer>();
+		for (Order order : result) {
+			order.setOrderGoods(new ArrayList<OrderGood>());
+			for (int i = 0, size = selectOrderGoods.size(); i < size; i++) {
+				OrderGood o = selectOrderGoods.get(i);
+				if (order.getId().equals(o.getOrderId())) {
+					order.getOrderGoods().add(o);
+					goodIds.add(o.getGoodId());
+				}
+			}
+		}
+		if (!CollectionUtils.isEmpty(goodIds)) {
+			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper.selectGoodsPictures(goodIds);
+			for (OrderGood og : selectOrderGoods) {
+				if (null != og.getGood()) {
+					og.getGood().setPictures(new ArrayList<GoodsPicture>());
+					for (GoodsPicture gp : selectGoodsPictures) {
+						if (og.getGoodId().equals(gp.getGoodId())) {
+							og.getGood().getPictures().add(gp);
+						}
+					}
+				}
+			}
+		}
+		return orders;
+	}
 }
