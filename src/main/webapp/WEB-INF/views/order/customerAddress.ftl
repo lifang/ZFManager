@@ -23,38 +23,62 @@
 	  </thead>
 		<#if customerAddresses??>
 		<input id="customerAddressId" type="hidden" name="customerAddressId" value="" />
-		<#list customerAddresses as customerAddress>
-		  <tr>
-		    <td>
-		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
-		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" checked="ture" />
-		    		<!--
-		    		<script type="text/javascript">
-		    			selectCustomerAddress(${customerAddress.id!""});
-		    		</script>-->
-		    	<#else>
-		    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" />
-		    	</#if>
-		    </td>
-		    <td>${customerAddress.receiver!""}</td>
-		    <td><#if customerAddress.parentCity??>${customerAddress.parentCity.name!""}</#if>
-		    	<#if customerAddress.city??&&customerAddress.parentCity??&&customerAddress.city.name!=customerAddress.parentCity.name>
-		    		${customerAddress.city.name!""}
-		    	</#if>
-		    </td>
-		    <td>${customerAddress.address!""}</td>
-		    <td>${customerAddress.zipCode!""}</td>
-		    <td>${customerAddress.moblephone!""}</td>
-		    <td><a href="#" class="a_btn remark_a" onclick="updateAddressEx(${customerAddress.moblephone!""});">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2,${customerAddress.customerId!""});">删除</a></td>
-		    <td>
-		    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
-		    		<span class="defaultAddr">默认地址</span>
-		    	<#else>
-		    		<a href="#" class="set_defaultAddr">设为默认地址</a>
-		    	</#if>
-		    </td>
-		  </tr>
-		 </#list>
+			<#list customerAddresses as customerAddress>
+			  <tr id="customerAddressTr_${customerAddress.id!""}">
+			    <td>
+			    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
+			    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" checked="ture" />
+			    		<!--
+			    		<script type="text/javascript">
+			    			selectCustomerAddress(${customerAddress.id!""});
+			    		</script>-->
+			    	<#else>
+			    		<input id="customerAddressId_${customerAddress.id!""}" name="customerAddressId" type="radio" value="" onclick="selectCustomerAddress(${customerAddress.id!""});" />
+			    	</#if>
+			    </td>
+			    <td>${customerAddress.receiver!""}</td>
+			    <td><#if customerAddress.parentCity??>${customerAddress.parentCity.name!""}</#if>
+			    	<#if customerAddress.city??&&customerAddress.parentCity??&&customerAddress.city.name!=customerAddress.parentCity.name>
+			    		${customerAddress.city.name!""}
+			    	</#if>
+			    </td>
+			    <td>${customerAddress.address!""}</td>
+			    <td>${customerAddress.zipCode!""}</td>
+			    <td>${customerAddress.moblephone!""}</td>
+			    <td><a href="#" class="a_btn" onclick="updateAddressEx(${customerAddress.id!""});">修改</a><a href="#" class="a_btn" onclick="updateAddress(${customerAddress.id!""},2,${customerAddress.customerId!""});">删除</a></td>
+			    <td>
+			    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
+			    		<span class="defaultAddr">默认地址</span>
+			    	<#else>
+			    		<a href="#" class="set_defaultAddr">设为默认地址</a>
+			    	</#if>
+			    </td>
+			  </tr>
+			  
+			  <tr id="add_address_box_${customerAddress.id!""}" class="addAddr_box" style="display:none">
+			    <td>&nbsp;</td>
+			    <td><input id="receiver_${customerAddress.id!""}" name="" type="text" value="${customerAddress.receiver!""}" /></td>
+			    <td>
+			    	<select name="" id="provinceSelect_${customerAddress.id!""}" onchange="provinceOnchange(${customerAddress.id!""});">
+			    	  <#if customerAddress.parentCity??><option value="${customerAddress.parentCity.id!""}">${customerAddress.parentCity.name!""}</option></#if>
+			    	  <#if customerAddress.city??&&customerAddress.parentCity??&&customerAddress.city.name!=customerAddress.parentCity.name>
+			    	  		<option value="${customerAddress.city.id!""}">${customerAddress.city.name!""}</option>		
+			    	  </#if>
+			    	  <#include "../common/city_option.ftl" />
+			    	</select>
+			        <select name="" id="citySelect_${customerAddress.id!""}">
+			    	  <#if customerAddress.city??&&customerAddress.parentCity??&&customerAddress.city.name!=customerAddress.parentCity.name>
+			    	  		<option value="${customerAddress.city.id!""}">${customerAddress.city.name!""}</option>		
+			    	  </#if>
+			    	</select>
+			    </td>
+			    <td><input id="address_${customerAddress.id!""}" name="" type="text" class="w" value="${customerAddress.address!""}" /></td>
+			    <td><input id="zip_code_${customerAddress.id!""}" name="" type="text" value="${customerAddress.zipCode!""}" /></td>
+			    <td><input id="moble_phone_${customerAddress.id!""}" name="" type="text" value="${customerAddress.moblephone!""}" /></td>
+			    <td><a href="#" class="a_btn" onclick="updateCustomerAddress(${customerAddress.id!""});">确定</a></td>
+			    <td>&nbsp;</td>
+			  </tr>
+			 </#list>
 		  </#if>
 	   	<tr id="add_address_box" class="addAddr_box" style="display:none">
 		    <td>&nbsp;</td>
@@ -75,12 +99,12 @@
 		    <td>&nbsp;</td>
 		  </tr>
         </table>
-        
-<div class="tab remark_tab" id="customerAddressTab_fresh">
-    	<#include "customerAddressTab.ftl" />
-</div>
-
-
+<!--
+<#if order??>
+	<input id="customerId" type="hidden" name="customerId" value="${order.customerId!""}" />
+<#else>
+	<input id="customerId" type="hidden" name="customerId" value="<#if customer??>${customer.id!""}</#if>" />
+</#if>    -->    
 <script type="text/javascript">
 	 $('#provinceSelect').change(function(){
         var provinceId = $(this).children('option:selected').val();
@@ -98,6 +122,22 @@
         }
     });
     
+    function provinceOnchange(id){
+    	var provinceId = $('#provinceSelect_'+id).children('option:selected').val();
+        if(isNotNull(provinceId)){
+            $.post('<@spring.url "/common/cities" />',
+                    {'id':provinceId},
+                    function (data) {
+                        $("#citySelect_"+id).empty();
+                        $("#citySelect_"+id).append("<option>市</option>");
+                        $("#citySelect_"+id).append(data);
+                        //$("#citySelect").append("<option></option>"+data);
+                    });
+        } else {
+            $("#citySelect").empty();
+        }
+    }
+    
     function updateAddress(id,status,customerId){
 		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"id": id,
@@ -110,13 +150,36 @@
 	}
 	
 	function updateAddressEx(id){
-		popup(".remark_tab",".remark_a");
-		$.get('<@spring.url "/order/customer/address/get" />',
-	            {"id": id
+		$("#customerAddressTr_"+id).hide();
+		$("#add_address_box_"+id).show();
+	}
+	
+	
+	function updateCustomerAddress(id){
+		var cityId = $("#citySelect_"+id).val();
+		var receiver = $("#receiver_"+id).val();
+		var address = $("#address_"+id).val();
+		var moblephone = $("#moble_phone_"+id).val();
+		var zipCode = $("#zip_code_"+id).val();
+		var customerId=$("#customerId").val();
+		//if(null==customerId || ''==customerId){
+		//	alert("请先选择用户");
+		//	return;
+		//}
+		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+	            {"id": id,
+	             "cityId": cityId,
+	             "receiver": receiver,
+	             "address": address,
+	             "moblephone": moblephone,
+	             "zipCode": zipCode,
+	             "customerId": customerId
 	            },
 	            function (data) {
-	               $('#customerAddressTab_fresh').html(data);
+	               $('#customer_address_fresh').html(data);
 	            });
 	}
+	
+
 	
 </script>
