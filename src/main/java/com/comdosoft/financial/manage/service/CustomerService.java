@@ -2,8 +2,10 @@ package com.comdosoft.financial.manage.service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralRecordMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -31,7 +33,8 @@ public class CustomerService {
     private CustomerRoleRelationMapper customerRoleRelationMapper;
     @Autowired
     private CustomerAddressMapper customerAddressMapper;
-
+    @Autowired
+    private CustomerIntegralRecordMapper customerIntegralRecordMapper;
 	/**
 	 * 登陆查询 超级管理员 运营 第三方机构
 	 * @param passport
@@ -277,6 +280,37 @@ public class CustomerService {
         customerAddressMapper.updateByPrimaryKey(customerAddress);
 
         return true;
+
+    }
+
+    @Transactional("transactionManager")
+    public Customer modifyIntegral(Integer id,String reason, Byte type, Integer num){
+        Customer customer = customerMapper.selectByPrimaryKey(id);
+        int integral = 0;
+        int changeIntegral = 0;
+        if(customer.getIntegral() != null){
+            integral = customer.getIntegral();
+        }
+        if(type == CustomerIntegralRecord.TYPE_ADD){
+            changeIntegral = num;
+        } else if(type == CustomerIntegralRecord.TYPE_SUBTRACT
+                && integral >= num){
+            changeIntegral -=num;
+        }
+        if(changeIntegral != 0){
+            integral+=changeIntegral;
+            customer.setIntegral(integral);
+            CustomerIntegralRecord record = new CustomerIntegralRecord();
+            record.setCustomerId(id);
+            record.setDescription(reason);
+            record.setQuantity(changeIntegral);
+            record.setTargetType(CustomerIntegralRecord.TARGET_TYPE_ADJUST);
+            record.setTypes(type);
+            record.setCreatedAt(new Date());
+            customerIntegralRecordMapper.insert(record);
+            customerMapper.updateByPrimaryKey(customer);
+        }
+        return customer;
 
     }
 }

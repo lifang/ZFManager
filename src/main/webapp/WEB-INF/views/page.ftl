@@ -62,17 +62,17 @@
 		
 		<div class="p_skip"> 
 		    <span>共${totalPages}页</span> 
-		    <span>到第&nbsp;&nbsp;<input type="text" id="pageClickNum" onkeyup="value=this.value.replace(/\D+/g,'')"/>&nbsp;&nbsp;页</span> 
-		    <button onclick="pageClick()">确定</button> 
+		    <span class="pageClickNum">到第&nbsp;&nbsp;<input type="text" onkeyup="value=this.value.replace(/\D+/g,'')"/>&nbsp;&nbsp;页</span>
+		    <button onclick="pageClick(this, ${functionName})">确定</button>
 		</div> 
 		
 	<script type="text/javascript">
 	
-	function pageClick() {
-		${functionName}($("#pageClickNum").val());
+	function pageClick(self, func) {
+        var p = $(self).prev(".pageClickNum").children("input").val();
+        func(p);
 	}
- 
-		
+
 	</script> 
 	</div>
     </#macro>  

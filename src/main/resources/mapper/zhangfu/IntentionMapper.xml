@@ -51,7 +51,7 @@
 		where oa.id=#{id} order by s.created_at desc
 	</select>
 	
-	<insert id="addMark">
+	<insert id="addMark" useGeneratedKeys="true" keyProperty="id">
 		insert into customer_intention_marks(intention_id,process_user_id,process_user_name,content,created_at) 
 		VALUES(#{applyid},#{cusid},#{name},#{content},NOW())
 	</insert>

@@ -43,6 +43,8 @@ public class PosController {
 	private PayChannelService payChannelService;
     @Autowired
     private GoodCommentService goodCommentService;
+    @Autowired
+    private TerminalService terminalService;
 	@Autowired
 	private SessionService sessionService;
 	
@@ -439,6 +441,14 @@ public class PosController {
 		goodCommentService.create(goodId, customer.getId(), score, content);
 		return  Response.getSuccess("");
 	}
+
+    @RequestMapping(value = "{id}/importTerminal", method = RequestMethod.POST)
+    public String importTerminal(@PathVariable Integer id, String data, Model model) {
+        terminalService.importTerminal(id, data);
+        Good good = goodService.findRowGood(id);
+                model.addAttribute("good", good);
+        return "good/pos/pageRowPos";
+    }
 
 
 }

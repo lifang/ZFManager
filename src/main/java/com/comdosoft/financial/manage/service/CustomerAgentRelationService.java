@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,10 +26,19 @@ public class CustomerAgentRelationService {
 	 * @return
 	 */
 	public Page<Agent> customerAgents(Integer customerId,int page){
-		PageRequest request = new PageRequest(page, pageSize);
-		List<Agent> agents = customerAgentRelationMapper.customerAgents(customerId,request);
-		long total = customerAgentRelationMapper.countCustomerAgents(customerId);
-		return new Page<Agent>(request, agents, total);
+		long count = customerAgentRelationMapper.countCustomerAgents(customerId);
+        if (count == 0) {
+            return new Page<>(new PageRequest(1, pageSize), new ArrayList<Agent>(), count);
+        }
+        PageRequest request = new PageRequest(page, pageSize);
+        List<Agent> result = customerAgentRelationMapper.customerAgents(customerId, request);
+        Page<Agent> agents = new Page<>(request, result, count);
+        if (agents.getCurrentPage() > agents.getTotalPage()) {
+            request = new PageRequest(agents.getTotalPage(), pageSize);
+            result =  customerAgentRelationMapper.customerAgents(customerId, request);
+            agents = new Page<>(request, result, count);
+        }
+        return agents;
 	}
 
 }

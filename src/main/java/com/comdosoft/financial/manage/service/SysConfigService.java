@@ -38,7 +38,8 @@ public class SysConfigService {
                SysConfig sysConfig = sysConfigMapper.findByKey(key);
                 Integer paramValue = configs.get(key).get("paramValue");
                 if (key.equals(SysConfig.INTEGRAL_BUY_POS)
-                || key.equals(SysConfig.INTEGRAL_TRADE)){
+                || key.equals(SysConfig.INTEGRAL_TRADE)
+                    || key.equals(SysConfig.TOTAL_MONEY)){
                     paramValue = paramValue * 100;
                 }
                 if(sysConfig == null){

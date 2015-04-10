@@ -123,15 +123,4 @@ public class CompressedFileUtil {
         file = new File(file, dirs[dirs.length - 1]);
         return file;
     }
-//	public static void main(String[] args) {
-//		CompressedFileUtil compressedFileUtil = new CompressedFileUtil();
-//
-//		try {
-//			compressedFileUtil.compressedFile("G:\\zip", "F:\\zip");
-//			System.out.println("压缩文件已经生成...");
-//		} catch (Exception e) {
-//			System.out.println("压缩文件生成失败...");
-//			e.printStackTrace();
-//		}
-//	}
 }

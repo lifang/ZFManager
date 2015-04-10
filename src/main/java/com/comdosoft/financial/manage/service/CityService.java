@@ -30,6 +30,10 @@ public class CityService {
 		return cityMapper.selectByPrimaryKey(id);
 	}
 	
+	public City selectCityAndParent(Integer id){
+		return cityMapper.selectCity(id);
+	}
+	
 	@Cacheable("provinceMap")
 	public Map<Integer,City> provinceMap(){
 		List<City> provinces = provinces();

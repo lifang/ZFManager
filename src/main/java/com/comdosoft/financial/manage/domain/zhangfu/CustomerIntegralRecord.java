@@ -211,4 +211,11 @@ public class CustomerIntegralRecord {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    public static final Byte TARGET_TYPE_ADJUST = 3;
+
+    public static final Byte TYPE_ADD = 1;
+    public static final Byte TYPE_SUBTRACT = 2;
+
+
 }
