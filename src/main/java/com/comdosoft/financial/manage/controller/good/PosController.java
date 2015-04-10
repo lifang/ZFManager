@@ -443,8 +443,8 @@ public class PosController {
 	}
 
     @RequestMapping(value = "{id}/importTerminal", method = RequestMethod.POST)
-    public String importTerminal(Integer id, String content, Model model) {
-        terminalService.importTerminal(id, content);
+    public String importTerminal(@PathVariable Integer id, String data, Model model) {
+        terminalService.importTerminal(id, data);
         Good good = goodService.findRowGood(id);
                 model.addAttribute("good", good);
         return "good/pos/pageRowPos";

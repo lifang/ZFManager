@@ -108,14 +108,19 @@ public class TerminalService {
 
         String[] codes = content.split("\n|\r\n|\r");
         for(String code : codes){
+            code = code.trim();
             if(!Strings.isNullOrEmpty(code)){
                 Terminal terminal = new Terminal();
-                terminal.setCreatedAt(new Date());
                 terminal.setGoodId(good.getId());
+                terminal.setSerialNum(code);
+                terminal.setStatus(Terminal.STATUS_NO_OPEN);
+                terminal.setType(Terminal.TYPE_SYSTEM);
+                terminal.setCreatedAt(new Date());
+                terminal.setUpdatedAt(new Date());
+                terminalMapper.insert(terminal);
+                quantity++;
             }
         }
-
-
         good.setQuantity(quantity);
         goodMapper.updateByPrimaryKey(good);
     }
