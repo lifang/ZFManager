@@ -99,6 +99,6 @@ public class SysConfig {
     public static final String BUSINESS_EXPIRED_TIME = "businessExpiredTime";//业务记录过期时间
     public static final String INTEGRAL_BUY_POS = "integralBuyPos";//积分获取购买POS机
     public static final String INTEGRAL_TRADE = "integralTrade";//积分获取交易流水
-
+    public static final String PURCHASE_ORDER_RATIO = "purchaseOrderRatio";//批购订单定金支付比例：
 
 }

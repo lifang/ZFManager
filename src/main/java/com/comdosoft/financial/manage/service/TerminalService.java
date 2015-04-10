@@ -1,18 +1,14 @@
 package com.comdosoft.financial.manage.service;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.domain.zhangfu.Factory;
-import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
-import com.comdosoft.financial.manage.domain.zhangfu.TerminalMark;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMarkMapper;
+import com.comdosoft.financial.manage.domain.zhangfu.*;
+import com.comdosoft.financial.manage.mapper.zhangfu.*;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +27,8 @@ public class TerminalService {
     private CustomerMapper customerMapper;
     @Autowired
     private FactoryMapper factoryMapper;
+    @Autowired
+    private GoodMapper goodMapper;
 
 	public long countCustomerTerminals(Integer customerId){
 		return terminalMapper.countCustomerTerminals(customerId);
@@ -98,5 +96,27 @@ public class TerminalService {
         terminalMarkMapper.insert(terminalMark);
         terminalMark = terminalMarkMapper.selectTerminalMark(terminalMark.getId());
         return terminalMark;
+    }
+
+    @Transactional("transactionManager")
+    public void importTerminal(Integer goodId, String content) {
+        Good good = goodMapper.selectByPrimaryKey(goodId);
+        int quantity = 0;
+        if(good.getQuantity() != null){
+            quantity = good.getQuantity();
+        }
+
+        String[] codes = content.split("\n|\r\n|\r");
+        for(String code : codes){
+            if(!Strings.isNullOrEmpty(code)){
+                Terminal terminal = new Terminal();
+                terminal.setCreatedAt(new Date());
+                terminal.setGoodId(good.getId());
+            }
+        }
+
+
+        good.setQuantity(quantity);
+        goodMapper.updateByPrimaryKey(good);
     }
 }
