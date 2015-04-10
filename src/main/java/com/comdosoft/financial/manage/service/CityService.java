@@ -1,8 +1,12 @@
 package com.comdosoft.financial.manage.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
@@ -24,5 +28,11 @@ public class CityService {
 	
 	public City city(Integer id){
 		return cityMapper.selectByPrimaryKey(id);
+	}
+	
+	@Cacheable("provinceMap")
+	public Map<Integer,City> provinceMap(){
+		List<City> provinces = provinces();
+		return provinces.stream().collect(Collectors.toMap(City::getId, Function.identity()));
 	}
 }

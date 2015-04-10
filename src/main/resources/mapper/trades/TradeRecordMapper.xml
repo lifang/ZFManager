@@ -19,7 +19,7 @@
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="poundage" jdbcType="INTEGER" property="poundage" />
     <result column="traded_at" jdbcType="TIMESTAMP" property="tradedAt" />
-    <result column="sys_order_id" jdbcType="INTEGER" property="sysOrderId" />
+    <result column="sys_order_id" jdbcType="VARCHAR" property="sysOrderId" />
     <result column="account_name" jdbcType="VARCHAR" property="accountName" />
     <result column="account_number" jdbcType="VARCHAR" property="accountNumber" />
     <result column="actual_payment_price" jdbcType="INTEGER" property="actualPaymentPrice" />
@@ -61,7 +61,7 @@
       #{terminalNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{agentId,jdbcType=INTEGER}, 
       #{merchantNumber,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{payChannelId,jdbcType=INTEGER}, 
       #{profitPrice,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{poundage,jdbcType=INTEGER}, 
-      #{tradedAt,jdbcType=TIMESTAMP}, #{sysOrderId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, 
+      #{tradedAt,jdbcType=TIMESTAMP}, #{sysOrderId,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
       #{accountNumber,jdbcType=VARCHAR}, #{actualPaymentPrice,jdbcType=INTEGER}, #{paidResult,jdbcType=TINYINT}, 
       #{paidCode,jdbcType=INTEGER}, #{paidErrorDescription,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{tradeTypeId,jdbcType=INTEGER}, #{tradedStatus,jdbcType=INTEGER}, 
@@ -86,7 +86,7 @@
       amount = #{amount,jdbcType=INTEGER},
       poundage = #{poundage,jdbcType=INTEGER},
       traded_at = #{tradedAt,jdbcType=TIMESTAMP},
-      sys_order_id = #{sysOrderId,jdbcType=INTEGER},
+      sys_order_id = #{sysOrderId,jdbcType=VARCHAR},
       account_name = #{accountName,jdbcType=VARCHAR},
       account_number = #{accountNumber,jdbcType=VARCHAR},
       actual_payment_price = #{actualPaymentPrice,jdbcType=INTEGER},

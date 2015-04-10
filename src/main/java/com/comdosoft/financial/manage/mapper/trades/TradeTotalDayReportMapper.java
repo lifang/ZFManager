@@ -34,4 +34,6 @@ public interface TradeTotalDayReportMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TradeTotalDayReport record);
+	
+	TradeTotalDayReport selectNewest();
 }
