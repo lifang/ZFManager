@@ -33,14 +33,7 @@
 				          <option value="5">已取消</option> 
 				          <option value="6">交易关闭</option> 
 			          </select> 
-	                <select id="select_factory">
-	                    <option value="0">全部供应商</option>
-	                	<#if factories??>
-	                		<#list factories as factory>
-		                    	<option value="${factory.id!0}"> ${factory.name!""}</option>
-		                    </#list>
-	                    </#if>
-	                </select>
+	            
             </div></li>
         </ul>
     </div>
