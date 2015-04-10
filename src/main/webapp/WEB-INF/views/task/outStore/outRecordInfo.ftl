@@ -3,7 +3,7 @@
      <div class="breadcrumb"> 
       <ul> 
        <li><a href="#">商品</a></li> 
-       <li><a href="#">出库</a></li>
+       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
        <li><a href="#">详情</a></li> 
       </ul> 
      </div> 
@@ -18,7 +18,7 @@
 	            <ul>
 	                <li>编号：<#if (outStorageId)??>${outStorageId}</#if></li>
 	                <li>处理人：<#if (operater)??>${operater}</#if></li>
-	                <li>相关业务：<#if (orderId)??><a href="#" class="a_btn orderDetail_a">用户订单（${orderId}）</a></#if> </li>
+	                <li>相关业务：<a href="#" class="a_btn orderDetail_a">用户订单<#if (orderId)??>（${orderId}）</#if></a> </li>
 	            </ul>
 	        </div> 
 	    </div>
@@ -42,13 +42,13 @@
 			  	  <tr id="row_${good.id}"> 
 			  	  	<td>
                         <div class="td_proBox clear">
-                            <a href="#" class="cn_img"><img src="${good.urlPath}" /></a>
+                            <a href="#" class="cn_img"><img src="${good.urlPath}" style="width:130px;height:130px" /></a>
                             <div class="td_proBox_info">
                                 <h1><a href="#">${good.title}</a></h1>
                                 <h3>热销5000件</h3>
                                 <ul>
                                     <li><span>品牌型号：</span><div class="c_text">${good.brandName}</div></li>
-                                    <li><span>支付通道：</span><div class="c_text">${good.channelName}</div></li>
+                                    <li><span>支付通道：</span><div class="c_text"><#if (good.payChannelName)??>${good.payChannelName}</#if></div></li>
                                 </ul>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
             </div>
         </div>
          <div class="user_remark">
-        	<textarea name="" cols="" rows=""></textarea>
+        	<textarea name="" cols="" rows="" id="remarkContent"></textarea>
             <button class="whiteBtn" onClick="submitData()">备注</button>
         </div>
          <div class="user_record">
@@ -100,29 +100,29 @@
     	<div class="orderDetail_info_tab">
     		<#if (orderDetails)??>
             <dl>
-            	<dt>收货地址：</dt><dd>#{orderDetails.address}&nbsp;#{orderDetails.receiver}</dd>
+            	<dt>收货地址：</dt><dd>${orderDetails.address}&nbsp;${orderDetails.receiver}</dd>
             </dl>
             <dl>
-            	<dt>发票类型：</dt><dd>#{orderDetails.invoiceType}</dd><dt>发票抬头：</dt><dd>#{orderDetails.invoiceInfo}</dd>
+            	<dt>发票类型：</dt><dd>${orderDetails.invoiceName}</dd><dt>发票抬头：</dt><dd>${orderDetails.invoiceInfo}</dd>
             </dl>
             <dl class="leaveWord">
-            	<dt>留言：</dt><dd>#{orderDetails.comment}</dd>
+            	<dt>留言：</dt><dd>${orderDetails.comment}</dd>
             </dl>
             <dl>
-            	<dt>订单类型：</dt><dd>#{orderDetails.types}</dd><dt>订单编号：</dt><dd>#{orderDetails.orderNumber}</dd>
+            	<dt>订单类型：</dt><dd>${orderDetails.typesName}</dd><dt>订单编号：</dt><dd>${orderDetails.orderNumber}</dd>
             </dl>
             <dl>
-            	<dt>购买人：</dt><dd>#{orderDetails.name}</dd>
-                <dt>购买日期：</dt><dd>#{orderDetails.payedAt}</dd>
+            	<dt>购买人：</dt><dd>${orderDetails.name}</dd>
+                <dt>购买日期：</dt><dd>${orderDetails.payedAt}</dd>
             </dl>
             <dl>
-            	<dt>支付类型：</dt><dd>#{orderDetails.payType}</dd>
+            	<dt>支付类型：</dt><dd>${orderDetails.payTypeName}</dd>
             </dl>
             <dl>
-            	<dt>供货商：</dt><dd>#{orderDetails.factoryName}</dd><dt>处理人：</dt><dd>#{orderDetails.processUserName}</dd>
+            	<dt>供货商：</dt><dd>${orderDetails.factoryName}</dd><dt>处理人：</dt><dd>${orderDetails.processUserName}</dd>
             </dl>
             <dl>
-            	<dt>订单原金额：</dt><dd class="line_through">￥#{orderDetails.oldPrice}</dd><dt>订单金额：</dt><dd><strong>￥#{orderDetails.actualPrice}</strong></dd>
+            	<dt>订单原金额：</dt><dd class="line_through">￥${orderDetails.oldPrice}</dd><dt>订单金额：</dt><dd><strong>￥${orderDetails.actualPrice}</strong></dd>
             </dl>
             </#if>
         </div>
@@ -134,25 +134,19 @@
 	function submitData(){
 		//备注
 		var content=$("#remarkContent").val();
-		
 		var outStorageIdStr=$("#outStorageId").val();
-		 $.ajax({
-            type: "post",
-            url: "/task/outStore/saveRemark",
-            data: {
-                id:outStorageIdStr,
-                remarkContent: content
-                    },
-            success: function (ret) {
-            	if(ret.resultCode=="-1"){
-            		alert("操作出错，错误信息为："+ret.resultInfo);
-            	}else if(ret.resultCode=="1"){
+		$.post('<@spring.url "/task/outStore/saveRemark" />',
+	        {   "id": outStorageIdStr,
+	        "remarkContent":content},
+	        function (ret) {
+	            if(ret.code=='-1'){
+            		alert("操作出错，错误信息为："+ret.Message);
+            	}else if(ret.code=='1'){
             		//自刷新
             		location.reload();
+            		$("#remarkContent").val("");
             	}
-            }
-        });
-		
+	        });	
 	}
 </script>    
 </@c.html>

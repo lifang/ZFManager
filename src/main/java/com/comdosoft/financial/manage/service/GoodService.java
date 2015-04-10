@@ -618,5 +618,9 @@ public class GoodService {
 		}
 		return goods;
 	}
+	
+	public List<Good> selectGoodsByIds(List<Integer> goodIds) {
+		return goodMapper.selectGoodsByIds(goodIds);
+	}
 
 }

@@ -31,7 +31,7 @@ public interface OutStoreMapper {
 	
 	int changeStatus(@Param("status") int status,@Param("loginId") int loginId,@Param("id") int id);
 	
-	List<String> getTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId);
+	List<Map<String, Object>> getTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId);
 	
 	String getOperater(@Param("orderId") int orderId);
 	
@@ -40,4 +40,6 @@ public interface OutStoreMapper {
 	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
 	
 	Map<String, Object> getInfoInit(@Param("orderId") int orderId);
+	
+	int saveProcessUser(@Param("processUserId") int processUserId,@Param("processUserName") String processUserName,@Param("id") int id);
 }

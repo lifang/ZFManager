@@ -3,14 +3,14 @@
      <div class="breadcrumb"> 
       <ul> 
        <li><a href="#">商品</a></li> 
-       <li><a href="#">出库</a></li> 
+       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
       </ul> 
      </div> 
      <div class="content clear"> 
       <div class="user_title">
        <h1>出库单列表</h1> 
        <div class="userTopBtnBox"> 
-        <a href="<@spring.url "/good/pos/waitComment/list" />" class="ghostBtn">分派</a>
+        <a href="<@spring.url "/task/outStore/distribute" />" class="ghostBtn">分派</a>
 	   </div>
       </div> 
       <div class="seenBox clear"> 
@@ -27,12 +27,9 @@
           <label>状态筛选</label> 
           <select id="select_status"> 
 	          <option value="0">全部</option> 
-	          <option value="1">待审核</option> 
-	          <option value="2">初审不通过</option> 
-	          <option value="3">初审通过</option> 
-	          <option value="4">审核不通过</option> 	         
-	          <option value="5">正常</option> 
-	          <option value="6">已停用</option> 
+	          <option value="1">待处理</option> 
+	          <option value="2">已取消</option> 
+	          <option value="3">处理完成</option>
           </select> 
          </div></li> 
        </ul> 

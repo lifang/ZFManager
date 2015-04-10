@@ -13,8 +13,8 @@
     <div class="user_deal_text">
         <ul class="udt_strong">
             <li>交易金额：￥${(tradeRecord.amount/100)?string("0.00")}</li>
-            <li>产出分润：￥${(profit.profitsGet/100)?string("0.00")}</li>
-            <li>需付出分润：￥${(profit.profitsPay/100)?string("0.00")}</li>
+            <li>产出分润：<#if profit??>￥${(profit.profitsGet/100)?string("0.00")}<#else>- -</#if></li>
+            <li>需付出分润：<#if profit??>￥${(profit.profitsPay/100)?string("0.00")}<#else>- -</#if></li>
             <li>交易状态：${tradeRecord.tradeStatusName}</li>
         </ul>
         <ul>
