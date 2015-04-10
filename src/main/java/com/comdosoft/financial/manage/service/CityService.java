@@ -25,4 +25,8 @@ public class CityService {
 	public City city(Integer id){
 		return cityMapper.selectByPrimaryKey(id);
 	}
+
+    public City selectCityAndParent(Integer id){
+        return cityMapper.selectCity(id);
+    }
 }

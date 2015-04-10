@@ -38,9 +38,18 @@ public class TerminalService {
 
 	public Page<Terminal> customerTerminalPage(Integer customerId,Integer page){
 		long count = terminalMapper.countCustomerTerminals(customerId);
-		PageRequest request = new PageRequest(page, pageSize);
-		List<Terminal> terminals = terminalMapper.selectCustomerTerminals(customerId, request);
-		return new Page<>(request,terminals,count);
+        if (count == 0) {
+            return new Page<>(new PageRequest(1, pageSize), new ArrayList<Terminal>(), count);
+        }
+        PageRequest request = new PageRequest(page, pageSize);
+        List<Terminal> result = terminalMapper.selectCustomerTerminals(customerId, request);
+        Page<Terminal> terminals = new Page<>(request, result, count);
+        if (terminals.getCurrentPage() > terminals.getTotalPage()) {
+            request = new PageRequest(terminals.getTotalPage(), pageSize);
+            result = terminalMapper.selectCustomerTerminals(customerId, request);
+            terminals = new Page<>(request, result, count);
+        }
+        return terminals;
 	}
 
     public Page<Terminal> findPages(Integer customerId, Integer page, Byte status, String keys) {

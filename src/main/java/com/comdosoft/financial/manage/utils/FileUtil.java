@@ -7,7 +7,6 @@ public class FileUtil {
 	
 	public static String getPathFileName(){
 		Date date = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MMdd/");
 		return getPath()+date.getTime();
 	}
 
