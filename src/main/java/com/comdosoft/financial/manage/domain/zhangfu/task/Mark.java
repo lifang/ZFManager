@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.domain.zhangfu.task;
 
 public class Mark {
+    private int id;
 	private int applyid;
 	private int cusid;
     private String created_at;
@@ -36,5 +37,13 @@ public class Mark {
     public void setCusid(int cusid) {
         this.cusid = cusid;
     }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
 }
