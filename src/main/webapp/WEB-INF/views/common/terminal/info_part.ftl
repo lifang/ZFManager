@@ -28,12 +28,15 @@
                 </li>
                 <li>开通申请状态：
                 <#if (terminal.openingApplie.status)??>
-                    <#if terminal.openingApplie.status=1>待审核
-                    <#elseif terminal.openingApplie.status=2>初审通过
-                    <#elseif terminal.openingApplie.status=3>初审不通过
-                    <#elseif terminal.openingApplie.status=4>审核通过
-                    <#elseif terminal.openingApplie.status=5>审核不通过
-                    <#elseif terminal.openingApplie.status=6>已取消
+                    <#if terminal.openingApplie.status=1>待初次预审
+                    <#elseif terminal.openingApplie.status=2>待初预审不通过
+                    <#elseif terminal.openingApplie.status=3>二次预审中
+                    <#elseif terminal.openingApplie.status=4>二次预审不通过
+                    <#elseif terminal.openingApplie.status=5>待审核
+                    <#elseif terminal.openingApplie.status=6>审核中
+                    <#elseif terminal.openingApplie.status=7>审核失败
+                    <#elseif terminal.openingApplie.status=8>审核成功
+                    <#elseif terminal.openingApplie.status=9>已取消
                     </#if>
                 </#if>
                 </li>
