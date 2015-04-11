@@ -49,25 +49,26 @@ public class RefundController {
 	private RecordOperateService recordOperateService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String list(Integer page, Byte status, String orderNumber, Model model){
-		findPage(page, status, orderNumber, model);
+	public String list(HttpServletRequest request,Integer page, Byte status, String orderNumber, Model model){
+		findPage(request,page, status, orderNumber, model);
 		return "task/refund/list";
 	}
 	
 	@RequestMapping(value="page",method=RequestMethod.GET)
-	public String info(Integer page, Byte status, String orderNumber, Model model){
-		findPage(page, status, orderNumber, model);
+	public String info(HttpServletRequest request,Integer page, Byte status, String orderNumber, Model model){
+		findPage(request,page, status, orderNumber, model);
 		return "task/refund/pageRefund";
 	}
 	
-	private void findPage(Integer page, Byte status, String orderNumber, Model model){
+	private void findPage(HttpServletRequest request,Integer page, Byte status, String orderNumber, Model model){
+		Customer customer = sessionService.getLoginInfo(request);
 		if (page == null) {
 			page = 1;
 		}
 		if (status != null && status == 0) {
 			status = null;
 		}
-		Page<Object> refund = refundService.findPages(page, status, orderNumber);
+		Page<Object> refund = refundService.findPages(page, status, orderNumber,customer.getId());
 		model.addAttribute("refund", refund);
 	}
 	
@@ -109,7 +110,7 @@ public class RefundController {
 		operationRefundContent(request,"标记退款完成",id);
 		
 		refundService.updsateRefundStatus(id,CsRefund.STATIC_2);
-		findPage(page, status, orderNumber, model);
+		findPage(request,page, status, orderNumber, model);
 		return "task/refund/list";
 	}
 	
@@ -119,7 +120,7 @@ public class RefundController {
 		operationRefundContent(request,"取消",id);
 		
 		refundService.updsateRefundStatus(id,CsRefund.STATIC_3);
-		findPage(page, status, orderNumber, model);
+		findPage(request,page, status, orderNumber, model);
 		return "task/refund/list";
 	}
 	/**
