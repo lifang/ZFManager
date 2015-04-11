@@ -23,11 +23,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.trades.Profit;
+import com.comdosoft.financial.manage.domain.trades.TradeConsumeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeRechargeRecord;
 import com.comdosoft.financial.manage.domain.trades.TradeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeTransferRepaymentRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.Agent;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
 import com.comdosoft.financial.manage.mapper.trades.ProfitMapper;
+import com.comdosoft.financial.manage.mapper.trades.TradeConsumeRecordMapper;
+import com.comdosoft.financial.manage.mapper.trades.TradeRechargeRecordMapper;
 import com.comdosoft.financial.manage.mapper.trades.TradeRecordMapper;
+import com.comdosoft.financial.manage.mapper.trades.TradeTransferRepaymentRecordMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeTypeMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -51,7 +57,26 @@ public class TradeService {
     private AgentMapper agentMapper;
     @Autowired
     private ProfitMapper profitMapper;
+    @Autowired
+    private TradeConsumeRecordMapper tradeConsumeRecordMapper;
+    @Autowired
+    private TradeRechargeRecordMapper tradeRechargeRecordMapper;
+    @Autowired
+    private TradeTransferRepaymentRecordMapper tradeTransferRepaymentRecordMapper;
+    
     private SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
+    
+    public TradeConsumeRecord customRecord(Integer id) {
+    	return tradeConsumeRecordMapper.selectByPrimaryKey(id);
+    }
+    
+    public TradeRechargeRecord rechargeRecord(Integer id) {
+    	return tradeRechargeRecordMapper.selectByPrimaryKey(id);
+    }
+    
+    public TradeTransferRepaymentRecord transferRecord(Integer id) {
+    	return tradeTransferRepaymentRecordMapper.selectByPrimaryKey(id);
+    }
 
     public List<DictionaryTradeType> allTradeTypes(){
         return dictionaryTradeTypeMapper.selectAll();

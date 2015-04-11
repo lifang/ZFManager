@@ -1,12 +1,9 @@
 package com.comdosoft.financial.manage.controller;
 
-import com.comdosoft.financial.manage.domain.Response;
-import com.comdosoft.financial.manage.domain.trades.Profit;
-import com.comdosoft.financial.manage.domain.trades.TradeRecord;
-import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
-import com.comdosoft.financial.manage.service.TradeService;
-import com.comdosoft.financial.manage.utils.page.Page;
-import com.google.common.base.Joiner;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
@@ -21,10 +18,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.trades.Profit;
+import com.comdosoft.financial.manage.domain.trades.TradeRechargeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeTransferRepaymentRecord;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
+import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.service.PayChannelService;
+import com.comdosoft.financial.manage.service.TerminalService;
+import com.comdosoft.financial.manage.service.TradeService;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.google.common.base.Joiner;
 
 /**
  * Created by gookin on 15/3/7.
@@ -37,6 +44,10 @@ public class TradeController {
 
     @Autowired
     private TradeService tradeService;
+    @Autowired
+    private TerminalService terminalService;
+    @Autowired
+    private PayChannelService payChannelService;
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(Model model){
@@ -76,6 +87,29 @@ public class TradeController {
     	Profit profit = tradeService.tradeRecordProfit(id);
     	if(profit!=null) {
     		model.addAttribute(profit);
+    	}
+    	Terminal terminal = terminalService.findByNum(tradeRecord.getTerminalNumber());
+    	if(terminal!=null){
+    		Merchant merchant = terminal.getMerchant();
+    		if(merchant == null) {
+    			model.addAttribute(merchant);
+    		}
+    	}
+    	PayChannel payChannel = payChannelService.findChannelInfo(tradeRecord.getPayChannelId());
+    	if(payChannel!=null){
+    		model.addAttribute(payChannel);
+    	}
+    	if(tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_TRANSFER
+    			|| tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_REPAY){
+    		TradeTransferRepaymentRecord transferRecord = tradeService.transferRecord(id);
+    		if(transferRecord!=null){
+    			model.addAttribute(transferRecord);
+    		}
+    	}else if(tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_PHONE_RECHARGE){
+    		TradeRechargeRecord rechargeRecord = tradeService.rechargeRecord(id);
+    		if(rechargeRecord!=null) {
+    			model.addAttribute(rechargeRecord);
+    		}
     	}
         return "trade/trade_info";
     }

@@ -33,6 +33,7 @@
     <result column="attach_status" jdbcType="INTEGER" property="attachStatus" />
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="types" jdbcType="TINYINT" property="types" />
+    <result column="pay_from_account" jdbcType="VARCHAR" property="payFromAccount" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -55,7 +56,7 @@
       account_number, actual_payment_price, paid_result, 
       paid_code, paid_error_description, created_at, 
       updated_at, trade_type_id, traded_status, 
-      attach_status, customer_id, types
+      attach_status, customer_id, types, pay_from_account
       )
     values (#{id,jdbcType=INTEGER}, #{tradeNumber,jdbcType=VARCHAR}, #{batchNumber,jdbcType=VARCHAR}, 
       #{terminalNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{agentId,jdbcType=INTEGER}, 
@@ -65,7 +66,8 @@
       #{accountNumber,jdbcType=VARCHAR}, #{actualPaymentPrice,jdbcType=INTEGER}, #{paidResult,jdbcType=TINYINT}, 
       #{paidCode,jdbcType=INTEGER}, #{paidErrorDescription,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{tradeTypeId,jdbcType=INTEGER}, #{tradedStatus,jdbcType=INTEGER}, 
-      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT}
+      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT},
+      #{payFromAccount,jdbcType=TINYINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.trades.TradeRecord">
@@ -100,6 +102,7 @@
       attach_status = #{attachStatus,jdbcType=INTEGER},
       customer_id = #{customerId,jdbcType=INTEGER},
       types = #{types,jdbcType=TINYINT}
+      pay_from_account = #{payFromAccount,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -111,7 +114,7 @@
     merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id, 
     account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description, 
     created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id, 
-    types
+    types, pay_from_account
     from trade_records
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -124,7 +127,7 @@
     merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id, 
     account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description, 
     created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id, 
-    types
+    types, pay_from_account
     from trade_records
   </select>
 
@@ -132,7 +135,7 @@
         select id, trade_number, batch_number, terminal_number, order_number, agent_id, merchant_number,
         merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id,
         account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description,
-        created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id
+        created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id, types, pay_from_account
         from trade_records
         <where>
             <if test="type!=null">

@@ -124,4 +124,8 @@ public class TerminalService {
         good.setQuantity(quantity);
         goodMapper.updateByPrimaryKey(good);
     }
+    
+    public Terminal findByNum(String num) {
+    	return terminalMapper.findTerminalByNum(num);
+    }
 }
