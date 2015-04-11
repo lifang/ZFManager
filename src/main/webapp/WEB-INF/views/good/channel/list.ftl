@@ -17,7 +17,7 @@
         <ul>
             <li>
                 <div class="user_search">
-                    <input  id="search_keys" type="text" />
+                    <input  id="search_keys" type="text" placeholder="通道名称"/>
                     <input id="hidden_keys" type="hidden" name="keys" value="" />
                     <input id="hidden_status" type="hidden" name="status" value="" />
                     <button id="btn_search"></button>

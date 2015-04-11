@@ -53,6 +53,9 @@
         || isNull(webUrl, "资源包不能为空!")){
             return false;
         }
+        if(title.length > 50){
+            showErrorTip("标题不能超过50个字！");
+        }
         $.post(url,
                 {title: title,
                  url: webUrl},

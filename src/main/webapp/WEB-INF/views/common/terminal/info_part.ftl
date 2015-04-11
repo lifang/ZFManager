@@ -153,11 +153,16 @@
 <script>
 
     function writeMark(){
-        var content = $("#textWriteMark").val();
+        var $tarea = $("#textWriteMark");
+        var content = $tarea.val();
+        if(isNull(content, "内容不能为空！")){
+            return false;
+        }
         if(content!=""){
             $.post('<@spring.url "/terminal/${terminal.id}/mark" />',
                     {"content": content},
                     function (data) {
+                        $tarea.val("");
                         $(".user_record").children("h2").after(data);
                     });
         }

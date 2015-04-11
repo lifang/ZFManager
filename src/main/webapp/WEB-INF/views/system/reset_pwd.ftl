@@ -36,15 +36,4 @@
         );
     }
 
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-
 </script>
