@@ -12,7 +12,6 @@
     <![endif]-->
     <script src="<@spring.url "/resources/js/echarts/echarts.js"/>"></script><!--柱形图表-->
     <script src="<@spring.url "/resources/js/Chart.min.js"/>"></script>
-
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
 </head>
 <body>
@@ -30,25 +29,23 @@
                 <div class="dataStatistics">
                     <dl>
                         <dt>商城开业至今：</dt>
-                        <dd>总交易金额 <strong>50,000,000元</strong></dd>
-                        <dd>总交易笔数 <strong>10,000,000笔</strong></dd>
-                        <dd>总成交订单 <strong>10,000个</strong></dd>
-                        <dd>总注册会员 <strong>9,999人</strong></dd>
+                        <dd>总交易金额 <strong>${tradeTotalDayReport.tradeSum}元</strong></dd>
+                        <dd>总交易笔数 <strong>${tradeTotalDayReport.tradeNum}笔</strong></dd>
+                        <dd>总成交订单 <strong>${tradeTotalDayReport.orderNum}个</strong></dd>
+                        <dd>总注册会员 <strong>${tradeTotalDayReport.newUserNum}人</strong></dd>
                     </dl>
                 </div>
                 <div class="hour24">
                     <div class="h_title">24小时交易动态</div>
                     <ul>
-                        <li><span>交易笔数：</span><em>5000笔</em></li>
-                        <li><span>交易金额：</span><em>5000000元</em></li>
-                        <li><span>POS申请开通数：</span><em>1000台</em></li>
-                        <li><span>商城订单数：</span><em>20单</em></li>
-                        <li><span>新增用户数：</span><em>20人</em></li>
+                        <li><span>交易笔数：</span><em>${tradeDayReport.tradeNum}笔</em></li>
+                        <li><span>交易金额：</span><em>${tradeDayReport.tradeSum}元</em></li>
+                        <li><span>POS申请开通数：</span><em>${tradeDayReport.terminalApplyNum}台</em></li>
+                        <li><span>商城订单数：</span><em>${tradeDayReport.orderNum}单</em></li>
+                        <li><span>新增用户数：</span><em>${tradeDayReport.newUserNum}人</em></li>
                     </ul>
                 </div>
             </div>
-
-            <button id="btn">test</button>
             <div class="rts_barChart clear">
                 <div class="barChartBox">
                     <div class="bcb_title">7日交易笔数动态 <em>单位：笔</em></div>
@@ -93,10 +90,7 @@
             }
         });
         require(
-                [
-                    'echarts',
-                    'echarts/chart/map'
-                ],
+                ['echarts','echarts/chart/map'],
                 function (ec) {
                     map = ec.init(document.getElementById("map"));
                     var option = {
@@ -105,75 +99,41 @@
                                 type: 'map',
                                 mapType: 'china',
                                 hoverable: false,
-                                mapLocation: {
-                                    x : 'center',
-                                    y : 'center'
-                                },
-                                itemStyle: {
-                                    normal: {
-                                        borderWidth:2,
-                                        borderColor:'lightgreen',
-                                        label: {
-                                            show: false
-                                        }
-                                    }
-                                },
+                                mapLocation: {x : 'center',y : 'center'},
+                                itemStyle: {normal: {borderWidth:2, borderColor:'lightgreen',label: { show: false}}},
                                 data:[],
                                 geoCoord: {
-                                    '安徽': [117.17,31.52],
-                                    '北京': [116.24,39.55],
-                                    '重庆': [106.54,29.59],
-                                    '福建': [119.18,26.05],
-                                    '甘肃': [103.51,36.04],
-                                    '广东': [113.14,23.08],
-                                    '广西': [108.19,22.48],
-                                    '贵州': [106.42,26.35],
-                                    '海南': [110.2,20.02],
-                                    '河北': [114.3,38.02],
-                                    '河南': [113.4,34.46],
-                                    '黑龙江': [126.36,45.44],
-                                    '湖北': [114.17,30.35],
-                                    '湖南': [112.59,28.12],
-                                    '吉林': [125.19,43.54],
-                                    '江苏': [118.46,32.03],
-                                    '江西': [115.55,28.4],
-                                    '辽宁': [123.25,41.48],
-                                    '内蒙古': [111.41,40.48],
-                                    '宁夏': [106.16,38.27],
-                                    '青海': [101.48,36.38],
-                                    '山东': [117,36.4],
-                                    '山西': [112.33,37.54],
-                                    '陕西': [108.57,34.17],
-                                    '上海': [121.29,31.14],
-                                    '四川': [104.04,30.4],
-                                    '天津': [117.12,39.02],
-                                    '西藏': [91.08,29.39],
-                                    '新疆': [87.36,43.45],
-                                    '云南': [102.42,25.04],
-                                    '浙江': [120.1,30.16],
-                                    '香港': [115.12,21.23],
-                                    '澳门': [115.07,21.33],
+                                    '安徽': [117.17,31.52], '北京': [116.24,39.55], '重庆': [106.54,29.59],
+                                    '福建': [119.18,26.05], '甘肃': [103.51,36.04], '广东': [113.14,23.08],
+                                    '广西': [108.19,22.48], '贵州': [106.42,26.35], '海南': [110.2,20.02],
+                                    '河北': [114.3,38.02], '河南': [113.4,34.46], '黑龙江': [126.36,45.44],
+                                    '湖北': [114.17,30.35], '湖南': [112.59,28.12], '吉林': [125.19,43.54],
+                                    '江苏': [118.46,32.03], '江西': [115.55,28.4], '辽宁': [123.25,41.48],
+                                    '内蒙古': [111.41,40.48], '宁夏': [106.16,38.27], '青海': [101.48,36.38],
+                                    '山东': [117,36.4], '山西': [112.33,37.54], '陕西': [108.57,34.17],
+                                    '上海': [121.29,31.14], '四川': [104.04,30.4], '天津': [117.12,39.02],
+                                    '西藏': [91.08,29.39], '新疆': [87.36,43.45], '云南': [102.42,25.04],
+                                    '浙江': [120.1,30.16],'香港': [115.12,21.23], '澳门': [115.07,21.33],
                                     '台湾': [121.3,25.03]
                                 }
                             }
                         ]
                     };
                     map.setOption(option);
+                    showMap();
                 }
         );
 
-        var itemStyle = {normal: {color: '#32cd32',label: {show: true}}};
         function flushMap(data){
             var series = map.getSeries().shift();
             series.data=[];
-            $(".m_data").fadeOut();
+            $(".m_data").fadeOut("normal",function(){$(this).remove();});
             for(var i=0;i<data.length;++i){
-                series.data.push({name: data[i].name,itemStyle: itemStyle});
+                series.data.push({name: data[i].name,itemStyle: {normal: {color: '#32cd32',label: {show: true}}}});
                 var pos = map.chart.map.getPosByGeo(series.mapType,series.geoCoord[data[i].name]);
                 tipDiv(data[i].amount,data[i].num,pos);
             }
-            map.setSeries([series]);
-            map.refresh();
+            map.setSeries([series],true);
         }
 
         function tipDiv(amount,num,pos){
@@ -187,7 +147,7 @@
             p=$("<p>");
             p.text("交易笔数:"+num);
             div.append(p);
-            div.fadeIn();
+            div.fadeIn("slow");
             $("#map").append(div);
         }
 
@@ -205,36 +165,41 @@
                     }
                 ]
             };
-            new Chart(ctx).Bar(barChartData,globalGraphSettings);
+            new Chart(ctx).Bar(barChartData,{responsive : true, barStrokeWidth : 1,barValueSpacing : 10});
         }
 
-        var globalGraphSettings = {
-            responsive : true,
-            barStrokeWidth : 1,
-            barValueSpacing : 10,
-        };
         function showBarChart(){
-            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-            var labels =  ["新的","2","3","4","5","6","7"];
-            var data = [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()];
-
-            initBar("myChart01",labels,data);
-            initBar("myChart02",labels,data);
-            initBar("myChart03",labels,data);
-            initBar("myChart04",labels,data);
-            initBar("myChart05",labels,data);
+            var labels =  [<#list tradeDayReportList as report>"${report.createdAt?string("MM-dd")}"<#if report_has_next>,</#if></#list>];
+            var data01 =  [<#list tradeDayReportList as report>${report.tradeNum}<#if report_has_next>,</#if></#list>];
+            initBar("myChart01",labels,data01);
+            var data02 =  [<#list tradeDayReportList as report>${report.tradeSum}<#if report_has_next>,</#if></#list>];
+            initBar("myChart02",labels,data02);
+            var data03 =  [<#list tradeDayReportList as report>${report.terminalApplyNum}<#if report_has_next>,</#if></#list>];
+            initBar("myChart03",labels,data03);
+            var data04 =  [<#list tradeDayReportList as report>${report.orderNum}<#if report_has_next>,</#if></#list>];
+            initBar("myChart04",labels,data04);
+            var data05 =  [<#list tradeDayReportList as report>${report.newUserNum}<#if report_has_next>,</#if></#list>];
+            initBar("myChart05",labels,data05);
         }
-
         showBarChart();
-
-        $("#btn").click(function(){
-            flushMap([
-                {name:"北京",amount:500,num:56},
-                {name:"上海",amount:300,num:26},
-                {name:"山东",amount:301,num:21},
-                {name:"江苏",amount:322,num:22}
-            ]);
-        });
+        var page = 1;
+        var pageSize = 6;
+        function showMap(){
+            $.ajax({
+                url:"<@spring.url "/real/trade/map"/>",
+                async: false,
+                type: "POST",
+                data: {page:page,pageSize:pageSize},
+                success: function(data){
+                    flushMap(data.content);
+                    page = page+1;
+                    if(page > data.totalPage){
+                        page = 1;
+                    }
+                }
+            });
+            setTimeout(showMap,6000);
+        }
     })
 </script>
 <div class="foot">

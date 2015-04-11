@@ -62,6 +62,7 @@ public interface CsUpdateInfoMapper {
 	 */
 	List<CsUpdateInfo> findPageSelective(
 			@Param("pageRequest") PageRequest pageRequest,
+			@Param("customerId") Integer customerId,
 			@Param("status") Byte status, @Param("keyword") String keyword);
 	
 	/**

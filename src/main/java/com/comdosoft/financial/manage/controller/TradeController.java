@@ -64,7 +64,9 @@ public class TradeController {
     	DictionaryTradeType tradeType = tradeService.tradeType(tradeRecord.getTradeTypeId());
     	model.addAttribute("tradeType",tradeType);
     	Profit profit = tradeService.tradeRecordProfit(id);
-    	model.addAttribute(profit);
+    	if(profit!=null) {
+    		model.addAttribute(profit);
+    	}
         return "trade/trade_info";
     }
     

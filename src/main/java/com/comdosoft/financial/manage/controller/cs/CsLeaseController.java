@@ -242,29 +242,29 @@ public class CsLeaseController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csLeaseService.handle(id);
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csLeaseService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csLeaseService.finish(id);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csLeaseService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csLeaseId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsLeaseReturnMark csLeaseMark = csLeaseService.createMark(customer, csLeaseId, content);
+    	CsLeaseReturnMark csLeaseMark = csLeaseService.createMark(customer, id, content);
     	model.addAttribute("mark", csLeaseMark);
         return "cs/mark";
     }

@@ -6,8 +6,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStat
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsCancelStatus.SUSPEND;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,22 +48,7 @@ public class CsCancelService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsCancel> result = csCancelMapper.findPageSelective(request, status, keyword);
-		
-		Collections.sort(result, new Comparator<CsCancel>() {
-			@Override
-			public int compare(CsCancel o1, CsCancel o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsCancel> result = csCancelMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsCancel> csCancels = new Page<CsCancel>(request, result, count);
 		return csCancels;
 	}

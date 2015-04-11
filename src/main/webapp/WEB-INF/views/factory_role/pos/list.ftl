@@ -8,7 +8,7 @@
     <div class="content clear">
         <div class="user_title"><h1>POS机列表</h1>
             <div class="userTopBtnBox">
-                <a href="<@spring.url "/factory/pos/create" />" class="ghostBtn">创建POS机</a>
+                <a href="<@spring.url "/factory/pos/create" />" class="ghostBtn" placeholder="标题、副标题、关键字">创建POS机</a>
             </div>
         </div>
 

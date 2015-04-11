@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,10 +26,25 @@ public class MerchantService {
 	 * @return
 	 */
 	public Page<Merchant> userMerchantPage(Integer customerId,int page) {
-		PageRequest request = new PageRequest(page, pageSize);
-		Long total = merchantMapper.countByCustomerId(customerId);
-		List<Merchant> merchants = merchantMapper.selectByCustomerId(customerId, request);
-		return new Page<>(request, merchants, total);
+
+        Long count = merchantMapper.countByCustomerId(customerId);
+        if (count == 0) {
+            return new Page<>(new PageRequest(1, pageSize), new ArrayList<Merchant>(), count);
+        }
+        PageRequest request = new PageRequest(page, pageSize);
+        List<Merchant> result = merchantMapper.selectByCustomerId(customerId, request);
+
+        Page<Merchant> merchants = new Page<>(request, result, count);
+        if (merchants.getCurrentPage() > merchants.getTotalPage()) {
+            request = new PageRequest(merchants.getTotalPage(), pageSize);
+            result =  merchantMapper.selectByCustomerId(customerId, request);
+            merchants = new Page<>(request, result, count);
+        }
+        return merchants;
 	}
+
+    public Merchant findMerchantInfo(Integer id){
+        return merchantMapper.selectByPrimaryKey(id);
+    }
 
 }

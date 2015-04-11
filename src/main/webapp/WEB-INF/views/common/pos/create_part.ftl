@@ -211,7 +211,7 @@
                         <form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             <div class="item_photoBox">
                                 <#if (good.pictures[i])??>
-                                    <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}/b.jpg" dbValue="${good.pictures[i].urlPath}" >
+                                    <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}" dbValue="${good.pictures[i].urlPath}" >
                                     <a href="javascript:void(0);" class="informImg_a">
                                         <span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                     </a>
@@ -471,18 +471,6 @@
 
     }
 
-    function isNull(value, error){
-        if(!isNotNull(value)){
-            showErrorTip(error);
-            return true;
-        }
-        return false;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-
     function isNotTwoDecimal(value, error){
         var re=/^\d+(\.\d{1,2})?$/;//2位小数
         if(isNotNull(value) && !(re.test(value))){
@@ -499,10 +487,10 @@
                 if(data.code==1){
                     var img = $('#fileForm'+index).find(".item_photoBox img");
                     if(img.length > 0){
-                        img.attr("value", data.result+"/b.jpg");
+                        img.attr("value", data.result);
                         img.attr("dbValue", data.result);
                     } else{
-                        var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" dbValue="'+data.result+'" value="'+data.result+'/b.jpg">';
+                        var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" dbValue="'+data.result+'" value="'+data.result+'">';
                         $('#fileForm'+index).find(".item_photoBox")
                                 .append(newImg);
                         $('#fileForm'+index).find(".item_photoBox a span").html("重新上传");

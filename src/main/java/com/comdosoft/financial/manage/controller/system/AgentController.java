@@ -56,6 +56,10 @@ public class AgentController {
     public String info(@PathVariable Integer id, Model model){
         Agent agent = agentService.findAgentInfo(id);
         model.addAttribute("agent", agent);
+        if(agent.getCustomer().getCityId() != null){
+           City city = cityService.selectCityAndParent(agent.getCustomer().getCityId());
+            model.addAttribute("city", city);
+        }
         return "system/agent_info";
     }
 

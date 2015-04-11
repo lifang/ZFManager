@@ -24,7 +24,12 @@ public class CustomerAddressService {
     		String address,String moblephone,String zipCode,
     		Integer isDefault,Integer customerId,Byte status){
     	int result=0;
-    	CustomerAddress record=new CustomerAddress();
+    	CustomerAddress record=null;
+    	if(null==id){
+    		record=new CustomerAddress();
+    	}else{
+    		record=customerAddressMapper.selectByPrimaryKey(id);
+    	}
     	record.setId(id);
     	if(null!=cityId) record.setCityId(cityId);
     	if(null!=receiver) record.setReceiver(receiver);
@@ -45,4 +50,8 @@ public class CustomerAddressService {
     	}
 		return result;
     }
+    
+	public CustomerAddress get(Integer id) {
+		return customerAddressMapper.selectByPrimaryKey(id);
+	}
 }

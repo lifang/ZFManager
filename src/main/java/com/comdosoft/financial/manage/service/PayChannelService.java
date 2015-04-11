@@ -342,7 +342,7 @@ public class PayChannelService {
                     OpeningRequirementList or = new OpeningRequirementList();
                     or.setOpeningRequirementsId(requirement.getId());
                     or.setRequirementSettingId(Integer.parseInt(settingId));
-                    or.setRequirementType(OpeningRequirementList.TYPE_PUBLIC);
+                    or.setRequirementType(OpeningRequirementList.TYPE_PRIVATE);
                     openingRequirementListMapper.insert(or);
                 }
             }

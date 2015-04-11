@@ -100,7 +100,7 @@
 		where oa.id=#{id} order by s.created_at desc
 	</select>
 	
-	<insert id="addMark">
+	<insert id="addMark" useGeneratedKeys="true" keyProperty="id">
 		insert into opening_apply_marks(opening_apply_id,custom_id,content,created_at) 
 		VALUES(#{applyid},#{cusid},#{content},NOW())
 	</insert>

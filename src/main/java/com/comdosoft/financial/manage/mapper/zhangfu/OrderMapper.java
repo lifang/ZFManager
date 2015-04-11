@@ -1,6 +1,5 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -48,4 +47,26 @@ public interface OrderMapper {
 			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types);
 	
 	Order findOrderInfo(Integer id);
+
+	/**
+	 * 第三方订单查询
+	 * @param status
+	 * @param keys
+	 * @param customerId
+	 * @return
+	 */
+	long countFactoryByKeys(@Param("status") Byte status, @Param("keys") String keys,
+			@Param("customerId") Integer customerId);
+
+	/**
+	 * 第三方订单
+	 * @param pageRequest
+	 * @param status
+	 * @param keys
+	 * @param customerId
+	 * @return
+	 */
+	List<Order> findFactoryPageOrdersByKeys(@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keys") String keys,
+			@Param("customerId") Integer customerId);
 }

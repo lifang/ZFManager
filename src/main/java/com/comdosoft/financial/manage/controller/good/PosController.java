@@ -43,6 +43,8 @@ public class PosController {
 	private PayChannelService payChannelService;
     @Autowired
     private GoodCommentService goodCommentService;
+    @Autowired
+    private TerminalService terminalService;
 	@Autowired
 	private SessionService sessionService;
 	
@@ -228,6 +230,7 @@ public class PosController {
         String filePath = posPath+FileUtil.getPathFileName();
         String osPath = rootPath + filePath;
 		String fileName = osPath+"/o.jpg";
+        String urlPath = filePath+"/o.jpg";
 		try {
 			File osFile = new File(fileName);
 			if (!osFile.getParentFile().exists()) {
@@ -243,7 +246,7 @@ public class PosController {
 			LOG.error("", e);
 			return Response.getError("上传失败！");
 		}
-		return Response.getSuccess(filePath);
+		return Response.getSuccess(urlPath);
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.POST)
@@ -439,6 +442,14 @@ public class PosController {
 		goodCommentService.create(goodId, customer.getId(), score, content);
 		return  Response.getSuccess("");
 	}
+
+    @RequestMapping(value = "{id}/importTerminal", method = RequestMethod.POST)
+    public String importTerminal(@PathVariable Integer id, String data, Model model) {
+        terminalService.importTerminal(id, data);
+        Good good = goodService.findRowGood(id);
+                model.addAttribute("good", good);
+        return "good/pos/pageRowPos";
+    }
 
 
 }

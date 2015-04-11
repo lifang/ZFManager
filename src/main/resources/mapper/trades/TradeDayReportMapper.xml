@@ -69,4 +69,12 @@
     created_at
     from trade_day_reports
   </select>
+
+  <select id="selectLastWeek" resultMap="BaseResultMap">
+    select id, trade_date, trade_num, trade_sum, order_num, new_user_num, terminal_apply_num,
+    created_at
+    from trade_day_reports
+    order by created_at desc
+    limit 7
+  </select>
 </mapper>

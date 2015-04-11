@@ -83,7 +83,7 @@
                     if(data.code==1){
                         window.location.href="<@spring.url "/user/list" />";
                     }else{
-                        alert(data.message);
+                        showErrorTip(data.message);
                     }
                 }
         );

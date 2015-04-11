@@ -111,7 +111,8 @@ public class OrderAgentController {
 	public String createAgainGet(HttpServletRequest request, Model model,
 			@PathVariable Integer orderId) {
 		Order order = orderService.findOrderInfo(orderId);
-		List<CustomerAddress> selectCustomerAddress = customerAddressService.selectCustomerAddress(order.getCustomerId());
+		List<CustomerAddress> selectCustomerAddress = customerAddressService
+				.selectCustomerAddress(order.getCustomerId());
 		List<City> cities = cityService.cities(0);
 		model.addAttribute("customerAddresses", selectCustomerAddress);
 		model.addAttribute("cities", cities);
@@ -139,14 +140,11 @@ public class OrderAgentController {
 	
 	@RequestMapping(value = "/agent/createSureAgain", method = RequestMethod.GET)
 	public String createSureAgainGet(HttpServletRequest request, Model model,
-			Integer orderId, Integer quantity, String comment,
+			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer payChannelId,
-			Integer customerId) {
-		orderService
-				.save(customerId, orderId, quantity, comment, invoiceInfo,
-						customerAddressId, invoiceType, needInvoice, type,
-						payChannelId);
+			Boolean needInvoice, int type, Integer customerId) throws Exception {
+		 orderService.save(customerId, orderId, goodQuantity, comment,
+		invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);

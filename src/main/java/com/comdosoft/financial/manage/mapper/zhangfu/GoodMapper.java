@@ -48,7 +48,7 @@ public interface GoodMapper {
 	
 	Good findPageRowGood(Integer id);
 
-	List<Good> selectByStatusAndName(@Param("status") Byte status, @Param("keys") String keys);
+	List<Good> selectByStatusAndName(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
 
     long countByCategoryId(Integer categoryId);
 
@@ -92,4 +92,10 @@ public interface GoodMapper {
     		@Param("orderType") String orderType
     		);
     
+     /**
+     * 通过id获取good列表
+     * @author Tory
+     * @param goodIds
+     */
+     List<Good> selectGoodsByIds(List<Integer> goodIds);
 }

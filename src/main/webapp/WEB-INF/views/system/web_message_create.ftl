@@ -37,6 +37,10 @@
 <script>
     function submitData(){
         var title = $("#title").val();
+        if(title.length > 50){
+            showErrorTip("标题不能超过50个字！");
+            return false;
+        }
         if(isNull(title, "标题不能为空！")){
             return false;
         }

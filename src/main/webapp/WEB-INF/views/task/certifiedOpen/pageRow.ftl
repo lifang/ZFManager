@@ -27,10 +27,10 @@
    	   <#if one.status=1>
 	   	   <a  onclick="ups(${one.id!},3,${apply.currentPage!})" class="a_btn">初审通过</a> 
 	   	   <a  onclick="ups(${one.id!},5,${apply.currentPage!})" class="a_btn">二审通过</a> 
-	   	   <a  onclick="ups(${one.id!},2,${apply.currentPage!})" class="a_btn">预审失败</a>
+	   	   <a  onclick="ups(${one.id!},2,${apply.currentPage!})" class="a_btn">初审失败</a>
    	   <#elseif one.status=3>
 	   	   <a  onclick="ups(${one.id!},5,${apply.currentPage!})" class="a_btn">二审通过</a> 
-	   	   <a  onclick="ups(${one.id!},4,${apply.currentPage!})" class="a_btn">预审失败</a>
+	   	   <a  onclick="ups(${one.id!},4,${apply.currentPage!})" class="a_btn">二审失败</a>
    	   </#if>
    	   <#if one.video_status=1>
 	   	   <a href="<@spring.url "/task/certifiedopen/${one.id}/video" />" class="a_btn">视频认证</a> 

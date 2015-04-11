@@ -53,9 +53,9 @@
 
     <#elseif agent.status=6>
         <a onClick="start(${agent.id})" class="a_btn">启用</a>
-        <a href="<@spring.url "/good/agent/${agent.id}/profit" />" class="a_btn">设置分润</a>
-        <a href="<@spring.url "/good/agent/${agent.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/agent/${agent.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/profit" />" class="a_btn">设置分润</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/info" />" class="a_btn">查看详情</a>
         <a href="<@spring.url "/system/agent/${agent.id}/resetpwd" />" class="a_btn">密码重置</a>
 
     </#if>

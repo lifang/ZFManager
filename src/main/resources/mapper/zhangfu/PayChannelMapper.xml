@@ -101,10 +101,18 @@
     </where>
   </sql>
 
+	<!-- Tory:这个where里面不能有factoryId，否则会500错误 -->
+	<sql id="selectByStatusAndNameWhere">
+	  <where>
+	    <if test="status != null"> AND status =#{status} </if>
+	    <if test="keys != null"> AND name like #{keys} </if>
+	  </where>
+	</sql>
+	
    <select id="selectByStatusAndName" resultMap="BaseResultMap">
     select * 
     from pay_channels
-     <include refid="pageWhere" />
+     <include refid="selectByStatusAndNameWhere" />
   </select>
 
     <!--获取商品对应的通道 -->

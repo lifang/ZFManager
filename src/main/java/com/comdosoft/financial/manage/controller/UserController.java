@@ -150,9 +150,20 @@ public class UserController {
 	@RequestMapping(value="{id}/info",method=RequestMethod.GET)
 	public String userInfo(@PathVariable Integer id,Model model){
 		Customer customer = customerService.customer(id);
+        if(customer.getCityId() != null){
+            City city = cityService.selectCityAndParent(customer.getCityId());
+            model.addAttribute("city", city);
+        }
 		model.addAttribute("customer", customer);
 		return "user/info";
 	}
+
+    @RequestMapping(value="{id}/integral",method=RequestMethod.POST)
+    @ResponseBody
+    public Response integral(@PathVariable Integer id,String reason, Byte type, Integer num, Model model){
+        Customer customer = customerService.modifyIntegral(id, reason, type, num);
+        return Response.getSuccess(customer.getIntegral());
+    }
 	
 	@RequestMapping(value="{id}/info/merchants",method=RequestMethod.POST)
 	public String userInfoMerchants(@PathVariable Integer id,Integer page,Model model){
@@ -174,4 +185,15 @@ public class UserController {
 		model.addAttribute("agents", agents);
 		return "user/info_agents";
 	}
+
+    @RequestMapping(value="/merchant/{id}/info",method=RequestMethod.GET)
+    public String merchantInfo(@PathVariable Integer id, Model model){
+        Merchant merchant = merchantService.findMerchantInfo(id);
+        model.addAttribute("merchant", merchant);
+        if(merchant.getCityId() != null){
+            City city = cityService.selectCityAndParent(merchant.getCityId());
+            model.addAttribute("city", city);
+        }
+        return "user/merchant_info";
+    }
 }
