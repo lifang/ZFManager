@@ -409,7 +409,9 @@ public class GoodService {
 			GoodsPicture goodsPicture = new GoodsPicture();
 			goodsPicture.setGoodId(good.getId());
 			goodsPicture.setUrlPath(photoUrl);
-			goodsPicture.setCreatedAt(new Date());
+               goodsPicture.setMiddleUrlPath(photoUrl.replace("o.jpg", "b.jpg"));
+               goodsPicture.setSmallUrlPath(photoUrl.replace("o.jpg", "s.jpg"));
+               goodsPicture.setCreatedAt(new Date());
 			goodsPictureMapper.insert(goodsPicture);
 		}
 	   }
@@ -524,33 +526,35 @@ public class GoodService {
 	   //设置支付通道 channelIdList  
 	   goodsPayChannelMapper.deleteByGoodId(good.getId());
 	   if (channelIdList != null) {
-		   for (Integer channelId : channelIdList) {
-			GoodsPayChannel goodsPayChannel = new GoodsPayChannel();
-			goodsPayChannel.setGoodId(good.getId());
-			goodsPayChannel.setPayChannelId(channelId);
-			goodsPayChannel.setCreateAt(new Date());
-			goodsPayChannelMapper.insert(goodsPayChannel);
-		}
-	   }
+           for (Integer channelId : channelIdList) {
+               GoodsPayChannel goodsPayChannel = new GoodsPayChannel();
+               goodsPayChannel.setGoodId(good.getId());
+               goodsPayChannel.setPayChannelId(channelId);
+               goodsPayChannel.setCreateAt(new Date());
+               goodsPayChannelMapper.insert(goodsPayChannel);
+           }
+       }
 	   //设置图片 photoUrlList
 	   goodsPictureMapper.deleteByGoodId(good.getId());
 	   if (photoUrlList != null) {
-		   for (String photoUrl : photoUrlList) {
-			GoodsPicture goodsPicture = new GoodsPicture();
-			goodsPicture.setGoodId(good.getId());
-			goodsPicture.setUrlPath(photoUrl);
-			goodsPicture.setCreatedAt(new Date());
-			goodsPictureMapper.insert(goodsPicture);
-		}
-	   }
+           for (String photoUrl : photoUrlList) {
+               GoodsPicture goodsPicture = new GoodsPicture();
+               goodsPicture.setGoodId(good.getId());
+               goodsPicture.setUrlPath(photoUrl);
+               goodsPicture.setMiddleUrlPath(photoUrl.replace("o.jpg", "b.jpg"));
+               goodsPicture.setSmallUrlPath(photoUrl.replace("o.jpg", "s.jpg"));
+               goodsPicture.setCreatedAt(new Date());
+               goodsPictureMapper.insert(goodsPicture);
+           }
+       }
 	   //设置关联商品 goodIdList
 	   goodRelationMapper.deleteByGoodId(good.getId());
 	   if (goodIdList != null) {
 		   for (Integer relativeGoodId : goodIdList) {
-			GoodRelation goodRelation = new GoodRelation();
-			goodRelation.setRelativeGoodId(relativeGoodId);
-			goodRelation.setGoodId(good.getId());
-			goodRelationMapper.insert(goodRelation);
+               GoodRelation goodRelation = new GoodRelation();
+               goodRelation.setRelativeGoodId(relativeGoodId);
+               goodRelation.setGoodId(good.getId());
+               goodRelationMapper.insert(goodRelation);
 		}
 	   }
 	}

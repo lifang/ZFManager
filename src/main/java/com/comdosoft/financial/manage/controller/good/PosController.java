@@ -230,6 +230,7 @@ public class PosController {
         String filePath = posPath+FileUtil.getPathFileName();
         String osPath = rootPath + filePath;
 		String fileName = osPath+"/o.jpg";
+        String urlPath = filePath+"/o.jpg";
 		try {
 			File osFile = new File(fileName);
 			if (!osFile.getParentFile().exists()) {
@@ -245,7 +246,7 @@ public class PosController {
 			LOG.error("", e);
 			return Response.getError("上传失败！");
 		}
-		return Response.getSuccess(filePath);
+		return Response.getSuccess(urlPath);
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.POST)
