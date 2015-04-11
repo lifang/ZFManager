@@ -98,9 +98,13 @@ public class CustomerService {
 	}
 
     @Transactional("transactionManager")
-    public void createOperate(String account,String name,
+    public boolean createOperate(String account,String name,
     		String password, Integer[] roles){
-        Customer customer = new Customer();
+        Customer customer = customerMapper.selectByUsername(account);
+        if(customer != null){
+            return false;
+        }
+        customer = new Customer();
         customer.setTypes(Customer.TYPE_OPERATE);
         customer.setName(name);
         customer.setPassword(DigestUtils.md5Hex(password));
@@ -118,14 +122,23 @@ public class CustomerService {
             crr.setRoleId(role);
             customerRoleRelationMapper.insert(crr);
         }
+        return true;
     }
     
     @Transactional("transactionManager")
-    public void modifyOperate(Integer id,String account,
+    public boolean modifyOperate(Integer id,String account,
     		String name,String password, Integer[] roles){
-    	Customer customer = customer(id);
+        Customer customer = customer = customer(id);
+
+        if (!customer.getUsername().equals(account)){
+            Customer customer1 = customerMapper.selectByUsername(account);
+            if (customer1 == null){
+                customer.setUsername(account);
+            }else{
+                return false;
+            }
+        }
     	customer.setName(name);
-    	customer.setUsername(account);
     	customer.setUpdatedAt(new Date());
     	if(StringUtils.hasLength(password)){
     		customer.setPassword(DigestUtils.md5Hex(password));
@@ -140,6 +153,7 @@ public class CustomerService {
             crr.setRoleId(role);
             customerRoleRelationMapper.insert(crr);
         }
+        return true;
     }
 	
 	public Page<Customer> listCustomerPage(Integer page,String query){

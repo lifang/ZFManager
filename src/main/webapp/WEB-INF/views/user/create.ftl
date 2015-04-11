@@ -85,7 +85,7 @@
                     if(data.code==1){
                         window.location.href="<@spring.url "/user/list" />";
                     }else{
-                        alert(data.message);
+                        showErrorTip(data.message);
                     }
                 }
         );
@@ -93,18 +93,6 @@
 
     }
 
-
-    function isNull(value, error){
-        if(!isNotNull(value)){
-            showErrorTip(error);
-            return true;
-        }
-        return false;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
     function checkMobile(str) {
         var re = /^1\d{10}$/
         if (re.test(str)) {
