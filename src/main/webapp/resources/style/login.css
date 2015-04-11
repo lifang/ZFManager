@@ -33,6 +33,7 @@ a { text-decoration: none;}
 .login_area li input.error { border: 1px #F00 solid;}
 .login_area li input.l { width: 175px;}
 .login_area li .yzm { width: 150px; height: 42px; float: left; margin-left: 10px;}
+.login_area li .yzm img { width: 150px;}
 
 .forget { margin-bottom: 30px; overflow: hidden;}
 .forget span { float: left; color: #999;}

@@ -119,8 +119,8 @@ $(function(){
 	popup(".errorTab",".error_a");//错误提示弹层
 	
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
-	popup(".tab",".close");
-	popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
+	
+	popup(".file_tab",".file_a");//交易转账上传
 })
 
 
@@ -338,7 +338,6 @@ $(function(){
 
 
 //selectBox div模拟select
-/*放到了goodListFresh下面了
 $(function(){
 	$(".tag_select").click(function() {
 		$(this).parent(".selectBox").find("ul").toggle();
@@ -358,7 +357,7 @@ $(function(){
 		$(".selectBox ul").hide();
 		
 	});
-})*/
+})
 
 //用户确认订单 搜索 创建 切换
 $(function(){

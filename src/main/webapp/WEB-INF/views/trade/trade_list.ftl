@@ -1,6 +1,7 @@
 <div class="user_title"><h1>${type.tradeValue}交易流水</h1>
     <div class="userTopBtnBox">
-        <a href="<@spring.url "/trade/${type.id}/statistics"/>" class="ghostBtn">统计</a><a href="#" class="ghostBtn">上传交易</a>
+        <a href="<@spring.url "/trade/${type.id}/statistics"/>" class="ghostBtn">统计</a>
+        <a href="javascript:void(0);" class="ghostBtn file_a">上传交易</a>
     </div>
 </div>
 
