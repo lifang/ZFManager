@@ -3,6 +3,8 @@ package com.comdosoft.financial.manage.domain.zhangfu;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 public class Order {
 
 	/**
@@ -621,6 +623,7 @@ public class Order {
 	private List<Good> goods;
 	private List<OrderPayment> orderPayments;
 	private List<OrderMark> orderMarks;
+	private Integer orderPaymentTotal;
 	
 	public Customer getCustomer() {
 		return customer;
@@ -685,6 +688,28 @@ public class Order {
 	public void setAgent(Agent agent) {
 		this.agent = agent;
 	}
+
+	/**
+	 * @return the orderPaymentTotal
+	 */
+	public Integer getOrderPaymentTotal() {
+		orderPaymentTotal=0;
+		orderPayments=getOrderPayments();
+		if(!CollectionUtils.isEmpty(orderPayments)){
+			for(OrderPayment orderPayment:orderPayments){
+				orderPaymentTotal+=orderPayment.getPrice();
+			}
+		}
+		return orderPaymentTotal;
+	}
+
+	/**
+	 * @param orderPaymentTotal the orderPaymentTotal to set
+	 */
+	public void setOrderPaymentTotal(Integer orderPaymentTotal) {
+		this.orderPaymentTotal = orderPaymentTotal;
+	}
+	
 	
 	
 

@@ -3,7 +3,7 @@
  	 / / / _ \/ __) _ `/
  	/_/ ()___/_/  \_, /
  				 /___/			
- * 2015年4月5日 下午7:04:54 snail
+ * 2015年4月5日 下午7:04:54
  */
 package com.comdosoft.financial.manage.controller.order;
 
@@ -19,7 +19,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order/agent")
-public class AgentsController {
+public class AgentsController extends BaseController {
 	
 	private Integer maxPageSize=9999;
 	@Autowired

@@ -27,8 +27,8 @@
                 	<select id="select_status"> 
                      	  <option value="0">全部</option> 
 				          <option value="1">未付款</option> 
-				          <option value="2">已付款</option> 
-				          <option value="3">已发货</option> 
+				          <option value="2">已付订金</option> 
+				          <option value="3">已完成</option> 
 				          <option value="4">已评价</option> 	         
 				          <option value="5">已取消</option> 
 				          <option value="6">交易关闭</option> 
@@ -55,13 +55,27 @@
     <div class="tabFoot"><button class="blueBtn" id="priceSure">确定</button></div>
 </div>
 
+<div class="tab priceEarnest_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">修改定金价格</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">定金价格</span><div class="text" id="priceEarnestDiv"><strong>￥500.00</strong></div></li>
+                <li><span class="labelSpan">新价格</span><div class="text"><input name="" type="text" id="priceEarnestText"/></div></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="priceEarnestSure">确定</button></div>
+</div>
+
 <div class="tab paymentRecord_tab">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">增加付款记录</div>
     <div class="tabBody">
     	<div class="item_list">
         	<ul>
-            	<li><span class="labelSpan">付款金额</span><div class="text" id="pay_price"><strong>￥0.00</strong></div></li>
+            	<li><span class="labelSpan">付款金额</span><div class="text"><input id="payPrice" name="" type="text" placeholder="元" /></div></li>
                 <li><span class="labelSpan">付款方式</span><div class="text">
                     <select name="" id="pay_type">
                       <option value="1">支付宝</option>
@@ -75,6 +89,26 @@
     </div>
     <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
 </div>
+
+   <!-- 
+   <div class="tab paymentRecord_tab">
+    	<a href="#" class="close">关闭</a>
+        <div class="tabHead">增加付款记录</div>
+        <div class="tabBody">
+        	<div class="item_list">
+            	<ul>
+                	<li><span class="labelSpan">付款金额</span><div class="text"><input name="" type="text" placeholder="元" /></div></li>
+                    <li><span class="labelSpan">付款方式</span><div class="text">
+                        <select name="">
+                          <option>转账</option>
+                        </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    </div>-->
 
 <div class="tab remark_tab">
     	<a href="#" class="close">关闭</a>
@@ -134,6 +168,7 @@
         popup(".priceOrder_tab",".priceOrder_a");//修改价格
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
         popup(".deliver_tab",".deliver_a");//发货
+        popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格
 	}
 	
 	function markBtn(id){
@@ -151,6 +186,24 @@
 					$('.mask').hide();
 	            });
 	}
+	
+	function priceEarnestBtn(id,price){
+		$("#priceEarnestDiv").html("<strong>￥"+price+"</strong>");
+ 		$("#priceEarnestSure").click(function(){priceEarnestSure(id)});
+    }
+    function priceEarnestSure(id){
+		var priceEarnestText = $('#priceEarnestText').val();
+		$.get('<@spring.url "" />'+'/order/batch/'+id+'/save',
+				{"orderId":id,
+				"frontMoney":priceEarnestText
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.priceEarnest_tab').hide();
+					$('.mask').hide();
+					popupPage();
+	            });
+    }
 	
 	function orderPriceBtn(id,price){
 		$("#order_price").html("<strong>￥"+price+"</strong>");
@@ -184,15 +237,16 @@
     }
     
     function payPriceBtn(id,price){
-		$("#pay_price").html("<strong>￥"+price+"</strong>");
  		$("#paySure").click(function(){paySure(id)});
     }
     
     function paySure(id){
 		var payType = $('#pay_type').val();
+		var payPrice=$('#payPrice').val();
 		$.get('<@spring.url "" />'+'/order/payment/batch/create',
 				{"orderId":id,
-				"payType":payType
+				"payType":payType,
+				"payPrice":payPrice
 				},
 	            function (data) {
 	           		$('#row_'+id).replaceWith(data);
@@ -205,8 +259,8 @@
     function deliverBtn(id,size){
     	var htmlStr='';
     	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
 	        "<p>POS机数量："+hidden_quantity+"</p>";
     	}

@@ -30,7 +30,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
-public class OrderUserController {
+public class OrderUserController extends BaseController{
 
 	@Autowired
 	private OrderService orderService;
@@ -114,7 +114,7 @@ public class OrderUserController {
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
 			Integer customerId) {
-		orderService
+		Integer id=orderService
 				.save(customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
 						payChannelId);
@@ -122,41 +122,59 @@ public class OrderUserController {
 		types.add((byte) 1);
 		types.add((byte) 2);
 		findPage(1, null, null, null, model, types);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserCreate, OperateAction.createSure, id);
 		return "order/user/list";
 
 	}
 
 	@RequestMapping(value = "/user/{id}/save", method = RequestMethod.GET)
-	public String save(@PathVariable Integer id, Byte status,
+	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.updatePrice, id);
+		}
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.updateStatus, id);
+		}
 		return "order/user/pageRowOrder";
 	}
 
 	@RequestMapping(value = "/user/info/{id}/save", method = RequestMethod.GET)
-	public String saveInfo(@PathVariable Integer id, Byte status,
-			Integer actualPrice, Model model) {
+	public String saveInfo(HttpServletRequest request,
+			@PathVariable Integer id, Byte status, Integer actualPrice,
+			Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		if (null != actualPrice) {
+			saveOperateRecord(request, OperateType.orderUserType,
+					OperatePage.orderUserInfo, OperateAction.updatePrice, id);
+		}
+		if (null != status) {
+			saveOperateRecord(request, OperateType.orderUserType,
+					OperatePage.orderUserInfo, OperateAction.updateStatus, id);
+		}
 		return "order/user/infoUp";
 	}
 
 	@RequestMapping(value = "/user/{id}/cancel", method = RequestMethod.GET)
-	public String cancle(@PathVariable Integer id, Model model) {
+	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList, OperateAction.cancel, id);
 		return "order/user/pageRowOrder";
 	}
 
 	@RequestMapping(value = "/user/info/{id}/cancel", method = RequestMethod.GET)
-	public String cancleInfo(@PathVariable Integer id, Model model) {
+	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo, OperateAction.cancel, id);
 		return "order/user/infoUp";
 	}
 }

@@ -17,10 +17,12 @@ import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
+import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderGoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.OrderPaymentMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -40,6 +42,8 @@ public class OrderService {
 
 	@Autowired
 	private GoodMapper goodMapper;
+	@Autowired
+	private OrderPaymentMapper orderPaymentMapper;
 
 	public Page<Order> findPages(int page, Byte status, String keys,
 			Integer factoryId, List<Byte> types) {
@@ -69,18 +73,29 @@ public class OrderService {
 		}
 		List<Integer> orderIds = new ArrayList<Integer>();
 		for (Order o : result) {
+			System.out.println(o.getId());
+			System.out.println(o.getOrderPayments());
 			orderIds.add(o.getId());
 		}
 		List<OrderGood> selectOrderGoods = orderGoodMapper
 				.selectOrderGoods(orderIds);
 		List<Integer> goodIds = new ArrayList<Integer>();
+		List<OrderPayment> orderPaymentList = orderPaymentMapper.selectByOrderIds(orderIds);
 		for (Order order : result) {
 			order.setOrderGoods(new ArrayList<OrderGood>());
+			order.setOrderPayments(new ArrayList<OrderPayment>());
 			for (int i = 0, size = selectOrderGoods.size(); i < size; i++) {
 				OrderGood o = selectOrderGoods.get(i);
 				if (order.getId().equals(o.getOrderId())) {
 					order.getOrderGoods().add(o);
 					goodIds.add(o.getGoodId());
+				}
+			}
+			if(!CollectionUtils.isEmpty(orderPaymentList)){
+				for(OrderPayment orderPayment:orderPaymentList){
+					if(order.getId().equals(orderPayment.getOrderId())){
+						order.getOrderPayments().add(orderPayment);
+					}
 				}
 			}
 		}
@@ -98,6 +113,7 @@ public class OrderService {
 				}
 			}
 		}
+		
 		return orders;
 	}
 
@@ -131,9 +147,25 @@ public class OrderService {
 		if (null != status)
 			record.setStatus(status);
 		if (null != actualPrice)
-			record.setActualPrice(actualPrice);
+			record.setActualPrice(actualPrice*100);
 		if (null != payStatus)
 			record.setPayStatus(payStatus);
+		return orderMapper.updateByPrimaryKey(record);
+	}
+	
+	public int save(Integer orderId, Byte status, Integer actualPrice,
+			Byte payStatus,Integer frontMoney) {
+		Order record = orderMapper.findOrderInfo(orderId);
+		record.setId(orderId);
+		if (null != status)
+			record.setStatus(status);
+		if (null != actualPrice)
+			record.setActualPrice(actualPrice*100);
+		if (null != payStatus)
+			record.setPayStatus(payStatus);
+		if(null!=frontMoney){
+			record.setFrontMoney(frontMoney*100);
+		}
 		return orderMapper.updateByPrimaryKey(record);
 	}
 
@@ -144,7 +176,7 @@ public class OrderService {
 			Integer payChannelId) {
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
-		order.setActualPrice(good.getPrice());
+		order.setActualPrice(good.getPrice()* quantity);
 		order.setComment(comment);
 		Date createdAt = new Date();
 		order.setCreatedAt(createdAt);
@@ -169,11 +201,11 @@ public class OrderService {
 		orderGood.setCreatedAt(createdAt);
 		orderGood.setUpdatedAt(createdAt);
 		orderGood.setQuantity(quantity);
-		orderGood.setPrice(good.getPrice() * quantity);
+		orderGood.setPrice(good.getPrice());
 		orderGood.setActualPrice(good.getPrice() * quantity);
 		orderGood.setPayChannelId(payChannelId);
-		int insert = orderGoodMapper.insert(orderGood);
-		return insert;
+		orderGoodMapper.insert(orderGood);
+		return orderId;
 	}
 
 	public int save(Integer customerId, Integer orderId, String goodQuantity,
@@ -231,6 +263,7 @@ public class OrderService {
 		orderNew.setOrderNumber(orderNumber);
 		orderNew.setStatus((byte) 1);
 		orderMapper.insert(orderNew);
+		int orderNewId=orderNew.getId();
 		int newOrderId = orderNew.getId();
 		for (Good good : selectGoodsByIds) {
 			for (Map<String, Integer> map : goodQuantityList) {
@@ -259,7 +292,7 @@ public class OrderService {
 				}
 			}
 		}
-		return 1;
+		return orderNewId;
 	}
 
 	/**

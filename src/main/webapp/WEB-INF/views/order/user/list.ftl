@@ -102,7 +102,7 @@
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
 	        <p>POS机数量：10</p>
 	    </div>
-    	<textarea name="" cols="" rows="">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num">输入终端号</textarea>
         <input name="" type="text" value="物流公司" id="logistics_name" />
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
@@ -225,8 +225,8 @@
     function deliverBtn(id,size){
     	var htmlStr='';
     	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
 	        "<p>POS机数量："+hidden_quantity+"</p>";
     	}
@@ -235,6 +235,7 @@
     }
     
     function deliverSure(id){
+    	var terminalSerialNum = $('#terminal_serial_num').val();
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		$.get('<@spring.url "" />'+'/order/logistic/create',

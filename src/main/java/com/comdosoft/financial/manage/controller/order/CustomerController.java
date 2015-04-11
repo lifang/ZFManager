@@ -15,7 +15,7 @@ import com.comdosoft.financial.manage.service.CustomerService;
 
 @Controller
 @RequestMapping("/order/customer")
-public class CustomerController {
+public class CustomerController extends BaseController {
 	
 	@Autowired
 	private CustomerService customerService;
@@ -35,6 +35,7 @@ public class CustomerController {
     	}
     	Customer customer = customerService.saveAndReturn(passport, password, phone, city);
     	model.addAttribute("customer", customer);
+    	saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserCreate, OperateAction.saveCustomer, customer.getId());
         return "order/customer";
     }
 }

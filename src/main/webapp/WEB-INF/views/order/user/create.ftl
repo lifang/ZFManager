@@ -186,7 +186,7 @@
 	}
 	
 	function createSure(goodId){
-		var quantity = $("#quantity").val();
+		var quantity = $("#quantity_"+goodId).val();
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
 		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){

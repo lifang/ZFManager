@@ -74,4 +74,13 @@
     select op.*
     from order_payments op where op.order_id=#{param1}
   </select>
+  
+   <select id="selectByOrderIds" resultMap="BaseResultMap">
+   	 select op.*
+  		 from order_payments op 
+   	 where op.order_id in 
+   	<foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
+	 	 #{item}  
+	</foreach>  
+   </select>
 </mapper>

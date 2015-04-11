@@ -101,7 +101,6 @@
     </where>
   </sql>
 
-	<!-- Tory:这个where里面不能有factoryId，否则会500错误 -->
 	<sql id="selectByStatusAndNameWhere">
 	  <where>
 	    <if test="status != null"> AND status =#{status} </if>

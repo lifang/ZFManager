@@ -131,7 +131,7 @@
 		$("#totalStrong").html(goodPriceStrong);
 		$("#actualStrong").html(goodPriceStrong);
 		$("#goodPriceStrong_"+goodId).html(goodPriceStrong);
-		$("#quantity_"+goodId).val(parseInt(quantity)+1);
+		$("#quantity_"+goodId).val(parseInt(quantity));
 	}
 	
 	function reduceQuantity(goodId,price) {

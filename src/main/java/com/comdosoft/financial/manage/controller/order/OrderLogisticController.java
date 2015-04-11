@@ -21,7 +21,7 @@ import com.comdosoft.financial.manage.service.OrderService;
 
 @Controller
 @RequestMapping("/order/logistic")
-public class OrderLogisticController {
+public class OrderLogisticController extends BaseController {
 
 	@Autowired
 	private OrderLogisticService orderLogisticService;
@@ -29,11 +29,12 @@ public class OrderLogisticController {
 	private OrderService orderService;
 	
 	@RequestMapping(value="create",method = RequestMethod.GET)
-	public String createGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
+	public String createGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
 		orderService.save(orderId, (byte)3, null, null);
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.deliver, orderId);
         return "order/user/pageRowOrder";
 	}
 	@RequestMapping(value="/info/create",method = RequestMethod.GET)
@@ -42,6 +43,7 @@ public class OrderLogisticController {
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo,OperateAction.deliver, orderId);
 		return "order/user/infoUp";
 	}
 	
@@ -51,6 +53,7 @@ public class OrderLogisticController {
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.deliver, orderId);
         return "order/agent/row";
 	}
 	@RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
@@ -59,6 +62,7 @@ public class OrderLogisticController {
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo,OperateAction.deliver, orderId);
 		return "order/agent/infoUp";
 	}
 	
@@ -68,6 +72,7 @@ public class OrderLogisticController {
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.deliver, orderId);
 		return "order/batch/row";
 	}
 	@RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
@@ -76,6 +81,7 @@ public class OrderLogisticController {
 		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.deliver, orderId);
 		return "order/batch/infoUp";
 	}
 }
