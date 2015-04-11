@@ -93,10 +93,10 @@ public class CsRepairController {
 		csRepairService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csRepairId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsRepairMark csRepairMark = csRepairService.createMark(customer, csRepairId, content);
+    	CsRepairMark csRepairMark = csRepairService.createMark(customer, id, content);
     	model.addAttribute("mark", csRepairMark);
         return "cs/mark";
     }

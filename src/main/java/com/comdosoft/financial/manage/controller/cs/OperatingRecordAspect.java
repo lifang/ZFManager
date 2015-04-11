@@ -1,17 +1,22 @@
 package com.comdosoft.financial.manage.controller.cs;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.RecordOperateService;
@@ -26,6 +31,8 @@ import com.comdosoft.financial.manage.service.SessionService;
 @Aspect
 @Component
 public class OperatingRecordAspect {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OperatingRecordAspect.class);
 	
 	@Autowired
 	private SessionService sessionService;
@@ -66,45 +73,29 @@ public class OperatingRecordAspect {
 	public void pointCut() {
 	}
 
-	@After("pointCut()")
+	@AfterReturning("pointCut()")
 	public void after(JoinPoint joinPoint) {
-		Signature signature = joinPoint.getSignature();
+		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Class<?> declareClass = signature.getDeclaringType();
 		String methodName = signature.getName();
 		
 		if (!FILTER_CLASSES.keySet().contains(declareClass) || !FILTER_METHODS.keySet().contains(methodName)) return;
 		
 		Object[] args = joinPoint.getArgs();
-		if (null == args || args.length == 0 || !(args[0] instanceof HttpServletRequest)) return;
+		if (null == args || args.length == 0) return;
 		
-		HttpServletRequest request = (HttpServletRequest) args[0];
+		HttpServletRequest request = findHttpServletRequest(args);
+		if (null == request) return;
 		Customer customer = sessionService.getLoginInfo(request);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(customer.getName() + "执行了");
 		sb.append(FILTER_CLASSES.get(declareClass) + "界面的");
 		sb.append(FILTER_METHODS.get(methodName) + "操作, ");
-		
 		sb.append("操作记录的id是");
-		Integer targetId = null;
-		switch (methodName) {
-		case "handle":
-		case "finish":
-		case "cancel":
-		case "output":
-		case "resubmit":
-		case "confirmChange":
-		case "confirmReturn":
-		case "addPay":
-		case "updatePay":
-			targetId = (Integer) args[2];
-			break;
-		case "createMark":
-			targetId = (Integer) args[1];
-			break;
-		default:
-			break;
-		}
+		
+		Method method = signature.getMethod();
+		Integer targetId = findPathVariableId(args, method);
 		if (null != targetId) sb.append(targetId);
 		
 		Integer type = declareClass == CsAgentController.class ? 13
@@ -115,8 +106,30 @@ public class OperatingRecordAspect {
 					: declareClass == CsCancelController.class ? 18 
 					: declareClass == CsLeaseController.class ? 19 : null;
 		
-		recordOperateService.saveOperateRecord(customer.getId(),
-				customer.getName(), customer.getTypes(), type, sb.toString(),
-				targetId);
+		LOGGER.debug(sb.toString());
+		
+		recordOperateService.saveOperateRecord(customer.getId(), 
+				customer.getName(), customer.getTypes(), type, sb.toString(), targetId);
 	}
+	
+	private HttpServletRequest findHttpServletRequest(Object[] args) {
+		for (Object arg : args) {
+			if (arg instanceof HttpServletRequest) return (HttpServletRequest)arg;
+		}
+		return null;
+	}
+	
+	private Integer findPathVariableId(Object[] args, Method method) {
+		Annotation[][] annotations = method.getParameterAnnotations();
+		for (int i = 0; i < annotations.length; i++) {
+			Annotation[] annos = annotations[i];
+			for (int j = 0; j < annos.length; j++) {
+				Annotation anno = annos[j];
+				if (anno instanceof PathVariable && args[i] instanceof Integer)
+					return (Integer) args[i];
+			}
+		}
+		return null;
+	}
+
 }

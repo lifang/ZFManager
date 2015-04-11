@@ -82,9 +82,8 @@
 			alert("请输入备注内容");
 			return;
 		}
-		$.post('<@spring.url "/cs/update/mark/create" />',
-	    	{"csUpdateId": csUpdateId,
-	    	 "content": content},
+		$.post('<@spring.url "/cs/update/${csUpdate.id}/mark/create" />',
+	    	{"content": content},
 	    	 function (data) {
 	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);

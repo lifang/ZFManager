@@ -94,10 +94,10 @@ public class CsReturnController {
 		csReturnService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csReturnId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsReturnMark csReturnMark = csReturnService.createMark(customer, csReturnId, content);
+    	CsReturnMark csReturnMark = csReturnService.createMark(customer, id, content);
     	model.addAttribute("mark", csReturnMark);
         return "cs/mark";
     }
