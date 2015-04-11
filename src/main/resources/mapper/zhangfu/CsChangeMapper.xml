@@ -110,7 +110,7 @@
     left join goods g on t.good_id=g.id 
     left join pay_channels pc on pc.id=t.pay_channel_id
     left join merchants m on m.id=t.merchant_id 
-    left join cs_receiver_addresses addr on addr.id=cc.return_address_id 
+    left join cs_receiver_addresses addr on addr.id=cc.receive_address_id  
   </sql>
   
   <!-- count records by keyword and status -->

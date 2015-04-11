@@ -70,27 +70,27 @@ public class CsReturnController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csReturnService.handle(id);
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csReturnService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csReturnService.finish(id);
 	}
 	
 	@RequestMapping(value = "{csReturnId}/confirm", method = RequestMethod.POST)
-	public void confirm(CsReceiverAddress csReceiverAddress, HttpServletResponse response, @PathVariable Integer csReturnId) {
+	public void confirmReturn(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer csReturnId, CsReceiverAddress csReceiverAddress) {
 		csReturnService.confirm(csReturnId, csReceiverAddress);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csReturnService.dispatch(ids, customerId, customerName);
 	}
 	
