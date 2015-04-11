@@ -164,7 +164,7 @@ public class CsRepairService {
 	}
 	
 	@Transactional("transactionManager")
-	public void createBill(Customer customer, CsReceiverAddress csReceiverAddress, 
+	public Integer createBill(Customer customer, CsReceiverAddress csReceiverAddress, 
 			String terminalNum, Integer repairPrice, String description) {
 		CsRepair csRepair = new CsRepair();
 		Terminal terminal = terminalMapper.findTerminalByNum(terminalNum);
@@ -174,7 +174,8 @@ public class CsRepairService {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
-		csRepair.setReturnAddressId(csReceiverAddress.getId());
+		csRepair.setApplyNum(String.valueOf(System.currentTimeMillis()) + customer.getId());
+		csRepair.setReceiveAddressId(csReceiverAddress.getId());
 		csRepair.setProcessUserId(customer.getId());
 		csRepair.setProcessUserName(customer.getName());
 		csRepair.setRepairPrice(repairPrice);
@@ -185,5 +186,6 @@ public class CsRepairService {
 		csRepair.setCsRepairMarksId(0);
 		
 		csRepairMapper.insert(csRepair);
+		return csRepair.getId();
 	}
 }

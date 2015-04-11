@@ -70,27 +70,27 @@ public class CsChangeController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csChangeService.handle(id);
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csChangeService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csChangeService.finish(id);
 	}
 	
 	@RequestMapping(value = "{csChangeId}/confirm", method = RequestMethod.POST)
-	public void confirm(CsReceiverAddress csReceiverAddress, HttpServletResponse response, @PathVariable Integer csChangeId) {
+	public void confirmChange(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer csChangeId, CsReceiverAddress csReceiverAddress) {
 		csChangeService.confirm(csChangeId, csReceiverAddress);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csChangeService.dispatch(ids, customerId, customerName);
 	}
 	

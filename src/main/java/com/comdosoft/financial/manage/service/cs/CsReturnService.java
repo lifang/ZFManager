@@ -118,6 +118,7 @@ public class CsReturnService {
 		if (null != csReturn) {
 			csReturn.setReturnAddressId(csReceiverAddress.getId());
 			csReturn.setUpdatedAt(new Date());
+			csReturn.setStatus(HANDLE);
 			csReturnMapper.updateByPrimaryKey(csReturn);
 		}
 	}

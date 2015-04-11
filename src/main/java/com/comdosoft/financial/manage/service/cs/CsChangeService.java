@@ -117,6 +117,7 @@ public class CsChangeService {
 		CsChange csChange = csChangeMapper.selectByPrimaryKey(csChangeId);
 		if (null != csChange) {
 			csChange.setReturnAddressId(csReceiverAddress.getId());
+			csChange.setStatus(HANDLE);
 			csChange.setUpdatedAt(new Date());
 			csChangeMapper.updateByPrimaryKey(csChange);
 		}
