@@ -5,8 +5,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStat
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.HANDLE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,22 +47,7 @@ public class CsUpdateService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsUpdateInfo> result = csUpdateInfoMapper.findPageSelective(request, status, keyword);
-		
-		Collections.sort(result, new Comparator<CsUpdateInfo>() {
-			@Override
-			public int compare(CsUpdateInfo o1, CsUpdateInfo o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsUpdateInfo> result = csUpdateInfoMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsUpdateInfo> csUpdates = new Page<CsUpdateInfo>(request, result, count);
 		return csUpdates;
 	}

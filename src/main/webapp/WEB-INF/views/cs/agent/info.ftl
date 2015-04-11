@@ -73,9 +73,8 @@
 			alert("请输入备注内容");
 			return;
 		}
-		$.post('<@spring.url "/cs/agent/mark/create" />',
-	    	{"csAgentId": csAgentId,
-	    	 "content": content},
+		$.post('<@spring.url "/cs/agent/${csAgent.id}/mark/create" />',
+	    	{"content": content},
 	    	 function (data) {
 	    	 	if (status==2) {
 	    	 		$('#mark_container').prepend(data);

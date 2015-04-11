@@ -21,7 +21,6 @@
         <h1>创建运营账号</h1>
     </div>
 
-    <form method="post" action="<@spring.url "/system/operate/account/create"/>">
         <div class="item_list clear">
             <ul>
                 <li><span class="labelSpan">姓名：</span>
@@ -49,9 +48,9 @@
                 </li>
             </ul>
         </div>
-        <input type="hidden" name="roles">
-        <div class="btnBottom"><button class="blueBtn" type="submit">创建</button></div>
-    </form>
+        <div class="btnBottom">
+            <button class="blueBtn" onclick="submitData()">创建</button>
+        </div>
 </div>
 <script>
     $(function(){
@@ -73,43 +72,54 @@
             $("div.ia_area").append(span);
         });
 
-        $("form").submit(function(){
-            var name=$("input[name=name]").val();
-            if(!name){
-                alert("姓名不能为空！");
-                return false;
-            }
-            var account=$("input[name=account]").val();
-            if(!account){
-                alert("帐号ID不能为空！");
-                return false;
-            }
-            var password=$("input[name=password]").val();
-            if(!password){
-                alert("密码不能为空！");
-                return false;
-            }
-            var re_password=$("input[name=re_password]").val();
-            if(!re_password&&password!=re_password){
-                alert("两次密码输入不一致");
-                return false;
-            }
-            var roles;
-            $("div.ia_area > span").each(function(){
-                var v=$(this).attr("data-id");
-                if(!roles){
-                    roles = v;
-                }else{
-                    roles = roles+","+v;
-                }
-            });
-            $("input[name=roles]").val(roles);
-            return true;
-        });
-
         $("a.dele").click(function(){
             $(this).parent().remove();
         });
     })
+
+    function submitData(){
+        var name=$("input[name=name]").val();
+        if(isNull(name,"姓名不能为空!")){
+            return false;
+        }
+        var account=$("input[name=account]").val();
+        if(isNull(account,"帐号ID不能为空!")){
+            return false;
+        }
+        var password=$("input[name=password]").val();
+        if(isNull(password,"密码不能为空!")){
+            return false;
+        }
+        var re_password=$("input[name=re_password]").val();
+        if(password!=re_password){
+            showErrorTip("两次密码输入不一致!");
+            return false;
+        }
+
+        var roles;
+        $("div.ia_area > span").each(function(){
+            var v=$(this).attr("data-id");
+            if(!roles){
+                roles = v;
+            }else{
+                roles = roles+","+v;
+            }
+        });
+
+        $.post("<@spring.url "/system/operate/account/create" />",
+                {name: name,
+                    account: account,
+                    password: password,
+                    roles: roles
+                },
+                function(data){
+                    if(data.code==1){
+                        window.location.href="<@spring.url "/system/operate/accounts" />";
+                    }else{
+                        showErrorTip(data.message);
+                    }
+                }
+        );
+    }
 </script>
 </@c.html>

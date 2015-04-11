@@ -19,7 +19,7 @@
        <ul> 
         <li>
          <div class="user_search">
-          <input id="search_keys" name="" type="text" class="" />
+          <input id="search_keys" name="" type="text" class="" placeholder="标题、副标题、关键字" />
           <input id="hidden_keys" type="hidden" name="keys" value="" />
           <input id="hidden_status" type="hidden" name="status" value="" />
           <button id="btn_search"></button>

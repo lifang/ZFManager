@@ -125,8 +125,5 @@
         });
     });
 
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
 </script>
 </@c.html>

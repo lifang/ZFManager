@@ -32,7 +32,7 @@ public class RefundService {
 	@Autowired
 	private RefundMapper refundMapper;
 	
-	public Page<Object> findPages(int page, Byte status, String orderNumber){
+	public Page<Object> findPages(int page, Byte status, String orderNumber,int userId){
 		if (orderNumber != null) {
 			orderNumber = "%"+orderNumber+"%";
 		}
@@ -42,11 +42,11 @@ public class RefundService {
 		}
 		
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Object> result = refundMapper.findPageRefundByKeys(request, status, orderNumber);
+		List<Object> result = refundMapper.findPageRefundByKeys(request, status, orderNumber,userId);
 		Page<Object> refund = new Page<Object>(request, result, count);
 		if (refund.getCurrentPage() > refund.getTotalPage()) {
 			request = new PageRequest(refund.getTotalPage(), pageSize);
-			result = refundMapper.findPageRefundByKeys(request, status, orderNumber);
+			result = refundMapper.findPageRefundByKeys(request, status, orderNumber,userId);
 			refund = new Page<>(request, result, count);
 		}
 		return refund;

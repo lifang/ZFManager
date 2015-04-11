@@ -13,8 +13,8 @@ public class RecordOperateService {
 	@Autowired
 	private ReocrdOperateMapper mapper;
 	
-	public int saveOperateRecord(int operateUserId,String operateUserName,int operateUsreType,
-			int types,String content,int operateTargetId){
+	public int saveOperateRecord(Integer operateUserId,String operateUserName,Byte operateUsreType,
+			Integer types,String content,Integer operateTargetId){
 		return mapper.save(operateUserId,operateUserName,operateUsreType,types,content,operateTargetId);
 	}
 }

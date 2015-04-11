@@ -45,8 +45,8 @@
 
     <#elseif factory.status=6>
         <a onClick="start(${factory.id})" class="a_btn">启用</a>
-        <a href="<@spring.url "/good/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/good/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
         <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
     </#if>
     </td>

@@ -36,8 +36,8 @@
             var name = $tr.find("input").eq(0).val();
             var rate = $tr.find("input").eq(1).val();
             var description = $tr.find("input").eq(2).val();
-            if(checkNull(name, "结算周期不能为空！")
-                    ||checkNull(rate, "费率不能为空！")){
+            if(isNull(name, "结算周期不能为空！")
+                    ||isNull(rate, "费率不能为空！")){
                 return false;
             }
             if(!isNotNull(value)){

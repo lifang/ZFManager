@@ -11,7 +11,7 @@ public interface RefundMapper {
 	long getRefundCount(@Param("status") Byte status, @Param("orderNumber") String orderNumber);
 	
 	List<Object> findPageRefundByKeys(@Param("pageRequest") PageRequest pageRequest,
-			@Param("status") Byte status, @Param("orderNumber") String keys);
+			@Param("status") Byte status, @Param("orderNumber") String keys,@Param("userId") int userId);
 	
 	Map<Object, Object> getRefundDetails(@Param("id") int id);
 	

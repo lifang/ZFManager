@@ -8,12 +8,6 @@
 <div class="content clear">
     <div class="user_title"><h1>修改密码</h1>
     </div>
-    <form action="<@spring.url "/system/account/setting/modify"/>" method="post">
-        <#if result?? && result>
-            密码修改成功！
-        <#elseif result?? && !result>
-            原密码不正确！
-        </#if>
     <div class="attributes_box">
         <div class="item_list clear">
             <ul>
@@ -29,9 +23,36 @@
             </ul>
         </div>
         <div class="btnBottom">
-            <button class="blueBtn">保存修改</button>
+            <button class="blueBtn" onclick="submitData()">保存修改</button>
         </div>
     </div>
-    </form>
 </div>
+
+<script>
+    function submitData() {
+        var oldPwd=$("input[name='old_pwd']").val();
+        var newPwd=$("input[name='new_pwd']").val();
+        var confirmPwd=$("input[name='re_new_pwd']").val();
+        if(isNull(oldPwd, "原密码不能为空!")){return false;}
+        if(isNull(newPwd, "新密码不能为空!")){return false;}
+        if(newPwd!=confirmPwd){
+            showErrorTip("新密码和确认密码必须相同");
+            return false;
+        }
+
+        $.post("<@spring.url "/system/account/setting/modify" />",
+                { oldPwd: oldPwd,
+                    newPwd: newPwd
+                },
+                function(data){
+                    if(data.code==1){
+                        showErrorTip("修改成功！");
+                    } else {
+                        showErrorTip(data.message);
+                    }
+                }
+        );
+    }
+
+</script>
 </@c.html>

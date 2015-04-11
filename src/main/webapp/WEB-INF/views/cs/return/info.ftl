@@ -123,9 +123,8 @@
 			alert("请输入备注内容");
 			return;
 		}
-		$.post('<@spring.url "/cs/return/mark/create" />',
-	    	{"csReturnId": csReturnId,
-	    	 "content": content},
+		$.post('<@spring.url "/cs/return/${csReturn.id}/mark/create" />',
+	    	{"content": content},
 	    	 function (data) {
 	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);

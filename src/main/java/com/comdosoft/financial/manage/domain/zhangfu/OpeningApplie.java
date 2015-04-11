@@ -640,10 +640,13 @@ public class OpeningApplie {
     public static final  Integer TYPE_PUBLIC = 1;
     public static final  Integer TYPE_PRIVATE = 2;
 
-    public static final byte STATUS_WAITING_FIRST_CHECK = 1;	// 待审核
-    public static final byte STATUS_FIRST_CHECKED = 2	;	// 初审通过
-    public static final byte STATUS_FIRST_UN_CHECKED = 3;	// 初审不通过
-    public static final byte STATUS_CHECKED = 4;				// 审核通过
-    public static final byte STATUS_UN_CHECKED = 5;			// 审核不通过
-    public static final byte STATUS_CANCEL = 6;				// 已取消
+    public static final byte STATUS_WAITING_FIRST_CHECK = 1;	// 待初次预审
+    public static final byte STATUS_FIRST_UN_CHECKED = 2;	// 待初预审不通过
+    public static final byte STATUS_SECOND_CHECKING = 3;	// 二次预审中
+    public static final byte STATUS_SECOND_UN_CHECKED = 4;	// 二次预审不通过
+    public static final byte STATUS_WAITING = 5;			// 待审核
+    public static final byte STATUS_CHECKING = 6;			// 审核中
+    public static final byte STATUS_UN_CHECKED = 7;			// 审核失败
+    public static final byte STATUS_CHECKED = 8;				// 审核成功
+    public static final byte STATUS_CANCEL = 9;				// 已取消
 }

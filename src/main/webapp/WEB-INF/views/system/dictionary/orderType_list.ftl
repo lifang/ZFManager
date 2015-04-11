@@ -30,7 +30,7 @@
             var $tr = $(this).parents("tr");
             var value = $(this).attr("value");
             var name = $tr.find("input").val();
-            if(checkNull(name, "类型不能为空！")){
+            if(isNull(name, "类型不能为空！")){
                 return false;
             }
             if(!isNotNull(value)){
