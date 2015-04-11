@@ -39,7 +39,7 @@
             var name = $tr.find("input").eq(0).val();
             var introduction = $tr.find("input").eq(1).val();
             var queryMark = $tr.find("input").eq(2).val();
-            if(checkNull(name, "名称不能为空！")){
+            if(isNull(name, "名称不能为空！")){
                 return false;
             }
             if(!isNotNull(value)){

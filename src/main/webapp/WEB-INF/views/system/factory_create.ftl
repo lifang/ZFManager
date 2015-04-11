@@ -166,18 +166,6 @@
         return false;
     }
 
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-
     function checkMobile(str) {
         var re = /^1\d{10}$/
         if (re.test(str)) {

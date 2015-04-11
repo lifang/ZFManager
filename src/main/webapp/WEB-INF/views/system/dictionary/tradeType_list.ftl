@@ -33,7 +33,7 @@
             var value = $(this).attr("value");
             var type = $tr.find("select").find("option:selected").val();
             var tradeValue = $tr.find("input").val();
-            if(checkNull(tradeValue, "类型值不能为空！")){
+            if(isNull(tradeValue, "类型值不能为空！")){
                 return false;
             }
             if(!isNotNull(value)){
