@@ -261,10 +261,10 @@ public class CsLeaseController {
 		csLeaseService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csLeaseId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsLeaseReturnMark csLeaseMark = csLeaseService.createMark(customer, csLeaseId, content);
+    	CsLeaseReturnMark csLeaseMark = csLeaseService.createMark(customer, id, content);
     	model.addAttribute("mark", csLeaseMark);
         return "cs/mark";
     }

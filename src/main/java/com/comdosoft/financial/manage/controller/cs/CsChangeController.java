@@ -94,10 +94,10 @@ public class CsChangeController {
 		csChangeService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csChangeId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsChangeMark csChangeMark = csChangeService.createMark(customer, csChangeId, content);
+    	CsChangeMark csChangeMark = csChangeService.createMark(customer, id, content);
     	model.addAttribute("mark", csChangeMark);
         return "cs/mark";
     }

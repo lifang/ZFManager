@@ -130,9 +130,8 @@
 			alert("请输入备注内容");
 			return;
 		}
-		$.post('<@spring.url "/cs/lease/mark/create" />',
-	    	{"csLeaseId": csLeaseId,
-	    	 "content": content},
+		$.post('<@spring.url "/cs/lease/${csLease.id}/mark/create" />',
+	    	{"content": content},
 	    	 function (data) {
 	         	if (status==2) {
 	    	 		$('#mark_container').prepend(data);

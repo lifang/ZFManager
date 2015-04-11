@@ -84,10 +84,10 @@ public class CsAgentController {
 		csAgentService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csAgentId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsAgentMark csAgentMark = csAgentService.createMark(customer, csAgentId, content);
+    	CsAgentMark csAgentMark = csAgentService.createMark(customer, id, content);
     	model.addAttribute("mark", csAgentMark);
         return "cs/mark";
     }

@@ -84,10 +84,10 @@ public class CsCancelController {
 		csCancelService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csCancelId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsCancelMark csCancelMark = csCancelService.createMark(customer, csCancelId, content);
+    	CsCancelMark csCancelMark = csCancelService.createMark(customer, id, content);
     	model.addAttribute("mark", csCancelMark);
         return "cs/mark";
     }

@@ -106,8 +106,8 @@
   <select id="findPageSelective" resultMap="BaseResultMap">
     select * from cs_agents
     <include refid="pageWhere" />
-    order by created_at desc limit #{pageRequest.offset},
-    #{pageRequest.pageSize}
+    order by process_user_id = #{customerId} desc, created_at desc 
+    limit #{pageRequest.offset}, #{pageRequest.pageSize}
   </select>
   
   <!-- dispatch process user by cs_agent_ids -->

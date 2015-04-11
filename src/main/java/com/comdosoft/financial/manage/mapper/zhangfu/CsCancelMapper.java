@@ -62,6 +62,7 @@ public interface CsCancelMapper {
 	 */
 	List<CsCancel> findPageSelective(
 			@Param("pageRequest") PageRequest pageRequest,
+			@Param("customerId") Integer customerId,
 			@Param("status") Integer status, @Param("keyword") String keyword);
 	
 	/**

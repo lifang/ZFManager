@@ -5,8 +5,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatu
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.HANDLE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,23 +52,7 @@ public class CsAgentService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsAgent> result = csAgentMapper.findPageSelective(request, status, keyword);
-		
-		// let the records above if the current user is process user
-		Collections.sort(result, new Comparator<CsAgent>() {
-			@Override
-			public int compare(CsAgent o1, CsAgent o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsAgent> result = csAgentMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsAgent> csAgents = new Page<CsAgent>(request, result, count);
 		return csAgents;
 	}
