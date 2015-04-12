@@ -172,6 +172,24 @@ public class OrderBatchController extends BaseController {
 		}
 		return "order/batch/row";
 	}
+	
+	@RequestMapping(value = "/batch/info/{id}/save", method = RequestMethod.GET)
+	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
+			Integer actualPrice,Integer frontMoney) {
+		orderService.save(id, status, actualPrice, null,frontMoney);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.updateStatus, id);
+		}
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.updatePrice, id);
+		}
+		if(null!=frontMoney){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.frontMoney, id);
+		}
+		return "order/batch/infoUp";
+	}
 
 	@RequestMapping(value = "/batch/{id}/cancel", method = RequestMethod.GET)
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
@@ -179,6 +197,15 @@ public class OrderBatchController extends BaseController {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList, OperateAction.cancel, id);
+		return "order/batch/row";
+	}
+	
+	@RequestMapping(value = "/batch/info/{id}/cancel", method = RequestMethod.GET)
+	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
+		orderService.save(id, (byte) 5, null, null);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.cancel, id);
 		return "order/batch/row";
 	}
 }

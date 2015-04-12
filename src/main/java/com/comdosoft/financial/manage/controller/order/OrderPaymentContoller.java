@@ -95,11 +95,10 @@ public class OrderPaymentContoller extends BaseController {
     }
     
     @RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-    public String createBatchInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
     	Customer customer = sessionService.getLoginInfo(request);
-    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);
-    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
     	saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.payment, orderId);
     	return "order/batch/infoUp";

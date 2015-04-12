@@ -73,8 +73,6 @@ public class OrderService {
 		}
 		List<Integer> orderIds = new ArrayList<Integer>();
 		for (Order o : result) {
-			System.out.println(o.getId());
-			System.out.println(o.getOrderPayments());
 			orderIds.add(o.getId());
 		}
 		List<OrderGood> selectOrderGoods = orderGoodMapper

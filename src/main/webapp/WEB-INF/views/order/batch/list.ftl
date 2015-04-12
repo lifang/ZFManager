@@ -177,6 +177,10 @@
     
     function markSure(id){
 		var content = $('#mark_content').val();
+		if(null==content||""==content){
+			alert("备注内容不能为空！");
+			return;
+		}
 		$.get('<@spring.url "" />'+'/order/mark/batch/create',
 				{"orderId":id,
 				"content":content

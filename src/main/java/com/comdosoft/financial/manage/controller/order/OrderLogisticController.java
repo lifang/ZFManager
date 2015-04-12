@@ -28,59 +28,78 @@ public class OrderLogisticController extends BaseController {
 	@Autowired
 	private OrderService orderService;
 	
-	@RequestMapping(value="create",method = RequestMethod.GET)
-	public String createGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
+	public Boolean deliver(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model) throws Exception{
+		orderLogisticService.deliver(orderId, terminalSerialNum, logisticsName, logisticsNumber);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		return true;
+	}
+	
+	@RequestMapping(value="create",method = RequestMethod.GET)
+	public String createGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+//		orderService.save(orderId, (byte)3, null, null);
+//		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
+//		Order order=orderService.findOrderInfo(orderId);
+//		model.addAttribute("order", order);
+		
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.deliver, orderId);
         return "order/user/pageRowOrder";
 	}
 	@RequestMapping(value="/info/create",method = RequestMethod.GET)
-	public String createInfoGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
+	public String createInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo,OperateAction.deliver, orderId);
 		return "order/user/infoUp";
 	}
 	
 	@RequestMapping(value="/agent/create",method = RequestMethod.GET)
-	public String createAgentGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
+	public String createAgentGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.deliver, orderId);
         return "order/agent/row";
 	}
 	@RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
-	public String createAgentInfoGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
+	public String createAgentInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo,OperateAction.deliver, orderId);
 		return "order/agent/infoUp";
 	}
 	
 	@RequestMapping(value="/batch/create",method = RequestMethod.GET)
-	public String createBatchGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
+	public String createBatchGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.deliver, orderId);
 		return "order/batch/row";
 	}
 	@RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-	public String createBatchInfoGet(HttpServletRequest request,Integer orderId,String logisticsName,String logisticsNumber,Model model){
-		orderService.save(orderId, (byte)3, null, null);
-		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
+	public String createBatchInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+		try {
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+		} catch (Exception e) {
+			return "order/error";
+		}
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.deliver, orderId);
 		return "order/batch/infoUp";
 	}

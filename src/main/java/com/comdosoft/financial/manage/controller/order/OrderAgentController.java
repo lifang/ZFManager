@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.comdosoft.financial.manage.controller.order.BaseController.OperateAction;
-import com.comdosoft.financial.manage.controller.order.BaseController.OperatePage;
-import com.comdosoft.financial.manage.controller.order.BaseController.OperateType;
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;

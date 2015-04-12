@@ -162,6 +162,10 @@
     
     function markSure(id){
 		var content = $('#mark_content').val();
+		if(null==content||""==content){
+			alert("备注内容不能为空！");
+			return;
+		}
 		$.get('<@spring.url "" />'+'/order/mark/user/create',
 				{"orderId":id,
 				"content":content
@@ -241,11 +245,17 @@
 		$.get('<@spring.url "" />'+'/order/logistic/create',
 				{
 				"orderId":id,
+				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
 				"logisticsNumber":logisticsNumber
 				},
 	            function (data) {
-	           		$('#row_'+id).replaceWith(data);
+	            	if("false"==data){
+	            		alert("发货终端号不正确！");
+	            		return;
+	            	}else{
+	            		$('#row_'+id).replaceWith(data);
+	            	}
 					$('.deliver_tab').hide();
 					$('.mask').hide();
 					popupPage();
