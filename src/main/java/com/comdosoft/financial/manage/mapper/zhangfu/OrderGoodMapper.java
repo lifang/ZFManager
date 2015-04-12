@@ -38,4 +38,11 @@ public interface OrderGoodMapper {
 	List<OrderGood> selectOrderGoods(List<Integer> orderIds);
 	
 	List<OrderGood> selectOrderGoodsByOrderId(Integer orderId);
+	
+	/**
+	 * 用户订单供应删筛选
+	 * @param customerId
+	 * @return
+	 */
+	List<OrderGood> selectOrderGoodByGoodCreate(Integer customerId);
 }

@@ -106,4 +106,14 @@
     	left join pay_channels pc on og.pay_channel_id=pc.id 
     	where og.order_id=#{param1}
     </select>
+    
+    
+    <select id="selectOrderGoodByGoodCreate" resultMap="orderResultMap">
+    	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,
+    	g.lease_price as g_lease_price,g.lease_time as g_lease_time,g.return_time as g_return_time,
+    	g.retail_price as g_retail_price,g.price as g_price
+    	from order_goods og
+    	left join goods g on g.id=og.good_id
+    	where g.created_user_id=#{param1} and g.belongs_to is not null
+    </select>
 </mapper>

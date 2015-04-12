@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
+import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderGoodMapper;
@@ -44,6 +46,10 @@ public class OrderService {
 	private GoodMapper goodMapper;
 	@Autowired
 	private OrderPaymentMapper orderPaymentMapper;
+	
+	@Autowired
+	private FactoryMapper factoryMapper;
+	
 
 	public Page<Order> findPages(int page, Byte status, String keys,
 			Integer factoryId, List<Byte> types) {
@@ -55,7 +61,21 @@ public class OrderService {
 				keys = "%" + keys + "%";
 			}
 		}
-		long count = orderMapper.countByKeys(status, keys, factoryId, types);
+		List<Integer> orderIdsGood=null;
+		if(null!=factoryId&&factoryId>0){
+			orderIdsGood=new ArrayList<Integer>();
+			Factory factory = factoryMapper.selectByPrimaryKey(factoryId);
+			List<OrderGood> selectOrderGoodByGoodCreate = orderGoodMapper.selectOrderGoodByGoodCreate(factory.getCustomerId());
+			if(!CollectionUtils.isEmpty(selectOrderGoodByGoodCreate)){
+				for(OrderGood og:selectOrderGoodByGoodCreate ){
+					orderIdsGood.add(og.getOrderId());
+				}
+			}else{
+				orderIdsGood.add(-1);
+			}
+			
+		}
+		long count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize),
 					new ArrayList<Order>(), count);
@@ -63,12 +83,12 @@ public class OrderService {
 		PageRequest request = new PageRequest(page, pageSize);
 		List<Order> result = null;
 		result = orderMapper.findPageOrdersByKeys(request, status, keys,
-				factoryId, types);
+				null, types,orderIdsGood);
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
 			result = orderMapper.findPageOrdersByKeys(request, status, keys,
-					factoryId, types);
+					null, types,orderIdsGood);
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds = new ArrayList<Integer>();
@@ -111,10 +131,9 @@ public class OrderService {
 				}
 			}
 		}
-		
 		return orders;
 	}
-
+	
 	public Order findOrderInfo(Integer id) {
 		Order order = orderMapper.findOrderInfo(id);
 		List<Integer> goodIds = new ArrayList<Integer>();
