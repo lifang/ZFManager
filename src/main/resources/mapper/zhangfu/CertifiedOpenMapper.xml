@@ -26,7 +26,7 @@
 		LEFT JOIN merchants m on m.id=oa.merchant_id
    		LEFT JOIN dictionary_credit_types dct on dct.id=m.credit_type_id
 		<include refid="pageWhere" />
-		order by oa.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by oa.preliminary_verify_user_id = #{id} desc,oa.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countByKeys" resultType="long">

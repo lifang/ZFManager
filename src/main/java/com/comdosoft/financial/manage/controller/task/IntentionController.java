@@ -31,14 +31,14 @@ public class IntentionController {
     private RecordOperateService recordOperateService;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Integer page, Byte status, String keys, Model model) {
-        findPage(page, status, keys, model);
+    public String list(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
+        findPage(request,page, status, keys, model);
         return "task/intentions/list";
     }
 
     @RequestMapping(value = "page", method = RequestMethod.GET)
-    public String page(Integer page, Byte status, String keys, Model model) {
-        findPage(page, status, keys, model);
+    public String page(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
+        findPage(request,page, status, keys, model);
         return "task/intentions/page";
     }
 
@@ -84,14 +84,15 @@ public class IntentionController {
         return a;
     }
 
-    private void findPage(Integer page, Byte status, String keys, Model model) {
+    private void findPage(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
         if (page == null) {
             page = 1;
         }
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Intention> app = intentionService.findPages(page, status, keys);
+        Customer customer = sessionService.getLoginInfo(request);
+        Page<Intention> app = intentionService.findPages(customer.getId(),page, status, keys);
         model.addAttribute("intentions", app);
     }
 

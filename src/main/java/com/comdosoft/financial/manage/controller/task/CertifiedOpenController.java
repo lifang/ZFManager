@@ -43,14 +43,14 @@ public class CertifiedOpenController {
     private RecordOperateService recordOperateService;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Integer page, Byte status, String keys, Model model) {
-        findPage(page, status, keys, model);
+    public String list(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
+        findPage( request,page, status, keys, model);
         return "task/certifiedOpen/list";
     }
 
     @RequestMapping(value = "page", method = RequestMethod.GET)
-    public String page(Integer page, Byte status, String keys, Model model) {
-        findPage(page, status, keys, model);
+    public String page(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
+        findPage(request,page, status, keys, model);
         return "task/certifiedOpen/page";
     }
 
@@ -144,14 +144,15 @@ public class CertifiedOpenController {
         return a;
     }
 
-    private void findPage(Integer page, Byte status, String keys, Model model) {
+    private void findPage(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
         if (page == null) {
             page = 1;
         }
         if (status != null && status == 0) {
             status = null;
         }
-        Page<CertifiedOpen> app = certifiedOpenService.findPages(page, status, keys);
+        Customer customer = sessionService.getLoginInfo(request);
+        Page<CertifiedOpen> app = certifiedOpenService.findPages(customer.getId(),page, status, keys);
         model.addAttribute("apply", app);
     }
 

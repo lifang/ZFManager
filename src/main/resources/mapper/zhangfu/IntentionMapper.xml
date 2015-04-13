@@ -19,7 +19,7 @@
 		SELECT id,intention_name as name,intention_phone as phone,content,status,DATE_FORMAT(created_at,'%Y-%m-%d %H:%i:%s') as date
 		from customer_intentions
 		<include refid="pageWhere" />
-		order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by process_user_id = #{id} desc,created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 
 	<select id="countByKeys" resultType="long">
