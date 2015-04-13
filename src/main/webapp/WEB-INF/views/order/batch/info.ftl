@@ -29,6 +29,8 @@
                 <th>单价</th>
                 <th>数量</th>
                 <th>金额</th>
+                <th>已发货数量</th>
+                <th>操作</th>
               </tr>
               </thead>
               <#if order.orderGoods??>	
@@ -64,9 +66,11 @@
 	                            </div>
 	                        </div>
 	                    </td>
-	                    <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+	                    <td><strong>￥<#if orderGood.good??>${(orderGood.good.purchasePrice!0/100)?string("0.0")}</#if></strong><p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p></td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
+	                    <td>2</td>
+	                    <td><a href="#" class="a_btn">发货</a></td>
 	                  </tr>
 	              </tbody>
 	             </#list>
@@ -102,6 +106,41 @@
     <div class="tabFoot"><button class="blueBtn" id="priceSure">确定</button></div>
 </div>
 
+<div class="tab priceEarnest_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">修改定金价格</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">定金价格</span><div class="text" id="priceEarnestDiv"><strong>￥500.00</strong></div></li>
+                <li><span class="labelSpan">新价格</span><div class="text"><input name="" type="text" id="priceEarnestText"/></div></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="priceEarnestSure">确定</button></div>
+</div>
+
+<div class="tab paymentRecord_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">增加付款记录</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">付款金额</span><div class="text"><input id="payPrice" name="" type="text" placeholder="元" /></div></li>
+                <li><span class="labelSpan">付款方式</span><div class="text">
+                    <select name="" id="pay_type">
+                      <option value="1">支付宝</option>
+                      <option value="2">银联</option>
+                      <option value="3">现金</option>
+                    </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
+</div>
+<!--
 <div class="tab paymentRecord_tab">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">增加付款记录</div>
@@ -121,7 +160,7 @@
         </div>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
-</div>
+</div>-->
 
 <div class="tab deliver_tab">
 	<a href="#" class="close">关闭</a>
@@ -140,8 +179,12 @@
 <script type="text/javascript">
 	function createOrderMark(){
 		var content = $("#order_mark_content").val();
+		if(null==content||""==content){
+			alert("备注内容不能为空！");
+			return;
+		}
 		var orderId = $("#hidden_order_id").val();
-		$.get('<@spring.url "/order/mark/agent/create" />',
+		$.get('<@spring.url "/order/mark/batch/create" />',
 	            {"content": content,
 	             "orderId": orderId
 	            },
@@ -155,6 +198,7 @@
         popup(".priceOrder_tab",".priceOrder_a");//修改价格
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
         popup(".deliver_tab",".deliver_a");//发货
+        popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格
         
 	}
 	
@@ -165,7 +209,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
+		$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -177,8 +221,26 @@
 	            });
     }
     
+    function priceEarnestBtn(id,price){
+		$("#priceEarnestDiv").html("<strong>￥"+price+"</strong>");
+ 		$("#priceEarnestSure").click(function(){priceEarnestSure(id)});
+    }
+    function priceEarnestSure(id){
+		var priceEarnestText = $('#priceEarnestText').val();
+		$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
+				{"orderId":id,
+				"frontMoney":priceEarnestText
+				},
+	            function (data) {
+	           		$('#infoUp_fresh').html(data);
+					$('.priceEarnest_tab').hide();
+					$('.mask').hide();
+					popupPage();
+	            });
+    }
+    
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
+    	$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -190,15 +252,17 @@
     }
     
     function payPriceBtn(id,price){
-		$("#pay_price").html("<strong>￥"+price+"</strong>");
+		//$("#pay_price").html("<strong>￥"+price+"</strong>");
  		$("#paySure").click(function(){paySure(id)});
     }
     
     function paySure(id){
 		var payType = $('#pay_type').val();
-		$.get('<@spring.url "" />'+'/order/payment/agent/info/create',
+		var payPrice=$('#payPrice').val();
+		$.get('<@spring.url "" />'+'/order/payment/batch/info/create',
 				{"orderId":id,
-				"payType":payType
+				"payType":payType,
+				"payPrice":payPrice
 				},
 	            function (data) {
 	           		$('#infoUp_fresh').html(data);
@@ -207,6 +271,7 @@
 					popupPage();
 	            });
     }
+    
     
     function deliverBtn(id,size){
     	var htmlStr='';
@@ -223,7 +288,7 @@
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
-		$.get('<@spring.url "" />'+'/order/logistic/agent/info/create',
+		$.get('<@spring.url "" />'+'/order/logistic/batch/info/create',
 				{
 				"orderId":id,
 				"logisticsName":logisticsName,

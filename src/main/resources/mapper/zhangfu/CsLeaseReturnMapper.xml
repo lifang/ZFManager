@@ -122,8 +122,8 @@
   <select id="findPageSelective" resultMap="DetailedResultMap">
     <include refid="selectFrom" />
     <include refid="pageWhere" />
-    order by created_at desc limit #{pageRequest.offset},
-    #{pageRequest.pageSize}
+    order by cl.process_user_id = #{customerId} desc, cl.created_at desc 
+    limit #{pageRequest.offset}, #{pageRequest.pageSize}
   </select>
   
   <!-- select record info by primary key -->

@@ -23,6 +23,17 @@
         <#include "trade_list.ftl"/>
     </div>
 </div>
+<div class="mask"></div>
+<div class="tab file_tab">
+    <a href="javascript:void(0);" class="close">关闭</a>
+    <div class="tabHead">上传交易</div>
+    <form id="file_form" action="<@spring.url "/trade/import"/>" method="post" enctype="multipart/form-data">
+    <div class="tabBody">
+        <input name="file" type="file" />
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    </form>
+</div>
 <script>
     $(function(){
         $(".li_show > li > a").click(function(){
@@ -33,6 +44,19 @@
                     function(data){
                         $("#list").html(data);
             });
+        });
+
+        $("#file_form").submit(function(){
+            $(this).ajaxSubmit({
+                success : function(data){
+                    $(".mask").hide();
+                    $(".file_tab").hide();
+                    if(data.code!=1){
+                        showErrorTip(data.message);
+                    }
+                }
+            });
+            return false;
         });
     })
 </script>

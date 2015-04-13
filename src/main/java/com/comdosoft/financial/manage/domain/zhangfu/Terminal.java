@@ -542,6 +542,11 @@ public class Terminal {
     public static final byte STATUS_CANCELED = 4;			// 已注销
     public static final byte STATUS_STOPED = 5;				// 已停用
 
+    public static final byte TYPE_SYSTEM = 1;			// 系统添加
+    public static final byte TYPE_BIND = 2;				// 自主绑定
+
+
+
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;

@@ -23,7 +23,7 @@ import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
 @RequestMapping("/order/payment")
-public class OrderPaymentContoller {
+public class OrderPaymentContoller extends BaseController {
 	@Autowired
 	private OrderPaymentService orderPaymentService;
 	@Autowired
@@ -38,6 +38,7 @@ public class OrderPaymentContoller {
     	Order order=orderService.findOrderInfo(orderId);
 		orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.payment, orderId);
         return "order/user/pageRowOrder";
     }
     
@@ -48,6 +49,7 @@ public class OrderPaymentContoller {
     	Order order=orderService.findOrderInfo(orderId);
     	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
+    	saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo,OperateAction.payment, orderId);
     	return "order/user/infoUp";
     }
     
@@ -58,6 +60,7 @@ public class OrderPaymentContoller {
     	Order order=orderService.findOrderInfo(orderId);
 		orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.payment, orderId);
         return "order/agent/row";
     }
     @RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
@@ -67,9 +70,11 @@ public class OrderPaymentContoller {
     	Order order=orderService.findOrderInfo(orderId);
     	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
+    	saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo,OperateAction.payment, orderId);
     	return "order/agent/infoUp";
     }
-    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    
+    /*@RequestMapping(value="/batch/create",method = RequestMethod.GET)
     public String createBatchGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -77,14 +82,25 @@ public class OrderPaymentContoller {
     	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
     	return "order/batch/row";
-    }
-    @RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-    public String createBatchInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
+    }*/
+    
+    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
     	Customer customer = sessionService.getLoginInfo(request);
-    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);
-    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
+    	saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.payment, orderId);
+    	return "order/batch/row";
+    }
+    
+    @RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
+    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
+    	Order order=orderService.findOrderInfo(orderId);
+    	model.addAttribute("order", order);
+    	saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.payment, orderId);
     	return "order/batch/infoUp";
     }
 }

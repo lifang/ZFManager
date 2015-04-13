@@ -1,7 +1,8 @@
 package com.comdosoft.financial.manage.mapper.trades;
 
-import com.comdosoft.financial.manage.domain.trades.TradeDayReport;
 import java.util.List;
+
+import com.comdosoft.financial.manage.domain.trades.TradeDayReport;
 
 public interface TradeDayReportMapper {
 
@@ -34,4 +35,6 @@ public interface TradeDayReportMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TradeDayReport record);
+	
+	List<TradeDayReport> selectLastWeek();
 }

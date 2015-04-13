@@ -41,10 +41,10 @@ public interface OrderMapper {
 
 	List<Order> findPageOrdersByKeys(@Param("pageRequest") PageRequest pageRequest,
 			@Param("status") Byte status, @Param("keys") String keys,
-			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types);
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
 	
 	long countByKeys(@Param("status") Byte status, @Param("keys") String keys,
-			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types);
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
 	
 	Order findOrderInfo(Integer id);
 

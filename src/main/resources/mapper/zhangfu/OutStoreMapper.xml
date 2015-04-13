@@ -30,20 +30,24 @@
 	<sql id="pageWhere">
 		<where>
 			1=1
-			<if test="status != null"> AND status =#{status} </if>
+			<if test="status != null"> AND a.status =#{status} </if>
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
-		select id,date_format(created_at,'%Y-%c-%d %h:%i:%s') as created_at,order_id,status,ifnull(process_user_id,"") as processUserId from cs_out_storages
+		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_id,a.status,ifnull(a.process_user_id,"") as processUserId from 
+		((select * from  cs_out_storages ca where ca.process_user_id = 1 ORDER BY ca.created_at desc)
+UNION
+(select * from cs_out_storages cb where cb.process_user_id != 1 
+ ORDER BY cbcreated_at desc)) a
 		<include refid="pageWhere" />
-		and order_id is not null 
-		 order by created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		and a.order_id is not null 
+		 order by a.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
 	<select id="countByKeys" resultType="long">
-		SELECT count(id) as count
-		FROM cs_out_storages 
-		<include refid="pageWhere" /> and order_id is not null
+		SELECT count(a.id) as count
+		FROM cs_out_storages a
+		<include refid="pageWhere" /> and a.order_id is not null
 	</select>
 	
 	<select id="findOutStoreInfo" resultMap="BaseResultMap">

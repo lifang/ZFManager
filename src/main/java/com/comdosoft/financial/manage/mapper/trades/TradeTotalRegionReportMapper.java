@@ -1,6 +1,8 @@
 package com.comdosoft.financial.manage.mapper.trades;
 
 import com.comdosoft.financial.manage.domain.trades.TradeTotalRegionReport;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import java.util.List;
 
 public interface TradeTotalRegionReportMapper {
@@ -34,4 +36,8 @@ public interface TradeTotalRegionReportMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TradeTotalRegionReport record);
+	
+	List<TradeTotalRegionReport> selectLastRegionReport(PageRequest request);
+	
+	Long countLastRegionReport();
 }

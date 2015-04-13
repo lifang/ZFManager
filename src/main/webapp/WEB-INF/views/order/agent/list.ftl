@@ -144,6 +144,10 @@
     
     function markSure(id){
 		var content = $('#mark_content').val();
+		if(null==content||""==content){
+			alert("备注内容不能为空！");
+			return;
+		}
 		$.get('<@spring.url "" />'+'/order/mark/agent/create',
 				{"orderId":id,
 				"content":content
@@ -207,8 +211,8 @@
     function deliverBtn(id,size){
     	var htmlStr='';
     	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
 	        "<p>POS机数量："+hidden_quantity+"</p>";
     	}

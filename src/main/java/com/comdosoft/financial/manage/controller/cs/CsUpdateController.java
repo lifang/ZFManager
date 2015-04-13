@@ -67,29 +67,29 @@ public class CsUpdateController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csUpdateService.handle(id);
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csUpdateService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csUpdateService.finish(id);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csUpdateService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csUpdateId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsUpdateInfoMark csUpdateMark = csUpdateService.createMark(customer, csUpdateId, content);
+    	CsUpdateInfoMark csUpdateMark = csUpdateService.createMark(customer, id, content);
     	model.addAttribute("mark", csUpdateMark);
         return "cs/mark";
     }

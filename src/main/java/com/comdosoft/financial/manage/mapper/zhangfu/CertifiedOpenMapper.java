@@ -19,7 +19,7 @@ public interface CertifiedOpenMapper {
     Showinfo findInfo(Integer id);
 
     List<CertifiedOpen> findPageByKeys(@Param("pageRequest") PageRequest pageRequest,
-            @Param("status") Byte status, @Param("keys") String keys);
+            @Param("status") Byte status, @Param("keys") String keys,@Param("id") int id);
 
     long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 

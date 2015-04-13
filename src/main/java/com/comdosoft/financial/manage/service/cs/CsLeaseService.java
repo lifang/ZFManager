@@ -1,9 +1,10 @@
 package com.comdosoft.financial.manage.service.cs;
 
-import static com.comdosoft.financial.manage.service.cs.CsConstants.CsLeaseStatus.*;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsLeaseStatus.CANCEL;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsLeaseStatus.FINISH;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsLeaseStatus.HANDLE;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,22 +47,7 @@ public class CsLeaseService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsLeaseReturn> result = csLeaseReturnMapper.findPageSelective(request, status, keyword);
-		
-		Collections.sort(result, new Comparator<CsLeaseReturn>() {
-			@Override
-			public int compare(CsLeaseReturn o1, CsLeaseReturn o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsLeaseReturn> result = csLeaseReturnMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsLeaseReturn> csLeases = new Page<CsLeaseReturn>(request, result, count);
 		return csLeases;
 	}

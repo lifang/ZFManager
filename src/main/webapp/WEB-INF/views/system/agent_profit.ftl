@@ -14,7 +14,7 @@
             <h2>基础信息</h2>
             <div class="attributes_list_s clear">
                 <ul>
-                    <li>代理商：${agent.companyName}</li>
+                    <li>代理商：${(agent.companyName)!""}</li>
                 </ul>
             </div>
         </div>
@@ -67,10 +67,11 @@
                     return false;
                 }
             });
-            if(hasNull){
+            if(hasDup){
                 return false;
             }
 
+            var hasNull = false;
             var tradeTypesArray = new Array();
             profitObject.tradeTypes=tradeTypesArray;
             $preTd.find(".input_xs,.input_s").each(function(){
@@ -97,11 +98,11 @@
                     if($input_s.length > 0){
                             var floorNumber = "0";
                             var percent = $input_s.val();
-                            percentArray.push({floorNumber: floorNumber, percent: percent});
+                            percentArray.push({floorNumber: Number(floorNumber), percent: Number(percent)});
                         } else if($input_xs.length > 0){
                             var floorNumber = $input_xs.eq(0).val();
                             var percent = $input_xs.eq(1).val();
-                        percentArray.push({floorNumber: floorNumber, percent: percent});
+                        percentArray.push({floorNumber: Number(floorNumber), percent: Number(percent)});
                     }
                 });
 
@@ -139,8 +140,5 @@
         });
 
     })
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
 </script>
 </@c.html>

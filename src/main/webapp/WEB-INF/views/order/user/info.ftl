@@ -139,6 +139,10 @@
 <script type="text/javascript">
 	function createOrderMark(){
 		var content = $("#order_mark_content").val();
+		if(null==content||""==content){
+			alert("备注内容不能为空！");
+			return;
+		}
 		var orderId = $("#hidden_order_id").val();
 		$.get('<@spring.url "/order/mark/user/create" />',
 	            {"content": content,

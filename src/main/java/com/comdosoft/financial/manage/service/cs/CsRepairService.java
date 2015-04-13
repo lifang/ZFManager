@@ -5,8 +5,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStat
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.HANDLE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,22 +53,7 @@ public class CsRepairService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsRepair> result = csRepairMapper.findPageSelective(request, status, keyword);
-		
-		Collections.sort(result, new Comparator<CsRepair>() {
-			@Override
-			public int compare(CsRepair o1, CsRepair o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsRepair> result = csRepairMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsRepair> csRepairs = new Page<CsRepair>(request, result, count);
 		return csRepairs;
 	}
@@ -164,7 +147,7 @@ public class CsRepairService {
 	}
 	
 	@Transactional("transactionManager")
-	public void createBill(Customer customer, CsReceiverAddress csReceiverAddress, 
+	public Integer createBill(Customer customer, CsReceiverAddress csReceiverAddress, 
 			String terminalNum, Integer repairPrice, String description) {
 		CsRepair csRepair = new CsRepair();
 		Terminal terminal = terminalMapper.findTerminalByNum(terminalNum);
@@ -174,7 +157,8 @@ public class CsRepairService {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
-		csRepair.setReturnAddressId(csReceiverAddress.getId());
+		csRepair.setApplyNum(String.valueOf(System.currentTimeMillis()) + customer.getId());
+		csRepair.setReceiveAddressId(csReceiverAddress.getId());
 		csRepair.setProcessUserId(customer.getId());
 		csRepair.setProcessUserName(customer.getName());
 		csRepair.setRepairPrice(repairPrice);
@@ -185,5 +169,6 @@ public class CsRepairService {
 		csRepair.setCsRepairMarksId(0);
 		
 		csRepairMapper.insert(csRepair);
+		return csRepair.getId();
 	}
 }

@@ -16,11 +16,15 @@
         <div class="attributes_list clear">
             <ul>
                 <li>姓名：${customer.name!"- -"}</li>
-                <li>所在地：${address!"- -"}</li>
+                <li>所在地：
+                <#if city??>
+                    ${(city.parentCity.name)!""}${city.name}
+                <#else>- -
+                </#if></li>
                 <li>手机：${customer.phone!"- -"}</li>
                 <li>邮箱：${customer.email!"- -"}</li>
                 <li>上次登录：<#if customer.lastLoginedAt??>${customer.lastLoginedAt?datetime}<#else>- -</#if></li>
-                <li>积分：${customer.integral}分</li>
+                <li id="li_integral">积分：${(customer.integral)!0}分</li>
             </ul>
         </div>
     </div>
@@ -39,25 +43,25 @@
         </div>
     </div>
 </div>
-<div class="tab creditsExchange_tab" style="top: 272.5px; left: 495px; display: none;">
-    <a href="#" class="close">close</a>
+<div id="div_integral" class="tab creditsExchange_tab" style="top: 272.5px; left: 495px; display: none;">
+    <a class="close">close</a>
     <div class="tabHead">调整积分</div>
     <div class="tabBody">
         <div class="item_list clear">
             <ul>
-                <li><span class="labelSpan"><input name="types" type="radio" value="1" class=""> 增加：</span>
-                    <div class="text"><input name="" type="text" class=""></div>
+                <li><span class="labelSpan"><input name="types" type="radio" value="1" checked class=""> 增加：</span>
+                    <div class="text"><input name="num1" type="text" class="" onkeyup="value=this.value.replace(/\D+/g,'')"></div>
                 </li>
                 <li><span class="labelSpan"><input name="types" type="radio" value="2" class=""> 减少：</span>
-                    <div class="text"><input name="" type="text" class=""></div>
+                    <div class="text"><input name="num2" type="text" class="" onkeyup="value=this.value.replace(/\D+/g,'')"></div>
                 </li>
                 <li><span class="labelSpan"> 调整原因：</span>
-                    <div class="text"><textarea name="reason" cols="" rows=""></textarea></div>
+                    <div class="text"><textarea id="reason" cols="" rows=""></textarea></div>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button onclick="integral(${customer.id})" class="blueBtn">确定</button></div>
 </div>
 <script>
     function merchantPageChange(page){
@@ -86,10 +90,52 @@
             $(".userTopBtnBox").replaceWith(data);
         });
     }
+
+    function integral(id){
+        var types=$("input[name='types']:checked").val();
+        var num;
+        if(types == 1){
+            num = $("input[name='num1']").val();
+        } else{
+            num = $("input[name='num2']").val();
+        }
+        if(checkNull(num,"积分不能为空！")){
+            return false;
+        }
+        var reason = $("#reason").val();
+        if(checkNull(reason,"调整原因不能为空！")){
+
+            return false;
+        }
+
+        $.post("<@spring.url "/user/"/>"+id+"/integral",
+                {type:types,
+                    num:num,
+                    reason:reason
+                },function(data){
+                    $("#div_integral").hide();
+                    $('.mask').hide();
+                    $("#li_integral").html("积分："+data.result);
+        });
+
+
+    }
+
+    function isNotNull(value){
+        return value != "" && value != null && value != undefined;
+    }
+
+    function checkNull(value, error){
+        var result = (value == "" || value == null || value == undefined);
+        if(result){
+            showErrorTip(error);
+        }
+        return result;
+    }
     $(function(){
-        merchantPageChange(0);
-        terminalPageChange(0);
-        agentPageChange(0);
+        merchantPageChange(1);
+        terminalPageChange(1);
+        agentPageChange(1);
     });
 </script>
 </@c.html>

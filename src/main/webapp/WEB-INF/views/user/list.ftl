@@ -13,7 +13,11 @@
     </div>
     <div class="seenBox clear">
         <ul>
-            <li><div class="user_search"><input name="query" type="text" /><button id="query"></button></div></li>
+            <li>
+                <div class="user_search"><input name="query" type="text" placeholder="邮箱、手机号"/>
+                    <button id="query"></button>
+                </div>
+            </li>
         </ul>
     </div>
 

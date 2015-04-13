@@ -61,7 +61,8 @@ public interface CsAgentMapper {
 	 *            the keyword to search for apply_num
 	 */
 	List<CsAgent> findPageSelective(
-			@Param("pageRequest") PageRequest pageRequest,
+			@Param("pageRequest") PageRequest pageRequest, 
+			@Param("customerId") Integer customerId,
 			@Param("status") Byte status, @Param("keyword") String keyword);
 	
 	/**

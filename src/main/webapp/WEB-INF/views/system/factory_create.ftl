@@ -61,7 +61,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="images/mt_big.jpg"></div>
+            <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="<@spring.url "/resources/images/mt_big.jpg" />"></div>
         </div>
         <div class="btnBottom"><button class="blueBtn" onclick="submitData()">${factory???string("确定","创建")}</button></div>
     </div>
@@ -164,18 +164,6 @@
         };
         $("#fileForm").ajaxSubmit(options);
         return false;
-    }
-
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
     }
 
     function checkMobile(str) {

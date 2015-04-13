@@ -16,10 +16,10 @@
 			<#if tinfo.status=1>
 		   	   <a  onclick="ups(${tinfo.id!},3)" class="ghostBtn">初审通过</a> 
 		   	   <a  onclick="ups(${tinfo.id!},5)" class="ghostBtn">二审通过</a> 
-		   	   <a  onclick="ups(${tinfo.id!},2)" class="ghostBtn">预审失败</a>
+		   	   <a  onclick="ups(${tinfo.id!},2)" class="ghostBtn">初审失败</a>
 	   	   <#elseif tinfo.status=3>
 		   	   <a  onclick="ups(${tinfo.id!},5)" class="ghostBtn">二审通过</a> 
-		   	   <a  onclick="ups(${tinfo.id!},4)" class="ghostBtn">预审失败</a>
+		   	   <a  onclick="ups(${tinfo.id!},4)" class="ghostBtn">二审失败</a>
 	   	   <#elseif tinfo.status=5>
 		   	   <a  onclick="ups(${tinfo.id!},6)" class="ghostBtn">提交开通申请</a> 
 	   	   </#if>

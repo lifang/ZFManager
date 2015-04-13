@@ -65,4 +65,17 @@
     select id, trade_time, region_id, trade_num, trade_sum, created_at, updated_at
     from trade_total_region_reports
   </select>
+
+  <select id="selectLastRegionReport" resultMap="BaseResultMap">
+    select tr.id,tr.trade_time,tr.region_id,tr.trade_num,tr.trade_sum,tr.created_at,tr.updated_at
+    from (select region_id,max(created_at) as created_at from trade_total_region_reports group by region_id) as t
+    left join trade_total_region_reports tr on tr.region_id=t.region_id and tr.created_at=t.created_at
+    order by tr.region_id
+    limit #{offset}, #{pageSize}
+  </select>
+
+  <select id="countLastRegionReport" resultType="java.lang.Long">
+    select count(*)
+    from (select tr.region_id from trade_total_region_reports tr group by tr.region_id) as reg
+  </select>
 </mapper>

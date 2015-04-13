@@ -164,13 +164,6 @@
                     });
         }
     }
-    function isNull(value, error){
-        if(value.length==0){
-            showErrorTip(error);
-            return true;
-        }
-        return false;
-    }
 
     function isNotTwoDecimal(value, error){
         var re=/^\d+\.\d{2}$/;//2位小数

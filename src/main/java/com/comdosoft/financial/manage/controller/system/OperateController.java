@@ -49,11 +49,14 @@ public class OperateController {
     }
 
     @RequestMapping(value="/account/create",method=RequestMethod.POST)
-    public String accountCreatePost(String account,String name,String password,
-                                    @RequestParam("re_password") String rePassword,
+    @ResponseBody
+    public Response accountCreatePost(String account,String name,String password,
                                     Integer[] roles){
-        customerService.createOperate(account,name,password,roles);
-        return "redirect:/system/operate/accounts";
+        boolean result = customerService.createOperate(account,name,password,roles);
+        if(result){
+            return Response.getSuccess(null);
+        }
+        return Response.getError("账号ID已存在！");
     }
     
     @RequestMapping(value="/account/{id}/status",method=RequestMethod.POST)
@@ -77,12 +80,15 @@ public class OperateController {
     }
     
     @RequestMapping(value="/account/{id}/edit",method=RequestMethod.POST)
-    public String accountEditPost(@PathVariable Integer id,
+    @ResponseBody
+    public Response accountEditPost(@PathVariable Integer id,
     		String account,String name,String password,
-            @RequestParam("re_password") String rePassword,
             Integer[] roles){
-    	customerService.modifyOperate(id, account, name, password, roles);;
-        return "redirect:/system/operate/accounts";
+    	boolean result = customerService.modifyOperate(id, account, name, password, roles);;
+        if(result){
+            return Response.getSuccess(null);
+        }
+        return Response.getError("账号ID已存在！");
     }
 
 	@RequestMapping(value="/roles",method=RequestMethod.GET)

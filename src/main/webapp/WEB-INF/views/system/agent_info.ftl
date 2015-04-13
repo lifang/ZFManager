@@ -35,7 +35,7 @@
                         <div class="text">${(agent.email)!""}</div>
                     </li>
                     <li class="block select2"><span class="labelSpan">所在地：</span>
-                        <div class="text">${(agent.address)!""}</div>
+                        <div class="text">${(city.parentCity.name)!""}${(city.name)!""}${(agent.address)!""}</div>
                     </li>
                     <li class="block"><span class="labelSpan">登录ID：</span>
                         <div class="text">${(agent.customer.username)!""}</div>

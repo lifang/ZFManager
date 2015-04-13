@@ -34,11 +34,13 @@
     insert into trade_consume_records (id, phone, payed_at, 
       arrived_result, arrived_code, arrived_error_description, 
       returned_result, returned_code, returned_error_description, 
-      created_at, updated_at)
+      created_at, updated_at
+      )
     values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{payedAt,jdbcType=TIMESTAMP}, 
       #{arrivedResult,jdbcType=INTEGER}, #{arrivedCode,jdbcType=INTEGER}, #{arrivedErrorDescription,jdbcType=VARCHAR}, 
       #{returnedResult,jdbcType=INTEGER}, #{returnedCode,jdbcType=INTEGER}, #{returnedErrorDescription,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.trades.TradeConsumeRecord">
     <!--

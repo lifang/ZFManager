@@ -36,4 +36,6 @@ public interface OrderPaymentMapper {
 	int updateByPrimaryKey(OrderPayment record);
 
 	List<OrderPayment> selectOrderPaymentsByOrderId(Integer orderId);
+	
+	List<OrderPayment> selectByOrderIds(List<Integer> orderIds);
 }

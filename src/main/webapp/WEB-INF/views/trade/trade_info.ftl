@@ -20,14 +20,22 @@
         <ul>
             <li>交易时间：${tradeRecord.tradedAt?datetime}</li>
             <li>终端号：${tradeRecord.terminalNumber}</li>
-            <li>商户名称：${tradeRecord.merchantName}</li>
-            <li>商户电话：29283736465</li>
-            <li>所属代理商：${tradeRecord.agent.companyName}</li>
-            <li>付款银行卡：622848563987143666</li>
-            <li>转入银行卡：62284866976842</li>
-            <li>支付通道：收账宝</li>
-            <li>交易批次号：${tradeRecord.batchNumber}</li>
-            <li>交易流水号：${tradeRecord.tradeNumber}</li>
+            <li>商户名称：${(merchant.title)!"- -"}</li>
+            <li>商户电话：${(merchant.phone)!"- -"}</li>
+            <li>所属代理商：${(tradeRecord.agent.companyName)!"- -"}</li>
+            <#if tradeRecord.tradeTypeId == 1><li>付款银行卡：${(tradeRecord.payFromAccount)!"- -"}</li></#if>
+            <#if tradeRecord.tradeTypeId == 2 || tradeRecord.tradeTypeId == 3>
+                <li>付款银行卡：${(tradeRecord.payFromAccount)!"- -"}</li>
+                <li>转入银行卡：${(tradeTransferRepaymentRecord.payIntoAccount)!"- -"}</li>
+            </#if>
+            <#if tradeRecord.tradeTypeId == 4><li>充值号码：${(tradeRechargeRecord.phone)!"- -"}</li></#if>
+            <#if tradeRecord.tradeTypeId == 5>
+                <li>账户名：${(tradeRecord.accountName)!"- -"}</li>
+                <li>账户号码：${(tradeRecord.accountNumber)!"- -"}</li>
+            </#if>
+            <li>支付通道：${(payChannel.name)!"- -"}</li>
+            <li>交易批次号：${tradeRecord.batchNumber!"- -"}</li>
+            <li>交易流水号：${tradeRecord.tradeNumber!"- -"}</li>
         </ul>
     </div>
 </div>

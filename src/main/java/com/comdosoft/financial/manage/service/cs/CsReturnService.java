@@ -5,8 +5,6 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsReturnStat
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsReturnStatus.HANDLE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,22 +51,7 @@ public class CsReturnService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsReturn> result = csReturnMapper.findPageSelective(request, status, keyword);
-		
-		Collections.sort(result, new Comparator<CsReturn>() {
-			@Override
-			public int compare(CsReturn o1, CsReturn o2) {
-				Integer customerId = customer.getId();
-				if (customerId.equals(o1.getProcessUserId()) && customerId.equals(o2.getProcessUserId()))
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-				else if (customerId.equals(o1.getProcessUserId()))
-					return -1;
-				else if (customerId.equals(o2.getProcessUserId()))
-					return 1;
-				else
-					return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-			}
-		});
+		List<CsReturn> result = csReturnMapper.findPageSelective(request,customer.getId(), status, keyword);
 		Page<CsReturn> csReturns = new Page<CsReturn>(request, result, count);
 		return csReturns;
 	}
@@ -118,6 +101,7 @@ public class CsReturnService {
 		if (null != csReturn) {
 			csReturn.setReturnAddressId(csReceiverAddress.getId());
 			csReturn.setUpdatedAt(new Date());
+			csReturn.setStatus(HANDLE);
 			csReturnMapper.updateByPrimaryKey(csReturn);
 		}
 	}

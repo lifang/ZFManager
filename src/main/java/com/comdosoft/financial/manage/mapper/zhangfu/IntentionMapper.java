@@ -17,7 +17,7 @@ public interface IntentionMapper {
     Intention findInfo(Integer id);
 
     List<Intention> findPageByKeys(@Param("pageRequest") PageRequest pageRequest,
-            @Param("status") Byte status, @Param("keys") String keys);
+            @Param("status") Byte status, @Param("keys") String keys, @Param("id") int id);
 
     long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
 

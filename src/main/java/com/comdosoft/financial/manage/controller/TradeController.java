@@ -1,11 +1,13 @@
 package com.comdosoft.financial.manage.controller;
 
-import com.comdosoft.financial.manage.domain.trades.Profit;
-import com.comdosoft.financial.manage.domain.trades.TradeRecord;
-import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
-import com.comdosoft.financial.manage.service.TradeService;
-import com.comdosoft.financial.manage.utils.page.Page;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -13,10 +15,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.trades.Profit;
+import com.comdosoft.financial.manage.domain.trades.TradeRechargeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeRecord;
+import com.comdosoft.financial.manage.domain.trades.TradeTransferRepaymentRecord;
+import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
+import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.service.PayChannelService;
+import com.comdosoft.financial.manage.service.TerminalService;
+import com.comdosoft.financial.manage.service.TradeService;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.google.common.base.Joiner;
 
 /**
  * Created by gookin on 15/3/7.
@@ -24,9 +39,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/trade")
 public class TradeController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TradeController.class);
 
     @Autowired
     private TradeService tradeService;
+    @Autowired
+    private TerminalService terminalService;
+    @Autowired
+    private PayChannelService payChannelService;
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(Model model){
@@ -67,6 +88,29 @@ public class TradeController {
     	if(profit!=null) {
     		model.addAttribute(profit);
     	}
+    	Terminal terminal = terminalService.findByNum(tradeRecord.getTerminalNumber());
+    	if(terminal!=null){
+    		Merchant merchant = terminal.getMerchant();
+    		if(merchant == null) {
+    			model.addAttribute(merchant);
+    		}
+    	}
+    	PayChannel payChannel = payChannelService.findChannelInfo(tradeRecord.getPayChannelId());
+    	if(payChannel!=null){
+    		model.addAttribute(payChannel);
+    	}
+    	if(tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_TRANSFER
+    			|| tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_REPAY){
+    		TradeTransferRepaymentRecord transferRecord = tradeService.transferRecord(id);
+    		if(transferRecord!=null){
+    			model.addAttribute(transferRecord);
+    		}
+    	}else if(tradeRecord.getTradeTypeId() == DictionaryTradeType.ID_PHONE_RECHARGE){
+    		TradeRechargeRecord rechargeRecord = tradeService.rechargeRecord(id);
+    		if(rechargeRecord!=null) {
+    			model.addAttribute(rechargeRecord);
+    		}
+    	}
         return "trade/trade_info";
     }
     
@@ -77,5 +121,22 @@ public class TradeController {
         List<Map<String,Object>> statistics = tradeService.profitStatistics();
         model.addAttribute("statistics",statistics);
         return "trade/trade_statistics";
+    }
+    
+    @RequestMapping(value = "/import",method = RequestMethod.POST)
+    @ResponseBody
+    public Response importTrades(MultipartFile file){
+    	try {
+			List<Integer> errorRowNum = tradeService.importTrades(file.getInputStream());
+			if(errorRowNum.size() == 0) {
+				return Response.getSuccess(null);
+			}else{
+				String errMsg = Joiner.on(',').join(errorRowNum);
+				return Response.getError("第["+errMsg+"]行导入出错，其余已导入成功。");
+			}
+		} catch (InvalidFormatException | IOException e) {
+			LOG.error("",e);
+		}
+    	return Response.getError("程序异常。");
     }
 }

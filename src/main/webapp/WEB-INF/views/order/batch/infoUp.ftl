@@ -1,23 +1,24 @@
 <div class="detailPanel_status">
-	<#if order.status==1>
+	<#if order.status==1 || !order.frontPayStatus??>
     	<div class="payWarning">
     			<i class="no"></i>未付款
     	</div>
         <div class="dp_status_btn">
         	<a href="#" class="ghostBtn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改订单价格</a>
+        	<a href="#" class="ghostBtn priceEarnest_a" onclick="priceEarnestBtn(${order.id},<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if>);">修改定金价格</a>
         	<a href="#" class="ghostBtn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
             <a href="#" class="ghostBtn" onclick="cancel(${order.id});">取消</a>
         </div>
-    <#elseif order.status==2>
+    <#elseif order.status==3 && order.frontPayStatus==2 && (!order.payStatus?? || order.payStatus!=2)>
     	<div class="payWarning">
-    			已付款
+    			已付订金
     	</div>
         <div class="dp_status_btn">
         	<a href="#" class="ghostBtn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
             <a href="#" class="ghostBtn" onclick="cancel(${order.id});">取消</a>
         </div>
-	<#elseif order.status==3>
-		<div class="payWarning">已发货</div>
+	<#elseif order.status==3 && (order.payStatus?? && order.payStatus==2)>
+		<div class="payWarning">已完成</div>
 	<#elseif order.status==4>
 		<div class="payWarning">已评价</div>
 	<#elseif order.status==5>
@@ -84,5 +85,8 @@
     </dl>
     <dl>
     	<dt>订单原金额：</dt><dd class="line_through">￥${(order.totalPrice/100)?string("0.00")}</dd><dt>订单金额：</dt><dd><strong>￥${(order.actualPrice/100)?string("0.00")}</strong></dd>
+    </dl>
+     <dl>
+        <dt>定金金额：</dt><dd class="line_through">￥<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if></dd><dt>已付金额：</dt><dd><strong>￥${(order.orderPaymentTotal/100)?string("0.00")}</strong></dd>
     </dl>
 </div>

@@ -141,6 +141,11 @@
 				  #{item}  
 				</foreach> 
 			</if>
+			<if test="orderIds != null"> AND o.id in 
+				<foreach close=")" collection="orderIds" index="index" item="item" open="(" separator=",">  
+				  #{item}  
+				</foreach> 
+			</if>
 		</where>
 	</sql>
   <select id="findPageOrdersByKeys" resultMap="PageOrderResultMap">

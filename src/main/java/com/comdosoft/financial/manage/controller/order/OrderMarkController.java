@@ -16,7 +16,7 @@ import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
 @RequestMapping("/order/mark")
-public class OrderMarkController {
+public class OrderMarkController extends BaseController {
 	
 	@Autowired
 	private SessionService sessionService;
@@ -31,6 +31,7 @@ public class OrderMarkController {
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.mark, orderId);
         return "order/user/orderMark";
     }
     
@@ -40,6 +41,7 @@ public class OrderMarkController {
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.mark, orderId);
         return "order/agent/orderMark";
     }
     
@@ -49,6 +51,7 @@ public class OrderMarkController {
     	orderMarkService.insert(customer.getId(), orderId, content);
     	Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.mark, orderId);
         return "order/batch/orderMark";
     }
 }

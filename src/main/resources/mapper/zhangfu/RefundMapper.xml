@@ -28,7 +28,8 @@
 		select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
 		from cs_refunds  c LEFT JOIN cs_lease_returns o ON o.id = c.target_id
 		<include refid="pageWhere" />
-		order by c.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		order by c.process_user_id = #{userId} desc, c.created_at desc 
+		limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
 	<select id="getRefundCount" resultType="long">

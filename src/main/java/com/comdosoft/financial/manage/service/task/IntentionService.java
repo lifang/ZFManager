@@ -24,18 +24,18 @@ public class IntentionService {
 	@Autowired
 	private IntentionMapper intentionMapper;
 	
-	public Page<Intention> findPages(int page, Byte status, String keys){
+	public Page<Intention> findPages(int id,int page, Byte status, String keys){
 		long count = intentionMapper.countByKeys(status, keys);
 		if (count == 0) {
 			return new Page<Intention>(new PageRequest(1, pageSize), new ArrayList<Intention>(), count);
 		}
 		PageRequest request = new PageRequest(page, pageSize);
-		List<Intention> result = intentionMapper.findPageByKeys(request, status, keys);
+		List<Intention> result = intentionMapper.findPageByKeys(request, status, keys,id);
 		
 		Page<Intention> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
-			result = intentionMapper.findPageByKeys(request, status, keys);
+			result = intentionMapper.findPageByKeys(request, status, keys,id);
 			goods = new Page<>(request, result, count);
 		}
 		return goods;

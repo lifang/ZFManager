@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.controller.order.BaseController.OperateAction;
+import com.comdosoft.financial.manage.controller.order.BaseController.OperatePage;
+import com.comdosoft.financial.manage.controller.order.BaseController.OperateType;
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
@@ -29,7 +32,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
-public class OrderBatchController {
+public class OrderBatchController extends BaseController {
 
 	@Autowired
 	private OrderService orderService;
@@ -123,13 +126,14 @@ public class OrderBatchController {
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
 			Integer customerId) {
-		orderService
+		int orderId=orderService
 				.save(customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
 						payChannelId);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
 		findPage(1, null, null, null, model, types);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchCreate, OperateAction.createSure, orderId);
 		return "order/batch/list";
 	}
 	
@@ -142,28 +146,66 @@ public class OrderBatchController {
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer customerId) throws Exception {
-		orderService.save(customerId, orderId, goodQuantity, comment,
+		int orderNewId=orderService.save(customerId, orderId, goodQuantity, comment,
 				invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
 		findPage(1, null, null, null, model, types);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchCreate, OperateAction.createSure, orderNewId);
 		return "order/batch/list";
 	}
 
 	@RequestMapping(value = "/batch/{id}/save", method = RequestMethod.GET)
-	public String save(@PathVariable Integer id, Byte status,
-			Integer actualPrice, Model model) {
-		orderService.save(id, status, actualPrice, null);
+	public String save(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
+			Integer actualPrice,Integer frontMoney) {
+		orderService.save(id, status, actualPrice, null,frontMoney);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList, OperateAction.updateStatus, id);
+		}
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList, OperateAction.updatePrice, id);
+		}
+		if(null!=frontMoney){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList, OperateAction.frontMoney, id);
+		}
 		return "order/batch/row";
+	}
+	
+	@RequestMapping(value = "/batch/info/{id}/save", method = RequestMethod.GET)
+	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
+			Integer actualPrice,Integer frontMoney) {
+		orderService.save(id, status, actualPrice, null,frontMoney);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.updateStatus, id);
+		}
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.updatePrice, id);
+		}
+		if(null!=frontMoney){
+			saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.frontMoney, id);
+		}
+		return "order/batch/infoUp";
 	}
 
 	@RequestMapping(value = "/batch/{id}/cancel", method = RequestMethod.GET)
-	public String cancle(@PathVariable Integer id, Model model) {
+	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList, OperateAction.cancel, id);
+		return "order/batch/row";
+	}
+	
+	@RequestMapping(value = "/batch/info/{id}/cancel", method = RequestMethod.GET)
+	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
+		orderService.save(id, (byte) 5, null, null);
+		Order order = orderService.findOrderInfo(id);
+		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.cancel, id);
 		return "order/batch/row";
 	}
 }

@@ -29,7 +29,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/order")
-public class OrderAgentController {
+public class OrderAgentController extends BaseController {
 
 	@Autowired
 	private OrderService orderService;
@@ -127,7 +127,7 @@ public class OrderAgentController {
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
 			Integer customerId) {
-		orderService
+		Integer id= orderService
 				.save(customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
 						payChannelId);
@@ -135,6 +135,7 @@ public class OrderAgentController {
 		types.add((byte) 3);
 		types.add((byte) 4);
 		findPage(1, null, null, null, model, types);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentCreate, OperateAction.createSure, id);
 		return "order/agent/list";
 	}
 	
@@ -143,46 +144,62 @@ public class OrderAgentController {
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer customerId) throws Exception {
-		 orderService.save(customerId, orderId, goodQuantity, comment,
+		Integer id= orderService.save(customerId, orderId, goodQuantity, comment,
 		invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
 		findPage(1, null, null, null, model, types);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentCreate, OperateAction.createSure, id);
 		return "order/agent/list";
 	}
 
 	@RequestMapping(value = "/agent/{id}/save", method = RequestMethod.GET)
-	public String save(@PathVariable Integer id, Byte status,
+	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList, OperateAction.updateStatus, id);
+		}
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList, OperateAction.updatePrice, id);
+		}
+		
 		return "order/agent/row";
 	}
 	
 	@RequestMapping(value = "/agent/info/{id}/save", method = RequestMethod.GET)
-	public String saveInfo(@PathVariable Integer id, Byte status,
+	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Integer actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		if(null!=status){
+			saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo, OperateAction.updateStatus, id);
+		}
+		if(null!=actualPrice){
+			saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo, OperateAction.updatePrice, id);
+		}
 		return "order/agent/infoUp";
 	}
 
 	@RequestMapping(value = "/agent/{id}/cancel", method = RequestMethod.GET)
-	public String cancle(@PathVariable Integer id, Model model) {
+	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList, OperateAction.cancel, id);
 		return "order/agent/row";
 	}
 	
 	@RequestMapping(value = "/agent/info/{id}/cancel", method = RequestMethod.GET)
-	public String cancleInfo(@PathVariable Integer id, Model model) {
+	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
+		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo, OperateAction.cancel, id);
 		return "order/agent/infoUp";
 	}
 }

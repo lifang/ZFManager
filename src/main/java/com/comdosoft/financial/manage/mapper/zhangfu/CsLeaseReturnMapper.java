@@ -62,6 +62,7 @@ public interface CsLeaseReturnMapper {
 	 */
 	List<CsLeaseReturn> findPageSelective(
 			@Param("pageRequest") PageRequest pageRequest,
+			@Param("customerId") Integer customerId,
 			@Param("status") Integer status, @Param("keyword") String keyword);
 	
 	/**

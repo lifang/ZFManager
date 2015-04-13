@@ -26,14 +26,14 @@ public class CertifiedOpenService {
 	@Autowired
 	private CertifiedOpenMapper certifiedOpenMapper;
 	
-	public Page<CertifiedOpen> findPages(int page, Byte status, String keys){
+	public Page<CertifiedOpen> findPages(int id,int page, Byte status, String keys){
 		long count = certifiedOpenMapper.countByKeys(status, keys);
 		if (count == 0) {
 			return new Page<CertifiedOpen>(new PageRequest(1, pageSize), new ArrayList<CertifiedOpen>(), count);
 		}
 		
 		PageRequest request = new PageRequest(page, pageSize);
-		List<CertifiedOpen> result = certifiedOpenMapper.findPageByKeys(request, status, keys);
+		List<CertifiedOpen> result = certifiedOpenMapper.findPageByKeys(request, status, keys,id);
 		for (CertifiedOpen certifiedOpen : result) {
 		    int a;
             try {
@@ -46,7 +46,16 @@ public class CertifiedOpenService {
 		Page<CertifiedOpen> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
-			result = certifiedOpenMapper.findPageByKeys(request, status, keys);
+			result = certifiedOpenMapper.findPageByKeys(request, status, keys,id);
+			for (CertifiedOpen certifiedOpen : result) {
+	            int a;
+	            try {
+	                a = certifiedOpenMapper.videoStatus(certifiedOpen.getId());
+	            } catch (Exception e) {
+	                a=0;
+	            }
+	            certifiedOpen.setVideo_status(a);
+	        }
 			goods = new Page<>(request, result, count);
 		}
 		return goods;

@@ -60,34 +60,34 @@ public class CsAgentController {
 	}
 	
 	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletResponse response, @PathVariable Integer id) {
+	public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.handle(id);
 	}
 	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
-	public void cancel(HttpServletResponse response, @PathVariable Integer id) {
+	public void cancel(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.cancel(id);
 	}
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
-	public void finish(HttpServletResponse response, @PathVariable Integer id) {
+	public void finish(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		csAgentService.finish(id);
 	}
 	
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
-	public void output(HttpServletResponse response, @PathVariable Integer id, String terminalList) {
+	public void output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList) {
 		csAgentService.output(id, terminalList);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
-	public void dispatch(HttpServletResponse response, String ids, Integer customerId, String customerName) {
+	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {
 		csAgentService.dispatch(ids, customerId, customerName);
 	}
 	
-	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
-	public String createMark(HttpServletRequest request, Integer csAgentId, String content, Model model) {
+	@RequestMapping(value = "{id}/mark/create", method = RequestMethod.POST)
+	public String createMark(HttpServletRequest request, @PathVariable Integer id, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CsAgentMark csAgentMark = csAgentService.createMark(customer, csAgentId, content);
+    	CsAgentMark csAgentMark = csAgentService.createMark(customer, id, content);
     	model.addAttribute("mark", csAgentMark);
         return "cs/mark";
     }

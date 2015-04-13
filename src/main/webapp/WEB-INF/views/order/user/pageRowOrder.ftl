@@ -42,8 +42,8 @@
             </td>
             <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
             <td>${orderGood.quantity!0}</td>
-            <input id="hidden_good_title_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
-		    <input id="hidden_quantity_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
+            <input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
+		    <input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
             <#if (order.orderGoods?size>1)& orderGood_index==0>
                 <td rowspan="${order.orderGoods?size}" class="left_border">
 	                <#if order.actualPrice??>

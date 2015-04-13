@@ -34,3 +34,16 @@ function hiddenErrorTip(){
 	$(".mask").css('display','none');
 }
 
+
+function isNull(value, error){
+    if(!isNotNull(value)){
+        showErrorTip(error);
+        return true;
+    }
+    return false;
+}
+
+function isNotNull(value){
+    return value != "" && value != null && value != undefined;
+}
+

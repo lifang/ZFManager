@@ -32,6 +32,7 @@
                             </div>
                             <div class="sa_list">
                                 <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="1"> 只支持</span>
+                                <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="2"> 不支持</span>
                                 <select id="provinceSelect">
                                     <option></option>
                                 <#list provinces as province>
@@ -60,9 +61,6 @@
                                         </#list>
                                     </#if>
                                     </div>
-                                </div>
-                                <div class="sa_list">
-                                    <span class="checkboxRadio_span"><input name="c_supportType" type="radio" value="2"> 不支持</span>
                                 </div>
                             </div>
                         </div>

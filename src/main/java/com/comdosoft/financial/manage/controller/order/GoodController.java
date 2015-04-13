@@ -38,7 +38,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("/good")
-public class GoodController {
+public class GoodController extends BaseController {
 	@Autowired
 	private GoodBrandService goodBrandService;
 	@Autowired

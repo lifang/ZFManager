@@ -49,6 +49,10 @@
         </#if>
         var title = $("#title").val();
         var webUrl = $(":file").attr("value");
+        if(title.length > 50){
+            showErrorTip("标题不能超过50个字！");
+            return false;
+        }
         if(isNull(title, "标题不能为空！")
         || isNull(webUrl, "资源包不能为空!")){
             return false;
