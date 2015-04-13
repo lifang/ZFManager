@@ -1,5 +1,15 @@
 <#import "../../page.ftl" as pager>
 <#import "assign.ftl" as assign />
+<div class="mask"></div>
+    <div class="tab remark_tab">
+    	<a href="#" class="close">关闭</a>
+        <div class="tabHead">备注</div>
+        <input type="hidden" id="bbbb">
+        <div class="tabBody">
+        	<textarea id="content" cols="" rows=""></textarea>
+        </div>
+        <div class="tabFoot"><button class="blueBtn" onclick="add()">确定</button></div>
+    </div>
 <div class="user_table">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
 		<colgroup>
@@ -25,5 +35,6 @@
 		</tbody>
 	</table>
 </div>
+
 <@assign.assign name="certifiedopen" page=apply.currentPage suspend=1/>
 <@pager.p page=apply.currentPage totalPages=apply.totalPage functionName="certifiedOpenPageChange"/>

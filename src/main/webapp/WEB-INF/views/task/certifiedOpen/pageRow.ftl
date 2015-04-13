@@ -40,6 +40,6 @@
       	   <a  onclick="upvs(${one.id!},1,${apply.currentPage!})" class="a_btn">重置视频认证</a> 
    	   </#if>
    	   <a href="<@spring.url "/task/certifiedopen/${one.id}/info" />" class="a_btn">查看详情</a> 
-   	   <a  class="a_btn">备注</a>
+   	   <a  class="a_btn" onclick="beizhu(${one.id!})">备注</a>
    </td>
 </tr>

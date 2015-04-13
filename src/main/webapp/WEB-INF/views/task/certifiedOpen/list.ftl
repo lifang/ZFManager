@@ -74,6 +74,11 @@
 	                $('#page_fresh').html(data);
 	            });
 	}
+	function beizhu(id) {
+		$('#bbbb').val(id);
+		$('.remark_tab').show();
+		$('.mask').show();
+	}
 	
 	var ups=function(id,status,page){
 		//var page=${apply.currentPage};
@@ -100,6 +105,20 @@
 					}
 		        });
 	}
-	
+	var add=function(){
+		var id=$('#bbbb').val();
+		var content=$('#content').val();
+		if(""==content.trim()){
+			return;
+		}
+		$.post('<@spring.url "/task/certifiedopen/addmark" />',
+				{"applyid": id,"content":content},
+		        function (data) {
+					 $('#content').val('');
+					 $('#mark_fresh').html(data);
+					 $('.tab').hide();
+					 $('.mask').hide();
+		        });
+	}
 </script>
 </@c.html>
