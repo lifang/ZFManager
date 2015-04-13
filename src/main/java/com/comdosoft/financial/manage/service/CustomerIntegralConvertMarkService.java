@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,15 @@ public class CustomerIntegralConvertMarkService {
 		return customerIntegralConvertMarkMapper.findMarksById(id);
 	}
 
-	public CustomerIntegralConvertMark createMark(Customer customer,
-			Integer pid, String content) {
-		return customerIntegralConvertMarkMapper.createMark(pid,content,customer.getId(),customer.getName());
+	public CustomerIntegralConvertMark createMark(Customer customer,Integer pid, String content) {
+		CustomerIntegralConvertMark ccm = new CustomerIntegralConvertMark();
+		ccm.setContent(content);
+		ccm.setCicId(pid);
+		ccm.setCreatedAt(new Date());
+		ccm.setProcessUserId(customer.getId());
+		ccm.setProcessUserName(customer.getName());
+		customerIntegralConvertMarkMapper.createMark(ccm);
+		return  ccm;
 	}
 
 }

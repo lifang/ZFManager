@@ -8,7 +8,6 @@ public interface CustomerIntegralConvertMarkMapper {
 
 	List<CustomerIntegralConvertMark> findMarksById(Integer id);
 
-	CustomerIntegralConvertMark createMark(Integer pid, String content,
-			Integer id, String name);
+	void createMark(CustomerIntegralConvertMark ccm);
 
 }
