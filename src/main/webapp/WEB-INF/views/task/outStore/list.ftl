@@ -10,7 +10,7 @@
       <div class="user_title">
        <h1>出库单列表</h1> 
        <div class="userTopBtnBox"> 
-        <a href="<@spring.url "/task/outStore/distribute" />" class="ghostBtn">分派</a>
+       	<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
 	   </div>
       </div> 
       <div class="seenBox clear"> 
@@ -206,6 +206,7 @@
 					popup(".approve_tab",".approve_a");//通过审核
 	            });
 	}
+	
 	
 </script>    
 </@c.html>

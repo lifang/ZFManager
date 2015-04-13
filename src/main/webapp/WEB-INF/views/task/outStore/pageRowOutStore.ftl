@@ -1,5 +1,5 @@
      <tr id="row_${outStore.id}"> 
-      <td><input type="checkBox" value=${outStore.id}></td> 
+      <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}"></td> 
       <td>${outStore.id}</td>
       <td>${outStore.createdAt}</td> 
       <td>${outStore.orderId}</td> 

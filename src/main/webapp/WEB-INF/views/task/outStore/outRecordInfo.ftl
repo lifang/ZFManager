@@ -94,7 +94,7 @@
         </div>
       </div>
 <div class="tab orderDetail_tab">
-	<a href="#" class="close">关闭</a>
+	<a href="#" class="close" id="closeA">关闭</a>
     <div class="tabHead">订单详情</div>
     <div class="tabBody">
     	<div class="orderDetail_info_tab">
@@ -127,10 +127,14 @@
             </#if>
         </div>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button class="blueBtn" onclick="closeA()">确定</button></div>
 </div>
  
 <script type="text/javascript">
+	function closeA(){
+		$("#closeA").click();
+	}
+
 	function submitData(){
 		//备注
 		var content=$("#remarkContent").val();
