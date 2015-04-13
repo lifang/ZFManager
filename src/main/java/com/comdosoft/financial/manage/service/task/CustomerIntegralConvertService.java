@@ -42,7 +42,7 @@ public class CustomerIntegralConvertService {
 			int totalPage = (int)Math.ceil((double) count / pageSize);
 			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
 		}
-		List<CustomerIntegralConvert> result = customerIntegralConvertMapper.findPage(request, status, keyword);
+		List<CustomerIntegralConvert> result = customerIntegralConvertMapper.findPage(request, status, keyword,customer.getId());
 		Page<CustomerIntegralConvert> integralConvert = new Page<CustomerIntegralConvert>(request, result, count);
 		return integralConvert;
 	}

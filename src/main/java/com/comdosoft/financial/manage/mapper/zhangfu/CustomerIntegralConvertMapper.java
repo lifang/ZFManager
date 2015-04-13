@@ -43,7 +43,7 @@ public interface CustomerIntegralConvertMapper {
 	int count(Byte status, String keyword);
 
 	List<CustomerIntegralConvert> findPage(PageRequest request, Byte status,
-			String keyword);
+			String keyword,Integer customerId);
 
 	void updateStatus(OperateRecord operateRecord);
 

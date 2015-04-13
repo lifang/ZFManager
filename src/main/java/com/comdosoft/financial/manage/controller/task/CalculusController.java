@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
-import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvertMark;
+import com.comdosoft.financial.manage.service.CustomerIntegralConvertMarkService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.task.CustomerIntegralConvertService;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -25,6 +26,8 @@ public class CalculusController {
 
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private CustomerIntegralConvertMarkService customerIntegralConvertMarkService;
 	@Autowired
 	private CustomerIntegralConvertService customerIntegralConvertService;
 
@@ -53,7 +56,7 @@ public class CalculusController {
 	@RequestMapping(value = "{id}/info", method = RequestMethod.GET)
 	public String info(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		CustomerIntegralConvert integralInfo = customerIntegralConvertService.findInfoById(id);
-		List<CustomerIntentionMark> integralInfoMarks = customerIntegralConvertService.findMarksById(id);
+		List<CustomerIntegralConvertMark> integralInfoMarks = customerIntegralConvertMarkService.findMarksById(id);
 		Customer customer = sessionService.getLoginInfo(request);
 		model.addAttribute("user_id", customer.getId());
 		model.addAttribute("user_name", customer.getName());
@@ -91,7 +94,7 @@ public class CalculusController {
 	@RequestMapping(value = "mark/create", method = RequestMethod.POST)
 	public String createMark(HttpServletRequest request, Integer csUpdateId, String content, Model model) {
     	Customer customer = sessionService.getLoginInfo(request);
-    	CustomerIntentionMark csUpdateMark = customerIntegralConvertService.createMark(customer, csUpdateId, content);
+    	CustomerIntegralConvertMark csUpdateMark = customerIntegralConvertMarkService.createMark(customer, csUpdateId, content);
     	model.addAttribute("mark", csUpdateMark);
         return "cs/mark";
     }
