@@ -33,7 +33,7 @@ public class RefundService {
 	private RefundMapper refundMapper;
 	
 	public Page<Object> findPages(int page, Byte status, String orderNumber,int userId){
-		if (orderNumber != null) {
+		if (orderNumber != null && orderNumber !="") {
 			orderNumber = "%"+orderNumber+"%";
 		}
 		long count = refundMapper.getRefundCount(status, orderNumber);

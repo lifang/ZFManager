@@ -37,7 +37,7 @@
                                 	<div class="text">
                                     	<div class="item_photoBox">
                                     	 <form id="fileForm" method="post" action="<@spring.url '/task/refund/${refundDetails.id}/upload/tempImage' />" enctype="multipart/form-data">  
-                                            <img id="refundeims" src="../../../resources/images/zp.jpg" class="cover" />
+                                            <img  src="../../../resources/images/zp.jpg" class="cover" />
                                             <a href="javascript:void(0);" class="informImg_a">
                                                 <span>重新上传退款凭证</span><input name="img" multiple type="file" onchange="setSpanName()">
                                             </a>
@@ -46,7 +46,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="img_info"><img src="${refundDetails.returnVoucherFilePath}" /></div>
+                            <div class="img_info"><img id="refundeims" src="${(refundDetails.returnVoucherFilePath)!}" /></div>
                         </div> 
                     </div>
                     <div class="user_remark">
@@ -78,14 +78,14 @@
                 	},
                 	function (data) {
                 	if(data == null){
-                		alert("上传失败！");
+                		alert("备注失败！");
                 	}else{
                 		$('#record').html(data);
                 	}
                 	});
     			}
     			
-    			//改变上传按钮
+    			// 上传
             function setSpanName(){
             	$("#fileForm").ajaxSubmit({
             		success : function(data) {
