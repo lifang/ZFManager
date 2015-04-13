@@ -93,7 +93,7 @@
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
 	        <p>POS机数量：10</p>
 	    </div>
-    	<textarea name="" cols="" rows="">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num">输入终端号</textarea>
         <input name="" type="text" value="物流公司" id="logistics_name" />
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
@@ -223,13 +223,19 @@
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
+		var terminalSerialNum = $('#terminal_serial_num').val();
 		$.get('<@spring.url "" />'+'/order/logistic/agent/create',
 				{
 				"orderId":id,
+				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
 				"logisticsNumber":logisticsNumber
 				},
 	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();

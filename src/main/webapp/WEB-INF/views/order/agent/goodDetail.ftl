@@ -276,7 +276,7 @@
                 
              	<!--评论模块-->  
             	<div class="pro_evaluate">
-					<div class="evaluate_title"><i></i>综合评分${(good.totalScore/good.totalComment/10)?string("0.00")}</div>
+					<div class="evaluate_title"><i></i>综合评分<#if good.totalComment?? &&good.totalComment!=0>${(good.totalScore/good.totalComment/10)?string("0.00")}<#else>0.00</#if></div>
             	 	<div id="page_fresh">
             			<#include "goodCommentPage.ftl"/>
             		 </div>

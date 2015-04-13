@@ -79,5 +79,5 @@ public interface TerminalMapper {
 	 * @return
 	 */
 	List<Terminal> findTerminalsByNums(String[] serialNums);
-
+	
 }

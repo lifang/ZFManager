@@ -15,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.service.OrderLogisticService;
 import com.comdosoft.financial.manage.service.OrderService;
+import com.comdosoft.financial.manage.service.SessionService;
 
 @Controller
 @RequestMapping("/order/logistic")
@@ -27,9 +30,20 @@ public class OrderLogisticController extends BaseController {
 	private OrderLogisticService orderLogisticService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private SessionService sessionService;
 	
 	public Boolean deliver(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model) throws Exception{
-		orderLogisticService.deliver(orderId, terminalSerialNum, logisticsName, logisticsNumber);
+		Customer customer = sessionService.getLoginInfo(request);
+		orderLogisticService.deliver(customer,orderId, terminalSerialNum, logisticsName, logisticsNumber,null);
+		Order order=orderService.findOrderInfo(orderId);
+		model.addAttribute("order", order);
+		return true;
+	}
+	
+	public Boolean deliver(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity) throws Exception{
+		Customer customer = sessionService.getLoginInfo(request);
+		orderLogisticService.deliver(customer,orderId, terminalSerialNum, logisticsName, logisticsNumber,goodQuantity);
 		Order order=orderService.findOrderInfo(orderId);
 		model.addAttribute("order", order);
 		return true;
@@ -37,15 +51,11 @@ public class OrderLogisticController extends BaseController {
 	
 	@RequestMapping(value="create",method = RequestMethod.GET)
 	public String createGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
-//		orderService.save(orderId, (byte)3, null, null);
-//		orderLogisticService.insert(orderId, logisticsName, logisticsNumber);
-//		Order order=orderService.findOrderInfo(orderId);
-//		model.addAttribute("order", order);
-		
 		try {
 			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
 		} catch (Exception e) {
 			e.printStackTrace();
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.deliver, orderId);
@@ -56,6 +66,7 @@ public class OrderLogisticController extends BaseController {
 		try {
 			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo,OperateAction.deliver, orderId);
@@ -67,6 +78,7 @@ public class OrderLogisticController extends BaseController {
 		try {
 			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.deliver, orderId);
@@ -77,6 +89,7 @@ public class OrderLogisticController extends BaseController {
 		try {
 			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo,OperateAction.deliver, orderId);
@@ -84,20 +97,22 @@ public class OrderLogisticController extends BaseController {
 	}
 	
 	@RequestMapping(value="/batch/create",method = RequestMethod.GET)
-	public String createBatchGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+	public String createBatchGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity){
 		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model,goodQuantity);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.deliver, orderId);
 		return "order/batch/row";
 	}
 	@RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-	public String createBatchInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
+	public String createBatchInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity){
 		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model,goodQuantity);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			return "order/error";
 		}
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.deliver, orderId);

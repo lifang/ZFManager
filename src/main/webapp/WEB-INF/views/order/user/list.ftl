@@ -250,12 +250,11 @@
 				"logisticsNumber":logisticsNumber
 				},
 	            function (data) {
-	            	if("false"==data){
-	            		alert("发货终端号不正确！");
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
 	            		return;
-	            	}else{
-	            		$('#row_'+id).replaceWith(data);
 	            	}
+	            	$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
 					popupPage();
