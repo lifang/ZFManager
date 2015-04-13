@@ -146,6 +146,9 @@ public class FactoryService {
         if (factory.getStatus() == Factory.STATUS_CHECKED) {
             factory.setStatus(Factory.STATUS_STOP);
             factoryMapper.updateByPrimaryKey(factory);
+            Customer customer = factory.getCustomer();
+            customer.setStatus(Customer.STATUS_STOP);
+            customerMapper.updateByPrimaryKey(customer);
         }
         return factory;
     }
@@ -158,10 +161,13 @@ public class FactoryService {
      */
     @Transactional("transactionManager")
     public Factory statusWaitingFirstCheck(Integer id) {
-        Factory factory = factoryMapper.selectByPrimaryKey(id);
+        Factory factory = findFactoryInfo(id);
         if (factory.getStatus() == Factory.STATUS_STOP) {
             factory.setStatus(Factory.STATUS_WAITING_FIRST_CHECK);
             factoryMapper.updateByPrimaryKey(factory);
+            Customer customer = factory.getCustomer();
+            customer.setStatus(Customer.STATUS_NORMAL);
+            customerMapper.updateByPrimaryKey(customer);
         }
         return factory;
     }

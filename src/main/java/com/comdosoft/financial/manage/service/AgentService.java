@@ -228,6 +228,9 @@ public class AgentService {
                 || agent.getStatus() == Agent.STATUS_UN_CHECKED) {
             agent.setStatus(Agent.STATUS_CHECKED);
             agentMapper.updateByPrimaryKey(agent);
+            Customer customer = agent.getCustomer();
+            customer.setStatus(Customer.STATUS_NORMAL);
+            customerMapper.updateByPrimaryKey(customer);
         }
         return agent;
     }
@@ -244,6 +247,9 @@ public class AgentService {
         if (agent.getStatus() == Agent.STATUS_CHECKED) {
             agent.setStatus(Agent.STATUS_STOP);
             agentMapper.updateByPrimaryKey(agent);
+            Customer customer = agent.getCustomer();
+            customer.setStatus(Customer.STATUS_STOP);
+            customerMapper.updateByPrimaryKey(customer);
         }
         return agent;
     }

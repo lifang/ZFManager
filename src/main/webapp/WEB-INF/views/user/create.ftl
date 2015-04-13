@@ -65,6 +65,10 @@
             return false;
         }
 
+        if(!checkPassword(password)){
+            return false;
+        }
+
         var phone=$("input[name='phone']").val();
         if(isNull(phone, "手机号码不能为空！")){
             return false;

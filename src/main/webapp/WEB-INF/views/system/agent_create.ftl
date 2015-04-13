@@ -91,22 +91,22 @@
     function submitData() {
         var types=$("input[name='a_types']:checked").val();
         var name=$("input[name='a_name']").val();
-        if(checkNull(name, "负责人姓名不能为空!")){return false;}
+        if(isNull(name, "负责人姓名不能为空!")){return false;}
         var cardId=$("input[name='a_cardId']").val();
-        if(checkNull(cardId, "负责人身份证号不能为空!")){return false;}
+        if(isNull(cardId, "负责人身份证号不能为空!")){return false;}
         var companyName=$("input[name='a_companyName']").val();
-        if(checkNull(companyName, "公司全称不能为空!")){return false;}
+        if(isNull(companyName, "公司全称不能为空!")){return false;}
         var businessLicense=$("input[name='a_businessLicense']").val();
-        if(checkNull(businessLicense, "公司营业执照登记号不能为空!")){return false;}
+        if(isNull(businessLicense, "公司营业执照登记号不能为空!")){return false;}
         var phone=$("input[name='a_phone']").val();
-        if(checkNull(phone, "手机不能为空!")){return false;}
+        if(isNull(phone, "手机不能为空!")){return false;}
         var email=$("input[name='a_email']").val();
-        if(checkNull(email, "邮箱不能为空!")){return false;}
+        if(isNull(email, "邮箱不能为空!")){return false;}
         var cityId=$("#citySelect").find("option:selected").val();
         var address=$("input[name='a_address']").val();
-        if(checkNull(address, "所在地详细地址不能为空!")){return false;}
+        if(isNull(address, "所在地详细地址不能为空!")){return false;}
         var username=$("input[name='a_username']").val();
-        if(checkNull(username, "登录ID不能为空!")){return false;}
+        if(isNull(username, "登录ID不能为空!")){return false;}
         var accountType;
         if(checkMobile(username)){
             accountType=1;
@@ -119,10 +119,14 @@
         var password=$("input[name='a_password']").val();
         var confirmPassword=$("input[name='confirmPassword']").val();
         <#if !(agent??)>
-            if(checkNull(password, "密码不能为空!")){return false;}
+            if(isNull(password, "密码不能为空!")){return false;}
         </#if>
         if(password!=confirmPassword){
             showErrorTip("密码和确认密码必须相同");
+            return false;
+        }
+
+        if(!checkPassword(password)){
             return false;
         }
 
@@ -154,18 +158,6 @@
                     }
                 }
         );
-    }
-
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
     }
 
     function checkMobile(str) {

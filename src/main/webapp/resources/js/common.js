@@ -47,3 +47,15 @@ function isNotNull(value){
     return value != "" && value != null && value != undefined;
 }
 
+function checkPassword(value){
+    if(!isNotNull(value)){
+        return true;
+    }
+    var l = value.length;
+    if(l<6 || l>20){
+        showErrorTip("密码必须为6-20位！");
+        return false;
+    }
+    return true;
+}
+

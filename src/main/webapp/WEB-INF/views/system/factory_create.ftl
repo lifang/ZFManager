@@ -85,9 +85,9 @@
     function submitData() {
         var types=$("input[name='f_types']:checked").val();
         var name=$("input[name='f_name']").val();
-        if(checkNull(name, "机构名称不能为空!")){return false;}
+        if(isNull(name, "机构名称不能为空!")){return false;}
         var username=$("input[name='f_username']").val();
-        if(checkNull(username, "登录ID不能为空!")){return false;}
+        if(isNull(username, "登录ID不能为空!")){return false;}
         var accountType;
         if(checkMobile(username)){
             accountType=1;
@@ -100,7 +100,7 @@
         var password=$("input[name='f_password']").val();
         var confirmPassword=$("input[name='confirmPassword']").val();
         <#if !(factory??)>
-            if(checkNull(password, "密码不能为空!")){return false;}
+            if(isNull(password, "密码不能为空!")){return false;}
         </#if>
         if(password!=confirmPassword){
             showErrorTip("密码和确认密码必须相同");
@@ -108,16 +108,16 @@
         }
 
         var logoFilePath=$("input[name='file']").attr("value");
-        if(checkNull(logoFilePath, "机构LOGO不能为空!")){return false;}
+        if(isNull(logoFilePath, "机构LOGO不能为空!")){return false;}
         var websiteUrl=$("input[name='f_websiteUrl']").val();
-        if(checkNull(websiteUrl, "机构URL不能为空!")){return false;}
+        if(isNull(websiteUrl, "机构URL不能为空!")){return false;}
         var description=$("textarea[name='f_description']").val();
-        if(checkNull(description, "简介不能为空!")){return false;}
+        if(isNull(description, "简介不能为空!")){return false;}
         var cityId=$("#citySelect").find("option:selected").val();
         var address=$("input[name='f_address']").val();
-        if(checkNull(address, "详细地址不能为空!")){return false;}
+        if(isNull(address, "详细地址不能为空!")){return false;}
         var cellphone=$("input[name='f_cellphone']").val();
-        if(checkNull(cellphone, "电话不能为空!")){return false;}
+        if(isNull(cellphone, "电话不能为空!")){return false;}
 
 
         <#if factory??>

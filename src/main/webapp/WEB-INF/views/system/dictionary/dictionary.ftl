@@ -19,17 +19,4 @@
         <#include "tradeType_list.ftl"/>
         <#include "standardRate_list.ftl"/>
     </div>
-<script>
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-</script>
 </@c.html>

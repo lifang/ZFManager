@@ -601,11 +601,11 @@
 
     function submitData(){
         var name=$("input[name='c_name']").val();
-        if(checkNull(name, "名称不能为空!")){return false;}
+        if(isNull(name, "名称不能为空!")){return false;}
         var factoryId=$("select[name='c_factory']").find("option:selected").val();
-        if(checkNull(factoryId, "收单机构不能为空!")){return false;}
+        if(isNull(factoryId, "收单机构不能为空!")){return false;}
         var supportType=$("input[name='c_supportType']:checked").val();
-        if(checkNull(supportType, "支持区域不能为空!")){return false;}
+        if(isNull(supportType, "支持区域不能为空!")){return false;}
         var regions = new Array();
         if(supportType == 1){
             $(".saa_b").find("a").each(function(i){
@@ -613,7 +613,7 @@
             });
         }
         var supportCancel=$("input[name='c_supportCancel']:checked").val();
-        if(checkNull(supportCancel, "是否支持注销不能为空!")){return false;}
+        if(isNull(supportCancel, "是否支持注销不能为空!")){return false;}
 
         var hasDup = false;
     <#--刷卡交易标准手续费-->
@@ -778,18 +778,6 @@
                 }
         );
 
-    }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-
-    function checkNull(value, error){
-        var result = (value == "" || value == null || value == undefined);
-        if(result){
-            showErrorTip(error);
-        }
-        return result;
     }
 
     function isNotTwoDecimal(value, error){

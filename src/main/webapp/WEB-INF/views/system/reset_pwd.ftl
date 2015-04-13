@@ -20,9 +20,13 @@
     function submitData() {
         var password=$("input[name='password']").val();
         var confirmPassword=$("input[name='confirmPassword']").val();
-        if(checkNull(password, "密码不能为空!")){return false;}
+        if(isNull(password, "密码不能为空!")){return false;}
         if(password!=confirmPassword){
             showErrorTip("密码和确认密码必须相同");
+            return false;
+        }
+
+        if(!checkPassword(password)){
             return false;
         }
 

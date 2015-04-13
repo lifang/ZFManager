@@ -96,6 +96,9 @@
             showErrorTip("两次密码输入不一致!");
             return false;
         }
+        if(!checkPassword(password)){
+            return false;
+        }
 
         var roles;
         $("div.ia_area > span").each(function(){
@@ -106,7 +109,9 @@
                 roles = roles+","+v;
             }
         });
-
+        if(isNull(roles,"角色不能为空！")){
+            return false;
+        }
         $.post("<@spring.url "/system/operate/account/${customer.id}/edit" />",
                 {name: name,
                     account: account,

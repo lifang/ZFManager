@@ -60,14 +60,14 @@
             return false;
         }
         if(isNotNull(newPassword)){
-            if(checkNull(oldPassword, "原密码不能为空!")){return false;}
+            if(isNull(oldPassword, "原密码不能为空!")){return false;}
         }
 
         var cityId=$("#citySelect").find("option:selected").val();
         var address=$("input[name='f_address']").val();
-        if(checkNull(address, "详细地址不能为空!")){return false;}
+        if(isNull(address, "详细地址不能为空!")){return false;}
         var cellphone=$("input[name='f_cellphone']").val();
-        if(checkNull(cellphone, "电话不能为空!")){return false;}
+        if(isNull(cellphone, "电话不能为空!")){return false;}
 
 
 
@@ -85,17 +85,6 @@
                     }
                 }
         );
-    }
-
-    function checkNull(value, error){
-        var result = isNotNull(value);
-        if(!result){
-            showErrorTip(error);
-        }
-        return !result;
-    }
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
     }
 
 </script>

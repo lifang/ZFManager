@@ -99,11 +99,11 @@
         } else{
             num = $("input[name='num2']").val();
         }
-        if(checkNull(num,"积分不能为空！")){
+        if(isNull(num,"积分不能为空！")){
             return false;
         }
         var reason = $("#reason").val();
-        if(checkNull(reason,"调整原因不能为空！")){
+        if(isNull(reason,"调整原因不能为空！")){
 
             return false;
         }
@@ -121,17 +121,6 @@
 
     }
 
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
-    }
-
-    function checkNull(value, error){
-        var result = (value == "" || value == null || value == undefined);
-        if(result){
-            showErrorTip(error);
-        }
-        return result;
-    }
     $(function(){
         merchantPageChange(1);
         terminalPageChange(1);

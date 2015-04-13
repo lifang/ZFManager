@@ -136,8 +136,15 @@ public class OperateController {
 
     @RequestMapping(value="account/{id}/resetpwd",method=RequestMethod.POST)
     @ResponseBody
-    public Response resetpwd(@PathVariable Integer id, String password){
+    public Response resetPwd(@PathVariable Integer id, String password){
         customerService.modifyPwd(id, password);
         return Response.getSuccess(null);
+    }
+
+    @RequestMapping(value="account/{id}/resetpwd",method=RequestMethod.GET)
+    public String resetPwd(@PathVariable Integer id,Model model){
+        Customer customer = customerService.customer(id);
+        model.addAttribute("customer", customer);
+        return "system/account_reset_pwd";
     }
 }
