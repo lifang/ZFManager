@@ -156,7 +156,7 @@ public class OrderAgentController extends BaseController {
 
 	@RequestMapping(value = "/agent/{id}/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
-			Integer actualPrice, Model model) {
+			Float actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
@@ -172,7 +172,7 @@ public class OrderAgentController extends BaseController {
 	
 	@RequestMapping(value = "/agent/info/{id}/save", method = RequestMethod.GET)
 	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Byte status,
-			Integer actualPrice, Model model) {
+			Float actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);

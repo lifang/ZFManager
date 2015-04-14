@@ -85,6 +85,7 @@
         <div class="tabFoot"><button class="blueBtn" id="markSure">确定</button></div>
 </div>
 
+<!--
 <div class="tab deliver_tab">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">添加第三方库存发货信息</div>
@@ -98,7 +99,10 @@
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
-</div>
+</div>-->
+
+
+<#include "../tab.ftl" />
 
 <script type="text/javascript">
 
@@ -208,28 +212,18 @@
 	            });
     }
     
-    function deliverBtn(id,size){
-    	var htmlStr='';
-    	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
-    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<p>POS机数量："+hidden_quantity+"</p>";
-    	}
-		$("#pos_info").html(htmlStr);
- 		$("#deliverSure").click(function(){deliverSure(id)});
-    }
-    
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		var terminalSerialNum = $('#terminal_serial_num').val();
+		var reserver2 = $('#reserver2').val();
 		$.get('<@spring.url "" />'+'/order/logistic/agent/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
-				"logisticsNumber":logisticsNumber
+				"logisticsNumber":logisticsNumber,
+				"reserver2":reserver2
 				},
 	            function (data) {
 	            	if(data.indexOf("-1")==0){
@@ -243,7 +237,21 @@
 	            });
     }
     
-    /*function createOrderAgain(orderId){
+    /*
+    function deliverBtn(id,size){
+    	var htmlStr='';
+    	for(var i=0;i<size;i++){
+    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
+    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
+	        "<p>POS机数量："+hidden_quantity+"</p>";
+    	}
+		$("#pos_info").html(htmlStr);
+ 		$("#deliverSure").click(function(){deliverSure(id)});
+    }
+    
+    
+    function createOrderAgain(orderId){
     	$.get('<@spring.url "" />'+'/order/agent/createAgain',
 				{"orderId":orderId
 				},

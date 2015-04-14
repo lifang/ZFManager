@@ -34,4 +34,6 @@ public interface CsOutStorageMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsOutStorage record);
+	
+	List<CsOutStorage> selectByOrderIds(List<Integer> orderIds);
 }

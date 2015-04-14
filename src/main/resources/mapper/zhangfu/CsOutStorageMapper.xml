@@ -78,4 +78,21 @@
     cs_apply_id, cs_apply_types, quantity
     from cs_out_storages
   </select>
+  
+  <select id="selectByOrderIds" resultMap="BaseResultMap">
+    select id, process_user_id, process_user_name, status, order_id, created_at, updated_at, 
+    cs_apply_id, cs_apply_types, quantity
+    from cs_out_storages
+    where order_id in 
+   	<foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  
+	  #{item}  
+	</foreach>
+  </select>
+  
+  <select id="selectCsOutStoragesByOrderId" resultMap="BaseResultMap">
+    select id, process_user_id, process_user_name, status, order_id, created_at, updated_at, 
+    cs_apply_id, cs_apply_types, quantity
+    from cs_out_storages
+    where order_id=#{param1}
+  </select>
 </mapper>

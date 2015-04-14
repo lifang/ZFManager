@@ -129,8 +129,8 @@ public class OrderUserController extends BaseController{
 
 	@RequestMapping(value = "/user/{id}/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
-			Integer actualPrice, Model model) {
-		orderService.save(id, status, actualPrice, null);
+			Float actualPrice, Model model) {
+		orderService.save(id, status,actualPrice, null);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		if(null!=actualPrice){
@@ -144,7 +144,7 @@ public class OrderUserController extends BaseController{
 
 	@RequestMapping(value = "/user/info/{id}/save", method = RequestMethod.GET)
 	public String saveInfo(HttpServletRequest request,
-			@PathVariable Integer id, Byte status, Integer actualPrice,
+			@PathVariable Integer id, Byte status, Float actualPrice,
 			Model model) {
 		orderService.save(id, status, actualPrice, null);
 		Order order = orderService.findOrderInfo(id);

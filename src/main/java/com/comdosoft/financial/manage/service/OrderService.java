@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
@@ -49,6 +51,9 @@ public class OrderService {
 	
 	@Autowired
 	private FactoryMapper factoryMapper;
+	
+	@Autowired
+	private CsOutStorageMapper csOutStorageMapper;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
@@ -102,9 +107,14 @@ public class OrderService {
 				.selectOrderGoods(orderIds);
 		List<Integer> goodIds = new ArrayList<Integer>();
 		List<OrderPayment> orderPaymentList = orderPaymentMapper.selectByOrderIds(orderIds);
+		List<CsOutStorage> csOutStorages=null;
+		if(CollectionUtils.isEmpty(types)&& types.get(0)==5){
+			csOutStorages = csOutStorageMapper.selectByOrderIds(orderIds);
+		}
 		for (Order order : result) {
 			order.setOrderGoods(new ArrayList<OrderGood>());
 			order.setOrderPayments(new ArrayList<OrderPayment>());
+			order.setCsOutStorages(new ArrayList<CsOutStorage>() );
 			for (int i = 0, size = selectOrderGoods.size(); i < size; i++) {
 				OrderGood o = selectOrderGoods.get(i);
 				if (order.getId().equals(o.getOrderId())) {
@@ -116,6 +126,13 @@ public class OrderService {
 				for(OrderPayment orderPayment:orderPaymentList){
 					if(order.getId().equals(orderPayment.getOrderId())){
 						order.getOrderPayments().add(orderPayment);
+					}
+				}
+			}
+			if(!CollectionUtils.isEmpty(csOutStorages)){
+				for(CsOutStorage csOutStorage:csOutStorages){
+					if(order.getId().equals(csOutStorage.getOrderId())){
+						order.getCsOutStorages().add(csOutStorage);
 					}
 				}
 			}
@@ -160,31 +177,36 @@ public class OrderService {
 		return order;
 	}
 
-	public int save(Integer orderId, Byte status, Integer actualPrice,
+	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus) {
 		Order record = orderMapper.findOrderInfo(orderId);
 		record.setId(orderId);
 		if (null != status)
 			record.setStatus(status);
-		if (null != actualPrice)
-			record.setActualPrice(actualPrice*100);
+		if (null != actualPrice){
+			actualPrice=actualPrice*100;
+			record.setActualPrice(actualPrice.intValue());
+		}
 		if (null != payStatus)
 			record.setPayStatus(payStatus);
 		return orderMapper.updateByPrimaryKey(record);
 	}
 	
-	public int save(Integer orderId, Byte status, Integer actualPrice,
-			Byte payStatus,Integer frontMoney) {
+	public int save(Integer orderId, Byte status, Float actualPrice,
+			Byte payStatus,Float frontMoney) {
 		Order record = orderMapper.findOrderInfo(orderId);
 		record.setId(orderId);
 		if (null != status)
 			record.setStatus(status);
-		if (null != actualPrice)
-			record.setActualPrice(actualPrice*100);
+		if (null != actualPrice){
+			actualPrice=actualPrice*100;
+			record.setActualPrice(actualPrice.intValue());
+		}
 		if (null != payStatus)
 			record.setPayStatus(payStatus);
 		if(null!=frontMoney){
-			record.setFrontMoney(frontMoney*100);
+			frontMoney=frontMoney*100;
+			record.setFrontMoney(frontMoney.intValue());
 		}
 		return orderMapper.updateByPrimaryKey(record);
 	}

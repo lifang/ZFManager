@@ -154,7 +154,7 @@ public class OrderBatchController extends BaseController {
 
 	@RequestMapping(value = "/batch/{id}/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
-			Integer actualPrice,Integer frontMoney) {
+			Float actualPrice,Float frontMoney) {
 		orderService.save(id, status, actualPrice, null,frontMoney);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
@@ -172,7 +172,7 @@ public class OrderBatchController extends BaseController {
 	
 	@RequestMapping(value = "/batch/info/{id}/save", method = RequestMethod.GET)
 	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
-			Integer actualPrice,Integer frontMoney) {
+			Float actualPrice,Float frontMoney) {
 		orderService.save(id, status, actualPrice, null,frontMoney);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);

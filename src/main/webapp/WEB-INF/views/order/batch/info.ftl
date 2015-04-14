@@ -19,6 +19,8 @@
         	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
              <colgroup>
              	<col width="300" />
+             	<col />
+                <col />
                 <col />
                 <col />
                 <col />
@@ -35,8 +37,8 @@
               </thead>
               <#if order.orderGoods??>	
               	<#list order.orderGoods as orderGood>
-              		<input id="hidden_good_title_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
-		    		<input id="hidden_quantity_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
+              		<input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
+		    		<input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
 	               <tbody>
 	                  <tr>
 	                    <td>
@@ -68,9 +70,17 @@
 	                    </td>
 	                    <td><strong>￥<#if orderGood.good??>${(orderGood.good.purchasePrice!0/100)?string("0.0")}</#if></strong><p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p></td>
 	                    <td>${orderGood.quantity!0}</td>
-	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
-	                    <td>2</td>
-	                    <td><a href="#" class="a_btn">发货</a></td>
+	                    <#if (order.orderGoods?size>1) && orderGood_index==0>
+	                    	<td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
+		                    <td rowspan="${order.orderGoods?size}">${order.totalOutQuantity!0}</td>
+		                    <td rowspan="${order.orderGoods?size}">
+		                    	<a href="#" class="a_btn">发货样式</a>
+		                    </td>
+		                <#elseif (order.orderGoods?size=1)>
+		                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
+		                    <td>${order.totalOutQuantity!0}</td>
+		                    <td><a href="#" class="a_btn">发货</a></td>
+		                </#if>
 	                  </tr>
 	              </tbody>
 	             </#list>
@@ -140,27 +150,6 @@
     </div>
     <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
 </div>
-<!--
-<div class="tab paymentRecord_tab">
-	<a href="#" class="close">关闭</a>
-    <div class="tabHead">增加付款记录</div>
-    <div class="tabBody">
-    	<div class="item_list">
-        	<ul>
-            	<li><span class="labelSpan">付款金额</span><div class="text" id="pay_price"><strong>￥0.00</strong></div></li>
-                <li><span class="labelSpan">付款方式</span><div class="text">
-                    <select name="" id="pay_type">
-                      <option value="1">支付宝</option>
-                      <option value="2">银联</option>
-                      <option value="3">现金</option>
-                    </select>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
-</div>-->
 
 <div class="tab deliver_tab">
 	<a href="#" class="close">关闭</a>
@@ -170,7 +159,8 @@
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
 	        <p>POS机数量：10</p>
 	    </div>
-    	<textarea name="" cols="" rows="">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号"></textarea>
+    	<textarea name="" cols="" rows="" id="reserver2" placeholder="中汇终端激活码（非中汇终端无需填写）"></textarea>
         <input name="" type="text" value="物流公司" id="logistics_name" />
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
@@ -276,26 +266,44 @@
     function deliverBtn(id,size){
     	var htmlStr='';
     	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
+    		var hidden_order_good_id = $('#hidden_order_good_id_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<p>POS机数量："+hidden_quantity+"</p>";
+	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").click(function(){deliverSure(id)});
     }
     
     function deliverSure(id){
+    	var goodQuantity="";
+		var allinput=document.getElementsByName("deliverNum");
+		for(var i=0,size=allinput.length;i<size;i++){
+			goodQuantity+=allinput[i].id+":"+allinput[i].value;
+			if(i<size-1){
+				goodQuantity+=",";
+			}
+		}
+		var terminalSerialNum = $('#terminal_serial_num').val();
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
+		var reserver2 = $('#reserver2').val();
 		$.get('<@spring.url "" />'+'/order/logistic/batch/info/create',
 				{
 				"orderId":id,
+				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
-				"logisticsNumber":logisticsNumber
+				"logisticsNumber":logisticsNumber,
+				"goodQuantity":goodQuantity,
+				"reserver2":reserver2
 				},
 	            function (data) {
-	           		$('#infoUp_fresh').html(data);
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
+	            	$('#infoUp_fresh').html(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
 					popupPage();

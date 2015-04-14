@@ -42,7 +42,7 @@ public class OrderLogisticService {
 	@Autowired
 	private CsOutStorageMapper csOutStorageMapper;
 	
-	public int insert(Customer customer,Integer orderId,String logisticsName,String logisticsNumber,Integer quantity){
+	public int insert(Customer customer,Integer orderId,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum){
 		OrderLogistic record=new OrderLogistic();
 		Date createdAt = new Date();
 		record.setCreatedAt(createdAt);
@@ -60,7 +60,8 @@ public class OrderLogisticService {
 		csOutStorage.setQuantity(quantity);
 		csOutStorage.setStatus(1);//已发货
 		csOutStorageMapper.insert(csOutStorage);
-		record.setCsOutStorageId(csOutStorage.getId());//这个值来源未知
+		//terminalSerialNum还没有生成实体
+		record.setCsOutStorageId(csOutStorage.getId());
 		return orderLogisticMapper.insert(record);
 	}
 	
@@ -68,7 +69,7 @@ public class OrderLogisticService {
 	 * 发货
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity) throws Exception{
+	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
 		Integer totalQuantity = 0;
 		if(null!=goodQuantity){
 			List<Map<String, Integer>> goodQuantityList = new ArrayList<Map<String, Integer>>();
@@ -117,6 +118,7 @@ public class OrderLogisticService {
 							findTerminalByNum.setAgentId(order.getAgent().getId());
 						}
 						findTerminalByNum.setPayChannelId(og.getPayChannelId());
+						findTerminalByNum.setReserver2(reserver2);
 						terminalMapper.updateByPrimaryKey(findTerminalByNum);
 						break;
 					}
@@ -130,7 +132,7 @@ public class OrderLogisticService {
 		if(0==totalQuantity){
 			totalQuantity=order.getTotalQuantity();
 		}
-		insert(customer,orderId, logisticsName, logisticsNumber,totalQuantity);
+		insert(customer,orderId, logisticsName, logisticsNumber,totalQuantity,terminalSerialNum);
 		return 1;
 	}
 }
