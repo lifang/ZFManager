@@ -99,7 +99,7 @@
                             var result = data.result;
                             textInput.val("");
                             ul.append('<li>'+result.name+'<i class="pos_delete" value="'+result.id+'"></i></li>');
-                        } else if (data.code == -1) {
+                        } else if (data.code==-1) {
                             showErrorTip(data.message);
                         }
                     });

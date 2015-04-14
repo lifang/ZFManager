@@ -123,11 +123,24 @@
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">添加第三方库存发货信息</div>
     <div class="tabBody">
+    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
+        <div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
+    	<textarea name="" cols="" rows="">输入终端号</textarea>
+        <input name="" type="text" placeholder="物流公司" />
+        <input name="" type="text" placeholder="物流单号" />
+    </div>
+    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
+
+<div class="tab deliver_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">添加第三方库存发货信息</div>
+    <div class="tabBody">
     	<div id="pos_info">
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
-	        <p>POS机数量：10</p>
+	    	<div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
 	    </div>
-    	<textarea name="" cols="" rows="">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num">输入终端号</textarea>
         <input name="" type="text" value="物流公司" id="logistics_name" />
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
@@ -265,23 +278,40 @@
     	for(var i=0;i<size;i++){
     		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
     		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
+    		var hidden_order_good_id = $('#hidden_order_good_id_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<p>POS机数量："+hidden_quantity+"</p>";
+	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").click(function(){deliverSure(id)});
     }
     
     function deliverSure(id){
+    	var goodQuantity="";
+		var allinput=document.getElementsByName("deliverNum");
+		for(var i=0,size=allinput.length;i<size;i++){
+			goodQuantity+=allinput[i].id+":"+allinput[i].value;
+			if(i<size-1){
+				goodQuantity+=",";
+			}
+		}
+		var terminalSerialNum = $('#terminal_serial_num').val();
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		$.get('<@spring.url "" />'+'/order/logistic/batch/create',
 				{
 				"orderId":id,
+				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
-				"logisticsNumber":logisticsNumber
+				"logisticsNumber":logisticsNumber,
+				"goodQuantity":goodQuantity
 				},
 	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
+	            	$('#row_'+id).replaceWith(data);
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();

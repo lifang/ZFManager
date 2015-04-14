@@ -407,6 +407,12 @@ public class PayChannelService {
         Integer id = channel.getId();
         //支持区域
         if(supportType == 2){
+            for (Integer regionId : regions){
+                SupportArea supportArea = new SupportArea();
+                supportArea.setPayChannelId(id);
+                supportArea.setCityId(regionId);
+                supportAreaMapper.insert(supportArea);
+            }
             channel.setSupportType(false);
         } else if (supportType == 1){
             for (Integer regionId : regions){

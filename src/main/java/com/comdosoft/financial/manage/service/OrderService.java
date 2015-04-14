@@ -49,8 +49,10 @@ public class OrderService {
 	
 	@Autowired
 	private FactoryMapper factoryMapper;
-	
 
+	/**
+	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
+	 */
 	public Page<Order> findPages(int page, Byte status, String keys,
 			Integer factoryId, List<Byte> types) {
 		pageSize = 3;
@@ -84,6 +86,7 @@ public class OrderService {
 		List<Order> result = null;
 		result = orderMapper.findPageOrdersByKeys(request, status, keys,
 				null, types,orderIdsGood);
+		System.out.println(result.size());
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
