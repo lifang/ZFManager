@@ -214,7 +214,12 @@
         $.post('<@spring.url "" />'+'/good/pos/'+id+'/importTerminal',
                 {data:data},
                 function (data) {
-                    $('#row_'+id).replaceWith(data);
+                    $content = $(data);
+                    if($content.attr("id")=="errorMessage"){
+                        showErrorTip($content.html());
+                    } else{
+                        $('#row_'+id).replaceWith(data);
+                    }
                     $('.putStorage_tab').hide();
                     $('.mask').hide();
                 });

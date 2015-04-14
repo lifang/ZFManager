@@ -45,6 +45,10 @@ public class FactoryService {
         return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_PAYMENT, Factory.STATUS_CHECKED);
     }
 
+    public List<Factory> findCheckedManufacturers(){
+        return factoryMapper.selectFactoriesByTypeAndStatus(Factory.TYPE_MANUFACTURER, Factory.STATUS_CHECKED);
+    }
+
     public Page<Factory> findPages(int page, Byte status, String keys){
         if (keys != null) {
             keys = "%"+keys+"%";

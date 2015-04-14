@@ -17,8 +17,8 @@
         <#if (merchants.content)??>
             <#list merchants.content as merchant>
             <tr>
-                <td>${merchant.title!"- -"}</td>
-                <td>${merchant.legalPersonName!"- -"}</td>
+                <td>${(merchant.title)!"- -"}</td>
+                <td>${(merchant.legalPersonName)!"- -"}</td>
                 <td><a href="<@spring.url "/user/merchant/${merchant.id}/info"/>" class="a_btn">查看详情</a></td>
             </tr>
             </#list>

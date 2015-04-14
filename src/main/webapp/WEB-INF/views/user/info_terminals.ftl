@@ -24,10 +24,10 @@
             <#list terminals.content as terminal>
             <tr>
                 <td>${(terminal.serialNum)!"- -"}</td>
-                <td>${(terminal.good.goodBrand.name)!"- -"}  ${terminal.good.modelNumber!"- -"}</td>
+                <td>${(terminal.good.goodBrand.name)!"- -"}  ${(terminal.good.modelNumber)!"- -"}</td>
                 <td>${(terminal.payChannel.name)!"- -"}</td>
                 <td>${(terminal.merchant.title)!"- -"}</td>
-                <td>${terminal.merchant.phone!"- -"}</td>
+                <td>${(terminal.merchant.phone)!"- -"}</td>
                 <td><strong class="strong_status">
                     <#if (terminal.status)??>
                         <#if terminal.status=1>已开通

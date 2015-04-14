@@ -607,10 +607,15 @@
         var supportType=$("input[name='c_supportType']:checked").val();
         if(isNull(supportType, "支持区域不能为空!")){return false;}
         var regions = new Array();
-        if(supportType == 1){
+        if(supportType == 1 || supportType == 2){
             $(".saa_b").find("a").each(function(i){
                 regions[i]=$(this).attr("value");
             });
+
+            if(regions.length == 0){
+                showErrorTip("区域不能为空！");
+                return false;
+            }
         }
         var supportCancel=$("input[name='c_supportCancel']:checked").val();
         if(isNull(supportCancel, "是否支持注销不能为空!")){return false;}

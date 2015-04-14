@@ -100,8 +100,16 @@
         if(isNull(businessLicense, "公司营业执照登记号不能为空!")){return false;}
         var phone=$("input[name='a_phone']").val();
         if(isNull(phone, "手机不能为空!")){return false;}
+        if(!checkMobile(phone)){
+            showErrorTip("手机号格式不正确！");
+            return false;
+        }
         var email=$("input[name='a_email']").val();
         if(isNull(email, "邮箱不能为空!")){return false;}
+        if(!checkEmail(email)){
+            showErrorTip("邮箱格式不正确！");
+            return false;
+        }
         var cityId=$("#citySelect").find("option:selected").val();
         var address=$("input[name='a_address']").val();
         if(isNull(address, "所在地详细地址不能为空!")){return false;}
@@ -160,21 +168,5 @@
         );
     }
 
-    function checkMobile(str) {
-        var re = /^1\d{10}$/
-        if (re.test(str)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    function checkEmail(str){
-        var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
-        if(re.test(str)){
-            return true;
-        }else{
-            return false;
-        }
-    }
 </script>
 </@c.html>

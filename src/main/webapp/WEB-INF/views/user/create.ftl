@@ -27,6 +27,9 @@
                     <li class="block"><span class="labelSpan">手机号码：</span>
                         <div class="text"><input name="phone" type="text"/></div>
                     </li>
+                    <li class="block"><span class="labelSpan">邮箱：</span>
+                        <div class="text"><input name="email" type="text"/></div>
+                    </li>
                     <li class="block"><span class="labelSpan">姓名（选填）：</span>
                         <div class="text"><input name="name" type="text"/></div>
                     </li class="block">
@@ -77,10 +80,22 @@
             showErrorTip("手机号码格式不正确！");
             return false;
         }
+
+        var email=$("input[name='email']").val();
+        if(isNull(email, "邮箱不能为空！")){
+            return false;
+        }
+
+        if(!checkEmail(email)){
+            showErrorTip("邮箱格式不正确！");
+            return false;
+        }
+
         var name=$("input[name='name']").val();
         var cityId=$("#citySelect").find("option:selected").val();
         $.post("<@spring.url "/user/create" />",
                 {name: name,
+                    email: email,
                     phone: phone,
                     password: password,
                     cityId: cityId
@@ -95,15 +110,6 @@
         );
 
 
-    }
-
-    function checkMobile(str) {
-        var re = /^1\d{10}$/
-        if (re.test(str)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 </script>

@@ -106,6 +106,9 @@
             showErrorTip("密码和确认密码必须相同");
             return false;
         }
+        if(!checkPassword(password)){
+            return false;
+        }
 
         var logoFilePath=$("input[name='file']").attr("value");
         if(isNull(logoFilePath, "机构LOGO不能为空!")){return false;}

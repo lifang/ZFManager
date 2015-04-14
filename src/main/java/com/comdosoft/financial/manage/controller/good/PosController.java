@@ -176,7 +176,7 @@ public class PosController {
 	public String edit(@PathVariable Integer id, Model model){
 		Good good = goodService.findGoodInfo(id);
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
-		List<Factory> factories = factoryService.findCheckedPayFactories();
+		List<Factory> factories = factoryService.findCheckedManufacturers();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
 		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
@@ -193,7 +193,7 @@ public class PosController {
 	@RequestMapping(value="create",method=RequestMethod.GET)
 	public String create(Model model){
 		Collection<PosCategory> posCategories = posCategoryService.listAll();
-		List<Factory> factories = factoryService.findCheckedPayFactories();
+		List<Factory> factories = factoryService.findCheckedManufacturers();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
 		List<DictionaryEncryptCardWay> encryptCardWays = dictionaryService.listAllDictionaryEncryptCardWays();
@@ -445,9 +445,15 @@ public class PosController {
 
     @RequestMapping(value = "{id}/importTerminal", method = RequestMethod.POST)
     public String importTerminal(@PathVariable Integer id, String data, Model model) {
-        terminalService.importTerminal(id, data);
+        List<String> errorCodes = terminalService.importTerminal(id, data);
+        if(errorCodes.size() > 0 ){
+            String error = "倒入失败，以下终端号重复：\n"
+                    + errorCodes.toString();
+            model.addAttribute("error", error);
+            return "common/error";
+        }
         Good good = goodService.findRowGood(id);
-                model.addAttribute("good", good);
+        model.addAttribute("good", good);
         return "good/pos/pageRowPos";
     }
 

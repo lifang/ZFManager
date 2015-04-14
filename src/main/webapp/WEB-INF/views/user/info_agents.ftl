@@ -15,7 +15,7 @@
         <#if (agents.content)??>
             <#list agents.content as agent>
             <tr>
-                <td>${agent.name}</td>
+                <td>${(agent.name)!"- -"}</td>
                 <td><a href="#" class="a_btn">取消关联</a></td>
             </tr>
             </#list>
