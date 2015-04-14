@@ -33,10 +33,6 @@
 	
 </div>
 
-
-
-
-
 <script type="text/javascript">
 	$(function() {
 		$("#search_keys").val("");
@@ -51,7 +47,6 @@
 			var keys = $("#search_keys").val();
 			intentionPageChange(1);
 	    });
-
 	});
 	
 	function intentionPageChange(page) {
