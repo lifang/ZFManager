@@ -34,7 +34,7 @@ public class IndexController {
 	
 	/**
 	 * 首页数据
-	 * @param request
+	 * @param model
 	 * @return
 	 */
 	public void IndexMessage(Model model){
