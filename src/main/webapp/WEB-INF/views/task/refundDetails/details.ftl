@@ -72,7 +72,7 @@
     			});
     			
     			function addRefundMark(content,refundId) {
-        			$.get('<@spring.url "/task/refund/addRefundMark" />',
+        			$.post('<@spring.url "/task/refund/addRefundMark" />',
                 	{"content": content,
                     	"refundId": refundId
                 	},

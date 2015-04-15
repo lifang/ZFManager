@@ -1,7 +1,6 @@
 package com.comdosoft.financial.manage.controller.task;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +48,9 @@ public class RefundController {
 	@Autowired
 	private RecordOperateService recordOperateService;
 	
+	@Value("${path.prefix.refunde}")
+	private String pathPrefixRefunde;
+	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(HttpServletRequest request,Integer page, Byte status, String orderNumber, Model model){
 		findPage(request,page, status, orderNumber, model);
@@ -79,15 +82,11 @@ public class RefundController {
 		return "task/refundDetails/details";
 	}
 	
-	@RequestMapping(value="addRefundMark",method=RequestMethod.GET)
+	@RequestMapping(value="addRefundMark",method=RequestMethod.POST)
 	public String addRefundMark(HttpServletRequest request,int refundId,String content,Model model){
 		Customer customer = sessionService.getLoginInfo(request);
 		int customerId = customer.getId();
-		try {
-			content = new String(content.getBytes("ISO-8859-1"),"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	
 		refundService.addRefundMark(refundId,content,customerId);
 		model.addAttribute("refundRecord",refundService.getRefundByDetailRecord(refundId));
 		return "task/refundDetails/refundRecord";
@@ -152,7 +151,7 @@ public class RefundController {
     public String tempImage(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
         try {
         	
-        	String filePath = refundService.saveTmpImage(img, request);
+        	String filePath = refundService.saveTmpImage(pathPrefixRefunde + id +"/",img, request);
         	refundService.updateRefund(id,filePath);
         	return filePath;
         } catch (IOException e) {
