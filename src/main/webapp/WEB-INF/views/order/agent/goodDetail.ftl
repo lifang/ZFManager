@@ -57,7 +57,7 @@
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
-                    		<input id="payChannelId" type="hidden" name="payChannelId" value="${payChannel.id!""}" />
+                    		<input id="payChannelId" type="hidden" name="payChannelId" value="<#if payChannel??>${payChannel.id!""}</#if>" />
                     		<#if good.channels??>
                     			<#list good.channels as channel>
                     				<#if channel.id==payChannel.id>
@@ -125,7 +125,7 @@
                         <ul>
                         	<li><span>支持区域：</span>
                         		<div class="text">
-                        			<#if (payChannel.areas)??>
+                        			<#if payChannel?? &&(payChannel.areas)??>
 			                            <#list payChannel.areas as area>
 			                            	${area.name}
 			                            </#list>
@@ -134,14 +134,14 @@
                         	</li>
                             <li><span>到账时间：</span>
                             	<div class="text">
-                            		<#if payChannel.billingCycles??>
+                            		<#if payChannel?? &&payChannel.billingCycles??>
 			                          	<#list payChannel.billingCycles as billingCycle>
 			                          		${billingCycle.dictionaryBillingCycle.name!""}
 			                          	</#list>
 			                          </#if>
                             	</div>
                             </li>
-                            <li><span>是否支持注销：</span><div class="text"><#if payChannel.supportCancelFlag>支持<#else>不支持</#if></div></li> 
+                            <li><span>是否支持注销：</span><div class="text"><#if payChannel?? &&payChannel.supportCancelFlag>支持<#else>不支持</#if></div></li> 
                         </ul>
                     </div>
                     <div class="pro_attributes">
@@ -159,7 +159,7 @@
                             <th>说明</th>
                           </tr>
                           </thead>
-                          <#if payChannel.standardRates??>
+                          <#if payChannel?? &&payChannel.standardRates??>
                           	<#list payChannel.standardRates as standardRate>
                           		<tr>
 		                            <td>${standardRate.dictionaryTradeStandardRate.merchantTypeName!""}</td>
@@ -185,7 +185,7 @@
                             <th>说明</th>
                           </tr>
                           </thead>
-                          <#if payChannel.billingCycles??>
+                          <#if payChannel?? &&payChannel.billingCycles??>
                           	<#list payChannel.billingCycles as billingCycle>
                           		<tr>
 		                            <td>${billingCycle.dictionaryBillingCycle.name!""}</td>
@@ -211,7 +211,7 @@
                             <th>说明</th>
                           </tr>
                           </thead>
-                          <#if payChannel.supportTradeTypes??>
+                          <#if payChannel?? &&payChannel.supportTradeTypes??>
                           	<#list payChannel.supportTradeTypes as supportTradeType>
                           		<tr>
 		                            <td>${supportTradeType.dictionaryTradeType.tradeValue!""}</td>
@@ -246,7 +246,7 @@
 		                        <th>说明</th>
 		                      </tr>
 		                      </thead>
-		                      <#if payChannel.billingCycles??>
+		                      <#if payChannel?? &&payChannel.billingCycles??>
 		                      	<#list payChannel.billingCycles as billingCycle>
 		                      		<tr>
 			                            <td>${billingCycle.dictionaryBillingCycle.name!""}</td>
@@ -261,14 +261,14 @@
                 <div>
                 	<div class="pro_attributes">
                         <div class="text">
-                        	${payChannel.openingRequirement!""}
+                        	<#if payChannel??>${payChannel.openingRequirement!""}</#if>
                         </div>
                     </div>
                 </div>
                 <div>
                 	<div class="pro_attributes">
                 		<div class="text">
-                        	${payChannel.openingDatum!""}
+                        	<#if payChannel??>${payChannel.openingDatum!""}</#if>
                         </div>
                     </div>
                 </div>
@@ -320,13 +320,15 @@
         </div>
         	<div class="manufacturer">
         	<h2>收单机构</h2>
-            <div class="mf_title">
-            	<div class="mf_logo">
-            		<img src="${payChannel.factory.logoFilePath!""}" width="89"/>
-            	</div>
-                <div class="mf_name">${payChannel.factory.name!""}</div>
-            </div>
-            <div class="mf_text">${payChannel.factory.description!""}<br /><a href="${payChannel.factory.websiteUrl!""}" target="_blank">${payChannel.factory.websiteUrl!""}</a></div>
+            <#if payChannel??>
+	            <div class="mf_title">
+	            	<div class="mf_logo">
+	            		<img src="${payChannel.factory.logoFilePath!""}" width="89"/>
+	            	</div>
+	                <div class="mf_name">${payChannel.factory.name!""}</div>
+	            </div>
+	            <div class="mf_text">${payChannel.factory.description!""}<br /><a href="${payChannel.factory.websiteUrl!""}" target="_blank">${payChannel.factory.websiteUrl!""}</a></div>
+	        </#if>
         </div>
         </div>
         <div class="hot_product">

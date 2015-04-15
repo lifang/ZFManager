@@ -36,10 +36,11 @@
               </tr>
               </thead>
               <#if order.orderGoods??>	
+              	<tbody>
               	<#list order.orderGoods as orderGood>
               		<input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
 		    		<input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
-	               <tbody>
+	               
 	                  <tr>
 	                    <td>
 	                        <div class="td_proBox clear">
@@ -74,16 +75,22 @@
 	                    	<td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 		                    <td rowspan="${order.orderGoods?size}">${order.totalOutQuantity!0}</td>
 		                    <td rowspan="${order.orderGoods?size}">
-		                    	<a href="#" class="a_btn">发货样式</a>
+		                    	<#if order.totalOutQuantity?? || order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity>
+		                    		<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
+		                    	</#if>
 		                    </td>
 		                <#elseif (order.orderGoods?size=1)>
 		                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 		                    <td>${order.totalOutQuantity!0}</td>
-		                    <td><a href="#" class="a_btn">发货</a></td>
+		                    <td>
+		                    	<#if order.totalOutQuantity?? || order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity>
+		                    		<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
+		                    	</#if>
+		                    </td>
 		                </#if>
 	                  </tr>
-	              </tbody>
-	             </#list>
+	             	</#list>
+	            </tbody>
               </#if>
               
             </table>

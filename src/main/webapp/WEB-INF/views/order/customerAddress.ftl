@@ -50,7 +50,7 @@
 			    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 			    		<span class="defaultAddr">默认地址</span>
 			    	<#else>
-			    		<a href="#" class="set_defaultAddr">设为默认地址</a>
+			    		<a href="#" class="set_defaultAddr" onclick="setDefault(${customerAddress.id!""});">设为默认地址</a>
 			    	</#if>
 			    </td>
 			  </tr>
@@ -180,6 +180,17 @@
 	            });
 	}
 	
-
+	function setDefault(id){
+		var customerId=$("#customerId").val();
+		$.get('<@spring.url "/order/customer/address/setDefault" />',
+	            {
+	            "id": id,
+	            "customerId": customerId
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
 	
 </script>

@@ -73,11 +73,24 @@ public class CustomerAddressController extends BaseController {
 		return "order/customerAddress";
 	}
 	
-	@RequestMapping(value = "get", method = RequestMethod.GET)
+	/*@RequestMapping(value = "get", method = RequestMethod.GET)
 	public String get(HttpServletRequest request, Model model, Integer id) {
 		CustomerAddress customerAddress=customerAddressService.get(id);
 		model.addAttribute("customerAddress", customerAddress);
 		return "order/customerAddressUpdate";
+	}*/
+	
+	@RequestMapping(value = "setDefault", method = RequestMethod.GET)
+	public String setDefault(HttpServletRequest request, Model model, Integer id,Integer customerId) {
+		customerAddressService.setDefault(id, customerId);
+		List<CustomerAddress> selectCustomerAddress = customerAddressService
+				.selectCustomerAddress(customerId);
+		List<City> cities = cityService.cities(0);
+		model.addAttribute("customerAddresses", selectCustomerAddress);
+		model.addAttribute("cities", cities);
+		Customer customer=customerService.customer(customerId);
+		model.addAttribute("customer", customer);
+		return "order/customerAddress";
 	}
 	
 }

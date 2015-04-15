@@ -8,7 +8,7 @@
     </div>
     <div class="content clear">
         <div class="user_title">
-        	<h1>代理商代购订单列表</h1>
+        	<h1>代理商批购订单列表</h1>
             <div class="userTopBtnBox">
             	<a href="<@spring.url "/good/batch/page"/>" class="ghostBtn">创建批购订单</a>
          	</div>
@@ -154,6 +154,7 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+	                popupPage();
 	            });
 	}
 	

@@ -189,6 +189,13 @@
 		var quantity = $("#quantity_"+goodId).val();
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
+		var allCustomerAddress=document.getElementsByName("customerAddressId");
+		for(var i=0,size=allCustomerAddress.length;i<size;i++){
+			if(allCustomerAddress[i].checked){
+				customerAddressId=allCustomerAddress[i].id.replace("customerAddressId_","");
+				break;
+			}
+		}
 		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){
 			alert("请选择地址");
 			return;
