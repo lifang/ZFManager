@@ -26,16 +26,14 @@
         </div> 
     </div>
     
-    
-    
     <div class="tab" id="div1" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">售后信息</div>
     <div class="tabBody">
     	<div class="item_list">
         	<ul>
-            	<li><span class="labelSpan">终端号：</span><div class="text" id="accountTemp">A18273648</div></li>
-                <li><span class="labelSpan">售后类型：</span><div class="text" id="afterSaleType">换货</div></li>
+            	<li><span class="labelSpan">终端号：</span><div class="text" id="accountTemp"></div></li>
+                <li><span class="labelSpan">售后类型：</span><div class="text" id="afterSaleType"></div></li>
             </ul>
         </div>
     </div>
@@ -48,7 +46,7 @@
     <div class="tabBody">
     	<p>终端号不存在，请检查！</p>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button class="blueBtn" onclick="closeTab(2)">确定</button></div>
 </div>
 
 <div class="tab" id="div3" style="display:none; top: 200px; left: 200px;">
@@ -57,7 +55,7 @@
     <div class="tabBody">
     	<p>操作成功！</p>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button class="blueBtn" onclick="closeTab(3)">确定</button></div>
 </div>
 
 <div class="tab" id="div4" style="display:none; top: 200px; left: 200px;">
@@ -66,10 +64,14 @@
     <div class="tabBody">
     	<p>终端号不在售后库中，请检查！</p>
     </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+    <div class="tabFoot"><button class="blueBtn" onclick="closeTab(4)">确定</button></div>
 </div>
 </div>
 <script type="text/javascript">
+	function closeTab(val){
+		$("#div"+val).hide();
+		
+	}
 
 	function showAccount(){
 		var account=$("#account1").val();
@@ -79,8 +81,8 @@
 	            if(ret.code=='-1'){
 	            	$("#div2").show();
 	        	}else if(ret.code=='1'){
-	        		$("#accountTemp").val(ret.result);
-	        		$("#afterSaleType").val(ret.message);
+	        		$("#accountTemp").html(ret.result);
+	        		$("#afterSaleType").html(ret.message);
 	        		$("#div1").show();
 	        	}
 	        });	

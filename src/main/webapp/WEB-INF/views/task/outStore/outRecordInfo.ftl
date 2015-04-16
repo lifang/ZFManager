@@ -87,7 +87,7 @@
 	 			<#list remarks as remark>
             <div class="ur_item">
             	<div class="ur_item_text">${remark.content}</div>
-                <div class="ur_item_name">${remark.userName}<em>${remark.operateTime}</em></div>
+                <div class="ur_item_name">${remark.userName}&nbsp;<em>${remark.operateTime}</em></div>
             </div>
 	            </#list>
 		 	</#if>

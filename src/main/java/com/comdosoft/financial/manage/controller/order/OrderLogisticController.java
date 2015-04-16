@@ -32,90 +32,106 @@ public class OrderLogisticController extends BaseController {
 	private OrderService orderService;
 	@Autowired
 	private SessionService sessionService;
-	
-	public Boolean deliver(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model) throws Exception{
+
+	public Boolean deliver(HttpServletRequest request, Integer orderId,
+			String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2)  {
 		Customer customer = sessionService.getLoginInfo(request);
-		orderLogisticService.deliver(customer,orderId, terminalSerialNum, logisticsName, logisticsNumber,null);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
-		return true;
-	}
-	
-	public Boolean deliver(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity) throws Exception{
-		Customer customer = sessionService.getLoginInfo(request);
-		orderLogisticService.deliver(customer,orderId, terminalSerialNum, logisticsName, logisticsNumber,goodQuantity);
-		Order order=orderService.findOrderInfo(orderId);
-		model.addAttribute("order", order);
-		return true;
-	}
-	
-	@RequestMapping(value="create",method = RequestMethod.GET)
-	public String createGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
 		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
+			orderLogisticService.deliver(customer, orderId, terminalSerialNum,
+					logisticsName, logisticsNumber, goodQuantity, reserver2);
 		} catch (Exception e) {
+			model.addAttribute("response", Response.getError(e.getMessage()));
 			e.printStackTrace();
-			model.addAttribute("response", Response.getError(e.getMessage()));
-			return "order/error";
+			return false;
 		}
-		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList,OperateAction.deliver, orderId);
-        return "order/user/pageRowOrder";
+		Order order = orderService.findOrderInfo(orderId);
+		model.addAttribute("order", order);
+		return true;
 	}
-	@RequestMapping(value="/info/create",method = RequestMethod.GET)
-	public String createInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
-		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
-		} catch (Exception e) {
-			model.addAttribute("response", Response.getError(e.getMessage()));
+
+	@RequestMapping(value = "create", method = RequestMethod.GET)
+	public String createGet(HttpServletRequest request, Integer orderId,
+			String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
-		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserInfo,OperateAction.deliver, orderId);
+		saveOperateRecord(request, OperateType.orderUserType,
+				OperatePage.orderUserList, OperateAction.deliver, orderId);
+		return "order/user/pageRowOrder";
+	}
+
+	@RequestMapping(value = "/info/create", method = RequestMethod.GET)
+	public String createInfoGet(HttpServletRequest request, Integer orderId,
+			String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
+			return "order/error";
+		}
+		saveOperateRecord(request, OperateType.orderUserType,
+				OperatePage.orderUserInfo, OperateAction.deliver, orderId);
 		return "order/user/infoUp";
 	}
-	
-	@RequestMapping(value="/agent/create",method = RequestMethod.GET)
-	public String createAgentGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
-		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
-		} catch (Exception e) {
-			model.addAttribute("response", Response.getError(e.getMessage()));
+
+	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
+	public String createAgentGet(HttpServletRequest request, Integer orderId,
+			String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
-		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.deliver, orderId);
-        return "order/agent/row";
+		saveOperateRecord(request, OperateType.orderAgentType,
+				OperatePage.orderAgentList, OperateAction.deliver, orderId);
+		return "order/agent/row";
 	}
-	@RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
-	public String createAgentInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model){
-		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model);
-		} catch (Exception e) {
-			model.addAttribute("response", Response.getError(e.getMessage()));
+
+	@RequestMapping(value = "/agent/info/create", method = RequestMethod.GET)
+	public String createAgentInfoGet(HttpServletRequest request,
+			Integer orderId, String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
-		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentInfo,OperateAction.deliver, orderId);
+		saveOperateRecord(request, OperateType.orderAgentType,
+				OperatePage.orderAgentInfo, OperateAction.deliver, orderId);
 		return "order/agent/infoUp";
 	}
-	
-	@RequestMapping(value="/batch/create",method = RequestMethod.GET)
-	public String createBatchGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity){
-		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model,goodQuantity);
-		} catch (Exception e) {
-			model.addAttribute("response", Response.getError(e.getMessage()));
+
+	@RequestMapping(value = "/batch/create", method = RequestMethod.GET)
+	public String createBatchGet(HttpServletRequest request, Integer orderId,
+			String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
-		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.deliver, orderId);
+		saveOperateRecord(request, OperateType.orderBatchType,
+				OperatePage.orderBatchList, OperateAction.deliver, orderId);
 		return "order/batch/row";
 	}
-	@RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-	public String createBatchInfoGet(HttpServletRequest request,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,Model model,String goodQuantity){
-		try {
-			deliver(request, orderId, terminalSerialNum, logisticsName, logisticsNumber, model,goodQuantity);
-		} catch (Exception e) {
-			model.addAttribute("response", Response.getError(e.getMessage()));
+
+	@RequestMapping(value = "/batch/info/create", method = RequestMethod.GET)
+	public String createBatchInfoGet(HttpServletRequest request,
+			Integer orderId, String terminalSerialNum, String logisticsName,
+			String logisticsNumber, Model model, String goodQuantity,
+			String reserver2) {
+		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
-		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo,OperateAction.deliver, orderId);
+		saveOperateRecord(request, OperateType.orderBatchType,
+				OperatePage.orderBatchInfo, OperateAction.deliver, orderId);
 		return "order/batch/infoUp";
 	}
 }

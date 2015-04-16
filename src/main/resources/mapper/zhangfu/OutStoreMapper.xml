@@ -109,7 +109,8 @@ where a.id=#{orderId}
 	</select>
    
    <select id="getRemarks" resultType="hashmap">
-		select a.content,b.name as userName,a.created_at as operateTime from  cs_out_storage_marks a left join customers b on a.customer_id = b.id where a.cs_out_storage_id=#{id} order by a.created_at desc
+		select ifnull(a.content,"") as content,ifnull(b.name,"") as userName,ifnull(a.created_at,"") as operateTime 
+		from  cs_out_storage_marks a left join customers b on a.customer_id = b.id where a.cs_out_storage_id=#{id} order by a.created_at desc
 	</select>
    
 	<select id="getWLByOrderId" resultType="hashmap">

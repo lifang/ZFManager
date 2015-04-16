@@ -15,6 +15,7 @@
     </tr>
     <#if order.orderGoods??>
     	<#list order.orderGoods as orderGood>
+    	<#if orderGood.good??>
         <tr>
             <td>
                 <div class="td_proBox clear">
@@ -130,6 +131,7 @@
 				       <#else><td><strong class="strong_status">状态不明</strong></td>
 				     </#if>
 				</#if>
+            </#if>
             </#if>
         </tr>
         </#list>

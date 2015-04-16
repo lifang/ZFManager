@@ -1,10 +1,7 @@
 package com.comdosoft.financial.manage.service.task;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +9,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.manage.mapper.zhangfu.RefundMapper;
+import com.comdosoft.financial.manage.utils.SysUtils;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -26,9 +23,6 @@ public class RefundService {
 	//@Value("${page.refund.size}")
     private int pageSize=2;
     
-    @Value("${path.prefix.refunde}")
-	private String pathPrefixRefunde;
-	
 	@Autowired
 	private RefundMapper refundMapper;
 	
@@ -87,17 +81,9 @@ public class RefundService {
      * @return
      * @throws IOException
      */
-    public String saveTmpImage(MultipartFile img, HttpServletRequest request) throws IOException {
-        String fileName = Calendar.getInstance().getTimeInMillis() + ".jpg";
-        // String realPath = dirRoot + imgTempPath;
-        String realPath = request.getServletContext().getRealPath(pathPrefixRefunde);
-        File dir = new File(realPath);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        InputStream stream = img.getInputStream();
-        // Thumbnails.of(stream).size(480, 480).toFile(realPath + File.separator + fileName);
-        stream.close();
-        return pathPrefixRefunde + fileName;
+    public String saveTmpImage(String uploadFilePath,MultipartFile img, HttpServletRequest request) throws IOException {
+    	// 保存上传的实体文件
+        String fileNamePath = SysUtils.getUploadFileName(request, img, uploadFilePath);
+        return fileNamePath;
     }
 }

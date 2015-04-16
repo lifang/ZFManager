@@ -625,6 +625,10 @@ public class Order {
 	private List<OrderMark> orderMarks;
 	private Integer orderPaymentTotal;
 	
+	private List<CsOutStorage> csOutStorages;
+	private Integer totalOutQuantity;
+	
+	
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -689,9 +693,6 @@ public class Order {
 		this.agent = agent;
 	}
 
-	/**
-	 * @return the orderPaymentTotal
-	 */
 	public Integer getOrderPaymentTotal() {
 		orderPaymentTotal=0;
 		orderPayments=getOrderPayments();
@@ -703,11 +704,31 @@ public class Order {
 		return orderPaymentTotal;
 	}
 
-	/**
-	 * @param orderPaymentTotal the orderPaymentTotal to set
-	 */
 	public void setOrderPaymentTotal(Integer orderPaymentTotal) {
 		this.orderPaymentTotal = orderPaymentTotal;
+	}
+
+	public List<CsOutStorage> getCsOutStorages() {
+		return csOutStorages;
+	}
+
+	public void setCsOutStorages(List<CsOutStorage> csOutStorages) {
+		this.csOutStorages = csOutStorages;
+	}
+
+	public Integer getTotalOutQuantity() {
+		totalOutQuantity=0;
+		csOutStorages=getCsOutStorages();
+		if(!CollectionUtils.isEmpty(csOutStorages)){
+			for(CsOutStorage csOutStorage:csOutStorages){
+				totalOutQuantity+=csOutStorage.getQuantity();
+			}
+		}
+		return totalOutQuantity;
+	}
+
+	public void setTotalOutQuantity(Integer totalOutQuantity) {
+		this.totalOutQuantity = totalOutQuantity;
 	}
 	
 	

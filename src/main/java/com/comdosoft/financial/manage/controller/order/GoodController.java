@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -236,7 +237,7 @@ public class GoodController extends BaseController {
 		}
 		Good good = goodService.findGoodInfoEx(id);
 		Page<GoodComment> goodComments = goodCommentService.findCommentPagesByGoodId(id, page);
-		if(null==payChannelId){
+		if(null==payChannelId&& !CollectionUtils.isEmpty(good.getChannels())){
 			payChannelId=good.getChannels().get(0).getId();
 		}
 		PayChannel findChannelInfo = payChannelService.findChannelInfo(payChannelId);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -54,4 +55,23 @@ public class CustomerAddressService {
 	public CustomerAddress get(Integer id) {
 		return customerAddressMapper.selectByPrimaryKey(id);
 	}
+	
+	 @Transactional("transactionManager")
+	public void setDefault(Integer id,Integer customerId){
+		List<CustomerAddress> selectCustomerAddress = customerAddressMapper.selectCustomerAddress(customerId);
+		for(CustomerAddress customerAddress:selectCustomerAddress){
+			if(id.equals(customerAddress.getId())){
+				customerAddress.setIsDefault(1);
+				customerAddressMapper.updateByPrimaryKey(customerAddress);
+			}else{
+				Integer isDefault = customerAddress.getIsDefault();
+				if(isDefault!=null && isDefault==1){
+					customerAddress.setIsDefault(2);
+					customerAddressMapper.updateByPrimaryKey(customerAddress);
+				}
+			}
+			
+		}
+	}
+	
 }

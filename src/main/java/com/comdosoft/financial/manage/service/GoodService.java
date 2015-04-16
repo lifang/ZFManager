@@ -607,17 +607,20 @@ public class GoodService {
 					.selectGoodsPayChannels(goodIds);
 			for (Good good : result) {
 				good.setPictures(new ArrayList<GoodsPicture>());
-				good.setChannels(new ArrayList<PayChannel>());
 				for (GoodsPicture gp : selectGoodsPictures) {
 					if (good.getId().equals(gp.getGoodId())) {
 						good.getPictures().add(gp);
 					}
 				}
-				for (GoodsPayChannel goodsPayChannel : selectGoodsPayChannels) {
-					if (good.getId().equals(goodsPayChannel.getGoodId())) {
-						good.getChannels().add(goodsPayChannel.getPayChannel());
+				if(!CollectionUtils.isEmpty(selectGoodsPayChannels)){
+					good.setChannels(new ArrayList<PayChannel>());
+					for (GoodsPayChannel goodsPayChannel : selectGoodsPayChannels) {
+						if (good.getId().equals(goodsPayChannel.getGoodId())&&null!=goodsPayChannel.getPayChannel()) {
+							good.getChannels().add(goodsPayChannel.getPayChannel());
+						}
 					}
 				}
+				
 			}
 		}
 		return goods;

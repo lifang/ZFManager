@@ -50,7 +50,7 @@
 			    	<#if customerAddress.isDefault??&&customerAddress.isDefault==1>
 			    		<span class="defaultAddr">默认地址</span>
 			    	<#else>
-			    		<a href="#" class="set_defaultAddr">设为默认地址</a>
+			    		<a href="#" class="set_defaultAddr" onclick="setDefault(${customerAddress.id!""});">设为默认地址</a>
 			    	</#if>
 			    </td>
 			  </tr>
@@ -82,7 +82,7 @@
 		  </#if>
 	   	<tr id="add_address_box" class="addAddr_box" style="display:none">
 		    <td>&nbsp;</td>
-		    <td><input id="receiver" name="" type="text" value="收件人姓名" /></td>
+		    <td><input id="receiver" name="" type="text" placeholder="收件人姓名" /></td>
 		    <td>
 		    	<select name="" id="provinceSelect">
 		    	  <option>省</option>
@@ -92,9 +92,9 @@
 		    	  <option>市</option>
 		    	</select>
 		    </td>
-		    <td><input id="address" name="" type="text" class="w" value="详细地址" /></td>
-		    <td><input id="zip_code" name="" type="text" value="邮编" /></td>
-		    <td><input id="moble_phone" name="" type="text" value="手机号码" /></td>
+		    <td><input id="address" name="" type="text" class="w" placeholder="详细地址" /></td>
+		    <td><input id="zip_code" name="" type="text" placeholder="邮编" /></td>
+		    <td><input id="moble_phone" name="" type="text" placeholder="手机号码" /></td>
 		    <td><a href="#" class="a_btn" onclick="createCustomerAddress();">确定</a></td>
 		    <td>&nbsp;</td>
 		  </tr>
@@ -180,6 +180,17 @@
 	            });
 	}
 	
-
+	function setDefault(id){
+		var customerId=$("#customerId").val();
+		$.get('<@spring.url "/order/customer/address/setDefault" />',
+	            {
+	            "id": id,
+	            "customerId": customerId
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
+	
 	
 </script>

@@ -29,6 +29,9 @@
                     <li class="block"><span class="labelSpan">手机号码：</span>
                         <div class="text"><input name="phone" type="text" value="${customer.phone!""}"></div>
                     </li>
+                    <li class="block"><span class="labelSpan">邮箱：</span>
+                        <div class="text"><input name="email" type="text" value="${customer.email!""}"></div>
+                    </li>
                     <li class="block"><span class="labelSpan">姓名（选填）：</span>
                         <div class="text"><input name="name" type="text" value="${customer.name!""}"></div>
                     </li>
@@ -75,11 +78,21 @@
             showErrorTip("手机号码格式不正确！");
             return false;
         }
+        var email=$("input[name='email']").val();
+        if(isNull(email, "邮箱不能为空！")){
+            return false;
+        }
+
+        if(!checkEmail(email)){
+            showErrorTip("邮箱格式不正确！");
+            return false;
+        }
         var name=$("input[name='name']").val();
         var cityId=$("#citySelect").find("option:selected").val();
         $.post("<@spring.url "/user/${customer.id}/edit" />",
                 {name: name,
                     phone: phone,
+                    email: email,
                     password: password,
                     cityId: cityId
                 },

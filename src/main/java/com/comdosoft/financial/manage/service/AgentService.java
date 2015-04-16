@@ -273,27 +273,7 @@ public class AgentService {
     @Transactional("transactionManager")
     public void updateProfit(Integer id, Integer payChannelId, int newChannelId, List<Map<String, Object>> tradeTypeList) {
         agentProfitSettingMapper.deleteByAgentIdAndChannelId(id, payChannelId);
-        for (Map<String, Object> t : tradeTypeList) {
-            int tradeTypeId = (int) t.get("tradeTypeId");
-            DictionaryTradeType tradeType = dictionaryTradeTypeMapper.selectByPrimaryKey(tradeTypeId);
-            List<Map<String, String>> percents = (List) t.get("percents");
-            for (Map<String, String> p : percents) {
-                AgentProfitSetting agentProfitSetting = new AgentProfitSetting();
-                agentProfitSetting.setAgentId(id);
-                agentProfitSetting.setPayChannelId(newChannelId);
-                agentProfitSetting.setTradeTypeId(tradeType.getId());
-                if (tradeType.getTradeType() == DictionaryTradeType.TYPE_TRADE) {
-                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_TRADE);
-                } else {
-                    agentProfitSetting.setTradeType(AgentProfitSetting.TYPE_OTHER);
-                }
-                agentProfitSetting.setFloorNumber(Integer.parseInt(p.get("floorNumber")));
-                agentProfitSetting.setPercent(Integer.parseInt(p.get("percent")));
-                agentProfitSetting.setCreatedAt(new Date());
-                agentProfitSetting.setUpdatedAt(new Date());
-                agentProfitSettingMapper.insert(agentProfitSetting);
-            }
-        }
+        createProfit(id, newChannelId, tradeTypeList);
     }
 
     @Transactional("transactionManager")

@@ -99,7 +99,9 @@ public class TerminalService {
     }
 
     @Transactional("transactionManager")
-    public void importTerminal(Integer goodId, String content) {
+    public List<String> importTerminal(Integer goodId, String content) {
+        List<String> errorCodes = new ArrayList<String>();
+        List<String> rightCodes = new ArrayList<String>();
         Good good = goodMapper.selectByPrimaryKey(goodId);
         int quantity = 0;
         if(good.getQuantity() != null){
@@ -110,6 +112,18 @@ public class TerminalService {
         for(String code : codes){
             code = code.trim();
             if(!Strings.isNullOrEmpty(code)){
+                Terminal terminal = terminalMapper.findTerminalByNum(code);
+                if(terminal != null
+                        || errorCodes.contains(code)
+                        || rightCodes.contains(code)){
+                    errorCodes.add(code);
+                    continue;
+                }
+                rightCodes.add(code);
+            }
+        }
+        if(errorCodes.size() == 0){
+            for(String code : rightCodes){
                 Terminal terminal = new Terminal();
                 terminal.setGoodId(good.getId());
                 terminal.setSerialNum(code);
@@ -120,9 +134,10 @@ public class TerminalService {
                 terminalMapper.insert(terminal);
                 quantity++;
             }
+            good.setQuantity(quantity);
+            goodMapper.updateByPrimaryKey(good);
         }
-        good.setQuantity(quantity);
-        goodMapper.updateByPrimaryKey(good);
+        return errorCodes;
     }
     
     public Terminal findByNum(String num) {

@@ -59,3 +59,19 @@ function checkPassword(value){
     return true;
 }
 
+function checkMobile(str) {
+    var re = /^1\d{10}$/
+    if (re.test(str)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function checkEmail(str){
+    var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+    if(re.test(str)){
+        return true;
+    }else{
+        return false;
+    }
+}

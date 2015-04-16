@@ -50,7 +50,7 @@ public class CustomerService {
 	 * 创建
 	 */
 	@Transactional("transactionManager")
-	public boolean createCustomer(String name, String password,
+	public boolean createCustomer(String name, String email, String password,
                                String phone, Integer city){
         Customer customer = customerMapper.selectByUsername(phone);
 		if(customer != null){
@@ -60,6 +60,7 @@ public class CustomerService {
 		customer.setTypes(Customer.TYPE_CUSTOMER);
         customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
         customer.setName(name);
+        customer.setEmail(email);
 		customer.setPhone(phone);
         customer.setUsername(phone);
         customer.setAccountType(Customer.ACCOUNT_TYPE_PHONE);
@@ -186,10 +187,11 @@ public class CustomerService {
 	 * 更新
 	 */
 	@Transactional("transactionManager")
-	public boolean update(Integer id,String name,String password,
+	public boolean update(Integer id,String name, String email, String password,
 			String phone,Integer city){
 		Customer customer = customer(id);
 		customer.setPhone(phone);
+        customer.setEmail(email);
 		customer.setCityId(city);
 		if(!Strings.isNullOrEmpty(password)){
 			customer.setPassword(DigestUtils.md5Hex(password));

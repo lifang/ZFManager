@@ -19,7 +19,7 @@
 		<ul> 
 			<li>
 				<div class="user_search">
-					<input id="search_keyword" name="" type="text" class="" />
+					<input id="search_keyword" name="" type="text" class="" placeholder="请输入售后单号"/>
 					<button id="btn_search"></button>
 				</div>
 			</li> 

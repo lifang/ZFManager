@@ -8,7 +8,7 @@
     </div>
     <div class="content clear">
         <div class="user_title">
-        	<h1>代理商代购订单列表</h1>
+        	<h1>代理商批购订单列表</h1>
             <div class="userTopBtnBox">
             	<a href="<@spring.url "/good/batch/page"/>" class="ghostBtn">创建批购订单</a>
          	</div>
@@ -90,26 +90,6 @@
     <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
 </div>
 
-   <!-- 
-   <div class="tab paymentRecord_tab">
-    	<a href="#" class="close">关闭</a>
-        <div class="tabHead">增加付款记录</div>
-        <div class="tabBody">
-        	<div class="item_list">
-            	<ul>
-                	<li><span class="labelSpan">付款金额</span><div class="text"><input name="" type="text" placeholder="元" /></div></li>
-                    <li><span class="labelSpan">付款方式</span><div class="text">
-                        <select name="">
-                          <option>转账</option>
-                        </select>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="tabFoot"><button class="blueBtn">确定</button></div>
-    </div>-->
-
 <div class="tab remark_tab">
     	<a href="#" class="close">关闭</a>
         <div class="tabHead">备注</div>
@@ -125,7 +105,7 @@
     <div class="tabBody">
     	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
         <div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
-    	<textarea name="" cols="" rows="">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" placeholder="输入终端号"></textarea>
         <input name="" type="text" placeholder="物流公司" />
         <input name="" type="text" placeholder="物流单号" />
     </div>
@@ -140,7 +120,8 @@
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
 	    	<div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
 	    </div>
-    	<textarea name="" cols="" rows="" id="terminal_serial_num">输入终端号</textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号"></textarea>
+    	<textarea name="" cols="" rows="" id="reserver2" placeholder="中汇终端激活码（非中汇终端无需填写）"></textarea>
         <input name="" type="text" value="物流公司" id="logistics_name" />
         <input name="" type="text" value="物流单号" id="logistics_number"/>
     </div>
@@ -173,6 +154,7 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+	                popupPage();
 	            });
 	}
 	
@@ -298,13 +280,15 @@
 		var terminalSerialNum = $('#terminal_serial_num').val();
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
+		var reserver2 = $('#reserver2').val();
 		$.get('<@spring.url "" />'+'/order/logistic/batch/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
 				"logisticsNumber":logisticsNumber,
-				"goodQuantity":goodQuantity
+				"goodQuantity":goodQuantity,
+				"reserver2":reserver2
 				},
 	            function (data) {
 	            	if(data.indexOf("-1")==0){

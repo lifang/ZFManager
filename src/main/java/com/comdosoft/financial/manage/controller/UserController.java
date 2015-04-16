@@ -83,9 +83,9 @@ public class UserController {
 	 */
 	@RequestMapping(value="create",method=RequestMethod.POST)
     @ResponseBody
-	public Response createPost(String phone,String name,
-			String password,Integer cityId){
-		boolean result = customerService.createCustomer(name, password, phone, cityId);
+	public Response createPost(String phone,String name, String email,
+                               String password,Integer cityId){
+		boolean result = customerService.createCustomer(name, email, password, phone, cityId);
 	    if(result){
             return Response.getSuccess(null);
         } else{
@@ -114,9 +114,9 @@ public class UserController {
 	@RequestMapping(value="{id}/edit",method=RequestMethod.POST)
     @ResponseBody
 	public Response editPost(@PathVariable Integer id,Model model,
-			String phone,String name,
+			String phone,String name, String email,
 			String password,Integer cityId){
-		boolean result = customerService.update(id, name, password, phone, cityId);
+		boolean result = customerService.update(id, name, email, password, phone, cityId);
         if(result){
             return Response.getSuccess(null);
         } else{

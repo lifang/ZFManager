@@ -37,10 +37,10 @@
                    	  </select>
                   </div>
                   <div class="suc_selectInput">
-                    	<input id="phone" name="" type="text" value="手机号 / 邮箱" />
-                        <input id="passport" name="" type="text" value="用户姓名（可选）" />
-                        <input id="password" name="" type="text" value="密码" />
-                        <input id="repassword" name="" type="text" value="确认密码" />
+                    	<input id="phone" name="" type="text" placeholder="手机号 / 邮箱" />
+                        <input id="passport" name="" type="text" placeholder="用户姓名（可选）" />
+                        <input id="password" name="" type="password" placeholder="密码" />
+                        <input id="repassword" name="" type="password" placeholder="确认密码" />
                         <button onclick="saveCustomer();">创建</button>
                   </div>
                   <div class="su_s_box" id="customer_save_fresh">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="oi_area">
-                	<textarea id="invoiceInfo" name="" cols="" rows="" class="invoice_area" disabled="disabled">发票抬头</textarea>
+                	<textarea id="invoiceInfo" name="" cols="" rows="" class="invoice_area" disabled="disabled" placeholder="发票抬头"></textarea>
                 </div>
             </div>
         </div>
@@ -189,6 +189,13 @@
 		var quantity = $("#quantity_"+goodId).val();
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
+		var allCustomerAddress=document.getElementsByName("customerAddressId");
+		for(var i=0,size=allCustomerAddress.length;i<size;i++){
+			if(allCustomerAddress[i].checked){
+				customerAddressId=allCustomerAddress[i].id.replace("customerAddressId_","");
+				break;
+			}
+		}
 		if(null==customerAddressId||''==customerAddressId||'0'==customerAddressId){
 			alert("请选择地址");
 			return;

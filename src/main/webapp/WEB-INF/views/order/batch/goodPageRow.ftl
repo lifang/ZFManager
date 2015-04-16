@@ -20,7 +20,7 @@
                     	<span>支付通道：</span>
                     	<#if good.channels??>
                     		<#list good.channels as channel>
-                    			<div class="c_text">${channel.name!""}&nbsp;</div>
+                    			<div class="c_text">${channel.id!""}&nbsp;</div>
                     		</#list>
                     	</#if>
                     </li>

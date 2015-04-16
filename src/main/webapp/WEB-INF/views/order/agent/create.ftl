@@ -56,10 +56,10 @@
                    	  </select>
                   </div>
                   <div class="suc_selectInput">
-                    	<input id="phone" name="" type="text" value="手机号 / 邮箱" />
-                        <input id="passport" name="" type="text" value="用户姓名（可选）" />
-                        <input id="password" name="" type="text" value="密码" />
-                        <input id="repassword" name="" type="text" value="确认密码" />
+                    	<input id="phone" name="" type="text" placeholder="手机号 / 邮箱" />
+                        <input id="passport" name="" type="text" placeholder="用户姓名（可选）" />
+                        <input id="password" name="" type="password" placeholder="密码" />
+                        <input id="repassword" name="" type="password" placeholder="确认密码" />
                         <button onclick="saveCustomer();">创建</button>
                   </div>
                   <div class="su_s_box" id="customer_save_fresh">

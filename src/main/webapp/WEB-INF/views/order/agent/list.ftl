@@ -85,20 +85,7 @@
         <div class="tabFoot"><button class="blueBtn" id="markSure">确定</button></div>
 </div>
 
-<div class="tab deliver_tab">
-	<a href="#" class="close">关闭</a>
-    <div class="tabHead">添加第三方库存发货信息</div>
-    <div class="tabBody">
-    	<div id="pos_info">
-	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
-	        <p>POS机数量：10</p>
-	    </div>
-    	<textarea name="" cols="" rows="" id="terminal_serial_num">输入终端号</textarea>
-        <input name="" type="text" value="物流公司" id="logistics_name" />
-        <input name="" type="text" value="物流单号" id="logistics_number"/>
-    </div>
-    <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
-</div>
+<#include "../tab.ftl" />
 
 <script type="text/javascript">
 
@@ -127,6 +114,7 @@
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);
+	                popupPage();
 	            });
 	}
 	
@@ -173,7 +161,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
-					popupPage();
+					//popupPage();
 	            });
     }
     
@@ -185,7 +173,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
-					popupPage();
+					//popupPage();
 	            });
     }
     
@@ -204,32 +192,22 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();
-					popupPage();
+					//popupPage();
 	            });
-    }
-    
-    function deliverBtn(id,size){
-    	var htmlStr='';
-    	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
-    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<p>POS机数量："+hidden_quantity+"</p>";
-    	}
-		$("#pos_info").html(htmlStr);
- 		$("#deliverSure").click(function(){deliverSure(id)});
     }
     
     function deliverSure(id){
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		var terminalSerialNum = $('#terminal_serial_num').val();
+		var reserver2 = $('#reserver2').val();
 		$.get('<@spring.url "" />'+'/order/logistic/agent/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,
 				"logisticsName":logisticsName,
-				"logisticsNumber":logisticsNumber
+				"logisticsNumber":logisticsNumber,
+				"reserver2":reserver2
 				},
 	            function (data) {
 	            	if(data.indexOf("-1")==0){
@@ -239,16 +217,8 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
-					popupPage();
+					//popupPage();
 	            });
     }
-    
-    /*function createOrderAgain(orderId){
-    	$.get('<@spring.url "" />'+'/order/agent/createAgain',
-				{"orderId":orderId
-				},
-	            function (data) {
-	            });
-    }*/
 </script>
 </@c.html>
