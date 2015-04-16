@@ -121,10 +121,7 @@ public class CsAgentService {
 		csAgentMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsAgentMark createMark(Customer customer, Integer csAgentId, String content) {
-		handle(csAgentId);
-		
 		CsAgentMark csAgentMark = new CsAgentMark();
 		csAgentMark.setCustomerId(customer.getId());
 		csAgentMark.setCsAgentId(csAgentId);

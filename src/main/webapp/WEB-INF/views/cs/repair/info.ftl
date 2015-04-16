@@ -136,12 +136,8 @@
 		$.post('<@spring.url "/cs/repair/${csRepair.id}/mark/create" />',
 	    	{"content": content},
 	    	 function (data) {
-	         	if (status==3) {
-	    	 		$('#mark_container').prepend(data);
-	            	$("#textarea_mark").val("");
-	    	 	} else {
-	    	 		location.reload();
-	    	 	}
+	    	 	$('#mark_container').prepend(data);
+	            $("#textarea_mark").val("");
 	         });
 	}
 	

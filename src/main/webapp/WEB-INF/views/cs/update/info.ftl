@@ -85,12 +85,8 @@
 		$.post('<@spring.url "/cs/update/${csUpdate.id}/mark/create" />',
 	    	{"content": content},
 	    	 function (data) {
-	         	if (status==2) {
-	    	 		$('#mark_container').prepend(data);
-	            	$("#textarea_mark").val("");
-	    	 	} else {
-	    	 		location.reload();
-	    	 	}
+	    	 	$('#mark_container').prepend(data);
+	            $("#textarea_mark").val("");
 	         });
 	}
 	

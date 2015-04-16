@@ -128,10 +128,7 @@ public class CsRepairService {
 		csRepairMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsRepairMark createMark(Customer customer, Integer csRepairId, String content) {
-		updateStatus(csRepairId, (byte)2);
-		
 		CsRepairMark csRepairMark = new CsRepairMark();
 		csRepairMark.setCustomerId(customer.getId());
 		csRepairMark.setCsRepairId(csRepairId);
