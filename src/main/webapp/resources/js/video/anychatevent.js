@@ -1,446 +1,177 @@
 // AnyChat for Web SDK
 
 /********************************************
- *				ä¸šåŠ¡é€»è¾‘æ§åˆ¶				*
+ *				ÊÂ¼ş»Øµ÷²¿·Ö				*
  *******************************************/
-
-var mDefaultServerAddr = "demo.anychat.cn";		// é»˜è®¤æœåŠ¡å™¨åœ°å€
-var mDefaultServerPort = 8906;					// é»˜è®¤æœåŠ¡å™¨ç«¯å£å·
-var mSelfUserId = -1; 							// æœ¬åœ°ç”¨æˆ·ID
-var mTargetUserId = -1;							// ç›®æ ‡ç”¨æˆ·IDï¼ˆè¯·æ±‚äº†å¯¹æ–¹çš„éŸ³è§†é¢‘ï¼‰
-var mRefreshVolumeTimer = -1; 					// å®æ—¶éŸ³é‡å¤§å°å®šæ—¶å™¨
-var mRefreshPluginTimer = -1;					// æ£€æŸ¥æ’ä»¶æ˜¯å¦å®‰è£…å®Œæˆå®šæ—¶å™¨
-
-// æ—¥å¿—è®°å½•ç±»å‹ï¼Œåœ¨æ—¥å¿—ä¿¡æ¯æ å†…æ˜¾ç¤ºä¸åŒçš„é¢œè‰²
-var LOG_TYPE_NORMAL = 0;
-var LOG_TYPE_API = 1;
-var LOG_TYPE_EVENT = 2;
-var LOG_TYPE_ERROR = 3;
-
-// é€šçŸ¥ç±»å‹ï¼Œåœ¨æ–‡å­—æ¶ˆæ¯æ å†…æ˜¾ç¤ºä¸åŒçš„é¢œè‰²
-var NOTIFY_TYPE_NORMAL = 0;
-var NOTIFY_TYPE_SYSTEM = 1;
-
-
-function LogicInit() {
-    setTimeout(function () {
-        if (navigator.plugins && navigator.plugins.length) {
-            window.navigator.plugins.refresh(false);
-        }
-        //æ£€æŸ¥æ˜¯å¦å®‰è£…äº†æ’ä»¶	
-        var NEED_ANYCHAT_APILEVEL = "0"; 						// å®šä¹‰ä¸šåŠ¡å±‚éœ€è¦çš„AnyChat API Level
-        var errorcode = BRAC_InitSDK(NEED_ANYCHAT_APILEVEL); 	// åˆå§‹åŒ–æ’ä»¶
-        AddLog("BRAC_InitSDK(" + NEED_ANYCHAT_APILEVEL + ")=" + errorcode, LOG_TYPE_API);
-        if (errorcode == GV_ERR_SUCCESS) {
-            if(mRefreshPluginTimer != -1)
-                clearInterval(mRefreshPluginTimer); 			// æ¸…é™¤æ’ä»¶å®‰è£…æ£€æµ‹å®šæ—¶å™¨
-            ShowLoginDiv(true);
-            AddLog("AnyChat Plugin Version:" + BRAC_GetVersion(0), LOG_TYPE_NORMAL);
-            AddLog("AnyChat SDK Version:" + BRAC_GetVersion(1), LOG_TYPE_NORMAL);
-            AddLog("Build Time:" + BRAC_GetSDKOptionString(BRAC_SO_CORESDK_BUILDTIME), LOG_TYPE_NORMAL);
-
-            GetID("prompt_div").style.display = "none"; 		// éšè—æ’ä»¶å®‰è£…æç¤ºç•Œé¢
-            // åˆå§‹åŒ–ç•Œé¢å…ƒç´ 
-            InitInterfaceUI();
-        } else { 						// æ²¡æœ‰å®‰è£…æ’ä»¶ï¼Œæˆ–æ˜¯æ’ä»¶ç‰ˆæœ¬å¤ªæ—§ï¼Œæ˜¾ç¤ºæ’ä»¶ä¸‹è½½ç•Œé¢
-            GetID("prompt_div").style.display = "block";
-            SetDivTop("prompt_div", 300);
-            if (errorcode == GV_ERR_PLUGINNOINSTALL)
-                GetID("prompt_div_line1").innerHTML = "é¦–æ¬¡è¿›å…¥éœ€è¦å®‰è£…æ’ä»¶ï¼Œè¯·ç‚¹å‡»ä¸‹è½½æŒ‰é’®è¿›è¡Œå®‰è£…ï¼";
-            else if (errorcode == GV_ERR_PLUGINOLDVERSION)
-                GetID("prompt_div_line1").innerHTML = "æ£€æµ‹åˆ°å½“å‰æ’ä»¶çš„ç‰ˆæœ¬è¿‡ä½ï¼Œè¯·ä¸‹è½½å®‰è£…æœ€æ–°ç‰ˆæœ¬ï¼";
-
-            if(mRefreshPluginTimer == -1) {
-                mRefreshPluginTimer = setInterval(function(){ LogicInit(); }, 1000);
-            }
-        }
-    }, 500);
+ 
+ // Òì²½ÏûÏ¢Í¨Öª£¬°üÀ¨Á¬½Ó·şÎñÆ÷¡¢µÇÂ¼ÏµÍ³¡¢½øÈë·¿¼äµÈÏûÏ¢
+function OnAnyChatNotifyMessage(dwNotifyMsg, wParam, lParam) {
+	switch(dwNotifyMsg) {
+		case WM_GV_CONNECT:			OnAnyChatConnect(wParam, lParam);			break;
+		case WM_GV_LOGINSYSTEM:		OnAnyChatLoginSystem(wParam, lParam);		break;
+		case WM_GV_ENTERROOM:		OnAnyChatEnterRoom(wParam, lParam);			break;
+		case WM_GV_ONLINEUSER:		OnAnyChatRoomOnlineUser(wParam, lParam);	break;
+		case WM_GV_USERATROOM:		OnAnyChatUserAtRoom(wParam, lParam);		break;
+		case WM_GV_LINKCLOSE:		OnAnyChatLinkClose(wParam, lParam);			break;
+		case WM_GV_MICSTATECHANGE:	OnAnyChatMicStateChange(wParam, lParam);	break;
+		case WM_GV_CAMERASTATE:		OnAnyChatCameraStateChange(wParam, lParam);	break;
+		case WM_GV_P2PCONNECTSTATE:	OnAnyChatP2PConnectState(wParam, lParam);	break;
+		case WM_GV_PRIVATEREQUEST:	OnAnyChatPrivateRequest(wParam, lParam);	break;
+		case WM_GV_PRIVATEECHO:		OnAnyChatPrivateEcho(wParam, lParam);		break;
+		case WM_GV_PRIVATEEXIT:		OnAnyChatPrivateExit(wParam, lParam);		break;
+		case WM_GV_USERINFOUPDATE:	OnAnyChatUserInfoUpdate(wParam, lParam);	break;
+		case WM_GV_FRIENDSTATUS:	OnAnyChatFriendStatus(wParam, lParam);		break;
+		default:
+			break;
+	}
 }
 
-//è®¾ç½®AnyChatå‚æ•°ï¼Œéœ€è¦åœ¨æ”¶åˆ°ç™»å½•æˆåŠŸå›è°ƒä¹‹åè°ƒç”¨
-function ConfigAnyChatParameter(){
+// ÊÕµ½ÎÄ×ÖÏûÏ¢
+function OnAnyChatTextMessage(dwFromUserId, dwToUserId, bSecret, lpMsgBuf, dwLen) {
+	DisplayTextMessage(dwFromUserId, lpMsgBuf);
+}
+
+// ÊÕµ½Í¸Ã÷Í¨µÀ´«ÊäÊı¾İ
+function OnAnyChatTransBuffer(dwUserId, lpBuf, dwLen) {
 
 }
 
-// åˆå§‹åŒ–ç•Œé¢å…ƒç´ 
-function InitInterfaceUI() {
-    //è®¾ç½®æŒ‰é’®
-    GetID("setting").onclick = function () {
-        if (GetID("setting_div").style.display == "block")
-            GetID("setting_div").style.display = "none";
-        else
-            GetID("setting_div").style.display = "block";
-    }
-    //ç™»å½•æŒ‰é’®
-    GetID("loginbtn").onclick = function () {
-        if(GetID("password").value == "å¯†ç å¯ä¸ºç©º")
-            GetID("password").value = "";
-        if (GetID("username").value != "") {
-            DisplayLoadingDiv(true);
-            var errorcode = BRAC_Connect(GetID("ServerAddr").value, parseInt(GetID("ServerPort").value)); //è¿æ¥æœåŠ¡å™¨
-            AddLog("BRAC_Connect(" + GetID("ServerAddr").value + "," + GetID("ServerPort").value + ")=" + errorcode, LOG_TYPE_API);
-            errorcode = BRAC_Login(GetID("username").value, GetID("password").value, 0);
-            AddLog("BRAC_Login(" + GetID("username").value + ")=" + errorcode, LOG_TYPE_API);
-            // éšè—è®¾ç½®ç•Œé¢
-            GetID("setting_div").style.display = "none";
-        }
-        else {
-            GetID("a_error_user").style.color = "red";
-            AddLog("The user name can not be empty!", LOG_TYPE_ERROR);
-            GetID("username").focus();
-        }
-    }
-    //é€€å‡ºç³»ç»Ÿ
-    GetID("ExitSystemBtn").onclick = function () {
-        var errorcode = BRAC_Logout();
-        AddLog("BRAC_Logout()=" + errorcode, LOG_TYPE_API);
-        ShowHallDiv(false);
-        ShowLoginDiv(true);
-    }
-    //é€€å‡ºæˆ¿é—´
-    GetID("leaveroom").onclick = function () {
-        var errorcode = BRAC_LeaveRoom(-1);
-        AddLog("BRAC_LeaveRoom(" + -1 + ")=" + errorcode, LOG_TYPE_API);
-        if(mRefreshVolumeTimer != -1)
-            clearInterval(mRefreshVolumeTimer); // æ¸…é™¤å®æ—¶éŸ³é‡æ˜¾ç¤ºè®¡æ—¶å™¨
-        ShowRoomDiv(false); 					// éšè—æˆ¿é—´ç•Œé¢
-        ShowHallDiv(true); 						// æ˜¾ç¤ºå¤§å…ç•Œé¢
-        mTargetUserId = -1;
-    }
-    //è¿›å…¥è‡ªå®šä¹‰æˆ¿é—´
-    GetID("EnterRoomBtn").onclick = function () {
-        if (GetID("customroomid").value != "") {
-            var re = /^[1-9]+[0-9]*]*$/;   //åˆ¤æ–­æ˜¯å¦çº¯æ•°å­—
-            if (re.test(GetID("customroomid").value)) {//çº¯æ•°å­—
-                EnterRoomRequest(parseInt(GetID("customroomid").value));
-            } else {
-                AddLog("Room ID must be number!", LOG_TYPE_ERROR);
-                GetID("customroomid").value = "";
-                GetID("customroomid").focus();
-            }
-        }
-    }
-    //å‘é€ä¿¡æ¯æŒ‰é’®
-    GetID("SendMsg").onclick = function () {
-        SendMessage();
-    }
-    //å›è½¦é”®å‘é€ä¿¡æ¯
-    GetID("MessageInput").onkeydown = function (e) {
-        e = e ? e : window.event; //é”®ç›˜äº‹ä»¶
-        if (e.keyCode == 13 && GetID("MessageInput").value != "") {//å›è½¦é”®è¢«ç‚¹å‡»ä¸”å‘é€ä¿¡æ¯æ¡†ä¸ä¸ºç©º
-            SendMessage();
-        }
-    }
-    //ä¸‹è½½æ’ä»¶æŒ‰é’®é¼ æ ‡åˆ’å…¥åˆ’å‡ºæ—¶é—´
-    GetID("prompt_div_btn_load").onmouseover = function () {
-        GetID("prompt_div_btn_load").style.backgroundColor = "#ffc200";
-    }
-    GetID("prompt_div_btn_load").onmouseout = function () {
-        GetID("prompt_div_btn_load").style.backgroundColor = "#ff8100";
-    }
-    //ä¸‹è½½æ’ä»¶ç•Œé¢å…³é—­æŒ‰é’®
-    GetID("prompt_div_headline2").onclick = function () {
-        document.URL = location.href;
-    }
-    // é¼ æ ‡ç§»åˆ°æ—¥å¿—å±‚ä¸Šé¢
-    GetID("LOG_DIV_BODY").onmousemove = function () {
-        GetID("LOG_DIV_BODY").style.zIndex = 100;
-        GetID("LOG_DIV_CONTENT").style.backgroundColor = "#FAFADD";
-        GetID("LOG_DIV_CONTENT").style.border = "1px solid black";
-    }
-    // é¼ æ ‡ä»æ—¥å¿—å±‚ä¸Šé¢ç§»å¼€
-    GetID("LOG_DIV_BODY").onmouseout = function () {
-        GetID("LOG_DIV_BODY").style.zIndex = -1;
-        GetID("LOG_DIV_CONTENT").style.backgroundColor = "#C4CEDD";
-        GetID("LOG_DIV_CONTENT").style.border = "";
-    }
-    //é«˜çº§è®¾ç½®ç•Œé¢å…³é—­æŒ‰é’®
-    GetID("advanceset_div_close").onclick = function () {
-        GetID("advanceset_div").style.display = "none";
-    }
-    //é«˜çº§è®¾ç½®
-    GetID("advancedsetting").onclick = function () {
-        if (GetID("advanceset_div").style.display == "block")
-            GetID("advanceset_div").style.display = "none";
-        else {
-            GetID("advanceset_div").style.display = "block"; // æ˜¾ç¤ºé«˜çº§è®¾ç½®ç•Œé¢
-            // åˆå§‹åŒ–é«˜çº§è®¾ç½®ç•Œé¢
-            InitAdvanced();
-        }
+// ÊÕµ½Í¸Ã÷Í¨µÀ£¨À©Õ¹£©´«ÊäÊı¾İ
+function OnAnyChatTransBufferEx(dwUserId, lpBuf, dwLen, wParam, lParam, dwTaskId) {
+
+}
+
+// ÎÄ¼ş´«ÊäÍê³ÉÍ¨Öª
+function OnAnyChatTransFile(dwUserId, lpFileName, lpTempFilePath, dwFileLength, wParam, lParam, dwTaskId) {
+
+}
+
+// ÏµÍ³ÒôÁ¿¸Ä±äÍ¨Öª
+function OnAnyChatVolumeChange(device, dwCurrentVolume) {
+
+}
+
+// ÊÕµ½·şÎñÆ÷·¢ËÍµÄSDK FilterÊı¾İ
+function OnAnyChatSDKFilterData(lpBuf, dwLen) {
+
+}
+
+// ÊÕµ½Â¼Ïñ»òÅÄÕÕÍê³ÉÊÂ¼ş
+function OnAnyChatRecordSnapShot(dwUserId, lpFileName, dwParam, bRecordType) {
+	alert(lpFileName);
+	AddLog("OnAnyChatRecordSnapShot(userid=" + dwUserId + ", lpFileName=" + lpFileName + ")", LOG_TYPE_EVENT);
+
+}
+
+// ÊÕµ½Â¼Ïñ»òÅÄÕÕÍê³ÉÊÂ¼ş£¨À©Õ¹£©
+function OnAnyChatRecordSnapShotEx(dwUserId, lpFileName, dwElapse, dwFlags, dwParam, lpUserStr) {
+}
+
+
+/********************************************
+ *		AnyChat SDKºËĞÄÒµÎñÁ÷³Ì				*
+ *******************************************/
+ 
+// ¿Í»§¶ËÁ¬½Ó·şÎñÆ÷£¬bSuccess±íÊ¾ÊÇ·ñÁ¬½Ó³É¹¦£¬errorcode±íÊ¾³ö´í´úÂë
+function OnAnyChatConnect(bSuccess, errorcode) {
+	AddLog("OnAnyChatConnect(errorcode=" + errorcode + ")", LOG_TYPE_EVENT);
+}
+
+// ¿Í»§¶ËµÇÂ¼ÏµÍ³£¬dwUserId±íÊ¾×Ô¼ºµÄÓÃ»§IDºÅ£¬errorcode±íÊ¾µÇÂ¼½á¹û£º0 ³É¹¦£¬·ñÔòÎª³ö´í´úÂë£¬²Î¿¼³ö´í´úÂë¶¨Òå
+function OnAnyChatLoginSystem(dwUserId, errorcode) {
+	AddLog("OnAnyChatLoginSystem(userid=" + dwUserId + ", errorcode=" + errorcode + ")", LOG_TYPE_EVENT);
+    if (errorcode == 0) {
+		ConfigAnyChatParameter();
+		mSelfUserId = dwUserId;	
     }
 }
 
-function PasswordFocus(obj,color){
-    // åˆ¤æ–­æ–‡æœ¬æ¡†ä¸­çš„å†…å®¹æ˜¯å¦æ˜¯é»˜è®¤å†…å®¹
-    if(obj.value=="å¯†ç å¯ä¸ºç©º")
-        obj.value="";
-    obj.type="password";
-    // è®¾ç½®æ–‡æœ¬æ¡†è·å–ç„¦ç‚¹æ—¶å€™èƒŒæ™¯é¢œè‰²å˜æ¢
-    obj.style.backgroundColor=color;
-}
-// å½“é¼ æ ‡ç¦»å¼€æ—¶å€™æ”¹å˜æ–‡æœ¬æ¡†èƒŒæ™¯é¢œè‰²
-function myblur(obj,color){
-    obj.style.background=color;
-}
+// ¿Í»§¶Ë½øÈë·¿¼ä£¬dwRoomId±íÊ¾Ëù½øÈë·¿¼äµÄIDºÅ£¬errorcode±íÊ¾ÊÇ·ñ½øÈë·¿¼ä£º0³É¹¦½øÈë£¬·ñÔòÎª³ö´í´úÂë
+function OnAnyChatEnterRoom(dwRoomId, errorcode) {
+	AddLog("OnAnyChatEnterRoom(roomid=" + dwRoomId + ", errorcode=" + errorcode + ")", LOG_TYPE_EVENT);
+    if (errorcode == 0) {
+        BRAC_UserCameraControl(-1, 1); 	// ´ò¿ª±¾µØÊÓÆµ
+        BRAC_UserSpeakControl(-1, 1); 		// ´ò¿ª±¾µØÓïÒô
 
-//è®¡ç®—é«˜åº¦å¹¶è®¾ç½®ç•Œé¢ä½ç½®
-function SetDivTop(id, TheHeight) {
-    var BodyHeight = document.documentElement.clientHeight; //è·å¾—æµè§ˆå™¨å¯è§åŒºåŸŸé«˜åº¦
-    if (TheHeight < BodyHeight) {//divé«˜åº¦å°äºå¯è§åŒºåŸŸé«˜åº¦
-        GetID("margintop").style.height = (BodyHeight - TheHeight) / 4 + "px";
-        GetID(id).style.marginTop = "0px";
+		AddLog("Welcome use AnyChat, successfully enter the room:" + dwRoomId, NOTIFY_TYPE_SYSTEM);
+        // ÉèÖÃ±¾µØÊÓÆµÏÔÊ¾Î»ÖÃ
+        //BRAC_SetVideoPos(mSelfUserId, GetID("AnyChatLocalVideoDiv"), "ANYCHAT_VIDEO_LOCAL");
+
+ 		var useridlist = BRAC_GetOnlineUser();
+		if(useridlist.length > 0){
+			RequestVideoByUserId(useridlist[0]);
+		} 
     }
 }
 
-//ç³»ç»Ÿä¿¡æ¯æ¡†æ»šåŠ¨æ¡æ˜¾éš
-function DisplayScroll(id) {
-    var offset = GetID(id); //éœ€è¦æ£€æµ‹çš„div
-    if (offset.offsetHeight < offset.scrollHeight) {//divå¯è§é«˜åº¦å°äºdivæ»šåŠ¨æ¡é«˜åº¦
-        GetID(id).style.overflowY = "scroll";//æ˜¾ç¤ºæ»šåŠ¨æ¡
-        GetID(id).scrollTop = GetID(id).scrollHeight;//æ»šåŠ¨æ¡è‡ªåŠ¨æ»šåŠ¨åˆ°åº•éƒ¨
-    }
-    else
-        GetID(id).style.overflowY = "hidden";//éšè—æ»šåŠ¨æ¡
-}
-//å‘é€ä¿¡æ¯
-function SendMessage() {
-    if (GetID("MessageInput").value != "") {//å‘é€ä¿¡æ¯æ¡†ä¸ä¸ºç©º
-        var Msg = GetID("MessageInput").value;
-        BRAC_SendTextMessage(0, 0, Msg); //è°ƒç”¨å‘é€ä¿¡æ¯å‡½æ•°
-        DisplayTextMessage(mSelfUserId, Msg);
-        GetID("MessageInput").value = "";
-        GetID("MessageInput").focus();
-    }
+// ÊÕµ½µ±Ç°·¿¼äµÄÔÚÏßÓÃ»§ĞÅÏ¢£¬½øÈë·¿¼äºó´¥·¢Ò»´Î£¬dwUserCount±íÊ¾ÔÚÏßÓÃ»§Êı£¨°üº¬×Ô¼º£©£¬dwRoomId±íÊ¾·¿¼äID
+function OnAnyChatRoomOnlineUser(dwUserCount, dwRoomId) {
+	AddLog("OnAnyChatRoomOnlineUser(count=" + dwUserCount + ", roomid=" + dwRoomId + ")", LOG_TYPE_EVENT);
 }
 
-// æ˜¾ç¤ºæ–‡å­—æ¶ˆæ¯
-function DisplayTextMessage(fromuserid, message) {
-    var namestr = BRAC_GetUserName(fromuserid) + "&nbsp" + GetTheTime();
-    if(fromuserid==mSelfUserId)
-        namestr = namestr.fontcolor("#008000");
-    else
-        namestr = namestr.fontcolor("#000080");
-    message = message.fontcolor("#333333");
-
-    var msgdiv = document.createElement("div");
-    msgdiv.setAttribute("class", "TheMsgStyle");
-    msgdiv.innerHTML = namestr + "ï¼š&nbsp&nbsp" + message;
-    GetID("ReceiveMsgDiv").appendChild(msgdiv);
-    DisplayScroll("ReceiveMsgDiv");
-}
-
-// åœ¨æ–‡å­—æ¶ˆæ¯åŒºåŸŸæ˜¾ç¤ºé€šçŸ¥ä¿¡æ¯
-function ShowNotifyMessage(message, type) {
-    if (type == NOTIFY_TYPE_SYSTEM) {
-        message = message.fontcolor("#FF0000");
-    } else {
-        message = message.fontcolor("#333333");
-    }
-    var msgdiv = document.createElement("div");
-    msgdiv.setAttribute("class", "TheMsgStyle");
-    msgdiv.innerHTML = message + "&nbsp(" + GetTheTime().fontcolor("#999999") + ")";
-    GetID("ReceiveMsgDiv").appendChild(msgdiv);
-    DisplayScroll("ReceiveMsgDiv");
-}
-
-// æ˜¾ç¤ºå¤§å…ç•Œé¢
-function ShowHallDiv(bShow) {
-    if (bShow) {
-        GetID("room_div_userlist").innerHTML = ""; //æ¸…ç©ºæˆ¿é—´ç•Œé¢å¥½å‹åˆ—è¡¨
-        GetID("login_div").style.display = "none"; 		//éšè—ç™»å½•ç•Œé¢
-        GetID("hall_div").style.display = "block"; 		//æ˜¾ç¤ºå¤§å…ç•Œé¢
-        GetID("customroomid").value = "";
-        SetDivTop("hall_div", 400); 					//å¤§å…ç•Œé¢å‚ç›´å±…ä¸­
-        GetID("customroomid").focus();
-        GetID("a_error_user").style.color = "#FAFADD";
-
-        GetID("hall_div_td_name").innerHTML = BRAC_GetUserName(mSelfUserId);
-        GetID("hall_div_td_id").innerHTML = mSelfUserId;
-        GetID("hall_div_td_level").innerHTML = BRAC_GetUserLevel(mSelfUserId);
-        GetID("hall_div_td_ip").innerHTML = BRAC_QueryUserStateString(mSelfUserId, BRAC_USERSTATE_LOCALIP);
-    } else {
-        GetID("hall_div").style.display = "none";
-    }
-}
-
-// æ˜¾ç¤ºæˆ¿é—´ç•Œé¢
-function ShowRoomDiv(bShow) {
-    if (bShow) {
-        GetID("hall_div").style.display = "none"; //éšè—å¤§å…ç•Œé¢
-        GetID("room_div").style.display = "block"; 	//æ˜¾ç¤ºæˆ¿é—´ç•Œé¢
-        SetDivTop("room_div", 610); 				//æˆ¿é—´ç•Œé¢å‚ç›´å±…ä¸­
-        GetID("MessageInput").focus();
-    } else {
-        GetID("advanceset_div").style.display = "none"; //éšè—é«˜çº§è®¾ç½®ç•Œé¢
-        GetID("ReceiveMsgDiv").innerHTML = ""; 		//æ¸…ç©ºæˆ¿é—´ç•Œé¢ä¿¡æ¯æ¥æ”¶æ¡†
-        GetID("room_div").style.display = "none"; 	//éšè—æˆ¿é—´ç•Œé¢
-    }
-}
-
-// è¯·æ±‚è¿›å…¥æŒ‡å®šçš„æˆ¿é—´
-function EnterRoomRequest(roomid) {
-    var errorcode = BRAC_EnterRoom(roomid, "", 0); //è¿›å…¥æˆ¿é—´
-    AddLog("BRAC_EnterRoom(" + roomid + ")=" + errorcode, LOG_TYPE_API);
-    if(errorcode == 0)
-        DisplayLoadingDiv(true);
-}
-
-function GetID(id) {
-    if (document.getElementById) {
-        return document.getElementById(id);
-    } else if (window[id]) {
-        return window[id];
-    }
-    return null;
-}
-// æ‰“å¼€æŒ‡å®šç”¨æˆ·çš„éŸ³è§†é¢‘
-function RequestOtherUserVideo(userid) {
-    var userlist = GetID("room_div_userlist");
-    // è·å¾—ç”¨æˆ·åˆ—è¡¨ä¸­æ‰€æœ‰<a>æ ‡ç­¾
-    var userdivobj = userlist.getElementsByTagName("div");
-    for (var i = 0; i < userdivobj.length; i++) {
-        userdivobj[i].style.backgroundColor = "White";
-    }
-    // è·å–ç”¨æˆ·åˆ—è¡¨ä¸­æ‰€æœ‰<img>æ ‡ç­¾
-    var userimgobj = userlist.getElementsByTagName("img");
-    for (var j = 0; j < userimgobj.length; j++) {
-        if (userimgobj[j].getAttribute("class") == "MicrophoneTag") { // è¯¥å›¾ç‰‡ä¸º è¯ç­’ å›¾ç‰‡
-            userimgobj[j].src = "./images/advanceset/microphone_false.png";
-            userimgobj[j].onclick = ""; // åˆ é™¤è¯ç­’æŒ‰é’®ç‚¹å‡»äº‹ä»¶
-            userimgobj[j].style.cursor = "";
-        }
-    }
-    // åˆ¤æ–­æ˜¯å¦éœ€è¦å…³é—­ä¹‹å‰å·²è¯·æ±‚çš„ç”¨æˆ·éŸ³è§†é¢‘æ•°æ®
-    if (mTargetUserId != -1) {
-        reVideoDivSize();
-        BRAC_UserCameraControl(mTargetUserId, 0);
-        BRAC_UserSpeakControl(mTargetUserId, 0);
-    }
-    GetID(userid + "_MicrophoneTag").src = "./images/advanceset/microphone_true.png"; // ç‚¹äº®è¯ç­’å›¾ç‰‡
-    GetID(userid + "_UserDiv").style.backgroundColor = "#E6E6E6"; //è®¾ç½®è¢«ç‚¹å‡»<a>å…ƒç´ çš„å­—ä½“é¢œè‰²
-
-    mTargetUserId = userid; 					//è®¾ç½®è¢«ç‚¹ç”¨æˆ·IDä¸ºå…¨å±€å˜é‡
-    BRAC_UserCameraControl(userid, 1); 		// è¯·æ±‚å¯¹æ–¹è§†é¢‘
-    BRAC_UserSpeakControl(userid, 1); 		// è¯·æ±‚å¯¹æ–¹è¯­éŸ³
-    // è®¾ç½®è¿œç¨‹è§†é¢‘æ˜¾ç¤ºä½ç½®
-    BRAC_SetVideoPos(userid, GetID("AnyChatRemoteVideoDiv"), "ANYCHAT_VIDEO_REMOTE");
-    MicrophoneOnclick(userid); // ä¸ºå½“å‰è§†é¢‘ä¼šè¯ç”¨æˆ·è¯ç­’æŒ‰é’®æ·»åŠ ç‚¹å‡»äº‹ä»¶
-}
-
-// å¯¹åˆ—è¡¨ä¸­çš„ç”¨æˆ·è¿›è¡Œæ·»åŠ ã€åˆ é™¤æ“ä½œ
-function RoomUserListControl(userid, bInsert) {
-    var userlist = GetID("room_div_userlist");
-    if (bInsert) {
-        var itemdiv = document.createElement("div");
-        itemdiv.setAttribute("class", "UserListStyle");
-        itemdiv.id = userid + "_UserDiv";
-
-        // åˆ¤æ–­ç”¨æˆ·æ‘„åƒå¤´çŠ¶æ€
-        if (BRAC_GetCameraState(userid) == 0)
-            AddImage(itemdiv, userid + "_CameraTag", "CameraTag", "", userid); // æ·»åŠ æ‘„åƒå¤´å›¾ç‰‡<img>æ ‡ç­¾
-        if (BRAC_GetCameraState(userid) == 1)
-            AddImage(itemdiv, userid + "_CameraTag", "CameraTag", "./images/advanceset/camera_false.png", userid); // æ·»åŠ æ‘„åƒå¤´å›¾ç‰‡<img>æ ‡ç­¾
-        if (BRAC_GetCameraState(userid) == 2)
-            AddImage(itemdiv, userid + "_CameraTag", "CameraTag", "./images/advanceset/camera_true.png", userid); // æ·»åŠ æ‘„åƒå¤´å›¾ç‰‡<img>æ ‡ç­¾
-        // åˆ¤æ–­å½“å‰IDæ˜¯å¦ä¸ºè‡ªå·±
-        if (userid == mSelfUserId) {
-            AddImage(itemdiv, mSelfUserId + "_MicrophoneTag", "mSelfMicrophoneTag", "./images/advanceset/microphone_true.png", userid); // æ·»åŠ è¯ç­’å›¾ç‰‡<img>æ ‡ç­¾
-            itemdiv.innerHTML += "&nbsp" + BRAC_GetUserName(mSelfUserId) + "(è‡ªå·±)";
-        } else {
-            AddImage(itemdiv, userid + "_MicrophoneTag", "MicrophoneTag", "./images/advanceset/microphone_false.png", userid); // æ·»åŠ è¯ç­’å›¾ç‰‡<img>æ ‡ç­¾
-            // æ·»åŠ ç”¨æˆ·å§“å<a>æ ‡ç­¾
-            var a = document.createElement("a");
-            a.id = userid + "_UserTag";
-            a.title = BRAC_GetUserName(userid);
-            a.innerHTML = BRAC_GetUserName(userid);
-            a.href = "javascript:RequestOtherUserVideo(" + userid + ")";
-            itemdiv.appendChild(a);
-        }
-        GetID("room_div_userlist").appendChild(itemdiv);
-        MicrophoneOnclick(mSelfUserId);
-    } else {
-        var my = GetID(userid + "_UserDiv");
-        userlist.removeChild(my);
-    }
-    DisplayScroll("room_div_userlist");
-}
-//divæŒ‰é’®é¼ æ ‡åˆ’å…¥åˆ’å‡ºæ•ˆæœ
-function Mouseover(id) {
-    GetID(id).style.backgroundColor = "#FFFFCC";
-}
-//divæŒ‰é’®é¼ æ ‡åˆ’å…¥åˆ’å‡ºæ•ˆæœ
-function Mouseout(id) {
-    GetID(id).style.backgroundColor = "#E6E6E6";
-}
-//è·å–å½“å‰æ—¶é—´  (00:00:00)
-function GetTheTime() {
-    var TheTime = new Date();
-    return TheTime.toLocaleTimeString();
-}
-
-// æ·»åŠ æ—¥å¿—å¹¶æ˜¾ç¤ºï¼Œæ ¹æ®ä¸åŒçš„ç±»å‹æ˜¾ç¤ºä¸åŒçš„é¢œè‰²
-function AddLog(message, type) {
-    if (type == LOG_TYPE_API) {			// APIè°ƒç”¨æ—¥å¿—ï¼Œç»¿è‰²
-        message = message.fontcolor("Green");
-    } else if(type == LOG_TYPE_EVENT) {	// å›è°ƒäº‹ä»¶æ—¥å¿—ï¼Œé»„è‰²
-        message = message.fontcolor("#CC6600");
-    } else if(type == LOG_TYPE_ERROR) {	// å‡ºé”™æ—¥å¿—ï¼Œçº¢è‰²
-        message = message.fontcolor("#FF0000");
-    } else {							// æ™®é€šæ—¥å¿—ï¼Œç°è‰²
-        message = message.fontcolor("#333333");
-    }
-    GetID("LOG_DIV_CONTENT").innerHTML += message + "&nbsp" + GetTheTime().fontcolor("#333333") + "<br />";
-    DisplayScroll("LOG_DIV_CONTENT");
-}
-
-// æ˜¾ç¤ºç­‰å¾…è¿›åº¦æ¡ï¼Œæç¤ºç”¨æˆ·æ“ä½œæ­£åœ¨è¿›è¡Œä¸­
-function DisplayLoadingDiv(bShow) {
-    if (bShow) {
-        GetID("LOADING_DIV").style.display = "block";
-        GetID("LOADING_GREY_DIV").style.display = "block";
-        var TheHeight = document.documentElement.clientHeight;
-        var TheWidth = document.body.offsetWidth;
-        GetID("LOADING_DIV").style.marginTop = (TheHeight - 50) / 2 + "px";
-        GetID("LOADING_DIV").style.marginLeft = (TheWidth - 130) / 2 + "px";
+// ÓÃ»§½øÈë£¨Àë¿ª£©·¿¼ä£¬dwUserId±íÊ¾ÓÃ»§IDºÅ£¬bEnterRoom±íÊ¾¸ÃÓÃ»§ÊÇ½øÈë£¨1£©»òÀë¿ª£¨0£©·¿¼ä
+function OnAnyChatUserAtRoom(dwUserId, bEnterRoom) {
+	AddLog("OnAnyChatUserAtRoom(userid=" + dwUserId + ", benter=" + bEnterRoom + ")", LOG_TYPE_EVENT);
+    if (bEnterRoom == 1) {
+		RequestVideoByUserId(dwUserId);
+		ShowNotifyMessage(BRAC_GetUserName(dwUserId) +"&nbspenter room!", NOTIFY_TYPE_NORMAL);
     }
     else {
-        GetID("LOADING_DIV").style.display = "none";
-        GetID("LOADING_GREY_DIV").style.display = "none";
+		ShowNotifyMessage(BRAC_GetUserName(dwUserId) +"&nbspleave room!", NOTIFY_TYPE_NORMAL);
+		BRAC_UserCameraControl(dwUserId, 0); // ´ò¿ª¶Ô·½ÊÓÆµ
+		BRAC_UserSpeakControl(dwUserId, 0); // ´ò¿ª¶Ô·½ÒôÆµ
     }
 }
 
-//å¥½å‹ æ‘„åƒå¤´  è¯ç­’  å›¾æ ‡
-function AddImage(parent_id, img_id, img_class, fir_img, userid) {
-    var imgs = document.createElement("img");
-    imgs.id = img_id;
-    imgs.className = img_class;
-    imgs.src = fir_img;
-    imgs.style.width = "15px";
-    imgs.style.height = "15px";
-    parent_id.appendChild(imgs);
+// ÍøÂçÁ¬½ÓÒÑ¹Ø±Õ£¬¸ÃÏûÏ¢Ö»ÓĞÔÚ¿Í»§¶ËÁ¬½Ó·şÎñÆ÷³É¹¦Ö®ºó£¬ÍøÂçÒì³£ÖĞ¶ÏÖ®Ê±´¥·¢£¬reason±íÊ¾Á¬½Ó¶Ï¿ªµÄÔ­Òò
+function OnAnyChatLinkClose(reason, errorcode) {
+	AddLog("OnAnyChatLinkClose(reason=" + reason + ", errorcode=" + errorcode + ")", LOG_TYPE_EVENT);
 }
-// ä¸ºè¢«ç‚¹å‡»ç”¨æˆ·è¯ç­’æŒ‰é’®æ·»åŠ ç‚¹å‡»äº‹ä»¶
-function MicrophoneOnclick(userid) {
-    GetID(userid + "_MicrophoneTag").style.cursor = "pointer"; // é¼ æ ‡å½¢çŠ¶
-    GetID(userid + "_MicrophoneTag").onclick = function () { // è¯ç­’ç‚¹å‡»äº‹ä»¶
-        var ImgPath = GetID(userid + "_MicrophoneTag").src.split('/');
-        if (ImgPath[ImgPath.length - 1] == "microphone_true.png") {
-            GetID(userid + "_MicrophoneTag").src = "./images/advanceset/microphone_false.png";
-            BRAC_UserSpeakControl(userid, 0); // å…³é—­è¯­éŸ³
-        }
-        else {
-            GetID(userid + "_MicrophoneTag").src = "./images/advanceset/microphone_true.png";
-            BRAC_UserSpeakControl(userid, 1); // å¼€å¯è¯­éŸ³
-        }
-    }
+
+// ÓÃ»§µÄÒôÆµÉè±¸×´Ì¬±ä»¯ÏûÏ¢£¬dwUserId±íÊ¾ÓÃ»§IDºÅ£¬State±íÊ¾¸ÃÓÃ»§ÊÇ·ñÒÑ´ò¿ªÒôÆµ²É¼¯Éè±¸£¨0£º¹Ø±Õ£¬1£º´ò¿ª£©
+function OnAnyChatMicStateChange(dwUserId, State) {
+
 }
-//æ¢å¤æ˜¾ç¤ºè§†é¢‘divå¤§å°
-function reVideoDivSize()
-{
-    var divWidth=GetID("AnyChatRemoteVideoDiv").offsetWidth;
-    var divHeight=GetID("AnyChatRemoteVideoDiv").offsetHeight;
-    if(divWidth<divHeight){
-        GetID("AnyChatRemoteVideoDiv").style.width=(4.0/3*divHeight)+"px";
-        GetID("AnyChatRemoteVideoDiv").style.height=divHeight+"px";
-    }
+
+// ÓÃ»§ÉãÏñÍ·×´Ì¬·¢Éú±ä»¯£¬dwUserId±íÊ¾ÓÃ»§IDºÅ£¬State±íÊ¾ÉãÏñÍ·µÄµ±Ç°×´Ì¬£¨0£ºÃ»ÓĞÉãÏñÍ·£¬1£ºÓĞÉãÏñÍ·µ«Ã»ÓĞ´ò¿ª£¬2£º´ò¿ª£©
+function OnAnyChatCameraStateChange(dwUserId, State) {
+
 }
+
+// ±¾µØÓÃ»§ÓëÆäËüÓÃ»§µÄP2PÍøÂçÁ¬½Ó×´Ì¬·¢Éú±ä»¯£¬dwUserId±íÊ¾ÆäËüÓÃ»§IDºÅ£¬State±íÊ¾±¾µØÓÃ»§ÓëÆäËüÓÃ»§µÄµ±Ç°P2PÍøÂçÁ¬½Ó×´Ì¬£¨0£ºÃ»ÓĞÁ¬½Ó£¬1£º½öTCPÁ¬½Ó£¬2£º½öUDPÁ¬½Ó£¬3£ºTCPÓëUDPÁ¬½Ó£©
+function OnAnyChatP2PConnectState(dwUserId, State) {
+
+}
+
+// ÓÃ»§·¢ÆğË½ÁÄÇëÇó£¬dwUserId±íÊ¾·¢ÆğÕßµÄÓÃ»§IDºÅ£¬dwRequestId±íÊ¾Ë½ÁÄÇëÇó±àºÅ£¬±êÊ¶¸ÃÇëÇó
+function OnAnyChatPrivateRequest(dwUserId, dwRequestId) {
+
+}
+
+// ÓÃ»§»Ø¸´Ë½ÁÄÇëÇó£¬dwUserId±íÊ¾»Ø¸´ÕßµÄÓÃ»§IDºÅ£¬errorcodeÎª³ö´í´úÂë
+function OnAnyChatPrivateEcho(dwUserId, errorcode) {
+
+}
+
+// ÓÃ»§ÍË³öË½ÁÄ£¬dwUserId±íÊ¾ÍË³öÕßµÄÓÃ»§IDºÅ£¬errorcodeÎª³ö´í´úÂë
+function OnAnyChatPrivateExit(dwUserId, errorcode) {
+
+}
+
+// ÊÓÆµÍ¨»°ÏûÏ¢Í¨Öª»Øµ÷º¯Êı
+function OnAnyChatVideoCallEvent(dwEventType, dwUserId, dwErrorCode, dwFlags, dwParam, szUserStr) {
+	AddLog("OnAnyChatVideoCallEvent(dwEventType=" + dwEventType + ", dwUserId=" + dwUserId + ", dwErrorCode=" + dwErrorCode + ", dwFlags=" + dwFlags + ", dwParam=" + dwParam + ", szUserStr=" + szUserStr + ")", LOG_TYPE_EVENT);
+	
+}
+
+// ÓÃ»§ĞÅÏ¢¸üĞÂÍ¨Öª£¬dwUserId±íÊ¾ÓÃ»§IDºÅ£¬dwType±íÊ¾¸üĞÂÀà±ğ
+function OnAnyChatUserInfoUpdate(dwUserId, dwType) {
+	AddLog("OnAnyChatUserInfoUpdate(dwUserId=" + dwUserId + ", dwType=" + dwType + ")", LOG_TYPE_EVENT);
+}
+
+// ºÃÓÑÔÚÏß×´Ì¬±ä»¯£¬dwUserId±íÊ¾ºÃÓÑÓÃ»§IDºÅ£¬dwStatus±íÊ¾ÓÃ»§µÄµ±Ç°»î¶¯×´Ì¬£º0 ÀëÏß£¬ 1 ÉÏÏß
+function OnAnyChatFriendStatus(dwUserId, dwStatus) {
+	AddLog("OnAnyChatFriendStatus(dwUserId=" + dwUserId + ", dwStatus=" + dwStatus + ")", LOG_TYPE_EVENT);
+	
+}
+
