@@ -152,7 +152,7 @@
 	
 	function orderPriceBtn(id,price){
 		$("#order_price").html("<strong>￥"+price+"</strong>");
- 		$("#priceSure").click(function(){priceSure(id)});
+		$("#priceSure").unbind().bind('click',function(){priceSure(id)});
     }
     
     function priceSure(id){
@@ -183,7 +183,7 @@
     
     function payPriceBtn(id,price){
 		$("#pay_price").html("<strong>￥"+price+"</strong>");
- 		$("#paySure").click(function(){paySure(id)});
+		$("#paySure").unbind().bind('click',function(){paySure(id)});
     }
     
     function paySure(id){

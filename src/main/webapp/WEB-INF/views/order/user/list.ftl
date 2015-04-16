@@ -17,7 +17,7 @@
     <div class="seenBox clear">
         <ul>
             <li><div class="user_search">
-		            <input id="search_keys" name="" type="text" />
+		            <input id="search_keys" name="" type="text" placeholder="按订单号查询"/>
 		            <input id="hidden_keys" type="hidden" name="keys" value="" />
 		            <input id="hidden_status" type="hidden" name="status" value="" />
 		            <input id="hidden_factory_id" type="hidden" name="factoryId" value="" />
@@ -145,7 +145,7 @@
 	}
 	
 	function markBtn(id){
- 		$("#markSure").click(function(){markSure(id)});
+		$("#markSure").unbind().bind('click',function(){markSure(id)});
     }
     
     function markSure(id){
@@ -166,7 +166,7 @@
 	
 	function orderPriceBtn(id,price){
 		$("#order_price").html("<strong>￥"+price+"</strong>");
- 		$("#priceSure").click(function(){priceSure(id)});
+		$("#priceSure").unbind().bind('click',function(){priceSure(id)});
     }
     
     function priceSure(id){
@@ -197,7 +197,7 @@
     
     function payPriceBtn(id,price){
 		$("#pay_price").html("<strong>￥"+price+"</strong>");
- 		$("#paySure").click(function(){paySure(id)});
+		$("#paySure").unbind().bind('click',function(){paySure(id)});
     }
     
     function paySure(id){

@@ -91,7 +91,6 @@ public class OrderService {
 		List<Order> result = null;
 		result = orderMapper.findPageOrdersByKeys(request, status, keys,
 				null, types,orderIdsGood);
-		System.out.println(result.size());
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
@@ -108,7 +107,7 @@ public class OrderService {
 		List<Integer> goodIds = new ArrayList<Integer>();
 		List<OrderPayment> orderPaymentList = orderPaymentMapper.selectByOrderIds(orderIds);
 		List<CsOutStorage> csOutStorages=null;
-		if(CollectionUtils.isEmpty(types)&& types.get(0)==5){
+		if(!CollectionUtils.isEmpty(types)&& types.get(0)==5){
 			csOutStorages = csOutStorageMapper.selectByOrderIds(orderIds);
 		}
 		for (Order order : result) {

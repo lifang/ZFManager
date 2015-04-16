@@ -616,6 +616,7 @@ public class Order {
 	private CustomerAddress customerAddress;
 	private Agent agent;
 	private Factory factory; 
+	private Agent belongsAgent;
 	
 	private List<OrderGood> orderGoods;
 //	private List<PayChannel> channels;
@@ -729,6 +730,14 @@ public class Order {
 
 	public void setTotalOutQuantity(Integer totalOutQuantity) {
 		this.totalOutQuantity = totalOutQuantity;
+	}
+
+	public Agent getBelongsAgent() {
+		return belongsAgent;
+	}
+
+	public void setBelongsAgent(Agent belongsAgent) {
+		this.belongsAgent = belongsAgent;
 	}
 	
 	

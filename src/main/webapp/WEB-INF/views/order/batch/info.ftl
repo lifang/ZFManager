@@ -201,7 +201,7 @@
 	
 	function orderPriceBtn(id,price){
 		$("#order_price").html("<strong>￥"+price+"</strong>");
- 		$("#priceSure").click(function(){priceSure(id)});
+ 		$("#priceSure").unbind().bind('click',function(){priceSure(id)});
     }
     
     function priceSure(id){
@@ -220,7 +220,7 @@
     
     function priceEarnestBtn(id,price){
 		$("#priceEarnestDiv").html("<strong>￥"+price+"</strong>");
- 		$("#priceEarnestSure").click(function(){priceEarnestSure(id)});
+ 		$("#priceEarnestSure").unbind().bind('click',function(){priceEarnestSure(id)});
     }
     function priceEarnestSure(id){
 		var priceEarnestText = $('#priceEarnestText').val();
@@ -250,7 +250,7 @@
     
     function payPriceBtn(id,price){
 		//$("#pay_price").html("<strong>￥"+price+"</strong>");
- 		$("#paySure").click(function(){paySure(id)});
+ 		$("#paySure").unbind().bind('click',function(){paySure(id)});
     }
     
     function paySure(id){
@@ -280,7 +280,7 @@
 	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
- 		$("#deliverSure").click(function(){deliverSure(id)});
+ 		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
     }
     
     function deliverSure(id){

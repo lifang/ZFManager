@@ -1,6 +1,6 @@
 <tbody id="row_${order.id}">
       <tr class="order_hd">
-        <td colspan="7"><span>订单号 ${order.orderNumber!""}</span><span>${order.createdAt?datetime}</span>
+        <td colspan="7"><span>订单号 ${order.orderNumber!""}</span><span><#if order.createdAt??>${order.createdAt?datetime}</#if></span>
         	<span>类型：<#if order.types??>
 				      	<#if order.types==1>用户订购
 					       <#elseif order.types==2>用户租赁 
