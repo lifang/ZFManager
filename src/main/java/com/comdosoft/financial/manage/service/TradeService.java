@@ -29,6 +29,7 @@ import com.comdosoft.financial.manage.domain.trades.TradeRecord;
 import com.comdosoft.financial.manage.domain.trades.TradeTransferRepaymentRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.Agent;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryTradeType;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.trades.ProfitMapper;
 import com.comdosoft.financial.manage.mapper.trades.TradeConsumeRecordMapper;
 import com.comdosoft.financial.manage.mapper.trades.TradeRechargeRecordMapper;
@@ -63,6 +64,8 @@ public class TradeService {
     private TradeRechargeRecordMapper tradeRechargeRecordMapper;
     @Autowired
     private TradeTransferRepaymentRecordMapper tradeTransferRepaymentRecordMapper;
+    @Autowired
+    private TerminalService terminalService;
     
     private SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
     
@@ -192,7 +195,34 @@ public class TradeService {
     	if(tradeTimeDate == null) {
     		return false;
     	}
+    	saveRecord(orderNum,merchantOrderNum,childMercantOrderNum,
+        		merchantName, terminalNum, amount, tradeTimeDate,
+        		tradeTypeId, tradeStatusInt, tradeFee, cardNum);
+    	return true;
+    }
+    
+    private String cellStringValue(Row row, Integer cellnum){
+    	Cell cell = row.getCell(cellnum);
+    	if(cell == null){
+    		return null;
+    	}
+    	switch(cell.getCellType()){
+    	case Cell.CELL_TYPE_NUMERIC:
+    		return String.valueOf(cell.getNumericCellValue());
+    	default:
+    		return cell.getStringCellValue();
+    	}
+    }
+    
+    private TradeRecord saveRecord(String orderNum,String merchantOrderNum,String childMercantOrderNum,
+    		String merchantName, String terminalNum, String amount, Date tradeTimeDate,
+    		Integer tradeTypeId, Integer tradeStatusInt, String tradeFee, String cardNum){
+    	Terminal terminal = terminalService.findByNum(terminalNum);
     	TradeRecord tradeRecord = new TradeRecord();
+    	tradeRecord.setAgentId(terminal.getAgentId());
+    	tradeRecord.setPayChannelId(terminal.getPayChannelId());
+    	tradeRecord.setCustomerId(terminal.getCustomerId());
+    	tradeRecord.setCityId(terminal.getCustomer().getCityId());
     	tradeRecord.setTradeNumber(orderNum);
     	tradeRecord.setSysOrderId(merchantOrderNum);
     	tradeRecord.setMerchantNumber(childMercantOrderNum);
@@ -205,15 +235,9 @@ public class TradeService {
     	tradeRecord.setPoundage((int)(Float.parseFloat(tradeFee)*100));
     	tradeRecord.setPayFromAccount(cardNum);
     	tradeRecord.setAttachStatus(TradeRecord.ATTACH_STATUS_NO_CALCULATED);
+    	tradeRecord.setCreatedAt(new Date());
+    	tradeRecord.setUpdatedAt(new Date());
     	tradeRecordMapper.insert(tradeRecord);
-    	return true;
-    }
-    
-    private String cellStringValue(Row row, Integer cellnum){
-    	Cell cell = row.getCell(cellnum);
-    	if(cell == null){
-    		return null;
-    	}
-    	return cell.getStringCellValue();
+    	return tradeRecord;
     }
 }

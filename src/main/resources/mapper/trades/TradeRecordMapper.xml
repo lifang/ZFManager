@@ -33,6 +33,8 @@
     <result column="attach_status" jdbcType="INTEGER" property="attachStatus" />
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="types" jdbcType="TINYINT" property="types" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="integral_status" jdbcType="BIT" property="integralStatus" />
     <result column="pay_from_account" jdbcType="VARCHAR" property="payFromAccount" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -56,7 +58,8 @@
       account_number, actual_payment_price, paid_result, 
       paid_code, paid_error_description, created_at, 
       updated_at, trade_type_id, traded_status, 
-      attach_status, customer_id, types, pay_from_account
+      attach_status, customer_id, types, 
+      city_id, integral_status, pay_from_account
       )
     values (#{id,jdbcType=INTEGER}, #{tradeNumber,jdbcType=VARCHAR}, #{batchNumber,jdbcType=VARCHAR}, 
       #{terminalNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{agentId,jdbcType=INTEGER}, 
@@ -66,8 +69,8 @@
       #{accountNumber,jdbcType=VARCHAR}, #{actualPaymentPrice,jdbcType=INTEGER}, #{paidResult,jdbcType=TINYINT}, 
       #{paidCode,jdbcType=INTEGER}, #{paidErrorDescription,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{tradeTypeId,jdbcType=INTEGER}, #{tradedStatus,jdbcType=INTEGER}, 
-      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT},
-      #{payFromAccount,jdbcType=TINYINT}
+      #{attachStatus,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{types,jdbcType=TINYINT}, 
+      #{cityId,jdbcType=INTEGER}, #{integralStatus,jdbcType=BIT}, #{payFromAccount,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.trades.TradeRecord">
@@ -101,8 +104,10 @@
       traded_status = #{tradedStatus,jdbcType=INTEGER},
       attach_status = #{attachStatus,jdbcType=INTEGER},
       customer_id = #{customerId,jdbcType=INTEGER},
-      types = #{types,jdbcType=TINYINT}
-      pay_from_account = #{payFromAccount,jdbcType=TINYINT}
+      types = #{types,jdbcType=TINYINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      integral_status = #{integralStatus,jdbcType=BIT},
+      pay_from_account = #{payFromAccount,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -114,7 +119,7 @@
     merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id, 
     account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description, 
     created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id, 
-    types, pay_from_account
+    types, city_id, integral_status, pay_from_account
     from trade_records
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -127,7 +132,7 @@
     merchant_name, pay_channel_id, profit_price, amount, poundage, traded_at, sys_order_id, 
     account_name, account_number, actual_payment_price, paid_result, paid_code, paid_error_description, 
     created_at, updated_at, trade_type_id, traded_status, attach_status, customer_id, 
-    types, pay_from_account
+    types, city_id, integral_status, pay_from_account
     from trade_records
   </select>
 
