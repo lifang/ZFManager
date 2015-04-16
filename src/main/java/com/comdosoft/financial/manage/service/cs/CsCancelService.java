@@ -99,10 +99,7 @@ public class CsCancelService {
 		csCancelMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsCancelMark createMark(Customer customer, Integer csCancelId, String content) {
-		handle(csCancelId);
-		
 		CsCancelMark csCancelMark = new CsCancelMark();
 		csCancelMark.setCustomerId(customer.getId());
 		csCancelMark.setCsCancelId(csCancelId);

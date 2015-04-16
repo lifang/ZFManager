@@ -114,10 +114,7 @@ public class CsChangeService {
 		csChangeMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsChangeMark createMark(Customer customer, Integer csChangeId, String content) {
-		handle(csChangeId);
-		
 		CsChangeMark csChangeMark = new CsChangeMark();
 		csChangeMark.setCustomId(customer.getId());
 		csChangeMark.setCsChangeId(csChangeId);
