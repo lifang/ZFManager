@@ -56,6 +56,7 @@ public class OutStoreController {
 		model.addAttribute("address", address);
 		model.addAttribute("outStorageId",id);
 		model.addAttribute("orderId",outStoreService.getOrderIdByOutStorageId(id));
+		model.addAttribute("orderNumber",outStoreService.getOrderNumberByOutStorageId(id));
 		model.addAttribute("operater",outStoreService.getOperater(id));
 		model.addAttribute("orderDetails",outStoreService.getOrderDetailInfo(id));
 		Map<String, Object> map=outStoreService.getWLInfo(id);

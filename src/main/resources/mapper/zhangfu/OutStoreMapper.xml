@@ -7,6 +7,7 @@
     <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
     <result column="statsus" jdbcType="VARCHAR" property="status" />
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
+     <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
     <result column="created_at" jdbcType="INTEGER" property="createdAt" />
     <result column="updated_at" jdbcType="VARCHAR" property="updatedAt" />
     <result column="cs_apply_id" jdbcType="INTEGER" property="csApplyTypes" />
@@ -34,13 +35,14 @@
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
-		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_id,a.status,ifnull(a.process_user_id,"") as processUserId from 
-		((select * from  cs_out_storages ca where ca.process_user_id = 1 ORDER BY ca.created_at desc)
-UNION
-(select * from cs_out_storages cb where cb.process_user_id != 1 
- ORDER BY cbcreated_at desc)) a
+		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_number,a.status,ifnull(a.process_user_id,"") as processUserId 
+
+from ((select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id  where ca.process_user_id = 1 ORDER BY ca.created_at desc)
+ UNION (select cb.*,cd.order_number from cs_out_storages cb LEFT JOIN orders cd on cb.order_id=cd.id
+
+ where cb.process_user_id != 1 ORDER BY cb.created_at desc)) a
 		<include refid="pageWhere" />
-		and a.order_id is not null 
+		and a.order_number is not null 
 		 order by a.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
@@ -71,21 +73,25 @@ UNION
 	</select>
 	
 	<select id="getInfoInit" resultType="hashmap">
-select ifnull(c.address,"") as address,ifnull(c.receiver,"") as receiver,ifnull(a.invoice_info,"") as invoiceInfo,
-ifnull(a.invoice_type,"") as invoiceType,ifnull(a.comment,"") as comment,ifnull(a.types,"") as types,ifnull(a.order_number,"") as orderNumber,
-ifnull(b.name,"") as name,ifnull(a.payed_at,"") as payedAt,ifnull(d.pay_type,"") as payType,f.name as payTypeName, 
-ifnull((select name from factories where id=(select factory_id from goods where id=(select good_id from order_goods where order_id=1))),'掌富') as factoryName,
-ifnull(a.process_user_name,"") as processUserName,
-ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice from orders a left join customers b on a.customer_id=b.id
-left join customer_addresses c on a.customer_address_id=c.id 
-left join order_payments d on a.id=d.order_id
-left join order_goods e on e.order_id =a.id
-left join pay_channels f on d.pay_type=f.id
-where a.id=#{orderId}
+select ifnull(c.address,"") as address,ifnull(c.receiver,"") as receiver,
+
+ifnull(a.invoice_info,"") as invoiceInfo, ifnull(a.invoice_type,"0") as invoiceType,
+
+ifnull(a.comment,"") as comment,ifnull(a.types,"") as types,ifnull(a.order_number,"") as orderNumber, 
+
+ifnull(b.name,"") as name,ifnull(a.payed_at,"") as payedAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
+
+ifnull((select name from factories where id=(select factory_id from goods where id=(select good_id from order_goods where order_id=1))),'掌富') as factoryName, 
+
+ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice 
+
+from orders a left join customers b on a.customer_id=b.id left join customer_addresses c on a.customer_address_id=c.id left join order_payments d on a.id=d.order_id left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id where a.id=#{orderId}
 	</select>
 	
 	<select id="getOrderIdByOutStorageId" resultType="hashmap">
-		select order_id as orderId from cs_out_storages where id=#{id}
+		select a.order_id as orderId,b.order_number as orderNumber from cs_out_storages a 
+left join orders b on a.order_id=b.id 
+where a.id=#{id}
 	</select>
 	
 	
@@ -114,7 +120,7 @@ where a.id=#{orderId}
 	</select>
    
 	<select id="getWLByOrderId" resultType="hashmap">
-		select logistics_name as wlName,logistics_number as wlNum,id from order_logistics where order_id=#{orderId}
+		select logistics_name as wlName,logistics_number as wlNum,id from order_logistics where order_id=#{orderId} order by created_at desc
 	</select>
 	
 	<update id="changeStatus">

@@ -61,6 +61,19 @@ public class OutStoreService {
 		}
 	}
 	
+	public String getOrderNumberByOutStorageId(int id){
+		Map<String, Object> map=outStoreMapper.getOrderIdByOutStorageId(id);
+		if(null !=map){
+			if(null != map.get("orderNumber")){
+				return map.get("orderNumber").toString();
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
+	}
+	
 	public List<Good> getGoodInfoInit(int id){
 		List<Good> goods=outStoreMapper.getGoodInfoInit(id);
 		List<Good> goodsNew=new ArrayList<Good>();
@@ -105,7 +118,13 @@ public class OutStoreService {
 	
 	public Map<String,Object> getWLInfo(int id){
 		if(null !=getOrderIdByOutStorageId(id)){
-			return outStoreMapper.getWLByOrderId(getOrderIdByOutStorageId(id));
+			List<Map<String, Object>> temp=outStoreMapper.getWLByOrderId(getOrderIdByOutStorageId(id));
+			if(null!=temp && temp.size()>0){
+				return temp.get(0);
+			}else{
+				return null;
+			}
+			
 		}else{
 			return null;
 		}

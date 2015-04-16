@@ -27,7 +27,7 @@ public interface OutStoreMapper {
 	
 	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId);
 	
-	Map<String, Object> getWLByOrderId(@Param("orderId") int orderId);
+	List<Map<String, Object>> getWLByOrderId(@Param("orderId") int orderId);
 	
 	int changeStatus(@Param("status") int status,@Param("loginId") int loginId,@Param("id") int id);
 	

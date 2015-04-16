@@ -18,7 +18,7 @@
 	            <ul>
 	                <li>编号：<#if (outStorageId)??>${outStorageId}</#if></li>
 	                <li>处理人：<#if (operater)??>${operater}</#if></li>
-	                <li>相关业务：<a href="#" class="a_btn orderDetail_a">用户订单<#if (orderId)??>（${orderId}）</#if></a> </li>
+	                <li>订单编号：<a href="#" class="a_btn orderDetail_a">用户订单<#if (orderNumber)??>（${orderNumber}）</#if></a> </li>
 	            </ul>
 	        </div> 
 	    </div>

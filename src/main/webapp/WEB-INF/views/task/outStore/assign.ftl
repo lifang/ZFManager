@@ -31,7 +31,7 @@ $(function() {
 				var status = $(this).attr("cs_status");
 				var num = $(this).attr("cs_id");
            		if($(this).prop("checked") ) {
-           			if (processUserId=="" ||processUserId==undefined) {
+           			if ((processUserId=="" ||processUserId==undefined)&& status==1) {
            				dispatchIds.push(id);
            			} else {
            				dispatchedNums.push(num);

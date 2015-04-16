@@ -15,7 +15,7 @@
           <th><input name="cb_all" type="checkbox" value="" /></th> 
           <th>出库单号</th> 
           <th>申请日期</th> 
-          <th>相关业务</th> 
+          <th>订单编号</th> 
           <th>状态</th>
           <th>操作</th> 
          </tr> 

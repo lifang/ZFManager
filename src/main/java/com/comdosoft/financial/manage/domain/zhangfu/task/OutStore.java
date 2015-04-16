@@ -23,10 +23,17 @@ public class OutStore {
 	//备注
 	private String remarkContent;
 	
+	private String orderNumber;
 	
 	
 	
 	
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
 	public String getRemarkContent() {
 		return remarkContent;
 	}
