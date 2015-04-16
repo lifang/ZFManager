@@ -231,6 +231,7 @@ public class TradeService {
     	tradeRecord.setAmount((int)(Float.parseFloat(amount)*100));
     	tradeRecord.setTradedAt(tradeTimeDate);
     	tradeRecord.setTradeTypeId(tradeTypeId);
+    	tradeRecord.setTypes(tradeTypeId.byteValue());
     	tradeRecord.setTradedStatus(tradeStatusInt);
     	tradeRecord.setPoundage((int)(Float.parseFloat(tradeFee)*100));
     	tradeRecord.setPayFromAccount(cardNum);
