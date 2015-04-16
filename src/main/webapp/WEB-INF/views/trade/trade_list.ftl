@@ -62,5 +62,7 @@
             pageChange(1);
         });
         pageChange(1);
+
+        popup(".file_tab",".file_a");//交易转账上传
     });
 </script>

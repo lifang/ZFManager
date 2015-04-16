@@ -1,7 +1,6 @@
 package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
-import java.util.List;
 
 public class Factory {
 
