@@ -31,7 +31,7 @@
 <script>
     function pageChange(page) {
         $.post('<@spring.url "/system/operate/roles/page" />',
-                {"page": page,"query":$("input[name=query]").val()},
+                {"page": page,"query":$("input[name=query]").val().trim()},
                 function (data) {
                     $('#page').html(data);
                 });

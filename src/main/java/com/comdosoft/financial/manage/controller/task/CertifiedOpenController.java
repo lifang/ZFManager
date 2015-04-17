@@ -48,7 +48,7 @@ public class CertifiedOpenController {
         return "task/certifiedOpen/list";
     }
 
-    @RequestMapping(value = "page", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.POST)
     public String page(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
         findPage(request,page, status, keys, model);
         return "task/certifiedOpen/page";
@@ -68,9 +68,11 @@ public class CertifiedOpenController {
     }
 
     @RequestMapping(value = "{id}/video", method = RequestMethod.GET)
-    public String video(@PathVariable Integer id, Model model) {
+    public String video(@PathVariable Integer id, Model model, HttpServletRequest request) {
         Showinfo tinfo = certifiedOpenService.findInfo(id);
         model.addAttribute("tinfo", tinfo);
+        Customer customer = sessionService.getLoginInfo(request);
+        model.addAttribute("customer", customer);
         List<Opendetailsinfo> opendetailsinfos = certifiedOpenService.opendetailsinfo(id);
         if (opendetailsinfos != null && opendetailsinfos.size() > 0) {
             model.addAttribute("opendetailsinfos", opendetailsinfos);

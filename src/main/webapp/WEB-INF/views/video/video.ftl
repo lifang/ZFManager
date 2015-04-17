@@ -19,7 +19,7 @@
 <body onload="LogicInit('111', 222)">
 	<div class="videoAuthentication">
     	<div class="va_title">
-            <h1>视频认证q</h1>
+            <h1>视频认证</h1>
             <div class="btn"><a href="#" class="ghostBtn">关闭</a><a href="#" class="ghostBtn remark_a">备注</a></div>
         </div>
         <div class="va_box" id="viewBox">
@@ -127,7 +127,7 @@
             <div>刷新</div>
         </div>
         <div>
-            <div></div>
+            <div id="prompt_div_line1"></div>
             <div>控件安装完成后，请重启浏览器</div>
             <div onclick="window.open('http://anychat.oss.aliyuncs.com/AnyChatWebSetup.exe')">下载安装</div>
         </div>

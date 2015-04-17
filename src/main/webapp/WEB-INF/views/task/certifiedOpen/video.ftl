@@ -9,10 +9,13 @@
 
 <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
 <script src="<@spring.url "/resources/js/main.js"/>"></script>
-
-
+<!-- 加载AnyChat for Web SDK库  -->
+<script language="javascript" type="text/javascript" src="<@spring.url "/resources/js/video/anychatsdk.js"/>" charset="GB2312"></script>
+<script language="javascript" type="text/javascript" src="<@spring.url "/resources/js/video/anychatevent.js"/>" charset="GB2312"></script>
+<!-- 加载业务逻辑控制脚本  -->
+<script language="javascript" type="text/javascript" src="<@spring.url "/resources/js/video/logicfunc.js"/>"></script>
 </head>
-<body>
+<body onload="LogicInit('${customer.id}', ${tinfo.id})">
 	<div class="videoAuthentication">
     	<div class="va_title">
             <h1>视频认证</h1>
@@ -20,9 +23,12 @@
         </div>
         <div class="va_box">
         	<div class="va_left">
-            	<div class="va_video"></div>
+            	<div class="va_video">
+                    <div id="div_videoarea" style="width:100%; height:100%;">
+                    </div>
+                </div>
                 <div class="val_bottom">
-                	<a href="#" class="greenBtn">开始录制</a>
+                    <a onClick="record(this)" class="greenBtn">开始录制</a>
                     <a href="#" class="blueBtn">视频认证通过</a>
                     <a href="#" class="ghostBtn danger_a">添加风险标签</a>
                 </div>
@@ -95,15 +101,15 @@
 							    	<#if (one.types)??&&one.types == 2> 
 							    		<li>
 						                     <span class="labelSpan" >${one.key!}：</span>
-						                     <div class="text">
-						                     <img src="${one.value!}" class="cover"/>
-						                     </div>
+                                                 <div class="text">
+                                                     <img src="<@spring.url "/resources/images/zp.jpg"/>" value="${one.value!}" class="cover" />
+                                                </div>
 				               			 </li>
 							    	</#if>
 							    </#list> 
 							    </#if>
 							</ul>
-                            <div class="img_info"><img src="images/mt_big.jpg" /></div>
+                            <div class="img_info"><img src="" /></div>
                         </div> 
                     </div>
             </div>
@@ -142,6 +148,29 @@
         	
         </div>
         <div class="tabFoot"><button class="blueBtn" onclick="upvs()">确定</button></div>
+    </div>
+
+    <!--安装插件提示层 -->
+    <div id="prompt_div">
+        <div class="close_div">
+            <div>插件安装提示</div>
+            <div>刷新</div>
+        </div>
+        <div>
+            <div id="prompt_div_line1"></div>
+            <div>控件安装完成后，请重启浏览器</div>
+            <div onclick="window.open('http://anychat.oss.aliyuncs.com/AnyChatWebSetup.exe')">下载安装</div>
+        </div>
+        <div>
+            <div>
+                <a href="http://www.anychat.cn/">AnyChat</a>&nbsp|&nbsp<a href="http://www.bairuitech.com/">佰锐科技</a>
+            </div>
+        </div>
+    </div>
+    <!--系统日志信息层-->
+    <div id="LOG_DIV_BODY">
+        <div id="LOG_DIV_TITLE">系统日志</div>
+        <div id="LOG_DIV_CONTENT"></div>
     </div>
   <script type="text/javascript">
 	var add=function(){

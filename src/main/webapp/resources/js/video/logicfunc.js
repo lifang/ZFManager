@@ -30,6 +30,7 @@ var recording = false;
 var dwFlags = ANYCHAT_RECORD_FLAGS_VIDEO + ANYCHAT_RECORD_FLAGS_AUDIO
     + BRAC_RECORD_FLAGS_SERVER + ANYCHAT_RECORD_FLAGS_LOCALCB;
 
+//登陆初始化，填写 登陆人id，和终端id
 function LogicInit(username, roomId) {
     mRoomId = roomId;
     mUsername = username;
@@ -53,9 +54,6 @@ function LogicInit(username, roomId) {
             InitInterfaceUI();
         } else { 						// 没有安装插件，或是插件版本太旧，显示插件下载界面
             GetID("prompt_div").style.display = "block";
-            GetID("viewBox").style.display = "none";
-
-            SetDivTop("prompt_div", 300);
             if (errorcode == GV_ERR_PLUGINNOINSTALL)
                 GetID("prompt_div_line1").innerHTML = "首次进入需要安装插件，请点击下载按钮进行安装！";
             else if (errorcode == GV_ERR_PLUGINOLDVERSION)
@@ -142,8 +140,14 @@ function AddLog(message, type) {
     } else {							// 普通日志，灰色
         message = message.fontcolor("#333333");
     }
-    GetID("LOG_DIV_CONTENT").innerHTML += message + "&nbsp" + GetTheTime().fontcolor("#333333") + "<br />";
-    DisplayScroll("LOG_DIV_CONTENT");
+    var divContent = GetID("LOG_DIV_CONTENT");
+    if(divContent){
+        GetID("LOG_DIV_CONTENT").innerHTML += message + "&nbsp" + GetTheTime().fontcolor("#333333") + "<br />";
+        DisplayScroll("LOG_DIV_CONTENT");
+    } else{
+        alert(1111);
+    }
+
 }
 
 //系统信息框滚动条显隐
