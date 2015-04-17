@@ -27,11 +27,17 @@
 <div id="trade_page"></div>
 <script>
     function pageChange(page) {
+    	var end = $("input[name=date_end]").val();
+    	var timeadd = "";
+    	if(end != ""){
+	    	timeadd= new Date(end.replace(/-/g,"/"));
+			timeadd=timeadd.getFullYear() + "-" + (timeadd.getMonth() + 1) + "-"+ (timeadd.getDate()+1);
+    	}
         $.post("<@spring.url "/trade/type/${type.id}/page/"/>"+page,
                 {
                     status:$("select[name=trade_type]").val(),
                     start:$("input[name=date_start]").val(),
-                    end:$("input[name=end_start]").val()
+                    end:timeadd
                 },
                 function(data){
                     $("#trade_page").html(data);

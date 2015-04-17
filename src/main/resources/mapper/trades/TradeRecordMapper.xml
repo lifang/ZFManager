@@ -147,10 +147,10 @@
                 trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and traded_at&gt;#{start}
+                and traded_at&gt;=#{start}
             </if>
             <if test="end!=null">
-                and traded_at&gt;#{end}
+                and traded_at&lt;#{end}
             </if>
             <if test="status!=null">
                 and traded_status=#{status}
@@ -168,10 +168,10 @@
                 trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and traded_at&gt;#{start}
+                and traded_at&gt;=#{start}
             </if>
             <if test="end!=null">
-                and traded_at&gt;#{end}
+                and traded_at&lt;#{end}
             </if>
             <if test="status!=null">
                 and traded_status=#{status}
@@ -188,10 +188,10 @@
                 tr.trade_type_id=#{type}
             </if>
             <if test="start!=null">
-                and tr.traded_at&gt;#{start}
+                and tr.traded_at&gt;=#{start}
             </if>
             <if test="end!=null">
-                and tr.traded_at&gt;#{end}
+                and tr.traded_at&lt;#{end}
             </if>
             <if test="status!=null">
                 and tr.traded_status=#{status}
@@ -204,5 +204,9 @@
 		  FROM trade_records r
 		 WHERE r.terminal_number = #{terminalNumber} and r.traded_status = #{status} 
 		   AND r.traded_at BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
+	<select id="getTradeRecordsByTradeNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select trade_number from trade_records where trade_number = #{orderId}
 	</select>
 </mapper>

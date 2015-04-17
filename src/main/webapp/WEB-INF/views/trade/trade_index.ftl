@@ -30,6 +30,7 @@
     <form id="file_form" action="<@spring.url "/trade/import"/>" method="post" enctype="multipart/form-data">
     <div class="tabBody">
         <input name="file" type="file" />
+        <input type="hidden" name="selectTradeType" value="${type.id}"/>
     </div>
     <div class="tabFoot"><button class="blueBtn">确定</button></div>
     </form>
