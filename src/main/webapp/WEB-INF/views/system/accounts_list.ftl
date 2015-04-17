@@ -45,7 +45,7 @@
     }
     function pageChange(page) {
         $.post('<@spring.url "/system/operate/accounts/page" />',
-                {"page": page,"query":$("input[name=query]").val(),"status":$("select[name=status]").val()},
+                {"page": page,"query":$("input[name=query]").val().trim(),"status":$("select[name=status]").val()},
                 function (data) {
                     $('#page').html(data);
                 });

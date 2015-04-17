@@ -7,10 +7,10 @@
     <div class="item_list clear">
         <ul>
             <li><span class="labelSpan">新密码：</span>
-                <div class="text"><input name="password" type="text"></div>
+                <div class="text"><input name="password" type="password"></div>
             </li>
             <li><span class="labelSpan">确认密码：</span>
-                <div class="text"><input name="confirmPassword" type="text"></div>
+                <div class="text"><input name="confirmPassword" type="password"></div>
             </li>
         </ul>
     </div>

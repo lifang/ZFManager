@@ -1,4 +1,3 @@
-    
 <#import "../../common.ftl" as c />
 <@c.html>
 <div class="breadcrumb">
@@ -25,8 +24,9 @@
           <div class="btnBottom"><button class="ghostBtn" onclick="toNormalStock()">正常入库</button><button class="ghostBtn" onclick="breakDown()">报废</button></div>
         </div> 
     </div>
-</div>    
-    <div class="tab" id="div1" style="display:none; top: 200px; left: 200px;">
+</div>  
+
+<div class="tab" id="div1" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">售后信息</div>
     <div class="tabBody">
@@ -77,7 +77,7 @@
 	function showAccount(){
 		var account=$("#account1").val();
 		$.post('<@spring.url "/task/stockManage/showInfo" />',
-	        {   "account": account},
+	        {   "serialNum": account},
 	        function (ret) {
 	            if(ret.code=='-1'){
 	            	$("#div2").show();
@@ -93,7 +93,7 @@
 	function toAfterStock(){
 		var account=$("#accountTemp").val();
 		$.post('<@spring.url "/task/stockManage/toNormalStock" />',
-	        {   "account": account},
+	        {   "serialNum": account},
 	        function (ret) {
 	            if(ret.code=='-2'){
 	            	$("#div4").show();
@@ -109,7 +109,7 @@
 	function toNormalStock(){
 		var account=$("#account2").val();
 		$.post('<@spring.url "/task/stockManage/toNormalStock" />',
-	        {   "account": account},
+	        {   "serialNum": account},
 	        function (ret) {
 	            if(ret.code=='-2'){
 	            	$("#div4").show();
@@ -124,7 +124,7 @@
 	function breakDown(){
 		var account=$("#account2").val();
 		$.post('<@spring.url "/task/stockManage/breakDown" />',
-	        {   "account": account},
+	        {   "serialNum": account},
 	        function (ret) {
 	            if(ret.code=='-2'){
 	            	$("#div4").show();

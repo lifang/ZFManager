@@ -62,4 +62,6 @@ public interface CustomerMapper {
 	 */
 	List<Customer> selectDispatchUsers();
 
+	List<Customer> findCustomerByUserName(String username, Integer id);
+
 }

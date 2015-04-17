@@ -10,7 +10,7 @@
 		update terminals a set a.stauts=3,a.updated_at=now(),a.is_return_cs_depots=0,
 		a.agent_id="",a.customer_id="",a.order_id="",a.is_rate_wrong="",a.base_rate="",
 		a.billing_cycles_id="",a.opened_at="",a.top_charge=""
-		  where a.account=#{account} and a.is_return_cs_depots=1 
+		  where a.serial_num=#{serialNum} and a.is_return_cs_depots=1 
 	</update>
 	
 	<update id="breakDown">
@@ -18,11 +18,11 @@
 	</update>
 	
 	<select id="checkAccount" resultType="hashmap">
-		select account,id from terminals where 1=1 and account=#{account}
+		select serial_num as serialNum,id from terminals where 1=1 and serial_num=#{serialNum}
 	</select>
 	
 	<select id="checkAccountIsInAfterSale" resultType="hashmap">
-		select account,id from terminals where 1=1 and account=#{account} and is_return_cs_depots=1 
+		select serial_num as serialNum,id from terminals where 1=1 and serial_num=#{serialNum} and is_return_cs_depots=1 
 	</select>
 	
 	

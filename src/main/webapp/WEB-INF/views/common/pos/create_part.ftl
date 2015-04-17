@@ -12,13 +12,13 @@
         <div class="item_list clear">
             <ul>
                 <li class="b"><span class="labelSpan">标题：</span>
-                    <div class="text"><input name="g_title" type="text"
+                    <div class="text"><input name="g_title" id="gTitle" type="text"
                                              <#if (good.title)??>value="${good.title}"</#if>
-                            ></div></li>
+                            onkeyup="checkLength(this,600)"></div></li>
                 <li class="b"><span class="labelSpan">副标题：</span>
                     <div class="text"><input name="g_secondTitle" type="text"
                                              <#if (good.secondTitle)??>value="${good.secondTitle}"</#if>
-                            ></div></li>
+                            onkeyup="checkLength(this,600)"></div></li>
                 <li class="b"><span class="labelSpan">关键字：</span>
                     <div class="text"><input name="g_keyWorlds" type="text"
                                              <#if (good.keyWorlds)??>value="${good.keyWorlds}"</#if>
@@ -105,11 +105,11 @@
                 <li><span class="labelSpan">电池信息：</span>
                     <div class="text"><input name="g_batteryInfo" type="text"
                                              <#if (good.batteryInfo)??>value="${good.batteryInfo}"</#if>
-                            ></div></li>
+                            onkeyup="checkLength(this,600)"></div></li>
                 <li><span class="labelSpan">外壳材质：</span>
                     <div class="text"><input name="g_shellMaterial" type="text"
                                              <#if (good.shellMaterial)??>value="${good.shellMaterial}"</#if>
-                            ></div></li>
+                            onkeyup="checkLength(this,600)"></div></li>
             </ul>
         </div>
     </div>
@@ -170,9 +170,9 @@
                                              onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
                 <li class="b"><span class="labelSpan">租赁说明：</span>
                     <div class="text">
-                        <textarea name="g_leaseDescription" cols="" rows=""><#if (good.leaseDescription)??>${good.leaseDescription}</#if></textarea></div></li>
+                        <textarea name="g_leaseDescription" cols="" rows="" onkeyup="checkLength(this,600)"><#if (good.leaseDescription)??>${good.leaseDescription}</#if></textarea></div></li>
                 <li class="b"><span class="labelSpan">租赁协议：</span>
-                    <div class="text"><textarea name="g_leaseAgreement" cols="" rows=""><#if (good.leaseAgreement)??>${good.leaseAgreement}</#if></textarea></div></li>
+                    <div class="text"><textarea name="g_leaseAgreement" cols="" rows="" onkeyup="checkLength(this,600)"><#if (good.leaseAgreement)??>${good.leaseAgreement}</#if></textarea></div></li>
             </ul>
         </div>
     </div>
@@ -255,6 +255,18 @@
 </div>
 
 <script type="text/javascript">
+	<#-- 控制长度-->
+	function checkLength(obj,lengthStr){
+		var temp=$(obj).val();
+		if(temp.length>=lengthStr){
+			$(obj).val("");
+			$(obj).css("border-color","red");
+			alert("输入长度超过最大长度限制，最大长度为："+lengthStr);
+			
+		}else{
+			$(obj).css("border-color","darkgrey");
+		}
+	}
 
     $(function(){
     <#--通道搜索-->

@@ -11,6 +11,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import com.google.common.base.Strings;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -129,7 +130,7 @@ public class CustomerService {
     @Transactional("transactionManager")
     public boolean modifyOperate(Integer id,String account,
     		String name,String password, Integer[] roles){
-        Customer customer = customer = customer(id);
+        Customer customer = customer(id);
 
         if (!customer.getUsername().equals(account)){
             Customer customer1 = customerMapper.selectByUsername(account);
@@ -329,4 +330,19 @@ public class CustomerService {
         return customer;
 
     }
+
+    /**
+     * 查询是否存在该账号，排除这个id号
+     * @param username
+     * @param id
+     * @return
+     */
+	public Boolean findCustomerByUserName(String username, Integer id) {
+		List<Customer> list= customerMapper.findCustomerByUserName(username,id);
+		if(list.size()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

@@ -5,3 +5,5 @@
 /.springBeans
 /.idea/
 /ZFManager.iml
+/.tomcatplugin
+/.gitignore
