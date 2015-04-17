@@ -25,6 +25,7 @@
                 <li>邮箱：${customer.email!"- -"}</li>
                 <li>上次登录：<#if customer.lastLoginedAt??>${customer.lastLoginedAt?datetime}<#else>- -</#if></li>
                 <li id="li_integral">积分：${(customer.integral)!0}分</li>
+                <input type="hidden" value="${(customer.integral)!0}" id="jifen_value">
             </ul>
         </div>
     </div>
@@ -102,9 +103,13 @@
         if(isNull(num,"积分不能为空！")){
             return false;
         }
+		var jifen = $("#jifen_value").val();
+		if(Number(num)>Number(jifen)){
+			 alert("没有那么多积分可调整");
+			 return false;
+		}
         var reason = $("#reason").val();
         if(isNull(reason,"调整原因不能为空！")){
-
             return false;
         }
 
