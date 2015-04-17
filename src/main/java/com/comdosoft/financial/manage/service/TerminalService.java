@@ -29,7 +29,10 @@ public class TerminalService {
     private FactoryMapper factoryMapper;
     @Autowired
     private GoodMapper goodMapper;
-
+    @Autowired
+    private PayChannelMapper payChannelMapper;
+    @Autowired
+    private OpeningApplieMapper openingApplieMapper;
 	public long countCustomerTerminals(Integer customerId){
 		return terminalMapper.countCustomerTerminals(customerId);
 	}
@@ -143,4 +146,28 @@ public class TerminalService {
     public Terminal findByNum(String num) {
     	return terminalMapper.findTerminalByNum(num);
     }
+
+
+//    public int videoStatus(Integer id){
+//        int status = Terminal.VIDEO_STATUS_1;
+//        boolean need = false;
+//        OpeningApplie openingApplie = openingApplieMapper.selectOpeningApplie(id);
+//        if(openingApplie == null){
+//            return status;
+//        }
+//
+//
+//
+//        PayChannel payChannel = payChannelMapper.findChannelLazyInfo(id);
+//        for (OpeningRequirement openingRequirement : payChannel.getOpeningRequirements()){
+//            if(openingRequirement.getHasVideoVerify() == true){
+//                need = true;
+//                break;
+//            }
+//        }
+//        if(need){
+//
+//        }
+//        return need;
+//    }
 }

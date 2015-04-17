@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.controller.factory;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by quqiang on 15/4/9.
@@ -22,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 public class TerminalController {
     @Autowired
     private TerminalService terminalService;
+    @Autowired
+    private PayChannelService payChannelService;
     @Autowired
     private SessionService sessionService;
 
@@ -56,6 +61,13 @@ public class TerminalController {
             status = null;
         }
         Page<Terminal> terminals = terminalService.findPages(customerId, page, status, keys);
+        List<Integer> ids = new ArrayList<Integer>();
+        for (Terminal terminal : terminals.getContent()){
+//            if(payChannelService.needVideo(terminal.getPayChannelId())){
+//                ids.add(terminal.getId());
+//            }
+        }
         model.addAttribute("terminals", terminals);
+        model.addAttribute("ids", ids);
     }
 }

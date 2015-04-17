@@ -558,4 +558,5 @@ public class PayChannelService {
             otherRequirementMapper.insert(otherRequirement);
         }
     }
+
 }

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="renderer" content="webkit">
-<title>运营中心-任务--认证开通--视频认证</title>
+<title>运营中心</title>
 <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css" />
 
 <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
@@ -24,7 +24,21 @@
         <div class="va_box">
         	<div class="va_left">
             	<div class="va_video">
+                    <!--安装插件提示层 -->
+                    <div id="prompt_div">
+                        <div class="plug">
+                            <h2>插件安装提示</h2>
+                            <div id="prompt_div_line1"></div>
+                            <i></i>
+                            <div>控件安装完成后，请重启浏览器</div>
+                            <div class="plug_btn"><a href="javascript:void(0);" onclick="window.open('http://anychat.oss.aliyuncs.com/AnyChatWebSetup.exe')">下载安装</a></div>
+                            <div>
+                                <a href="http://www.anychat.cn/">AnyChat</a>&nbsp;|&nbsp; <a href="http://www.bairuitech.com/">佰锐科技</a>
+                            </div>
+                        </div>
+                    </div>
                     <div id="div_videoarea" style="width:100%; height:100%;">
+
                     </div>
                 </div>
                 <div class="val_bottom">
@@ -148,24 +162,6 @@
         	
         </div>
         <div class="tabFoot"><button class="blueBtn" onclick="upvs()">确定</button></div>
-    </div>
-
-    <!--安装插件提示层 -->
-    <div id="prompt_div">
-        <div class="close_div">
-            <div>插件安装提示</div>
-            <div>刷新</div>
-        </div>
-        <div>
-            <div id="prompt_div_line1"></div>
-            <div>控件安装完成后，请重启浏览器</div>
-            <div onclick="window.open('http://anychat.oss.aliyuncs.com/AnyChatWebSetup.exe')">下载安装</div>
-        </div>
-        <div>
-            <div>
-                <a href="http://www.anychat.cn/">AnyChat</a>&nbsp|&nbsp<a href="http://www.bairuitech.com/">佰锐科技</a>
-            </div>
-        </div>
     </div>
     <!--系统日志信息层-->
     <div id="LOG_DIV_BODY">

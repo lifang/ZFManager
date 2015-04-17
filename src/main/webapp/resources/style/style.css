@@ -953,14 +953,14 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 	width:98%; 
 	padding: 5px; 
 	border: 1px #CCCCCC solid; 
-	height: 100px; 
+	height: 80px; 
 	margin: 10px 0; 
 	font-size: 12px;
 	display: block;
 }
 .deliver_tab input { width: 98%; padding: 5px; border: 1px #CCCCCC solid; height: 24px; margin: 10px 0;display: block;}
 .deliver_tab input.input_m { width: 200px;}
-.deliver_numb {overflow:hidden;}
+.deliver_numb { overflow: hidden;}
 .deliver_numb label { display: inline-block; float: left;height: 24px; line-height: 24px; margin: 10px 0; padding: 5px 0;}
 .deliver_numb input { float: left;}
 
@@ -1266,3 +1266,16 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 .foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
 .foot .foot_nav li a:hover { color: #0292f7;}
 .copyright { float: right; color: #666;}
+
+
+
+
+/*---视频认证插件提示--*/
+#prompt_div { width: 700px; height: 500px; background: #FFF; display: table;}
+#prompt_div .plug { width: 180px; margin: 0 auto; text-align: center; display: table-cell; vertical-align:middle;}
+#prompt_div .plug div { margin: 10px 0;}
+#prompt_div .plug_btn a { padding: 5px 10px; display: inline-block; background: #5da411; color: #FFF;}
+#prompt_div .plug i { width: 140px; height: 100px; background: url(../images/plug.png) no-repeat; display: inline-block;}
+
+
+
