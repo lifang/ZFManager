@@ -16,24 +16,26 @@
                     <div class="text">
                         <span class="checkboxRadio_span"><input name="f_types" type="radio" value="1"> 收单机构</span>
                         <span class="checkboxRadio_span"><input name="f_types" type="radio" value="2"> 生产厂商</span>
+                    
                     </div>
                 </li>
                 <li><span class="labelSpan">机构名称：</span>
                     <div class="text"><input name="f_name" type="text" value="${(factory.name)!""}"></div>
+                         <input type="hidden" value="${(factory.id)!""}" id="agent_id">
                 </li>
                 <li><span class="labelSpan">登录ID：</span>
                     <div class="text"><input name="f_username" type="text" value="${(factory.customer.username)!""}"></div>
                 </li>
                 <li><span class="labelSpan">登录密码：</span>
-                    <div class="text"><input name="f_password" type="text"></div>
+                    <div class="text"><input name="f_password" type="password"></div>
                 </li>
                 <li><span class="labelSpan">确认密码：</span>
-                    <div class="text"><input name="confirmPassword" type="text"></div>
+                    <div class="text"><input name="confirmPassword" type="password"></div>
                 </li>
                 <li><span class="labelSpan">机构LOGO：</span>
                     <form id="fileForm" action="<@spring.url "/system/factory/uploadImg" />" method="post" enctype="multipart/form-data">
                     <div class="text">
-                        <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover">
+                        <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover"  id="img_path">
                         <a href="javascript:void(0);" class="informImg_a">
                             <span>上传</span><input name="file"  onChange="fileChange()"  multiple="" type="file" value="${(factory.logoFilePath)!""}">
                         </a>
@@ -89,6 +91,7 @@
         var username=$("input[name='f_username']").val();
         if(isNull(username, "登录ID不能为空!")){return false;}
         var accountType;
+        <#-- 
         if(checkMobile(username)){
             accountType=1;
         } else if(checkEmail(username)){
@@ -97,7 +100,16 @@
             showErrorTip("登录ID必须为手机号或邮箱");
             return false;
         }
-        var password=$("input[name='f_password']").val();
+		-->
+		var a_id = $("#agent_id").val();
+        var u_url="<@spring.url "/system/agent/findCustomerByName" />";
+        $.post(u_url, {  
+						 factory_id: a_id,
+	                    username: username
+				 },
+		   function(data){
+		  		 if(data.code==1){
+					var password=$("input[name='f_password']").val();
         var confirmPassword=$("input[name='confirmPassword']").val();
         <#if !(factory??)>
             if(isNull(password, "密码不能为空!")){return false;}
@@ -128,6 +140,8 @@
         <#else>
             var url="<@spring.url "/system/factory/create" />";
         </#if>
+
+		
         $.post(url,
                 {types: types,
                     name: name,
@@ -149,12 +163,19 @@
                     }
                 }
         );
+				 } else {
+		            showErrorTip(data.message);
+					return false;
+	       		 }
+		   }, "json");
+ 
     }
 
     function fileChange(){
         var options = {
             success: function(data){
                 if(data.code==1){
+               		 $("#img_path").attr("src", data.result);
                     var $file = $("#fileForm").find(":file");
                     if($file.length > 0){
                         $file.attr("value", data.result);

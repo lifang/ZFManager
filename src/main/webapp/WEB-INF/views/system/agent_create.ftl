@@ -128,7 +128,6 @@
         }
     	-->
 		var a_id = $("#agent_id").val();
-    	console.log("post  begin......"+a_id);
         var u_url="<@spring.url "/system/agent/findCustomerByName" />";
         $.post(u_url, {  
 						 id: a_id,
