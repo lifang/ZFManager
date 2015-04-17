@@ -43,4 +43,6 @@ public interface OpeningVideoVerifyMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(OpeningVideoVerify record);
+
+    List<OpeningVideoVerify> selectByApplyId(Integer applyId);
 }

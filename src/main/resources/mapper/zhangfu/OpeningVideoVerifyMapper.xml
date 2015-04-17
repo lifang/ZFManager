@@ -60,4 +60,10 @@
     select id, status, opening_requirement_id, opening_apply_id
     from opening_video_verifies
   </select>
+
+
+    <select id="selectByApplyId" resultMap="BaseResultMap" >
+        select *
+        from opening_video_verifies o where o.opening_apply_id=#{param1}
+    </select>
 </mapper>

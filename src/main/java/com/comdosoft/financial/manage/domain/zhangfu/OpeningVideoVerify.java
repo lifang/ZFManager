@@ -128,4 +128,9 @@ public class OpeningVideoVerify {
     public void setOpeningApplyId(Integer openingApplyId) {
         this.openingApplyId = openingApplyId;
     }
+
+    public final static Integer STATUS_TRUE = 1;
+    public final static Integer STATUS_FALSE = 0;
+
+
 }
