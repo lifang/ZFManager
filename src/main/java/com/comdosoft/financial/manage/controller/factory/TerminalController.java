@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.controller.factory;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SessionService;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by quqiang on 15/4/9.
@@ -61,13 +64,16 @@ public class TerminalController {
             status = null;
         }
         Page<Terminal> terminals = terminalService.findPages(customerId, page, status, keys);
-        List<Integer> ids = new ArrayList<Integer>();
+        Map<String, Integer> statusMap = new HashMap<String, Integer>();
+        Map<String, OpeningApplie> applyMap = new HashMap<String, OpeningApplie>();
         for (Terminal terminal : terminals.getContent()){
-//            if(payChannelService.needVideo(terminal.getPayChannelId())){
-//                ids.add(terminal.getId());
-//            }
+            Integer id = terminal.getId();
+            int terminalStatus = terminalService.videoStatus(id);
+            statusMap.put(id+"", terminalStatus);
+            applyMap.put(id+"", terminalService.getOpeningApplie(id));
         }
         model.addAttribute("terminals", terminals);
-        model.addAttribute("ids", ids);
+        model.addAttribute("statusMap", statusMap);
+        model.addAttribute("applyMap", applyMap);
     }
 }
