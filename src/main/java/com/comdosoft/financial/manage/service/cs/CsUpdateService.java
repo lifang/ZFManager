@@ -96,10 +96,7 @@ public class CsUpdateService {
 		csUpdateInfoMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsUpdateInfoMark createMark(Customer customer, Integer csUpdateId, String content) {
-		handle(csUpdateId);
-		
 		CsUpdateInfoMark csUpdateMark = new CsUpdateInfoMark();
 		csUpdateMark.setCustomerId(customer.getId());
 		csUpdateMark.setCsUpdateInfoId(csUpdateId);

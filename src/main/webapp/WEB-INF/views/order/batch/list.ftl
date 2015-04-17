@@ -16,7 +16,7 @@
         <div class="seenBox clear">
         	<ul>
             	<li><div class="user_search">
-		            <input id="search_keys" name="" type="text" />
+		            <input id="search_keys" name="" type="text" placeholder="按订单号查询"/>
 		            <input id="hidden_keys" type="hidden" name="keys" value="" />
 		            <input id="hidden_status" type="hidden" name="status" value="" />
 		            <button id="btn_search"></button>
@@ -133,14 +133,14 @@
 			$('#select_status').change(function(){
 				var status = $(this).children('option:selected').val();
 				$("#hidden_status").val(status);
-				orderAgentPageChange(1);
+				orderBatchPageChange(1);
 			});
 			
 			$("#btn_search").bind("click",
 		        function() {
 				var keys = $("#search_keys").val();
 				$("#hidden_keys").val(keys);
-				orderAgentPageChange(1);
+				orderBatchPageChange(1);
 		    });
 	});
 
@@ -167,7 +167,7 @@
 	}
 	
 	function markBtn(id){
- 		$("#markSure").click(function(){markSure(id)});
+		$("#markSure").unbind().bind('click',function(){markSure(id)});
     }
     
     function markSure(id){
@@ -188,7 +188,7 @@
 	
 	function priceEarnestBtn(id,price){
 		$("#priceEarnestDiv").html("<strong>￥"+price+"</strong>");
- 		$("#priceEarnestSure").click(function(){priceEarnestSure(id)});
+ 		$("#priceEarnestSure").unbind().bind('click',function(){priceEarnestSure(id)});
     }
     function priceEarnestSure(id){
 		var priceEarnestText = $('#priceEarnestText').val();
@@ -206,7 +206,7 @@
 	
 	function orderPriceBtn(id,price){
 		$("#order_price").html("<strong>￥"+price+"</strong>");
- 		$("#priceSure").click(function(){priceSure(id)});
+		$("#priceSure").unbind().bind('click',function(){priceSure(id)});
     }
     
     function priceSure(id){
@@ -236,7 +236,7 @@
     }
     
     function payPriceBtn(id,price){
- 		$("#paySure").click(function(){paySure(id)});
+    	$("#paySure").unbind().bind('click',function(){paySure(id)});
     }
     
     function paySure(id){
@@ -265,7 +265,7 @@
 	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
- 		$("#deliverSure").click(function(){deliverSure(id)});
+ 		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
     }
     
     function deliverSure(id){

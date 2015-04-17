@@ -115,7 +115,7 @@ public class OrderLogisticService {
 						isExist=true;
 						findTerminalByNum.setCustomerId(order.getCustomerId());
 						if(order.getTypes()==3||order.getTypes()==4||order.getTypes()==5){
-							findTerminalByNum.setAgentId(order.getAgent().getId());
+							findTerminalByNum.setAgentId(order.getBelongsAgent().getId());
 						}
 						findTerminalByNum.setPayChannelId(og.getPayChannelId());
 						findTerminalByNum.setReserver2(reserver2);

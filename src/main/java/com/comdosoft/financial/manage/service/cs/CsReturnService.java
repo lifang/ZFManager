@@ -114,10 +114,7 @@ public class CsReturnService {
 		csReturnMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsReturnMark createMark(Customer customer, Integer csReturnId, String content) {
-		updateStatus(csReturnId, (byte)1);
-		
 		CsReturnMark csReturnMark = new CsReturnMark();
 		csReturnMark.setCustomerId(customer.getId());
 		csReturnMark.setCsReturnId(csReturnId);

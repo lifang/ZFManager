@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class VideoController {
     @RequestMapping("info")
     public String info(){
-        return "video/test";
+        return "video/video";
     }
 }

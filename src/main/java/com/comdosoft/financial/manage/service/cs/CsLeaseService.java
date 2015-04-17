@@ -96,10 +96,7 @@ public class CsLeaseService {
 		csLeaseReturnMapper.dispatchUserByIds(params);
 	}
 	
-	@Transactional("transactionManager")
 	public CsLeaseReturnMark createMark(Customer customer, Integer csLeaseId, String content) {
-		handle(csLeaseId);
-		
 		CsLeaseReturnMark csLeaseMark = new CsLeaseReturnMark();
 		csLeaseMark.setCustomerId(customer.getId());
 		csLeaseMark.setCsLeaseReturnId(csLeaseId);

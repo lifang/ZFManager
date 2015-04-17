@@ -23,6 +23,6 @@
 	        "<p>POS机数量："+hidden_quantity+"</p>";
     	}
 		$("#pos_info").html(htmlStr);
- 		$("#deliverSure").click(function(){deliverSure(id)});
+		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
     }
 </script>

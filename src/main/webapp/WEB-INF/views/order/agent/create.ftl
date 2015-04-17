@@ -158,29 +158,6 @@
         return value != "" && value != null && value != undefined;
     }
     
-    function createCustomerAddress(){
-		var cityId = $("#citySelect").val();
-		var receiver = $("#receiver").val();
-		var address = $("#address").val();
-		var moblephone = $("#moble_phone").val();
-		var zipCode = $("#zip_code").val();
-		var customerId=$("#customerId").val();
-		if(null==customerId || ''==customerId){
-			alert("请先选择用户");
-			return;
-		}
-		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
-	            {"cityId": cityId,
-	             "receiver": receiver,
-	             "address": address,
-	             "moblephone": moblephone,
-	             "zipCode": zipCode,
-	             "customerId": customerId
-	            },
-	            function (data) {
-	               $('#customer_address_fresh').html(data);
-	            });
-	}
 	
 	
 	function queryAddress(customerId){

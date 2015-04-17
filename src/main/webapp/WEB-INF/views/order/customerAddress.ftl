@@ -73,8 +73,8 @@
 			    	</select>
 			    </td>
 			    <td><input id="address_${customerAddress.id!""}" name="" type="text" class="w" value="${customerAddress.address!""}" /></td>
-			    <td><input id="zip_code_${customerAddress.id!""}" name="" type="text" value="${customerAddress.zipCode!""}" /></td>
-			    <td><input id="moble_phone_${customerAddress.id!""}" name="" type="text" value="${customerAddress.moblephone!""}" /></td>
+			    <td><input id="zip_code_${customerAddress.id!""}" name="" type="text" value="${customerAddress.zipCode!""}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+			    <td><input id="moble_phone_${customerAddress.id!""}" name="" type="text" value="${customerAddress.moblephone!""}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
 			    <td><a href="#" class="a_btn" onclick="updateCustomerAddress(${customerAddress.id!""});">确定</a></td>
 			    <td>&nbsp;</td>
 			  </tr>
@@ -93,8 +93,8 @@
 		    	</select>
 		    </td>
 		    <td><input id="address" name="" type="text" class="w" placeholder="详细地址" /></td>
-		    <td><input id="zip_code" name="" type="text" placeholder="邮编" /></td>
-		    <td><input id="moble_phone" name="" type="text" placeholder="手机号码" /></td>
+		    <td><input id="zip_code" name="" type="text" placeholder="邮编" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+		    <td><input id="moble_phone" name="" type="text" placeholder="手机号码" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
 		    <td><a href="#" class="a_btn" onclick="createCustomerAddress();">确定</a></td>
 		    <td>&nbsp;</td>
 		  </tr>
@@ -162,6 +162,18 @@
 		var moblephone = $("#moble_phone_"+id).val();
 		var zipCode = $("#zip_code_"+id).val();
 		var customerId=$("#customerId").val();
+		if(null==address || ''==address){
+			alert("详细地址不能为空!");
+			return;
+		}
+		if(null==moblephone || ''==moblephone){
+			alert("电话不能为空!");
+			return;
+		}
+		if(null==zipCode || ''==zipCode){
+			alert("邮编不能为空!");
+			return;
+		}
 		//if(null==customerId || ''==customerId){
 		//	alert("请先选择用户");
 		//	return;
@@ -192,5 +204,40 @@
 	            });
 	}
 	
+	 function createCustomerAddress(){
+		var cityId = $("#citySelect").val();
+		var receiver = $("#receiver").val();
+		var address = $("#address").val();
+		var moblephone = $("#moble_phone").val();
+		var zipCode = $("#zip_code").val();
+		var customerId=$("#customerId").val();
+		if(null==address || ''==address){
+			alert("详细地址不能为空!");
+			return;
+		}
+		if(null==moblephone || ''==moblephone){
+			alert("电话不能为空!");
+			return;
+		}
+		if(null==zipCode || ''==zipCode){
+			alert("邮编不能为空!");
+			return;
+		}
+		if(null==customerId || ''==customerId){
+			alert("请先选择用户");
+			return;
+		}
+		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+	            {"cityId": cityId,
+	             "receiver": receiver,
+	             "address": address,
+	             "moblephone": moblephone,
+	             "zipCode": zipCode,
+	             "customerId": customerId
+	            },
+	            function (data) {
+	               $('#customer_address_fresh').html(data);
+	            });
+	}
 	
 </script>
