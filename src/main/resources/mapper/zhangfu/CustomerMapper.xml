@@ -172,8 +172,11 @@
     </select>
     
     <select id="findCustomerByUserName" resultMap="BaseResultMap" >
-	<![CDATA[
-		SELECT * FROM customers c WHERE c.username=#{param1} and  c.id != #{param2}
-	]]>
+	 
+		SELECT * FROM customers c WHERE c.username=#{param1}
+		<if test="param2 !=null  " >
+			 and  c.id != #{param2}
+		</if>
+ 
 	</select>
 </mapper>

@@ -77,9 +77,14 @@ public class AgentController {
     @RequestMapping(value="/findCustomerByName",method=RequestMethod.POST)
     @ResponseBody
     public Response findCustomerByName(Integer id,String username){
-    	Agent agent = agentService.findAgentInfo(id);
-    	Integer customer_id = agent.getCustomerId();
-    	Boolean isTrue = customerService.findCustomerByUserName(username,customer_id);
+    	Boolean isTrue = false;
+    	if(null !=id){
+    		Agent agent = agentService.findAgentInfo(id);
+        	Integer customer_id = agent.getCustomerId();
+        	 isTrue = customerService.findCustomerByUserName(username,customer_id);
+    	} else{
+    		 isTrue = customerService.findCustomerByUserName(username,null);
+    	}
     	if(isTrue){
     		return Response.getError("此ID已存在，无法添加");
     	}else{
