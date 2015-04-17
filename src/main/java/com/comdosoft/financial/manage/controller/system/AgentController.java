@@ -9,10 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,6 +72,19 @@ public class AgentController {
         model.addAttribute("agent", agent);
         model.addAttribute("provinces", provinces);
         return "system/agent_create";
+    }
+    
+    @RequestMapping(value="/findCustomerByName",method=RequestMethod.POST)
+    @ResponseBody
+    public Response findCustomerByName(Integer id,String username){
+    	Agent agent = agentService.findAgentInfo(id);
+    	Integer customer_id = agent.getCustomerId();
+    	Boolean isTrue = customerService.findCustomerByUserName(username,customer_id);
+    	if(isTrue){
+    		return Response.getError("此ID已存在，无法添加");
+    	}else{
+    		return Response.getSuccess("");
+    	}
     }
 
     @RequestMapping(value="create",method=RequestMethod.GET)
