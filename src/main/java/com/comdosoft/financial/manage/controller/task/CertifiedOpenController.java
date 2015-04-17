@@ -48,7 +48,7 @@ public class CertifiedOpenController {
         return "task/certifiedOpen/list";
     }
 
-    @RequestMapping(value = "page", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.POST)
     public String page(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
         findPage(request,page, status, keys, model);
         return "task/certifiedOpen/page";
