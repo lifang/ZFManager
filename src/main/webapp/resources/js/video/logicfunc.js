@@ -34,6 +34,7 @@ var dwFlags = ANYCHAT_RECORD_FLAGS_VIDEO + ANYCHAT_RECORD_FLAGS_AUDIO
 function LogicInit(username, roomId) {
     mRoomId = roomId;
     mUsername = username;
+    //GetID("LOG_DIV_BODY").style.display = "none";;
     setTimeout(function () {
         if (navigator.plugins && navigator.plugins.length) {
             window.navigator.plugins.refresh(false);
@@ -53,12 +54,10 @@ function LogicInit(username, roomId) {
             // 初始化界面元素
             InitInterfaceUI();
         } else { 						// 没有安装插件，或是插件版本太旧，显示插件下载界面
-            GetID("prompt_div").style.display = "block";
             if (errorcode == GV_ERR_PLUGINNOINSTALL)
                 GetID("prompt_div_line1").innerHTML = "首次进入需要安装插件，请点击下载按钮进行安装！";
             else if (errorcode == GV_ERR_PLUGINOLDVERSION)
                 GetID("prompt_div_line1").innerHTML = "检测到当前插件的版本过低，请下载安装最新版本！";
-
             if(mRefreshPluginTimer == -1) {
                 mRefreshPluginTimer = setInterval(function(){ LogicInit(); }, 1000);
             }

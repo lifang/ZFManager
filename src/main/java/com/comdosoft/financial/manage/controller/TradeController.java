@@ -125,9 +125,9 @@ public class TradeController {
     
     @RequestMapping(value = "/import",method = RequestMethod.POST)
     @ResponseBody
-    public Response importTrades(MultipartFile file){
+    public Response importTrades(MultipartFile file,Integer selectTradeType){
     	try {
-			List<Integer> errorRowNum = tradeService.importTrades(file.getInputStream());
+			List<Integer> errorRowNum = tradeService.importTrades(file.getInputStream(),selectTradeType);
 			if(errorRowNum.size() == 0) {
 				return Response.getSuccess(null);
 			}else{

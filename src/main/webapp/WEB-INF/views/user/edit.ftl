@@ -98,6 +98,7 @@
                 },
                 function(data){
                     if(data.code==1){
+                    	alert("保存成功！");
                         window.location.href="<@spring.url "/user/list" />";
                     }else{
                         showErrorTip(data.message);

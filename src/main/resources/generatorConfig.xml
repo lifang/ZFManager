@@ -233,6 +233,9 @@
         <table tableName="opening_requirements" domainObjectName="OpeningRequirement">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="opening_video_verifies" domainObjectName="OpeningVideoVerify">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <table tableName="operate_records" domainObjectName="OperateRecord">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>

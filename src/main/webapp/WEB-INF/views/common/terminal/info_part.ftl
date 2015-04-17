@@ -132,7 +132,7 @@
     </div>
     <#if !(isFactory??) || !isFactory>
     <div class="user_remark">
-        <textarea id="textWriteMark" name="" cols="" rows=""></textarea>
+        <textarea id="textWriteMark" name="" cols="" rows="" onkeyup="checkLength(this,600)"></textarea>
         <button class="whiteBtn" onclick="writeMark()">备注</button>
     </div>
     <div class="user_record">
@@ -154,7 +154,18 @@
     </div>
 </div>
 <script>
-
+	<#-- 控制长度-->
+	function checkLength(obj,lengthStr){
+		var temp=$(obj).val();
+		if(temp.length>=lengthStr){
+			$(obj).val("");
+			$(obj).css("border-color","red");
+			alert("输入长度超过最大长度限制，最大长度为："+lengthStr);
+		}else{
+			$(obj).css("border-color","darkgrey");
+		}
+	}
+	
     function writeMark(){
         var $tarea = $("#textWriteMark");
         var content = $tarea.val();

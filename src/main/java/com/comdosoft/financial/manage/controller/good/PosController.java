@@ -447,7 +447,7 @@ public class PosController {
     public String importTerminal(@PathVariable Integer id, String data, Model model) {
         List<String> errorCodes = terminalService.importTerminal(id, data);
         if(errorCodes.size() > 0 ){
-            String error = "倒入失败，以下终端号重复：\n"
+            String error = "导入失败，以下终端号重复：\n"
                     + errorCodes.toString();
             model.addAttribute("error", error);
             return "common/error";

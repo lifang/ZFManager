@@ -39,7 +39,15 @@
                 </#if>
                 </#if>
             </strong></td>
-            <td><a href="<@spring.url "/factory/terminal/${terminal.id}/info" />" class="a_btn">查看详情</a></td>
+            <td>
+                <#if ids?seq_contains(terminal.id)>
+                    <a href="<@spring.url "/task/certifiedopen/${terminal.id}/video" />" class="a_btn">视频认证</a>
+                </#if>
+                <#if terminal.status=2||terminal.status=3>
+                    <a href="#" class="a_btn">同步</a>
+                </#if>
+                <a href="<@spring.url "/factory/terminal/${terminal.id}/info" />" class="a_btn">查看详情</a>
+            </td>
             </tr>
             </#list>
         </#if>

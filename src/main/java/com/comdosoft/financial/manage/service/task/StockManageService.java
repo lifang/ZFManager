@@ -21,14 +21,14 @@ public class StockManageService {
 	@Autowired
 	private ReocrdOperateMapper mapper;
 	
-	public Map<String, Object> showInfo(String account,int loginId){
+	public Map<String, Object> showInfo(String serialNum,int loginId){
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("终端号不存在");
 
-		Map<String, Object> temp=stockManageMapper.checkAccount(account);
+		Map<String, Object> temp=stockManageMapper.checkAccount(serialNum);
 		if(null!=temp){
 			resultCode=1;
 			resultInfo.setLength(0);
@@ -75,14 +75,14 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> checkAccount(String account,int loginId,String userName,int userType){
+	public Map<String, Object> checkAccount(String serialNum,int loginId,String userName,int userType){
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("终端号不存在");
 
-		Map<String, Object> temp=stockManageMapper.checkAccount(account);
+		Map<String, Object> temp=stockManageMapper.checkAccount(serialNum);
 		if(null!=temp){
 			resultCode=1;
 			resultInfo.setLength(0);
@@ -95,16 +95,16 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> toAfterSaleStock(String account,int loginId,String userName,int userType){
+	public Map<String, Object> toAfterSaleStock(String serialNum,int loginId,String userName,int userType){
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("终端退回售后库失败");
 		
-		Map<String, Object> mapTemp=stockManageMapper.checkAccount(account);
+		Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
 		if(null!=null){
-			int temp=stockManageMapper.toAfterSaleStock(account, loginId);
+			int temp=stockManageMapper.toAfterSaleStock(serialNum, loginId);
 			if(temp>0){
 				resultCode=1;
 				resultInfo.setLength(0);
@@ -121,21 +121,21 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> toNormalStock(String account,int loginId,String userName,int userType){
+	public Map<String, Object> toNormalStock(String serialNum,int loginId,String userName,int userType){
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("终端入正常库失败");
 
-		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(account);
+		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
 		if(null==temp1){
 			resultCode=-2;
 			resultInfo.setLength(0);
 			resultInfo.append("终端号不在售后库中");
 		}else{
 			
-			int temp=stockManageMapper.toNormalStock(account, loginId);
+			int temp=stockManageMapper.toNormalStock(serialNum, loginId);
 			if(temp>0){
 				resultCode=1;
 				resultInfo.setLength(0);
@@ -155,20 +155,20 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> breakDown(String account,int loginId,String userName,int userType){
+	public Map<String, Object> breakDown(String serialNum,int loginId,String userName,int userType){
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("终端报废失败");
 		
-		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(account);
+		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
 		if(null==temp1){
 			resultCode=-2;
 			resultInfo.setLength(0);
 			resultInfo.append("终端号不在售后库中");
 		}else{
-			int temp=stockManageMapper.breakDown(account, loginId);
+			int temp=stockManageMapper.breakDown(serialNum, loginId);
 			if(temp>0){
 				resultCode=1;
 				resultInfo.setLength(0);
