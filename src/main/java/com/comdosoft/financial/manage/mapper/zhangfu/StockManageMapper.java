@@ -6,15 +6,15 @@ import org.apache.ibatis.annotations.Param;
 
 public interface StockManageMapper {
 	
-	int toAfterSaleStock(@Param("account") String account,@Param("loginId") int loginId);
+	int toAfterSaleStock(@Param("serialNum") String serialNum,@Param("loginId") int loginId);
 
-	int toNormalStock(@Param("account") String account,@Param("loginId") int loginId);
+	int toNormalStock(@Param("serialNum") String serialNum,@Param("loginId") int loginId);
 	
-	int breakDown(@Param("account") String account,@Param("loginId") int loginId);
+	int breakDown(@Param("serialNum") String serialNum,@Param("loginId") int loginId);
 	
-	Map<String, Object> checkAccount(@Param("account") String account);
+	Map<String, Object> checkAccount(@Param("serialNum") String serialNum);
 	
-	Map<String, Object> checkAccountIsInAfterSale(@Param("account") String account);
+	Map<String, Object> checkAccountIsInAfterSale(@Param("serialNum") String serialNum);
 	
 	Map<String, Object> isAgents(@Param("terminalId") int terminalId);
 	Map<String, Object> isCancels(@Param("terminalId") int terminalId);
