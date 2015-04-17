@@ -25,7 +25,7 @@
           <div class="btnBottom"><button class="ghostBtn" onclick="toNormalStock()">正常入库</button><button class="ghostBtn" onclick="breakDown()">报废</button></div>
         </div> 
     </div>
-    
+</div>    
     <div class="tab" id="div1" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">售后信息</div>
@@ -66,7 +66,8 @@
     </div>
     <div class="tabFoot"><button class="blueBtn" onclick="closeTab(4)">确定</button></div>
 </div>
-</div>
+
+
 <script type="text/javascript">
 	function closeTab(val){
 		$("#div"+val).hide();
