@@ -122,6 +122,10 @@
         if(error = isNotDecimal(baseProfit, "标准手续费交易分润千分比必须小于1000!")){
             return false;
         }
+        if(baseProfit=="" || baseProfit==undefined || baseProfit<0 ||baseProfit>1000){
+        	alert("标准手续费交易不能为空，必须在0--1000之间");
+        	return false;
+        }
         $(".rate").each(function(i){
             var terminalRate = $(this).find("input[name='terminalRate']").prop("value");
             var baseRate = $(this).find("input[name='baseRate']").prop("value");
