@@ -46,7 +46,7 @@
 
         $("#btn_search").bind("click",
                 function() {
-                    var keys = $("#search_keys").val();
+                    var keys = $("#search_keys").val().trim();
                     $("#hidden_keys").val(keys);
                     terminalPageChange(1);
                 });

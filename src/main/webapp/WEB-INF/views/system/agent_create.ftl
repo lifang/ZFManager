@@ -21,6 +21,7 @@
                         <div class="text">
                             <span class="checkboxRadio_span"><input name="a_types" type="radio" value="1"> 公司</span>
                             <span class="checkboxRadio_span"><input name="a_types" type="radio" value="2"> 个人</span>
+                            <input type="hidden" value="${(agent.id)!""}" id="agent_id">
                         </div>
                     </li>
                     <li class="block"><span class="labelSpan">负责人姓名：</span>
@@ -67,7 +68,7 @@
         </div>
         <div class="btnBottom"><button class="blueBtn"  onClick="submitData()">${agent???string("确定","保存")}</button></div>
     </div>
-<script>
+<script type="text/javascript" >
     $(function(){
     <#if ((agent.types)!1) == 1>
         $("input[name='a_types'][value='1']").attr("checked", true);
@@ -116,6 +117,7 @@
         var username=$("input[name='a_username']").val();
         if(isNull(username, "登录ID不能为空!")){return false;}
         var accountType;
+        <#-- 
         if(checkMobile(username)){
             accountType=1;
         } else if(checkEmail(username)){
@@ -124,49 +126,67 @@
             showErrorTip("登录ID必须为手机号或邮箱");
             return false;
         }
-        var password=$("input[name='a_password']").val();
-        var confirmPassword=$("input[name='confirmPassword']").val();
-        <#if !(agent??)>
-            if(isNull(password, "密码不能为空!")){return false;}
-        </#if>
-        if(password!=confirmPassword){
-            showErrorTip("密码和确认密码必须相同");
-            return false;
-        }
-
-        if(!checkPassword(password)){
-            return false;
-        }
-
-        <#if agent??>
-            var url="<@spring.url "/system/agent/${agent.id}/edit" />";
-        <#else>
-            var url="<@spring.url "/system/agent/create" />";
-        </#if>
-        $.post(url,
-                { name: name,
-                    types: types,
-                    name: name,
-                    cardId: cardId,
-                    companyName: companyName,
-                    businessLicense: businessLicense,
-                    phone: phone,
-                    email: email,
-                    cityId: cityId,
-                    address: address,
-                    username: username,
-                    password: password,
-                    accountType: accountType
-                },
-                function(data){
-                    if(data.code==1){
-                        window.location.href="<@spring.url "/system/agent/list" />"
-                    } else {
-                        showErrorTip(data.message);
-                    }
-                }
-        );
-    }
+    	-->
+		var a_id = $("#agent_id").val();
+    	console.log("post  begin......"+a_id);
+        var u_url="<@spring.url "/system/agent/findCustomerByName" />";
+        $.post(u_url, {  
+						 id: a_id,
+	                    username: username
+				 },
+		   function(data){
+		  		 if(data.code==1){
+                         var password=$("input[name='a_password']").val();
+				        var confirmPassword=$("input[name='confirmPassword']").val();
+				        <#if !(agent??)>
+				            if(isNull(password, "密码不能为空!")){return false;}
+				        </#if>
+				        if(password!=confirmPassword){
+				            showErrorTip("密码和确认密码必须相同");
+				            return false;
+				        }
+				
+				        if(!checkPassword(password)){
+				            return false;
+				        }
+				
+				        <#if agent??>
+				            var url="<@spring.url "/system/agent/${agent.id}/edit" />";
+				        <#else>
+				            var url="<@spring.url "/system/agent/create" />";
+				        </#if>
+				        $.post(url,
+				                { name: name,
+				                    types: types,
+				                    name: name,
+				                    cardId: cardId,
+				                    companyName: companyName,
+				                    businessLicense: businessLicense,
+				                    phone: phone,
+				                    email: email,
+				                    cityId: cityId,
+				                    address: address,
+				                    username: username,
+				                    password: password,
+				                    accountType: accountType
+				                },
+				                function(data){
+				                    if(data.code==1){
+				                        window.location.href="<@spring.url "/system/agent/list" />"
+				                    } else {
+				                        showErrorTip(data.message);
+				                    }
+				                }
+				        );
+	        } else {
+	            showErrorTip(data.message);
+				return false;
+	        }
+		  
+		   }, "json");
+         
+    } 
+    
 
 </script>
 </@c.html>

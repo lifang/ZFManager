@@ -170,4 +170,10 @@
       <bind name="TYPE_OPERATE" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@TYPE_OPERATE" />
       select * from customers where status=#{STATUS_NORMAL} and types=#{TYPE_OPERATE}
     </select>
+    
+    <select id="findCustomerByUserName" resultMap="BaseResultMap" >
+	<![CDATA[
+		SELECT * FROM customers c WHERE c.username=#{param1} and  c.id != #{param2}
+	]]>
+	</select>
 </mapper>

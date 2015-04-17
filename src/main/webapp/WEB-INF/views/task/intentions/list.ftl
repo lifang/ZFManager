@@ -50,9 +50,9 @@
 	});
 	
 	function intentionPageChange(page) {
-		var keys = $("#hidden_keys").val();
+		var keys = $("#hidden_keys").val().trim();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/task/intention/page" />',
+	    $.post('<@spring.url "/task/intention/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status

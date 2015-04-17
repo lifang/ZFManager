@@ -63,9 +63,9 @@
 	});
 	
 	function certifiedOpenPageChange(page) {
-		var keys = $("#hidden_keys").val();
+		var keys = $("#hidden_keys").val().trim();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/task/certifiedopen/page" />',
+	    $.post('<@spring.url "/task/certifiedopen/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status

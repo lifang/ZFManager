@@ -162,6 +162,7 @@
 
     <sql id="pageWhere">
         <where>
+        	<if test="1==1"> AND g.id is not null and pc.id is not null </if>
             <if test="status != null"> AND t.status =#{status} </if>
             <if test="keys != null and keys != ''"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
             <if test="factoryId != null"> AND t.good_id in

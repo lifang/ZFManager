@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 @Service
 public class RefundService {
 	
-	//@Value("${page.refund.size}")
+	@Value("${page.refund.size}")
     private int pageSize=2;
     
 	@Autowired
@@ -28,7 +29,7 @@ public class RefundService {
 	
 	public Page<Object> findPages(int page, Byte status, String orderNumber,int userId){
 		if (orderNumber != null && orderNumber !="") {
-			orderNumber = "%"+orderNumber+"%";
+			orderNumber = "%"+orderNumber.trim()+"%";
 		}
 		long count = refundMapper.getRefundCount(status, orderNumber);
 		if (count == 0) {
