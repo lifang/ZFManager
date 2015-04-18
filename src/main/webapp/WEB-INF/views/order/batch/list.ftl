@@ -69,6 +69,27 @@
     <div class="tabFoot"><button class="blueBtn" id="priceEarnestSure">确定</button></div>
 </div>
 
+<div class="tab paymentRecordFront_tab">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">支付定金</div>
+    <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">付款金额</span><div class="text" id="pay_price_front"><strong>￥0.00</strong></div></li>
+                <li><span class="labelSpan">付款方式</span><div class="text">
+                    <select name="" id="pay_type_front">
+                      <option value="1">支付宝</option>
+                      <option value="2">银联</option>
+                      <option value="3">现金</option>
+                    </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" id="paySureFront">确定</button></div>
+</div>
+
 <div class="tab paymentRecord_tab">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">增加付款记录</div>
@@ -164,6 +185,7 @@
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
         popup(".deliver_tab",".deliver_a");//发货
         popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格
+        popup(".paymentRecordFront_tab",".paymentRecordFront_a");//支付定金
 	}
 	
 	function markBtn(id){
@@ -230,6 +252,25 @@
 	            function (data) {
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
+					$('.mask').hide();
+					popupPage();
+	            });
+    }
+    
+    function payPriceFrontBtn(id,price){
+		$("#pay_price_front").html("<strong>￥"+price+"</strong>");
+		$("#paySureFront").unbind().bind('click',function(){paySureFront(id)});
+    }
+    
+    function paySureFront(id){
+		var payType = $('#pay_type_front').val();
+		$.get('<@spring.url "" />'+'/order/payment/batch/create/front',
+				{"orderId":id,
+				"payType":payType
+				},
+	            function (data) {
+	           		$('#row_'+id).replaceWith(data);
+					$('.paymentRecordFront_tab').hide();
 					$('.mask').hide();
 					popupPage();
 	            });

@@ -128,7 +128,15 @@ public class OrderLogisticService {
 				throw new Exception("终端号与订单商品不对应！");
 			}
 		}
-		orderService.save(orderId, (byte)3, null, null);
+		Byte status=3;
+		if(order.getTypes()==5){
+			if(order.getTotalOutQuantity()+totalQuantity!=order.getTotalQuantity()){
+				status=null;
+			}
+		}else{
+			status=3;
+		}
+		orderService.save(orderId, status, null, null);
 		if(0==totalQuantity){
 			totalQuantity=order.getTotalQuantity();
 		}

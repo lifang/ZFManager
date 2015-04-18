@@ -176,6 +176,21 @@ public class OrderService {
 		}
 		return order;
 	}
+	
+	/**
+	 * @description 支付批购定金 
+	 * @author Tory
+	 * @date 2015年4月18日 上午11:36:48
+	 */
+	public int savePayFront(Integer orderId){
+		Order record = orderMapper.findOrderInfo(orderId);
+		record.setStatus((byte) 2);
+		record.setFrontPayStatus((byte) 2);
+		if(record.getFrontMoney().equals(record.getActualPrice())){
+			record.setPayStatus((byte) 2);
+		}
+		return orderMapper.updateByPrimaryKey(record);
+	}
 
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus) {
@@ -192,6 +207,11 @@ public class OrderService {
 		return orderMapper.updateByPrimaryKey(record);
 	}
 	
+	/**
+	 * @description 修改实际价格，修改定金价格 
+	 * @author Tory
+	 * @date 2015年4月18日 上午11:24:33
+	 */
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus,Float frontMoney) {
 		Order record = orderMapper.findOrderInfo(orderId);

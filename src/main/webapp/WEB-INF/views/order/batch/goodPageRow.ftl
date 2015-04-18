@@ -20,7 +20,7 @@
                     	<span>支付通道：</span>
                     	<#if good.channels??>
                     		<#list good.channels as channel>
-                    			<div class="c_text">${channel.id!""}&nbsp;</div>
+                    			<div class="c_text">${channel.name!""}&nbsp;</div>
                     		</#list>
                     	</#if>
                     </li>
@@ -29,7 +29,7 @@
         </div>
     </td>
     <td><a href="#">
-    		<strong>￥${(good.price/100)?string("0.00")}</strong>
+    		<strong>￥${((good.purchasePrice!0)/100)?string("0.00")}</strong>
     		<p class="original">零售价：￥${(good.retailPrice/100)?string("0.0")}</p>
     	</a>
     </td>

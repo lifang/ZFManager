@@ -61,6 +61,7 @@ public class BaseController {
 		public static final String frontMoney="订金价格";
 		public static final String saveCustomer="新增用户";
 		public static final String customerAddress="修改用户地址";
+		public static final String paymentFront="支付定金";
 		
 	}
 	
