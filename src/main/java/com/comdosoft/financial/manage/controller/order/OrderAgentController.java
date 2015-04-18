@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -126,11 +127,12 @@ public class OrderAgentController extends BaseController {
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
-			Integer customerId) {
+			Integer customerId,Integer agentCustomerId) {
+		Customer customer = sessionService.getLoginInfo(request);
 		Integer id= orderService
-				.save(customerId, goodId, quantity, comment, invoiceInfo,
+				.save(customer,customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
-						payChannelId);
+						payChannelId,agentCustomerId);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
@@ -143,9 +145,10 @@ public class OrderAgentController extends BaseController {
 	public String createSureAgainGet(HttpServletRequest request, Model model,
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
-			Boolean needInvoice, int type, Integer customerId) throws Exception {
-		Integer id= orderService.save(customerId, orderId, goodQuantity, comment,
-		invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
+			Boolean needInvoice, int type, Integer customerId,Integer agentCustomerId) throws Exception {
+		Customer customer = sessionService.getLoginInfo(request);
+		Integer id= orderService.save(customer,customerId, orderId, goodQuantity, comment,
+		invoiceInfo, customerAddressId, invoiceType, needInvoice, type,agentCustomerId);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);

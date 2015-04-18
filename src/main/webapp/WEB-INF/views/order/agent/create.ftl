@@ -178,6 +178,7 @@
 		$("a[name=agentCompanyName]").removeClass("hover");
 		$("#agentCustomer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
+		$("#agentCustomerId").val(customerId);
 		/*$.get('<@spring.url "/order/customer/address/query" />',
 		            {"customerId": customerId
 		            },
@@ -230,6 +231,7 @@
 			return;
 		}
 		var customerId= $("#customerId").val();
+		var agentCustomerId= $("#agentCustomerId").val();
 		if(null==customerId||'undefined'==customerId){
 			alert("请确定用户");
 			return;
@@ -243,7 +245,8 @@
 					//'&invoiceType='+invoiceType+
 					'&type='+type+
 					'&payChannelId='+payChannelId+
-					'&customerId='+customerId;
+					'&customerId='+customerId+
+					'&agentCustomerId='+agentCustomerId;
 		location.href='<@spring.url "" />'+'/order/agent/createSure'+param;
 	}
 	
@@ -279,6 +282,7 @@
 			return;
 		}
 		var customerId= $("#customerId").val();
+		var agentCustomerId= $("#agentCustomerId").val();
 		if(null==customerId||'undefined'==customerId){
 			alert("请确定用户");
 			return;
@@ -291,7 +295,8 @@
 					//'&needInvoice='+needInvoice+
 					//'&invoiceType='+invoiceType+
 					'&type='+type+
-					'&customerId='+customerId;
+					'&customerId='+customerId+
+					'&agentCustomerId='+agentCustomerId;
 		location.href='<@spring.url "" />'+'/order/agent/createSureAgain'+param;
 	}
 	
