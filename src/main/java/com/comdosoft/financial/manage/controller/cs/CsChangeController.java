@@ -38,7 +38,7 @@ public class CsChangeController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsChange> csChanges = csChangeService.findPage(customer, page, status, keyword);
+		Page<CsChange> csChanges = csChangeService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csChanges", csChanges);
 	}
 	

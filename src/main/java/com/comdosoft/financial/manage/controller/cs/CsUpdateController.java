@@ -37,7 +37,7 @@ public class CsUpdateController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsUpdateInfo> csUpdates = csUpdateService.findPage(customer, page, status, keyword);
+		Page<CsUpdateInfo> csUpdates = csUpdateService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csUpdates", csUpdates);
 	}
 	

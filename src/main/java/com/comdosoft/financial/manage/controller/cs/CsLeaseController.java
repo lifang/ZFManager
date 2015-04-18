@@ -45,7 +45,7 @@ public class CsLeaseController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsLeaseReturn> csLeases = csLeaseService.findPage(customer, page, status, keyword);
+		Page<CsLeaseReturn> csLeases = csLeaseService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csLeases", csLeases);
 	}
 	
