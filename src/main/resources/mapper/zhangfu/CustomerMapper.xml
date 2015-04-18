@@ -164,6 +164,12 @@
         where name like #{customerName} or username like #{customerName} or phone like #{customerName} or email like #{customerName}
     </select>
     
+    <select id="searchCustomerWithIds" resultMap="BaseResultMap">
+        select * from customers
+        where (name like #{customerName} or username like #{customerName} or phone like #{customerName} or email like #{customerName}) and
+        id in <foreach item="item" index="index" collection="customerIds" open="(" separator="," close=")">#{item}</foreach>  
+    </select>
+    
     <!-- find users who have permission to operate -->
     <select id="selectDispatchUsers" resultMap="BaseResultMap">
       <bind name="STATUS_NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL" />

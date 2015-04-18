@@ -54,7 +54,7 @@
             <div class="pac_summary">
             	<ul>
             		<li class="price_li"><span>零售价</span><div class="text"><strong class="original">￥${(good.retailPrice/100)?string("0.0")}</strong></div></li>
-                	<li class="price_li"><span>现价</span><div class="text"><strong>￥${(good.price/100)?string("0.00")}</strong></div></li>
+                	<li class="price_li"><span>现价</span><div class="text"><strong>￥${((good.purchasePrice!0)/100)?string("0.00")}</strong></div></li>
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
                     <li class="selected_li"><span>最小批购量</span><div class="text">${good.leaseTime!""}台</div></li>
                     <li class="selected_li"><span>支付通道</span>

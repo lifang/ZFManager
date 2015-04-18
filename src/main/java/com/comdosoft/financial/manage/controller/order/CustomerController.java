@@ -21,8 +21,8 @@ public class CustomerController extends BaseController {
 	private CustomerService customerService;
 
     @RequestMapping(value="search",method = RequestMethod.GET)
-    public String search(HttpServletRequest request,String customerName,Model model){
-    	List<Customer> searchCustomer = customerService.searchCustomer(customerName);
+    public String search(HttpServletRequest request,String customerName,Model model, Integer agentId){
+    	List<Customer> searchCustomer = customerService.searchCustomer(customerName,agentId);
 		model.addAttribute("customers", searchCustomer);
         return "order/customerSearch";
     }

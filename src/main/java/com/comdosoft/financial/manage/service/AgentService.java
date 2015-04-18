@@ -60,7 +60,7 @@ public class AgentService {
     
     public Page<Agent> findPages(int page, Byte status, String keys,Integer pageSize){
         if (keys != null) {
-            keys = "%"+keys+"%";
+            keys = "%"+keys.trim()+"%";
         }
         long count = agentMapper.countByKeys(status, keys);
         if (count == 0) {

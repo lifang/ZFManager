@@ -1,16 +1,8 @@
 package com.comdosoft.financial.manage.service;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
-import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
-import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralRecord;
-import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralRecordMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
-import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
-import com.comdosoft.financial.manage.utils.page.Page;
-import com.comdosoft.financial.manage.utils.page.PageRequest;
-import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralRecord;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerRoleRelation;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAgentRelationMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralRecordMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerRoleRelationMapper;
+import com.comdosoft.financial.manage.utils.page.Page;
+import com.comdosoft.financial.manage.utils.page.PageRequest;
+import com.google.common.base.Strings;
 
 @Service
 public class CustomerService {
@@ -36,6 +39,8 @@ public class CustomerService {
     private CustomerAddressMapper customerAddressMapper;
     @Autowired
     private CustomerIntegralRecordMapper customerIntegralRecordMapper;
+    @Autowired
+    private CustomerAgentRelationMapper customerAgentRelationMapper;
 	/**
 	 * 登陆查询 超级管理员 运营 第三方机构
 	 * @param passport
@@ -253,9 +258,22 @@ public class CustomerService {
     
     public List<Customer> searchCustomer(String customerName){
     	if(null!=customerName){
-    		customerName="%"+customerName+"%";
+    		customerName="%"+customerName.trim()+"%";
     	}
     	return customerMapper.searchCustomer(customerName);
+    }
+    
+    public List<Customer> searchCustomer(String customerName,Integer agentId){
+    	if(null!=customerName){
+    		customerName="%"+customerName.trim()+"%";
+    	}
+    	List<CustomerAgentRelation> selectByAgentId = customerAgentRelationMapper.selectByAgentId(agentId, 1, 1);
+    	List<Integer> customerIds=new ArrayList<Integer>();
+    	for(CustomerAgentRelation customerAgentRelation:selectByAgentId){
+    		customerIds.add(customerAgentRelation.getCustomerId());
+    	}
+    	List<Customer> customerList = customerMapper.searchCustomerWithIds(customerName,customerIds);
+		return customerList;
     }
 
     @Transactional("transactionManager")

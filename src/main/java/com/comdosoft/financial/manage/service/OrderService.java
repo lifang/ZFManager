@@ -235,7 +235,7 @@ public class OrderService {
 	public int save(Customer customer,Integer customerId, Integer goodId, Integer quantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,
-			Integer payChannelId,Integer agentCustomerId) {
+			Integer payChannelId,Integer agentCustomerId) throws Exception {
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
 		order.setActualPrice(good.getPrice()* quantity);
@@ -263,6 +263,10 @@ public class OrderService {
 			order.setBelongsUserId(agentCustomerId);
 		}else if(5==type){
 			order.setBelongsUserId(customerId);
+			if(null!=good.getLeaseTime()&&quantity<good.getLeaseTime()){
+				throw new Exception("所选批购数量小于最小批购数!");
+			}
+			
 		}
 		orderMapper.insert(order);
 		int orderId = order.getId();
@@ -307,6 +311,9 @@ public class OrderService {
 			for (Map<String, Integer> map : goodQuantityList) {
 				if (map.get("goodId").equals(good.getId())) {
 					totalPrice += good.getPrice() * map.get("quantity");
+					if(null!=good.getLeaseTime()&&map.get("quantity")<good.getLeaseTime()){
+						throw new Exception("所选批购数量小于最小批购数!");
+					}
 					break;
 				}
 			}

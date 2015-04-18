@@ -19,7 +19,7 @@
             <div class="su_con01">
             	<div>
                 	<div class="su_search">
-                    	<input id="agentCompanyName" name="" type="text" /><button onclick="searchAgent();">搜索</button>
+                    	<input id="agentCompanyName" name="" type="text" placeholder="公司名称"/><button onclick="searchAgent();">搜索</button>
                     </div>
                     <div id="agent_fresh" class="su_s_box">
                     	<#include "../agentSearch.ftl" />
@@ -38,7 +38,7 @@
             <div class="su_con">
             	<div>
                 	<div class="su_search">
-                    	<input id="customer_name" name="" type="text" /><button onclick="searchCustomer();">搜索</button>
+                    	<input id="customer_name" name="" type="text" placeholder="用户名、名字、电话、邮箱"/><button onclick="searchCustomer();">搜索</button>
                     </div>
                     <div id="customer_fresh" class="su_s_box">
                     	<!--<a href="#" class="hover">张三</a>-->
@@ -118,9 +118,11 @@
 <script type="text/javascript">
 	function searchCustomer() {
 		var customerName = $("#customer_name").val();
+		var agentId=$("#agentId").val();
 	    $.get('<@spring.url "/order/customer/search" />',
 	            {
-	            	"customerName": customerName
+	            	"customerName": customerName,
+	            	"agentId":agentId
 	            },
 	            function (data) {
 	                $('#customer_fresh').html(data);
@@ -158,33 +160,31 @@
         return value != "" && value != null && value != undefined;
     }
     
-	
-	
 	function queryAddress(customerId){
 		$("a[name=customerName]").removeClass("hover");
 		$("#customer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
 		$.get('<@spring.url "/order/customer/address/query" />',
-		            {"customerId": customerId
+		            {
+		            "customerId": customerId
 		            },
 		            function (data) {
 		               $('#customer_address_fresh').html(data);
 		            });
 	}
 	
-
-	
-	function agentSelected(customerId){
+	function agentSelected(customerId,agentId){
 		$("a[name=agentCompanyName]").removeClass("hover");
 		$("#agentCustomer_"+customerId).addClass("hover");
-		$("#customerId").val(customerId);
+		$("#customerId").val("");
 		$("#agentCustomerId").val(customerId);
-		/*$.get('<@spring.url "/order/customer/address/query" />',
+		$("#agentId").val(agentId);
+		$.get('<@spring.url "/order/customer/address/query" />',
 		            {"customerId": customerId
 		            },
 		            function (data) {
 		               $('#customer_address_fresh').html(data);
-		            });*/
+		            });
 	}
 	
 	function addAddress(){
@@ -232,10 +232,10 @@
 		}
 		var customerId= $("#customerId").val();
 		var agentCustomerId= $("#agentCustomerId").val();
-		if(null==customerId||'undefined'==customerId){
+		/*if(null==customerId||'undefined'==customerId){
 			alert("请确定用户");
 			return;
-		}
+		}*/
 		var param='?goodId='+goodId+
 					'&quantity='+quantity+
 					'&comment='+comment+

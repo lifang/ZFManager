@@ -19,7 +19,13 @@
 		  <tr>
 		    <td>
 		        <div class="td_proBox">
-		        	<a href="<@spring.url "/good/agent/${orderGood.good.id}/detail" />" class="cn_img">
+		        	<#if type==1|| type==2>
+		        		<a href="<@spring.url "/good/user/${orderGood.good.id}/detail" />" class="cn_img">
+		        	<#elseif type==3||type==4>
+		        		<a href="<@spring.url "/good/agent/${orderGood.good.id}/detail" />" class="cn_img">
+		        	<#elseif type==5>
+		        		<a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />" class="cn_img">
+		        	</#if>
                     	<#if orderGood.good??>
                     		<#if orderGood.good.pictures??>
                     			<#list orderGood.good.pictures as picture>
@@ -32,7 +38,17 @@
                     	</#if>
                     </a>
 		            <div class="td_proBox_info">
-		                <h1><a href="<@spring.url "/good/user/${orderGood.good.id}/detail" />">${orderGood.good.title!""}</a></h1>
+		                <h1>
+		                	<#if type==1|| type==2>
+				        		<a href="<@spring.url "/good/user/${orderGood.good.id}/detail" />">
+				        	<#elseif type==3||type==4>
+				        		<a href="<@spring.url "/good/agent/${orderGood.good.id}/detail" />">
+				        	<#elseif type==5>
+				        		<a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />">
+				        	</#if>
+			                		${orderGood.good.title!""}
+			                	</a>
+		                </h1>
 		                <h3>${orderGood.good.secondTitle!""}</h3>
 		                <ul>
 		                    <li><span>品牌型号：</span><div class="c_text"><#if orderGood.good.goodBrand??>${orderGood.good.goodBrand.name!""}</#if> ${orderGood.good.modelNumber!""}</div></li>
@@ -55,6 +71,7 @@
 		    	<div class="choose_amount">
 		    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${orderGood.good.price});">-</a>
 		    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
+		    		<input id="leaseTime_${orderGood.good.id}" type="hidden" name="leaseTime" value="${orderGood.good.leaseTime!""}" />
 		    		<input id="" type="hidden" name="price" value="${orderGood.good.price!""}" />
 		    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${orderGood.good.price});">+</a>
 		    	</div>
@@ -83,7 +100,13 @@
 	  <tr>
 	    <td>
 	        <div class="td_proBox">
-	            <a href="<@spring.url "/good/user/${good.id}/detail" />" class="cn_img">
+	        	<#if type==1|| type==2>
+	        		<a href="<@spring.url "/good/user/${good.id}/detail" />" class="cn_img">
+	        	<#elseif type==3||type==4>
+	        		<a href="<@spring.url "/good/agent/${good.id}/detail" />" class="cn_img">
+	        	<#elseif type==5>
+	        		<a href="<@spring.url "/good/batch/${good.id}/detail" />" class="cn_img">
+	        	</#if>
 	            	<#if good.pictures??>
 	                 	<#list good.pictures as picture>
 	                 		<#if picture_index==1>
@@ -93,7 +116,17 @@
 	                 </#if>
 	            </a>
 	            <div class="td_proBox_info">
-	                <h1><a href="<@spring.url "/good/user/${good.id}/detail" />">${good.title!""}</a></h1>
+	                <h1>
+	                	<#if type==1|| type==2>
+			        		<a href="<@spring.url "/good/user/${good.id}/detail" />">
+			        	<#elseif type==3||type==4>
+			        		<a href="<@spring.url "/good/agent/${good.id}/detail" />">
+			        	<#elseif type==5>
+			        		<a href="<@spring.url "/good/batch/${good.id}/detail" />">
+			        	</#if>
+		                		${good.title!""}
+		                	</a>
+	                </h1>
 	                <h3>${good.secondTitle!""}</h3>
 	                <ul>
 	                    <li><span>品牌型号：</span><div class="c_text"><#if good.goodBrand??>${good.goodBrand.name!""}</#if> ${good.modelNumber!""}</div></li>
@@ -116,6 +149,7 @@
 	    	<div class="choose_amount">
 	    		<a href="javascript:void(0);" onclick="reduceQuantity(${good.id},${good.price});">-</a>
 	    		<input id="quantity_${good.id}" name="quantity" type="text" value="${quantity!""}" />
+	    		<input id="leaseTime_${good.id}" type="hidden" name="leaseTime" value="${good.leaseTime!""}" />
 	    		<a href="javascript:void(0);"  onclick="addQuantity(${good.id},${good.price});">+</a>
 	    	</div>
 	    </td>

@@ -47,7 +47,6 @@ public class OrderPaymentService {
 		for(OrderPayment orderPayment:selectOrderPaymentsByOrderId){
 			total+=orderPayment.getPrice();
 		}
-		order.setStatus((byte) 3);//已发货
 		if(order.getActualPrice().equals(total)){
 			order.setPayStatus((byte) 2);//已付清
 		}
