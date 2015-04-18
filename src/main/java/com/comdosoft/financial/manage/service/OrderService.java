@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
@@ -65,7 +66,7 @@ public class OrderService {
 			if ("".equals(keys.trim())) {
 				keys = null;
 			} else {
-				keys = "%" + keys + "%";
+				keys = "%" + keys.trim() + "%";
 			}
 		}
 		List<Integer> orderIdsGood=null;
@@ -211,22 +212,22 @@ public class OrderService {
 	}
 
 	@Transactional("transactionManager")
-	public int save(Integer customerId, Integer goodId, Integer quantity,
+	public int save(Customer customer,Integer customerId, Integer goodId, Integer quantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,
-			Integer payChannelId) {
+			Integer payChannelId,Integer agentCustomerId) {
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
 		order.setActualPrice(good.getPrice()* quantity);
 		order.setComment(comment);
 		Date createdAt = new Date();
 		order.setCreatedAt(createdAt);
-		order.setCreatedUserId(customerId);
+		order.setCreatedUserId(customer.getId());
 		order.setCustomerAddressId(customerAddressId);
 		order.setInvoiceInfo(invoiceInfo);
 		order.setInvoiceType(invoiceType);
 		order.setNeedInvoice(needInvoice);
-		order.setCustomerId(customerId);
+		
 		order.setTotalPrice(good.getPrice() * quantity);
 		order.setTypes((byte) type);
 		order.setUpdatedAt(createdAt);
@@ -234,6 +235,15 @@ public class OrderService {
 		String orderNumber = getOrderNum(type);
 		order.setOrderNumber(orderNumber);
 		order.setStatus((byte) 1);
+		if(1==type || 2==type){
+			order.setCustomerId(customerId);
+			order.setBelongsUserId(customer.getId());
+		}else if(3==type || 4==type){
+			order.setCustomerId(customerId);
+			order.setBelongsUserId(agentCustomerId);
+		}else if(5==type){
+			order.setBelongsUserId(customerId);
+		}
 		orderMapper.insert(order);
 		int orderId = order.getId();
 		OrderGood orderGood = new OrderGood();
@@ -249,9 +259,9 @@ public class OrderService {
 		return orderId;
 	}
 
-	public int save(Integer customerId, Integer orderId, String goodQuantity,
+	public int save(Customer customer,Integer customerId, Integer orderId, String goodQuantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
-			Integer invoiceType, Boolean needInvoice, int type)
+			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
 			throws Exception {
 		Order orderOld = orderMapper.findOrderInfo(orderId);
 		List<OrderGood> orderGoods = orderOld.getOrderGoods();
@@ -291,10 +301,19 @@ public class OrderService {
 		orderNew.setInvoiceInfo(invoiceInfo);
 		orderNew.setInvoiceType(invoiceType);
 		orderNew.setNeedInvoice(needInvoice);
-		if (null != customerId) {
+		/*if (null != customerId) {
 			orderNew.setCustomerId(customerId);
 		} else {
 			orderNew.setCustomerId(orderOld.getCustomerId());
+		}*/
+		if(1==type || 2==type){
+			orderNew.setCustomerId(customerId);
+			orderNew.setBelongsUserId(customer.getId());
+		}else if(3==type || 4==type){
+			orderNew.setCustomerId(customerId);
+			orderNew.setBelongsUserId(agentCustomerId);
+		}else if(5==type){
+			orderNew.setBelongsUserId(customerId);
 		}
 		orderNew.setTotalPrice(totalPrice);
 		orderNew.setTypes((byte) type);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -123,10 +124,11 @@ public class OrderBatchController extends BaseController {
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
 			Integer customerId) {
+		Customer customer = sessionService.getLoginInfo(request);
 		int orderId=orderService
-				.save(customerId, goodId, quantity, comment, invoiceInfo,
+				.save(customer,customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
-						payChannelId);
+						payChannelId,null);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
 		findPage(1, null, null, null, model, types);
@@ -143,8 +145,9 @@ public class OrderBatchController extends BaseController {
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer customerId) throws Exception {
-		int orderNewId=orderService.save(customerId, orderId, goodQuantity, comment,
-				invoiceInfo, customerAddressId, invoiceType, needInvoice, type);
+		Customer customer = sessionService.getLoginInfo(request);
+		int orderNewId=orderService.save(customer,customerId, orderId, goodQuantity, comment,
+				invoiceInfo, customerAddressId, invoiceType, needInvoice, type,null);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
 		findPage(1, null, null, null, model, types);

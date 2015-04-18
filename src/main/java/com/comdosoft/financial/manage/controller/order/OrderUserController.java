@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.City;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -114,10 +115,11 @@ public class OrderUserController extends BaseController{
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
 			Integer customerId) {
+		Customer customer = sessionService.getLoginInfo(request);
 		Integer id=orderService
-				.save(customerId, goodId, quantity, comment, invoiceInfo,
+				.save(customer,customerId, goodId, quantity, comment, invoiceInfo,
 						customerAddressId, invoiceType, needInvoice, type,
-						payChannelId);
+						payChannelId,null);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
