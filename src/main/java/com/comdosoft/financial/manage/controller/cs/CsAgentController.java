@@ -32,7 +32,7 @@ public class CsAgentController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsAgent> csAgents = csAgentService.findPage(customer, page, status, keyword);
+		Page<CsAgent> csAgents = csAgentService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csAgents", csAgents);
 	}
 	

@@ -32,7 +32,7 @@ public class CsCancelController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsCancel> csCancels = csCancelService.findPage(customer, page, status, keyword);
+		Page<CsCancel> csCancels = csCancelService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csCancels", csCancels);
 	}
 	

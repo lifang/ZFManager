@@ -61,4 +61,6 @@ public interface TradeRecordMapper {
     		@Param("status") Integer status,
     		@Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
+    
+    TradeRecord getTradeRecordsByTradeNum(String orderId);
 }

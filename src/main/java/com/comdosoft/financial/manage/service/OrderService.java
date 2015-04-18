@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
@@ -65,7 +66,7 @@ public class OrderService {
 			if ("".equals(keys.trim())) {
 				keys = null;
 			} else {
-				keys = "%" + keys + "%";
+				keys = "%" + keys.trim() + "%";
 			}
 		}
 		List<Integer> orderIdsGood=null;
@@ -175,6 +176,21 @@ public class OrderService {
 		}
 		return order;
 	}
+	
+	/**
+	 * @description 支付批购定金 
+	 * @author Tory
+	 * @date 2015年4月18日 上午11:36:48
+	 */
+	public int savePayFront(Integer orderId){
+		Order record = orderMapper.findOrderInfo(orderId);
+		record.setStatus((byte) 2);
+		record.setFrontPayStatus((byte) 2);
+		if(record.getFrontMoney().equals(record.getActualPrice())){
+			record.setPayStatus((byte) 2);
+		}
+		return orderMapper.updateByPrimaryKey(record);
+	}
 
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus) {
@@ -191,6 +207,11 @@ public class OrderService {
 		return orderMapper.updateByPrimaryKey(record);
 	}
 	
+	/**
+	 * @description 修改实际价格，修改定金价格 
+	 * @author Tory
+	 * @date 2015年4月18日 上午11:24:33
+	 */
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus,Float frontMoney) {
 		Order record = orderMapper.findOrderInfo(orderId);
@@ -211,22 +232,22 @@ public class OrderService {
 	}
 
 	@Transactional("transactionManager")
-	public int save(Integer customerId, Integer goodId, Integer quantity,
+	public int save(Customer customer,Integer customerId, Integer goodId, Integer quantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,
-			Integer payChannelId) {
+			Integer payChannelId,Integer agentCustomerId) {
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
 		order.setActualPrice(good.getPrice()* quantity);
 		order.setComment(comment);
 		Date createdAt = new Date();
 		order.setCreatedAt(createdAt);
-		order.setCreatedUserId(customerId);
+		order.setCreatedUserId(customer.getId());
 		order.setCustomerAddressId(customerAddressId);
 		order.setInvoiceInfo(invoiceInfo);
 		order.setInvoiceType(invoiceType);
 		order.setNeedInvoice(needInvoice);
-		order.setCustomerId(customerId);
+		
 		order.setTotalPrice(good.getPrice() * quantity);
 		order.setTypes((byte) type);
 		order.setUpdatedAt(createdAt);
@@ -234,6 +255,15 @@ public class OrderService {
 		String orderNumber = getOrderNum(type);
 		order.setOrderNumber(orderNumber);
 		order.setStatus((byte) 1);
+		if(1==type || 2==type){
+			order.setCustomerId(customerId);
+			order.setBelongsUserId(customer.getId());
+		}else if(3==type || 4==type){
+			order.setCustomerId(customerId);
+			order.setBelongsUserId(agentCustomerId);
+		}else if(5==type){
+			order.setBelongsUserId(customerId);
+		}
 		orderMapper.insert(order);
 		int orderId = order.getId();
 		OrderGood orderGood = new OrderGood();
@@ -249,9 +279,9 @@ public class OrderService {
 		return orderId;
 	}
 
-	public int save(Integer customerId, Integer orderId, String goodQuantity,
+	public int save(Customer customer,Integer customerId, Integer orderId, String goodQuantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
-			Integer invoiceType, Boolean needInvoice, int type)
+			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
 			throws Exception {
 		Order orderOld = orderMapper.findOrderInfo(orderId);
 		List<OrderGood> orderGoods = orderOld.getOrderGoods();
@@ -291,10 +321,19 @@ public class OrderService {
 		orderNew.setInvoiceInfo(invoiceInfo);
 		orderNew.setInvoiceType(invoiceType);
 		orderNew.setNeedInvoice(needInvoice);
-		if (null != customerId) {
+		/*if (null != customerId) {
 			orderNew.setCustomerId(customerId);
 		} else {
 			orderNew.setCustomerId(orderOld.getCustomerId());
+		}*/
+		if(1==type || 2==type){
+			orderNew.setCustomerId(customerId);
+			orderNew.setBelongsUserId(customer.getId());
+		}else if(3==type || 4==type){
+			orderNew.setCustomerId(customerId);
+			orderNew.setBelongsUserId(agentCustomerId);
+		}else if(5==type){
+			orderNew.setBelongsUserId(customerId);
 		}
 		orderNew.setTotalPrice(totalPrice);
 		orderNew.setTypes((byte) type);

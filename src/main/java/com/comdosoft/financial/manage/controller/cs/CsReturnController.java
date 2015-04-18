@@ -38,7 +38,7 @@ public class CsReturnController {
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
 		if ("".equals(keyword)) keyword = null;
-		Page<CsReturn> csReturns = csReturnService.findPage(customer, page, status, keyword);
+		Page<CsReturn> csReturns = csReturnService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csReturns", csReturns);
 	}
 	

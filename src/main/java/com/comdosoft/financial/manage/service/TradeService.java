@@ -134,7 +134,7 @@ public class TradeService {
         return statistics;
     }
     
-    public List<Integer> importTrades(InputStream stream) throws InvalidFormatException, IOException{
+    public List<Integer> importTrades(InputStream stream,Integer selectedTradeType) throws InvalidFormatException, IOException{
     	Workbook workbook = WorkbookFactory.create(stream);
     	Sheet sheet = workbook.getSheetAt(0);
     	int lastRow = sheet.getLastRowNum();
@@ -144,7 +144,7 @@ public class TradeService {
     		Row row = sheet.getRow(i);
     		boolean result = false;
     		try {
-				result = processTradeRow(row, tradeNameMap);
+				result = processTradeRow(row, tradeNameMap,selectedTradeType);
 			} catch (Exception e) {
 				LOG.error("",e);
 			}
@@ -155,7 +155,7 @@ public class TradeService {
     	return errorRowNum;
     }
     
-    private boolean processTradeRow(Row row,Map<String,Integer> tradeNameMap){
+    private boolean processTradeRow(Row row,Map<String,Integer> tradeNameMap,Integer selectedTradeType){
     	//交易订单号0 商户订单号1 子商户号2 商户名3 终端号4 终端序列号5 卡号6 交易金额7 交易时间8 交易类别9 交易状态10 交易手续费11
     	String orderNum = cellStringValue(row, 0);
     	String merchantOrderNum = cellStringValue(row, 1);
@@ -172,6 +172,9 @@ public class TradeService {
     	//检查消费类别
     	Integer tradeTypeId = tradeNameMap.get(tradeType);
     	if(tradeTypeId == null){
+    		return false;
+    	}
+    	if(!tradeTypeId.equals(selectedTradeType)){
     		return false;
     	}
     	//检查交易状态
@@ -195,9 +198,12 @@ public class TradeService {
     	if(tradeTimeDate == null) {
     		return false;
     	}
-    	saveRecord(orderNum,merchantOrderNum,childMercantOrderNum,
+    	TradeRecord tradeRecord = saveRecord(orderNum,merchantOrderNum,childMercantOrderNum,
         		merchantName, terminalNum, amount, tradeTimeDate,
         		tradeTypeId, tradeStatusInt, tradeFee, cardNum);
+    	if(tradeRecord.getTradeNumber() == null){
+    		return false;
+    	}
     	return true;
     }
     
@@ -217,28 +223,33 @@ public class TradeService {
     private TradeRecord saveRecord(String orderNum,String merchantOrderNum,String childMercantOrderNum,
     		String merchantName, String terminalNum, String amount, Date tradeTimeDate,
     		Integer tradeTypeId, Integer tradeStatusInt, String tradeFee, String cardNum){
-    	Terminal terminal = terminalService.findByNum(terminalNum);
     	TradeRecord tradeRecord = new TradeRecord();
-    	tradeRecord.setAgentId(terminal.getAgentId());
-    	tradeRecord.setPayChannelId(terminal.getPayChannelId());
-    	tradeRecord.setCustomerId(terminal.getCustomerId());
-    	tradeRecord.setCityId(terminal.getCustomer().getCityId());
-    	tradeRecord.setTradeNumber(orderNum);
-    	tradeRecord.setSysOrderId(merchantOrderNum);
-    	tradeRecord.setMerchantNumber(childMercantOrderNum);
-    	tradeRecord.setMerchantName(merchantName);
-    	tradeRecord.setTerminalNumber(terminalNum);
-    	tradeRecord.setAmount((int)(Float.parseFloat(amount)*100));
-    	tradeRecord.setTradedAt(tradeTimeDate);
-    	tradeRecord.setTradeTypeId(tradeTypeId);
-    	tradeRecord.setTypes(tradeTypeId.byteValue());
-    	tradeRecord.setTradedStatus(tradeStatusInt);
-    	tradeRecord.setPoundage((int)(Float.parseFloat(tradeFee)*100));
-    	tradeRecord.setPayFromAccount(cardNum);
-    	tradeRecord.setAttachStatus(TradeRecord.ATTACH_STATUS_NO_CALCULATED);
-    	tradeRecord.setCreatedAt(new Date());
-    	tradeRecord.setUpdatedAt(new Date());
-    	tradeRecordMapper.insert(tradeRecord);
+    	
+    	TradeRecord tradeRecordInDB = tradeRecordMapper.getTradeRecordsByTradeNum(orderNum);
+    	if(tradeRecordInDB == null){
+    		Terminal terminal = terminalService.findByNum(terminalNum);
+    		
+    		tradeRecord.setAgentId(terminal.getAgentId());
+    		tradeRecord.setPayChannelId(terminal.getPayChannelId());
+    		tradeRecord.setCustomerId(terminal.getCustomerId());
+    		tradeRecord.setCityId(terminal.getCustomer().getCityId());
+    		tradeRecord.setTradeNumber(orderNum);
+    		tradeRecord.setSysOrderId(merchantOrderNum);
+    		tradeRecord.setMerchantNumber(childMercantOrderNum);
+    		tradeRecord.setMerchantName(merchantName);
+    		tradeRecord.setTerminalNumber(terminalNum);
+    		tradeRecord.setAmount((int)(Float.parseFloat(amount)*100));
+    		tradeRecord.setTradedAt(tradeTimeDate);
+    		tradeRecord.setTradeTypeId(tradeTypeId);
+    		tradeRecord.setTypes(tradeTypeId.byteValue());
+    		tradeRecord.setTradedStatus(tradeStatusInt);
+    		tradeRecord.setPoundage((int)(Float.parseFloat(tradeFee)*100));
+    		tradeRecord.setPayFromAccount(cardNum);
+    		tradeRecord.setAttachStatus(TradeRecord.ATTACH_STATUS_NO_CALCULATED);
+    		tradeRecord.setCreatedAt(new Date());
+    		tradeRecord.setUpdatedAt(new Date());
+    		tradeRecordMapper.insert(tradeRecord);
+    	}
     	return tradeRecord;
     }
 }

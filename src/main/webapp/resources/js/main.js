@@ -119,7 +119,9 @@ $(function(){
 	popup(".errorTab",".error_a");//错误提示弹层
 	
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
-	popup(".tab",".close");
+	
+	popup(".file_tab",".file_a");//交易转账上传
+	popup(".paymentRecordFront_tab",".paymentRecordFront_a");//支付定金
 })
 
 

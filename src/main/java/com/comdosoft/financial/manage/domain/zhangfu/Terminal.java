@@ -638,4 +638,13 @@ public class Terminal {
     public void setTerminalMarks(List<TerminalMark> terminalMarks) {
         this.terminalMarks = terminalMarks;
     }
+
+    //不需要视频
+    public static final int VIDEO_STATUS_1 = 1;
+    //需要视频
+    public static final int VIDEO_STATUS_2 = 2;
+    //重新视频
+    public static final int VIDEO_STATUS_3 = 3;
+
+
 }

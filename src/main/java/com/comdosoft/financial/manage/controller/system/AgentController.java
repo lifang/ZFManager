@@ -42,6 +42,9 @@ public class AgentController {
     private CustomerService customerService;
     @Autowired
     private DictionaryService dictionaryService;
+    @Autowired
+    private FactoryService factoryService;
+    
     @RequestMapping(value="list",method= RequestMethod.GET)
     public String list(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
@@ -76,10 +79,19 @@ public class AgentController {
     
     @RequestMapping(value="/findCustomerByName",method=RequestMethod.POST)
     @ResponseBody
-    public Response findCustomerByName(Integer id,String username){
-    	Agent agent = agentService.findAgentInfo(id);
-    	Integer customer_id = agent.getCustomerId();
-    	Boolean isTrue = customerService.findCustomerByUserName(username,customer_id);
+    public Response findCustomerByName(Integer id,String username,Integer factory_id){
+    	Boolean isTrue = false;
+    	if(null !=id){
+    		Agent agent = agentService.findAgentInfo(id);
+        	Integer customer_id = agent.getCustomerId();
+        	 isTrue = customerService.findCustomerByUserName(username,customer_id);
+    	}else if(null != factory_id){
+    		Factory factory = factoryService.findFactoryInfo(factory_id);
+    		Integer customer_id = factory.getCustomerId();
+    		 isTrue = customerService.findCustomerByUserName(username,customer_id);
+    	} else{
+    		 isTrue = customerService.findCustomerByUserName(username,null);
+    	}
     	if(isTrue){
     		return Response.getError("此ID已存在，无法添加");
     	}else{

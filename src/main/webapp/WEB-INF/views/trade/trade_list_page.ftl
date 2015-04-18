@@ -1,7 +1,8 @@
 <#import "../page.ftl" as pager>
-<div class="user_statistics">交易总金额：<strong>￥${((profits.amounts!0)/100)?string("0.00")}</strong>&nbsp;&nbsp;交易总笔数：<strong>${recordPage.total}笔</strong>&nbsp;&nbsp;
+<#if profits??>
+<div class="user_statistics">交易总金额：<strong>￥${((profits.amounts!0)/100)?string("0.00")}</strong>&nbsp;&nbsp;交易总笔数：<strong>${recordPage.total!0}笔</strong>&nbsp;&nbsp;
     产出分润：<strong>￥${((profits.gets!0)/100)?string("0.00")}</strong>&nbsp;&nbsp;需支付分润：<strong>￥${((profits.pays!0)/100)?string("0.00")}</strong></div>
-
+</#if>
 <div class="user_table">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
         <colgroup>
@@ -26,6 +27,7 @@
         </tr>
         </thead>
         <tbody>
+        <#if (recordPage.content)??>
         <#list recordPage.content as record>
         <tr>
             <td>${record.tradeNumber}</td>
@@ -38,6 +40,7 @@
             <td><a href="<@spring.url "/trade/${record.id}/info"/>" class="a_btn">查看详情</a></td>
         </tr>
         </#list>
+        </#if>
         </tbody>
     </table>
 </div>

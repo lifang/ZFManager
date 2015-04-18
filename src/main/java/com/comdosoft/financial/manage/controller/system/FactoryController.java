@@ -10,6 +10,7 @@ import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.FreeMarkerUtils;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by quqiang on 15/3/24.
@@ -140,7 +143,10 @@ public class FactoryController {
 
     @RequestMapping(value="uploadImg",method=RequestMethod.POST)
     @ResponseBody
-    public Response uploadImg(MultipartFile file){
+    public Response uploadImg(MultipartFile file,HttpServletRequest request){
+    	String url = request.getScheme() + "://";  
+		url += request.getHeader("host");  
+		url += request.getContextPath();
         String fileName = factoryPath+ FileUtil.getPathFileName()+".jpg";
         try {
             File osFile = new File(rootPath + fileName);
@@ -152,7 +158,7 @@ public class FactoryController {
             LOG.error("", e);
             return Response.getError("上传失败！");
         }
-        return Response.getSuccess(fileName);
+        return Response.getSuccess(url+fileName);
     }
 
     @RequestMapping(value="{id}/edit",method=RequestMethod.POST)

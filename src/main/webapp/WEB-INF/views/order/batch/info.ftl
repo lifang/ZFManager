@@ -4,7 +4,7 @@
 	<div class="breadcrumb">
         <ul>
             <li><a href="#">订单</a></li>
-            <li><a href="#">代理商代购</a></li>
+            <li><a href="#">代理商批购</a></li>
             <li><a href="#">订单详情</a></li>
         </ul>
     </div>
@@ -75,7 +75,7 @@
 	                    	<td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 		                    <td rowspan="${order.orderGoods?size}">${order.totalOutQuantity!0}</td>
 		                    <td rowspan="${order.orderGoods?size}">
-		                    	<#if order.totalOutQuantity?? || order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity>
+		                    	<#if order.status==2>
 		                    		<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
 		                    	</#if>
 		                    </td>
@@ -83,7 +83,7 @@
 		                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 		                    <td>${order.totalOutQuantity!0}</td>
 		                    <td>
-		                    	<#if order.totalOutQuantity?? || order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity>
+		                    	<#if order.status==2>
 		                    		<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
 		                    	</#if>
 		                    </td>

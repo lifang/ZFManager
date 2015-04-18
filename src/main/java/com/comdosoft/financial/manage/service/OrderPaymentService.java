@@ -48,8 +48,6 @@ public class OrderPaymentService {
 			total+=orderPayment.getPrice();
 		}
 		order.setStatus((byte) 3);//已发货
-		System.out.println(order.getActualPrice());
-		System.out.println(total);
 		if(order.getActualPrice().equals(total)){
 			order.setPayStatus((byte) 2);//已付清
 		}

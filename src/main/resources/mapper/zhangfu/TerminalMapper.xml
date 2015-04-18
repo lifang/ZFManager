@@ -165,9 +165,7 @@
         	<if test="1==1"> AND g.id is not null and pc.id is not null </if>
             <if test="status != null"> AND t.status =#{status} </if>
             <if test="keys != null and keys != ''"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
-            <if test="factoryId != null"> AND t.good_id in
-                (select id from goods g where g.factory_id=#{factoryId})
-            </if>
+            <if test="factoryId != null"> AND pc.factory_id =#{factoryId}</if>
         </where>
     </sql>
     <select id="selectPageTerminalsByKeys" resultMap="PageTerminalResultMap">

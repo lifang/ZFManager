@@ -43,7 +43,7 @@
                 </div>
             </td>
             <td>
-            	<strong>￥<#if orderGood.good??>${(orderGood.good.purchasePrice!0/100)?string("0.0")}</#if></strong>
+            	<strong>￥<#if orderGood.good?? && orderGood.payChannel??>${(((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></strong>
             	<p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p>
             </td>
             <td>${orderGood.quantity!0}</td>
@@ -56,15 +56,15 @@
                 	<strong>￥${(order.orderPaymentTotal/100)?string("0.00")}</strong>
                 </td>
           		<#if order.status??>
-			      	<#if order.status==1 || !order.frontPayStatus??><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
+			      	<#if order.status==1><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
 			      			<td rowspan="${order.orderGoods?size}">
 			      				<a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
 			      				<a href="#" class="a_btn priceEarnest_a" onclick="priceEarnestBtn(${order.id},<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if>);">修改定金价格</a>
 	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+	                    		<a href="#" class="a_btn paymentRecordFront_a" onclick="payPriceFrontBtn(${order.id},${((order.frontMoney!0)/100)?string("0.00")});">支付定金</a>
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
-				       <#elseif order.status==3 && order.frontPayStatus==2 && (!order.payStatus?? || order.payStatus!=2 || !order.totalOutQuantity?? || !order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity)>
+				       <#elseif order.status==2>
 				       		<td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付定金</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
@@ -72,7 +72,7 @@
 				       			<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">添加支付记录</a>
            						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
            						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
-				       <#elseif order.status==3 && (order.payStatus?? && order.payStatus==2) &&( order.totalOutQuantity?? && order.totalQuantity?? && order.totalOutQuantity==order.totalQuantity)>
+				       <#elseif order.status==3>
 				       		<td rowspan="${order.orderGoods?size}"><strong class="strong_status">已完成</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
@@ -104,15 +104,15 @@
 	            <td><strong>￥${(order.actualPrice/100)?string("0.00")}</strong></td>
 	            <td><strong>￥${(order.orderPaymentTotal/100)?string("0.00")}</strong></td>
 	            <#if order.status??>
-			      	<#if order.status==1 || !order.frontPayStatus??><td><strong class="strong_status">未付款</strong></td>
+			      	<#if order.status==1><td><strong class="strong_status">未付款</strong></td>
 				      		<td><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
 				      			<a href="#" class="a_btn priceEarnest_a" onclick="priceEarnestBtn(${order.id},<#if order.frontMoney??>${(order.frontMoney/100)?string("0.00")}<#else>0.00</#if>);">修改定金价格</a>
 	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+	                    		<a href="#" class="a_btn paymentRecordFront_a" onclick="payPriceFrontBtn(${order.id},${((order.frontMoney!0)/100)?string("0.00")});">支付定金</a>
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
 	                    	</td>
-				       <#elseif order.status==3 && order.frontPayStatus==2 && (!order.payStatus?? || order.payStatus!=2 || !order.totalOutQuantity?? || !order.totalQuantity?? || order.totalOutQuantity!=order.totalQuantity)>
+				       <#elseif order.status==2>
 				       		<td><strong class="strong_status">已付定金</strong></td>
 				       		<td><a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 				       			<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
@@ -120,7 +120,7 @@
            						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
            						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
            					</td>
-				       <#elseif order.status==3 && (order.payStatus?? && order.payStatus==2) &&( order.totalOutQuantity?? && order.totalQuantity?? && order.totalOutQuantity==order.totalQuantity)>
+				       <#elseif order.status==3>
 				       		<td><strong class="strong_status">已完成</strong></td>
 				       		<td>
 				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>

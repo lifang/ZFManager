@@ -74,15 +74,16 @@ public class OrderPaymentContoller extends BaseController {
     	return "order/agent/infoUp";
     }
     
-    /*@RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    @RequestMapping(value="/batch/create/front",method = RequestMethod.GET)
     public String createBatchGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
-    	orderService.save(orderId, (byte)2, null, (byte)2);
+    	orderService.savePayFront(orderId);
     	Order order=orderService.findOrderInfo(orderId);
-    	orderPaymentService.insert(orderId, order.getActualPrice(), payType, customer.getId(), customer.getTypes());
+    	orderPaymentService.insert(orderId, order.getFrontMoney(), payType, customer.getId(), customer.getTypes());
     	model.addAttribute("order", order);
+    	saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchList,OperateAction.paymentFront, orderId);
     	return "order/batch/row";
-    }*/
+    }
     
     @RequestMapping(value="/batch/create",method = RequestMethod.GET)
     public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){

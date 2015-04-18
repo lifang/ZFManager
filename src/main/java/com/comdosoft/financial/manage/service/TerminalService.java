@@ -29,6 +29,14 @@ public class TerminalService {
     private FactoryMapper factoryMapper;
     @Autowired
     private GoodMapper goodMapper;
+    @Autowired
+    private PayChannelMapper payChannelMapper;
+    @Autowired
+    private OpeningApplieMapper openingApplieMapper;
+    @Autowired
+    private OpeningVideoVerifyMapper openingVideoVerifyMapper;
+    @Autowired
+    private OpeningRequirementMapper openingRequirementMapper;
 
 	public long countCustomerTerminals(Integer customerId){
 		return terminalMapper.countCustomerTerminals(customerId);
@@ -142,5 +150,35 @@ public class TerminalService {
     
     public Terminal findByNum(String num) {
     	return terminalMapper.findTerminalByNum(num);
+    }
+
+
+    public int videoStatus(Integer id){
+        int status = Terminal.VIDEO_STATUS_1;
+        OpeningApplie openingApplie = openingApplieMapper.selectOpeningApplie(id);
+        if(openingApplie == null){
+            return status;
+        }
+        List<OpeningVideoVerify> verifies = openingVideoVerifyMapper.selectByApplyId(openingApplie.getId());
+        for(OpeningVideoVerify verify : verifies){
+            if(verify.getStatus() == OpeningVideoVerify.STATUS_FALSE){
+                status = Terminal.VIDEO_STATUS_3;
+            }
+            return status;
+        }
+
+        Terminal terminal = terminalMapper.findTerminalInfo(id);
+        status = Terminal.VIDEO_STATUS_2;
+        List<OpeningRequirement> requirements = openingRequirementMapper.selectOpeningRequirements(terminal.getPayChannelId());
+        for (OpeningRequirement requirement : requirements){
+            if(requirement.getHasVideoVerify() == true){
+                break;
+            }
+        }
+        return status;
+    }
+
+    public OpeningApplie getOpeningApplie(Integer id){
+        return openingApplieMapper.selectOpeningApplie(id);
     }
 }

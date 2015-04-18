@@ -1,5 +1,5 @@
 <div class="detailPanel_status">
-	<#if order.status==1 || !order.frontPayStatus??>
+	<#if order.status==1>
     	<div class="payWarning">
     			<i class="no"></i>未付款
     	</div>
@@ -9,7 +9,7 @@
         	<a href="#" class="ghostBtn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
             <a href="#" class="ghostBtn" onclick="cancel(${order.id});">取消</a>
         </div>
-    <#elseif order.status==3 && order.frontPayStatus==2 && (!order.payStatus?? || order.payStatus!=2)>
+    <#elseif order.status==2>
     	<div class="payWarning">
     			已付订金
     	</div>
@@ -17,7 +17,7 @@
         	<a href="#" class="ghostBtn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
             <a href="#" class="ghostBtn" onclick="cancel(${order.id});">取消</a>
         </div>
-	<#elseif order.status==3 && (order.payStatus?? && order.payStatus==2)>
+	<#elseif order.status==3>
 		<div class="payWarning">已完成</div>
 	<#elseif order.status==4>
 		<div class="payWarning">已评价</div>

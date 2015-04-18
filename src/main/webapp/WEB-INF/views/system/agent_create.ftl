@@ -28,13 +28,13 @@
                         <div class="text"><input name="a_name" type="text" value="${(agent.name)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">负责人身份证号：</span>
-                        <div class="text"><input name="a_cardId" type="text" value="${(agent.cardId)!""}"></div>
+                        <div class="text"><input name="a_cardId" type="text"  onblur="numModify(this)"   onblur="numModify(this)"value="${(agent.cardId)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">公司全称：</span>
                         <div class="text"><input name="a_companyName" type="text" value="${(agent.companyName)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">公司营业执照登记号：</span>
-                        <div class="text"><input name="a_businessLicense" type="text" value="${(agent.businessLicense)!""}"></div>
+                        <div class="text"><input name="a_businessLicense"  onblur="numModify(this)" type="text" value="${(agent.businessLicense)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">手机：</span>
                         <div class="text"><input name="a_phone" type="text" value="${(agent.phone)!""}"></div>
@@ -128,7 +128,6 @@
         }
     	-->
 		var a_id = $("#agent_id").val();
-    	console.log("post  begin......"+a_id);
         var u_url="<@spring.url "/system/agent/findCustomerByName" />";
         $.post(u_url, {  
 						 id: a_id,
@@ -187,6 +186,12 @@
          
     } 
     
+    function numModify(obj){
+	  var reg = new RegExp("^[0-9]*\.[0-9]{0,1}$");
+	  if(!reg.test(obj.value)){
+		 obj.value="";
+	  } 
+}
 
 </script>
 </@c.html>
