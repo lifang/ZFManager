@@ -156,6 +156,12 @@
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.23</version>
+		</dependency>
+		
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework</groupId>

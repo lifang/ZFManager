@@ -144,8 +144,11 @@
 		        function (data) {
 					if(1==data){
 						location.reload();
-					}else{
+					}else if(data ==0){
 						alert("操作失败!");
+					}else{
+						alert(data);
+						location.reload();
 					}
 		        });
 	}
