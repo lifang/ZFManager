@@ -30,7 +30,7 @@
     <form id="file_form" action="<@spring.url "/trade/import"/>" method="post" enctype="multipart/form-data">
     <div class="tabBody">
         <input name="file" type="file" />
-        <input type="hidden" name="selectTradeType" value="${type.id}"/>
+        <input type="hidden" name="selectTradeType" value=""/>
     </div>
     <div class="tabFoot"><button class="blueBtn">确定</button></div>
     </form>
@@ -48,6 +48,7 @@
         });
 
         $("#file_form").submit(function(){
+        	$("input[type=hidden]").val($(".li_show > li > a.hover").parent().attr("data-id"));
             $(this).ajaxSubmit({
                 success : function(data){
                     $(".mask").hide();

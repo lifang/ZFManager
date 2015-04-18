@@ -201,7 +201,7 @@ public class TradeService {
     	TradeRecord tradeRecord = saveRecord(orderNum,merchantOrderNum,childMercantOrderNum,
         		merchantName, terminalNum, amount, tradeTimeDate,
         		tradeTypeId, tradeStatusInt, tradeFee, cardNum);
-    	if(tradeRecord.getAgentId() == null){
+    	if(tradeRecord.getTradeNumber() == null){
     		return false;
     	}
     	return true;
@@ -224,6 +224,7 @@ public class TradeService {
     		String merchantName, String terminalNum, String amount, Date tradeTimeDate,
     		Integer tradeTypeId, Integer tradeStatusInt, String tradeFee, String cardNum){
     	TradeRecord tradeRecord = new TradeRecord();
+    	
     	TradeRecord tradeRecordInDB = tradeRecordMapper.getTradeRecordsByTradeNum(orderNum);
     	if(tradeRecordInDB == null){
     		Terminal terminal = terminalService.findByNum(terminalNum);
