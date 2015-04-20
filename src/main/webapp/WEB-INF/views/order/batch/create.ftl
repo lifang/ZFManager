@@ -144,8 +144,8 @@
 	
 	function createSure(goodId){
 		var quantity = $("#quantity_"+goodId).val();
-		var leaseTime = $("#leaseTime_"+goodId).val();
-		if(quantity<leaseTime){
+		var floorPurchaseQuantity = $("#floorPurchaseQuantity_"+goodId).val();
+		if(quantity<floorPurchaseQuantity){
 			alert("所选批购数量不能小于最小批购量");
 			return;
 		}
@@ -200,9 +200,9 @@
 		for(var i=0,size=allinput.length;i<size;i++){
 			goodQuantity+=allinput[i].id+":"+allinput[i].value;
 			var goodId=(allinput[i].id).replace("quantity_","");
-			var leaseTime = $("#leaseTime_"+goodId).val();
-			if(parseInt(allinput[i].value)<parseInt(leaseTime)){
-				alert("商品购买数量"+allinput[i].value+"小于最小批购量："+leaseTime);
+			var floorPurchaseQuantity = $("#floorPurchaseQuantity_"+goodId).val();
+			if(parseInt(allinput[i].value)<parseInt(floorPurchaseQuantity)){
+				alert("商品购买数量"+allinput[i].value+"小于最小批购量："+floorPurchaseQuantity);
 				return;
 			}
 			if(i<size-1){

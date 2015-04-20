@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
@@ -264,6 +265,9 @@ public class CustomerService {
     }
     
     public List<Customer> searchCustomer(String customerName,Integer agentId){
+    	if(null==agentId){
+    		return searchCustomer(customerName);
+    	}
     	if(null!=customerName){
     		customerName="%"+customerName.trim()+"%";
     	}
@@ -271,6 +275,9 @@ public class CustomerService {
     	List<Integer> customerIds=new ArrayList<Integer>();
     	for(CustomerAgentRelation customerAgentRelation:selectByAgentId){
     		customerIds.add(customerAgentRelation.getCustomerId());
+    	}
+    	if(CollectionUtils.isEmpty(customerIds)){
+    		return null;
     	}
     	List<Customer> customerList = customerMapper.searchCustomerWithIds(customerName,customerIds);
 		return customerList;
