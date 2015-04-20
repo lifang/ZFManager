@@ -166,8 +166,9 @@
     
     <select id="searchCustomerWithIds" resultMap="BaseResultMap">
         select * from customers
-        where (name like #{customerName} or username like #{customerName} or phone like #{customerName} or email like #{customerName}) and
-        id in <foreach item="item" index="index" collection="customerIds" open="(" separator="," close=")">#{item}</foreach>  
+        where (name like #{customerName} or username like #{customerName} or phone like #{customerName} or email like #{customerName}) 
+        and id in
+        <foreach item="item" index="index" collection="customerIds" open="(" separator="," close=")">#{item}</foreach>  
     </select>
     
     <!-- find users who have permission to operate -->

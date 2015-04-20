@@ -21,6 +21,8 @@ import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
+import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
+import com.comdosoft.financial.manage.domain.zhangfu.SysConfig;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
@@ -28,6 +30,9 @@ import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderGoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderPaymentMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.SysConfigMapper;
+import com.comdosoft.financial.manage.utils.Constant;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -55,6 +60,11 @@ public class OrderService {
 	
 	@Autowired
 	private CsOutStorageMapper csOutStorageMapper;
+	
+	@Autowired
+	private SysConfigMapper sysConfigMapper;
+	@Autowired
+	private PayChannelMapper payChannelMapper;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
@@ -236,25 +246,11 @@ public class OrderService {
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,
 			Integer payChannelId,Integer agentCustomerId) throws Exception {
+		
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
-		order.setActualPrice(good.getPrice()* quantity);
-		order.setComment(comment);
-		Date createdAt = new Date();
-		order.setCreatedAt(createdAt);
-		order.setCreatedUserId(customer.getId());
-		order.setCustomerAddressId(customerAddressId);
-		order.setInvoiceInfo(invoiceInfo);
-		order.setInvoiceType(invoiceType);
-		order.setNeedInvoice(needInvoice);
-		
-		order.setTotalPrice(good.getPrice() * quantity);
-		order.setTypes((byte) type);
-		order.setUpdatedAt(createdAt);
-		order.setTotalQuantity(quantity);
-		String orderNumber = getOrderNum(type);
-		order.setOrderNumber(orderNumber);
-		order.setStatus((byte) 1);
+		int totalPrice = good.getPrice()* quantity;
+		PayChannel payChannel = payChannelMapper.selectByPrimaryKey(payChannelId);
 		if(1==type || 2==type){
 			order.setCustomerId(customerId);
 			order.setBelongsUserId(customer.getId());
@@ -263,11 +259,32 @@ public class OrderService {
 			order.setBelongsUserId(agentCustomerId);
 		}else if(5==type){
 			order.setBelongsUserId(customerId);
-			if(null!=good.getLeaseTime()&&quantity<good.getLeaseTime()){
+			if(null!=good.getFloorPurchaseQuantity()&&quantity<good.getFloorPurchaseQuantity()){
 				throw new Exception("所选批购数量小于最小批购数!");
 			}
+			totalPrice=(good.getPurchasePrice()+payChannel.getOpeningCost())*quantity;
+			SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
+			int frontMoney = totalPrice*(Integer.parseInt(findByKey.getParamValue()))/100;
+			order.setFrontMoney(frontMoney);
 			
 		}
+		order.setActualPrice(totalPrice);
+		order.setComment(comment);
+		Date createdAt = new Date();
+		order.setCreatedAt(createdAt);
+		order.setCreatedUserId(customer.getId());
+		order.setCustomerAddressId(customerAddressId);
+		order.setInvoiceInfo(invoiceInfo);
+		order.setInvoiceType(invoiceType);
+		order.setNeedInvoice(needInvoice);
+		order.setTotalPrice(totalPrice);
+		order.setTypes((byte) type);
+		order.setUpdatedAt(createdAt);
+		order.setTotalQuantity(quantity);
+		String orderNumber = getOrderNum(type);
+		order.setOrderNumber(orderNumber);
+		order.setStatus((byte) 1);
+		
 		orderMapper.insert(order);
 		int orderId = order.getId();
 		OrderGood orderGood = new OrderGood();
@@ -277,12 +294,17 @@ public class OrderService {
 		orderGood.setUpdatedAt(createdAt);
 		orderGood.setQuantity(quantity);
 		orderGood.setPrice(good.getPrice());
-		orderGood.setActualPrice(good.getPrice() * quantity);
+		orderGood.setActualPrice(totalPrice);
 		orderGood.setPayChannelId(payChannelId);
 		orderGoodMapper.insert(orderGood);
 		return orderId;
 	}
 
+	/**
+	 * @description 再次订购的时候 
+	 * @author Tory
+	 * @date 2015年4月20日 下午9:01:24
+	 */
 	public int save(Customer customer,Integer customerId, Integer orderId, String goodQuantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
@@ -310,8 +332,17 @@ public class OrderService {
 		for (Good good : selectGoodsByIds) {
 			for (Map<String, Integer> map : goodQuantityList) {
 				if (map.get("goodId").equals(good.getId())) {
-					totalPrice += good.getPrice() * map.get("quantity");
-					if(null!=good.getLeaseTime()&&map.get("quantity")<good.getLeaseTime()){
+					if(type==5){
+						for (OrderGood orderGoodOld : orderGoods) {
+							if (orderGoodOld.getGoodId().equals(good.getId())) {
+								totalPrice += (good.getPurchasePrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								break;
+							}
+						}
+					}else{
+						totalPrice += good.getPrice() * map.get("quantity");
+					}
+					if(null!=good.getFloorPurchaseQuantity()&&map.get("quantity")<good.getFloorPurchaseQuantity()){
 						throw new Exception("所选批购数量小于最小批购数!");
 					}
 					break;
@@ -341,6 +372,9 @@ public class OrderService {
 			orderNew.setBelongsUserId(agentCustomerId);
 		}else if(5==type){
 			orderNew.setBelongsUserId(customerId);
+			SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
+			int frontMoney = totalPrice*(Integer.parseInt(findByKey.getParamValue()))/100;
+			orderNew.setFrontMoney(frontMoney);
 		}
 		orderNew.setTotalPrice(totalPrice);
 		orderNew.setTypes((byte) type);

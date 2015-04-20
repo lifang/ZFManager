@@ -33,6 +33,6 @@
     		<p class="original">零售价：￥${(good.retailPrice/100)?string("0.0")}</p>
     	</a>
     </td>
-    <td><a href="#"><em>${good.leaseTime!""}</em>件</a></td>
+    <td><a href="#"><em>${good.floorPurchaseQuantity!""}</em>件</a></td>
     <td><a href="#">月销量<em>${good.volumeNumber!""}</em>件</a></td>
   </tr>
