@@ -73,7 +73,11 @@
 			 'zipCode':zipCode,
 			 'address':address
 			 }, function(data) {
-			 	location.href='<@spring.url "/cs/repair/list" />';
+			 	if(data.length > 0) {
+			 		alert(data);
+			 	} else {
+			 		location.href='<@spring.url "/cs/repair/list" />';
+			 	}
 			 });
 	}
 </script>
