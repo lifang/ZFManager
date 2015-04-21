@@ -4,23 +4,30 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+
+import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+@Component
 public class HttpFile {
 
-    private static String localpath = "C:/test/local/";
+   // @Value("${localpath}")
+    private  static String localpath="C:/test/local/";
 
     // private static String urlpath="http://127.0.0.1:8080/file/index/upload";
+    //@Value("${urlpath}")
+    private  static String urlpath="http://121.40.84.2:8888/File/index/upload" ;
 
-    private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
-
-  
+    
 
     public static String upload(MultipartFile file, String path) {
         String upload_path = localpath + path;
@@ -31,7 +38,7 @@ public class HttpFile {
             if (name.lastIndexOf(".") >= 0) {
                 extName = name.substring(name.lastIndexOf("."));
             }
-            name = new Date().getTime() + extName;
+            name = new Date().getTime()+SysUtils.getRandNum(6).toString() + extName;
             File f = new File(upload_path, name);
             FileUtils.copyInputStreamToFile(file.getInputStream(), f);
             a = postHttp(urlpath, path, f);
@@ -44,7 +51,44 @@ public class HttpFile {
         } else {
             return path + name;
         }
-
+    }
+    
+    public static  String uploadPos(MultipartFile file, String path) {
+        String upload_path = localpath + path;
+        String name = file.getOriginalFilename();
+        String extName = "";
+        if (name.lastIndexOf(".") >= 0) {
+            extName = name.substring(name.lastIndexOf("."));
+        }
+        String ppname = new Date().getTime()+SysUtils.getRandNum(6).toString();
+        String oo=upload_path+ppname+"_o"+extName;
+        File osFile = new File(oo);
+        if (!osFile.getParentFile().exists()) {
+            osFile.getParentFile().mkdirs();
+        }
+        int a=-1;
+        try {
+            file.transferTo(osFile);
+          //大图
+            String bb=upload_path+ppname+"_b"+extName;
+            Thumbnails.of(oo).size(400, 400).toFile(bb);
+          //  String ss=upload_path+ppname+"_s"+extName;
+          //  Thumbnails.of(oo).size(55, 55).toFile(ss);
+           
+            File qf=new File(bb);
+            a = postHttp(urlpath, path, qf);
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (a == -1) {
+            return "同步上传失败";
+        } else {
+            return path + ppname+"_b"+extName;
+        }
     }
 
     public static int postHttp(String url, String path, File file) throws IOException {
@@ -63,5 +107,6 @@ public class HttpFile {
             return -1;
         }
     }
+    
 
 }
