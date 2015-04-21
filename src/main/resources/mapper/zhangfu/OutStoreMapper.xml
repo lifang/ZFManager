@@ -135,4 +135,17 @@ where a.id=#{id}
 		insert into cs_out_storage_marks(cs_out_storage_id,customer_id,content,created_at) 
 		values(#{id},#{loginId},#{content},now())
    </insert>
+   
+   <select id="getCutomerTypeByOrderId" resultType="map">
+   	select customer_id as customerId,types from orders where id=#{orderId}
+   </select>
+   
+   <select id="getAgentIdByCustomerId" resultType="int">
+   		select id from agents where customer_id=#{customerId}
+   </select>
+   
+   <update id="updateTerminals">
+   	update terminals set customer_id=#{customerId},agent_id=#{agentId},order_id=#{orderId},updated_at=now() where serial_num=#{serialNum}
+   </update>
+   
 </mapper>

@@ -200,54 +200,94 @@ public class OutStoreService {
 		
 		int orderId=getOrderIdByOutStorageId(id);
 		
-		if(null!=outStoreMapper.getWLByOrderId(orderId) && outStoreMapper.getWLByOrderId(orderId).size()>0){
-			resultCode=Response.ERROR_CODE;
-			resultInfo.setLength(0);
-			resultInfo.append("已经存在该订单号的物流记录");
-		}else{
-			//根据orderId,对物流公司，物流单号进行保存
-			int temp1=outStoreMapper.saveWLInfo(wlCompany, wlNum, orderId);
-			if(temp1<1){
+		Map<String, Object> tempOrderMap=outStoreMapper.getCutomerTypeByOrderId(orderId);
+		int types=Integer.parseInt(tempOrderMap.get("types").toString());
+		String customerId=tempOrderMap.get("customerId").toString();
+		
+		if(types==1 ||types==2){
+			//用户订购
+			int temp1=outStoreMapper.updateTerminals(customerId, "", orderId, terminalNum);
+			if(temp1<0){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("保存物流公司名称，物流单号出错");
+				resultInfo.append("更新terminals表出错");
 			}else{
-				//循环对商品及其终端号进行保存
-				if(terminalNum.length()>0){
-					String[] temp=terminalNum.split("//|");
-					for(int i=0;i<temp.length;i++){
-						String[] tempChild=temp[i].toString().split("//_");
-						int goodId=Integer.parseInt(tempChild[0].toString());
-						String[] ports=tempChild[1].toString().split("//,");
-						for(int j=0;j<ports.length;j++){
-							String port=ports[j];
-							//执行保存
-							int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, port,loginId);
-							if(temp2<1){
-								resultCode=Response.ERROR_CODE;
-								resultInfo.setLength(0);
-								resultInfo.append("保存商品的终端号出错");
-								break;
-							}
-						}
-								
-					}
-				}else{
-					resultCode=Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("商品的终端号为空出错");
-				}
+				resultCode=Response.SUCCESS_CODE;
+			}
+		}else if(types==3){
+			//代理商代购
+			int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+			int temp1=outStoreMapper.updateTerminals("", agentId+"", orderId, terminalNum);
+			if(temp1<0){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("更新terminals表出错");
+			}else{
+				resultCode=Response.SUCCESS_CODE;
+			}
+		}else if(types==4 || types==5){
+			//代理商代租赁
+			int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+			int temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, terminalNum);
+			if(temp1<0){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("更新terminals表出错");
+			}else{
+				resultCode=Response.SUCCESS_CODE;
 			}
 		}
-		//修改出库单状态
-		int temp4=outStoreMapper.changeStatus(3,loginId,id);
-		if(temp4<1){
-			resultCode=Response.ERROR_CODE;
-			resultInfo.setLength(0);
-			resultInfo.append("更改出库订单状态出错");
+		if(resultCode==Response.ERROR_CODE){
+			
+		}else{
+			if(null!=outStoreMapper.getWLByOrderId(orderId) && outStoreMapper.getWLByOrderId(orderId).size()>0){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("已经存在该订单号的物流记录");
+			}else{
+				//根据orderId,对物流公司，物流单号进行保存
+				int temp1=outStoreMapper.saveWLInfo(wlCompany, wlNum, orderId);
+				if(temp1<1){
+					resultCode=Response.ERROR_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("保存物流公司名称，物流单号出错");
+				}else{
+					//循环对商品及其终端号进行保存
+					if(terminalNum.length()>0){
+						String[] temp=terminalNum.split("//|");
+						for(int i=0;i<temp.length;i++){
+							String[] tempChild=temp[i].toString().split("//_");
+							int goodId=Integer.parseInt(tempChild[0].toString());
+							String[] ports=tempChild[1].toString().split("//,");
+							for(int j=0;j<ports.length;j++){
+								String port=ports[j];
+								//执行保存
+								int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, port,loginId);
+								if(temp2<1){
+									resultCode=Response.ERROR_CODE;
+									resultInfo.setLength(0);
+									resultInfo.append("保存商品的终端号出错");
+									break;
+								}
+							}
+									
+						}
+					}else{
+						resultCode=Response.ERROR_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("商品的终端号为空出错");
+					}
+				}
+			}
+			//修改出库单状态
+			int temp4=outStoreMapper.changeStatus(3,loginId,id);
+			if(temp4<1){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("更改出库订单状态出错");
+			}
 		}
 		//执行保存操作记录
-		
 		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
