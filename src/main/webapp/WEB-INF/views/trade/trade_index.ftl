@@ -40,6 +40,7 @@
         $(".li_show > li > a").click(function(){
             $(".li_show > li > a.hover").removeClass();
             $(this).addClass("hover");
+            $(".breadcrumb>ul>li:last>a").html($(this).html());
             $.get(
                     "<@spring.url "/trade/type/"/>"+$(this).parent().attr("data-id")+"/list",
                     function(data){

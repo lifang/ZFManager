@@ -26,7 +26,7 @@
     </div>
 </div>  
 
-<div class="tab" id="div1" style="display:none; top: 200px; left: 200px;">
+<div class="tab stockMange_tab" id="div1" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">售后信息</div>
     <div class="tabBody">
@@ -40,7 +40,7 @@
     <div class="tabFoot"><button class="blueBtn" onclick="toAfterStock()">确定</button></div>
 </div>
 
-<div class="tab" id="div2" style="display:none; top: 200px; left: 200px;">
+<div class="tab stockMange_tab" id="div2" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">提示</div>
     <div class="tabBody">
@@ -49,7 +49,7 @@
     <div class="tabFoot"><button class="blueBtn" onclick="closeTab(2)">确定</button></div>
 </div>
 
-<div class="tab" id="div3" style="display:none; top: 200px; left: 200px;">
+<div class="tab stockMange_tab" id="div3" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">提示</div>
     <div class="tabBody">
@@ -58,7 +58,7 @@
     <div class="tabFoot"><button class="blueBtn" onclick="closeTab(3)">确定</button></div>
 </div>
 
-<div class="tab" id="div4" style="display:none; top: 200px; left: 200px;">
+<div class="tab stockMange_tab" id="div4" style="display:none; top: 200px; left: 200px;">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">提示</div>
     <div class="tabBody">

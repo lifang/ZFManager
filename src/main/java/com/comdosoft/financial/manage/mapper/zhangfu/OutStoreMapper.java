@@ -35,6 +35,10 @@ public interface OutStoreMapper {
 	
 	String getOperater(@Param("orderId") int orderId);
 	
+	String getProcessName(@Param("id") int customerId);
+	
+	Map<String, Object> getCutomerTypeByOrderId(@Param("orderId") int orderId);
+	
 	List<Map<String, Object>> getRemarks(@Param("id") int id);
 	
 	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
@@ -42,4 +46,9 @@ public interface OutStoreMapper {
 	Map<String, Object> getInfoInit(@Param("orderId") int orderId);
 	
 	int saveProcessUser(@Param("processUserId") int processUserId,@Param("processUserName") String processUserName,@Param("id") int id);
+	
+	int getAgentIdByCustomerId(@Param("customerId") String customerId);
+	
+	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,@Param("orderId") int orderId,@Param("serialNum") String serialNum);
+	
 }

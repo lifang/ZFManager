@@ -36,14 +36,14 @@ public class StockManageService {
 			//终端ID
 			int terminalId=Integer.parseInt(temp.get("id").toString());
 			
-			Map<String, Object> temp1=stockManageMapper.isAgents(terminalId);
+			List<Map<String, Object>> temp1=stockManageMapper.isAgents(serialNum);
 			Map<String, Object> temp2=stockManageMapper.isCancels(terminalId);
 			Map<String, Object> temp3=stockManageMapper.isChanges(terminalId);
 			Map<String, Object> temp4=stockManageMapper.isLeaseReturns(terminalId);
 			Map<String, Object> temp5=stockManageMapper.isRepairs(terminalId);
 			Map<String, Object> temp6=stockManageMapper.isReturns(terminalId);
 			
-			if(null!=temp1){
+			if(null!=temp1&& temp1.size()>0){
 				resultInfo.setLength(0);
 				resultInfo.append("代理商售后");
 			}
@@ -103,7 +103,7 @@ public class StockManageService {
 		resultInfo.append("终端退回售后库失败");
 		
 		Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
-		if(null!=null){
+		if(null!=mapTemp){
 			int temp=stockManageMapper.toAfterSaleStock(serialNum, loginId);
 			if(temp>0){
 				resultCode=1;
