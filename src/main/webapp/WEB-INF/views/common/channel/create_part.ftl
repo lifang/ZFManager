@@ -105,7 +105,7 @@
                                                 </#list>
                                             </select>
                                         </td>
-                                        <td><input name="" type="text" class="input_l" value="${(channelStandardRate.standardRate/10)?string("0.0")}"  ></td>
+                                        <td><input name="" type="text" class="input_l" value="${((channelStandardRate.standardRate)??)?string((((channelStandardRate.standardRate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
                                     </tr>
                                     </#list>
