@@ -23,4 +23,11 @@
         </ul>
     </div>
 </div>
+<#if RequestParameters.role?? &&RequestParameters.role=='no'>
+<script>
+    $(function(){
+        showErrorTip("你没有该功能的权限！");
+    });
+</script>
+</#if>
 </@c.html>

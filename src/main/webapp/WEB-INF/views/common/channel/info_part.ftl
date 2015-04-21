@@ -25,13 +25,15 @@
             <ul>
                 <li><em>名称：</em><span>${channel.name!""}</span></li>
                 <li><em>收单机构：</em><span>${channel.factory.name}</span></li>
-                <li><em>支持区域：</em>
+                <li><em><#if (!channel.supportType)>不</#if>支持区域：</em>
                     <span>
-                    <#if (channel.areas)??>
+                    <#if (channel.areas??&&channel.areas?size!=0)>
                             <#list channel.areas as area>
-                    ${area.name}
-                    </#list>
-                        </#if>
+                   				 ${area.name}
+                   			 </#list>
+           			 <#else> 
+ 					           全国
+                    </#if>
                     </span></li>
                 <li><em>是否支持注销：</em><span><#if channel.supportCancelFlag>是<#else>否</#if></span></li>
             </ul>

@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,18 @@ public class IndexController {
 	
 	@Autowired
 	private SessionService sessionService;
-	
 	@Autowired
 	private IndexMessageService indexMessageService;
+	@Value("${url.login}")
+	private String loginUrl;
+	
+	@RequestMapping(value="/",method=RequestMethod.GET)
+	public String root(HttpServletRequest request){
+		if(sessionService.isLogged(request)){
+			return "redirect:/index";
+		}
+		return "redirect:"+loginUrl;
+	}
 	
 	@RequestMapping(value="index",method=RequestMethod.GET)
 	public String index(HttpServletRequest request,Model model){
