@@ -143,6 +143,17 @@
 	            	$("#status_"+csRepairId).text("处理完成");
 	            });
 	}
+	
+	function onHandle(csRepairId) {
+		$.post('<@spring.url "" />'+'/cs/repair/'+csRepairId+'/handle',
+	            {}, function (data) {
+	            	$("#operation_"+csRepairId).html(
+	            		'<a href="<@spring.url "" />'+'/cs/repair/'+csRepairId+'/info" class="a_btn">查看详情</a>'
+						+'<a class="a_btn" onClick="onFinish('+csRepairId+');">标记为维修完成</a>	'
+	            	);
+	            	$("#status_"+csRepairId).text("维修中");
+	            });
+	}
 
 	var repairId;
 

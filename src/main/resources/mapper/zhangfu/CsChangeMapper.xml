@@ -101,7 +101,7 @@
   </sql>
   
   <sql id="selectFrom">
-    select cc.*, t.id t_id, t.serial_num t_serial_num, 
+    select cc.*, t.id t_id, t.serial_num t_serial_num, t.order_id t_order_id,
     m.id m_id, m.title m_title, m.phone m_phone, 
     pc.id pc_id, pc.name pc_name, g.id g_id, g.title g_title,
     addr.id addr_id, addr.address addr_address  
