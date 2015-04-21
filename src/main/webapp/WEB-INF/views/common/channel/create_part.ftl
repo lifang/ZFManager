@@ -105,7 +105,7 @@
                                                 </#list>
                                             </select>
                                         </td>
-                                        <td><input name="" type="text" class="input_l" value="${channelStandardRate.standardRate}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
+                                        <td><input name="" type="text" class="input_l" value="${(channelStandardRate.standardRate/10)?string("0.0")}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
                                     </tr>
                                     </#list>
@@ -142,7 +142,7 @@
                                                 </#list>
                                             </select>
                                         </td>
-                                        <td><input name="" type="text" class="input_l" value="${channelBillingCycle.rate!""}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
+                                        <td><input name="" type="text" class="input_l" value="${((channelBillingCycle.rate)??)?string((((channelBillingCycle.rate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
                                     </tr>
                                     </#list>
@@ -181,7 +181,7 @@
                                                 </#list>
                                             </select>
                                         </td>
-                                        <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.terminalRate!""}" onkeyup="value=this.value.replace(/\D+/g,'')" ></td>
+                                        <td><input name="" type="text" class="input_l" value="${((channelSupportTradeType.terminalRate)??)?string((((channelSupportTradeType.terminalRate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
                                     </tr>
                                     </#list>
@@ -346,7 +346,7 @@
             </#list>
             </select>
         </td>
-        <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
+        <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
     </tr>
 </table>
@@ -359,7 +359,7 @@
             </#list>
             </select>
         </td>
-        <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
+        <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
     </tr>
 </table>
@@ -375,7 +375,7 @@
             </#list>
             </select>
         </td>
-        <td><input name="" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')"></td>
+        <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
     </tr>
 </table>
@@ -637,9 +637,15 @@
                 }
             }
             var rate =  $(this).find("input").first().val();
+            var re = /^\d+(\.\d)?$/;
+            if(rate!=''&&!re.test(rate)){
+            	 showErrorTip("刷卡交易标准手续费的费率只能为1位小数！");
+            	 hasDup = true;
+                 return false;
+            }
             var description =  $(this).find("input").last().val();
             standardRates.push({id: id,
-                rate: rate,
+                rate:(rate==''?rate:rate*10),
                 description: description});
         });
         if(hasDup){
@@ -661,9 +667,15 @@
                 }
             }
             var rate =  $(this).find("input").first().val();
+            var re = /^\d+(\.\d)?$/;
+            if(rate!=''&&!re.test(rate)){
+            	 showErrorTip("资金服务费的费率只能为1位小数！");
+            	 hasDup = true;
+                 return false;
+            }
             var description =  $(this).find("input").last().val();
             billingCycles.push({id: id,
-                rate: rate,
+                rate:(rate==''?rate:rate*10),
                 description: description});
         });
         if(hasDup){
@@ -685,9 +697,15 @@
                 }
             }
             var rate =  $(this).find("input").first().val();
+            var re = /^\d+(\.\d)?$/;
+            if(rate!=''&&!re.test(rate)){
+            	 showErrorTip("其他交易类型的费率只能为1位小数！");
+            	 hasDup = true;
+                 return false;
+            }
             var description =  $(this).find("input").last().val();
             tradeTypes.push({id: id,
-                rate: rate,
+                rate:(rate==''?rate:rate*10),
                 description: description});
         });
         if(hasDup){
