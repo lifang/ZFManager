@@ -9,8 +9,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cs_repair_id" jdbcType="INTEGER" property="csRepairId" />
     <result column="repair_price" jdbcType="INTEGER" property="repairPrice" />
-    <result column="created_at" jdbcType="INTEGER" property="createdAt" />
-    <result column="pay_types" jdbcType="INTEGER" property="payTypes" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="pay_types" jdbcType="TINYINT" property="payTypes" />
     <result column="process_user_id" jdbcType="INTEGER" property="processUserId" />
     <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
   </resultMap>
@@ -33,8 +33,8 @@
     insert into cs_repair_payments (cs_repair_id, repair_price, created_at, 
       pay_types, process_user_id, process_user_name
       )
-    values (#{csRepairId,jdbcType=INTEGER}, #{repairPrice,jdbcType=INTEGER}, #{createdAt,jdbcType=INTEGER}, 
-      #{payTypes,jdbcType=INTEGER}, #{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}
+    values (#{csRepairId,jdbcType=INTEGER}, #{repairPrice,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{payTypes,jdbcType=TINYINT}, #{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsRepairPayment">
@@ -45,8 +45,8 @@
     update cs_repair_payments
     set cs_repair_id = #{csRepairId,jdbcType=INTEGER},
       repair_price = #{repairPrice,jdbcType=INTEGER},
-      created_at = #{createdAt,jdbcType=INTEGER},
-      pay_types = #{payTypes,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      pay_types = #{payTypes,jdbcType=TINYINT},
       process_user_id = #{processUserId,jdbcType=INTEGER},
       process_user_name = #{processUserName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

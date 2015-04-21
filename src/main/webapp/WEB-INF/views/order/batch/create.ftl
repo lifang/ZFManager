@@ -19,7 +19,7 @@
             <div class="su_con01">
             	<div>
                 	<div class="su_search">
-                    	<input id="agentCompanyName" name="" type="text" /><button onclick="searchAgent();">搜索</button>
+                    	<input id="agentCompanyName" name="" type="text" placeholder="公司名称"/><button onclick="searchAgent();">搜索</button>
                     </div>
                     <input id="customerId" type="hidden" name="customerId" value="<#if customer??>${customer.id!""}</#if>" />
                     <div id="agent_fresh" class="su_s_box">
@@ -116,8 +116,7 @@
 		            });
 	}
 	
-	function agentSelected(customerId){
-		
+	function agentSelected(customerId,agentId){
 		$("a[name=agentCompanyName]").removeClass("hover");
 		$("#agentCustomer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
@@ -145,6 +144,11 @@
 	
 	function createSure(goodId){
 		var quantity = $("#quantity_"+goodId).val();
+		var floorPurchaseQuantity = $("#floorPurchaseQuantity_"+goodId).val();
+		if(quantity<floorPurchaseQuantity){
+			alert("所选批购数量不能小于最小批购量");
+			return;
+		}
 		var comment=$("#comment").val();
 		var customerAddressId=$("#customerAddressId").val();
 		var allCustomerAddress=document.getElementsByName("customerAddressId");
@@ -195,6 +199,12 @@
 		var allinput=document.getElementsByName("quantity");
 		for(var i=0,size=allinput.length;i<size;i++){
 			goodQuantity+=allinput[i].id+":"+allinput[i].value;
+			var goodId=(allinput[i].id).replace("quantity_","");
+			var floorPurchaseQuantity = $("#floorPurchaseQuantity_"+goodId).val();
+			if(parseInt(allinput[i].value)<parseInt(floorPurchaseQuantity)){
+				alert("商品购买数量"+allinput[i].value+"小于最小批购量："+floorPurchaseQuantity);
+				return;
+			}
 			if(i<size-1){
 				goodQuantity+=",";
 			}

@@ -19,7 +19,7 @@
             <div class="su_con">
             	<div>
                 	<div class="su_search">
-                    	<input id="customer_name" name="" type="text" /><button onclick="searchCustomer();">搜索</button>
+                    	<input id="customer_name" name="" type="text" placeholder="用户名、名字、电话、邮箱"/><button onclick="searchCustomer();">搜索</button>
                     </div>
                     <div id="customer_fresh" class="su_s_box">
                     	<!--<a href="#" class="hover">张三</a>-->

@@ -123,7 +123,7 @@ public class OrderBatchController extends BaseController {
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
 			Boolean needInvoice, int type, Integer payChannelId,
-			Integer customerId) {
+			Integer customerId) throws Exception {
 		Customer customer = sessionService.getLoginInfo(request);
 		int orderId=orderService
 				.save(customer,customerId, goodId, quantity, comment, invoiceInfo,

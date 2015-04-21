@@ -55,6 +55,7 @@ public interface CustomerMapper {
 
     List<Customer> searchCustomer(String customerName);
     
+    List<Customer> searchCustomerWithIds(@Param("customerName") String customerName,@Param("customerIds") List<Integer> customerIds);
 	/**
 	 * find users who have permission to operate
 	 * 

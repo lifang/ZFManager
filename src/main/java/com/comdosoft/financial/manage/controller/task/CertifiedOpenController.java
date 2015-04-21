@@ -1,9 +1,18 @@
 package com.comdosoft.financial.manage.controller.task;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCreditType;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
@@ -25,6 +34,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/task/certifiedopen")
 public class CertifiedOpenController {
 
+	 public static final String POST_URL = "http://121.40.84.2:8680/timing/api/service/apply/open";
+	 
     @Value("${path.root}")
     private String rootPath;
     @Value("${path.prefix.pos}")
@@ -64,6 +75,7 @@ public class CertifiedOpenController {
         }
         List<Mark> marks = certifiedOpenService.getMark(id);
         model.addAttribute("marks", marks);
+      
         return "task/certifiedOpen/info";
     }
 
@@ -118,9 +130,10 @@ public class CertifiedOpenController {
 
     @RequestMapping(value = "upstatus", method = RequestMethod.POST)
     @ResponseBody
-    public int upStatus(HttpServletRequest request,Integer id, Integer status, Model model) {
-        int a=certifiedOpenService.upStatus(id, status);
+    public String upStatus(HttpServletRequest request,Integer id, Integer status, Model model) {
+        Integer a=certifiedOpenService.upStatus(id, status);
         String button=null;
+        String result ="";
         if(status==2){
             button="初审失败";
         }else if(status==3){
@@ -131,11 +144,18 @@ public class CertifiedOpenController {
             button="二审通过";
         }else if(status==6){
             button="提交开通申请";
+            try {
+				result = (String) sendPost(id);
+				operationRefundContent(request,button,id);
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+            return result;
         }else{
-            return a;
+            return a.toString();
         }
         operationRefundContent(request,button,id);
-        return a;
+        return a.toString();
     }
 
     @RequestMapping(value = "upmstatus", method = RequestMethod.POST)
@@ -181,4 +201,54 @@ public class CertifiedOpenController {
         
     }
 
+    /**
+     * 获取开通视频认证返回信息  
+     * @param terminalId 终端号id
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @SuppressWarnings({ "unchecked", "unused" })
+	public static Object  sendPost(Integer terminalId) throws IOException, ClassNotFoundException {
+        URL postUrl = new URL(POST_URL);
+        HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setRequestMethod("POST");
+        connection.setUseCaches(false);
+        connection.setInstanceFollowRedirects(true);
+        connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        connection.connect();
+        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+        String content = "terminalId=" + terminalId;
+        out.writeBytes(content); 
+        out.flush();
+        out.close(); // flush and close
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String line;
+        List<String> contents = new ArrayList<String>();  
+        while ((line = reader.readLine()) != null) {
+            contents.add(line);
+        }
+        reader.close();
+        connection.disconnect();
+        String json =  contents.get(0);
+        Map<String,Object> m = JSON.parseObject(json);
+        Object code ="";
+        Object result ="";
+        Object message ="";
+        for (Object o : m.entrySet()) { 
+        	  Map.Entry<String,Object> entry = (Map.Entry<String,Object>)o; 
+              if(entry.getKey().equals("code")){ 
+            	   code =  entry.getValue();
+              }
+              if(entry.getKey().equals("result")){ 
+            	   result =  entry.getValue();
+              }
+              if(entry.getKey().equals("message")){ 
+            	   message =  entry.getValue();
+              }
+		}
+        return result;
+    }
 }

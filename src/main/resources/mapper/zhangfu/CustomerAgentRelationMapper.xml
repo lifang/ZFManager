@@ -83,4 +83,12 @@
   	select count(*) from customer_agent_relations car
 	where car.types=#{TYPE_AGENT} and car.customer_id=#{param1}
   </select>
+  <select id="selectByAgentId" resultMap="BaseResultMap">
+  	select car.* from customer_agent_relations car 
+  	<where>
+			car.agent_id=#{agentId}
+			<if test="types != null"> AND car.types =#{types}  </if>
+			<if test="status != null"> AND car.status =#{status} </if>
+	</where>
+  </select>
 </mapper>

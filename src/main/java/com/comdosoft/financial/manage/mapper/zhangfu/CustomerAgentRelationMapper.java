@@ -37,4 +37,6 @@ public interface CustomerAgentRelationMapper {
 	int updateByPrimaryKey(CustomerAgentRelation record);
 	List<Agent> customerAgents(Integer customerId,PageRequest request);
 	long countCustomerAgents(@Param("customerId") Integer customerId);
-}
+	
+	List<CustomerAgentRelation> selectByAgentId(@Param("agentId") Integer agentId,@Param("types") Integer types,@Param("status") Integer status); 
+ }
