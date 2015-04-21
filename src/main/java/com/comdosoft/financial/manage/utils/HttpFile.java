@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -48,7 +47,7 @@ public class HttpFile {
 
     }
 
-    public static int postHttp(String url, String path, File file) throws HttpException, IOException {
+    public static int postHttp(String url, String path, File file) throws IOException {
 
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);
