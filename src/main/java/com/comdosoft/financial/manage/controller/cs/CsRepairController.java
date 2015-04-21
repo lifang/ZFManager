@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.controller.cs;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,8 @@ public class CsRepairController {
 	
 	@RequestMapping(value = "{id}/addPay", method = RequestMethod.POST)
 	public void addPay(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, Byte payType) {
-		csRepairService.addPay(id, payType);
+		Customer customer = sessionService.getLoginInfo(request);
+		csRepairService.addPay(id, payType, customer);
 	}
 	
 	@RequestMapping(value = "{id}/updatePay", method = RequestMethod.POST)
@@ -108,9 +110,16 @@ public class CsRepairController {
 	
 	@RequestMapping(value = "bill/create", method = RequestMethod.POST)
 	public void createBill(HttpServletRequest request, HttpServletResponse response, 
-			CsReceiverAddress csReceiverAddress, String terminalNum, Integer repairPrice, String description) {
+			CsReceiverAddress csReceiverAddress, String terminalNum, Integer repairPrice, String description) throws IOException {
 		Customer customer = sessionService.getLoginInfo(request);
-		Integer targetId = csRepairService.createBill(customer, csReceiverAddress, terminalNum, repairPrice, description);
+		Integer targetId;
+		try {
+			targetId = csRepairService.createBill(customer, csReceiverAddress, terminalNum, repairPrice, description);
+		} catch (CsGlobalException e) {
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(e.getMessage());
+			return;
+		}
 		String content = customer.getName() + "执行了维修界面的创建维修单操作, 操作记录的id是" + targetId;
 		recordOperateService.saveOperateRecord(customer.getId(),
 				customer.getName(), customer.getTypes(), 17, content, targetId);

@@ -71,7 +71,7 @@
 		    	<div class="choose_amount">
 		    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${orderGood.good.price});">-</a>
 		    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
-		    		<input id="leaseTime_${orderGood.good.id}" type="hidden" name="leaseTime" value="${orderGood.good.leaseTime!""}" />
+		    		<input id="floorPurchaseQuantity_${orderGood.good.id}" type="hidden" name="floorPurchaseQuantity" value="${orderGood.good.floorPurchaseQuantity!0}" />
 		    		<input id="" type="hidden" name="price" value="${orderGood.good.price!""}" />
 		    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${orderGood.good.price});">+</a>
 		    	</div>
@@ -149,7 +149,7 @@
 	    	<div class="choose_amount">
 	    		<a href="javascript:void(0);" onclick="reduceQuantity(${good.id},${good.price});">-</a>
 	    		<input id="quantity_${good.id}" name="quantity" type="text" value="${quantity!""}" />
-	    		<input id="leaseTime_${good.id}" type="hidden" name="leaseTime" value="${good.leaseTime!""}" />
+	    		<input id="floorPurchaseQuantity_${good.id}" type="hidden" name="floorPurchaseQuantity" value="${good.floorPurchaseQuantity!0}" />
 	    		<a href="javascript:void(0);"  onclick="addQuantity(${good.id},${good.price});">+</a>
 	    	</div>
 	    </td>

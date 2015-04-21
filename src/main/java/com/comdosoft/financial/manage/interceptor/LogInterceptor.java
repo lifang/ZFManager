@@ -14,9 +14,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
-public class LogInteceptor extends HandlerInterceptorAdapter {
+public class LogInterceptor extends HandlerInterceptorAdapter {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(LogInteceptor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LogInterceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,

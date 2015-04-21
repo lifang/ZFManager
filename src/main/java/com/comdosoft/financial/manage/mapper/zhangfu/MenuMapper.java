@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Menu;
+
 import java.util.List;
 
 public interface MenuMapper {
@@ -36,4 +37,6 @@ public interface MenuMapper {
 	int updateByPrimaryKey(Menu record);
 
 	List<Menu> selectOrderedAll();
+	
+    List<String> customerMenuKeys(Integer customerId);
 }
