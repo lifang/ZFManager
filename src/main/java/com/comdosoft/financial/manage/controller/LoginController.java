@@ -32,7 +32,10 @@ public class LoginController {
 	private CustomerService customerService;
 	
 	@RequestMapping(value="login",method=RequestMethod.GET)
-	public String loginGet(){
+	public String loginGet(HttpServletRequest request){
+		if(sessionService.isLogged(request)){
+			return "redirect:/index";
+		}
 		return "login";
 	}
 
