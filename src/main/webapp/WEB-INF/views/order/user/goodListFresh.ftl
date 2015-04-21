@@ -69,6 +69,7 @@
         <div class="category_item">
         	<h4>POS机类型：</h4>
         	<input id="hidden_pos_category_id" type="hidden" name="hidden_pos_category_id" value="<#if posCategorySelected??>${posCategorySelected.id!""}</#if>" />
+             <a href="javascript:void(0);" class="more">更多<i></i></a>
             <div class="category_item_con">
             	<ul>
             		<#if posCategorys??>
@@ -86,6 +87,7 @@
         <div class="category_item">
         	<h4>支付通道：</h4>
         	<input id="hidden_pay_channel_id" type="hidden" name="hidden_pay_channel_id" value="<#if payChannelSelected??>${payChannelSelected.id!""}</#if>" />
+             <a href="javascript:void(0);" class="more">更多<i></i></a>
             <div class="category_item_con">
             	<ul>
             		<#if payChannels??>
@@ -103,6 +105,7 @@
         <div class="category_item">
         	<h4>支持卡类型：</h4>
         	<input id="hidden_card_type_id" type="hidden" name="hidden_card_type_id" value="<#if cardTypeSelected??>${cardTypeSelected.id!""}</#if>" />
+             <a href="javascript:void(0);" class="more">更多<i></i></a>
             <div class="category_item_con">
             	<ul>
             		<#if dictionaryCardTypes??>
@@ -120,6 +123,7 @@
         <div class="category_item">
         	<h4>支持交易类型：</h4>
         	<input id="hidden_trade_type_id" type="hidden" name="hidden_trade_type_id" value="<#if tradeTypeSelected??>${tradeTypeSelected.id!""}</#if>" />
+             <a href="javascript:void(0);" class="more">更多<i></i></a>
             <div class="category_item_con">
             	<ul>
                 	<#if dictionaryCardTypes??>
@@ -137,6 +141,7 @@
         <div class="category_item category_item_noBorder">
         	<h4>签购单方式：</h4>
         	<input id="hidden_sign_order_way_id" type="hidden" name="hidden_sign_order_way_id" value="<#if dictionarySignOrderWaySelected??>${dictionarySignOrderWaySelected.id!""}</#if>" />
+             <a href="javascript:void(0);" class="more">更多<i></i></a>
             <div class="category_item_con">
             	<ul>
             		<#if dictionarySignOrderWays??>
