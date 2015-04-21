@@ -35,8 +35,8 @@ public interface AgentMapper {
 	 */
 	int updateByPrimaryKey(Agent record);
 	List<Agent> findPageAgentByKeys(@Param("pageRequest") PageRequest pageRequest,
-                                   @Param("status") Byte status, @Param("keys") String keys);
-    long countByKeys(@Param("status") Byte status, @Param("keys") String keys);
+                                   @Param("status") Byte status, @Param("keys") String keys, @Param("parentId") Integer parentId);
+    long countByKeys(@Param("status") Byte status, @Param("keys") String keys, @Param("parentId") Integer parentId);
 
     Agent findAgentInfo(Integer id);
 

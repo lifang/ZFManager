@@ -37,9 +37,9 @@
         </div>
         <div class="myShopOrder">
         	<h3>您的订单信息</h3>
-            <#include "../customerGood.ftl" />
+            <#include "customerGood.ftl" />
         </div>
-        <div class="total_info">含配送费合计<strong id="totalStrong">￥<#include "../totalPrice.ftl" /></strong>（配送费￥0.00）</div>
+        <div class="total_info">含配送费合计<strong id="totalStrong">￥<#include "totalPrice.ftl" /></strong>（配送费￥0.00）</div>
         <div class="other_info">
         	<div class="oi_left">
             	<div class="oi_title">留言</div>
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="settleAccount">
-        	<p>实付：<strong id="actualStrong">￥<#include "../totalPrice.ftl" /></strong></p>
+        	<p>实付：<strong id="actualStrong">￥<#include "totalPrice.ftl" /></strong></p>
         	<#if order??>
         		<button class="blueBtn" onclick="createSureAgain(${order.id!""});">创建批购订单</button>
         	<#else>

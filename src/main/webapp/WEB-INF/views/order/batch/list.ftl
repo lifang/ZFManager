@@ -120,18 +120,20 @@
         <div class="tabFoot"><button class="blueBtn" id="markSure">确定</button></div>
 </div>
 
-<div class="tab deliver_tab">
-	<a href="#" class="close">关闭</a>
-    <div class="tabHead">添加第三方库存发货信息</div>
-    <div class="tabBody">
-    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
-        <div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
-    	<textarea name="" cols="" rows="" placeholder="输入终端号"></textarea>
-        <input name="" type="text" placeholder="物流公司" />
-        <input name="" type="text" placeholder="物流单号" />
-    </div>
-    <div class="tabFoot"><button class="blueBtn">确定</button></div>
-</div>
+<!--
+	<div class="tab deliver_tab">
+		<a href="#" class="close">关闭</a>
+	    <div class="tabHead">添加第三方库存发货信息</div>
+	    <div class="tabBody">
+	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
+	        <div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
+	    	<textarea name="" cols="" rows="" placeholder="输入终端号"></textarea>
+	        <input name="" type="text" placeholder="物流公司" />
+	        <input name="" type="text" placeholder="物流单号" />
+	    </div>
+	    <div class="tabFoot"><button class="blueBtn">确定</button></div>
+	</div>
+-->
 
 <div class="tab deliver_tab">
 	<a href="#" class="close">关闭</a>
@@ -143,8 +145,8 @@
 	    </div>
     	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号"></textarea>
     	<textarea name="" cols="" rows="" id="reserver2" placeholder="中汇终端激活码（非中汇终端无需填写）"></textarea>
-        <input name="" type="text" value="物流公司" id="logistics_name" />
-        <input name="" type="text" value="物流单号" id="logistics_number"/>
+        <input name="" type="text" value="" id="logistics_name" placeholder="物流公司"/>
+        <input name="" type="text" value="" id="logistics_number" placeholder="物流单号"/>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
 </div>
@@ -318,6 +320,7 @@
 				goodQuantity+=",";
 			}
 		}
+		var belongsTo = $('#hidden_belongsTo_'+id).val();
 		var terminalSerialNum = $('#terminal_serial_num').val();
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
@@ -340,6 +343,9 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
+					if(belongsTo==0){
+	            		alert("已生成一张条发货记录，请及时处理");
+	            	}
 					popupPage();
 	            });
     }
