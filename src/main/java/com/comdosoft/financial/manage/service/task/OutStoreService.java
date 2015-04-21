@@ -154,10 +154,16 @@ public class OutStoreService {
 	}
 	
 	public String getOperater(int id){
-		if(null !=getOrderIdByOutStorageId(id)){
-			return outStoreMapper.getOperater(getOrderIdByOutStorageId(id));
+		Map<String, Object> map=outStoreMapper.getOrderIdByOutStorageId(id);
+		if(null !=map){
+			if(null != map.get("processUserId")){
+				String name= map.get("processUserId").toString();
+				return name;
+			}else{
+				return "";
+			}
 		}else{
-			return null;
+			return "";
 		}
 	}
 	

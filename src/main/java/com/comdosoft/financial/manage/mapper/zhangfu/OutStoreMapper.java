@@ -35,6 +35,8 @@ public interface OutStoreMapper {
 	
 	String getOperater(@Param("orderId") int orderId);
 	
+	String getProcessName(@Param("id") int customerId);
+	
 	Map<String, Object> getCutomerTypeByOrderId(@Param("orderId") int orderId);
 	
 	List<Map<String, Object>> getRemarks(@Param("id") int id);

@@ -89,7 +89,8 @@ from orders a left join customers b on a.customer_id=b.id left join customer_add
 	</select>
 	
 	<select id="getOrderIdByOutStorageId" resultType="hashmap">
-		select a.order_id as orderId,b.order_number as orderNumber from cs_out_storages a 
+		select a.order_id as orderId,b.order_number as orderNumber,
+		ifnull(a.process_user_id,"") as processUserId from cs_out_storages a 
 left join orders b on a.order_id=b.id 
 where a.id=#{id}
 	</select>
@@ -113,6 +114,11 @@ where a.id=#{id}
 		select a.name from customers a left join in_out_storages b on a.id=b.created_user_id
 			where b.order_id=#{orderId} group by b.order_id
 	</select>
+   
+   <select id="getProcessName" resultType="String">
+   	select name from customers where id=#{id}
+   </select>
+   
    
    <select id="getRemarks" resultType="hashmap">
 		select ifnull(a.content,"") as content,ifnull(b.name,"") as userName,ifnull(a.created_at,"") as operateTime 
