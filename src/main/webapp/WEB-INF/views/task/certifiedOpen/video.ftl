@@ -15,7 +15,7 @@
 <!-- 加载业务逻辑控制脚本  -->
 <script language="javascript" type="text/javascript" src="<@spring.url "/resources/js/video/logicfunc.js"/>"></script>
 </head>
-<body onload="LogicInit('${customer.id}', ${tinfo.id})">
+<body onload="LogicInit('${customer.id}', ${tinfo.tid})">
 	<div class="videoAuthentication">
     	<div class="va_title">
             <h1>视频认证</h1>

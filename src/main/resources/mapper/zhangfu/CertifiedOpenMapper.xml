@@ -43,7 +43,7 @@
 		SELECT
 		oa.id,
 		oa.merchant_id,oa.merchant_name,oa.card_id,oa.types,oa.phone as mphone,
-		t.serial_num,
+		t.id as tid, t.serial_num,
 		oa. STATUS,
 		IFNULL(tt.status,0) as video_status,
 		t.STATUS as tstatus,
