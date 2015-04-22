@@ -154,7 +154,7 @@
                                         <tr>
                                             <td>${cancelRequirement.title!""}</td>
                                             <td>${cancelRequirement.description!""}</td>
-                                            <td><a href="${cancelRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
+                                            <td><a href="${cancelRequirement.templetFilePath!''}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
                                         </#list>
                                         </tbody>
@@ -181,7 +181,7 @@
                                         <tr>
                                             <td>${updateRequirement.title!""}</td>
                                             <td>${updateRequirement.description!""}</td>
-                                            <td><a href="${updateRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
+                                            <td><a href="${updateRequirement.templetFilePath!''}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
                                         </tr>
                                         </#list>

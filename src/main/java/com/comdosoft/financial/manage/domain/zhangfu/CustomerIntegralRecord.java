@@ -211,9 +211,10 @@ public class CustomerIntegralRecord {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	//来源相关类型（1交易2购买终端3调整4兑换）
     public static final Byte TARGET_TYPE_ADJUST = 3;
-
+    public static final Byte TARGET_TYPE_DH = 4;
+//1收入2支出
     public static final Byte TYPE_ADD = 1;
     public static final Byte TYPE_SUBTRACT = 2;
 

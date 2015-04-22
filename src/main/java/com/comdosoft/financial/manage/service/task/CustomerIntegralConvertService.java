@@ -18,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralConvertMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralRecordMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -28,6 +30,8 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 public class CustomerIntegralConvertService {
 	@Resource
 	private CustomerIntegralConvertMapper customerIntegralConvertMapper;
+	@Resource
+	private CustomerIntegralRecordMapper customerIntegralRecordMapper;
 
 	@Value("${page.size}")
 	private Integer pageSize;
@@ -72,7 +76,20 @@ public class CustomerIntegralConvertService {
 	
 	@Transactional("transactionManager")
 	public void finish(Integer id) {
-		updateStatus(id, FINISH);
+		CustomerIntegralConvert integralConvert = customerIntegralConvertMapper.selectByPrimaryKey(id);
+		integralConvert.setStatus(FINISH);
+		integralConvert.setUpdatedAt(new Date());
+		customerIntegralConvertMapper.updateByPrimaryKey(integralConvert);
+		
+		CustomerIntegralRecord cir = new CustomerIntegralRecord();
+		cir.setCustomerId(integralConvert.getCustomerId());
+		cir.setCreatedAt(new Date());
+		cir.setDescription(integralConvert.getApplyNum());
+		cir.setQuantity(integralConvert.getQuantity());
+		cir.setTargetId(integralConvert.getId());
+		cir.setTargetType(CustomerIntegralRecord.TARGET_TYPE_DH);
+		cir.setTypes(CustomerIntegralRecord.TYPE_SUBTRACT);
+		customerIntegralRecordMapper.insert(cir);
 //        customerIntegralConvertMapper.updateStatus(integralConvert);
 	}
 	

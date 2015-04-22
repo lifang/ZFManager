@@ -695,7 +695,7 @@
         }
 
         var openingCost=$("input[name='c_openingCost']").val();
-        if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
+   <#--    if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}  -->
         var preliminaryVerify=$("input[name='c_preliminaryVerify']:checked").val();
         var openingRequirement=$("textarea[name='c_openingRequirement']").val();
         var openingDatum=$("textarea[name='c_openingDatum']").val();
