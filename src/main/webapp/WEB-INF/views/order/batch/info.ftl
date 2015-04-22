@@ -4,7 +4,7 @@
 	<div class="breadcrumb">
         <ul>
             <li><a href="#">订单</a></li>
-            <li><a href="#">代理商批购</a></li>
+            <li><a href="<@spring.url "/order/batch/list"/>">代理商批购</a></li>
             <li><a href="#">订单详情</a></li>
         </ul>
     </div>

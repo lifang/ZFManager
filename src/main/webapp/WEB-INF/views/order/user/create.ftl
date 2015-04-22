@@ -4,7 +4,7 @@
 	<div class="box">
 	<div class="breadcrumb">
     	<ul>
-            <li><a href="#">用户</a></li>
+            <li><a href="<@spring.url "/order/user/list"/>">用户</a></li>
             <li><a href="#">确认您的订单信息</a></li>
         </ul>
     </div>
