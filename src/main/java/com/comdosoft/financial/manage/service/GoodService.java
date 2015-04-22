@@ -421,11 +421,11 @@ public class GoodService {
 	   if (photoUrlList != null) {
 		   for (String photoUrl : photoUrlList) {
 		       GoodsPicture goodsPicture = new GoodsPicture();
-               String s=photoUrl.replace(filePath, "");
+               String s=photoUrl.replaceAll(filePath, "");
                goodsPicture.setGoodId(good.getId());
                goodsPicture.setUrlPath(s);
-               goodsPicture.setMiddleUrlPath(s.replace("b.jpg", "m.jpg"));
-               goodsPicture.setSmallUrlPath(s.replace("b.jpg", "s.jpg"));
+               goodsPicture.setMiddleUrlPath(s.replaceAll("b.jpg", "m.jpg"));
+               goodsPicture.setSmallUrlPath(s.replaceAll("b.jpg", "s.jpg"));
                goodsPicture.setCreatedAt(new Date());
 			goodsPictureMapper.insert(goodsPicture);
 		}
@@ -554,11 +554,11 @@ public class GoodService {
 	   if (photoUrlList != null) {
            for (String photoUrl : photoUrlList) {
                GoodsPicture goodsPicture = new GoodsPicture();
-               String s=photoUrl.replace(filePath, "");
+               String s=photoUrl.replaceAll(filePath, "");
                goodsPicture.setGoodId(good.getId());
                goodsPicture.setUrlPath(s);
-               goodsPicture.setMiddleUrlPath(s.replace("b.jpg", "m.jpg"));
-               goodsPicture.setSmallUrlPath(s.replace("b.jpg", "s.jpg"));
+               goodsPicture.setMiddleUrlPath(s.replaceAll("b.jpg", "m.jpg"));
+               goodsPicture.setSmallUrlPath(s.replaceAll("b.jpg", "s.jpg"));
                goodsPicture.setCreatedAt(new Date());
                goodsPictureMapper.insert(goodsPicture);
            }
