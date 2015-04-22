@@ -23,6 +23,9 @@ public class CertifiedOpenService {
     @Value("${page.size}")
     private Integer pageSize;
 
+    @Value("${filePath}")
+    private String filePath ;
+    
 	@Autowired
 	private CertifiedOpenMapper certifiedOpenMapper;
 	
@@ -73,7 +76,13 @@ public class CertifiedOpenService {
 	}
 	
 	public List<Opendetailsinfo> opendetailsinfo(Integer id) {
-        return certifiedOpenMapper.getOpeningDetails(id);
+	    List<Opendetailsinfo> list=certifiedOpenMapper.getOpeningDetails(id);
+	    for (Opendetailsinfo opendetailsinfo : list) {
+	        if(opendetailsinfo.getTypes()==2){
+	            opendetailsinfo.setValue(filePath+opendetailsinfo.getValue());
+	        }
+        }
+        return list;
     }
 
 
