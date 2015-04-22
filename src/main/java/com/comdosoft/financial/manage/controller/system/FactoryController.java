@@ -7,8 +7,8 @@ import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.CustomerAddressService;
 import com.comdosoft.financial.manage.service.FactoryService;
-import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.FreeMarkerUtils;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +41,11 @@ public class FactoryController {
     private String rootPath;
     @Value("${path.prefix.factory}")
     private String factoryPath;
-
+    @Value("${sysFactoryPath}")
+    private String newFactoryPath;
+    @Value("${filePath}")
+    private String filePath;
+    
     @Autowired
     private FactoryService factoryService;
     @Autowired
@@ -115,6 +119,8 @@ public class FactoryController {
     public String info(@PathVariable Integer id, Model model) throws Exception{
         Factory factory = factoryService.findFactoryInfo(id);
         List<CustomerAddress> addresses = customerAddressService.selectCustomerAddress(factory.getCustomerId());
+        String imgPath = filePath + factory.getLogoFilePath();
+        factory.setLogoFilePath(imgPath);
         model.addAttribute("factory", factory);
         model.addAttribute("addresses", addresses);
         model.addAttribute("Factory", FreeMarkerUtils.useClass(Factory.class.getName()));
@@ -144,21 +150,29 @@ public class FactoryController {
     @RequestMapping(value="uploadImg",method=RequestMethod.POST)
     @ResponseBody
     public Response uploadImg(MultipartFile file,HttpServletRequest request){
-    	String url = request.getScheme() + "://";  
-		url += request.getHeader("host");  
-		url += request.getContextPath();
-        String fileName = factoryPath+ FileUtil.getPathFileName()+".jpg";
-        try {
-            File osFile = new File(rootPath + fileName);
-            if (!osFile.getParentFile().exists()) {
-                osFile.getParentFile().mkdirs();
-            }
-            file.transferTo(osFile);
-        } catch (Exception e) {
-            LOG.error("", e);
-            return Response.getError("上传失败！");
-        }
-        return Response.getSuccess(url+fileName);
+        String path = newFactoryPath ;
+    	String[] suffixes = {"BMP","JPG","JPEG","PNG","GIF"};
+    	String name = file.getOriginalFilename();
+    	int length = name.length();
+    	boolean flg = false;
+    	for(String suffix : suffixes){
+    		if(name.substring(name.indexOf(".")+1,length).equalsIgnoreCase(suffix)){
+    			flg = true;
+    			break;
+    		}
+    	}
+    	if(!flg){
+			return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
+		}
+    	String result = HttpFile.upload(file, path);
+    	if(result.indexOf("失败")>0){
+    		LOG.info("文件上传失败");
+    		return Response.getError("上传失败");
+    	}
+    	List<String> list = new ArrayList<String>();
+    	list.add(filePath);
+    	list.add(result);
+        return Response.getSuccess(list);
     }
 
     @RequestMapping(value="{id}/edit",method=RequestMethod.POST)
