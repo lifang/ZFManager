@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -16,7 +17,7 @@ public interface StockManageMapper {
 	
 	Map<String, Object> checkAccountIsInAfterSale(@Param("serialNum") String serialNum);
 	
-	Map<String, Object> isAgents(@Param("terminalId") int terminalId);
+	List<Map<String, Object>> isAgents(@Param("serialNum") String serialNum);
 	Map<String, Object> isCancels(@Param("terminalId") int terminalId);
 	Map<String, Object> isChanges(@Param("terminalId") int terminalId);
 	Map<String, Object> isLeaseReturns(@Param("terminalId") int terminalId);

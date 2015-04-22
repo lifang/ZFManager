@@ -194,6 +194,7 @@ public class PayChannelService {
                        Float openingCost, Boolean preliminaryVerify, String openingRequirement, String openingDatum, String openingProtocol,
                        List<Map<String, Object>> openingRequirements, List<Map<String, Object>> cancelRequirements,
                        List<Map<String, Object>> updateRequirements) {
+
         PayChannel channel = payChannelMapper.findChannelLazyInfo(id);
         channel.setName(name);
         channel.setFactoryId(factoryId);
@@ -209,10 +210,17 @@ public class PayChannelService {
         channel.setOpeningProtocol(openingProtocol);
         //支持区域
         supportAreaMapper.deleteChannelAreas(id);
+        
         if(supportType == 2){
+        	for (Integer regionId : regions){
+                SupportArea supportArea = new SupportArea();
+                supportArea.setPayChannelId(id);
+                supportArea.setCityId(regionId);
+                supportAreaMapper.insert(supportArea);
+            }
             channel.setSupportType(false);
         } else if (supportType == 1){
-            for (Integer regionId : regions){
+        	for (Integer regionId : regions){
                 SupportArea supportArea = new SupportArea();
                 supportArea.setPayChannelId(id);
                 supportArea.setCityId(regionId);

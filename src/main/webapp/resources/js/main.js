@@ -117,7 +117,7 @@ $(function(){
 	popup(".assign_tab",".assign_a");//分派
 	popup(".danger_tab",".danger_a");//风险标签
 	popup(".errorTab",".error_a");//错误提示弹层
-	
+	popup(".stockMange_tab",".stockMange_a");
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 	
 	popup(".file_tab",".file_a");//交易转账上传

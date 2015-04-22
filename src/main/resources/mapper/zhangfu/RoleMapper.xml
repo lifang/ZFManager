@@ -81,7 +81,7 @@
     </where>
   </select>
 
-    <select id="customerRoles" parameterType="integer" resultMap="BaseResultMap">
+    <select id="customerRoles" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select r.id,r.role_name,r.created_at
         from roles r
         left join customer_role_relations crr on crr.role_id=r.id

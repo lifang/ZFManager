@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.service.cs;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.CANCEL;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.FINISH;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.HANDLE;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.SUSPEND;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,14 +16,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.manage.controller.cs.CsGlobalException;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepair;
 import com.comdosoft.financial.manage.domain.zhangfu.CsRepairMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CsRepairPayment;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairMarkMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsRepairPaymentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -42,7 +46,9 @@ public class CsRepairService {
 	private CsRepairMarkMapper csRepairMarkMapper;
 	@Autowired
 	private CsReceiverAddressMapper csReceiverAddressMapper;
-
+	@Autowired
+	private CsRepairPaymentMapper csRepairPaymentMapper;
+	
 	public Page<CsRepair> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csRepairMapper.countSelective(status, keyword);
 		PageRequest request = new PageRequest(page, pageSize);
@@ -104,11 +110,21 @@ public class CsRepairService {
 		}
 	}
 	
-	public void addPay(Integer csRepairId, Byte payType) {
+	public void addPay(Integer csRepairId, Byte payType, Customer customer) {
 		CsRepair csRepair = csRepairMapper.selectByPrimaryKey(csRepairId);
 		if (null != csRepair) {
 			csRepair.setPayTypes(payType);
+			csRepair.setStatus(SUSPEND);
 			csRepairMapper.updateByPrimaryKey(csRepair);
+			
+			CsRepairPayment csRepairPayment = new CsRepairPayment();
+			csRepairPayment.setCreatedAt(new Date());
+			csRepairPayment.setCsRepairId(csRepairId);
+			csRepairPayment.setPayTypes(csRepair.getPayTypes());
+			csRepairPayment.setProcessUserId(customer.getId());
+			csRepairPayment.setProcessUserName(customer.getName());
+			csRepairPayment.setRepairPrice(csRepair.getRepairPrice());
+			csRepairPaymentMapper.insert(csRepairPayment);
 		}
 	}
 	
@@ -148,9 +164,10 @@ public class CsRepairService {
 			String terminalNum, Integer repairPrice, String description) {
 		CsRepair csRepair = new CsRepair();
 		Terminal terminal = terminalMapper.findTerminalByNum(terminalNum);
-		if (null != terminal) {
-			csRepair.setTerminalId(terminal.getId());
+		if (null == terminal) {
+			throw new CsGlobalException("终端不存在");
 		}
+		csRepair.setTerminalId(terminal.getId());
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
@@ -164,6 +181,7 @@ public class CsRepairService {
 		csRepair.setUpdatedAt(new Date());
 		csRepair.setStatus(CsRepairStatus.NOT_PAID);
 		csRepair.setCsRepairMarksId(0);
+		csRepair.setCustomerId(terminal.getCustomerId());
 		
 		csRepairMapper.insert(csRepair);
 		return csRepair.getId();

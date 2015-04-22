@@ -99,7 +99,7 @@ public class CsLeaseController {
 		// 租赁时长(天) 
 		int daysApart = getDaysApart(leaseStart, leaseEnd);
 		// 租赁时长(月)
-		int monthsApart = getMonthsApart(leaseStart, leaseEnd);
+		int monthsApart = getMonthsApart(leaseStart, leaseEnd, true);
 		
 		// 租金 = 租赁时长(月) * 月租金
 		int rentTotal;
@@ -121,10 +121,10 @@ public class CsLeaseController {
 		model.addAttribute("minLeaseMonth", minLeaseMonth);
 		model.addAttribute("maxLeaseMonth", maxLeaseMonth);
 		model.addAttribute("leaseStart", leaseStart);
-		model.addAttribute("deposit", deposit);
+		model.addAttribute("deposit", deposit * 1.0 / 100);
 		model.addAttribute("daysApart", daysApart);
-		model.addAttribute("rentTotal", rentTotal);
-		model.addAttribute("refundAmount", refundAmount);
+		model.addAttribute("rentTotal", rentTotal * 1.0 / 100);
+		model.addAttribute("refundAmount", refundAmount * 1.0 / 100);
 		
 		statisticTrade(model, csLease.getTerminal(), leaseStart, leaseEnd);
 	}
@@ -185,24 +185,31 @@ public class CsLeaseController {
 	}
 
 	/**
-	 * 计算2个日期相隔月数,不足一个月的补足一个月
+	 * 计算2个日期相隔月数
 	 * 
 	 * @param start 开始时间
 	 * @param end 结束时间
+	 * @param isExtend 不足一个月的是否要补足一个月
 	 * @return
 	 */
-	private int getMonthsApart(Date start, Date end) {
+	private int getMonthsApart(Date start, Date end, boolean isExtend) {
 		Calendar calendar = Calendar.getInstance();
 
 		calendar.setTime(start);
 		int yearStart = calendar.get(Calendar.YEAR);
 		int monthStart = calendar.get(Calendar.MONTH);
+		int dayStart = calendar.get(Calendar.DAY_OF_MONTH);
 
 		calendar.setTime(end);
 		int yearEnd = calendar.get(Calendar.YEAR);
 		int monthEnd = calendar.get(Calendar.MONTH);
+		int dayEnd = calendar.get(Calendar.DAY_OF_MONTH);
 
-		return (yearEnd - yearStart) * 12 + (monthEnd - monthStart);
+		int months = (yearEnd - yearStart) * 12 + (monthEnd - monthStart);
+		if (isExtend && dayStart > dayEnd) {
+			return months + 1;
+		}
+		return months;
 	}
 	
 	/**
@@ -213,7 +220,7 @@ public class CsLeaseController {
 	 * @return
 	 */
 	private Date[][] divide2Months(Date start, Date end) {
-		int monthsApart = getMonthsApart(start, end);
+		int monthsApart = getMonthsApart(start, end, false);
 		Date[][] dates = new Date[monthsApart + 1][2];
 		
 		// 获取开始时间所在月的第一天

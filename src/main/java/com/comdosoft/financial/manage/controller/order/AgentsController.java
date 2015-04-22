@@ -38,7 +38,8 @@ public class AgentsController extends BaseController {
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Agent> agents = agentService.findPages(page, status, keys,maxPageSize);
+        status=5;
+        Page<Agent> agents = agentService.findPages(page, status, keys,maxPageSize,0);
         model.addAttribute("agents", agents.getContent());
     }
 }

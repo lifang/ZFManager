@@ -56,7 +56,7 @@
             		<li class="price_li"><span>零售价</span><div class="text"><strong class="original">￥${(good.retailPrice/100)?string("0.0")}</strong></div></li>
                 	<li class="price_li"><span>现价</span><div class="text"><strong>￥${((good.purchasePrice!0)/100)?string("0.00")}</strong></div></li>
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
-                    <li class="selected_li"><span>最小批购量</span><div class="text">${good.leaseTime!""}台</div></li>
+                    <li class="selected_li"><span>最小批购量</span><div class="text">${good.floorPurchaseQuantity!""}台</div></li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
                     		<input id="payChannelId" type="hidden" name="payChannelId" value="<#if payChannel??>${payChannel.id!""}</#if>" />
@@ -209,8 +209,8 @@
                           <#if payChannel?? &&payChannel.supportTradeTypes??>
                           	<#list payChannel.supportTradeTypes as supportTradeType>
                           		<tr>
-		                            <td>${supportTradeType.dictionaryTradeType.tradeValue!""}</td>
-		                            <td>${(supportTradeType.serviceRate!0/100)?string("0.00")}%</td>
+		                            <td><#if supportTradeType.dictionaryTradeType??>${supportTradeType.dictionaryTradeType.tradeValue!""}</#if></td>
+		                            <td>${((supportTradeType.serviceRate!0)/100)?string("0.00")}%</td>
 		                            <td><p>${supportTradeType.description!""}</p></td>
 		                          </tr>
                           	</#list>

@@ -29,6 +29,7 @@
 		<#elseif csRepair.status=2>
 			<a href="<@spring.url "/cs/repair/${csRepair.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onCancel(${csRepair.id});">取消</a>
+			<a class="a_btn" onClick="onHandle(${csRepair.id});">标记为维修中</a>
        	<#elseif csRepair.status=3>
 			<a href="<@spring.url "/cs/repair/${csRepair.id}/info" />" class="a_btn">查看详情</a>
 			<a class="a_btn" onClick="onFinish(${csRepair.id});">标记为维修完成</a>

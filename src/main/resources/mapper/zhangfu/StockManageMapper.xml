@@ -27,7 +27,7 @@
 	
 	
 	<select id="isAgents" resultType="hashmap">
-		select id from cs_agents where 1=1 and terminals_list like '%${terminalId}%' and status not in(4,5)
+		select id from cs_agents where 1=1 and terminals_list like '%${serialNum}%' and status not in(4,5)
 	</select>
 	<select id="isCancels" resultType="hashmap">
 		select id from cs_cancels where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
