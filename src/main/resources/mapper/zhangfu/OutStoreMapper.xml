@@ -61,7 +61,7 @@ from ((select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc o
 		<select id="getGoodInfoInit" resultMap="GoodsMap">
 		select a.pay_channel_id as payChannelId,(select name from pay_channels where id=a.pay_channel_id) as payChannelName,a.quantity,
 		b.title,b.model_number as modelNum,b.good_brands_id as brandId,(select name from good_brands where id=b.good_brands_id) as brandName,b.id,
-		(select c.url_path from (select good_id,url_path from goods_pictures group by good_id) c where c.good_id=b.id)as urlPath
+		ifnull((select c.url_path from (select good_id,url_path from goods_pictures group by good_id) c where c.good_id=b.id)," ")as urlPath
 		 from order_goods a 
 		left join goods b on a.good_id=b.id where a.order_id=(select order_id from cs_out_storages where id=#{id})
 	</select>
@@ -97,13 +97,13 @@ where a.id=#{id}
 	
 	
 	<insert id="saveWLInfo" useGeneratedKeys="true">
-		insert into order_logistics(order_id,logistics_name,logistics_number,created_at,updated_at)
-		values(#{orderId},#{wlCompany},#{wlNum},now(),now())
+		insert into order_logistics(order_id,logistics_name,logistics_number,created_at,updated_at,cs_out_storage_id)
+		values(#{orderId},#{wlCompany},#{wlNum},now(),now(),#{csOutStorageId})
    </insert>
 	
    <insert id="saveTerminalNum" useGeneratedKeys="true" keyProperty="id">
-		insert into in_out_storages(order_id,good_id,terminal_number,created_at,created_user_id) 
-		values(#{orderId},#{goodId},#{port},now(),#{loginId})
+		insert into in_out_storages(order_id,good_id,terminal_number,created_at,created_user_id,quantity,cs_out_storage_id) 
+		values(#{orderId},#{goodId},#{port},now(),#{loginId},#{quantity},#{csOutStorageId})
    </insert>
    
    <select id="getTerminalNum" resultType="hashmap">
@@ -133,6 +133,14 @@ where a.id=#{id}
 		update cs_out_storages set status=#{status},updated_at=now() where id=#{id}
 	</update>
 	
+	<update id="updateCsOutStorages">
+		update cs_out_storages set status=#{status},updated_at=now(),quantity=#{quantity},terminal_list=#{terminalNum} where id=#{id}
+	</update>
+	
+	<update id="updateOrderStatus">
+		update orders set status=#{status} where id=#{orderId}
+	</update>
+	
 	<update id="saveProcessUser">
 		update cs_out_storages set process_user_id=#{processUserId},process_user_name=#{processUserName},updated_at=now() where id=#{id}
 	</update>
@@ -154,4 +162,21 @@ where a.id=#{id}
    	update terminals set customer_id=#{customerId},agent_id=#{agentId},order_id=#{orderId},updated_at=now() where serial_num=#{serialNum}
    </update>
    
+   <select id="getQuantityByOrderGood" resultType="int">
+   		select quantity from order_goods where good_id=#{goodId} and order_id=#{orderId}
+   </select>
+   
+   	<select id="getInOutStorageInfo" resultType="map">
+   		select sum(a.quantity) as quantity from in_out_storages a left join cs_out_storages b on a.cs_out_storage_id=b.id
+   		where a.order_id=#{orderId} and good_id=#{goodId} and b.status=3
+   	</select>
+   	
+   	<select id="getOrderGoodQuantity" resultType="map">
+   		select good_id as goodId,sum(quantity) as quantity from order_goods
+			where 1=1 and order_id=#{orderId} GROUP BY good_id
+   	</select>
+   	
+   <select id="getNameByLoginId" resultType="String">
+   		select ifnull(name,"") as name from customers where id=#{loginId}
+   </select>
 </mapper>

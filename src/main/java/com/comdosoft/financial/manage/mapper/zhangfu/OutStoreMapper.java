@@ -23,9 +23,11 @@ public interface OutStoreMapper {
 	
 	Map<String, Object> getOrderIdByOutStorageId(@Param("id") int id);
 	
-	int saveWLInfo(@Param("wlCompany") String wlCompany,@Param("wlNum") String wlNum,@Param("orderId") int orderId);
+	int saveWLInfo(@Param("wlCompany") String wlCompany,@Param("wlNum") String wlNum,@Param("orderId") int orderId,
+				@Param("csOutStorageId") int csOutStorageId);
 	
-	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId);
+	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId,
+				@Param("quantity") int quantity,@Param("csOutStorageId") int csOutStorageId);
 	
 	List<Map<String, Object>> getWLByOrderId(@Param("orderId") int orderId);
 	
@@ -51,4 +53,15 @@ public interface OutStoreMapper {
 	
 	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,@Param("orderId") int orderId,@Param("serialNum") String serialNum);
 	
+	int updateOrderStatus(@Param("status") int status,@Param("orderId") int orderId);
+	
+	int updateCsOutStorages(@Param("status") int status,@Param("quantity") int quantity,@Param("terminalNum") String terminalNum,@Param("id") int id);
+	
+	int getQuantityByOrderGood(@Param("goodId") int goodId,@Param("orderId") int orderId);
+	
+	Map<String, Object> getInOutStorageInfo(@Param("orderId") int orderId,@Param("goodId") int goodId);
+	
+	List<Map<String, Object>> getOrderGoodQuantity(@Param("orderId") int orderId);
+	
+	String getNameByLoginId(@Param("loginId") int loginId);
 }

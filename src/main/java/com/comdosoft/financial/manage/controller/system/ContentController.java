@@ -156,7 +156,7 @@ public class ContentController {
     @RequestMapping(value="carousel/{id}/edit",method=RequestMethod.POST)
     @ResponseBody
     public Response editCarousel(@PathVariable Integer id, String pictureUrl, String webSiteUrl){
-        sysShufflingFigureService.edit(id, pictureUrl, webSiteUrl);
+        sysShufflingFigureService.edit(id, pictureUrl.replace(filePath, ""), webSiteUrl);
         return Response.getSuccess("");
     }
 
