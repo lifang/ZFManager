@@ -23,9 +23,6 @@ var LOG_TYPE_ERROR = 3;
 var NOTIFY_TYPE_NORMAL = 0;
 var NOTIFY_TYPE_SYSTEM = 1;
 
-var list_videouser;
-var list_videosite;
-
 var recording = false;
 var dwFlags = ANYCHAT_RECORD_FLAGS_VIDEO + ANYCHAT_RECORD_FLAGS_AUDIO
     + BRAC_RECORD_FLAGS_SERVER + ANYCHAT_RECORD_FLAGS_LOCALCB;
