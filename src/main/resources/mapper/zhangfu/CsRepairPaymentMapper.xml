@@ -10,7 +10,7 @@
     <result column="cs_repair_id" jdbcType="INTEGER" property="csRepairId" />
     <result column="repair_price" jdbcType="INTEGER" property="repairPrice" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="pay_types" jdbcType="INTEGER" property="payTypes" />
+    <result column="pay_types" jdbcType="TINYINT" property="payTypes" />
     <result column="process_user_id" jdbcType="INTEGER" property="processUserId" />
     <result column="process_user_name" jdbcType="VARCHAR" property="processUserName" />
   </resultMap>
@@ -34,7 +34,7 @@
       pay_types, process_user_id, process_user_name
       )
     values (#{csRepairId,jdbcType=INTEGER}, #{repairPrice,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{payTypes,jdbcType=INTEGER}, #{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}
+      #{payTypes,jdbcType=TINYINT}, #{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsRepairPayment">
@@ -46,7 +46,7 @@
     set cs_repair_id = #{csRepairId,jdbcType=INTEGER},
       repair_price = #{repairPrice,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
-      pay_types = #{payTypes,jdbcType=INTEGER},
+      pay_types = #{payTypes,jdbcType=TINYINT},
       process_user_id = #{processUserId,jdbcType=INTEGER},
       process_user_name = #{processUserName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
