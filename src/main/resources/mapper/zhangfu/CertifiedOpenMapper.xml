@@ -91,7 +91,7 @@
 		SELECT toi.key,toi.value,toi.types
 		FROM 
 		opening_applies oa 
-		LEFT JOIN terminal_opening_infos toi ON
+		INNER JOIN terminal_opening_infos toi ON
 		oa.id=toi.opening_applies_id
 		where oa.id=#{id}
 	</select>
