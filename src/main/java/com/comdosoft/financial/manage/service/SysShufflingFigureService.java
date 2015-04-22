@@ -4,6 +4,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.SysShufflingFigure;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysShufflingFigureMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +21,15 @@ public class SysShufflingFigureService {
 
     @Autowired
     private SysShufflingFigureMapper sysShufflingFigureMapper;
-
+    @Value("${filePath}")
+	private String filePath;
+    
     public List<SysShufflingFigure> findSysShufflingFigures(){
         List<SysShufflingFigure> sysShufflingFigures = sysShufflingFigureMapper.selectAll();
         for(int i=0;i<sysShufflingFigures.size();i++){
         	SysShufflingFigure temp=sysShufflingFigures.get(i);
         	String urlTemp=temp.getPictureUrl();
-        	
+        	temp.setPictureUrl(filePath+urlTemp);
         }
         return  sysShufflingFigureMapper.selectAll();
     }

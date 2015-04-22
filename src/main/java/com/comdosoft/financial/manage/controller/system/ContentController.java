@@ -9,7 +9,9 @@ import com.comdosoft.financial.manage.service.SysShufflingFigureService;
 import com.comdosoft.financial.manage.service.WebMessageService;
 import com.comdosoft.financial.manage.utils.CompressedFileUtil;
 import com.comdosoft.financial.manage.utils.FileUtil;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +39,20 @@ public class ContentController {
     private String rootPath;
     @Value("${path.prefix.carousel}")
     private String carouselPath;
-    @Value("${path.prefix.activity}")
-    private String activityPath;
+    
     @Autowired
     private WebMessageService webMessageService;
     @Autowired
     private SysShufflingFigureService sysShufflingFigureService;
     @Autowired
     private SysActivityService sysActivityService;
-
+    @Value("${filePath}")
+   	private String filePath;
+    @Value("${sysShufflingfigurePath}")
+    private String sysShufflingfigurePath;
+    @Value("${path.prefix.activity}")
+    private String activityPath;
+    
     @RequestMapping(value = "webmessage", method = RequestMethod.GET)
     public String messageList(Integer page, Model model){
         findMessagePage(page, model);
@@ -132,18 +139,20 @@ public class ContentController {
     public Response uploadImg(MultipartFile file){
         String fileName = carouselPath+ FileUtil.getPathFileName()+".jpg";
         try {
-            File osFile = new File(rootPath + fileName);
-            if (!osFile.getParentFile().exists()) {
-                osFile.getParentFile().mkdirs();
-            }
-            file.transferTo(osFile);
+        	String joinpath="";
+        	 joinpath = HttpFile.upload(file, sysShufflingfigurePath);
+             if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
+              return Response.getError(joinpath);
+             }else{
+              joinpath=filePath+joinpath;
+              return Response.getSuccess(joinpath);
+             }
         } catch (Exception e) {
             LOG.error("", e);
             return Response.getError("上传失败！");
         }
-        return Response.getSuccess(fileName);
     }
-
+    
     @RequestMapping(value="carousel/{id}/edit",method=RequestMethod.POST)
     @ResponseBody
     public Response editCarousel(@PathVariable Integer id, String pictureUrl, String webSiteUrl){
