@@ -53,7 +53,7 @@
             <h3>${good.secondTitle!""}</h3>
             <div class="pac_summary">
             	<ul>
-                	<li class="price_li"><span>现价</span><div class="text"><strong>￥${(good.price/100)?string("0.00")}</strong></div></li>
+                	<li class="price_li"><span>现价</span><div class="text"><strong>￥<#if payChannel??>${(((good.retailPrice!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></div></li>
                     <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
@@ -350,7 +350,7 @@
 	                    		</a>
 		                	</div>
 		                    <h2><a href="<@spring.url "/good/agent/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
-		                    <h2><a href="#" class="hp_price">￥${(good.price/100)?string("0.00")}</a></h2>
+		                    <h2><a href="#" class="hp_price">￥${((relativeGood.retailPriceDisplay!0)/100)?string("0.00")}</a></h2>
 		                </li>
         			</#list>
         		</#if>

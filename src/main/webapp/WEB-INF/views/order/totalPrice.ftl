@@ -1,5 +1,5 @@
 <#if order??>
 	${(order.totalPrice/100)?string("0.00")}
 <#else>
-	${(good.price*quantity/100)?string("0.00")}
+	${(((good.retailPrice!0)+(payChannel.openingCost!0))*quantity/100)?string("0.00")}
 </#if>

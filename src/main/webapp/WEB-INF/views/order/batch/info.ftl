@@ -69,7 +69,12 @@
 	                            </div>
 	                        </div>
 	                    </td>
-	                    <td><strong>￥<#if orderGood.good??>${(orderGood.good.purchasePrice!0/100)?string("0.0")}</#if></strong><p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p></td>
+	                    <td>
+	                    	<#if orderGood.payChannel??>
+		                    	<strong>￥<#if orderGood.good??>${(((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></strong>
+		                    	<p class="original">零售价：￥<#if orderGood.good??>${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></p>
+	                    	</#if>
+	                    </td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <#if (order.orderGoods?size>1) && orderGood_index==0>
 	                    	<td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>

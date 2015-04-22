@@ -28,7 +28,7 @@
             </div>
         </div>
     </td>
-    <td><a href="#"><strong>￥${(good.price/100)?string("0.00")}</strong></a></td>
+    <td><a href="#"><strong>￥${(good.retailPriceDisplay/100)?string("0.00")}</strong></a></td>
     <td><a href="#">月销量<em>${good.volumeNumber!""}</em>件</a></td>
     <td>
     	<div class="evaluate">

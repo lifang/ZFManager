@@ -3,6 +3,8 @@ package com.comdosoft.financial.manage.domain.zhangfu;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 public class Good {
 	
 	/**
@@ -919,6 +921,9 @@ public class Good {
 	private List<GoodsPicture> pictures;
 	private List<DictionaryCardType> cardTypes;
 	private List<Good> relativeGoods;
+	private Integer retailPriceDisplay;//用于显示的价格=零售价+开通费用
+	private Integer purchasePriceDisplay;//用于显示的价格=批购价+开通费用
+	
 
 	public Factory getFactory() {
 		return factory;
@@ -991,5 +996,32 @@ public class Good {
 	public void setRelativeGoods(List<Good> relativeGoods) {
 		this.relativeGoods = relativeGoods;
 	}
+
+	public Integer getRetailPriceDisplay() {
+		retailPriceDisplay=addOpenningCost(getRetailPrice());
+		setRetailPriceDisplay(retailPriceDisplay);
+		return retailPriceDisplay;
+	}
+
+	public void setRetailPriceDisplay(Integer retailPriceDisplay) {
+		this.retailPriceDisplay = retailPriceDisplay;
+	}
+
+	public Integer getPurchasePriceDisplay() {
+		purchasePriceDisplay=addOpenningCost(getPurchasePrice());
+		setPurchasePriceDisplay(purchasePriceDisplay);
+		return purchasePriceDisplay;
+	}
+
+	public void setPurchasePriceDisplay(Integer purchasePriceDisplay) {
+		this.purchasePriceDisplay = purchasePriceDisplay;
+	}
 	
+	private Integer addOpenningCost(Integer displayPrice){
+		List<PayChannel> channels2 = getChannels();
+		if(!CollectionUtils.isEmpty(channels2)){
+			displayPrice+=channels2.get(0).getOpeningCost()!=null?channels2.get(0).getOpeningCost():0;
+		}
+		return displayPrice;
+	}
 }

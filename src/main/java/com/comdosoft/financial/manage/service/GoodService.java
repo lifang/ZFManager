@@ -636,7 +636,6 @@ public class GoodService {
 						}
 					}
 				}
-				
 			}
 		}
 		return goods;
