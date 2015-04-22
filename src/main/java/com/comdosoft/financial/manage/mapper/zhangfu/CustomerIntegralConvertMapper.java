@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralConvert;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntegralRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -52,4 +53,6 @@ public interface CustomerIntegralConvertMapper {
 	List<CustomerIntentionMark> selectMarksById(Integer id);
 
 	void dispatchUserByIds(Map<String, Object> params);
+
+	void insertCustomerIntegralRecords(CustomerIntegralRecord cir);
 }

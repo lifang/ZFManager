@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.SessionService;
 
 /**
@@ -29,6 +30,10 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
 		if(!(handler instanceof HandlerMethod)) {
 			return true;
 		}
+		Customer c = sessionService.getLoginInfo(request);
+		if(c.getTypes() == Customer.TYPE_SUPER){//超级管理员，拥有全部权限
+			return true;
+		}
 		HandlerMethod handlerMethod = (HandlerMethod)handler;
 		HasRole hasRole = handlerMethod.getMethodAnnotation(HasRole.class);
 		if(hasRole == null) {
@@ -40,6 +45,7 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			}
 		}
+		response.sendRedirect(request.getContextPath()+"/index?role=no");
 		return false;
 	}
 

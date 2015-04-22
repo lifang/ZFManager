@@ -214,8 +214,8 @@
                           <#if payChannel?? &&payChannel.supportTradeTypes??>
                           	<#list payChannel.supportTradeTypes as supportTradeType>
                           		<tr>
-		                            <td>${supportTradeType.dictionaryTradeType.tradeValue!""}</td>
-		                            <td>${(supportTradeType.serviceRate!0/100)?string("0.00")}%</td>
+		                            <td><#if supportTradeType.dictionaryTradeType??>${supportTradeType.dictionaryTradeType.tradeValue!""}</#if></td>
+		                            <td>${((supportTradeType.serviceRate!0)/100)?string("0.00")}%</td>
 		                            <td><p>${supportTradeType.description!""}</p></td>
 		                          </tr>
                           	</#list>

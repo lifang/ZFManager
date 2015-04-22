@@ -1,5 +1,6 @@
 <tbody id="row_${order.id}">
       <tr class="order_hd">
+      	<input id="hidden_belongsTo_${order.id}" type="hidden" value="${order.belongsTo!0}" />
         <td colspan="7"><span>订单号 ${order.orderNumber!""}</span><span>${order.createdAt?datetime}</span>
         	<span>类型：<#if order.types??>
 				      	<#if order.types==1>用户订购
@@ -18,22 +19,23 @@
           <tr>
             <td>
             	<div class="td_proBox clear">
-                     <a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />" class="cn_img">
-                    	<#if orderGood.good??>
-                    		<#if orderGood.good.pictures??>
-                    			<#list orderGood.good.pictures as picture>
-                    				<#if picture_index==0>
-                    					<!--<img src="<@spring.url "${picture.urlPath}"/>" />-->
-                    					<img src="${picture.urlPath}" style="width:130px;height:130px;" />
-                    				</#if>
-                    			</#list>
-                    		</#if>
-                    	</#if>
-                    </a>
-                    
+            		<#if orderGood.good??>
+	                     <a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />" class="cn_img">
+	                    	<#if orderGood.good??>
+	                    		<#if orderGood.good.pictures??>
+	                    			<#list orderGood.good.pictures as picture>
+	                    				<#if picture_index==0>
+	                    					<!--<img src="<@spring.url "${picture.urlPath}"/>" />-->
+	                    					<img src="${picture.urlPath}" style="width:130px;height:130px;" />
+	                    				</#if>
+	                    			</#list>
+	                    		</#if>
+	                    	</#if>
+	                    </a>
+                    </#if>
                     
                      <div class="td_proBox_info">
-                        <h1><a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
+                        <h1><#if orderGood.good??><a href="<@spring.url "/good/batch/${orderGood.good.id}/detail" />">${orderGood.good.title!""}</a></#if></h1>
                         <h3><#if orderGood.good??>${orderGood.good.secondTitle!""}</#if></h3>
                         <ul>
                             <li><span>品牌型号：</span><div class="c_text"><#if orderGood.goodBrand??>${orderGood.goodBrand.name!""}</#if></div></li>

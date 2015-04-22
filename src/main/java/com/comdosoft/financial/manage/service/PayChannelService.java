@@ -210,15 +210,22 @@ public class PayChannelService {
         channel.setOpeningProtocol(openingProtocol);
         //支持区域
         supportAreaMapper.deleteChannelAreas(id);
-        for (Integer regionId : regions){
-            SupportArea supportArea = new SupportArea();
-            supportArea.setPayChannelId(id);
-            supportArea.setCityId(regionId);
-            supportAreaMapper.insert(supportArea);
-        }
+        
         if(supportType == 2){
+        	for (Integer regionId : regions){
+                SupportArea supportArea = new SupportArea();
+                supportArea.setPayChannelId(id);
+                supportArea.setCityId(regionId);
+                supportAreaMapper.insert(supportArea);
+            }
             channel.setSupportType(false);
         } else if (supportType == 1){
+        	for (Integer regionId : regions){
+                SupportArea supportArea = new SupportArea();
+                supportArea.setPayChannelId(id);
+                supportArea.setCityId(regionId);
+                supportAreaMapper.insert(supportArea);
+            }
             channel.setSupportType(true);
         } else {
             SupportArea supportArea = new SupportArea();

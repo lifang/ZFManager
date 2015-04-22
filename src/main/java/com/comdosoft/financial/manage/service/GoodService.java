@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.mapper.zhangfu.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,8 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 @Service
 public class GoodService {
-
+    @Value("${filePath}")
+    private String filePath ;
     @Value("${page.good.size}")
     private Integer pageSize;
 
@@ -81,7 +83,19 @@ public class GoodService {
 
 
 	public Good findGoodInfo(Integer id) {
-		return goodMapper.findGoodInfo(id);
+	    Good g=goodMapper.findGoodInfo(id);
+	    List<GoodsPicture> p= g.getPictures();
+	    if(p!=null&&p.size()>0){
+	        GoodsPicture gp=null;
+	        for (int i = 0; i < p.size(); i++) {
+	            gp=p.get(i);
+	            gp.setUrlPath(filePath+gp.getUrlPath());
+                gp.setMiddleUrlPath(filePath+gp.getMiddleUrlPath());
+                gp.setSmallUrlPath(filePath+gp.getSmallUrlPath());
+                p.set(i, gp);
+            }
+	    }
+		return g;
 	}
 	
 	public Good findGoodInfoEx(Integer id) {
@@ -406,11 +420,12 @@ public class GoodService {
 	   //设置图片 photoUrlList
 	   if (photoUrlList != null) {
 		   for (String photoUrl : photoUrlList) {
-			GoodsPicture goodsPicture = new GoodsPicture();
-			goodsPicture.setGoodId(good.getId());
-			goodsPicture.setUrlPath(photoUrl);
-               goodsPicture.setMiddleUrlPath(photoUrl.replace("o.jpg", "b.jpg"));
-               goodsPicture.setSmallUrlPath(photoUrl.replace("o.jpg", "s.jpg"));
+		       GoodsPicture goodsPicture = new GoodsPicture();
+               String s=photoUrl.replace(filePath, "");
+               goodsPicture.setGoodId(good.getId());
+               goodsPicture.setUrlPath(s);
+               goodsPicture.setMiddleUrlPath(s.replace("b.jpg", "m.jpg"));
+               goodsPicture.setSmallUrlPath(s.replace("b.jpg", "s.jpg"));
                goodsPicture.setCreatedAt(new Date());
 			goodsPictureMapper.insert(goodsPicture);
 		}
@@ -539,10 +554,11 @@ public class GoodService {
 	   if (photoUrlList != null) {
            for (String photoUrl : photoUrlList) {
                GoodsPicture goodsPicture = new GoodsPicture();
+               String s=photoUrl.replace(filePath, "");
                goodsPicture.setGoodId(good.getId());
-               goodsPicture.setUrlPath(photoUrl);
-               goodsPicture.setMiddleUrlPath(photoUrl.replace("o.jpg", "b.jpg"));
-               goodsPicture.setSmallUrlPath(photoUrl.replace("o.jpg", "s.jpg"));
+               goodsPicture.setUrlPath(s);
+               goodsPicture.setMiddleUrlPath(s.replace("b.jpg", "m.jpg"));
+               goodsPicture.setSmallUrlPath(s.replace("b.jpg", "s.jpg"));
                goodsPicture.setCreatedAt(new Date());
                goodsPictureMapper.insert(goodsPicture);
            }

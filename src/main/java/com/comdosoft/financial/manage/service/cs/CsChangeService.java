@@ -17,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsChange;
 import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
+import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMarkMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -40,6 +42,8 @@ public class CsChangeService {
 	private CsChangeMarkMapper csChangeMarkMapper;
 	@Autowired
 	private CsReceiverAddressMapper csReceiverAddressMapper;
+	@Autowired
+	private CsOutStorageMapper csOutStorageMapper;
 
 	public Page<CsChange> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csChangeMapper.countSelective(status, keyword);
@@ -97,12 +101,24 @@ public class CsChangeService {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
-		CsChange csChange = csChangeMapper.selectByPrimaryKey(csChangeId);
+		CsChange csChange = csChangeMapper.selectInfoByPrimaryKey(csChangeId);
 		if (null != csChange) {
 			csChange.setReturnAddressId(csReceiverAddress.getId());
 			csChange.setStatus(HANDLE);
 			csChange.setUpdatedAt(new Date());
 			csChangeMapper.updateByPrimaryKey(csChange);
+			
+			CsOutStorage csOutStorage = new CsOutStorage();
+			csOutStorage.setCsApplyId(csChange.getApplyNum());
+			csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_CHANGE);
+			csOutStorage.setCreatedAt(new Date());
+			csOutStorage.setUpdatedAt(new Date());
+			csOutStorage.setOrderId(csChange.getTerminal().getOrderId());
+			csOutStorage.setProcessUserId(csChange.getProcessUserId());
+			csOutStorage.setProcessUserName(csChange.getProcessUserName());
+			csOutStorage.setQuantity(1);
+			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
+			csOutStorageMapper.insert(csOutStorage);
 		}
 	}
 	

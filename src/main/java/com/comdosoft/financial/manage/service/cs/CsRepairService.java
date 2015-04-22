@@ -3,6 +3,7 @@ package com.comdosoft.financial.manage.service.cs;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.CANCEL;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.FINISH;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.HANDLE;
+import static com.comdosoft.financial.manage.service.cs.CsConstants.CsRepairStatus.SUSPEND;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,7 +114,7 @@ public class CsRepairService {
 		CsRepair csRepair = csRepairMapper.selectByPrimaryKey(csRepairId);
 		if (null != csRepair) {
 			csRepair.setPayTypes(payType);
-			csRepair.setStatus(FINISH);
+			csRepair.setStatus(SUSPEND);
 			csRepairMapper.updateByPrimaryKey(csRepair);
 			
 			CsRepairPayment csRepairPayment = new CsRepairPayment();
@@ -180,6 +181,7 @@ public class CsRepairService {
 		csRepair.setUpdatedAt(new Date());
 		csRepair.setStatus(CsRepairStatus.NOT_PAID);
 		csRepair.setCsRepairMarksId(0);
+		csRepair.setCustomerId(terminal.getCustomerId());
 		
 		csRepairMapper.insert(csRepair);
 		return csRepair.getId();

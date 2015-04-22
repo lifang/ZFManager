@@ -63,7 +63,7 @@
                                             <#list channel.standardRates as standardRate>
                                             <tr>
                                                 <td>${standardRate.dictionaryTradeStandardRate.merchantTypeName}</td>
-                                                <td>${standardRate.standardRate!""}‰</td>
+                                                <td>${((standardRate.standardRate)??)?string((((standardRate.standardRate)!0)/10)?string("0.0"),'')}‰</td>
                                                 <td><a onClick="setContent('${standardRate.description!""}')" class="a_btn description_a">查看说明</a></td>
                                             </tr>
                                             </#list>
@@ -91,7 +91,7 @@
                                             <#list channel.billingCycles as billingCycle>
                                             <tr>
                                                 <td>${billingCycle.dictionaryBillingCycle.name!""}</td>
-                                                <td>${billingCycle.rate!""}‰</td>
+                                                <td>${((billingCycle.rate)??)?string((((billingCycle.rate)!0)/10)?string("0.0"),'')}‰</td>
                                                 <td><a onClick="setContent('${(billingCycle.description)!""}')" class="a_btn description_a">查看说明</a></td>
                                             </tr>
                                             </#list>

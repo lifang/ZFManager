@@ -19,20 +19,22 @@
         <tr>
             <td>
                 <div class="td_proBox clear">
-                    <a class="cn_img" href="<@spring.url "/good/user/${orderGood.good.id}/detail" />">
-                    	<#if orderGood.good??>
-                    		<#if orderGood.good.pictures??>
-                    			<#list orderGood.good.pictures as picture>
-                    				<#if picture_index==0>
-                    					<!--<img src="<@spring.url "${picture.urlPath}"/>" />-->
-                    					<img src="${picture.urlPath}" style="width:130px;height:130px;" />
-                    				</#if>
-                    			</#list>
-                    		</#if>
-                    	</#if>
-                    </a>
+                	<#if orderGood.good??>
+	                    <a class="cn_img" href="<@spring.url "/good/user/${orderGood.good.id}/detail" />">
+	                    	<#if orderGood.good??>
+	                    		<#if orderGood.good.pictures??>
+	                    			<#list orderGood.good.pictures as picture>
+	                    				<#if picture_index==0>
+	                    					<!--<img src="<@spring.url "${picture.urlPath}"/>" />-->
+	                    					<img src="${picture.urlPath}" style="width:130px;height:130px;" />
+	                    				</#if>
+	                    			</#list>
+	                    		</#if>
+	                    	</#if>
+	                    </a>
+	                  </#if>
                     <div class="td_proBox_info">
-                        <h1><a href="<@spring.url "/good/user/${orderGood.good.id}/detail" />"><#if orderGood.good??>${orderGood.good.title!""}</#if></a></h1>
+                        <h1><#if orderGood.good??><a href="<@spring.url "/good/user/${orderGood.good.id}/detail" />">${orderGood.good.title!""}</a></#if></h1>
                         <h3><#if orderGood.good??>${orderGood.good.secondTitle!""}</#if></h3>
                         <ul>
                             <li><span>品牌型号：</span><div class="c_text"><#if orderGood.goodBrand??>${orderGood.goodBrand.name!""}</#if></div></li>

@@ -168,8 +168,8 @@
 	    </div>
     	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号"></textarea>
     	<textarea name="" cols="" rows="" id="reserver2" placeholder="中汇终端激活码（非中汇终端无需填写）"></textarea>
-        <input name="" type="text" value="物流公司" id="logistics_name" />
-        <input name="" type="text" value="物流单号" id="logistics_number"/>
+        <input name="" type="text" id="logistics_name"  placeholder="物流公司"/>
+        <input name="" type="text" id="logistics_number" placeholder="物流单号"/>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
 </div>

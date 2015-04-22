@@ -39,40 +39,44 @@ public class AgentService {
     @Autowired
     private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
     public Page<Agent> findPages(int page, Byte status, String keys){
+    	pageSize=10;
         if (keys != null) {
             keys = "%"+keys+"%";
         }
-        long count = agentMapper.countByKeys(status, keys);
+        long count = agentMapper.countByKeys(status, keys,null);
         if (count == 0) {
             return new Page<Agent>(new PageRequest(1, pageSize), new ArrayList<Agent>(), count);
         }
-
         PageRequest request = new PageRequest(page, pageSize);
-        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys);
+        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys,null);
         Page<Agent> agent = new Page<>(request, result, count);
         if (agent.getCurrentPage() > agent.getTotalPage()) {
             request = new PageRequest(agent.getTotalPage(), pageSize);
-            result = agentMapper.findPageAgentByKeys(request, status, keys);
+            result = agentMapper.findPageAgentByKeys(request, status, keys,null);
             agent = new Page<>(request, result, count);
         }
         return agent;
     }
     
-    public Page<Agent> findPages(int page, Byte status, String keys,Integer pageSize){
+    /**
+     * @description  status代理商状态
+     * @author Tory
+     * @date 2015年4月21日 下午9:33:33
+     */
+    public Page<Agent> findPages(int page, Byte status, String keys,Integer pageSize,Integer parentId){
         if (keys != null) {
             keys = "%"+keys.trim()+"%";
         }
-        long count = agentMapper.countByKeys(status, keys);
+        long count = agentMapper.countByKeys(status, keys,parentId);
         if (count == 0) {
             return new Page<Agent>(new PageRequest(1, pageSize), new ArrayList<Agent>(), count);
         }
-
         PageRequest request = new PageRequest(page, pageSize);
-        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys);
+        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys,parentId);
         Page<Agent> agent = new Page<>(request, result, count);
         if (agent.getCurrentPage() > agent.getTotalPage()) {
             request = new PageRequest(agent.getTotalPage(), pageSize);
-            result = agentMapper.findPageAgentByKeys(request, status, keys);
+            result = agentMapper.findPageAgentByKeys(request, status, keys,parentId);
             agent = new Page<>(request, result, count);
         }
         return agent;

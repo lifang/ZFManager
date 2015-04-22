@@ -121,6 +121,7 @@
         <where>
             <if test="status != null"> AND status =#{status} </if>
             <if test="keys != null"> AND company_name like #{keys} </if>
+            <if test="parentId != null"> AND parent_id = #{parentId} </if>
         </where>
     </sql>
 

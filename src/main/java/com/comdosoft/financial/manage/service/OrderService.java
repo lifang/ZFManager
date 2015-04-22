@@ -273,6 +273,7 @@ public class OrderService {
 		Date createdAt = new Date();
 		order.setCreatedAt(createdAt);
 		order.setCreatedUserId(customer.getId());
+		order.setCreatedUserType(customer.getTypes());
 		order.setCustomerAddressId(customerAddressId);
 		order.setInvoiceInfo(invoiceInfo);
 		order.setInvoiceType(invoiceType);
@@ -284,7 +285,7 @@ public class OrderService {
 		String orderNumber = getOrderNum(type);
 		order.setOrderNumber(orderNumber);
 		order.setStatus((byte) 1);
-		
+		order.setBelongsTo(good.getBelongsTo());
 		orderMapper.insert(order);
 		int orderId = order.getId();
 		OrderGood orderGood = new OrderGood();
@@ -309,6 +310,7 @@ public class OrderService {
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
 			throws Exception {
+		Integer belongsTo=0;
 		Order orderOld = orderMapper.findOrderInfo(orderId);
 		List<OrderGood> orderGoods = orderOld.getOrderGoods();
 		List<Map<String, Integer>> goodQuantityList = new ArrayList<Map<String, Integer>>();
@@ -330,6 +332,11 @@ public class OrderService {
 		List<Good> selectGoodsByIds = goodMapper.selectGoodsByIds(goodIds);
 		Integer totalPrice = 0;
 		for (Good good : selectGoodsByIds) {
+			if(null==good.getBelongsTo()){
+				belongsTo=null;
+			}else if(null!=belongsTo){
+				belongsTo=good.getBelongsTo();
+			}
 			for (Map<String, Integer> map : goodQuantityList) {
 				if (map.get("goodId").equals(good.getId())) {
 					if(type==5){
@@ -355,6 +362,7 @@ public class OrderService {
 		Date createdAt = new Date();
 		orderNew.setCreatedAt(createdAt);
 		orderNew.setCreatedUserId(customerId);
+		orderNew.setCreatedUserType(customer.getTypes());
 		orderNew.setCustomerAddressId(customerAddressId);
 		orderNew.setInvoiceInfo(invoiceInfo);
 		orderNew.setInvoiceType(invoiceType);
@@ -383,6 +391,7 @@ public class OrderService {
 		String orderNumber = getOrderNum(type);
 		orderNew.setOrderNumber(orderNumber);
 		orderNew.setStatus((byte) 1);
+		orderNew.setBelongsTo(belongsTo);
 		orderMapper.insert(orderNew);
 		int orderNewId=orderNew.getId();
 		int newOrderId = orderNew.getId();

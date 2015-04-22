@@ -33,7 +33,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) throws Exception {
 		if(modelAndView!=null){
 			modelAndView.addObject("logged_customer", sessionService.getLoginInfo(request));
-			modelAndView.addObject(new Roles(request,sessionService));
+			modelAndView.addObject("logged_roles",new Roles(request,sessionService));
 		}
 	}
 

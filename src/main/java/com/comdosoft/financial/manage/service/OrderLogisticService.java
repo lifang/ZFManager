@@ -42,23 +42,23 @@ public class OrderLogisticService {
 	@Autowired
 	private CsOutStorageMapper csOutStorageMapper;
 	
-	public int insert(Customer customer,Integer orderId,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum){
+	public int insert(Customer customer,Order order,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum,Integer csOutStorageStatus){
 		OrderLogistic record=new OrderLogistic();
 		Date createdAt = new Date();
 		record.setCreatedAt(createdAt);
 		record.setUpdatedAt(createdAt);
-		record.setOrderId(orderId);
+		record.setOrderId(order.getId());
 		record.setLogisticsName(logisticsName);
 		record.setLogisticsNumber(logisticsNumber);
 		CsOutStorage csOutStorage=new CsOutStorage(); 
 		csOutStorage.setCreatedAt(createdAt);
-		csOutStorage.setOrderId(orderId);
+		csOutStorage.setOrderId(order.getId());
 		csOutStorage.setUpdatedAt(createdAt);
 		csOutStorage.setQuantity(quantity);
 		csOutStorage.setProcessUserId(customer.getId());
 		csOutStorage.setProcessUserName(customer.getName());
 		csOutStorage.setQuantity(quantity);
-		csOutStorage.setStatus(1);//已发货
+		csOutStorage.setStatus(csOutStorageStatus);
 		csOutStorageMapper.insert(csOutStorage);
 		//terminalSerialNum还没有生成实体
 		record.setCsOutStorageId(csOutStorage.getId());
@@ -71,6 +71,7 @@ public class OrderLogisticService {
 	@Transactional(rollbackFor=Exception.class)
 	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
 		Integer totalQuantity = 0;
+		Integer csOutStorageStatus=3;
 		if(null!=goodQuantity){
 			List<Map<String, Integer>> goodQuantityList = new ArrayList<Map<String, Integer>>();
 			List<Integer> ids = new ArrayList<Integer>();
@@ -89,7 +90,7 @@ public class OrderLogisticService {
 			}
 		}
 		Set<String> set=new HashSet<String>();
-		if(null==terminalSerialNum){
+		if(null==terminalSerialNum||"".equals(terminalSerialNum.trim())){
 			throw new Exception("请输入终端号！");
 		}
 		String[] split = terminalSerialNum.trim().split(",");
@@ -109,6 +110,11 @@ public class OrderLogisticService {
 				throw new Exception("终端号不存在！");
 			}
 			for(OrderGood og:order.getOrderGoods()){
+				System.out.println(og.getGood().getBelongsTo());
+				if(csOutStorageStatus==3&&null==og.getGood().getBelongsTo()){
+					
+					csOutStorageStatus=1;
+				}
 				for(Terminal findTerminalByNum:findTerminalsByNums){
 					if(og.getGoodId().equals(findTerminalByNum.getGoodId())){
 						findTerminalByNum.setOrderId(orderId);
@@ -140,7 +146,7 @@ public class OrderLogisticService {
 		if(0==totalQuantity){
 			totalQuantity=order.getTotalQuantity();
 		}
-		insert(customer,orderId, logisticsName, logisticsNumber,totalQuantity,terminalSerialNum);
+		insert(customer,order, logisticsName, logisticsNumber,totalQuantity,terminalSerialNum,csOutStorageStatus);
 		return 1;
 	}
 }
