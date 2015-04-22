@@ -35,26 +35,30 @@ public class CertifiedOpenService {
 		PageRequest request = new PageRequest(page, pageSize);
 		List<CertifiedOpen> result = certifiedOpenMapper.findPageByKeys(request, status, keys,id);
 		for (CertifiedOpen certifiedOpen : result) {
-		    int a;
-            try {
-                a = certifiedOpenMapper.videoStatus(certifiedOpen.getId());
-            } catch (Exception e) {
-                a=0;
-            }
-            certifiedOpen.setVideo_status(a);
+		    int isNeedOpen=certifiedOpenMapper.isNeedOpen(certifiedOpen.getPcid());
+		    if(isNeedOpen>0){
+	            try {
+	                isNeedOpen = certifiedOpenMapper.videoStatus(certifiedOpen.getId());
+	            } catch (Exception e) {
+	                isNeedOpen=1;
+	            }
+		    }
+		    certifiedOpen.setVideo_status(isNeedOpen);
         }
 		Page<CertifiedOpen> goods = new Page<>(request, result, count);
 		if (goods.getCurrentPage() > goods.getTotalPage()) {
 			request = new PageRequest(goods.getTotalPage(), pageSize);
 			result = certifiedOpenMapper.findPageByKeys(request, status, keys,id);
 			for (CertifiedOpen certifiedOpen : result) {
-	            int a;
-	            try {
-	                a = certifiedOpenMapper.videoStatus(certifiedOpen.getId());
-	            } catch (Exception e) {
-	                a=0;
+			    int isNeedOpen=certifiedOpenMapper.isNeedOpen(certifiedOpen.getPcid());
+	            if(isNeedOpen>0){
+	                try {
+	                    isNeedOpen = certifiedOpenMapper.videoStatus(certifiedOpen.getId());
+	                } catch (Exception e) {
+	                    isNeedOpen=0;
+	                }
 	            }
-	            certifiedOpen.setVideo_status(a);
+	            certifiedOpen.setVideo_status(isNeedOpen);
 	        }
 			goods = new Page<>(request, result, count);
 		}
@@ -89,7 +93,11 @@ public class CertifiedOpenService {
 
 
     public int upVstatus(Integer id, Integer status) {
-        return  certifiedOpenMapper.upVstatus(id,status);
+        int a=certifiedOpenMapper.upVstatus(id,status);
+        if(a==0){
+            a=certifiedOpenMapper.inVstatus(id,status);
+        }
+        return  a;
         
     }
 
