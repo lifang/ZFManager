@@ -25,15 +25,15 @@
                         <#if profitSettingList?? && (profitSettingList?size) gt 0>
                         <#list profitSettingList as profitSetting>
                             <#if profitSetting.floorNumber==0>
-                            <p> <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_s">‰</p>
+                            <p> <input name="" type="text"  value="${profitSetting.percent/10}" class="input_s">%</p>
                             <#else>
-                                <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${(profitSetting.floorNumber)/100}" class="input_xs">
-                                    <input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" value="${profitSetting.percent}" class="input_xs">‰
+                                <p><input name="" type="text"  value="${(profitSetting.floorNumber)/1000}" class="input_xs">
+                                    <input name="" type="text"  value="${profitSetting.percent/10}" class="input_xs">%
                                 </p>
                             </#if>
                         </#list>
                         <#else>
-                        <p><input name="" type="text" onkeyup="value=this.value.replace(/\D+/g,'')" class="input_s">‰</p>
+                        <p><input name="" type="text"  class="input_s">%</p>
                         </#if>
                         <p><a class="a_btn addEchelonProfit">增加梯队分润</a></p>
                     </td>

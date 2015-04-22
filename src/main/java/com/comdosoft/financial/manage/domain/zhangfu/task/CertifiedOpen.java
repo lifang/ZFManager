@@ -8,7 +8,7 @@ public class CertifiedOpen {
 	private String created_at;
 	private String serial_num;
 	private String credit;
-	
+	private int pcid;
     public int getId() {
         return id;
     }
@@ -44,6 +44,12 @@ public class CertifiedOpen {
     }
     public void setCredit(String credit) {
         this.credit = credit;
+    }
+    public int getPcid() {
+        return pcid;
+    }
+    public void setPcid(int pcid) {
+        this.pcid = pcid;
     }
 
    

@@ -20,7 +20,7 @@
 	<select id="findPageByKeys" resultMap="BaseResultMap">
 		SELECT
 		oa.id,oa.STATUS,DATE_FORMAT(oa.created_at,'%Y-%m-%d %H:%i:%s') created_at,
-		t.serial_num,dct.name as credit
+		t.serial_num,dct.name as credit,oa.pay_channel_id as pcid
 		FROM opening_applies oa 
 		LEFT JOIN terminals t ON oa.terminal_id = t.id
 		LEFT JOIN merchants m on m.id=oa.merchant_id
@@ -43,7 +43,7 @@
 		SELECT
 		oa.id,
 		oa.merchant_id,oa.merchant_name,oa.card_id,oa.types,oa.phone as mphone,
-		t.serial_num,
+		t.id as tid, t.serial_num,
 		oa. STATUS,
 		IFNULL(tt.status,0) as video_status,
 		t.STATUS as tstatus,
@@ -78,6 +78,12 @@
 	<select id="videoStatus" resultType="int">
 			SELECT status from opening_video_verifies where opening_apply_id=#{id} LIMIT 0,1
 	</select>
+	
+	
+	
+	<select id="isNeedOpen" resultType="int">
+			SELECT COUNT(*) FROM opening_requirements WHERE pay_channel_id=#{pcid} AND has_video_verify>0
+	</select>
 
 	<resultMap id="ResultInfo2Map" type="com.comdosoft.financial.manage.domain.zhangfu.task.Opendetailsinfo">
 	</resultMap>
@@ -85,7 +91,7 @@
 		SELECT toi.key,toi.value,toi.types
 		FROM 
 		opening_applies oa 
-		LEFT JOIN terminal_opening_infos toi ON
+		INNER JOIN terminal_opening_infos toi ON
 		oa.id=toi.opening_applies_id
 		where oa.id=#{id}
 	</select>
@@ -112,6 +118,11 @@
 	<update id="upVstatus">
 		update opening_video_verifies set status=#{status} where opening_apply_id=#{id}
 	</update>
+	
+	<insert id="inVstatus">
+		insert into opening_video_verifies(status,opening_apply_id) 
+		VALUES(#{status},#{id})
+	</insert>
 	
 	<update id="upMstatus">
 		update merchants set credit_type_id=#{status} where id=#{id}

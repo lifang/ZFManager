@@ -54,7 +54,7 @@
                 },
                 [
                 <#list menuList as menu>
-                    { id:${menu.id}, pId:${menu.parentId}, name:"${menu.menuName}", open:true}<#if menu_has_next>,</#if>
+                    { id:${menu.id}, pId:${menu.parentId}, name:"${menu.menuName}", open:false}<#if menu_has_next>,</#if>
                 </#list>
                 ]);
 

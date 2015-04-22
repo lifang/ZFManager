@@ -1,6 +1,5 @@
 package com.comdosoft.financial.manage.controller.task;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +25,7 @@ import com.comdosoft.financial.manage.service.RecordOperateService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsCommonService;
 import com.comdosoft.financial.manage.service.task.RefundService;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 
@@ -48,8 +48,11 @@ public class RefundController {
 	@Autowired
 	private RecordOperateService recordOperateService;
 	
-	@Value("${path.prefix.refunde}")
-	private String pathPrefixRefunde;
+	@Value("${filePath}")
+	private String filePath;
+	
+	@Value("${userTerminal}")
+	private String userTerminal;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String list(HttpServletRequest request,Integer page, Byte status, String orderNumber, Model model){
@@ -150,11 +153,14 @@ public class RefundController {
     @ResponseBody
     public String tempImage(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
         try {
-        	
-        	String filePath = refundService.saveTmpImage(pathPrefixRefunde + id +"/",img, request);
-        	refundService.updateRefund(id,filePath);
-        	return filePath;
-        } catch (IOException e) {
+        	String joinpath="";
+        	joinpath = HttpFile.upload(img, userTerminal+id+"/RefundCertificate/");
+        	refundService.updateRefund(id,joinpath);
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return "false";
+        	joinpath = filePath+joinpath;
+        		return joinpath;
+        } catch (Exception e) {
         	e.printStackTrace();
         	return null;
         }

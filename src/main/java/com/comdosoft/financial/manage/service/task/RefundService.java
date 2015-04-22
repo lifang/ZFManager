@@ -23,6 +23,9 @@ public class RefundService {
 	
 	@Value("${page.refund.size}")
     private int pageSize=2;
+	
+	@Value("${filePath}")
+	private String filePath;
     
 	@Autowired
 	private RefundMapper refundMapper;
@@ -48,7 +51,10 @@ public class RefundService {
 	}
 	
 	public Map<Object, Object> getRefundDetails(int id){
-		return refundMapper.getRefundDetails(id);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map = refundMapper.getRefundDetails(id);
+		map.put("returnVoucherFilePath", filePath+map.get("returnVoucherFilePath").toString());
+		return map;
 	}
 	
 	public List<Map<Object, Object>> getRefundByDetailRecord(int id){

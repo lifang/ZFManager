@@ -34,6 +34,7 @@ import java.util.List;
             List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
             List<DictionaryTradeType> tradeTypes = dictionaryService.listAllDictionaryTradeTypes();
             List<DictionaryTradeStandardRate> standardRates = dictionaryService.listAllDictionaryTradeStandardRates();
+            List<DictionaryBillingCycle> billingCycles = dictionaryService.listAllDictionaryBillingCycle();
             model.addAttribute("creditTypes", creditTypes);
             model.addAttribute("companyAddresses", companyAddresses);
             model.addAttribute("openPrivates", openPrivates);
@@ -43,6 +44,7 @@ import java.util.List;
             model.addAttribute("cardTypes", cardTypes);
             model.addAttribute("tradeTypes", tradeTypes);
             model.addAttribute("standardRates", standardRates);
+            model.addAttribute("billingCycles", billingCycles);
             return "system/dictionary/dictionary";
         }
 
@@ -361,6 +363,39 @@ import java.util.List;
             dictionaryService.deleteDictionaryTradeStandardRate(id);
             return Response.getSuccess(null);
         }
+        
+        @RequestMapping(value = "/billingCycle/{id}/edit", method = RequestMethod.GET)
+        public String editBillingCycle(@PathVariable Integer id, Model model){
+            if (id != 0){
+            	DictionaryBillingCycle billingCycle = dictionaryService.findDictionaryBillingCycle(id);
+                model.addAttribute("billingCycle", billingCycle);
+            }
+            return "system/dictionary/billingCycle_edit";
+        }
+        @RequestMapping(value = "/billingCycle/{id}/info", method = RequestMethod.GET)
+        public String billingCycleInfo(@PathVariable Integer id, Model model){
+        	DictionaryBillingCycle billingCycle = dictionaryService.findDictionaryBillingCycle(id);
+            model.addAttribute("billingCycle", billingCycle);
+            return "system/dictionary/billingCycle_info";
+        }
 
+        @RequestMapping(value = "/billingCycle/{id}/edit", method = RequestMethod.POST)
+        public String editBillingCycle(@PathVariable Integer id, String name, String rate, String description, Model model){
+        	DictionaryBillingCycle billingCycle = null;
+            if (id != 0){
+            	billingCycle = dictionaryService.editDictionaryBillingCycle(id, name ,rate ,description );
+            } else {
+            	billingCycle = dictionaryService.createDictionaryBillingCycle(name,rate ,description);
+            }
+            model.addAttribute("billingCycle", billingCycle);
+            return "system/dictionary/billingCycle_info";
+        }
+
+        @RequestMapping(value = "/billingCycle/{id}/delete", method = RequestMethod.GET)
+        @ResponseBody
+        public Response deleteBillingCycle(@PathVariable Integer id, Model model){
+            dictionaryService.deleteDictionaryBillingCycle(id);
+            return Response.getSuccess(null);
+        }
 
     }
