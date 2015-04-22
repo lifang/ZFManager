@@ -5,9 +5,12 @@ import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.FreeMarkerUtils;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import freemarker.template.TemplateModelException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -34,7 +38,10 @@ public class ChannelController {
     private String rootPath;
     @Value("${path.prefix.channel}")
     private String channelPath;
+    @Value("${sysFilePaychannel}")
+    private String sysFilePaychannel ;
 
+    
 	@Autowired
 	private PayChannelService payChannelService;
     @Autowired
@@ -272,19 +279,25 @@ public class ChannelController {
     @RequestMapping(value="uploadFile",method=RequestMethod.POST)
     @ResponseBody
     public Response uploadImg(MultipartFile file){
-        String suffix = file.getOriginalFilename().substring
-                (file.getOriginalFilename().lastIndexOf("."));
-        String fileName = channelPath+ FileUtil.getPathFileName()+suffix;
-        try {
-            File osFile = new File(rootPath + fileName);
-            if (!osFile.getParentFile().exists()) {
-                osFile.getParentFile().mkdirs();
-            }
-            file.transferTo(osFile);
-        } catch (Exception e) {
-            LOG.error("", e);
-            return Response.getError("上传失败！");
+//        String suffix = file.getOriginalFilename().substring
+//                (file.getOriginalFilename().lastIndexOf("."));
+//        String fileName = channelPath+ FileUtil.getPathFileName()+suffix;
+//        try {
+//            File osFile = new File(rootPath + fileName);
+//            if (!osFile.getParentFile().exists()) {
+//                osFile.getParentFile().mkdirs();
+//            }
+//            file.transferTo(osFile);
+//        } catch (Exception e) {
+//            LOG.error("", e);
+//            return Response.getError("上传失败！");
+//        }
+        String result=HttpFile.upload(file, sysFilePaychannel);
+        if(result.split("/").length>0){
+            return Response.getSuccess(result);
+        }else{
+            return Response.getError(result);
         }
-        return Response.getSuccess(fileName);
+       // return Response.getSuccess(fileName);
     }
 }

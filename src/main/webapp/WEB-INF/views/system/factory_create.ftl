@@ -175,12 +175,14 @@
         var options = {
             success: function(data){
                 if(data.code==1){
-               		 $("#img_path").attr("src", data.result);
+               		$("#img_path").attr("value", data.result[0]+data.result[1]);
                     var $file = $("#fileForm").find(":file");
                     if($file.length > 0){
-                        $file.attr("value", data.result);
+                        $file.attr("value", data.result[1]);
                     }
                     alert("上传成功!");
+                }else{
+                	alert(data.message);
                 }
             },
             resetForm: true,
