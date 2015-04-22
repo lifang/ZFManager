@@ -25,13 +25,15 @@
             <ul>
                 <li><em>名称：</em><span>${channel.name!""}</span></li>
                 <li><em>收单机构：</em><span>${channel.factory.name}</span></li>
-                <li><em>支持区域：</em>
+                <li><em><#if (!channel.supportType)>不</#if>支持区域：</em>
                     <span>
-                    <#if (channel.areas)??>
+                    <#if (channel.areas??&&channel.areas?size!=0)>
                             <#list channel.areas as area>
-                    ${area.name}
-                    </#list>
-                        </#if>
+                   				 ${area.name}
+                   			 </#list>
+           			 <#else> 
+ 					           全国
+                    </#if>
                     </span></li>
                 <li><em>是否支持注销：</em><span><#if channel.supportCancelFlag>是<#else>否</#if></span></li>
             </ul>
@@ -61,7 +63,7 @@
                                             <#list channel.standardRates as standardRate>
                                             <tr>
                                                 <td>${standardRate.dictionaryTradeStandardRate.merchantTypeName}</td>
-                                                <td>${standardRate.standardRate!""}‰</td>
+                                                <td>${((standardRate.standardRate)??)?string((((standardRate.standardRate)!0)/10)?string("0.0"),'')}‰</td>
                                                 <td><a onClick="setContent('${standardRate.description!""}')" class="a_btn description_a">查看说明</a></td>
                                             </tr>
                                             </#list>
@@ -89,7 +91,7 @@
                                             <#list channel.billingCycles as billingCycle>
                                             <tr>
                                                 <td>${billingCycle.dictionaryBillingCycle.name!""}</td>
-                                                <td>${billingCycle.rate!""}‰</td>
+                                                <td>${((billingCycle.rate)??)?string((((billingCycle.rate)!0)/10)?string("0.0"),'')}‰</td>
                                                 <td><a onClick="setContent('${(billingCycle.description)!""}')" class="a_btn description_a">查看说明</a></td>
                                             </tr>
                                             </#list>
@@ -154,7 +156,7 @@
                                         <tr>
                                             <td>${cancelRequirement.title!""}</td>
                                             <td>${cancelRequirement.description!""}</td>
-                                            <td><a href="${cancelRequirement.templetFilePath!''}" target="_Blank" class="a_btn">查看模版</a></td>
+                                            <td><a href="${cancelRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
                                         </#list>
                                         </tbody>
@@ -181,7 +183,7 @@
                                         <tr>
                                             <td>${updateRequirement.title!""}</td>
                                             <td>${updateRequirement.description!""}</td>
-                                            <td><a href="${updateRequirement.templetFilePath!''}" target="_Blank" class="a_btn">查看模版</a></td>
+                                            <td><a href="${updateRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
                                         </tr>
                                         </#list>
