@@ -97,8 +97,6 @@ function OnAnyChatEnterRoom(dwRoomId, errorcode) {
  	var useridlist = BRAC_GetOnlineUser();
 		if(useridlist.length > 0){
 			RequestVideoByUserId(useridlist[0]);
-		} else{
-			RequestVideoByUserId(mSelfUserId);
 		}
     }
 }
