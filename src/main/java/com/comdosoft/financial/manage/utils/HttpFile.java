@@ -13,7 +13,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,7 +70,9 @@ public class HttpFile {
             file.transferTo(osFile);
           //大图
             String bb=upload_path+ppname+"_b"+extName;
-            Thumbnails.of(oo).size(400, 400).toFile(bb);
+            Thumbnails.of(oo).size(660, 660).toFile(bb);
+        //  String ss=upload_path+ppname+"_m"+extName;
+            //  Thumbnails.of(oo).size(340, 340).toFile(ss);
           //  String ss=upload_path+ppname+"_s"+extName;
           //  Thumbnails.of(oo).size(55, 55).toFile(ss);
            
