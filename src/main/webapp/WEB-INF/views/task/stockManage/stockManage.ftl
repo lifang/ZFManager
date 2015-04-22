@@ -91,7 +91,7 @@
 
 
 	function toAfterStock(){
-		var account=$("#accountTemp").val();
+		var account=$("#account1").val();
 		$.post('<@spring.url "/task/stockManage/toAfterSaleStock" />',
 	        {   "serialNum": account},
 	        function (ret) {

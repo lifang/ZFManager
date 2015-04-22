@@ -3,7 +3,7 @@
 <mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.StockManageMapper">
 	
 	<update id="toAfterSaleStock">
-		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and a.is_return_cs_depots=0 and a.account =#{account} 
+		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and a.is_return_cs_depots=0 and a.serial_num =#{serialNum} 
 	</update>
 
 	<update id="toNormalStock">
@@ -14,7 +14,7 @@
 	</update>
 	
 	<update id="breakDown">
-		update terminals a set a.status=5,a.updated_at=now() where a.account=#{account} and a.is_return_cs_depots=1
+		update terminals a set a.status=5,a.updated_at=now() where a.serial_num=#{serialNum} and a.is_return_cs_depots=1
 	</update>
 	
 	<select id="checkAccount" resultType="hashmap">
