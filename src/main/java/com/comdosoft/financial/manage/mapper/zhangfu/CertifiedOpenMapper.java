@@ -39,6 +39,10 @@ public interface CertifiedOpenMapper {
 
     void dispatch(Map<String, Object> params);
 
+    int isNeedOpen(int pcid);
+
+    int inVstatus(@Param("id")Integer id,@Param("status") Integer status);
+
 	
 
     

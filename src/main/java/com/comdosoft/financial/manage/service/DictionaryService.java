@@ -334,4 +334,42 @@ public class DictionaryService {
     public void deleteDictionaryCompanyAddress(Integer id) {
         dictionaryCompanyAddressMapper.deleteByPrimaryKey(id);
     }
+
+    @Transactional(value = "transactionManager")
+	public DictionaryBillingCycle findDictionaryBillingCycle(Integer id) {
+		return dictionaryBillingCycleMapper.selectByPrimaryKey(id);
+	}
+
+    @Transactional(value = "transactionManager")
+	public DictionaryBillingCycle editDictionaryBillingCycle(Integer id,
+			String name ,String rate,String description) {
+		DictionaryBillingCycle billingCycle = dictionaryBillingCycleMapper.selectByPrimaryKey(id);
+		billingCycle.setName(name);
+		billingCycle.setServiceRate(Integer.valueOf(rate));
+		billingCycle.setDescription(description);
+		billingCycle.setUpdatedAt(new Date());
+		dictionaryBillingCycleMapper.updateByPrimaryKey(billingCycle);
+		return billingCycle;
+	}
+
+    @Transactional(value = "transactionManager")
+	public DictionaryBillingCycle createDictionaryBillingCycle(String name,String rate,String description) {
+    	DictionaryBillingCycle billingCycle = new DictionaryBillingCycle();
+    	billingCycle.setName(name);
+		billingCycle.setServiceRate(Integer.valueOf(rate));
+		billingCycle.setDescription(description);
+		billingCycle.setCreatedAt(new Date());
+		dictionaryBillingCycleMapper.insert(billingCycle);
+		return billingCycle;
+	}
+
+    @Transactional(value = "transactionManager")
+	public void deleteDictionaryBillingCycle(Integer id) {
+		dictionaryBillingCycleMapper.deleteByPrimaryKey(id);
+		
+	}
+
+	public List<DictionaryBillingCycle> listAllDictionaryBillingCycle() {
+		return dictionaryBillingCycleMapper.selectAll();
+	}
 }

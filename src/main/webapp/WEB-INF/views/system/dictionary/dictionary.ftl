@@ -18,5 +18,6 @@
         <#include "cardType_list.ftl"/>
         <#include "tradeType_list.ftl"/>
         <#include "standardRate_list.ftl"/>
+        <#include "billingCycle_list.ftl"/>
     </div>
 </@c.html>

@@ -1,6 +1,6 @@
 <div class="attributes_box">
-    <h2>刷卡交易标准手续费</h2>
-    <div class="dataDictionary" id="standardRateTable">
+    <h2>结算周期</h2>
+    <div class="dataDictionary" id="billingCycleTable">
         <table width="100%" border="0" cellspacing="1" cellpadding="0">
             <colgroup>
                 <col width="25%">
@@ -9,28 +9,28 @@
                 <col width="25%">
             </colgroup>
             <tbody><tr>
-                <td>商户类型</td>
+                <td>结算周期</td>
                 <td>费率(‰)</td>
                 <td>说明</td>
                 <td>操作</td>
             </tr>
-            <#list standardRates as standardRate>
-                <#include "standardRate_info.ftl"/>
+            <#list billingCycles as billingCycle>
+                <#include "billingCycle_info.ftl"/>
             </#list>
             </tbody></table>
-        <a id="addStandardRate" class="pay_add_a">+</a>
+        <a id="addBillingCycle" class="pay_add_a">+</a>
     </div>
 </div>
 <script>
     $(function(){
-        $("#addStandardRate").click(function(){
-            $.get('<@spring.url "/system/dictionary/standardRate/0/edit" />',
+        $("#addBillingCycle").click(function(){
+            $.get('<@spring.url "/system/dictionary/billingCycle/0/edit" />',
                     function (data) {
-                        $("#standardRateTable").find("tbody").append(data);
+                        $("#billingCycleTable").find("tbody").append(data);
                     });
         });
 
-        $(document).delegate(".saveStandardRate", "click", function () {
+        $(document).delegate(".saveBillingCycle", "click", function () {
             var $tr = $(this).parents("tr");
             var value = $(this).attr("value");
             var name = $tr.find("input").eq(0).val();
@@ -43,7 +43,7 @@
             if(!isNotNull(value)){
                 value = 0;
             }
-            $.post('<@spring.url "/system/dictionary/standardRate/" />'+value+'/edit',
+            $.post('<@spring.url "/system/dictionary/billingCycle/" />'+value+'/edit',
                     {name: name,
                         rate: rate,
                         description: description},
@@ -52,10 +52,10 @@
                     });
         });
 
-        $(document).delegate(".delStandardRate", "click", function () {
+        $(document).delegate(".delBillingCycle", "click", function () {
             var $tr = $(this).parents("tr");
             var value = $(this).attr("value");
-            $.get('<@spring.url "/system/dictionary/standardRate/" />'+value+'/delete',
+            $.get('<@spring.url "/system/dictionary/billingCycle/" />'+value+'/delete',
                     function (data) {
                         if(data.code==1) {
                             $tr.remove();
@@ -63,10 +63,10 @@
                     });
         });
 
-        $(document).delegate(".editStandardRate", "click", function () {
+        $(document).delegate(".editBillingCycle", "click", function () {
             var $tr = $(this).parents("tr");
             var value = $(this).attr("value");
-            $.get('<@spring.url "/system/dictionary/standardRate/" />'+value+'/edit',
+            $.get('<@spring.url "/system/dictionary/billingCycle/" />'+value+'/edit',
                     function (data) {
                         $tr.replaceWith(data);
                     });
