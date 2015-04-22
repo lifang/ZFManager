@@ -4,6 +4,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.mapper.zhangfu.*;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class PayChannelService {
 
     @Value("${page.size}")
     private Integer pageSize;
-
+    @Value("${filePath}")
+    private String filePath ;
     @Autowired
     private PayChannelMapper payChannelMapper;
     @Autowired
@@ -184,6 +186,14 @@ public class PayChannelService {
 
     public PayChannel findChannelInfo(Integer id) {
         PayChannel channel = payChannelMapper.findChannelLazyInfo(id);
+        List<OtherRequirement> l= channel.getCancelRequirements();
+        for (OtherRequirement otherRequirement : l) {
+            otherRequirement.setTempletFilePath(filePath+otherRequirement.getTempletFilePath());
+        }
+        List<OtherRequirement> l2= channel.getUpdateRequirements();
+        for (OtherRequirement otherRequirement : l2) {
+            otherRequirement.setTempletFilePath(filePath+otherRequirement.getTempletFilePath());
+        }
         return channel;
     }
 
@@ -368,10 +378,11 @@ public class PayChannelService {
             otherRequirement.setPayChannelId(id);
             Object title = cancelRequirementObject.get("title");
             Object description = cancelRequirementObject.get("description");
-            Object fileUrl = cancelRequirementObject.get("fileUrl");
+            //Object fileUrl = cancelRequirementObject.get("fileUrl");
+            String fileUrl = cancelRequirementObject.get("fileUrl").toString().replaceAll(filePath, "");
             otherRequirement.setTitle(title == null ? null : (String) title);
             otherRequirement.setDescription(description == null ? null : (String) description);
-            otherRequirement.setTempletFilePath(fileUrl == null ? null : (String) fileUrl);
+            otherRequirement.setTempletFilePath(fileUrl == null ? null :  fileUrl);
             otherRequirement.setTypes(OtherRequirement.TYPE_CANCEL);
             otherRequirementMapper.insert(otherRequirement);
         }
@@ -382,10 +393,11 @@ public class PayChannelService {
             otherRequirement.setPayChannelId(id);
             Object title = updateRequirementObject.get("title");
             Object description = updateRequirementObject.get("description");
-            Object fileUrl = updateRequirementObject.get("fileUrl");
+           // Object fileUrl = updateRequirementObject.get("fileUrl");
+            String fileUrl = updateRequirementObject.get("fileUrl").toString().replaceAll(filePath, "");
             otherRequirement.setTitle(title == null ? null : (String) title);
             otherRequirement.setDescription(description == null ? null : (String) description);
-            otherRequirement.setTempletFilePath(fileUrl == null ? null : (String) fileUrl);
+            otherRequirement.setTempletFilePath(fileUrl == null ? null :  fileUrl);
             otherRequirement.setTypes(OtherRequirement.TYPE_UPDATE);
             otherRequirementMapper.insert(otherRequirement);
         }
@@ -544,10 +556,10 @@ public class PayChannelService {
             otherRequirement.setPayChannelId(id);
             Object title = cancelRequirementObject.get("title");
             Object description = cancelRequirementObject.get("description");
-            Object fileUrl = cancelRequirementObject.get("fileUrl");
+            String fileUrl = cancelRequirementObject.get("fileUrl").toString().replaceAll(filePath, "");
             otherRequirement.setTitle(title == null ? null : (String) title);
             otherRequirement.setDescription(description == null ? null : (String) description);
-            otherRequirement.setTempletFilePath(fileUrl == null ? null : (String) fileUrl);
+            otherRequirement.setTempletFilePath(fileUrl == null ? null : fileUrl );
             otherRequirement.setTypes(OtherRequirement.TYPE_CANCEL);
             otherRequirementMapper.insert(otherRequirement);
         }
@@ -558,10 +570,10 @@ public class PayChannelService {
             otherRequirement.setPayChannelId(id);
             Object title = updateRequirementObject.get("title");
             Object description = updateRequirementObject.get("description");
-            Object fileUrl = updateRequirementObject.get("fileUrl");
+            String fileUrl = updateRequirementObject.get("fileUrl").toString().replaceAll(filePath, "");
             otherRequirement.setTitle(title == null ? null : (String) title);
             otherRequirement.setDescription(description == null ? null : (String) description);
-            otherRequirement.setTempletFilePath(fileUrl == null ? null : (String) fileUrl);
+            otherRequirement.setTempletFilePath(fileUrl == null ? null :  fileUrl);
             otherRequirement.setTypes(OtherRequirement.TYPE_UPDATE);
             otherRequirementMapper.insert(otherRequirement);
         }
