@@ -118,7 +118,7 @@ public class TradeController {
     public String statistics(@PathVariable Integer id,Model model){
         DictionaryTradeType tradeType = tradeService.tradeType(id);
         model.addAttribute("tradeType",tradeType);
-        List<Map<String,Object>> statistics = tradeService.profitStatistics();
+        List<Map<String,Object>> statistics = tradeService.profitStatistics(id);
         model.addAttribute("statistics",statistics);
         Map<Date,Date> map = tradeService.getTradedDateRange(id);
         model.addAttribute("tradedDateRange", map);
