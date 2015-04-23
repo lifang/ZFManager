@@ -10,8 +10,10 @@
 <div class="content clear"> 
 	<div class="user_title">
     	<h1>租赁退还申请列表</h1> 
-		<div class="userTopBtnBox"> 
+		<div class="userTopBtnBox">
+	<#if Roles.hasRole("CS_LEASE_RETURN_ASSIGN")>
 			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+	</#if>
 		</div> 
 	</div>
 	<div class="seenBox clear"> 
