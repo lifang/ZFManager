@@ -47,7 +47,7 @@
             <td>${orderGood.quantity!0}</td>
             <input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
 		    <input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
-            <#if (order.orderGoods?size>1)& orderGood_index==0>
+            <#if (order.orderGoods?size>1)&& orderGood_index==0>
                 <td rowspan="${order.orderGoods?size}" class="left_border">
 	                <#if order.actualPrice??>
 	                	<strong>￥${(order.actualPrice/100)?string("0.00")} </strong>
@@ -58,33 +58,33 @@
           		<#if order.status??>
 			      	<#if order.status==1><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
 			      			<td rowspan="${order.orderGoods?size}">
-			      				<a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
-	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+						<#if Roles.hasRole("USER_ORDER_MODIFY_RPRICE")><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a></#if>
+						<#if Roles.hasRole("USER_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
+						<#if Roles.hasRole("USER_ORDER_ADD_PAY_RECORD")><a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a></#if>
 	                    		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==2><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付款</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-           						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
-           						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						   <#if Roles.hasRole("USER_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
+						   <#if Roles.hasRole("USER_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
+						   <#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==3><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已发货</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==4><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已评价</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==5><td rowspan="${order.orderGoods?size}"><strong class="strong_status">已取消</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==6><td rowspan="${order.orderGoods?size}"><strong class="strong_status">交易关闭</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#else><td rowspan="${order.orderGoods?size}"><strong class="strong_status">状态不明</strong></td>	
 				     </#if>
 				</#if>
@@ -98,37 +98,38 @@
 	            </td>
 	            <#if order.status??>
 			      	<#if order.status==1><td><strong class="strong_status">未付款</strong></td>
-				      		<td><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
-	                    		<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-	                    		<a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a>
+				      		<td>
+						<#if Roles.hasRole("USER_ORDER_MODIFY_RPRICE")><a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a></#if>
+						<#if Roles.hasRole("USER_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
+						<#if Roles.hasRole("USER_ORDER_ADD_PAY_RECORD")><a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">增加付款记录</a></#if>
 	                    		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-	                    		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 	                    	</td>
 				       <#elseif order.status==2><td><strong class="strong_status">已付款 </strong></td>
 				       		<td><a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a>
-           						<a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a>
-           						<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						   <#if Roles.hasRole("USER_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
+						   <#if Roles.hasRole("USER_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
+						   <#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
            					</td>
 				       <#elseif order.status==3><td><strong class="strong_status">已发货</strong></td>
 				       		<td>
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 				       		</td>
 				       <#elseif order.status==4><td><strong class="strong_status">已评价</strong></td>
 				       		<td>
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 				       		</td>
 				       <#elseif order.status==5><td><strong class="strong_status">已取消</strong></td>
 				       		<td>
 				       			<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-				       			<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 				       		</td>
 				       <#elseif order.status==6><td><strong class="strong_status">交易关闭</strong></td>
 				       		<td>
 					       		<a href="<@spring.url "/order/user/${order.id}/info" />" class="a_btn">查看详情</a>
-					       		<a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a>
+						<#if Roles.hasRole("USER_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 				       		</td>
 				       <#else><td><strong class="strong_status">状态不明</strong></td>
 				     </#if>

@@ -10,9 +10,9 @@
 <div class="content clear"> 
 	<div class="user_title">
     	<h1>维修申请列表</h1> 
-		<div class="userTopBtnBox"> 
-			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
-			<a class="ghostBtn" href="<@spring.url "/cs/repair/bill/edit"/>">创建维修单</a>
+		<div class="userTopBtnBox">
+	<#if Roles.hasRole("CS_REPAIR_ASSIGN")><a id="btn_dispatch" class="ghostBtn assign_a">分派</a></#if>
+	<#if Roles.hasRole("CS_REPAIR_CREATE")><a class="ghostBtn" href="<@spring.url "/cs/repair/bill/edit"/>">创建维修单</a></#if>
 		</div> 
 	</div>
 	<div class="seenBox clear"> 

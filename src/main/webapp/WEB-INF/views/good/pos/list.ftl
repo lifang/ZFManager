@@ -9,10 +9,10 @@
      <div class="content clear"> 
       <div class="user_title">
        <h1>POS机列表</h1>
-       <div class="userTopBtnBox"> 
-        <a href="<@spring.url "/good/pos/waitComment/list" />" class="ghostBtn">评论审核</a>
-        <a href="<@spring.url "/good/pos/category/list" />" class="ghostBtn">管理POS机分类</a>
-		<a href="<@spring.url "/good/pos/create" />" class="ghostBtn">创建POS机</a>
+       <div class="userTopBtnBox">
+           <#if Roles.hasRole("POS_COMMENT_VERIFY")><a href="<@spring.url "/good/pos/waitComment/list" />" class="ghostBtn">评论审核</a></#if>
+           <#if Roles.hasRole("POS_CATEGORY")><a href="<@spring.url "/good/pos/category/list" />" class="ghostBtn">管理POS机分类</a></#if>
+           <#if Roles.hasRole("POS_CREATE")><a href="<@spring.url "/good/pos/create" />" class="ghostBtn">创建POS机</a></#if>
 	   </div>
       </div> 
       <div class="seenBox clear"> 

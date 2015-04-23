@@ -22,11 +22,11 @@
 	<td id="operation_${csUpdate.id}">
 		<#if csUpdate.status=1>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onCancel(${csUpdate.id});">取消</a>
-			<a class="a_btn" onClick="onHandle(${csUpdate.id});">标记为处理中</a>
+			<#if Roles.hasRole("CS_UPDATE_INFO_CANCEL")><a class="a_btn" onClick="onCancel(${csUpdate.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_UPDATE_INFO_PROCESSING")><a class="a_btn" onClick="onHandle(${csUpdate.id});">标记为处理中</a></#if>
 		<#elseif csUpdate.status=2>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onFinish(${csUpdate.id});">标记为处理完成</a>
+			<#if Roles.hasRole("CS_UPDATE_INFO_FINISH")><a class="a_btn" onClick="onFinish(${csUpdate.id});">标记为处理完成</a></#if>
        	<#elseif csUpdate.status=4>
 			<a href="<@spring.url "/cs/update/${csUpdate.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csUpdate.status=5>
