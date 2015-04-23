@@ -46,7 +46,7 @@
             </td>
             <td>
             	<strong>￥<#if orderGood.good?? && orderGood.payChannel??>${(((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></strong>
-            	<p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p>
+            	<p class="original">零售价：￥<#if orderGood.good?? && orderGood.payChannel??>${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></p>
             </td>
             <td>${orderGood.quantity!0}</td>
             <input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />

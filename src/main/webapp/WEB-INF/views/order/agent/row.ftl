@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </td>
-            <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+            <td><strong>￥${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.00")}</strong></td>
             <td>${orderGood.quantity!0}</td>
             <input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
 		    <input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />

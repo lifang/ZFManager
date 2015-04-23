@@ -73,7 +73,7 @@
   
   
      <select id="selectGoodsPayChannels" resultMap="goodsPayChannelsResultMap">
-       select gpc.*,p.id as p_id,p.name as p_name
+       select gpc.*,p.id as p_id,p.name as p_name,p.opening_cost as p_opening_cost
        from goods_pay_channels gpc left join pay_channels p on gpc.pay_channel_id=p.id
        where gpc.create_at>"1" and gpc.good_id in 
        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">  

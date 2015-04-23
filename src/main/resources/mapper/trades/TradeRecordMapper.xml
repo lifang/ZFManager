@@ -209,4 +209,9 @@
 	<select id="getTradeRecordsByTradeNum" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select trade_number from trade_records where trade_number = #{orderId}
 	</select>
+	
+	<select id="getDateRange" parameterType="java.lang.Integer" resultType="map">
+		select min(traded_at) as minTradedAt,max(traded_at) as maxTradedAt from trade_records where trade_type_id = #{id}
+	</select>
+	
 </mapper>
