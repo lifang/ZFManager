@@ -66,17 +66,19 @@
 		            </div>
 		        </div>
 		    </td>
-		    <td><a href="#"><strong>￥${(orderGood.good.price/100)?string("0.00")}</strong></a></td>
-		    <td>
-		    	<div class="choose_amount">
-		    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${orderGood.good.price});">-</a>
-		    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
-		    		<input id="floorPurchaseQuantity_${orderGood.good.id}" type="hidden" name="floorPurchaseQuantity" value="${orderGood.good.floorPurchaseQuantity!0}" />
-		    		<input id="" type="hidden" name="price" value="${orderGood.good.price!""}" />
-		    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${orderGood.good.price});">+</a>
-		    	</div>
-		    </td>
-		    <td><a href="#"><strong id="goodPriceStrong_${orderGood.good.id}">￥${(orderGood.good.price*orderGood.quantity/100)?string("0.00")}</strong></a></td>
+		    <#if orderGood.good?? && orderGood.payChannel??>
+			    <td><a href="#"><strong>￥${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</strong></a></td>
+			    <td>
+			    	<div class="choose_amount">
+			    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))});">-</a>
+			    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
+			    		<input id="floorPurchaseQuantity_${orderGood.good.id}" type="hidden" name="floorPurchaseQuantity" value="${orderGood.good.floorPurchaseQuantity!0}" />
+			    		<input id="" type="hidden" name="price" value="${orderGood.good.retailPrice!""}" />
+			    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))});">+</a>
+			    	</div>
+			    </td>
+			    <td><a href="#"><strong id="goodPriceStrong_${orderGood.good.id}">￥${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))*orderGood.quantity/100)?string("0.00")}</strong></a></td>
+			 </#if>
 		  </tr>
 		 </#list>
 	  </#if>
@@ -144,16 +146,18 @@
 	            </div>
 	        </div>
 	    </td>
-	    <td><a href="#"><strong>￥${(good.price/100)?string("0.00")}</strong></a></td>
-	    <td>
-	    	<div class="choose_amount">
-	    		<a href="javascript:void(0);" onclick="reduceQuantity(${good.id},${good.price});">-</a>
-	    		<input id="quantity_${good.id}" name="quantity" type="text" value="${quantity!""}" />
-	    		<input id="floorPurchaseQuantity_${good.id}" type="hidden" name="floorPurchaseQuantity" value="${good.floorPurchaseQuantity!0}" />
-	    		<a href="javascript:void(0);"  onclick="addQuantity(${good.id},${good.price});">+</a>
-	    	</div>
-	    </td>
-	    <td><a href="#"><strong id="goodPriceStrong_${good.id}">￥${(good.price*quantity/100)?string("0.00")}</strong></a></td>
+	    <#if payChannel??>
+		    <td><a href="#"><strong>￥${(((good.retailPrice!0)+(payChannel.openingCost!0))/100)?string("0.0")}</strong></a></td>
+		    <td>
+		    	<div class="choose_amount">
+		    		<a href="javascript:void(0);" onclick="reduceQuantity(${good.id},${((good.retailPrice!0)+(payChannel.openingCost!0))});">-</a>
+		    		<input id="quantity_${good.id}" name="quantity" type="text" value="${quantity!""}" />
+		    		<input id="floorPurchaseQuantity_${good.id}" type="hidden" name="floorPurchaseQuantity" value="${good.floorPurchaseQuantity!0}" />
+		    		<a href="javascript:void(0);"  onclick="addQuantity(${good.id},${((good.retailPrice!0)+(payChannel.openingCost!0))});">+</a>
+		    	</div>
+		    </td>
+		    <td><a href="#"><strong id="goodPriceStrong_${good.id}">￥${(((good.retailPrice!0)+(payChannel.openingCost!0))*quantity/100)?string("0.00")}</strong></a></td>
+		</#if>
 	  </tr>
 	</table>
 </#if>	

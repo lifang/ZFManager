@@ -29,8 +29,8 @@
         </div>
     </td>
     <td><a href="#">
-    		<strong>￥${((good.purchasePrice!0)/100)?string("0.00")}</strong>
-    		<p class="original">零售价：￥${(good.retailPrice/100)?string("0.0")}</p>
+    		<strong>￥${((good.purchasePriceDisplay!0)/100)?string("0.00")}</strong>
+    		<p class="original">零售价：￥${((good.retailPriceDisplay!0)/100)?string("0.0")}</p>
     	</a>
     </td>
     <td><a href="#"><em>${good.floorPurchaseQuantity!""}</em>件</a></td>

@@ -11,9 +11,9 @@
 </div>
 
 <script type="text/javascript">
-
+var dispatchIds;
+var dispatchedNums;
 $(function() {
-		
 		$("#btn_dispatch").unbind("click");
 		$("input[name='cb_row']").unbind("click");
 		$("input[name='cb_all']").unbind("click");
@@ -23,17 +23,25 @@ $(function() {
 		$("#btn_dispatch").bind("click", function() {
 			$('#dispatch_select').empty();
 		
-			var dispatchIds = [];
-			var dispatchedNums = [];
+			dispatchIds = [];
+			dispatchedNums = [];
 			$("input[name='cb_row']").each(function () {
 				var id = $(this).attr("cs_id");
 				var processUserId = $(this).attr("cs_processUserId");
 				var status = $(this).attr("cs_status");
 				var num = $(this).attr("cs_id");
+				
            		if($(this).prop("checked") ) {
-           			if ((processUserId=="" ||processUserId==undefined)&& status==1) {
-           				dispatchIds.push(id);
+           			if (processUserId=="" ||processUserId==undefined||processUserId==0) {
+           				if(status==1){
+           					$("#dispatch_submit").css("display","block");
+           					dispatchIds.push(id);
+           				}else{
+           				$("#dispatch_submit").css("display","none");
+           					dispatchedNums.push(num);
+           				}
            			} else {
+           			$("#dispatch_submit").css("display","none");
            				dispatchedNums.push(num);
            			}
            		}
@@ -74,22 +82,23 @@ $(function() {
 	});
 	
 	function onDispatch() {
-		var ids = [];
-		$("input[name='cb_row']").each(function () {
-				var id = $(this).attr("cs_id");
-				var processUserId = $(this).attr("cs_processUserId");
-           		if($(this).prop("checked") && (processUserId =="" ||processUserId==undefined)) {
-           			ids.push(id);
-           		}
-            });
+		var ids = dispatchIds;
 		var customerId = $("#customer_select  option:selected").attr("customer_id");
 		var customerName = $("#customer_select  option:selected").text();
 		if(ids.length>0){
 			$.post('<@spring.url "/task/outStore/distribute" />',
 	            {"ids": ids.join(','),
 	            "customerId":customerId,
-	            "customerName":customerName}, function (data) {
-	            	pageChange(${page});
+	            "customerName":customerName},
+	             function (data) {
+		            if(data.code=="-1"){
+	            			alert("操作出错，错误信息为："+data.message);
+		            	}else if(data.code=="1"){
+		            		alert("出库单分派成功");
+		            		window.location.reload();
+		            		$("input[name='cb_row']").removeAttr("checked"); 
+		            	}
+	            	
 	            });
 	    }else{
 	    	alert("未选择出库单号或选择的出库单号都已经被分派");

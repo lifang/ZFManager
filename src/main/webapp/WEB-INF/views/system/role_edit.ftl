@@ -54,7 +54,7 @@
                 },
                 [
                 <#list menuList as menu>
-                    { id:${menu.id}, pId:${menu.parentId}, name:"${menu.menuName}", open:true, checked:<#if keys?seq_contains(menu.menuKey)>true<#else>false</#if>}<#if menu_has_next>,</#if>
+                    { id:${menu.id}, pId:${menu.parentId}, name:"${menu.menuName}", open:false, checked:<#if keys?seq_contains(menu.menuKey)>true<#else>false</#if>}<#if menu_has_next>,</#if>
                 </#list>
                 ]);
 

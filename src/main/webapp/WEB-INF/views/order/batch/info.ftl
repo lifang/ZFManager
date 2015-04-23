@@ -4,7 +4,7 @@
 	<div class="breadcrumb">
         <ul>
             <li><a href="#">订单</a></li>
-            <li><a href="#">代理商批购</a></li>
+            <li><a href="<@spring.url "/order/batch/list"/>">代理商批购</a></li>
             <li><a href="#">订单详情</a></li>
         </ul>
     </div>
@@ -69,7 +69,12 @@
 	                            </div>
 	                        </div>
 	                    </td>
-	                    <td><strong>￥<#if orderGood.good??>${(orderGood.good.purchasePrice!0/100)?string("0.0")}</#if></strong><p class="original">零售价：￥<#if orderGood.good??>${(orderGood.good.retailPrice/100)?string("0.0")}</#if></p></td>
+	                    <td>
+	                    	<#if orderGood.payChannel??>
+		                    	<strong>￥<#if orderGood.good??>${(((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></strong>
+		                    	<p class="original">零售价：￥<#if orderGood.good??>${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.0")}</#if></p>
+	                    	</#if>
+	                    </td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <#if (order.orderGoods?size>1) && orderGood_index==0>
 	                    	<td rowspan="${order.orderGoods?size}" class="left_border"><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>

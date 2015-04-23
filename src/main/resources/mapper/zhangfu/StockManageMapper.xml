@@ -7,9 +7,9 @@
 	</update>
 
 	<update id="toNormalStock">
-		update terminals a set a.stauts=3,a.updated_at=now(),a.is_return_cs_depots=0,
-		a.agent_id="",a.customer_id="",a.order_id="",a.is_rate_wrong="",a.base_rate="",
-		a.billing_cycles_id="",a.opened_at="",a.top_charge=""
+		update terminals a set a.status=3,a.updated_at=now(),a.is_return_cs_depots=0,
+		a.agent_id=-1,a.customer_id=-1,a.order_id=-1,a.is_rate_wrong=-1,a.base_rate=0,
+		a.billing_cycles_id=-1,a.opened_at=null,a.top_charge=0
 		  where a.serial_num=#{serialNum} and a.is_return_cs_depots=1 
 	</update>
 	

@@ -20,7 +20,7 @@
                         <div class="text"><input name="${SysConfig.HIRE_DEFAULT_PROFIT}" value="${(sysConfigsMap[SysConfig.HIRE_DEFAULT_PROFIT].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰</div>
                     </li>
                     <li class="b pll"><span class="labelSpan">批购订单定金支付比例：</span>
-                        <div class="text"><input name="${SysConfig.PURCHASE_ORDER_RATIO}" value="${(sysConfigsMap[SysConfig.PURCHASE_ORDER_RATIO].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > ‰</div>
+                        <div class="text"><input name="${SysConfig.PURCHASE_ORDER_RATIO}" value="${(sysConfigsMap[SysConfig.PURCHASE_ORDER_RATIO].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > %</div>
                     </li>
                     <li class="b pll"><span class="labelSpan">允许退货时间：</span>
                         <div class="text"><input name="${SysConfig.RETURN_TIME}" value="${(sysConfigsMap[SysConfig.RETURN_TIME].paramValue)!""}" type="text" class="input_l" onkeyup="value=this.value.replace(/\D+/g,'')" > 天内</div>

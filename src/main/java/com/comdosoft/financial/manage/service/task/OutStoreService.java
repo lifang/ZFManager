@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.task.OutStore;
 import com.comdosoft.financial.manage.mapper.zhangfu.OutStoreMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.ReocrdOperateMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -27,6 +31,8 @@ public class OutStoreService {
 	
 	@Autowired
 	private OutStoreMapper outStoreMapper;
+	@Autowired
+	private ReocrdOperateMapper mapper;
 	
 	public Page<OutStore> findPages(int page, Byte status, String keys){
 		if (keys != null) {
@@ -173,7 +179,7 @@ public class OutStoreService {
 	
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId){
+	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType){
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -188,7 +194,9 @@ public class OutStoreService {
 			resultInfo.append("保存备注出错");
 		}
 		//执行保存操作记录
-		
+		String userName=outStoreMapper.getNameByLoginId(loginId);
+		String content=userName+"执行了任务的出库页面查看详情【添加备注】的操作，操作的记录Id是"+id;
+		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
 		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
@@ -197,110 +205,145 @@ public class OutStoreService {
 	
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> save(int id,String wlCompany,String wlNum,String terminalNum,int loginId){
+	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType){
+		StringBuffer portsAll=new StringBuffer("");
+		int allQuantity=0;
+		
+		Map<Integer, Integer> goodQuantityMap=new HashMap<Integer, Integer>();
+		
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
-		resultInfo.append("保存物流和终端号成功");
-		
-		int orderId=getOrderIdByOutStorageId(id);
-		
+		resultInfo.append("保存成功");
+		int orderId=getOrderIdByOutStorageId(outStorageId);
 		Map<String, Object> tempOrderMap=outStoreMapper.getCutomerTypeByOrderId(orderId);
 		int types=Integer.parseInt(tempOrderMap.get("types").toString());
 		String customerId=tempOrderMap.get("customerId").toString();
 		
-		if(types==1 ||types==2){
-			//用户订购
-			int temp1=outStoreMapper.updateTerminals(customerId, "", orderId, terminalNum);
-			if(temp1<0){
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("更新terminals表出错");
-			}else{
-				resultCode=Response.SUCCESS_CODE;
-			}
-		}else if(types==3){
-			//代理商代购
-			int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-			int temp1=outStoreMapper.updateTerminals("", agentId+"", orderId, terminalNum);
-			if(temp1<0){
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("更新terminals表出错");
-			}else{
-				resultCode=Response.SUCCESS_CODE;
-			}
-		}else if(types==4 || types==5){
-			//代理商代租赁
-			int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-			int temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, terminalNum);
-			if(temp1<0){
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("更新terminals表出错");
-			}else{
-				resultCode=Response.SUCCESS_CODE;
-			}
-		}
-		if(resultCode==Response.ERROR_CODE){
-			
-		}else{
-			if(null!=outStoreMapper.getWLByOrderId(orderId) && outStoreMapper.getWLByOrderId(orderId).size()>0){
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("已经存在该订单号的物流记录");
-			}else{
-				//根据orderId,对物流公司，物流单号进行保存
-				int temp1=outStoreMapper.saveWLInfo(wlCompany, wlNum, orderId);
-				if(temp1<1){
+		
+		//循环对商品及其终端号进行保存
+		if(terminalNums.length()>0){
+			String[] temp=terminalNums.split("//|");
+			for(int i=0;i<temp.length;i++){
+				String[] tempChild=temp[i].toString().split("//_");
+				
+				int goodId=Integer.parseInt(tempChild[0].toString());
+				String[] ports=tempChild[1].toString().split("//,");
+				allQuantity=allQuantity+ports.length;
+				
+				goodQuantityMap.put(goodId, ports.length);
+				
+				int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, tempChild[1],loginId,ports.length,outStorageId);
+				if(temp2<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("保存物流公司名称，物流单号出错");
-				}else{
-					//循环对商品及其终端号进行保存
-					if(terminalNum.length()>0){
-						String[] temp=terminalNum.split("//|");
-						for(int i=0;i<temp.length;i++){
-							String[] tempChild=temp[i].toString().split("//_");
-							int goodId=Integer.parseInt(tempChild[0].toString());
-							String[] ports=tempChild[1].toString().split("//,");
-							for(int j=0;j<ports.length;j++){
-								String port=ports[j];
-								//执行保存
-								int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, port,loginId);
-								if(temp2<1){
-									resultCode=Response.ERROR_CODE;
-									resultInfo.setLength(0);
-									resultInfo.append("保存商品的终端号出错");
-									break;
-								}
-							}
-									
+					resultInfo.append("保存商品的终端号出错");
+				}
+				
+				//计算goodid对应数量是否正确
+				if(resultCode==Response.SUCCESS_CODE){
+					if(types!=3){
+						int quantity=outStoreMapper.getQuantityByOrderGood(goodId,orderId);
+						if(quantity!=ports.length){
+							resultCode=Response.ERROR_CODE;
+							resultInfo.setLength(0);
+							resultInfo.append("输入终端数量与订单需求数量不一致");
 						}
-					}else{
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("商品的终端号为空出错");
+					}
+				}
+				if(resultCode==Response.SUCCESS_CODE){
+					for(int j=0;j<ports.length;j++){
+						String port=ports[j];
+						if(portsAll.length()<1){
+							portsAll.append(port);
+						}else{
+							portsAll.append(","+port);
+						}
+						int temp1=0;
+						if(resultCode==Response.SUCCESS_CODE){
+							if(types==1 || types==2){
+								temp1=outStoreMapper.updateTerminals(customerId, "", orderId, port);
+							}else if(types==3){
+								int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+								temp1=outStoreMapper.updateTerminals("", agentId+"", orderId, port);
+							}else{
+								int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+								temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port);
+							}
+							if(temp1<1){
+								//更新失败
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("更新terminals表信息出错");
+								break;
+							}
+						}
+					}
+					
+				}
+			}
+		}
+		
+		//更新cs_out_storage状太为处理完成，终端list,以及数量
+		if(resultCode==Response.SUCCESS_CODE){
+		     //更新cs_out_storage状态
+		     int temp1=outStoreMapper.updateCsOutStorages(3, allQuantity, portsAll.toString(), outStorageId);
+		     if(temp1<1){
+		      resultCode=Response.ERROR_CODE;
+		      resultInfo.setLength(0);
+		      resultInfo.append("更新cs_out_storage表信息出错");
+		     }
+		}
+		//更新orders表
+		if(resultCode==Response.SUCCESS_CODE){
+			int temp1=0;
+			if(types!=3){
+				//非批购
+				temp1=outStoreMapper.updateOrderStatus(3, orderId);
+			}else{
+				List<Map<String, Object>> temp3=outStoreMapper.getOrderGoodQuantity(orderId);
+				
+				for(int i=0;i<temp3.size();i++){
+					int goodId=Integer.parseInt(temp3.get(i).get("goodId").toString());
+					int quantity1=Integer.parseInt(temp3.get(i).get("quantity").toString());
+					Map<String, Object> temp2=outStoreMapper.getInOutStorageInfo(orderId,goodId);
+					int quantity2=Integer.parseInt(temp2.get("quantity").toString());
+					
+					int quantity3=goodQuantityMap.get(goodId);
+					
+					if((quantity1-quantity2)==quantity3){
+						temp1=outStoreMapper.updateOrderStatus(3, orderId);
+					}else if((quantity1-quantity2)<quantity3){
+						//出错
+						  resultCode=Response.ERROR_CODE;
+					      resultInfo.setLength(0);
+					      resultInfo.append("出库数量多于应发货数量");
 					}
 				}
 			}
-			//修改出库单状态
-			int temp4=outStoreMapper.changeStatus(3,loginId,id);
-			if(temp4<1){
+		}
+		
+		if(resultCode==Response.SUCCESS_CODE){
+			//根据orderId,对物流公司，物流单号进行保存
+			int temp1=outStoreMapper.saveWLInfo(wlCompany, wlNum, orderId,outStorageId);
+			if(temp1<1){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("更改出库订单状态出错");
+				resultInfo.append("保存物流公司名称，物流单号出错");
 			}
 		}
 		//执行保存操作记录
+		String userName=outStoreMapper.getNameByLoginId(loginId);
+		String content=userName+"执行了任务的出库页面【添加出库记录】的操作，操作的记录Id是"+outStorageId;
+		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,outStorageId);
 		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
 		return result;
 	};
 	
-	public Map<String, Object> checkCancel(int status,int loginId,int id){
+	public Map<String, Object> checkCancel(int status,int loginId,int id,int userType){
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -314,13 +357,18 @@ public class OutStoreService {
 			resultInfo.setLength(0);
 			resultInfo.append("更改出库订单状态出错");
 		}
+		//执行保存操作记录
+		String userName=outStoreMapper.getNameByLoginId(loginId);
+		String content=userName+"执行了任务的出库页面【取消】的操作，操作的记录Id是"+id;
+		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
+		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
 		return result;
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveProcessUser(String ids,int customerId,String customerName,int loginId){
+	public Map<String, Object> saveProcessUser(String ids,int customerId,String customerName,int loginId,int userType){
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -346,6 +394,12 @@ public class OutStoreService {
 		}
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
+		
+		//执行保存操作记录
+		String userName=outStoreMapper.getNameByLoginId(loginId);
+		String content=userName+"执行了任务的出库页面【分派】的操作，操作的记录Id是"+ids;
+		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,0);
+		
 		return result;
 	}
 }

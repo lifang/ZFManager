@@ -73,7 +73,7 @@
 			    		<a href="javascript:void(0);" onclick="reduceQuantityEx(${orderGood.good.id},${((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))});">-</a>
 			    		<input id="quantity_${orderGood.good.id}" name="quantity" type="text" value="${orderGood.quantity!""}" />
 			    		<input id="floorPurchaseQuantity_${orderGood.good.id}" type="hidden" name="floorPurchaseQuantity" value="${orderGood.good.floorPurchaseQuantity!0}" />
-			    		<input id="" type="hidden" name="price" value="${orderGood.good.price!""}" />
+			    		<input id="" type="hidden" name="price" value="${orderGood.good.purchasePrice!""}" />
 			    		<a href="javascript:void(0);"  onclick="addQuantityEx(${orderGood.good.id},${((orderGood.good.purchasePrice!0)+(orderGood.payChannel.openingCost!0))});">+</a>
 			    	</div>
 			    </td>

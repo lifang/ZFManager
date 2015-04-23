@@ -10,6 +10,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.CustomerAddressMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -24,7 +26,8 @@ public class FactoryService {
 
     @Value("${page.factory.size}")
     private Integer pageSize;
-
+    @Value("${filePath}")
+    private String filePath ;
 	@Autowired
 	private FactoryMapper factoryMapper;
     @Autowired

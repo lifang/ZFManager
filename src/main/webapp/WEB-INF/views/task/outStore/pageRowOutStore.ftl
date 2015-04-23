@@ -1,5 +1,5 @@
      <tr id="row_${outStore.id}"> 
-      <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}"></td> 
+      <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}" cs_status="${outStore.status}"></td> 
       <td>${outStore.id}</td>
       <td>${outStore.createdAt}</td> 
       <td>${outStore.orderNumber}</td> 
@@ -26,10 +26,10 @@
    function changeStatus(val){
    		$.post('<@spring.url "/task/outStore/checkCancel" />',
                 {   "id": val},
-                function (ret) {
-                    if(ret.code=="-1"){
-            			alert("操作出错，错误信息为："+ret.resultInfo);
-	            	}else if(ret.code=="1"){
+                function (data) {
+                    if(data.code=="-1"){
+            			alert("操作出错，错误信息为："+data.resultInfo);
+	            	}else if(data.code=="1"){
 	            		window.location.reload()
 	            	}
                 });

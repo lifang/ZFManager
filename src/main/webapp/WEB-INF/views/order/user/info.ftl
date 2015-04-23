@@ -3,7 +3,8 @@
 <div class="right" >
 	<div class="breadcrumb">
         <ul>
-            <li><a href="#">订单</a></li>
+        	<li><a href="#">订单</a></li>
+            <li><a href="<@spring.url "/order/user/list"/>">用户订单</a></li>
             <li><a href="#">订单详情</a></li>
         </ul>
     </div>
@@ -63,7 +64,7 @@
 	                            </div>
 	                        </div>
 	                    </td>
-	                    <td><strong>￥${(orderGood.price/100)?string("0.00")}</strong></td>
+	                    <td><strong>￥<#if orderGood.payChannel??>${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 	                  </tr>

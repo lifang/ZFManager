@@ -93,10 +93,10 @@ public class OutStoreController {
 	 */
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNum,HttpServletRequest request){
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.save(id,wlCompany,wlNum,terminalNum,customer.getId());
+		Map<String, Object> map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -113,7 +113,7 @@ public class OutStoreController {
 	public Response checkCancel(Integer id,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.checkCancel(2,customer.getId(),id);
+		Map<String, Object> map= outStoreService.checkCancel(2,customer.getId(),id,customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -131,7 +131,7 @@ public class OutStoreController {
 	public Response saveRemark(int id,String remarkContent,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.saveRemark(id,remarkContent,customer.getId());
+		Map<String, Object> map= outStoreService.saveRemark(id,remarkContent,customer.getId(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -153,7 +153,7 @@ public class OutStoreController {
 	public Response distribute(String ids,String customerId,String customerName,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId());
+		Map<String, Object> map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;

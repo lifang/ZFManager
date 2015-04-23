@@ -34,7 +34,7 @@
 			  	  <tr id="row_${good.id}">
 			  	  	<td>
                         <div class="td_proBox clear">
-                            <a href="#" class="cn_img"><img src="${good.urlPath}"  style="width:130px;height:130px" /></a>
+                            <a href="#" class="cn_img"><img src="<#if (good.urlPath)??>${good.urlPath}</#if>"  style="width:130px;height:130px" /></a>
                             <div class="td_proBox_info">
                                 <h1><a href="#">${good.title}</a></h1>
                                 <h3>热销5000件</h3>
@@ -97,7 +97,7 @@
 	        {   "id": outStorageIdStr,
 	        "wlCompany":wlCompanyStr,
 	        "wlNum":wlNumStr,
-	        "terminalNum":temp},
+	        "terminalNums":temp},
 	        function (ret) {
 	        	if(ret.code=='-1'){
             		alert("操作出错，错误信息为："+ret.message);

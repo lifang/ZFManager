@@ -252,4 +252,8 @@ public class TradeService {
     	}
     	return tradeRecord;
     }
+    
+    public Map<Date,Date> getTradedDateRange(Integer id){
+    	return tradeRecordMapper.getDateRange(id);
+    }
 }

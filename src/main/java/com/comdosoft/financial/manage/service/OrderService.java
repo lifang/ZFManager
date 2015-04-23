@@ -40,7 +40,8 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 public class OrderService {
 	@Value("${page.size}")
 	private Integer pageSize;
-
+	@Value("${filePath}")
+    private String filePath ;
 	@Autowired
 	private OrderMapper orderMapper;
 
@@ -155,6 +156,7 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
+						    gp.setUrlPath(filePath+gp.getUrlPath());
 							og.getGood().getPictures().add(gp);
 						}
 					}
@@ -249,8 +251,8 @@ public class OrderService {
 		
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
-		int totalPrice = good.getPrice()* quantity;
 		PayChannel payChannel = payChannelMapper.selectByPrimaryKey(payChannelId);
+		int totalPrice = (good.getRetailPrice()+payChannel.getOpeningCost())* quantity;
 		if(1==type || 2==type){
 			order.setCustomerId(customerId);
 			order.setBelongsUserId(customer.getId());
@@ -294,7 +296,7 @@ public class OrderService {
 		orderGood.setCreatedAt(createdAt);
 		orderGood.setUpdatedAt(createdAt);
 		orderGood.setQuantity(quantity);
-		orderGood.setPrice(good.getPrice());
+		orderGood.setPrice(totalPrice);
 		orderGood.setActualPrice(totalPrice);
 		orderGood.setPayChannelId(payChannelId);
 		orderGoodMapper.insert(orderGood);
@@ -347,7 +349,12 @@ public class OrderService {
 							}
 						}
 					}else{
-						totalPrice += good.getPrice() * map.get("quantity");
+						for (OrderGood orderGoodOld : orderGoods) {
+							if (orderGoodOld.getGoodId().equals(good.getId())) {
+								totalPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								break;
+							}
+						}
 					}
 					if(null!=good.getFloorPurchaseQuantity()&&map.get("quantity")<good.getFloorPurchaseQuantity()){
 						throw new Exception("所选批购数量小于最小批购数!");
@@ -399,21 +406,26 @@ public class OrderService {
 			for (Map<String, Integer> map : goodQuantityList) {
 				if (map.get("goodId").equals(good.getId())) {
 					OrderGood orderGood = new OrderGood();
+					Integer orderGoodPrice=0;
 					orderGood.setOrderId(newOrderId);
 					orderGood.setGoodId(good.getId());
 					orderGood.setCreatedAt(createdAt);
 					orderGood.setUpdatedAt(createdAt);
 					orderGood.setQuantity(map.get("quantity"));
-					orderGood.setPrice(good.getPrice());
-					orderGood.setActualPrice(good.getPrice()
-							* map.get("quantity"));
 					for (OrderGood orderGoodOld : orderGoods) {
 						if (orderGoodOld.getGoodId().equals(good.getId())) {
 							orderGood.setPayChannelId(orderGoodOld
 									.getPayChannelId());
+							if(type==5){
+								orderGoodPrice+=(good.getPurchasePrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+							}else{
+								orderGoodPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+							}
 							break;
 						}
 					}
+					orderGood.setPrice(orderGoodPrice);
+					orderGood.setActualPrice(orderGoodPrice);
 					int insert = orderGoodMapper.insert(orderGood);
 					if (insert != 1) {
 						throw new Exception("保存订单商品失败");
@@ -482,6 +494,7 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
+						    gp.setUrlPath(filePath+gp.getUrlPath());
 							og.getGood().getPictures().add(gp);
 						}
 					}
