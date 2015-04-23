@@ -221,6 +221,7 @@
                     <#if (channel.openingRequirements)??>
                         <#list channel.openingRequirements as openingRequirement>
                             <div class="itl_area" value="${openingRequirement.id}">
+                            	<div class="item_l2"><input name="" id="hasVideoVerify" type="checkbox" class="input_l" value="${((openingRequirement.hasVideoVerify)!false)?string('true', 'false')}"}><label>是否需要视频认证</label></div>
                                 <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelTitle)!''}"></div>
                                 <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelDescription)!''}"></div>
                                 <div class="item_l2"><label>对公开通所需：</label><select name="">
@@ -390,6 +391,7 @@
 
 <div id="hideRequirements" style="display: none;">
     <div class="itl_area">
+    	<div class="item_l2"><input name="" id="hasVideoVerify" type="checkbox" class="input_l" value=""}><label>是否需要视频认证</label></div>
         <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l"></div>
         <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l"></div>
         <div class="item_l2"><label>对公开通所需：</label><select name="">
@@ -461,8 +463,25 @@
     <#else>
         $("input[name='c_preliminaryVerify'][value='true']").attr("checked", true);
     </#if>
+    $("#hasVideoVerify").each(function(){
+    	var val = $(this).attr("value");
+	    if(val=='true'){
+	    	$(this).prop("checked",true);
+	    }else{
+	    	$(this).prop("checked",false);
+	    }
+    });
+    $("#hasVideoVerify").on('click',function(){
+    	if($(this).prop("checked")){
+	    	$(this).prop("value","true");
+		}
+		else{
+		    $(this).prop("value","false");
+		}
+    });
+    
 
-
+		
         $('#provinceSelect').change(function(){
             var provinceId = $(this).children('option:selected').val();
             if(isNotNull(provinceId)){
@@ -714,7 +733,7 @@
         }
 
         var openingCost=$("input[name='c_openingCost']").val();
-        if(isNotTwoDecimal(openingCost, "开通费用必须为两位小数")){return false;}
+        if(maxTwoDecimal(openingCost, "开通费用最多两位小数")){return false;}
         var preliminaryVerify=$("input[name='c_preliminaryVerify']:checked").val();
         var openingRequirement=$("textarea[name='c_openingRequirement']").val();
         var openingDatum=$("textarea[name='c_openingDatum']").val();
@@ -723,8 +742,9 @@
         var openingRequirements = new Array();
         $(".openingRequirements").children(".itl_area").each(function(i){
             var id = $(this).attr("value");
-            var title = $(this).find(".item_l2 input").eq(0).val();
-            var description = $(this).find(".item_l2 input").eq(1).val();
+            var hasVideoVerify = $(this).find(".item_l2 input").eq(0).prop("value");
+            var title = $(this).find(".item_l2 input").eq(1).val();
+            var description = $(this).find(".item_l2 input").eq(2).val();
             var publicRequirements = new Array();
             $(this).find(".item_l2 .ia_area").eq(0).find("a").each(function(){
                 publicRequirements.push($(this).attr("value"));
@@ -734,6 +754,7 @@
                 privateRequirements.push($(this).attr("value"));
             });
             openingRequirements.push({id: id,
+            	hasVideoVerify:hasVideoVerify,
                 title: title,
                 description: description,
                 publicRequirements: publicRequirements,
@@ -807,6 +828,14 @@
     function isNotTwoDecimal(value, error){
         var re=/^\d+\.\d{2}$/;//2位小数
         if(value.length>0 && !(re.test(value))){
+            showErrorTip(error);
+            return true;
+        }
+        return false;
+    }
+    function maxTwoDecimal(value, error){
+        var reg = /^\d+(\.\d{1,2})?$/;
+        if(value.length>0 && !(reg.test(value))){
             showErrorTip(error);
             return true;
         }
