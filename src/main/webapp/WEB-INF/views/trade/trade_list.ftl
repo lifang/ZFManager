@@ -1,7 +1,7 @@
 <div class="user_title"><h1>${type.tradeValue}交易流水</h1>
     <div class="userTopBtnBox">
-        <a href="<@spring.url "/trade/${type.id}/statistics"/>" class="ghostBtn">统计</a>
-        <a href="javascript:void(0);" class="ghostBtn file_a">上传交易</a>
+      <#if Roles.hasRole("TRADE_STATISTICS")><a href="<@spring.url "/trade/${type.id}/statistics"/>" class="ghostBtn">统计</a></#if>
+      <#if Roles.hasRole("TRADE_UPLOAD_RECORD")><a href="javascript:void(0);" class="ghostBtn file_a">上传交易</a></#if>
     </div>
 </div>
 

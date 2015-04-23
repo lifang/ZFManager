@@ -22,11 +22,11 @@
 	<td id="operation_${csLease.id}">
 		<#if csLease.status=1>
 			<a href="<@spring.url "/cs/lease/${csLease.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onCancel(${csLease.id});">取消</a>
-			<a class="a_btn" onClick="onHandle(${csLease.id});">标记为退还中</a>
+			<#if Roles.hasRole("CS_LEASE_RETURN_CANCEL")><a class="a_btn" onClick="onCancel(${csLease.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_LEASE_RETURN_MARK_RETURNING")><a class="a_btn" onClick="onHandle(${csLease.id});">标记为退还中</a></#if>
 		<#elseif csLease.status=2>
 			<a href="<@spring.url "/cs/lease/${csLease.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onFinish(${csLease.id});">标记为退还完成</a>
+			<#if Roles.hasRole("CS_LEASE_RETURN_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csLease.id});">标记为退还完成</a></#if>
        	<#elseif csLease.status=4>
 			<a href="<@spring.url "/cs/lease/${csLease.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csLease.status=5>

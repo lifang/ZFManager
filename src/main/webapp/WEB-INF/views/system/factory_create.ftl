@@ -35,7 +35,7 @@
                 <li><span class="labelSpan">机构LOGO：</span>
                     <form id="fileForm" action="<@spring.url "/system/factory/uploadImg" />" method="post" enctype="multipart/form-data">
                     <div class="text">
-                        <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover"  id="img_path">
+                        <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover"  id="img_path" value=""/>
                         <a href="javascript:void(0);" class="informImg_a">
                             <span>上传</span><input name="file"  onChange="fileChange()"  multiple="" type="file" value="${(factory.logoFilePath)!""}">
                         </a>
@@ -176,7 +176,7 @@
             success: function(data){
                 if(data.code==1){
                		$("#img_path").attr("value", data.result[0]+data.result[1]);
-                    var $file = $("#fileForm").find(":file");
+                    var $file = $("#fileForm").find("input[type='file']");
                     if($file.length > 0){
                         $file.attr("value", data.result[1]);
                     }

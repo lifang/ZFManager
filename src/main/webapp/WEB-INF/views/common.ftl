@@ -119,7 +119,7 @@
     <#if Roles.hasRole("STOCK_MANAGE")||Roles.hasRole("CERTIFIED_OPEN")||Roles.hasRole("CALCULUS")||Roles.hasRole("OUT_STORE")||Roles.hasRole("REFUND")>
         <li class="second"><a href="javascript:void(0);">任务<i class="off"></i></a>
             <ol>
-            <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>" class="hover">售后库存管理</a></li></#if>
+            <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
             <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
             <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
             <#if Roles.hasRole("OUT_STORE")> <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li></#if>
@@ -132,11 +132,11 @@
             <ol>
                 <#if Roles.hasRole("ZF_ACCOUNT")><li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li></#if>
                 <#if Roles.hasRole("SYS_MESSAGE")><li><a href="<@spring.url "/system/message/list"/>"<#if urlCheck(request,"/system/message")> class="hover"</#if>>系统消息</a></li></#if>
-                <#if Roles.hasRole("SYS_CONFIG")> <li><a href="<@spring.url "/system/setting"/>"<#if urlCheck(request,"/system/setting")> class="hover"</#if>>系统参数</a></li></#if>
-                <#if Roles.hasRole("SYS_DICTIONARY")> <li><a href="<@spring.url "/system/dictionary"/>"<#if urlCheck(request,"/system/dictionary")> class="hover"</#if>>数据字典</a></li></#if>
-                <#if Roles.hasRole("FACTORY")>  <li><a href="<@spring.url "/system/factory/list"/>"<#if urlCheck(request,"/system/factory")> class="hover"</#if>>第三方机构</a></li></#if>
-                <#if Roles.hasRole("AGENT")> <li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li></#if>
-                <#if Roles.hasRole("WEB_INFO")> <li><a href="<@spring.url "/system/content/webmessage"/>"<#if urlCheck(request,"/system/content")> class="hover"</#if>>网站内容</a></li></#if>
+                <#if Roles.hasRole("SYS_CONFIG")><li><a href="<@spring.url "/system/setting"/>"<#if urlCheck(request,"/system/setting")> class="hover"</#if>>系统参数</a></li></#if>
+                <#if Roles.hasRole("SYS_DICTIONARY")><li><a href="<@spring.url "/system/dictionary"/>"<#if urlCheck(request,"/system/dictionary")> class="hover"</#if>>数据字典</a></li></#if>
+                <#if Roles.hasRole("FACTORY")><li><a href="<@spring.url "/system/factory/list"/>"<#if urlCheck(request,"/system/factory")> class="hover"</#if>>第三方机构</a></li></#if>
+                <#if Roles.hasRole("AGENT")><li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li></#if>
+                <#if Roles.hasRole("WEB_INFO")><li><a href="<@spring.url "/system/content/webmessage"/>"<#if urlCheck(request,"/system/content")> class="hover"</#if>>网站内容</a></li></#if>
                 <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>账户设置</a></li>
             </ol>
         </li>

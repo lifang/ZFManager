@@ -12,8 +12,8 @@
       <td>
        <#if outStore.status=1>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>
-       		<a href="#" class="a_btn" onclick="changeStatus(${outStore.id})">取消</a><br/>
-       		<a href="<@spring.url "/task/outStore/${outStore.id}/add" />" class="a_btn">添加出库记录</a>
+           <#if Roles.hasRole("OUT_STORE_ASSIGN")><a href="#" class="a_btn" onclick="changeStatus(${outStore.id})">取消</a><br/></#if>
+           <#if Roles.hasRole("OUT_STORE_ADD_OUT_RECORD")><a href="<@spring.url "/task/outStore/${outStore.id}/add" />" class="a_btn">添加出库记录</a></#if>
        	<#elseif outStore.status=2>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>
        	<#elseif outStore.status=3>

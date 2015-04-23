@@ -258,7 +258,7 @@ public class PosController {
 //		return Response.getSuccess(urlPath);
 	  // HttpFile hf=new HttpFile();
 	    String result=HttpFile.uploadPos(file,sysPosPath);
-	    if(result.split("/").length>0){
+	    if(result.split("/").length>1){
 	        return Response.getSuccess(filePath+result);
 	    }else{
 	        return Response.getError(result);

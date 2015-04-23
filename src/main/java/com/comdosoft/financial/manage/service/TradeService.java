@@ -124,8 +124,8 @@ public class TradeService {
         return tradeRecordMapper.selectPageProfit(start,end,type,status);
     }
 
-    public List<Map<String,Object>> profitStatistics(){
-    	List<Map<String,Object>> statistics = profitMapper.selectStatistics();
+    public List<Map<String,Object>> profitStatistics(Integer type){
+    	List<Map<String,Object>> statistics = profitMapper.selectStatistics(type);
     	statistics.forEach(map -> {
     		Integer id = (Integer)map.get("agent_id");
     		Agent agent = agentMapper.selectByPrimaryKey(id);
