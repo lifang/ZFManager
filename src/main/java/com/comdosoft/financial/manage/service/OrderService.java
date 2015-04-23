@@ -156,7 +156,9 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
-						    gp.setUrlPath(filePath+gp.getUrlPath());
+						    if(gp.getUrlPath().split(filePath).length<2){
+						        gp.setUrlPath(filePath+gp.getUrlPath());
+						    }
 							og.getGood().getPictures().add(gp);
 						}
 					}
@@ -165,6 +167,8 @@ public class OrderService {
 		}
 		return orders;
 	}
+	
+
 	
 	public Order findOrderInfo(Integer id) {
 		Order order = orderMapper.findOrderInfo(id);
@@ -180,6 +184,7 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
+						    gp.setUrlPath(filePath+gp.getUrlPath());
 							og.getGood().getPictures().add(gp);
 						}
 					}

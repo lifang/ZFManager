@@ -6,13 +6,13 @@
 	</ul>
 </div>
 
-
-
 <div class="content clear">
 	<div class="user_title">
 		<h1>开通申请列表</h1>
 		<div class="userTopBtnBox">
+	<#if Roles.hasRole("CERTIFIED_OPEN_ASSIGN")>
 			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+	</#if>
 		</div>
 	</div>
 	<div class="seenBox clear">
