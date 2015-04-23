@@ -8,6 +8,11 @@ import java.util.Map;
 
 
 
+
+
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -140,6 +145,9 @@ public class OutStoreService {
 		if(null !=getOrderIdByOutStorageId(id)){
 			Map<String,Object> map=outStoreMapper.getInfoInit(getOrderIdByOutStorageId(id));
 			int invoiceType=Integer.parseInt(map.get("invoiceType").toString());
+			int actualPrice=Integer.parseInt(map.get("actualPrice").toString())/100;
+			map.put("actualPrice", actualPrice);
+			
 			if(invoiceType==0){
 				map.put("invoiceName", "公司");
 			}else{
@@ -179,7 +187,7 @@ public class OutStoreService {
 	
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType){
+	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -204,14 +212,16 @@ public class OutStoreService {
 	};
 	
 	
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType){
+		Map<String, Object> result=new HashMap<String, Object>();
 		StringBuffer portsAll=new StringBuffer("");
 		int allQuantity=0;
 		
 		Map<Integer, Integer> goodQuantityMap=new HashMap<Integer, Integer>();
 		
-		Map<String, Object> result=new HashMap<String, Object>();
+		
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
@@ -219,17 +229,23 @@ public class OutStoreService {
 		int orderId=getOrderIdByOutStorageId(outStorageId);
 		Map<String, Object> tempOrderMap=outStoreMapper.getCutomerTypeByOrderId(orderId);
 		int types=Integer.parseInt(tempOrderMap.get("types").toString());
-		String customerId=tempOrderMap.get("customerId").toString();
-		
-		
+		String customerId="";
+		if(null!=tempOrderMap.get("customerId")){
+			customerId=tempOrderMap.get("customerId").toString();
+		}else{
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("订单管理的customerId为空");
+		}
+		if(resultCode==Response.SUCCESS_CODE){
 		//循环对商品及其终端号进行保存
 		if(terminalNums.length()>0){
-			String[] temp=terminalNums.split("//|");
+			String[] temp=terminalNums.split("\\|");
 			for(int i=0;i<temp.length;i++){
-				String[] tempChild=temp[i].toString().split("//_");
+				String[] tempChild=temp[i].toString().split("\\_");
 				
 				int goodId=Integer.parseInt(tempChild[0].toString());
-				String[] ports=tempChild[1].toString().split("//,");
+				String[] ports=tempChild[1].toString().split("\\,");
 				allQuantity=allQuantity+ports.length;
 				
 				goodQuantityMap.put(goodId, ports.length);
@@ -262,21 +278,28 @@ public class OutStoreService {
 						}
 						int temp1=0;
 						if(resultCode==Response.SUCCESS_CODE){
-							if(types==1 || types==2){
-								temp1=outStoreMapper.updateTerminals(customerId, "", orderId, port);
-							}else if(types==3){
-								int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-								temp1=outStoreMapper.updateTerminals("", agentId+"", orderId, port);
-							}else{
-								int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-								temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port);
-							}
-							if(temp1<1){
-								//更新失败
+							int countTemp=outStoreMapper.getTerminalIsUsed(port);
+							if(countTemp>0){
 								resultCode=Response.ERROR_CODE;
 								resultInfo.setLength(0);
-								resultInfo.append("更新terminals表信息出错");
-								break;
+								resultInfo.append("输入的终端号已经关联其他订单号");
+							}
+							if(resultCode==Response.SUCCESS_CODE){
+								if(types==1 || types==2){
+									temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port);
+								}else if(types==3){
+									int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+									temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port);
+								}else{
+									int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
+									temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port);
+								}
+								if(temp1<1){
+									//更新失败
+									resultCode=Response.ERROR_CODE;
+									resultInfo.setLength(0);
+									resultInfo.append("更新terminals表信息出错");
+								}
 							}
 						}
 					}
@@ -284,7 +307,7 @@ public class OutStoreService {
 				}
 			}
 		}
-		
+		}
 		//更新cs_out_storage状太为处理完成，终端list,以及数量
 		if(resultCode==Response.SUCCESS_CODE){
 		     //更新cs_out_storage状态
@@ -306,10 +329,19 @@ public class OutStoreService {
 				
 				for(int i=0;i<temp3.size();i++){
 					int goodId=Integer.parseInt(temp3.get(i).get("goodId").toString());
-					int quantity1=Integer.parseInt(temp3.get(i).get("quantity").toString());
+					int quantity1=0;
+					if(null!=temp3){
+						if(null!=temp3.get(i).get("quantity")){
+							quantity1=Integer.parseInt(temp3.get(i).get("quantity").toString());
+						}
+					}
 					Map<String, Object> temp2=outStoreMapper.getInOutStorageInfo(orderId,goodId);
-					int quantity2=Integer.parseInt(temp2.get("quantity").toString());
-					
+					int quantity2=0;
+					if(null!=temp2){
+						if(null!=temp2.get("quantity")){
+							quantity2=Integer.parseInt(temp2.get("quantity").toString());
+						}
+					}
 					int quantity3=goodQuantityMap.get(goodId);
 					
 					if((quantity1-quantity2)==quantity3){
@@ -340,6 +372,7 @@ public class OutStoreService {
 		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
+		
 		return result;
 	};
 	
@@ -368,7 +401,7 @@ public class OutStoreService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveProcessUser(String ids,int customerId,String customerName,int loginId,int userType){
+	public Map<String, Object> saveProcessUser(String ids,int customerId,String customerName,int loginId,int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -384,7 +417,6 @@ public class OutStoreService {
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
 					resultInfo.append("保存分派信息失败");
-					break;
 				}
 			}
 		}else{
