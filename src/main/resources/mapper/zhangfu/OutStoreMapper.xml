@@ -35,15 +35,13 @@
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
-		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_number,a.status,ifnull(a.process_user_id,"") as processUserId 
-
-from ((select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id  where ca.process_user_id = 1 ORDER BY ca.created_at desc)
- UNION (select cb.*,cd.order_number from cs_out_storages cb LEFT JOIN orders cd on cb.order_id=cd.id
-
- where cb.process_user_id != 1 ORDER BY cb.created_at desc)) a
+		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_number,
+		a.status,ifnull(a.process_user_id,"") as processUserId 
+		from (select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id
+		 where 1=1 ORDER BY ca.process_user_id desc,ca.created_at desc) a
 		<include refid="pageWhere" />
 		and a.order_number is not null 
-		 order by a.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+		 limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
 	<select id="countByKeys" resultType="long">
