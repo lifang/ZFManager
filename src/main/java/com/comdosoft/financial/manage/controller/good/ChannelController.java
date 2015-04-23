@@ -299,7 +299,7 @@ public class ChannelController {
 //            return Response.getError("上传失败！");
 //        }
         String result=HttpFile.upload(file, sysFilePaychannel);
-        if(result.split("/").length>0){
+        if(result.split("/").length>1){
             return Response.getSuccess(result);
         }else{
             return Response.getError(result);
