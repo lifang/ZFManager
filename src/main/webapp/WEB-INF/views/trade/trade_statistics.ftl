@@ -11,7 +11,7 @@
     <div class="user_title">
         <h1>交易流水统计</h1>
     </div>
-    <div class="user_statistics">2014年11月25日 - 2014年12月25日   交易类型：${tradeType.tradeValue}</div>
+    <div class="user_statistics">${tradedDateRange.minTradedAt?string("yyyy年MM月dd日")} - ${tradedDateRange.maxTradedAt?string("yyyy年MM月dd日")}   交易类型：${tradeType.tradeValue}</div>
     <div class="attributes_table">
         <table width="100%" border="0" cellspacing="1" cellpadding="0">
             <colgroup>

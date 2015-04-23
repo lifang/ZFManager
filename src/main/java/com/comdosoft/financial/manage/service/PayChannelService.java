@@ -578,5 +578,16 @@ public class PayChannelService {
             otherRequirementMapper.insert(otherRequirement);
         }
     }
+    
+    @Transactional("transactionManager")
+    public void updatePayChannelBillingCycle(Integer[] ids,Integer[] rates,Integer[] profits){
+    	PayChannelBillingCycle payChannelBillingCycle = new PayChannelBillingCycle();
+    	for(int i=0;i<ids.length;i++){
+    		payChannelBillingCycle = payChannelBillingCycleMapper.selectByPrimaryKey(ids[i]);
+    		payChannelBillingCycle.setRate(rates[i]);
+    		payChannelBillingCycle.setProfit(profits[i]);
+    		payChannelBillingCycleMapper.updateByPrimaryKey(payChannelBillingCycle);
+    	}
+    }
 
 }

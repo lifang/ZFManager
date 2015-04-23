@@ -63,4 +63,6 @@ public interface TradeRecordMapper {
             @Param("endDate") Date endDate);
     
     TradeRecord getTradeRecordsByTradeNum(String orderId);
+    
+    Map<Date,Date> getDateRange(Integer id);
 }

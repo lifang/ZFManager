@@ -35,20 +35,28 @@
                 </li>
                 <li class="b"><span class="labelSpan">资金服务费率：</span>
                     <div class="text">
-                        <div class="rate_attributes">
+                        <div class="rate_attributes" id="billingCycle">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
                                     <col width="33%">
                                     <col width="33%">
                                 </colgroup>
-                                <tbody><tr>
-                                    <td>结算周期</td>
-                                    <td>费率</td>
-                                </tr>
+                                <thead>
+	                                <tr>
+	                                    <td>结算周期</td>
+	                                    <td>费率</td>
+	                                    <td>分润比例</td>
+	                                </tr>
+                                </thead>
+                                <tbody>
                                 <#list channel.billingCycles as billingCycle>
                                 <tr>
                                     <td>${billingCycle.dictionaryBillingCycle.name}</td>
-                                    <td>${((billingCycle.rate)??)?string((((billingCycle.rate)!0)/10)?string("0.0"),'')}‰</td>
+                                    <td>
+                                    	<input type="text" name="rate" class="input_m" value="${((billingCycle.rate)??)?string((((billingCycle.rate)!0)/10)?string("0.0"),'')}"/>&nbsp;‰
+                                    	<input type="hidden" name="billingCycleId" value="${billingCycle.id}">
+                                    </td>
+                                    <td><input type="text" name="profit" class="input_m" value="${((billingCycle.profit)??)?string((((billingCycle.profit)!0)/10)?string("0.0"),'')}"/>&nbsp;‰</td>
                                 </tr>
                                 </#list>
                                 </tbody></table>
@@ -117,6 +125,9 @@
         var floorProfits = new Array();
         var topCharges = new Array();
         var topProfits = new Array();
+        var billingCycleIds = new Array();
+        var rates = new Array();
+        var profits = new Array();
         var error = false;
         var baseProfit = $("#baseProfit").prop("value");
         if(error = isNotDecimal(baseProfit, "标准手续费交易分润千分比必须小于1000且最多一位小数!")){
@@ -126,6 +137,30 @@
         	alert("标准手续费交易不能为空，必须在0--1000之间");
         	return false;
         }
+        var re = /^(\d+)(\.\d)?$/;
+        $("#billingCycle>table>tbody>tr").each(function(i){
+        	var billingCycleId = $(this).find("input[name='billingCycleId']").prop("value");
+        	var rate = $(this).find("input[name='rate']").prop("value");
+        	var profit = $(this).find("input[name='profit']").prop("value");
+        	if(rate=='' || profit==''){
+        		 showErrorTip("费率和分润比例必须同时输入");
+            	 error = true;
+                 return false;
+        	}
+        	if(rate!='' && !re.test(rate)){
+            	 showErrorTip("费率最多1位小数！");
+            	 error = true;
+                 return false;
+            }
+            if(profit!=''&&!re.test(profit)){
+            	 showErrorTip("分润比例最多1位小数！");
+            	 error = true;
+                 return false;
+            }
+            billingCycleIds[i] = billingCycleId;
+        	rates[i] = (rate==''?rate:rate*10);
+        	profits[i] = (profit==''?profit:profit*10);
+        });
         $(".rate").each(function(i){
             var terminalRate = $(this).find("input[name='terminalRate']").prop("value");
             var baseRate = $(this).find("input[name='baseRate']").prop("value");
@@ -134,6 +169,11 @@
             var topCharge = $(this).find("input[name='topCharge']").prop("value");
             var topProfit = $(this).find("input[name='topProfit']").prop("value");
             tradeTypeIds[i]=$(this).attr("value");
+            if(terminalRate=='' || baseRate=='' || floorCharge=='' || floorProfit==''||topCharge=='' || topProfit==''){
+        		 showErrorTip("其它交易必须都输入");
+            	 error = true;
+                 return false;
+        	}
             if((error = isNotDecimal(terminalRate, "终端费率必须小于1000且最多一位小数!"))
                 || (error = isNotDecimal(baseRate, "基础费率必须小于1000且最多一位小数!"))
                 || (error = isNotTwoDecimal(floorCharge, "最低收费必须为2位小数!"))
@@ -149,7 +189,7 @@
             topCharges[i] = topCharge;
             topProfits[i] = topProfit;
         });
-        if(~error){
+        if(!error){
 
             $.post("<@spring.url "/good/channel/${channel.id}/profit" />",
                     { 'baseProfit':(baseProfit==''?baseProfit:baseProfit*10),
@@ -159,7 +199,10 @@
                         'floorCharges':floorCharges,
                         'floorProfits':floorProfits,
                         'topCharges':topCharges,
-                        'topProfits':topProfits
+                        'topProfits':topProfits,
+                        'billingCycleIds':billingCycleIds,
+                        'rates':rates,
+                        'profits':profits
                     },
                     function(data){
                         if(data.code==1){

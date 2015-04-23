@@ -120,6 +120,8 @@ public class TradeController {
         model.addAttribute("tradeType",tradeType);
         List<Map<String,Object>> statistics = tradeService.profitStatistics();
         model.addAttribute("statistics",statistics);
+        Map<Date,Date> map = tradeService.getTradedDateRange(id);
+        model.addAttribute("tradedDateRange", map);
         return "trade/trade_statistics";
     }
     
