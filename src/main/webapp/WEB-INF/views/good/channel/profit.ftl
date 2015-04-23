@@ -184,10 +184,10 @@
             }
             terminalRates[i] = (terminalRate==''?terminalRate:terminalRate*10);
             baseRates[i] = (baseRate==''?baseRate:baseRate*10);
-            floorCharges[i] = floorCharge;
-            floorProfits[i] = floorProfit;
-            topCharges[i] = topCharge;
-            topProfits[i] = topProfit;
+            floorCharges[i] = floorCharge*100;
+            floorProfits[i] = floorProfit*100;
+            topCharges[i] = topCharge*100;
+            topProfits[i] = topProfit*100;
         });
         if(!error){
 
