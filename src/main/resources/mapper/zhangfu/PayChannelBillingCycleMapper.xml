@@ -30,7 +30,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pay_channel_billing_cycles (pay_channel_id, billing_cycles_id, description, 
-      rate)
+      rate,profit)
     values (#{payChannelId,jdbcType=INTEGER}, #{billingCyclesId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
       #{rate,jdbcType=INTEGER},profit = #{profit,jdbcType=INTEGER})
   </insert>
