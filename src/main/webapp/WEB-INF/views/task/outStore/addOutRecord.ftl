@@ -47,7 +47,7 @@
                     </td>
 			      	<td>${good.quantity}</td> 
 			      	<td class="text">
-			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}"></textarea>
+			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}" id="terminal_${good.id}"></textarea>
 			      	</td>
 				   </tr>
 			  </#list>
@@ -78,13 +78,12 @@
 		//物流单号
 		var wlNumStr=$("#wlNumStr").val();
 		
-	 	var terminals=$("textarea[id^='terminal_']");
+	 	var terminals=$("input[id^='terminal_']");
 	 	var temp="";
 		for(var i=0;i<terminals.length;i++){
 			var id=$(terminals[i]).attr("id");
 			var goodId=id.substr(9,id.length-9);
 			var value=$(terminals[i]).val();
-			
 			if(temp.length<1){
 				temp=goodId+"_"+value;
 			}else{
@@ -99,10 +98,10 @@
 	        "wlCompany":wlCompanyStr,
 	        "wlNum":wlNumStr,
 	        "terminalNums":temp},
-	        function (data) {
-	        	if(data.code==-1){
-            		alert("操作出错，错误信息为："+data.message);
-            	}else if(data.code=='1'){
+	        function (ret) {
+	        	if(ret.code=='-1'){
+            		alert("操作出错，错误信息为："+ret.message);
+            	}else if(ret.code=='1'){
             		//跳转
             		window.location.href="#/task/outStore/list";
             	}

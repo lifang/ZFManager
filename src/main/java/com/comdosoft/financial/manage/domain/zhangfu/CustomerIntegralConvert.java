@@ -274,4 +274,10 @@ public class CustomerIntegralConvert {
 	public void setProcessUserName(String processUserName) {
 		this.processUserName = processUserName;
 	}
+	
+	///兑换状态1待处理2处理完成3已取消
+	
+	  public static final Byte CONVERT_PENDING = 1;
+	  public static final Byte CONVERT_SUCCESS = 2;
+	  public static final Byte CONVERT_FILED = 3;
 }

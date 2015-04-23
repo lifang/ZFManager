@@ -1,8 +1,5 @@
 package com.comdosoft.financial.manage.service.task;
 
-import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.CANCEL;
-import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.FINISH;
-import static com.comdosoft.financial.manage.service.cs.CsConstants.CsUpdateStatus.HANDLE;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,14 +59,14 @@ public class CustomerIntegralConvertService {
 		customerIntegralConvertMapper.updateByPrimaryKey(integralConvert);
 		return integralConvert;
 	}
-	
-	public void handle(Integer csUpdateId) {
-		updateStatus(csUpdateId, HANDLE);
-	}
+//	
+//	public void handle(Integer csUpdateId) {
+//		updateStatus(csUpdateId, CustomerIntegralConvert.CONVERT_PENDING);
+//	}
 	
 	@Transactional("transactionManager")
 	public void cancel(Integer id) {
-		updateStatus(id, CANCEL);
+		updateStatus(id, CustomerIntegralConvert.CONVERT_FILED);
 //		customerIntegralConvertMapper.updateStatus(integralConvert);
 		 
 	}
@@ -77,7 +74,7 @@ public class CustomerIntegralConvertService {
 	@Transactional("transactionManager")
 	public void finish(Integer id) {
 		CustomerIntegralConvert integralConvert = customerIntegralConvertMapper.selectByPrimaryKey(id);
-		integralConvert.setStatus(FINISH);
+		integralConvert.setStatus(CustomerIntegralConvert.CONVERT_SUCCESS);
 		integralConvert.setUpdatedAt(new Date());
 		customerIntegralConvertMapper.updateByPrimaryKey(integralConvert);
 		
@@ -85,7 +82,7 @@ public class CustomerIntegralConvertService {
 		cir.setCustomerId(integralConvert.getCustomerId());
 		cir.setCreatedAt(new Date());
 		cir.setDescription(integralConvert.getApplyNum());
-		cir.setQuantity(integralConvert.getQuantity());
+		cir.setQuantity(integralConvert.getQuantity()*-1);
 		cir.setTargetId(integralConvert.getId());
 		cir.setTargetType(CustomerIntegralRecord.TARGET_TYPE_DH);
 		cir.setTypes(CustomerIntegralRecord.TYPE_SUBTRACT);
@@ -97,7 +94,7 @@ public class CustomerIntegralConvertService {
 	
 	@Transactional("transactionManager")
 	public CustomerIntentionMark createMark(Customer customer, Integer csUpdateId, String content) {
-		handle(csUpdateId);
+//		handle(csUpdateId);
 //		
 		CustomerIntentionMark intentionMark = new CustomerIntentionMark();
 		intentionMark.setCustomId(customer.getId());

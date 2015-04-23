@@ -30,9 +30,8 @@
 					<select id="select_status"> 
 						<option value="">全部</option> 
 						<option value="1">待处理</option> 
-						<option value="2">处理中</option> 
-						<option value="4">处理完成</option>
-						<option value="5">已取消</option> 
+						<option value="2">处理完成</option> 
+						<option value="3">已取消</option>
 					</select> 
 				</div>
 			</li> 
@@ -97,15 +96,8 @@
 	            });
 	}
 	
-	function onHandle(csUpdateId) {
-		$.post('<@spring.url "" />'+'/task/calculus/'+csUpdateId+'/handle',
-	            {}, function (data) {
-	            	$("#operation_"+csUpdateId).html(
-	            		'<a href="<@spring.url "" />'+'/task/calculus/'+csUpdateId+'/info" class="a_btn">查看详情</a>'
-						+'<a class="a_btn" onClick="onFinish('+csUpdateId+');">标记为处理完成</a>	'
-	            	);
-	            	$("#status_"+csUpdateId).text("处理中");
-	            });
+	function onbeizhu(csUpdateId) {
+	 
 	}
 
 </script>	

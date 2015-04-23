@@ -44,10 +44,10 @@
                         <div class="td_proBox clear">
                             <a href="#" class="cn_img"><img src="${good.urlPath}" style="width:130px;height:130px" /></a>
                             <div class="td_proBox_info">
-                                <h1><#if (good.title)??><a href="#">${good.title}</a></#if></h1>
+                                <h1><a href="#">${good.title}</a></h1>
                                 <h3>热销5000件</h3>
                                 <ul>
-                                    <li><span>品牌型号：</span><div class="c_text"><#if (good.brandName)??>${good.brandName}</#if></div></li>
+                                    <li><span>品牌型号：</span><div class="c_text">${good.brandName}</div></li>
                                     <li><span>支付通道：</span><div class="c_text"><#if (good.payChannelName)??>${good.payChannelName}</#if></div></li>
                                 </ul>
                             </div>

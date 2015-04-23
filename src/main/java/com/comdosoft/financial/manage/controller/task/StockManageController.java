@@ -69,11 +69,10 @@ public class StockManageController {
 	 * @param serialNum
 	 * @param request
 	 * @return
-	 * @throws Exception 
 	 */
 	@RequestMapping(value="toAfterSaleStock",method=RequestMethod.POST)
 	@ResponseBody
-	public Response toAfterSaleStock(String serialNum,HttpServletRequest request) throws Exception{
+	public Response toAfterSaleStock(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= stockManageService.toAfterSaleStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
@@ -86,11 +85,10 @@ public class StockManageController {
 	 * @param serialNum
 	 * @param request
 	 * @return
-	 * @throws Exception 
 	 */
 	@RequestMapping(value="toNormalStock",method=RequestMethod.POST)
 	@ResponseBody
-	public Response toNormalStock(String serialNum,HttpServletRequest request) throws Exception{
+	public Response toNormalStock(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= stockManageService.toNormalStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
@@ -104,11 +102,10 @@ public class StockManageController {
 	 * @param serialNum
 	 * @param request
 	 * @return
-	 * @throws Exception 
 	 */
 	@RequestMapping(value="breakDown",method=RequestMethod.POST)
 	@ResponseBody
-	public Response breakDown(String serialNum,HttpServletRequest request) throws Exception{
+	public Response breakDown(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= stockManageService.breakDown(serialNum, customer.getId(),customer.getName(),customer.getTypes());
