@@ -63,7 +63,7 @@ public class LoginController {
 		}
 		sessionService.storeLoginInfo(request, customer);
 		LOG.info("{},登陆成功",passport);
-		return Response.getSuccess("/index");
+		return Response.getSuccess(request.getContextPath()+"/index");
 	}
 
 	@RequestMapping(value="logout",method=RequestMethod.GET)

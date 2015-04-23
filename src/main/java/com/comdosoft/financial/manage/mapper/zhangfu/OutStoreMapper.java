@@ -51,6 +51,8 @@ public interface OutStoreMapper {
 	
 	int getAgentIdByCustomerId(@Param("customerId") String customerId);
 	
+	int getTerminalIsUsed(@Param("serialNum") String serialNum);
+	
 	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,@Param("orderId") int orderId,@Param("serialNum") String serialNum);
 	
 	int updateOrderStatus(@Param("status") int status,@Param("orderId") int orderId);

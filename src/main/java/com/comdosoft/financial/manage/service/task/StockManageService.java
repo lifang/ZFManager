@@ -95,7 +95,7 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> toAfterSaleStock(String serialNum,int loginId,String userName,int userType){
+	public Map<String, Object> toAfterSaleStock(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
@@ -109,6 +109,7 @@ public class StockManageService {
 				resultCode=1;
 				resultInfo.setLength(0);
 				resultInfo.append("终端退回售后库成功");
+			}else{
 			}
 			
 			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("id");
@@ -121,7 +122,7 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> toNormalStock(String serialNum,int loginId,String userName,int userType){
+	public Map<String, Object> toNormalStock(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
@@ -140,6 +141,7 @@ public class StockManageService {
 				resultCode=1;
 				resultInfo.setLength(0);
 				resultInfo.append("终端入正常库成功");
+			}else{
 			}
 		}
 		
@@ -155,7 +157,7 @@ public class StockManageService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> breakDown(String serialNum,int loginId,String userName,int userType){
+	public Map<String, Object> breakDown(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
@@ -173,6 +175,7 @@ public class StockManageService {
 				resultCode=1;
 				resultInfo.setLength(0);
 				resultInfo.append("终端报废成功");
+			}else{
 			}
 			String content=userName+"执行了任务的售后库存管理页面的【报废】的操作，操作的记录Id是"+temp1.get("id");
 			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content,Integer.parseInt(temp1.get("id").toString()));

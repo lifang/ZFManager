@@ -68,7 +68,7 @@
         $("form").ajaxForm({
             success: function (data) {
                 if (data.code == 1) {
-                    window.location.href = "<@spring.url ""/>" + data.result;
+                    window.location.href = data.result;
                 }
                 if (data.code == -1) {
                     alert(data.message);
