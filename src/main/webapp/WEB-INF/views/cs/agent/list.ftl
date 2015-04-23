@@ -10,9 +10,11 @@
 <div class="content clear"> 
 	<div class="user_title">
     	<h1>代理商售后申请列表</h1> 
-		<div class="userTopBtnBox"> 
+		<div class="userTopBtnBox">
+	<#if Roles.hasRole("CS_AGENT_ASSIGN")>
 			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
-		</div> 
+	</#if>
+		</div>
 	</div>
 	<div class="seenBox clear"> 
 		<ul> 

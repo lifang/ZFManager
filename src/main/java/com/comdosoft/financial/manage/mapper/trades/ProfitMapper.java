@@ -38,5 +38,5 @@ public interface ProfitMapper {
 
 	Profit selectByTradeRecordId(Integer tradeRecordId);
 
-    List<Map<String,Object>> selectStatistics();
+	List<Map<String,Object>> selectStatistics(Integer type);
 }

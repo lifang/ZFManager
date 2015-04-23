@@ -22,13 +22,13 @@
 	<td id="operation_${csChange.id}">
 		<#if csChange.status=1>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn replace_a" onClick="onPreConfirm(${csChange.id});">确认换货</a>
-			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
-			<a class="a_btn" onClick="onHandle(${csChange.id});">标记为换货中</a>
+			<#if Roles.hasRole("CS_CHANGE_CONFIRM")><a class="a_btn replace_a" onClick="onPreConfirm(${csChange.id});">确认换货</a></#if>
+			<#if Roles.hasRole("CS_CHANGE_CANCEL")><a class="a_btn" onClick="onCancel(${csChange.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_CHANGE_MARK_CHANGING")><a class="a_btn" onClick="onHandle(${csChange.id});">标记为换货中</a></#if>
 		<#elseif csChange.status=2>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onCancel(${csChange.id});">取消</a>
-			<a class="a_btn" onClick="onFinish(${csChange.id});">标记为换货完成</a>
+			<#if Roles.hasRole("CS_CHANGE_CANCEL")><a class="a_btn" onClick="onCancel(${csChange.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_CHANGE_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csChange.id});">标记为换货完成</a></#if>
        	<#elseif csChange.status=4>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csChange.status=5>

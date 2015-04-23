@@ -3,14 +3,15 @@
 <div class="breadcrumb">
     <ul>
         <li><a href="#">交易</a></li>
-        <li><a href="#">转账</a></li>
+        <li><a href="#">${tradeType.tradeValue}</a></li>
         <li><a href="#">统计</a></li>
     </ul>
 </div>
 <div class="content clear">
     <div class="user_title">
-        <h1>交易流水统计</h1>
+        <h1>${tradeType.tradeValue}交易流水统计</h1>
     </div>
+    <#if tradedDateRange??>
     <div class="user_statistics">${tradedDateRange.minTradedAt?string("yyyy年MM月dd日")} - ${tradedDateRange.maxTradedAt?string("yyyy年MM月dd日")}   交易类型：${tradeType.tradeValue}</div>
     <div class="attributes_table">
         <table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -41,5 +42,8 @@
             </#list>
         </table>
     </div>
+    <#else>
+    	<h3>暂无交易流水</h3>
+    </#if>
 </div>
 </@c.html>

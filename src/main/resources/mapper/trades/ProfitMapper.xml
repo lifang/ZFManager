@@ -104,10 +104,11 @@
     where trade_record_id = #{tradeRecordId}
   </select>
 
-    <select id="selectStatistics" resultType="java.util.Map">
+    <select id="selectStatistics" parameterType="java.lang.Integer" resultType="java.util.Map">
         select p.top_agent_id as agent_id,count(*) as nums,sum(p.amount) as amounts,
           sum(p.profits_get) as gets,sum(p.profits_pay) as pays
         from profits p
-        group by p.top_agent_id
+        where p.types=#{type}
+        group by p.top_agent_id,p.types
     </select>
 </mapper>

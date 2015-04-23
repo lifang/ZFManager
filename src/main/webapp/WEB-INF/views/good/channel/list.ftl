@@ -9,7 +9,7 @@
 <div class="content clear">
     <div class="user_title"><h1>支付通道列表</h1>
         <div class="userTopBtnBox">
-            <a href="<@spring.url "/good/channel/create" />" class="ghostBtn">创建支付通道</a>
+    <#if Roles.hasRole("PAY_CHANNEL_CREATE")><a href="<@spring.url "/good/channel/create" />" class="ghostBtn">创建支付通道</a></#if>
         </div>
     </div>
 

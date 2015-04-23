@@ -10,6 +10,7 @@
     <div class="user_title">
     	<h1>售后库存管理</h1>
     </div>
+	<#if Roles.hasRole("STOCK_MANAGE_IN_STOCK")>
     <div class="attributes_box">
     	<h2>售后入库</h2>
         <div class="storage">
@@ -17,6 +18,8 @@
           <div class="btnBottom"><button class="ghostBtn" onclick="showAccount()">放入售后库存</button></div>
         </div> 
     </div>
+	</#if>
+	<#if Roles.hasRole("STOCK_MANAGE_PROCESS")>
     <div class="attributes_box">
     	<h2>售后库存处理</h2>
         <div class="storage">
@@ -24,6 +27,7 @@
           <div class="btnBottom"><button class="ghostBtn" onclick="toNormalStock()">正常入库</button><button class="ghostBtn" onclick="breakDown()">报废</button></div>
         </div> 
     </div>
+	</#if>
 </div>  
 
 <div class="tab stockMange_tab" id="div1" style="display:none; top: 200px; left: 200px;">

@@ -150,15 +150,9 @@ public class ChannelController {
                                @RequestParam(value = "floorCharges[]", required = false) Float[] floorCharges,
                                @RequestParam(value = "floorProfits[]", required = false) Float[] floorProfits,
                                @RequestParam(value = "topCharges[]", required = false) Float[] topCharges,
-                               @RequestParam(value = "topProfits[]", required = false) Float[] topProfits,
-                               @RequestParam(value = "billingCycleIds[]", required = false) Integer[] billingCycleIds,
-                               @RequestParam(value = "rates[]", required = false) Integer[] rates,
-                               @RequestParam(value = "profits[]", required = false) Integer[] profits){
+                               @RequestParam(value = "topProfits[]", required = false) Float[] topProfits){
         supportTradeTypeService.updateSupportTradeTypes(id, baseProfit,
                 tradeTypeIds, terminalRates, baseRates, floorCharges, floorProfits, topCharges, topProfits);
-        if(billingCycleIds!=null){
-        	payChannelService.updatePayChannelBillingCycle(billingCycleIds, rates, profits);
-        }
         return Response.getSuccess("");
     }
 

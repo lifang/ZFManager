@@ -22,13 +22,13 @@
 	<td id="operation_${csReturn.id}">
 		<#if csReturn.status=1>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn replace_a" onClick="onPreConfirm(${csReturn.id});">确认退货</a>
-			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
-			<a class="a_btn" onClick="onHandle(${csReturn.id});">标记为退货中</a>
+			<#if Roles.hasRole("CS_RETURN_CONFIRM")><a class="a_btn replace_a" onClick="onPreConfirm(${csReturn.id});">确认退货</a></#if>
+			<#if Roles.hasRole("CS_RETURN_CANCEL")><a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_RETURN_MARK_RETURNING")><a class="a_btn" onClick="onHandle(${csReturn.id});">标记为退货中</a></#if>
 		<#elseif csReturn.status=2>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
-			<a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a>
-			<a class="a_btn" onClick="onFinish(${csReturn.id});">标记为退货完成</a>
+			<#if Roles.hasRole("CS_RETURN_CANCEL")><a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a></#if>
+			<#if Roles.hasRole("CS_RETURN_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csReturn.id});">标记为退货完成</a></#if>
        	<#elseif csReturn.status=4>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn">查看详情</a>
 		<#elseif csReturn.status=5>

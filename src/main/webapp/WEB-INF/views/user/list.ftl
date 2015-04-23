@@ -8,7 +8,9 @@
 <div class="content clear">
     <div class="user_title"><h1>用户列表</h1>
         <div class="userTopBtnBox">
+    <#if Roles.hasRole("USER_CREATE")>
             <a href="<@spring.url "/user/create"/>" class="ghostBtn">创建用户</a>
+    </#if>
         </div>
     </div>
     <div class="seenBox clear">
