@@ -136,7 +136,7 @@
                                         <td>
                                             <select name="" class="select_xl selectBillingCycle">
                                                 <#list billingCycles as billingCycle>
-                                                    <option value="${billingCycle.id}" description="${billingCycle.description!""}"
+                                                    <option value="${billingCycle.id}" description="${billingCycle.description!""}" rate="${billingCycle.serviceRate}"
                                                     ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
                                                             >${billingCycle.name}</option>
                                                 </#list>
@@ -355,7 +355,7 @@
         <td>
             <select name="" class="select_xl selectBillingCycle">
             <#list billingCycles as billingCycle>
-                <option value="${billingCycle.id}" description="${billingCycle.description!''}">${billingCycle.name}</option>
+                <option value="${billingCycle.id}" description="${billingCycle.description!''}" rate="${billingCycle.serviceRate}">${billingCycle.name}</option>
             </#list>
             </select>
         </td>
@@ -526,7 +526,8 @@
         $(document).delegate(".selectBillingCycle", "change", function(){
             var $billingCycle =  $(this).children('option:selected');
             var description = $billingCycle.attr("description");
-            $(this).parent().nextAll().first().children().val("");
+            var rate = $billingCycle.attr("rate");
+            $(this).parent().nextAll().first().children().val(rate==undefined?"":rate);
             $(this).parent().nextAll().last().children().val(description==undefined?"":description);
         });
 
