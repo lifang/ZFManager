@@ -194,6 +194,7 @@ public class PayChannelService {
         for (OtherRequirement otherRequirement : l2) {
             otherRequirement.setTempletFilePath(filePath+otherRequirement.getTempletFilePath());
         }
+        channel.getFactory().setLogoFilePath(filePath+channel.getFactory().getLogoFilePath());
         return channel;
     }
 
