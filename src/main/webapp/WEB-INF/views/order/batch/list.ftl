@@ -143,9 +143,9 @@
     <div class="tabBody">
     	<div id="pos_info">
 	    	<p>POS机名称：汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装 点餐机奶茶店 </p>
-	    	<div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m" /></div> 
+	    	<div class="deliver_numb"><label>POS机数量：</label><input name="" type="text" class="input_m"  id="pos_num"  /></div> 
 	    </div>
-    	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号"></textarea>
+    	<textarea name="" cols="" rows="" id="terminal_serial_num" placeholder="输入终端号以逗号分隔"></textarea>
     	<textarea name="" cols="" rows="" id="reserver2" placeholder="中汇终端激活码（非中汇终端无需填写）"></textarea>
         <input name="" type="text" value="" id="logistics_name" placeholder="物流公司"/>
         <input name="" type="text" value="" id="logistics_number" placeholder="物流单号"/>
@@ -153,7 +153,7 @@
     <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
 </div>
 <script type="text/javascript">
-
+ 
 	$(function(){
 			$('#select_status').change(function(){
 				var status = $(this).children('option:selected').val();
@@ -307,25 +307,39 @@
     		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		var hidden_order_good_id = $('#hidden_order_good_id_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
+	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
+ 		console.log("》》》》》》id::"+id);
     }
     
     function deliverSure(id){
     	var goodQuantity="";
+    	var num_wh = "";
 		var allinput=document.getElementsByName("deliverNum");
 		for(var i=0,size=allinput.length;i<size;i++){
 			goodQuantity+=allinput[i].id+":"+allinput[i].value;
+			num_wh = allinput[i].value;
 			if(i<size-1){
 				goodQuantity+=",";
 			}
 		}
 		var belongsTo = $('#hidden_belongsTo_'+id).val();
 		var terminalSerialNum = $('#terminal_serial_num').val();
+		  var reg = new RegExp("^[0-9]*\.[0-9]{0,1}$");
+		  if(!reg.test(num_wh)){
+			  alert("pos机数量必须是数字");
+			 return false;
+		  } 
+		var ts = terminalSerialNum.split(",");
 		var logisticsName = $('#logistics_name').val();
+		var pos_num = $('#deliverNum_'+id).val();
 		var logisticsNumber = $('#logistics_number').val();
+		if(parseInt(num_wh)!=parseInt(ts.length)){
+			alert("pos机数量与终端号数量不一致");
+			return false;
+		}
 		var reserver2 = $('#reserver2').val();
 		$.get('<@spring.url "" />'+'/order/logistic/batch/create',
 				{
@@ -351,5 +365,6 @@
 					popupPage();
 	            });
     }
+
 </script>
 </@c.html>

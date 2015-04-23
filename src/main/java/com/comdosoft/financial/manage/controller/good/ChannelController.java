@@ -147,10 +147,10 @@ public class ChannelController {
                                @RequestParam(value = "tradeTypeIds[]", required = false) Integer[] tradeTypeIds,
                                @RequestParam(value = "terminalRates[]", required = false) Integer[] terminalRates,
                                @RequestParam(value = "baseRates[]", required = false) Integer[] baseRates,
-                               @RequestParam(value = "floorCharges[]", required = false) Float[] floorCharges,
-                               @RequestParam(value = "floorProfits[]", required = false) Float[] floorProfits,
-                               @RequestParam(value = "topCharges[]", required = false) Float[] topCharges,
-                               @RequestParam(value = "topProfits[]", required = false) Float[] topProfits,
+                               @RequestParam(value = "floorCharges[]", required = false) Integer[] floorCharges,
+                               @RequestParam(value = "floorProfits[]", required = false) Integer[] floorProfits,
+                               @RequestParam(value = "topCharges[]", required = false) Integer[] topCharges,
+                               @RequestParam(value = "topProfits[]", required = false) Integer[] topProfits,
                                @RequestParam(value = "billingCycleIds[]", required = false) Integer[] billingCycleIds,
                                @RequestParam(value = "rates[]", required = false) Integer[] rates,
                                @RequestParam(value = "profits[]", required = false) Integer[] profits){
@@ -299,7 +299,7 @@ public class ChannelController {
 //            return Response.getError("上传失败！");
 //        }
         String result=HttpFile.upload(file, sysFilePaychannel);
-        if(result.split("/").length>0){
+        if(result.split("/").length>1){
             return Response.getSuccess(result);
         }else{
             return Response.getError(result);
