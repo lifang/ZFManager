@@ -65,13 +65,13 @@ public class CalculusController {
 		return "task/calculus/info";
 	}
 	
-	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
-	public void handle(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) {
-		customerIntegralConvertService.handle(id);
-		Customer customer = sessionService.getLoginInfo(request);
-		customerIntegralConvertService.record(customer,id,"标记为处理中");
-	}
-	
+//	@RequestMapping(value = "{id}/handle", method = RequestMethod.POST)
+//	public void handle(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) {
+//		customerIntegralConvertService.handle(id);
+//		Customer customer = sessionService.getLoginInfo(request);
+//		customerIntegralConvertService.record(customer,id,"标记为处理中");
+//	}
+//	
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST)
 	public void cancel(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) {
 		customerIntegralConvertService.cancel(id);

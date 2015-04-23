@@ -309,7 +309,6 @@
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
- 		console.log("》》》》》》id::"+id);
     }
     
     function deliverSure(id){
