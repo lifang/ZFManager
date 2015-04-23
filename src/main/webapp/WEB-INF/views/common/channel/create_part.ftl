@@ -24,7 +24,7 @@
                     </#if>
                     </select></div>
                 </li>
-                <li class="b"><span class="labelSpan">支持区域：</span>
+                <li class="b clear"><span class="labelSpan">支持区域：</span>
                     <div class="text">
                         <div class="supportArea">
                             <div class="sa_list">
