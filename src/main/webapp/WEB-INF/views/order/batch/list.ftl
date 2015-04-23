@@ -10,7 +10,9 @@
         <div class="user_title">
         	<h1>代理商批购订单列表</h1>
             <div class="userTopBtnBox">
+	<#if Roles.hasRole("AGENT_BATCH_ORDER_CREATE")>
             	<a href="<@spring.url "/good/batch/page"/>" class="ghostBtn">创建批购订单</a>
+	</#if>
          	</div>
         </div>
         <div class="seenBox clear">

@@ -10,12 +10,14 @@
 <div class="content clear"> 
 	<div class="user_title">
     	<h1>资料更新申请列表</h1> 
-		<div class="userTopBtnBox"> 
-			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+		<div class="userTopBtnBox">
+	<#if Roles.hasRole("CS_UPDATE_INFO_ASSIGN")>
+        <a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
+	</#if>
 		</div> 
 	</div>
-	<div class="seenBox clear"> 
-		<ul> 
+	<div class="seenBox clear">
+		<ul>
 			<li>
 				<div class="user_search">
 					<input id="search_keyword" name="" type="text" class="" placeholder="请输入售后单号"/>
@@ -26,11 +28,11 @@
 				<div class="user_select"> 
 					<label>状态筛选</label> 
 					<select id="select_status"> 
-						<option value="-1">全部</option> 
-						<option value="1">待处理</option> 
-						<option value="2">处理中</option> 
+						<option value="-1">全部</option>
+						<option value="1">待处理</option>
+						<option value="2">处理中</option>
 						<option value="4">处理完成</option>
-						<option value="5">已取消</option> 
+						<option value="5">已取消</option>
 					</select> 
 				</div>
 			</li> 

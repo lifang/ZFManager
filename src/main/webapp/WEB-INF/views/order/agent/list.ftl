@@ -10,7 +10,9 @@
         <div class="user_title">
         	<h1>代理商代购订单列表</h1>
             <div class="userTopBtnBox">
+	<#if Roles.hasRole("AGENT_ORDER_CREATE")>
             	<a href="<@spring.url "/good/agent/page"/>" class="ghostBtn" >创建代购订单</a>
+	</#if>
          	</div>
         </div>
         <div class="seenBox clear">
