@@ -40,7 +40,8 @@ import com.comdosoft.financial.manage.utils.page.PageRequest;
 public class OrderService {
 	@Value("${page.size}")
 	private Integer pageSize;
-
+	@Value("${filePath}")
+    private String filePath ;
 	@Autowired
 	private OrderMapper orderMapper;
 
@@ -155,6 +156,7 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
+						    gp.setUrlPath(filePath+gp.getUrlPath());
 							og.getGood().getPictures().add(gp);
 						}
 					}
@@ -492,6 +494,7 @@ public class OrderService {
 					og.getGood().setPictures(new ArrayList<GoodsPicture>());
 					for (GoodsPicture gp : selectGoodsPictures) {
 						if (og.getGoodId().equals(gp.getGoodId())) {
+						    gp.setUrlPath(filePath+gp.getUrlPath());
 							og.getGood().getPictures().add(gp);
 						}
 					}

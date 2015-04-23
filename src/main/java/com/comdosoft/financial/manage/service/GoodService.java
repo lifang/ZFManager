@@ -100,6 +100,9 @@ public class GoodService {
 	
 	public Good findGoodInfoEx(Integer id) {
 		Good good = goodMapper.findGoodInfo(id);
+		for (GoodsPicture gp : good.getPictures()) {
+		    gp.setUrlPath(filePath+gp.getUrlPath());
+        }
 		List<Integer> goodIds=new ArrayList<Integer>();
 		for(Good relativeGood:good.getRelativeGoods()){
 			goodIds.add(relativeGood.getId());
@@ -110,11 +113,13 @@ public class GoodService {
 				g.setPictures(new ArrayList<GoodsPicture>());
 				for(GoodsPicture gp:selectGoodsPictures){
 					if(g.getId().equals(gp.getGoodId())){
+					    gp.setUrlPath(filePath+gp.getUrlPath());
 						g.getPictures().add(gp);
 					}
 				}
 			}
 		}
+		good.getFactory().setLogoFilePath(filePath+good.getFactory().getLogoFilePath());
 		return good;
 	}
 	
@@ -625,6 +630,7 @@ public class GoodService {
 				good.setPictures(new ArrayList<GoodsPicture>());
 				for (GoodsPicture gp : selectGoodsPictures) {
 					if (good.getId().equals(gp.getGoodId())) {
+					    gp.setUrlPath(filePath+gp.getUrlPath());
 						good.getPictures().add(gp);
 					}
 				}
