@@ -98,6 +98,9 @@ public class CsLeaseController {
 		Date leaseEnd = csLease.getCreatedAt();
 		// 租赁时长(天) 
 		int daysApart = getDaysApart(leaseStart, leaseEnd);
+		if(daysApart<0){
+			daysApart = 0;
+		}
 		// 租赁时长(月)
 		int monthsApart = getMonthsApart(leaseStart, leaseEnd, true);
 		
