@@ -172,7 +172,7 @@
         select t.*,
         pc.id pc_id, pc.name pc_name,
         m.id m_id, m.title as m_title, m.phone as m_phone,
-        g.id g_id, g.title as g_title
+        g.id g_id, g.title as g_title,g.quantity as g_quantity
         from terminals t
         left join pay_channels pc on pc.id=t.pay_channel_id
         left join merchants m on m.id=t.merchant_id

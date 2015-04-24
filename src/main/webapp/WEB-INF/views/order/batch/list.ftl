@@ -202,7 +202,7 @@
 			alert("备注内容不能为空！");
 			return;
 		}
-		$.get('<@spring.url "" />'+'/order/mark/batch/create',
+		$.post('<@spring.url "" />'+'/order/mark/batch/create',
 				{"orderId":id,
 				"content":content
 				},
@@ -301,6 +301,25 @@
     }
     
     function deliverBtn(id,size){
+    	var belongsTo = $('#hidden_belongsTo_'+id).val();
+    	if(belongsTo==0){
+    		$.post('<@spring.url "" />'+'/order/logistic/batch/create',
+				{
+				"orderId":id
+				},
+	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
+	           		$('#row_'+id).replaceWith(data);
+					$('.deliver_tab').hide();
+					$('.mask').hide();
+	            	alert("已生成一张条发货记录，请及时处理");
+					popupPage();
+	            });
+	    	return;
+    	}
     	var htmlStr='';
     	for(var i=0;i<size;i++){
     		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
@@ -311,7 +330,6 @@
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
- 		console.log("》》》》》》id::"+id);
     }
     
     function deliverSure(id){
@@ -341,7 +359,7 @@
 			return false;
 		}
 		var reserver2 = $('#reserver2').val();
-		$.get('<@spring.url "" />'+'/order/logistic/batch/create',
+		$.post('<@spring.url "" />'+'/order/logistic/batch/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,
@@ -355,7 +373,6 @@
 	            		alert(data.substring(2));
 	            		return;
 	            	}
-	            	$('#row_'+id).replaceWith(data);
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();

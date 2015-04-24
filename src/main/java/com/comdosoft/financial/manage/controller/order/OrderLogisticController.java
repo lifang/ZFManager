@@ -51,7 +51,7 @@ public class OrderLogisticController extends BaseController {
 		return true;
 	}
 
-	@RequestMapping(value = "create", method = RequestMethod.GET)
+	@RequestMapping(value = "create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createGet(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
@@ -65,7 +65,7 @@ public class OrderLogisticController extends BaseController {
 		return "order/user/pageRowOrder";
 	}
 
-	@RequestMapping(value = "/info/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/info/create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createInfoGet(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
@@ -79,7 +79,7 @@ public class OrderLogisticController extends BaseController {
 		return "order/user/infoUp";
 	}
 
-	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createAgentGet(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
@@ -93,7 +93,7 @@ public class OrderLogisticController extends BaseController {
 		return "order/agent/row";
 	}
 
-	@RequestMapping(value = "/agent/info/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/info/create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createAgentInfoGet(HttpServletRequest request,
 			Integer orderId, String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
@@ -107,7 +107,7 @@ public class OrderLogisticController extends BaseController {
 		return "order/agent/infoUp";
 	}
 
-	@RequestMapping(value = "/batch/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createBatchGet(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
@@ -121,7 +121,7 @@ public class OrderLogisticController extends BaseController {
 		return "order/batch/row";
 	}
 
-	@RequestMapping(value = "/batch/info/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/info/create", method = {RequestMethod.GET,RequestMethod.POST})
 	public String createBatchInfoGet(HttpServletRequest request,
 			Integer orderId, String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,

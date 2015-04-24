@@ -186,7 +186,7 @@
 			return;
 		}
 		var orderId = $("#hidden_order_id").val();
-		$.get('<@spring.url "/order/mark/batch/create" />',
+		$.post('<@spring.url "/order/mark/batch/create" />',
 	            {"content": content,
 	             "orderId": orderId
 	            },
@@ -301,7 +301,7 @@
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		var reserver2 = $('#reserver2').val();
-		$.get('<@spring.url "" />'+'/order/logistic/batch/info/create',
+		$.post('<@spring.url "" />'+'/order/logistic/batch/info/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,

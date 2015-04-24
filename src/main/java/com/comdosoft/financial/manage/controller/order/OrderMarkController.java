@@ -25,7 +25,7 @@ public class OrderMarkController extends BaseController {
 	@Autowired
 	private OrderService orderService;
 
-    @RequestMapping(value="/user/create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/create",method = {RequestMethod.GET,RequestMethod.POST})
     public String createGet(HttpServletRequest request,Integer orderId,String content,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderMarkService.insert(customer.getId(), orderId, content);
@@ -35,7 +35,7 @@ public class OrderMarkController extends BaseController {
         return "order/user/orderMark";
     }
     
-    @RequestMapping(value="/agent/create",method = RequestMethod.GET)
+    @RequestMapping(value="/agent/create",method = {RequestMethod.GET,RequestMethod.POST})
     public String createAgentGet(HttpServletRequest request,Integer orderId,String content,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderMarkService.insert(customer.getId(), orderId, content);
@@ -45,7 +45,7 @@ public class OrderMarkController extends BaseController {
         return "order/agent/orderMark";
     }
     
-    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
+    @RequestMapping(value="/batch/create",method =  {RequestMethod.GET,RequestMethod.POST})
     public String createBatchGet(HttpServletRequest request,Integer orderId,String content,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderMarkService.insert(customer.getId(), orderId, content);

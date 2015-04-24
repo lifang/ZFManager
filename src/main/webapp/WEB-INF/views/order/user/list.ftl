@@ -156,7 +156,7 @@
 			alert("备注内容不能为空！");
 			return;
 		}
-		$.get('<@spring.url "" />'+'/order/mark/user/create',
+		$.post('<@spring.url "" />'+'/order/mark/user/create',
 				{"orderId":id,
 				"content":content
 				},
@@ -221,7 +221,7 @@
 		var logisticsName = $('#logistics_name').val();
 		var logisticsNumber = $('#logistics_number').val();
 		var reserver2 = $('#reserver2').val();
-		$.get('<@spring.url "" />'+'/order/logistic/create',
+		$.post('<@spring.url "" />'+'/order/logistic/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,

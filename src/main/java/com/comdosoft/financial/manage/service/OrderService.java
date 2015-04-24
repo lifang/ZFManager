@@ -211,17 +211,19 @@ public class OrderService {
 
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus) {
-		Order record = orderMapper.findOrderInfo(orderId);
-		record.setId(orderId);
-		if (null != status)
-			record.setStatus(status);
+		Order order = orderMapper.findOrderInfo(orderId);
+		order.setId(orderId);
+		if (null != status){
+			order.setStatus(status);
+			addGoodQuantity(order);
+		}
 		if (null != actualPrice){
 			actualPrice=actualPrice*100;
-			record.setActualPrice(actualPrice.intValue());
+			order.setActualPrice(actualPrice.intValue());
 		}
 		if (null != payStatus)
-			record.setPayStatus(payStatus);
-		return orderMapper.updateByPrimaryKey(record);
+			order.setPayStatus(payStatus);
+		return orderMapper.updateByPrimaryKey(order);
 	}
 	
 	/**
@@ -231,22 +233,25 @@ public class OrderService {
 	 */
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus,Float frontMoney) {
-		Order record = orderMapper.findOrderInfo(orderId);
-		record.setId(orderId);
-		if (null != status)
-			record.setStatus(status);
+		Order order = orderMapper.findOrderInfo(orderId);
+		order.setId(orderId);
+		if (null != status){
+			order.setStatus(status);
+			addGoodQuantity(order);
+		}
 		if (null != actualPrice){
 			actualPrice=actualPrice*100;
-			record.setActualPrice(actualPrice.intValue());
+			order.setActualPrice(actualPrice.intValue());
 		}
 		if (null != payStatus)
-			record.setPayStatus(payStatus);
+			order.setPayStatus(payStatus);
 		if(null!=frontMoney){
 			frontMoney=frontMoney*100;
-			record.setFrontMoney(frontMoney.intValue());
+			order.setFrontMoney(frontMoney.intValue());
 		}
-		return orderMapper.updateByPrimaryKey(record);
+		return orderMapper.updateByPrimaryKey(order);
 	}
+	
 
 	@Transactional("transactionManager")
 	public int save(Customer customer,Integer customerId, Integer goodId, Integer quantity,
@@ -273,7 +278,9 @@ public class OrderService {
 			SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
 			int frontMoney = totalPrice*(Integer.parseInt(findByKey.getParamValue()))/100;
 			order.setFrontMoney(frontMoney);
-			
+		}
+		if(1==type || 2==type || 3==type || 4==type){
+			minusGoodQuantity(good, quantity);
 		}
 		order.setActualPrice(totalPrice);
 		order.setComment(comment);
@@ -313,6 +320,7 @@ public class OrderService {
 	 * @author Tory
 	 * @date 2015年4月20日 下午9:01:24
 	 */
+	@Transactional("transactionManager")
 	public int save(Customer customer,Integer customerId, Integer orderId, String goodQuantity,
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
@@ -354,6 +362,7 @@ public class OrderService {
 							}
 						}
 					}else{
+						minusGoodQuantity(good, map.get("quantity"));
 						for (OrderGood orderGoodOld : orderGoods) {
 							if (orderGoodOld.getGoodId().equals(good.getId())) {
 								totalPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
@@ -440,6 +449,38 @@ public class OrderService {
 			}
 		}
 		return orderNewId;
+	}
+	
+	/**
+	 * @description 确认订单减少库存
+	 * @author Tory
+	 * @date 2015年4月24日 下午11:02:45
+	 */
+	private void minusGoodQuantity(Good good,Integer quantity) throws Exception{
+		Integer stocks=good.getQuantity()-quantity ;//库存量
+		if(stocks<0){
+			throw new Exception("商品库存不足");
+		}
+		good.setQuantity(stocks);
+		goodMapper.updateByPrimaryKey(good);
+	}
+	
+	/**
+	 * @description 取消订单增加库存
+	 * @author Tory
+	 * @date 2015年4月24日 下午11:03:02
+	 */
+	private void addGoodQuantity(Order order){
+		Byte type = order.getTypes();
+		if(1==type || 2==type || 3==type || 4==type){
+			List<OrderGood> orderGoods = order.getOrderGoods();
+			for(OrderGood orderGood:orderGoods){
+				Good good = orderGood.getGood();
+				good.setQuantity(good.getQuantity()+orderGood.getQuantity());
+				goodMapper.updateByPrimaryKey(good);
+			}
+		}
+		return;
 	}
 
 	/**

@@ -139,7 +139,7 @@
     }
     
     function updateAddress(id,status,customerId){
-		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"id": id,
 	            "status":status,
 	            "customerId":customerId
@@ -178,7 +178,7 @@
 		//	alert("请先选择用户");
 		//	return;
 		//}
-		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"id": id,
 	             "cityId": cityId,
 	             "receiver": receiver,
@@ -194,7 +194,7 @@
 	
 	function setDefault(id){
 		var customerId=$("#customerId").val();
-		$.get('<@spring.url "/order/customer/address/setDefault" />',
+		$.post('<@spring.url "/order/customer/address/setDefault" />',
 	            {
 	            "id": id,
 	            "customerId": customerId
@@ -227,7 +227,7 @@
 			alert("请先选择用户");
 			return;
 		}
-		$.get('<@spring.url "/order/customer/address/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"cityId": cityId,
 	             "receiver": receiver,
 	             "address": address,

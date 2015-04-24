@@ -138,7 +138,7 @@
 			alert("备注内容不能为空！");
 			return;
 		}
-		$.get('<@spring.url "" />'+'/order/mark/agent/create',
+		$.post('<@spring.url "" />'+'/order/mark/agent/create',
 				{"orderId":id,
 				"content":content
 				},
@@ -163,7 +163,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
-					//popupPage();
+					popupPage();
 	            });
     }
     
@@ -175,7 +175,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.priceOrder_tab').hide();
 					$('.mask').hide();
-					//popupPage();
+					popupPage();
 	            });
     }
     
@@ -194,7 +194,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();
-					//popupPage();
+					popupPage();
 	            });
     }
     
@@ -203,7 +203,7 @@
 		var logisticsNumber = $('#logistics_number').val();
 		var terminalSerialNum = $('#terminal_serial_num').val();
 		var reserver2 = $('#reserver2').val();
-		$.get('<@spring.url "" />'+'/order/logistic/agent/create',
+		$.post('<@spring.url "" />'+'/order/logistic/agent/create',
 				{
 				"orderId":id,
 				"terminalSerialNum":terminalSerialNum,
@@ -219,7 +219,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
-					//popupPage();
+					popupPage();
 	            });
     }
 </script>

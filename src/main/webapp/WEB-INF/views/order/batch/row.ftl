@@ -70,7 +70,7 @@
 						</#if>
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
-				       <#elseif order.status==2>
+				       <#elseif order.status==2 && (!order.payStatus?? || order.payStatus!=2)>
 				       		<td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付定金</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
@@ -78,6 +78,13 @@
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_AGAIN_PAY_RECORD")>
 							   <a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">添加支付记录</a>
 						   </#if>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
+						<#elseif order.status==2 && (order.payStatus?? && order.payStatus==2)>
+				       		<td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付款</strong></td>
+				       		<td rowspan="${order.orderGoods?size}">
+				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
 				       <#elseif order.status==3>
@@ -123,11 +130,18 @@
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 	                    	</td>
-				       <#elseif order.status==2>
+				       <#elseif order.status==2 && (!order.payStatus?? || order.payStatus!=2)>
 				       		<td><strong class="strong_status">已付定金</strong></td>
 				       		<td><a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_AGAIN_PAY_RECORD")><a href="#" class="a_btn paymentRecord_a" onclick="payPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">添加支付记录</a></#if>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
+           					</td>
+           				<#elseif order.status==2 && (order.payStatus?? && order.payStatus==2)>
+				       		<td><strong class="strong_status">已付款</strong></td>
+				       		<td><a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
+						   <#if Roles.hasRole("AGENT_BATCH_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_OUT_STORAGE")><a href="#" class="a_btn deliver_a" onclick="deliverBtn(${order.id},${order.orderGoods?size});">发货</a></#if>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
            					</td>

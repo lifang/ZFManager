@@ -37,7 +37,7 @@ public class CustomerAddressController extends BaseController {
 	@Autowired
 	private CustomerService customerService;
 	
-	@RequestMapping(value = "saveOrUpdate", method = RequestMethod.GET)
+	@RequestMapping(value = "saveOrUpdate", method = {RequestMethod.GET,RequestMethod.POST})
 	public String saveOrUpdate(HttpServletRequest request, Model model, Integer id,
 			Integer cityId, String receiver, String address, String moblephone,
 			String zipCode, Integer isDefault, Byte status,Integer customerId) {
@@ -61,7 +61,7 @@ public class CustomerAddressController extends BaseController {
 		return "order/customerAddress";
 	}
 	
-	@RequestMapping(value = "query", method = RequestMethod.GET)
+	@RequestMapping(value = "query", method = {RequestMethod.GET,RequestMethod.POST})
 	public String query(HttpServletRequest request, Model model, Integer customerId) {
 		List<CustomerAddress> selectCustomerAddress = customerAddressService
 				.selectCustomerAddress(customerId);
@@ -80,7 +80,7 @@ public class CustomerAddressController extends BaseController {
 		return "order/customerAddressUpdate";
 	}*/
 	
-	@RequestMapping(value = "setDefault", method = RequestMethod.GET)
+	@RequestMapping(value = "setDefault", method = {RequestMethod.GET,RequestMethod.POST})
 	public String setDefault(HttpServletRequest request, Model model, Integer id,Integer customerId) {
 		customerAddressService.setDefault(id, customerId);
 		List<CustomerAddress> selectCustomerAddress = customerAddressService

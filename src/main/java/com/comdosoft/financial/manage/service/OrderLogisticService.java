@@ -42,7 +42,7 @@ public class OrderLogisticService {
 	@Autowired
 	private CsOutStorageMapper csOutStorageMapper;
 	
-	public int insert(Customer customer,Order order,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum,Integer csOutStorageStatus){
+	private int insert(Customer customer,Order order,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum,Integer csOutStorageStatus){
 		OrderLogistic record=new OrderLogistic();
 		Date createdAt = new Date();
 		record.setCreatedAt(createdAt);
@@ -58,7 +58,8 @@ public class OrderLogisticService {
 		csOutStorage.setProcessUserId(customer.getId());
 		csOutStorage.setProcessUserName(customer.getName());
 		csOutStorage.setQuantity(quantity);
-		csOutStorage.setStatus(csOutStorageStatus);
+		csOutStorage.setStatus(csOutStorageStatus);//1待处理，2已取消，3处理完成
+		
 		csOutStorageMapper.insert(csOutStorage);
 		//terminalSerialNum还没有生成实体
 		record.setCsOutStorageId(csOutStorage.getId());
@@ -70,6 +71,10 @@ public class OrderLogisticService {
 	 */
 	@Transactional(rollbackFor=Exception.class)
 	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
+		Order order=orderService.findOrderInfo(orderId);
+		if(null==order.getBelongsTo()){//订单属于掌富
+			return insert(customer, order, logisticsName, logisticsNumber, null, terminalSerialNum, 1);
+		}
 		Integer totalQuantity = 0;
 		Integer csOutStorageStatus=3;
 		if(null!=goodQuantity){
@@ -102,7 +107,6 @@ public class OrderLogisticService {
 				}
 			}
 		}
-		Order order=orderService.findOrderInfo(orderId);
 		for(String s:set){
 			Boolean isExist=false;
 			List<Terminal> findTerminalsByNums = terminalMapper.findTerminalsByNums(new String[]{s});
@@ -110,9 +114,7 @@ public class OrderLogisticService {
 				throw new Exception("终端号不存在！");
 			}
 			for(OrderGood og:order.getOrderGoods()){
-				System.out.println(og.getGood().getBelongsTo());
 				if(csOutStorageStatus==3&&null==og.getGood().getBelongsTo()){
-					
 					csOutStorageStatus=1;
 				}
 				for(Terminal findTerminalByNum:findTerminalsByNums){
@@ -139,8 +141,9 @@ public class OrderLogisticService {
 			if(order.getTotalOutQuantity()+totalQuantity!=order.getTotalQuantity()){
 				status=null;
 			}
-		}else{
-			status=3;
+		}
+		if(null==order.getBelongsTo()){
+			status=1;
 		}
 		orderService.save(orderId, status, null, null);
 		if(0==totalQuantity){
