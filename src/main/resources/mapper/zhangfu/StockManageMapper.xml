@@ -3,7 +3,7 @@
 <mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.StockManageMapper">
 	
 	<update id="toAfterSaleStock">
-		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and a.is_return_cs_depots!=1 and a.serial_num =#{serialNum} 
+		update terminals a set a.is_return_cs_depots=1,a.updated_at=now() where 1=1 and (is_return_cs_depots is null or is_return_cs_depots=0) and a.serial_num =#{serialNum} 
 	</update>
 
 	<update id="toNormalStock">
