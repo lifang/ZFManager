@@ -75,3 +75,12 @@ function checkEmail(str){
         return false;
     }
 }
+
+//统一处理后台异常
+function checkException(data){
+	if(data.indexOf("-1")==0){
+		alert(data.substring(2));
+		return false;
+	}
+	return true;
+}

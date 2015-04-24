@@ -14,16 +14,5 @@
     <div class="tabFoot"><button class="blueBtn" id="deliverSure">确定</button></div>
 </div>
 <script type="text/javascript">
-	function deliverBtn(id,size){
-    	var htmlStr='';
-    	for(var i=0;i<size;i++){
-    		var hidden_good_title = $('#hidden_good_title_'+id+'_'+i).val();
-    		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
-    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<p>POS机数量："+hidden_quantity+"</p>";
-    	}
-		$("#pos_info").html(htmlStr);
- 		//$("#deliverSure").click(function(){deliverSure(id)});
- 		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
-    }
+	
 </script>

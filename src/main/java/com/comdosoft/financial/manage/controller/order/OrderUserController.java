@@ -109,7 +109,7 @@ public class OrderUserController extends BaseController{
 		return "order/user/create";
 	}
 
-	@RequestMapping(value = "/user/createSure", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/createSure")
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,

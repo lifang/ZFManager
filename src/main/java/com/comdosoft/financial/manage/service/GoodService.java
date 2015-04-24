@@ -119,7 +119,9 @@ public class GoodService {
 				}
 			}
 		}
-		good.getFactory().setLogoFilePath(filePath+good.getFactory().getLogoFilePath());
+		if(null!=good.getFactory()){
+			good.getFactory().setLogoFilePath(filePath+good.getFactory().getLogoFilePath());
+		}
 		return good;
 	}
 	

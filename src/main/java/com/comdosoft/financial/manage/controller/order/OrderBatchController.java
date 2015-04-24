@@ -118,7 +118,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/create";
 	}
 
-	@RequestMapping(value = "/batch/createSure", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/createSure")
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
@@ -140,7 +140,7 @@ public class OrderBatchController extends BaseController {
 		* 再次订购确认订单
 		* @throws Exception
 		*/
-	@RequestMapping(value = "/batch/createSureAgain", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/createSureAgain")
 	public String createSureAgainGet(HttpServletRequest request, Model model,
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
@@ -206,6 +206,6 @@ public class OrderBatchController extends BaseController {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchInfo, OperateAction.cancel, id);
-		return "order/batch/row";
+		return "order/batch/infoUp";
 	}
 }

@@ -187,7 +187,7 @@
 		popup(".remark_tab",".remark_a");//备注
         popup(".priceOrder_tab",".priceOrder_a");//修改价格
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
-        popup(".deliver_tab",".deliver_a");//发货
+        //popup(".deliver_tab",".deliver_a");//发货
         popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格
         popup(".paymentRecordFront_tab",".paymentRecordFront_a");//支付定金
 	}
@@ -319,6 +319,8 @@
 					popupPage();
 	            });
 	    	return;
+    	}else{
+    		popupT(".deliver_tab")
     	}
     	var htmlStr='';
     	for(var i=0;i<size;i++){

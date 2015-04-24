@@ -194,7 +194,27 @@
 			return;
 		}
 		var invoiceType= $("#invoiceType").val();
-		var param='?goodId='+goodId+
+		
+		$.post('<@spring.url "/order/user/createSure" />',
+		            {
+		            "goodId": goodId,
+		            "quantity": quantity,
+		            "comment": comment,
+		            "customerAddressId": customerAddressId,
+		            "invoiceInfo": invoiceInfo,
+		            "needInvoice": needInvoice,
+		            "type": type,
+		            "payChannelId": payChannelId,
+		            "customerId": customerId,
+		            "invoiceType": invoiceType
+		            },
+		            function (data) {
+		            	if(!checkException(data)){
+		            		return;
+		            	}
+		            	location.href="<@spring.url "/order/user/list"/>";
+		            });
+		/*var param='?goodId='+goodId+
 					'&quantity='+quantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
@@ -204,7 +224,7 @@
 					'&payChannelId='+payChannelId+
 					'&customerId='+customerId+
 					'&invoiceType='+invoiceType;
-		location.href='<@spring.url "" />'+'/order/user/createSure'+param;
+		location.href='<@spring.url "" />'+'/order/user/createSure'+param;*/
 	}
 	
 	function saveCustomer(){

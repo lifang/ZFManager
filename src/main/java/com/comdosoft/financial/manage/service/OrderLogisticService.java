@@ -59,9 +59,8 @@ public class OrderLogisticService {
 		csOutStorage.setProcessUserName(customer.getName());
 		csOutStorage.setQuantity(quantity);
 		csOutStorage.setStatus(csOutStorageStatus);//1待处理，2已取消，3处理完成
-		
+		csOutStorage.setTerminalList(terminalSerialNum);
 		csOutStorageMapper.insert(csOutStorage);
-		//terminalSerialNum还没有生成实体
 		record.setCsOutStorageId(csOutStorage.getId());
 		return orderLogisticMapper.insert(record);
 	}
@@ -72,8 +71,8 @@ public class OrderLogisticService {
 	@Transactional(rollbackFor=Exception.class)
 	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
 		Order order=orderService.findOrderInfo(orderId);
-		if(null==order.getBelongsTo()){//订单属于掌富
-			return insert(customer, order, logisticsName, logisticsNumber, null, terminalSerialNum, 1);
+		if(null==order.getBelongsTo()){//订单属于掌富，发货数量0，状态为1
+			return insert(customer, order, logisticsName, logisticsNumber, 0, terminalSerialNum, 1);
 		}
 		Integer totalQuantity = 0;
 		Integer csOutStorageStatus=3;

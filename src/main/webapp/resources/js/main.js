@@ -101,6 +101,29 @@ function popup(t,b){
 		$(".mask").css('display','none');
 	})
 }
+
+//用于非绑定click弹窗,点击发货时需要判断是否弹窗
+function popupT(t){
+	var doc_height = $(document).height();
+	var doc_width = $(document).width();
+	var win_height = $(window).height();
+	var win_width = $(window).width();
+	
+	var layer_height = $(t).height();
+	var layer_width = $(t).width();
+	
+	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	//tab
+    $(".mask").css({display:'block',height:doc_height});
+	$(t).css('top',(win_height-layer_height)/2);
+	$(t).css('left',(win_width-layer_width)/2);
+	$(t).css('display','block');
+	$(".close").click(function(){
+		$(t).css('display','none');
+		$(".mask").css('display','none');
+	})
+}
+
 $(function(){
 	popup(".leaseExplain_tab",".leaseExplain_a");//租赁说明
 	popup(".leaseAgreement_tab",".leaseAgreement_a");//租赁协议
@@ -108,7 +131,7 @@ $(function(){
 	popup(".approve_tab",".approve_a");//通过审核
 	popup(".creditsExchange_tab",".ce_a");//兑换积分
 	popup(".remark_tab",".remark_a");//备注
-	popup(".deliver_tab",".deliver_a");//发货 订单用户
+	//popup(".deliver_tab",".deliver_a");//发货 订单用户
 	popup(".priceOrder_tab",".priceOrder_a");//修改订单价格 订单用户
 	popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
 	popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格 代理商批购

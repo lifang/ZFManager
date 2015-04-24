@@ -122,7 +122,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/create";
 	}
 	
-	@RequestMapping(value = "/agent/createSure", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/createSure")
 	public String createSureGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,
@@ -141,7 +141,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/list";
 	}
 	
-	@RequestMapping(value = "/agent/createSureAgain", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/createSureAgain")
 	public String createSureAgainGet(HttpServletRequest request, Model model,
 			Integer orderId, String goodQuantity, String comment,
 			String invoiceInfo, Integer customerAddressId, Integer invoiceType,

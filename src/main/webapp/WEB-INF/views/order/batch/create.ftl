@@ -180,7 +180,25 @@
 			return;
 		}
 		var invoiceType= $("#invoiceType").val();
-		var param='?goodId='+goodId+
+		
+		$.post('<@spring.url "/order/batch/createSure" />',
+		            {
+		            "goodId": goodId,
+		            "quantity": quantity,
+		            "comment": comment,
+		            "customerAddressId": customerAddressId,
+		            "type": type,
+		            "payChannelId": payChannelId,
+		            "customerId": customerId
+		            },
+		            function (data) {
+		            	if(!checkException(data)){
+		            		return;
+		            	}
+		            	location.href="<@spring.url "/order/batch/list"/>";
+		            });
+		
+		/*var param='?goodId='+goodId+
 					'&quantity='+quantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
@@ -190,7 +208,7 @@
 					'&type='+type+
 					'&payChannelId='+payChannelId+
 					'&customerId='+customerId;
-		location.href='<@spring.url "" />'+'/order/batch/createSure'+param;
+		location.href='<@spring.url "" />'+'/order/batch/createSure'+param;*/
 	}
 	
 	//再次订购
@@ -235,7 +253,22 @@
 			alert("请确定用户");
 			return;
 		}
-		var param='?orderId='+orderId+
+		$.post('<@spring.url "/order/batch/createSureAgain" />',
+		            {
+		            "orderId": orderId,
+		            "goodQuantity": goodQuantity,
+		            "comment": comment,
+		            "customerAddressId": customerAddressId,
+		            "type": type,
+		            "customerId": customerId
+		            },
+		            function (data) {
+		            	if(!checkException(data)){
+		            		return;
+		            	}
+		            	location.href="<@spring.url "/order/batch/list"/>";
+		            });
+		/*var param='?orderId='+orderId+
 					'&goodQuantity='+goodQuantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
@@ -244,7 +277,7 @@
 					//'&invoiceType='+invoiceType+
 					'&type='+type+
 					'&customerId='+customerId;
-		location.href='<@spring.url "" />'+'/order/batch/createSureAgain'+param;
+		location.href='<@spring.url "" />'+'/order/batch/createSureAgain'+param;*/
 	}
 	
 	function saveCustomer(){

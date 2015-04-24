@@ -1,5 +1,6 @@
 <tbody id="row_${order.id}">
     <tr class="order_hd">
+    	<input id="hidden_belongsTo_${order.id}" type="hidden" value="${order.belongsTo!0}" />
         <td colspan="6"><span>订单号 ${order.orderNumber!""}</span><span>${order.createdAt?datetime}</span>
             <span>类型：
             	<#if order.types??>

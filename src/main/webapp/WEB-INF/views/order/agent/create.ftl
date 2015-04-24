@@ -236,7 +236,24 @@
 			alert("请确定用户");
 			return;
 		}*/
-		var param='?goodId='+goodId+
+		$.post('<@spring.url "/order/batch/createSure" />',
+		            {
+		            "goodId": goodId,
+		            "quantity": quantity,
+		            "comment": comment,
+		            "customerAddressId": customerAddressId,
+		            "type": type,
+		            "payChannelId": payChannelId,
+		            "customerId": customerId,
+		            "agentCustomerId": agentCustomerId
+		            },
+		            function (data) {
+		            	if(!checkException(data)){
+		            		return;
+		            	}
+		            	location.href="<@spring.url "/order/batch/list"/>";
+		            });
+		/*var param='?goodId='+goodId+
 					'&quantity='+quantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
@@ -247,7 +264,7 @@
 					'&payChannelId='+payChannelId+
 					'&customerId='+customerId+
 					'&agentCustomerId='+agentCustomerId;
-		location.href='<@spring.url "" />'+'/order/agent/createSure'+param;
+		location.href='<@spring.url "" />'+'/order/agent/createSure'+param;*/
 	}
 	
 	//再次订购
@@ -287,7 +304,23 @@
 			alert("请确定用户");
 			return;
 		}
-		var param='?orderId='+orderId+
+		$.post('<@spring.url "/order/agent/createSureAgain" />',
+		            {
+		            "orderId": orderId,
+		            "goodQuantity": goodQuantity,
+		            "comment": comment,
+		            "customerAddressId": customerAddressId,
+		            "type": type,
+		            "customerId": customerId,
+		            "agentCustomerId": agentCustomerId
+		            },
+		            function (data) {
+		            	if(!checkException(data)){
+		            		return;
+		            	}
+		            	location.href="<@spring.url "/order/agent/list"/>";
+		            });
+		/*var param='?orderId='+orderId+
 					'&goodQuantity='+goodQuantity+
 					'&comment='+comment+
 					'&customerAddressId='+customerAddressId+
@@ -297,7 +330,7 @@
 					'&type='+type+
 					'&customerId='+customerId+
 					'&agentCustomerId='+agentCustomerId;
-		location.href='<@spring.url "" />'+'/order/agent/createSureAgain'+param;
+		location.href='<@spring.url "" />'+'/order/agent/createSureAgain'+param;*/
 	}
 	
 	function saveCustomer(){

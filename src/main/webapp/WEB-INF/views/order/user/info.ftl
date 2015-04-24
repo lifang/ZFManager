@@ -13,6 +13,7 @@
         	<h1>订单详情</h1>
         </div>
         <div class="detail_panel" id="infoUp_fresh">
+        	<input id="hidden_belongsTo_${order.id}" type="hidden" value="${order.belongsTo!0}" />
         	<#include "infoUp.ftl">
         </div>
         <div class="uesr_table">
@@ -147,7 +148,7 @@
 	function popupPage(){
         popup(".priceOrder_tab",".priceOrder_a");//修改价格
         popup(".paymentRecord_tab",".paymentRecord_a");//确认支付
-        popup(".deliver_tab",".deliver_a");//发货
+        //popup(".deliver_tab",".deliver_a");//发货
         
 	}
 	
@@ -199,6 +200,40 @@
 					$('.mask').hide();
 					popupPage();
 	            });
+    }
+    
+    function deliverBtn(id,size){
+		var belongsTo = $('#hidden_belongsTo_'+id).val();
+    	if(belongsTo==0){
+    		$('.deliver_tab').hide();
+    		$.post('<@spring.url "" />'+'/order/logistic/info/create',
+				{
+				"orderId":id
+				},
+	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
+	           		$('#row_'+id).replaceWith(data);
+					$('.deliver_tab').hide();
+					$('.mask').hide();
+	            	alert("已生成一张条发货记录，请及时处理");
+					popupPage();
+	            });
+	    	return;
+    	}else{
+    		popupT(".deliver_tab")
+    	}
+    	var htmlStr='';
+    	for(var i=0;i<size;i++){
+    		var hidden_good_title = $('#hidden_good_title_'+i).val();
+    		var hidden_quantity = $('#hidden_quantity_'+i).val();
+    		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
+	        "<p>POS机数量："+hidden_quantity+"</p>";
+    	}
+		$("#pos_info").html(htmlStr);
+		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
     }
     
     function deliverSure(id){

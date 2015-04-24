@@ -8,13 +8,18 @@
 package com.comdosoft.financial.manage.controller.order;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.service.RecordOperateService;
 import com.comdosoft.financial.manage.service.SessionService;
 
+@Controller
 public class BaseController {
 
 	@Autowired
@@ -76,4 +81,11 @@ public class BaseController {
 		return recordOperateService.saveOperateRecord(customer.getId(), customer.getName(), customer.getTypes(), types, content.toString(), operateTargetId);
 	}
 	
+	@ExceptionHandler(value = Exception.class)
+	public void handleException(Exception e, HttpServletResponse response)
+			throws Exception {
+		Response error = Response.getError(e.getMessage());
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(error.getCode()+error.getMessage());
+	}
 }
