@@ -64,4 +64,6 @@ public interface OutStoreMapper {
 	List<Map<String, Object>> getOrderGoodQuantity(@Param("orderId") int orderId);
 	
 	String getNameByLoginId(@Param("loginId") int loginId);
+	
+	int getTerminalIsUsed(@Param("serialNum") String serialNum);
 }

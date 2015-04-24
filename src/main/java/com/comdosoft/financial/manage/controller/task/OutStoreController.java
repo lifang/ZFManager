@@ -125,10 +125,11 @@ public class OutStoreController {
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="saveRemark",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveRemark(int id,String remarkContent,HttpServletRequest request){
+	public Response saveRemark(int id,String remarkContent,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= outStoreService.saveRemark(id,remarkContent,customer.getId(),customer.getTypes());
@@ -150,7 +151,7 @@ public class OutStoreController {
 	
 	@RequestMapping(value="distribute",method=RequestMethod.POST)
 	@ResponseBody
-	public Response distribute(String ids,String customerId,String customerName,HttpServletRequest request){
+	public Response distribute(String ids,String customerId,String customerName,HttpServletRequest request) throws NumberFormatException, Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId(),customer.getTypes());
