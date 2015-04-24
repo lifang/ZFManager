@@ -42,7 +42,7 @@
 	            	$('#dispatch_select').append('<p class="assign_tab_p">将选中的 <span class="orangeText">'+dispatchIds.length+'</span> 条<span class="orangeText">待处理</span>任务分派给</p>')
 	                $('#dispatch_select').append(data);
 	                if (dispatchedNums.length>0) {
-            			$('#dispatch_select').append('<br/><br/><em>编号<span class="orangeText">'+dispatchedNums+'</span>的申请已经在处理，不能再分派<em>')
+            			$('#dispatch_select').append('<br/><br/><em>编号<span class="orangeText break">'+dispatchedNums+'</span>的申请已经在处理，不能再分派<em>')
             		}
 	            });
 	    });
