@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.service.task;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.CustomerIntentionMark;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralConvertMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerIntegralRecordMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -30,6 +33,9 @@ public class CustomerIntegralConvertService {
 	@Resource
 	private CustomerIntegralRecordMapper customerIntegralRecordMapper;
 
+	@Autowired
+	private CustomerMapper customerMapper;
+	
 	@Value("${page.size}")
 	private Integer pageSize;
 
@@ -76,18 +82,27 @@ public class CustomerIntegralConvertService {
 		CustomerIntegralConvert integralConvert = customerIntegralConvertMapper.selectByPrimaryKey(id);
 		integralConvert.setStatus(CustomerIntegralConvert.CONVERT_SUCCESS);
 		integralConvert.setUpdatedAt(new Date());
+		//更新积分兑换记录状态
 		customerIntegralConvertMapper.updateByPrimaryKey(integralConvert);
 		
 		CustomerIntegralRecord cir = new CustomerIntegralRecord();
 		cir.setCustomerId(integralConvert.getCustomerId());
 		cir.setCreatedAt(new Date());
 		cir.setDescription(integralConvert.getApplyNum());
+		Integer q = integralConvert.getQuantity();
+		Integer customerid = integralConvert.getCustomerId();
 		cir.setQuantity(integralConvert.getQuantity()*-1);
 		cir.setTargetId(integralConvert.getId());
 		cir.setTargetType(CustomerIntegralRecord.TARGET_TYPE_DH);
 		cir.setTypes(CustomerIntegralRecord.TYPE_SUBTRACT);
+		//增加 积分收支记录 表
 		customerIntegralRecordMapper.insert(cir);
-//        customerIntegralConvertMapper.updateStatus(integralConvert);
+		Customer  customer = customerMapper.selectByPrimaryKey(customerid);
+		Integer integral = customer.getIntegral();
+		BigDecimal bd = new BigDecimal(integral);
+		customer.setIntegral(bd.subtract(new BigDecimal(q)).intValue());
+		customerMapper.updateInteger(customer);
+	
 	}
 	
  

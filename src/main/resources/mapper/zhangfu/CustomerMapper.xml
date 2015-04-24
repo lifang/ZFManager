@@ -75,6 +75,15 @@
       dentcode = #{dentcode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  <update id="updateInteger" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Customer">
+    update customers
+    set  
+      integral = #{integral,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
       WARNING - @mbggenerated

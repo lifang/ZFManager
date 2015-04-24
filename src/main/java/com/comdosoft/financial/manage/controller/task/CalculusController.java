@@ -81,8 +81,8 @@ public class CalculusController {
 	
 	@RequestMapping(value = "{id}/finish", method = RequestMethod.POST)
 	public void finish(HttpServletRequest request,HttpServletResponse response, @PathVariable Integer id) {
-		customerIntegralConvertService.finish(id);
 		Customer customer = sessionService.getLoginInfo(request);
+		customerIntegralConvertService.finish(id);
 		customerIntegralConvertService.record(customer,id,"标记为完成");
 	}
 	
