@@ -119,7 +119,7 @@
                     <li><span class="labelSpan">${(openingInfo.key)!""}：</span>
                         <div class="text">
                             <#if openingInfo.types == 2>
-                                <img src="<@spring.url "/resources/images/zp.jpg" />" value="${(openingInfo.value)!""}" class="cover" />
+                                <img src="${(openingInfo.value)!}" value="${(openingInfo.value)!}" class="cover" />
                             <#else>
                             ${(openingInfo.value)!""}
                             </#if>
@@ -127,7 +127,7 @@
                 </#list>
             </#if>
             </ul>
-            <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src="<@spring.url "/resources/images/mt_big.jpg" />"></div>
+            <div class="img_info" style="display: none; top: 0px; left: 0px;"><img style="max-width:500px;"></div>
         </div>
     </div>
     <#if !(isFactory??) || !isFactory>
