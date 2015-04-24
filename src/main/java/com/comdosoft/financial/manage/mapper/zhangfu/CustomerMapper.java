@@ -65,4 +65,13 @@ public interface CustomerMapper {
 
 	List<Customer> findCustomerByUserName(String username, Integer id);
 
+	/**
+	 * 
+	* @Title: updateInteger 
+	* @Description: 更新用户积分
+	* @return void    返回类型 
+	* @throws
+	 */
+	void updateInteger(Customer customer);
+
 }
