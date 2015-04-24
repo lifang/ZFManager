@@ -147,25 +147,28 @@ public class OutStoreService {
 	
 	public Map<String,Object> getOrderDetailInfo(int id){
 		if(null !=getOrderIdByOutStorageId(id)){
-			Map<String,Object> map=outStoreMapper.getInfoInit(getOrderIdByOutStorageId(id));
-			int invoiceType=Integer.parseInt(map.get("invoiceType").toString());
-			int actualPrice=Integer.parseInt(map.get("actualPrice").toString())/100;
-			map.put("actualPrice", actualPrice);
+			List<Map<String,Object>> map=outStoreMapper.getInfoInit(getOrderIdByOutStorageId(id));
+			
+			Map<String , Object> mapTemp=map.get(0);
+			
+			int invoiceType=Integer.parseInt(map.get(0).get("invoiceType").toString());
+			int actualPrice=Integer.parseInt(map.get(0).get("actualPrice").toString())/100;
+			mapTemp.put("actualPrice", actualPrice);
 			
 			if(invoiceType==0){
-				map.put("invoiceName", "公司");
+				mapTemp.put("invoiceName", "公司");
 			}else{
-				map.put("invoiceName", "个人");
+				mapTemp.put("invoiceName", "个人");
 			}
-			int types=Integer.parseInt(map.get("types").toString());
+			int types=Integer.parseInt(map.get(0).get("types").toString());
 			if(types==0){
-				map.put("typesName", "代购");
+				mapTemp.put("typesName", "代购");
 			}else{
-				map.put("typesName", "批购");
+				mapTemp.put("typesName", "批购");
 			}
 			
 			
-			return map;
+			return mapTemp;
 		}else{
 			return null;
 		}
