@@ -7,7 +7,7 @@
     <div class="evaluate_item">
         <div class="td_proBox clear">
             <#if (comment.good.pictures)?? && ((comment.good.pictures?size) > 0)>
-            <a href="#" class="cn_img"><img src="<@spring.url "${(comment.good.pictures[0]).urlPath}" />"></a>
+            <a href="#" class="cn_img"><img src="${(comment.good.pictures[0]).urlPath}"></a>
             </#if>
             <div class="td_proBox_info">
                 <h1><a href="#">${comment.good.title}</a></h1>

@@ -45,7 +45,7 @@ public interface OutStoreMapper {
 	
 	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
 	
-	Map<String, Object> getInfoInit(@Param("orderId") int orderId);
+	List<Map<String, Object>> getInfoInit(@Param("orderId") int orderId);
 	
 	int saveProcessUser(@Param("processUserId") int processUserId,@Param("processUserName") String processUserName,@Param("id") int id);
 	
