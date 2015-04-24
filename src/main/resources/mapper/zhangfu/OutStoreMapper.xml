@@ -69,10 +69,6 @@
 		(select b.customer_address_id from orders b where b.id=
 		(select c.order_id from cs_out_storages c where c.id=#{id} ))
 	</select>
-	<select id="getTerminalIsUsed" resultType="int">
-   	select count(id) as id from terminals where serial_num=#{serialNum} and customer_id is not null and agent_id is not null and order_id is not null
-   </select>
-	
 	
 	<select id="getInfoInit" resultType="hashmap">
 select ifnull(c.address,"") as address,ifnull(c.receiver,"") as receiver,
@@ -103,7 +99,7 @@ where a.id=#{id}
 		values(#{orderId},#{wlCompany},#{wlNum},now(),now(),#{csOutStorageId})
    </insert>
 	
-   <insert id="saveTerminalNum" useGeneratedKeys="true" keyProperty="id">
+   <insert id="saveTerminalNum" useGeneratedKeys="true">
 		insert into in_out_storages(order_id,good_id,terminal_number,created_at,created_user_id,quantity,cs_out_storage_id) 
 		values(#{orderId},#{goodId},#{port},now(),#{loginId},#{quantity},#{csOutStorageId})
    </insert>
@@ -157,12 +153,16 @@ where a.id=#{id}
    </select>
    
    <select id="getAgentIdByCustomerId" resultType="int">
-   		select id from agents where customer_id=#{customerId}
+   		select ifnull(id,"0") as id from agents where customer_id=#{customerId}
    </select>
    
    <update id="updateTerminals">
    	update terminals set customer_id=#{customerId},agent_id=#{agentId},order_id=#{orderId},updated_at=now() where serial_num=#{serialNum}
    </update>
+   
+   <select id="getTerminalIsUsed" resultType="int">
+   	select count(id) as id from terminals where serial_num=#{serialNum} and customer_id is not null and agent_id is not null and order_id is not null
+   </select>
    
    <select id="getQuantityByOrderGood" resultType="int">
    		select quantity from order_goods where good_id=#{goodId} and order_id=#{orderId}

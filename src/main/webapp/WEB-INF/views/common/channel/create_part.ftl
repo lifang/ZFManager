@@ -578,6 +578,13 @@
         $("#addOpeningRequirements").click(function(){
             var $newDiv = $("#hideRequirements").children("div").clone();
             $(this).before($newDiv);
+            $newDiv.find('.hasVideoVerify').on('click',function(){
+	    	if($(this).prop("checked")){
+		    	$(this).prop("value","true");
+			}else{
+			    $(this).prop("value","false");
+			}
+    	});
         });
 
         $(document).delegate(".addRequirement", "click", function () {
