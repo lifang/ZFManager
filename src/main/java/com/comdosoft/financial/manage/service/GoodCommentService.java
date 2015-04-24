@@ -2,10 +2,12 @@ package com.comdosoft.financial.manage.service;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
+import com.comdosoft.financial.manage.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodCommentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,8 @@ import java.util.List;
  */
 @Service
 public class GoodCommentService {
-
+    @Value("${filePath}")
+    private String filePath ;
     @Value("${page.comment.size}")
     private Integer pageSize;
     @Autowired
@@ -46,6 +49,11 @@ public class GoodCommentService {
             request = new PageRequest(comments.getTotalPage(), pageSize);
             result = goodCommentMapper.findPageCommentsByGoodIdAndStatus(request, GoodComment.STATUS_WAITING, null);
             comments = new Page<>(request, result, count);
+        }
+        for (GoodComment goodComment : comments.getContent()) {
+            for (GoodsPicture gp : goodComment.getGood().getPictures()) {
+                gp.setUrlPath(filePath+gp.getUrlPath());
+            }
         }
         return comments;
     }
