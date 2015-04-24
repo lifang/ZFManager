@@ -5,6 +5,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.*;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 import com.google.common.base.Strings;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class TerminalService {
 
     @Value("${page.size}")
     private Integer pageSize;
+    @Value("${filePath}")
+    private String filePath ;
 	@Autowired
 	private TerminalMapper terminalMapper;
     @Autowired
@@ -92,7 +95,14 @@ public class TerminalService {
     }
 
     public Terminal findTerminalInfo(Integer id) {
-        return terminalMapper.findTerminalInfo(id);
+        Terminal t=terminalMapper.findTerminalInfo(id);
+        List<TerminalOpeningInfo>ss=t.getOpeningApplie().getTerminalOpeningInfos();
+        for (TerminalOpeningInfo s : ss) {
+            if(s.getTypes()==2){
+                s.setValue(filePath+s.getValue());
+            }
+        }
+        return t;
     }
 
     public TerminalMark mark(Integer terminalId, Integer customerId, String content) {

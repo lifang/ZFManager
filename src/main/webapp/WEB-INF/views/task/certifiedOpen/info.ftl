@@ -102,16 +102,14 @@
 			    		<li>
 		                     <span class="labelSpan" >${one.key!}：</span>
 		                     <div class="text">
-		                     <img src="${one.value!}" class="cover"/>
+		                     <img src="${one.value!}" class="cover" value="${one.value!}" dbValue="${one.value!}" >
 		                     </div>
                			 </li>
 			    	</#if>
 			    </#list> 
 			    </#if>
 			</ul>
-			<div class="img_info">
-				<img src="images/mt_big.jpg" />
-			</div>
+			<div class="img_info" style="display: none; top: 0px; left: 0px;"><img style="max-width:500px;" src=""></div>
 		</div>
 	</div>
 	<div class="user_remark">
