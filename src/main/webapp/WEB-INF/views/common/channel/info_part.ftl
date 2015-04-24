@@ -112,8 +112,8 @@
             <ul>
                 <li><em>开通费用：</em><span>${((channel.openingCost)??)?string((((channel.openingCost)!0)/100)?string("0.00"),'')}元</span></li>
                 <li><em>是否需要预审：</em><span><#if channel.needPreliminaryVerify>是<#else>否</#if></span></li>
-                <li><em>开通申请条件：</em><span>${(channel.openingRequirement)!""}</span></li>
-                <li><em>开通申请材料：</em><span>${(channel.openingDatum)!""}</span></li>
+                <li><em>开通申请条件：</em><span class="break">${(channel.openingRequirement)!""}</span></li>
+                <li><em>开通申请材料：</em><span class="break">${(channel.openingDatum)!""}</span></li>
                 <li><em>开通协议：</em><span><a onClick="setContent('${(channel.openingProtocol)!""}')" class="a_btn description_a">查看协议</a></span></li>
                 <li><em>开通等级：</em>
                     <span>
@@ -155,7 +155,7 @@
                                         <#list channel.cancelRequirements as cancelRequirement>
                                         <tr>
                                             <td>${cancelRequirement.title!""}</td>
-                                            <td>${cancelRequirement.description!""}</td>
+                                            <td><div class="break">${cancelRequirement.description!""}</div></td>
                                             <td><a href="${cancelRequirement.templetFilePath}" target="_Blank" class="a_btn">查看模版</a></td>
                                         </tr>
                                         </#list>
