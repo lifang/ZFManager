@@ -168,7 +168,7 @@
                     <div class="text"><input name="g_returnTime" type="text"
                                              <#if (good.returnTime)??>value="${good.returnTime}"</#if>
                                              onkeyup="value=this.value.replace(/\D+/g,'')"> 月</div></li>
-                <li class="b"><span class="labelSpan">租赁说明：</span>
+                <li class="b clear"><span class="labelSpan">租赁说明：</span>
                     <div class="text">
                         <textarea name="g_leaseDescription" cols="" rows="" onkeyup="checkLength(this,600)"><#if (good.leaseDescription)??>${good.leaseDescription}</#if></textarea></div></li>
                 <li class="b"><span class="labelSpan">租赁协议：</span>
