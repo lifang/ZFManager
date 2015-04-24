@@ -207,7 +207,7 @@
                         <span class="checkboxRadio_span"><input name="c_preliminaryVerify" type="radio" value="false"> 否</span>
                     </div>
                 </li>
-                <li class="b"><span class="labelSpan">开通申请条件：</span>
+                <li class="b clear"><span class="labelSpan">开通申请条件：</span>
                     <div class="text"><textarea name="c_openingRequirement" cols="" rows="">${(channel.openingRequirement)!''}</textarea></div>
                 </li>
                 <li class="b"><span class="labelSpan">开通申请材料：</span>
@@ -578,6 +578,13 @@
         $("#addOpeningRequirements").click(function(){
             var $newDiv = $("#hideRequirements").children("div").clone();
             $(this).before($newDiv);
+            $newDiv.find('.hasVideoVerify').on('click',function(){
+	    	if($(this).prop("checked")){
+		    	$(this).prop("value","true");
+			}else{
+			    $(this).prop("value","false");
+			}
+    	});
         });
 
         $(document).delegate(".addRequirement", "click", function () {

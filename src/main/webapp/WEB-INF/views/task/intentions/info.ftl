@@ -25,9 +25,9 @@
 	      				   <#elseif one.status=2>处理中
 					       <#elseif one.status=3>处理完成
 				       	   </#if></strong></td> </li>
-				<li>意向：${one.content!}</li>
 			</ul>
 		</div>
+		 <div class="intention_text"><span>购买意向：</span><p>${one.content!}</p></div>
 	</div>
 	<div class="user_remark">
 		<textarea id="content" cols="" rows=""></textarea>

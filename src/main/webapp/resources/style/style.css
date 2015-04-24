@@ -1293,4 +1293,7 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 #prompt_div .plug i { width: 140px; height: 100px; background: url(../images/plug.png) no-repeat; display: inline-block;}
 
 
-
+/*----intention_text 购买意向--------*/
+.intention_text { margin: 5px 0; position: relative; padding-left: 60px;}
+.intention_text span { display: inline-block; position: absolute; top: 0px; left: 0px;}
+.intention_text p { display: inline-block;}

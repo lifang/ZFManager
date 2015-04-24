@@ -524,12 +524,14 @@ public class PayChannelService {
         for (Map<String, Object> openingRequirementObject : openingRequirements){
             //id: id, title: title, description: description, publicRequirements: publicRequirements, privateRequirements: privateRequirements
             Object openingRequirementId = openingRequirementObject.get("id");
+            String hasVideoVerify = (String)openingRequirementObject.get("hasVideoVerify");
             Object title = openingRequirementObject.get("title");
             Object description = openingRequirementObject.get("description");
             Object publicRequirements = openingRequirementObject.get("publicRequirements");
             Object privateRequirements = openingRequirementObject.get("privateRequirements");
             OpeningRequirement requirement = new OpeningRequirement();
             requirement.setPayChannelId(id);
+            requirement.setHasVideoVerify(Boolean.valueOf(hasVideoVerify));
             requirement.setLevelTitle(title == null ? null : (String) title);
             requirement.setLevelDescription(description == null ? null : (String) description);
             openingRequirementMapper.insert(requirement);
