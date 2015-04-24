@@ -221,7 +221,7 @@
                     <#if (channel.openingRequirements)??>
                         <#list channel.openingRequirements as openingRequirement>
                             <div class="itl_area" value="${openingRequirement.id}">
-                            	<div class="item_l2"><input name="" id="hasVideoVerify" type="checkbox" class="input_l" value="${((openingRequirement.hasVideoVerify)!false)?string('true', 'false')}"}><label>是否需要视频认证</label></div>
+                            	<div class="item_l2"><input name="" class="hasVideoVerify" type="checkbox" class="input_l" value="${((openingRequirement.hasVideoVerify)!false)?string('true', 'false')}"}><label>是否需要视频认证</label></div>
                                 <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelTitle)!''}"></div>
                                 <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l" value="${(openingRequirement.levelDescription)!''}"></div>
                                 <div class="item_l2"><label>对公开通所需：</label><select name="">
@@ -391,7 +391,7 @@
 
 <div id="hideRequirements" style="display: none;">
     <div class="itl_area">
-    	<div class="item_l2"><input name="" id="hasVideoVerify" type="checkbox" class="input_l" value=""}><label>是否需要视频认证</label></div>
+    	<div class="item_l2"><input name="" class="hasVideoVerify" type="checkbox" class="input_l" value=""><label>是否需要视频认证</label></div>
         <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l"></div>
         <div class="item_l2"><label>开通等级说明：</label><input name="" type="text" class="input_l"></div>
         <div class="item_l2"><label>对公开通所需：</label><select name="">
@@ -463,7 +463,7 @@
     <#else>
         $("input[name='c_preliminaryVerify'][value='true']").attr("checked", true);
     </#if>
-    $("#hasVideoVerify").each(function(){
+    $(".hasVideoVerify").each(function(){
     	var val = $(this).attr("value");
 	    if(val=='true'){
 	    	$(this).prop("checked",true);
@@ -471,17 +471,16 @@
 	    	$(this).prop("checked",false);
 	    }
     });
-    $("#hasVideoVerify").on('click',function(){
-    	if($(this).prop("checked")){
-	    	$(this).prop("value","true");
-		}
-		else{
-		    $(this).prop("value","false");
-		}
+    $(".hasVideoVerify").each(function(){
+    	$(this).on('click',function(){
+	    	if($(this).prop("checked")){
+		    	$(this).prop("value","true");
+			}else{
+			    $(this).prop("value","false");
+			}
+    	});
     });
     
-
-		
         $('#provinceSelect').change(function(){
             var provinceId = $(this).children('option:selected').val();
             if(isNotNull(provinceId)){
