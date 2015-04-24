@@ -1,13 +1,19 @@
 package com.comdosoft.financial.manage.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.CompressedFileUtil;
 import com.comdosoft.financial.manage.utils.FileUtil;
+import com.comdosoft.financial.manage.utils.HttpUtils;
+import com.comdosoft.financial.manage.utils.SysUtils;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,9 +31,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("terminal")
@@ -38,6 +47,10 @@ public class TerminalController {
     private String rootPath;
     @Value("${path.prefix.export}")
     private String exportPath;
+    @Value("${syncStatus}")
+    private String syncStatus;
+    @Value("${timingPath}")
+    private String timingPath;
     @Autowired
     private TerminalService terminalService;
     @Autowired
@@ -148,6 +161,28 @@ public class TerminalController {
         fileOutputStream.close();
         CompressedFileUtil.compressedFile(parentFile.getAbsolutePath(), rootPath + zipFileName);
         return Response.getSuccess(zipFileName);
+    }
+    
+    @RequestMapping(value="/syncStatus",method=RequestMethod.POST)
+    @ResponseBody
+    public String syncStatus(Integer terminalId){
+    	String url = timingPath + syncStatus;
+		
+		Map<String,String> headers = new  HashMap<String, String>();
+		headers.put("Content-Type", "application/x-www-form-urlencoded");
+		
+		Map<String,String> params = new  HashMap<String, String>();
+		params.put("terminalId", String.valueOf(terminalId));
+		
+		Map<String,File> fileParams = new  HashMap<String, File>();
+		ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		String response = "";
+		try {
+			response = HttpUtils.post(url, headers, params, fileParams, responseHandler);
+		} catch (IOException e) {
+			LOG.error("error..." + e);
+		}
+        return response;
     }
 
 }
