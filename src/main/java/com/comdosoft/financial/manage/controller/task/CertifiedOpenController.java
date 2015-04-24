@@ -33,14 +33,16 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/task/certifiedopen")
 public class CertifiedOpenController {
-
-	 public static final String POST_URL = "http://121.40.84.2:8680/timing/api/service/apply/open";
 	 
     @Value("${path.root}")
     private String rootPath;
     @Value("${path.prefix.pos}")
     private String posPath;
-
+    @Value("${applyURL}")
+    private String applyURL;
+    @Value("${timingPath}")
+    private String timingPath;
+    
     @Autowired
     private SessionService sessionService;
 
@@ -209,8 +211,8 @@ public class CertifiedOpenController {
      * @throws ClassNotFoundException
      */
     @SuppressWarnings({ "unchecked", "unused" })
-	public static Object  sendPost(Integer terminalId) throws IOException, ClassNotFoundException {
-        URL postUrl = new URL(POST_URL);
+	private Object  sendPost(Integer terminalId) throws IOException, ClassNotFoundException {
+        URL postUrl = new URL(timingPath+applyURL);
         HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
         connection.setDoOutput(true);
         connection.setDoInput(true);

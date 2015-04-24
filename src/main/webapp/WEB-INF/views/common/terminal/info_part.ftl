@@ -3,7 +3,7 @@
     <div class="user_title"><h1>终端详情</h1>
     <#if !(isFactory??) || !isFactory>
         <div class="userTopBtnBox">
-            <a href="#" class="ghostBtn">同步</a>
+            <a href="javascript:void(0)" class="ghostBtn">同步</a>
         </div>
     </#if>
     </div>
@@ -154,6 +154,28 @@
     </div>
 </div>
 <script>
+	$(function(){
+		$(".ghostBtn").click(function(){
+		var id = ${(terminal.id)!""};
+		if(id==''){
+			alert("没有终端号");
+			return false;
+		}
+		$.post('<@spring.url "/terminal/syncStatus" />',
+			{"terminalId":id},
+			function(data){
+			var data = eval("("+data+")");
+				if(data.code==1){
+					alert("同步成功");
+					location.reload();
+				}else{
+					alert(data.message);
+					return false;
+				}
+			});
+		});
+	});
+	
 	<#-- 控制长度-->
 	function checkLength(obj,lengthStr){
 		var temp=$(obj).val();
