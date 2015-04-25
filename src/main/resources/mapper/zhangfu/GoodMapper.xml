@@ -182,7 +182,20 @@
 		</where>
 	</sql>
 	<select id="findPageGoodsByKeys" resultMap="PageGoodResultMap">
-		select g.*,
+		select g.id,ifnull(g.title,"") as title,ifnull(g.second_title,"") as second_title,ifnull(g.key_worlds,"") as key_worlds,
+ifnull(g.factory_id,"") as factory_id,ifnull(g.pos_category_id,"") as pos_category_id,ifnull(g.model_number,"") as model_number,
+ifnull(g.encrypt_card_way_id,"") as encrypt_card_way_id,ifnull(g.sign_order_way_id,"") as sign_order_way_id,ifnull(g.battery_info,"") as battery_info,
+ifnull(g.shell_material,"") as shell_material,ifnull(g.retail_price,"") as retail_price,
+ifnull(g.purchase_price,"") as purchase_price,ifnull(g.floor_price,"") as floor_price,ifnull(g.floor_purchase_quantity,"") as floor_purchase_quantity,
+ifnull(g.has_purchase,"") as has_purchase,ifnull(g.description,"") as description,
+ifnull(g.quantity,"") as quantity,ifnull(g.total_score,"") as total_score,ifnull(g.total_comment,"") as total_comment,ifnull(g.price,"") as price,
+ifnull(g.has_lease,"") as has_lease,
+ifnull(g.lease_price,"") as lease_price,ifnull(g.lease_time,"") as lease_time,ifnull(g.status,"") as status,ifnull(g.is_published,"") as is_published,
+ifnull(g.good_brands_id,"") as good_brands_id,
+ifnull(g.created_user_id,"") as created_user_id,ifnull(g.created_user_type,"") as created_user_type,ifnull(g.created_at,"") as created_at,
+ifnull(g.updated_at,"") as updated_at,ifnull(g.belongs_to,"") as belongs_to,
+ifnull(g.published_at,"") as published_at,ifnull(g.volume_number,"") as volume_number,ifnull(g.purchase_number,"") as purchase_number,
+ifnull(g.lease_deposit,"") as lease_deposit,ifnull(g.return_time,"") as return_time,ifnull(g.lease_description,"") as lease_description,ifnull(g.lease_agreement,"") as lease_agreement,		
 		gb.id as gb_id, gb.name as gb_name
 		from goods g left join good_brands gb on g.good_brands_id=gb.id
 		<include refid="pageWhere" />
