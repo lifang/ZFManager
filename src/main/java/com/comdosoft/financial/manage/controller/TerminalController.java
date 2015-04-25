@@ -5,6 +5,7 @@ import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.TerminalService;
+import com.comdosoft.financial.manage.utils.CommonServiceUtil;
 import com.comdosoft.financial.manage.utils.CompressedFileUtil;
 import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.HttpUtils;
@@ -167,22 +168,13 @@ public class TerminalController {
     @ResponseBody
     public String syncStatus(Integer terminalId){
     	String url = timingPath + syncStatus;
-		
-		Map<String,String> headers = new  HashMap<String, String>();
-		headers.put("Content-Type", "application/x-www-form-urlencoded");
-		
-		Map<String,String> params = new  HashMap<String, String>();
-		params.put("terminalId", String.valueOf(terminalId));
-		
-		Map<String,File> fileParams = new  HashMap<String, File>();
-		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		String response = "";
+		String response = null;
 		try {
-			response = HttpUtils.post(url, headers, params, fileParams, responseHandler);
+			response = CommonServiceUtil.synchronizeStatus(url, terminalId);
 		} catch (IOException e) {
 			LOG.error("error..." + e);
 		}
-        return response;
+		return response;
     }
 
 }
