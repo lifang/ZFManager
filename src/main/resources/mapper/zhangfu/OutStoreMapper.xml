@@ -88,7 +88,7 @@ from orders a left join customers b on a.customer_id=b.id left join customer_add
 	
 	<select id="getOrderIdByOutStorageId" resultType="hashmap">
 		select a.order_id as orderId,b.order_number as orderNumber,
-		ifnull(a.process_user_id,"") as processUserId from cs_out_storages a 
+		ifnull(a.process_user_id,"") as processUserId,ifnull(a.process_user_name,"") as processUserName from cs_out_storages a 
 left join orders b on a.order_id=b.id 
 where a.id=#{id}
 	</select>

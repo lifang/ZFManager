@@ -99,6 +99,7 @@ public class OutStoreService {
 			for(int i=0;i<goods.size();i++){
 				str.setLength(0);
 				Good goodTemp=goods.get(i);
+				
 				List<Map<String, Object>> terminals=outStoreMapper.getTerminalNum(orderId, goodTemp.getId());
 				
 				for(int j=0;j<terminals.size();j++){
@@ -109,7 +110,11 @@ public class OutStoreService {
 						str.append(" "+terminals.get(j).get("num").toString());
 					}
 				}
-				goodTemp.setTerminalPort(str.toString());
+				if(str.length()>0){
+					goodTemp.setTerminalPort(str.toString());
+				}else{
+					goodTemp.setTerminalPort("第三方库存发货");
+				}
 				goodsNew.add(goodTemp);
 			}
 			return goodsNew;
@@ -177,8 +182,8 @@ public class OutStoreService {
 	public String getOperater(int id){
 		Map<String, Object> map=outStoreMapper.getOrderIdByOutStorageId(id);
 		if(null !=map){
-			if(null != map.get("processUserId")){
-				String name= map.get("processUserId").toString();
+			if(null != map.get("processUserName")){
+				String name= map.get("processUserName").toString();
 				return name;
 			}else{
 				return "";
