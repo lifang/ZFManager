@@ -304,16 +304,18 @@ public class OutStoreService {
 									resultInfo.append("输入的终端号已经关联其他订单号");
 									throw new Exception("输入的终端号已经关联其他订单号");
 								}
+								
 								if(resultCode==Response.SUCCESS_CODE){
+									int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
 									if(types==1 || types==2){
-										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port);
+										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
 									}else if(types==3){
 										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-										temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port);
+										temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);
 									}else{
 										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
 										
-										int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
+										
 										temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
 									}
 									if(temp1<1){
