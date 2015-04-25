@@ -328,7 +328,7 @@
     		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		var hidden_order_good_id = $('#hidden_order_good_id_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+id+"' type='text' class='input_m' /></div> ";
+	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});

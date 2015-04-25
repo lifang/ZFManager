@@ -37,7 +37,7 @@
     	<div class="evaluate">
         	<a href="#">
             <ul>
-            	<#if good.totalScore!=0&&good.totalComment!=0>
+            	<#if good.totalScore??&& good.totalComment??&&good.totalScore!=0&&good.totalComment!=0>
             		<#if good.totalScore/good.totalComment gte 5>
             			<li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li><li class="p_li_o"></li>
             		<#elseif good.totalScore/good.totalComment gte 4>	

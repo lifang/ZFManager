@@ -457,6 +457,7 @@ public class OrderService {
 	 * @date 2015年4月24日 下午11:02:45
 	 */
 	private void minusGoodQuantity(Good good,Integer quantity) throws Exception{
+		good=goodMapper.selectByPrimaryKey(good.getId());
 		Integer stocks=good.getQuantity()-quantity ;//库存量
 		if(stocks<0){
 			throw new Exception("商品库存不足");
@@ -475,7 +476,7 @@ public class OrderService {
 		if(1==type || 2==type || 3==type || 4==type){
 			List<OrderGood> orderGoods = order.getOrderGoods();
 			for(OrderGood orderGood:orderGoods){
-				Good good = orderGood.getGood();
+				Good good =goodMapper.selectByPrimaryKey( orderGood.getGood().getId());
 				good.setQuantity(good.getQuantity()+orderGood.getQuantity());
 				goodMapper.updateByPrimaryKey(good);
 			}
