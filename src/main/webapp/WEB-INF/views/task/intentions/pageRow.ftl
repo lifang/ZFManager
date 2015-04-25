@@ -8,9 +8,13 @@
 	       <#elseif one.status=2>处理中
 	       <#elseif one.status=3>处理完成
        	   </#if></strong></td> 
-	<td><a href="<@spring.url "/task/intention/${one.id}/info" />" class="a_btn">查看详情</a> 
-	<#if one.status=1><a onclick="ups(${one.id!},2,${intentions.currentPage!})" class="a_btn">标记为处理中</a>
-   	<#elseif one.status=2><a onclick="ups(${one.id!},3,${intentions.currentPage!})" class="a_btn">标记为已处理</a></td>
+	<td>
+		<a href="<@spring.url "/task/intention/${one.id}/info" />" class="a_btn">查看详情</a>
+	<#if one.status=1>
+		<#if Roles.hasRole("INTENTION_MARK_PROCESSING")><a onclick="ups(${one.id!},2,${intentions.currentPage!})" class="a_btn">标记为处理中</a></#if>
+   	<#elseif one.status=2>
+		<#if Roles.hasRole("INTENTION_MARK_FINISH")><a onclick="ups(${one.id!},3,${intentions.currentPage!})" class="a_btn">标记为已处理</a></#if>
   	</#if>
+    </td>
 </tr>
 

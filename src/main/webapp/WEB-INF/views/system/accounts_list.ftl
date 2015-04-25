@@ -18,7 +18,9 @@
 
     <div class="user_title"><h1>运营账号列表</h1>
         <div class="userTopBtnBox">
+    <#if Roles.hasRole("ZF_ACCOUNT_CREATE_EDIT")>
             <a href="<@spring.url "/system/operate/account/create"/>" class="ghostBtn">创建帐号</a>
+    </#if>
         </div>
     </div>
 

@@ -9,7 +9,9 @@
     <div class="content clear">
         <div class="user_title"><h1>第三方机构列表</h1>
             <div class="userTopBtnBox">
+    <#if Roles.hasRole("FACTORY_CREATE_EDIT")>
                 <a href="<@spring.url "/system/factory/create" />" class="ghostBtn">创建机构帐号</a>
+    </#if>
             </div>
         </div>
 
