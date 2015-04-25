@@ -84,7 +84,7 @@ public class BaseController {
 	@ExceptionHandler(value = Exception.class)
 	public void handleException(Exception e, HttpServletResponse response)
 			throws Exception {
-		Response error = Response.getError(e.getMessage());
+		Response error = Response.getError(e.getMessage()!=null?e.getMessage():"^^错误信息为空………");
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(error.getCode()+error.getMessage());
 	}

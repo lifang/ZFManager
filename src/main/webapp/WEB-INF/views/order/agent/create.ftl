@@ -236,7 +236,7 @@
 			alert("请确定用户");
 			return;
 		}*/
-		$.post('<@spring.url "/order/batch/createSure" />',
+		$.post('<@spring.url "/order/agent/createSure" />',
 		            {
 		            "goodId": goodId,
 		            "quantity": quantity,
@@ -251,7 +251,7 @@
 		            	if(!checkException(data)){
 		            		return;
 		            	}
-		            	location.href="<@spring.url "/order/batch/list"/>";
+		            	location.href="<@spring.url "/order/agent/list"/>";
 		            });
 		/*var param='?goodId='+goodId+
 					'&quantity='+quantity+
