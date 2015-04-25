@@ -312,7 +312,9 @@ public class OutStoreService {
 										temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port);
 									}else{
 										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-										temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port);
+										
+										int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
+										temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
 									}
 									if(temp1<1){
 										//更新失败

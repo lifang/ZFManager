@@ -157,7 +157,8 @@ where a.id=#{id}
    </select>
    
    <update id="updateTerminals">
-   	update terminals set customer_id=#{customerId},agent_id=#{agentId},order_id=#{orderId},updated_at=now() where serial_num=#{serialNum}
+   	update terminals set customer_id=#{customerId},agent_id=#{agentId},
+   	order_id=#{orderId},updated_at=now(),pay_channel_id=#{payChannelId} where serial_num=#{serialNum}
    </update>
    
    <select id="getTerminalIsUsed" resultType="int">
@@ -177,6 +178,11 @@ where a.id=#{id}
    		select good_id as goodId,sum(quantity) as quantity from order_goods
 			where 1=1 and order_id=#{orderId} GROUP BY good_id
    	</select>
+   	
+   	<select id="getPayChannleIdByOrderId" resultType="int">
+   		select pay_channel_id from order_goods where order_id=#{orderId} and good_id=#{goodId}
+   	</select>
+   	
    	
    <select id="getNameByLoginId" resultType="String">
    		select ifnull(name,"") as name from customers where id=#{loginId}
