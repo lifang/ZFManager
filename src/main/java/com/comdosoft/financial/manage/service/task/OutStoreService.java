@@ -296,6 +296,7 @@ public class OutStoreService {
 								portsAll.append(","+port);
 							}
 							int temp1=0;
+							int temp3=0;
 							if(resultCode==Response.SUCCESS_CODE){
 								int countTemp=outStoreMapper.getTerminalIsUsed(port);
 								if(countTemp>0){
@@ -309,14 +310,15 @@ public class OutStoreService {
 									int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
 									if(types==1 || types==2){
 										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
+										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}else if(types==3){
 										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
 										temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);
+										temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
 									}else{
 										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-										
-										
 										temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
+										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}
 									if(temp1<1){
 										//更新失败
@@ -324,6 +326,13 @@ public class OutStoreService {
 										resultInfo.setLength(0);
 										resultInfo.append("更新terminals表信息出错");
 										throw new Exception("更新terminals表信息出错");
+									}
+									if(temp3<1){
+										//更新失败
+										resultCode=Response.ERROR_CODE;
+										resultInfo.setLength(0);
+										resultInfo.append("更新goods表销售数量或批购数量信息出错");
+										throw new Exception("更新goods表销售数量或批购数量信息出错");
 									}
 								}
 							}

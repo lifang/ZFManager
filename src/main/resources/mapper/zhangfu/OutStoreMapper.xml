@@ -187,4 +187,14 @@ where a.id=#{id}
    <select id="getNameByLoginId" resultType="String">
    		select ifnull(name,"") as name from customers where id=#{loginId}
    </select>
+   
+   <update id="updateGoodsVolumeNumber">
+   	update goods set volume_number=volume_number+1 where id=#{goodId}
+   </update>
+   
+   <update id="updateGoodsPurchaseNumber">
+   	update goods set purchase_number=purchase_number+1 where id=#{goodId}
+   </update>
+   
+   
 </mapper>
