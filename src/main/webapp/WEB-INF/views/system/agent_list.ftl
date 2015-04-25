@@ -9,7 +9,9 @@
     <div class="content clear">
         <div class="user_title"><h1>代理商列表</h1>
             <div class="userTopBtnBox">
+    <#if Roles.hasRole("AGENT_CREATE_EDIT")>
                 <a href="<@spring.url "/system/agent/create" />" class="ghostBtn">创建代理商</a>
+    </#if>
             </div>
         </div>
 

@@ -11,43 +11,34 @@
     </strong></td>
     <td>
     <#if factory.status=1>
+        <#if Roles.hasRole("FACTORY_FIRST_VERIFY")>
         <a onClick="firstCheck(${factory.id})" class="a_btn">初审通过</a>
         <a onClick="firstUnCheck(${factory.id})" class="a_btn">初审不通过</a>
+        </#if>
+        <#if Roles.hasRole("FACTORY_VERIFY")>
         <a onClick="check(${factory.id})" class="a_btn">审核通过</a>
         <a onClick="unCheck(${factory.id})" class="a_btn">审核不通过</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
+        </#if>
     <#elseif factory.status=2>
+        <#if Roles.hasRole("FACTORY_FIRST_VERIFY")>
         <a onClick="firstCheck(${factory.id})" class="a_btn">初审通过</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
-
+        </#if>
     <#elseif factory.status=3>
+        <#if Roles.hasRole("FACTORY_VERIFY")>
         <a onClick="check(${factory.id})" class="a_btn">审核通过</a>
         <a onClick="unCheck(${factory.id})" class="a_btn">审核不通过</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
-
+        </#if>
     <#elseif factory.status=4>
+        <#if Roles.hasRole("FACTORY_VERIFY")>
         <a onClick="check(${factory.id})" class="a_btn">审核通过</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="#" class="a_btn">密码重置</a>
-
+        </#if>
     <#elseif factory.status=5>
-        <a onClick="stop(${factory.id})" class="a_btn">停用</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
-
+        <#if Roles.hasRole("FACTORY_STOP_START")><a onClick="stop(${factory.id})" class="a_btn">停用</a></#if>
     <#elseif factory.status=6>
-        <a onClick="start(${factory.id})" class="a_btn">启用</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-        <a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a>
+        <#if Roles.hasRole("FACTORY_STOP_START")><a onClick="start(${factory.id})" class="a_btn">启用</a></#if>
     </#if>
+        <#if Roles.hasRole("FACTORY_CREATE_EDIT")><a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a></#if>
+        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
+    <#if Roles.hasRole("FACTORY_RESET_PWD")><a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a></#if>
     </td>
 </tr>

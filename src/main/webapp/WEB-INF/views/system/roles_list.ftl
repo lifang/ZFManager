@@ -17,7 +17,9 @@
 
     <div class="user_title"><h1>运营角色列表</h1>
         <div class="userTopBtnBox">
+    <#if Roles.hasRole("ZF_ACCOUNT_ROLES")>
             <a href="<@spring.url "/system/operate/role/create"/>" class="ghostBtn">创建角色</a>
+    </#if>
         </div>
     </div>
 
