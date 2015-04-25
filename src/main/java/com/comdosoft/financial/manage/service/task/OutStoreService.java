@@ -250,9 +250,11 @@ public class OutStoreService {
 			if(null!=tempOrderMap.get("customerId")){
 				customerId=tempOrderMap.get("customerId").toString();
 			}else{
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("订单管理的customerId为空");
+				if(null!=tempOrderMap.get("types") && !tempOrderMap.get("types").toString().equals("3")){
+					resultCode=Response.ERROR_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("订单管理的customerId为空");
+				}
 			}
 			if(resultCode==Response.SUCCESS_CODE){
 			//循环对商品及其终端号进行保存
