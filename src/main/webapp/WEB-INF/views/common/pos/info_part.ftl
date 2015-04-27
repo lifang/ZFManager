@@ -26,13 +26,13 @@
         <h2>基础信息</h2>
         <div class="attributes_list clear">
             <ul>
-                <li><em>标题：</em><span>${good.title!}</span></li>
-                <li><em>副标题：</em><span>${good.secondTitle!}</span></li>
-                <li><em>关键字：</em><span>${good.keyWorlds!}</span></li>
+                <li><em>标题：</em><span>${good.title!""}</span></li>
+                <li><em>副标题：</em><span>${good.secondTitle!""}</span></li>
+                <li><em>关键字：</em><span>${good.keyWorlds!""}</span></li>
                 <li><em>POS机分类：</em><span><#if good.posCategory??>${good.posCategory.name!}</#if></span></li>
                 <li><em>选择厂家：</em><span><#if good.factory??>${good.factory.name!}</#if></span></li>
                 <li><em>POS机品牌：</em><span><#if good.goodBrand??>${good.goodBrand.name!}</#if></span></li>
-                <li><em>POS机型号：</em><span>${good.modelNumber!}</span></li>
+                <li><em>POS机型号：</em><span>${good.modelNumber!""}</span></li>
                 <li><em>加密卡方式：</em><span><#if good.encryptCardWay??>${good.encryptCardWay.encryptCardWay!}</#if></span></li>
                 <li><em>签购单打印方式：</em><span><#if good.signOrderWay??>${good.signOrderWay.signOrderWay!}</#if></span></li>
                 <li><em>支持银行卡：</em><span>
@@ -41,8 +41,8 @@
                             ${cardType.cardType}
                             </#list>
                         </#if>
-                            <li><em>电池信息：</em><span>${good.batteryInfo!}</span></li>
-                    <li><em>外壳材质：</em><span>${good.shellMaterial!}</span></li>
+                            <li><em>电池信息：</em><span>${good.batteryInfo!""}</span></li>
+                    <li><em>外壳材质：</em><span>${good.shellMaterial!""}</span></li>
             </ul>
         </div>
     </div>
@@ -51,8 +51,8 @@
         <h2>价格信息</h2>
         <div class="attributes_list clear">
             <ul>
-                <li><em>原价：</em><span>${(good.price/100)?string("0.00")}元</span></li>
-                <li><em>现价：</em><span>${(good.retailPrice/100)?string("0.00")}元</span></li>
+                <li><em>原价：</em><span><#if good.price??>${(good.price/100)?string("0.00")}元</#if></span></li>
+                <li><em>现价：</em><span><#if good.retailPrice??>${(good.retailPrice/100)?string("0.00")}元</#if></span></li>
             </ul>
         </div>
     </div>
@@ -61,9 +61,9 @@
         <h2>批购信息</h2>
         <div class="attributes_list clear">
             <ul>
-                <li><em>批购：</em><span>${(good.purchasePrice/100)?string("0.00")}元</span></li>
-                <li><em>最低限价：</em><span>${(good.floorPrice/100)?string("0.00")}元</span></li>
-                <li><em>最小批购量：</em><span>${good.floorPurchaseQuantity}个</span></li>
+                <li><em>批购：</em><span><#if good.purchasePrice??>${(good.purchasePrice/100)?string("0.00")}元</#if></span></li>
+                <li><em>最低限价：</em><span><#if good.floorPrice??>${(good.floorPrice/100)?string("0.00")}元</#if></span></li>
+                <li><em>最小批购量：</em><span><#if good.floorPurchaseQuantity??>${good.floorPurchaseQuantity}个</#if></span></li>
             </ul>
         </div>
     </div>
