@@ -208,7 +208,10 @@
         $.get('<@spring.url "/terminal/${terminal.id}/exportOpenInfo" />',
                 function (data) {
                     if(data.code==1){
-                        window.open(data.result);
+                        window.location.href = data.result;
+                    }
+                    if(data.code == -1){
+                    	alert(data.message);
                     }
                 });
     }

@@ -241,5 +241,11 @@
         select * from terminals where serial_num in 
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach> 
     </select>
+    
+    <select id="getTerminalOpen"  resultType="map" parameterType="map">
+		SELECT i.* FROM opening_applies o 
+		LEFT JOIN terminal_opening_infos i on i.opening_applies_id = o.id and i.types = #{type}
+		WHERE o.terminal_id = #{id} 
+	</select>
 
 </mapper>

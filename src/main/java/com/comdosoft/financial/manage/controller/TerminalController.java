@@ -8,6 +8,7 @@ import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.CommonServiceUtil;
 import com.comdosoft.financial.manage.utils.CompressedFileUtil;
 import com.comdosoft.financial.manage.utils.FileUtil;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.HttpUtils;
 import com.comdosoft.financial.manage.utils.SysUtils;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -52,6 +54,9 @@ public class TerminalController {
     private String syncStatus;
     @Value("${timingPath}")
     private String timingPath;
+    @Value("${filePath}")
+    private String filePath;
+   
     @Autowired
     private TerminalService terminalService;
     @Autowired
@@ -98,7 +103,26 @@ public class TerminalController {
 
     @RequestMapping(value="{id}/exportOpenInfo",method=RequestMethod.GET)
     @ResponseBody
-    public Response exportOpenInfo(@PathVariable Integer id) throws Exception {
+    public Response exportOpenInfo(@PathVariable String id) throws Exception {
+    	//获取该终端申请开通图片资料集合
+    	System.out.println("查看id:"+id);
+    	List<Map<Object, Object>> list = terminalService.getTerminalOpen(Integer.valueOf(id),TerminalOpeningInfo.TYPE_FILE);
+		if(list == null){
+			return Response.getError("下载失败！");
+		}
+		String[] str = new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			if((String) list.get(i).get("value") !=null){
+				str[i] = (String) list.get(i).get("value");
+			}
+		}
+		int count  = HttpFile.postWar(str,id);
+		if(count == 0){
+			//return Response.getSuccess("http://121.40.84.2:8888/zip/terminal/145.zip");
+			return Response.getSuccess(filePath+"zip/terminal/"+id+".zip");
+		}
+			return Response.getError("下载失败！");
+		/*
         String zipFileName = exportPath+ FileUtil.getPathFileName()+".zip";
         File parentFile = new File(rootPath + zipFileName.replace(".zip", ""));
         parentFile.mkdirs();
@@ -162,7 +186,7 @@ public class TerminalController {
         fileOutputStream.close();
         CompressedFileUtil.compressedFile(parentFile.getAbsolutePath(), rootPath + zipFileName);
         return Response.getSuccess(zipFileName);
-    }
+    */}
     
     @RequestMapping(value="/syncStatus",method=RequestMethod.POST)
     @ResponseBody

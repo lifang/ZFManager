@@ -2,9 +2,11 @@ package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TerminalMapper {
 
@@ -79,5 +81,12 @@ public interface TerminalMapper {
 	 * @return
 	 */
 	List<Terminal> findTerminalsByNums(String[] serialNums);
+	
+	 /**
+     * 获得终端开通图片资料
+     * 
+     * @return
+     */
+    List<Map<Object, Object>> getTerminalOpen(Map<Object, Object> map);
 	
 }
