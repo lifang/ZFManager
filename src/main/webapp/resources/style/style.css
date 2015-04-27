@@ -317,6 +317,7 @@ td a.a_btn:hover { text-decoration: underline;}
 .td_proBox { width: 600px; margin: 10px 0; text-align: left; overflow: hidden;}
 .td_proBox a.cn_img { border: 1px #fff solid; font-size: 0; display: block; float: left; margin-right: 15px;}
 .td_proBox a:hover.cn_img { border: 1px #ff5f2b solid;}
+.td_proBox a.cn_img img { width: 130px;}
 .td_proBox_info { float: left; width: 440px;}
 .td_proBox_info a { color: #333;}
 .td_proBox_info a:hover { text-decoration: underline; color: #ff5f2b;}

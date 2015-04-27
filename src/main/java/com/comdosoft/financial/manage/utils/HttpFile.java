@@ -52,7 +52,7 @@ public class HttpFile {
             name = new Date().getTime() + SysUtils.getRandNum(6).toString() + extName;
             File f = new File(upload_path, name);
             FileUtils.copyInputStreamToFile(file.getInputStream(), f);
-            a = postHttp(urlpath+"File/index/upload", path, f);
+            a = postHttp(urlpath, path, f);
         } catch (Exception e) {
             e.printStackTrace();
             return "上传失败";
