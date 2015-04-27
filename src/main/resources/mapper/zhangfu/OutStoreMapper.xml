@@ -79,11 +79,23 @@ ifnull(a.comment,"") as comment,ifnull(a.types,"") as types,ifnull(a.order_numbe
 
 ifnull(b.name,"") as name,ifnull(a.payed_at,"") as payedAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
 
-ifnull((select name from factories where id=(select factory_id from goods where id=(select good_id from order_goods where order_id=1))),'掌富') as factoryName, 
+ifnull(ff.name,'掌富') as factoryName, 
 
 ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice 
 
-from orders a left join customers b on a.customer_id=b.id left join customer_addresses c on a.customer_address_id=c.id left join order_payments d on a.id=d.order_id left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id where a.id=#{orderId}
+from orders a 
+
+left join customers b on a.customer_id=b.id
+
+ left join customer_addresses c on a.customer_address_id=c.id 
+
+left join order_payments d on a.id=d.order_id
+
+ left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id 
+
+left JOIN factories ff on ff.id=a.belongs_to
+
+where a.id=#{orderId}
 	</select>
 	
 	<select id="getOrderIdByOutStorageId" resultType="hashmap">
