@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class GoodCommentService {
     @Value("${filePath}")
-    private String filePath ;
+    private String filePath;
     @Value("${page.comment.size}")
     private Integer pageSize;
     @Autowired
@@ -34,10 +34,11 @@ public class GoodCommentService {
 
     /**
      * 待审核列表分页
+     * 
      * @param page
      * @return
      */
-    public Page<GoodComment> findWaitingPages(Integer page){
+    public Page<GoodComment> findWaitingPages(Integer page) {
         PageRequest request = new PageRequest(page, pageSize);
         long count = goodCommentMapper.countByStatus(GoodComment.STATUS_WAITING);
         if (count == 0) {
@@ -52,7 +53,7 @@ public class GoodCommentService {
         }
         for (GoodComment goodComment : comments.getContent()) {
             for (GoodsPicture gp : goodComment.getGood().getPictures()) {
-                gp.setUrlPath(filePath+gp.getUrlPath());
+                gp.setUrlPath(filePath + gp.getUrlPath());
             }
         }
         return comments;
@@ -60,11 +61,12 @@ public class GoodCommentService {
 
     /**
      * 商品评论列表分页
+     * 
      * @param goodId
      * @param page
      * @return
      */
-    public Page<GoodComment> findCommentPages(Integer goodId, Integer page){
+    public Page<GoodComment> findCommentPages(Integer goodId, Integer page) {
         PageRequest request = new PageRequest(page, pageSize);
         long count = goodCommentMapper.countByGoodIdAndStatus(goodId, GoodComment.STATUS_CHECKED);
         if (count == 0) {
@@ -82,11 +84,12 @@ public class GoodCommentService {
 
     /**
      * 商品评论的总数加上goodId条件
+     * 
      * @param goodId
      * @param page
      * @return
      */
-    public Page<GoodComment> findCommentPagesByGoodId(Integer goodId, Integer page){
+    public Page<GoodComment> findCommentPagesByGoodId(Integer goodId, Integer page) {
         PageRequest request = new PageRequest(page, pageSize);
         long count = goodCommentMapper.countByGoodIdAndStatus(goodId, GoodComment.STATUS_CHECKED);
         if (count == 0) {
@@ -101,25 +104,28 @@ public class GoodCommentService {
         }
         return comments;
     }
+
     /**
      * 审核
+     * 
      * @param customerId
      * @param id
      * @return
      */
     @Transactional(value = "transactionManager")
-    public GoodComment check(Integer customerId, Integer id){
+    public GoodComment check(Integer customerId, Integer id) {
         GoodComment comment = goodCommentMapper.selectByPrimaryKey(id);
-        if(comment.getStatus() == GoodComment.STATUS_WAITING){
+        if (comment.getStatus() == GoodComment.STATUS_WAITING) {
             comment.setVerifyUserId(customerId);
             comment.setVerifiedAt(new Date());
             comment.setStatus(GoodComment.STATUS_CHECKED);
             comment.setUpdatedAt(new Date());
             goodCommentMapper.updateByPrimaryKey(comment);
-
             Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
-            good.setTotalComment(good.getTotalComment() + 1);
-            good.setTotalScore(good.getTotalScore() + comment.getScore());
+            int total=good.getTotalComment();
+            good.setTotalComment(total+ 1);
+            int socre=(good.getTotalScore()*total+comment.getScore())/good.getTotalComment();
+            good.setTotalScore(socre);
             goodMapper.updateByPrimaryKey(good);
         }
         return comment;
@@ -127,34 +133,38 @@ public class GoodCommentService {
 
     /**
      * 删除
+     * 
      * @param id
      * @return
      */
     @Transactional("transactionManager")
-    public GoodComment delete(Integer id){
+    public GoodComment delete(Integer id) {
         GoodComment comment = goodCommentMapper.selectByPrimaryKey(id);
-            if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
-                Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
-                int totalComment = good.getTotalComment() - 1;
-                int score = good.getTotalScore() - comment.getScore();
-                if (totalComment <= 0 || score <= 0){
-                    good.setTotalComment(0);
-                    good.setTotalScore(0);
-                }else {
-                    good.setTotalComment(totalComment);
-                    good.setTotalScore(good.getTotalScore() - comment.getScore());
-                }
-            goodCommentMapper.deleteByPrimaryKey(id);
+        if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
+            Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
+            int totalComment = good.getTotalComment() - 1;
+            int score =(good.getTotalScore()*good.getTotalComment() - comment.getScore())/totalComment;
+            if (totalComment <= 0 || score <= 0) {
+                good.setTotalComment(0);
+                good.setTotalScore(0);
+            } else {
+                good.setTotalComment(totalComment);
+                good.setTotalScore(score);
             }
+            goodCommentMapper.deleteByPrimaryKey(id);
+            goodMapper.updateByPrimaryKey(good);
+        }else{
+            goodCommentMapper.deleteByPrimaryKey(id);
+        }
         return comment;
     }
 
     @Transactional("transactionManager")
-    public GoodComment create(Integer goodId, Integer customerId, Integer score, String content){
+    public GoodComment create(Integer goodId, Integer customerId, Integer score, String content) {
         GoodComment comment = new GoodComment();
         comment.setGoodId(goodId);
         comment.setCustomerId(customerId);
-        comment.setScore(score*10);
+        comment.setScore(score * 10);
         comment.setContent(content);
         comment.setStatus(GoodComment.STATUS_WAITING);
         comment.setCreatedAt(new Date());

@@ -1,26 +1,11 @@
 package com.comdosoft.financial.manage.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.comdosoft.financial.manage.domain.Response;
-import com.comdosoft.financial.manage.domain.zhangfu.*;
-import com.comdosoft.financial.manage.service.SessionService;
-import com.comdosoft.financial.manage.service.TerminalService;
-import com.comdosoft.financial.manage.utils.CommonServiceUtil;
-import com.comdosoft.financial.manage.utils.CompressedFileUtil;
-import com.comdosoft.financial.manage.utils.FileUtil;
-import com.comdosoft.financial.manage.utils.HttpFile;
-import com.comdosoft.financial.manage.utils.HttpUtils;
-import com.comdosoft.financial.manage.utils.SysUtils;
-import com.comdosoft.financial.manage.utils.page.Page;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.domain.zhangfu.TerminalMark;
+import com.comdosoft.financial.manage.domain.zhangfu.TerminalOpeningInfo;
+import com.comdosoft.financial.manage.service.SessionService;
+import com.comdosoft.financial.manage.service.TerminalService;
+import com.comdosoft.financial.manage.utils.CommonServiceUtil;
+import com.comdosoft.financial.manage.utils.HttpFile;
+import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
 @RequestMapping("terminal")
@@ -105,20 +92,20 @@ public class TerminalController {
     @ResponseBody
     public Response exportOpenInfo(@PathVariable String id) throws Exception {
     	//获取该终端申请开通图片资料集合
-    	System.out.println("查看id:"+id);
     	List<Map<Object, Object>> list = terminalService.getTerminalOpen(Integer.valueOf(id),TerminalOpeningInfo.TYPE_FILE);
-		if(list == null){
+    	if(list == null){
 			return Response.getError("下载失败！");
 		}
 		String[] str = new String[list.size()];
 		for(int i=0;i<list.size();i++){
-			if((String) list.get(i).get("value") !=null){
-				str[i] = (String) list.get(i).get("value");
+			if(list.get(i)!=null){
+				if(list.get(i).get("value") !=null){
+					str[i] = (String) list.get(i).get("value");
+				}
 			}
 		}
 		int count  = HttpFile.postWar(str,id);
 		if(count == 0){
-			//return Response.getSuccess("http://121.40.84.2:8888/zip/terminal/145.zip");
 			return Response.getSuccess(filePath+"zip/terminal/"+id+".zip");
 		}
 			return Response.getError("下载失败！");
