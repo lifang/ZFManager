@@ -96,10 +96,13 @@ public class TerminalService {
 
     public Terminal findTerminalInfo(Integer id) {
         Terminal t=terminalMapper.findTerminalInfo(id);
-        List<TerminalOpeningInfo>ss=t.getOpeningApplie().getTerminalOpeningInfos();
-        for (TerminalOpeningInfo s : ss) {
-            if(s.getTypes()==2){
-                s.setValue(filePath+s.getValue());
+        OpeningApplie applie = t.getOpeningApplie();
+        if(applie != null){
+            List<TerminalOpeningInfo>infos = applie.getTerminalOpeningInfos();
+            for (TerminalOpeningInfo s : infos) {
+                if(s.getTypes()==2){
+                    s.setValue(filePath+s.getValue());
+                }
             }
         }
         return t;
