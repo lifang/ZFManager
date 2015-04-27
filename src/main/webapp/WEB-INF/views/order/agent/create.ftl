@@ -354,5 +354,23 @@
 		               $('#customer_save_fresh').html(data);
 		            });
 	}
+	
+	$(function(){
+			$('#type').change(function(){
+				var type = $(this).children('option:selected').val();
+				var goodId = $("#goodId").val();
+				createOrder(goodId,type);
+			});
+	});
+	
+	function createOrder(id,type){
+		var quantity = $("#quantity_"+id).val();
+		var payChannelId=$("#payChannelId").val();
+		if(""==payChannelId){
+			alert("请选择支付通道");
+			return;
+		}
+		location.href='<@spring.url "" />'+'/order/agent/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
+	}
 </script>
 </@c.html>
