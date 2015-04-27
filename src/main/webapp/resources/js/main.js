@@ -415,4 +415,16 @@ $(function(){
 })
 
 
-
+function allName(e){
+	$(e).hover(
+		function(){
+			$(this).attr("title",$(this).html())
+		},
+		function(){
+			$(this).attr("title")
+		}
+	);
+}
+$(function(){
+	allName(".item_list li span.labelSpan");
+})

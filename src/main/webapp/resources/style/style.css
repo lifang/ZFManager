@@ -468,6 +468,10 @@ td a.a_btn:hover { text-decoration: underline;}
 	top: 0px; 
 	left: 0px;
 	line-height: 26px;
+	width: 110px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden; 
 }
 .item_list li div.text { text-align: left; min-height: 26px; overflow: hidden}
 .item_list li div.text img.cover { float: left; margin-right: 5px;}
