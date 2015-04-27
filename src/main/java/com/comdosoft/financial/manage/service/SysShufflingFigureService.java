@@ -31,7 +31,7 @@ public class SysShufflingFigureService {
         	String urlTemp=temp.getPictureUrl();
         	temp.setPictureUrl(filePath+urlTemp);
         }
-        return  sysShufflingFigureMapper.selectAll();
+        return  sysShufflingFigures;
     }
 
     @Transactional("transactionManager")

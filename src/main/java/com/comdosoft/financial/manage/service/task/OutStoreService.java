@@ -17,6 +17,8 @@ import java.util.Map;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,8 @@ public class OutStoreService {
 	
 	@Value("${page.outStore.size}")
     private int pageSize=2;
-	
+	@Value("${filePath}")
+	private String filePath;
 	@Autowired
 	private OutStoreMapper outStoreMapper;
 	@Autowired
@@ -99,6 +102,8 @@ public class OutStoreService {
 			for(int i=0;i<goods.size();i++){
 				str.setLength(0);
 				Good goodTemp=goods.get(i);
+				
+				goodTemp.setUrlPath(filePath+goodTemp.getUrlPath());
 				
 				List<Map<String, Object>> terminals=outStoreMapper.getTerminalNum(orderId, goodTemp.getId());
 				
