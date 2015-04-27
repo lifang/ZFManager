@@ -270,10 +270,14 @@ public class OutStoreService {
 			if(null!=tempOrderMap.get("customerId")){
 				customerId=tempOrderMap.get("customerId").toString();
 			}else{
-				if(null!=tempOrderMap.get("types") && !tempOrderMap.get("types").toString().equals("3")){
-					resultCode=Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("订单管理的customerId为空");
+				if(null!=tempOrderMap.get("types")){
+					if(tempOrderMap.get("types").toString().equals("3") ||tempOrderMap.get("types").toString().equals("5")){
+						
+					}else{
+						resultCode=Response.ERROR_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("订单管理的customerId为空");
+					}
 				}
 			}
 			if(resultCode==Response.SUCCESS_CODE){
