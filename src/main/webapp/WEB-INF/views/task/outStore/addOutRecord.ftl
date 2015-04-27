@@ -100,10 +100,11 @@
 	        "wlNum":wlNumStr,
 	        "terminalNums":temp},
 	        function (data) {
-	       
+	       		alert(1+data.code);
 	        	if(data.code==-1){
             		alert("操作出错，错误信息为："+data.message);
             	}else{
+            	alert(2);
             		//跳转
             		window.location.href="#/task/outStore/list";
             	}

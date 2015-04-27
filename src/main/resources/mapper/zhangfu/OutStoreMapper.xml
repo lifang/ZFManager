@@ -104,8 +104,13 @@ where a.id=#{id}
 		values(#{orderId},#{goodId},#{port},now(),#{loginId},#{quantity},#{csOutStorageId})
    </insert>
    
+   <select id="getInOutStorageTerminalInfo" resultType="int">
+   	select count(id) as num from in_out_storages where order_id=#{orderId} and good_id=#{goodId} and cs_out_storage_id=#{csOutStorageId}
+   		and terminal_number=#{port}
+   </select>
+   
    <select id="getTerminalNum" resultType="hashmap">
-		select terminal_number as num,good_id as goodId from in_out_storages where order_id=#{orderId} and good_id=#{goodId}
+		select terminal_number as num,good_id as goodId from in_out_storages where order_id=#{orderId} and good_id=#{goodId} group by terminal_number
 	</select>
    
    <select id="getOperater" resultType="String">
@@ -152,7 +157,7 @@ where a.id=#{id}
    	select customer_id as customerId,types from orders where id=#{orderId}
    </select>
    
-   <select id="getAgentIdByCustomerId" resultType="int">
+   <select id="getAgentIdByCustomerId" resultType="map">
    		select ifnull(id,"0") as id from agents where customer_id=#{customerId}
    </select>
    
@@ -196,5 +201,8 @@ where a.id=#{id}
    	update goods set purchase_number=purchase_number+1 where id=#{goodId}
    </update>
    
+   <select id="getCsOutStorageStatus" resultType="int">
+   	select status from cs_out_storages where id=#{id}
+   </select>
    
 </mapper>

@@ -40,7 +40,7 @@ public class StockManageController {
 	public Response showInfo(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.showInfo(serialNum, customer.getId());
+		Map<String, Object> map= stockManageService.showInfo(serialNum.trim(), customer.getId());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		response.setResult(serialNum);
@@ -58,7 +58,7 @@ public class StockManageController {
 	public Response checkAccount(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.checkAccount(serialNum, customer.getId(),customer.getName(),customer.getTypes());
+		Map<String, Object> map= stockManageService.checkAccount(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -76,7 +76,7 @@ public class StockManageController {
 	public Response toAfterSaleStock(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toAfterSaleStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
+		Map<String, Object> map= stockManageService.toAfterSaleStock(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -93,7 +93,7 @@ public class StockManageController {
 	public Response toNormalStock(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toNormalStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
+		Map<String, Object> map= stockManageService.toNormalStock(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -111,7 +111,7 @@ public class StockManageController {
 	public Response breakDown(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.breakDown(serialNum, customer.getId(),customer.getName(),customer.getTypes());
+		Map<String, Object> map= stockManageService.breakDown(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;

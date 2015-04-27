@@ -110,10 +110,16 @@ public class OutStoreService {
 						str.append(" "+terminals.get(j).get("num").toString());
 					}
 				}
+				int status=outStoreMapper.getCsOutStorageStatus(id);
+				
 				if(str.length()>0){
 					goodTemp.setTerminalPort(str.toString());
 				}else{
-					goodTemp.setTerminalPort("第三方库存发货");
+					if(status==3){
+						goodTemp.setTerminalPort("第三方库存发货");
+					}else{
+						goodTemp.setTerminalPort(" ");
+					}
 				}
 				goodsNew.add(goodTemp);
 			}
@@ -157,9 +163,18 @@ public class OutStoreService {
 			Map<String , Object> mapTemp=map.get(0);
 			
 			int invoiceType=Integer.parseInt(map.get(0).get("invoiceType").toString());
+			int oldPrice=Integer.parseInt(map.get(0).get("oldPrice").toString())/100;
 			int actualPrice=Integer.parseInt(map.get(0).get("actualPrice").toString())/100;
+			int payType=Integer.parseInt(map.get(0).get("payType").toString());
 			mapTemp.put("actualPrice", actualPrice);
-			
+			mapTemp.put("oldPrice", oldPrice);
+			if(payType==1){
+				mapTemp.put("payTypeName", "支付宝");
+			}else if(payType==2){
+				mapTemp.put("payTypeName", "银联");
+			}else{
+				mapTemp.put("payTypeName", "现金");
+			}
 			if(invoiceType==0){
 				mapTemp.put("invoiceName", "公司");
 			}else{
@@ -268,13 +283,23 @@ public class OutStoreService {
 					allQuantity=allQuantity+ports.length;
 					
 					goodQuantityMap.put(goodId, ports.length);
-					
-					int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, tempChild[1],loginId,ports.length,outStorageId);
-					if(temp2<1){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("保存商品的终端号出错");
-						throw new Exception("保存商品的终端号出错");
+					if(resultCode==Response.SUCCESS_CODE){
+						int numTemp=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, tempChild[1], outStorageId);
+						if(numTemp>0){
+							resultCode=Response.ERROR_CODE;
+							resultInfo.setLength(0);
+							resultInfo.append("in_out_storages表已存在终端号对应的记录");
+							throw new Exception("in_out_storages表已存在终端号对应的记录");
+						}
+					}
+					if(resultCode==Response.SUCCESS_CODE){
+						int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, tempChild[1],loginId,ports.length,outStorageId);
+						if(temp2<1){
+							resultCode=Response.ERROR_CODE;
+							resultInfo.setLength(0);
+							resultInfo.append("保存商品的终端号出错");
+							throw new Exception("保存商品的终端号出错");
+						}
 					}
 					
 					//计算goodid对应数量是否正确
@@ -314,13 +339,19 @@ public class OutStoreService {
 										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
 										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}else if(types==3){
-										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-										temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);
-										temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(customerId);
+										if(mapTemp!=null){
+											int agentId=Integer.parseInt(mapTemp.get("id").toString());
+											temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);
+											temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
+										}
 									}else{
-										int agentId=outStoreMapper.getAgentIdByCustomerId(customerId);
-										temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
-										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(customerId);
+										if(mapTemp!=null){
+											int agentId=Integer.parseInt(mapTemp.get("id").toString());
+											temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
+											temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
+										}
 									}
 									if(temp1<1){
 										//更新失败
