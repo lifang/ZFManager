@@ -16,6 +16,7 @@
 			<div class="userTopBtnBox">
 				<a class="ghostBtn" onClick="onCancel();">取消申请</a> 
 				<a class="ghostBtn" onClick="onHandle();">标记为退还中</a>
+				<a class="ghostBtn replace_a">确认换货</a>
 			</div>
 			<#elseif csLease.status=2>
 			<div class="userTopBtnBox">
@@ -119,6 +120,35 @@
 	</div>
 </div>
 
+<div class="tab replace_tab">
+	<a href="" class="close">关闭</a>
+	<div class="tabHead">退换地址电话</div>
+	<div class="tabBody">
+		<div class="item_list">
+			<ul>
+				<li>
+					<span class="labelSpan">收件人：</span>
+					<div class="text"><input name="receiver" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">电话：</span>
+					<div class="text"><input name="phone" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">邮编：</span>
+					<div class="text"><input name="zipCode" type="text" /></div>
+				</li>
+				<li>
+					<span class="labelSpan">地址：</span>
+					<div class="text"><input name="address" type="text" /></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onConfirm();">确定</button>
+	</div>
+</div>
 
 <script type="text/javascript">
 
@@ -157,6 +187,22 @@
 	            {}, function (data) {
 	            	location.reload();
 	            });
+	}
+	
+	function onConfirm() {
+		var receiver = $("input[name='receiver']").val();
+		var phone = $("input[name='phone']").val();
+		var zipCode = $("input[name='zipCode']").val();
+		var address = $("input[name='address']").val();
+		
+		$.post('<@spring.url "" />'+'/cs/lease/${csLease.id}/confirm',
+			{'receiver':receiver, 
+			 'phone':phone,
+			 'zipCode':zipCode,
+			 'address':address
+			 }, function(data) {
+			 	location.reload();
+			 });
 	}
 	
 </script>

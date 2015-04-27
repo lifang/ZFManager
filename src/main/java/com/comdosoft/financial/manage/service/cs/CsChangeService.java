@@ -97,7 +97,7 @@ public class CsChangeService {
 	}
 	
 	@Transactional("transactionManager")
-	public void confirm(Integer csChangeId, CsReceiverAddress csReceiverAddress) {
+	public void confirm(Integer csChangeId, CsReceiverAddress csReceiverAddress, Customer customer) {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
@@ -114,8 +114,8 @@ public class CsChangeService {
 			csOutStorage.setCreatedAt(new Date());
 			csOutStorage.setUpdatedAt(new Date());
 			csOutStorage.setOrderId(csChange.getTerminal().getOrderId());
-			csOutStorage.setProcessUserId(csChange.getProcessUserId());
-			csOutStorage.setProcessUserName(csChange.getProcessUserName());
+			csOutStorage.setProcessUserId(customer.getId());
+			csOutStorage.setProcessUserName(customer.getName());
 			csOutStorage.setQuantity(1);
 			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
 			csOutStorageMapper.insert(csOutStorage);

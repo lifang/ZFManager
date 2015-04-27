@@ -84,9 +84,10 @@ public class CsChangeController {
 		csChangeService.finish(id);
 	}
 	
-	@RequestMapping(value = "{csChangeId}/confirm", method = RequestMethod.POST)
-	public void confirmChange(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer csChangeId, CsReceiverAddress csReceiverAddress) {
-		csChangeService.confirm(csChangeId, csReceiverAddress);
+	@RequestMapping(value = "{id}/confirm", method = RequestMethod.POST)
+	public void confirmChange(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, CsReceiverAddress csReceiverAddress) {
+		Customer customer = sessionService.getLoginInfo(request);
+		csChangeService.confirm(id, csReceiverAddress, customer);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
