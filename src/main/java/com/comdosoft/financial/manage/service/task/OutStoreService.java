@@ -313,7 +313,7 @@ public class OutStoreService {
 					
 					//计算goodid对应数量是否正确
 					if(resultCode==Response.SUCCESS_CODE){
-						if(types!=3){
+						if(types!=5){
 							int quantity=outStoreMapper.getQuantityByOrderGood(goodId,orderId);
 							if(quantity!=ports.length){
 								resultCode=Response.ERROR_CODE;
@@ -347,7 +347,7 @@ public class OutStoreService {
 									if(types==1 || types==2){
 										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
 										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
-									}else if(types==3){
+									}else if(types==5){
 										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(customerId);
 										if(mapTemp!=null){
 											int agentId=Integer.parseInt(mapTemp.get("id").toString());
@@ -398,7 +398,7 @@ public class OutStoreService {
 			//更新orders表
 			if(resultCode==Response.SUCCESS_CODE){
 				int temp1=0;
-				if(types!=3){
+				if(types!=5){
 					//非批购
 					temp1=outStoreMapper.updateOrderStatus(3, orderId);
 				}else{
