@@ -51,7 +51,7 @@ public class AgentController {
         return "system/agent_list";
     }
 
-    @RequestMapping(value="page",method=RequestMethod.GET)
+    @RequestMapping(value="page",method=RequestMethod.POST)
     public String page(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
         return "system/agent_list_page";

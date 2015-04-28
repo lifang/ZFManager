@@ -61,7 +61,7 @@
     function pageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/system/agent/page" />',
+        $.post('<@spring.url "/system/agent/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status

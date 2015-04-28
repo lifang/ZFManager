@@ -50,7 +50,7 @@ public class UserController {
 		return "user/list";
 	}
 	
-	@RequestMapping(value="page",method=RequestMethod.GET)
+	@RequestMapping(value="page",method=RequestMethod.POST)
 	public String page(Integer page,Model model,String query){
 		if(page==null) {
 			page = 0;
