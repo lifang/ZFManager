@@ -357,12 +357,24 @@
 		  if(!reg.test(num_wh)){
 			  alert("pos机数量必须是数字");
 			 return false;
-		  } 
+		  }
+		 
 		var ts = terminalSerialNum.split(",");
+		var length=0;
+		for(var i=0,size=ts.length;i<size;i++){
+			var tsItem=ts[i];
+			var tsI=tsItem.split("\n");
+			for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
+				if(tsI[j].trim.length>0){
+					length++;
+				}
+			}
+			length=length+tsI.length;
+		}
 		var logisticsName = $('#logistics_name').val();
 		var pos_num = $('#deliverNum_'+id).val();
 		var logisticsNumber = $('#logistics_number').val();
-		if(parseInt(num_wh)!=parseInt(ts.length)){
+		if(parseInt(num_wh)!=parseInt(length)){
 			alert("pos机数量与终端号数量不一致");
 			return false;
 		}

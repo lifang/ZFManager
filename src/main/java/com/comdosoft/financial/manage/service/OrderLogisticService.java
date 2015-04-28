@@ -95,6 +95,9 @@ public class OrderLogisticService {
 				totalQuantity += quantity;
 			}
 		}
+		if((order.getTotalOutQuantity()+totalQuantity)>order.getTotalQuantity()){
+			throw new Exception("发货失败，发货总量已超过订单商品数量！");
+		}
 		Set<String> set=new HashSet<String>();
 		if(null==terminalSerialNum||"".equals(terminalSerialNum.trim())){
 			throw new Exception("请输入终端号！");
@@ -108,6 +111,7 @@ public class OrderLogisticService {
 				}
 			}
 		}
+		List<OrderGood> orderGoodDelivered=new ArrayList<OrderGood>();
 		for(String s:set){
 			Boolean isExist=false;
 			List<Terminal> findTerminalsByNums = terminalMapper.findTerminalsByNums(new String[]{s});
@@ -143,8 +147,24 @@ public class OrderLogisticService {
 						findTerminalByNum.setPayChannelId(og.getPayChannelId());
 						findTerminalByNum.setReserver2(reserver2);
 						terminalMapper.updateByPrimaryKey(findTerminalByNum);
+						orderGoodDelivered.add(order.getOrderGoods().get(i));
 						order.getOrderGoods().remove(i);
 						break;
+					}
+				}
+			}
+			for(Terminal findTerminalByNum:findTerminalsByNums){
+				for(OrderGood orderGood:orderGoodDelivered){
+					if(orderGood.getGoodId().equals(findTerminalByNum.getGoodId())){
+						findTerminalByNum.setOrderId(orderId);
+						isExist=true;
+						findTerminalByNum.setCustomerId(order.getCustomerId());
+						if(order.getTypes()==3||order.getTypes()==4||order.getTypes()==5){
+							findTerminalByNum.setAgentId(order.getBelongsAgent().getId());
+						}
+						findTerminalByNum.setPayChannelId(orderGood.getPayChannelId());
+						findTerminalByNum.setReserver2(reserver2);
+						terminalMapper.updateByPrimaryKey(findTerminalByNum);
 					}
 				}
 			}

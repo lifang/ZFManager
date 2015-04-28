@@ -144,7 +144,7 @@ $(function(){
 	popup(".approve_tab",".approve_a");//通过审核
 	popup(".creditsExchange_tab",".ce_a");//兑换积分
 	popup(".remark_tab",".remark_a");//备注
-	popup(".deliver_tab",".deliver_a");//发货 订单用户
+	//popup(".deliver_tab",".deliver_a");//发货 订单用户
 	popup(".priceOrder_tab",".priceOrder_a");//修改订单价格 订单用户
 	popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
 	popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格 代理商批购
