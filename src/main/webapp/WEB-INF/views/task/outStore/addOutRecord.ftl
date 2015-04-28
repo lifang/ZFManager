@@ -3,7 +3,7 @@
      <div class="breadcrumb"> 
       <ul> 
        <li><a href="#">售后</a></li> 
-       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
+       <li><a href="<@spring.url "/task/outStore/list"/>" class="hover" >出库</a></li>
        <li><a href="#">添加出库记录</a></li> 
       </ul> 
      </div> 

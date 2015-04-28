@@ -47,9 +47,9 @@ public class OutStoreService {
 	private ReocrdOperateMapper mapper;
 	
 	public Page<OutStore> findPages(int page, Byte status, String keys){
-		if (keys != null) {
-			keys = "%"+keys+"%";
-		}
+//		if (keys != null) {
+//			keys = "%"+keys+"%";
+//		}
 		long count = outStoreMapper.countByKeys(status, keys);
 		if (count == 0) {
 			return new Page<OutStore>(new PageRequest(1, pageSize), new ArrayList<OutStore>(), count);
@@ -220,7 +220,7 @@ public class OutStoreService {
 	
 	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType) throws Exception{
+	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType) throws RuntimeException{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -234,7 +234,7 @@ public class OutStoreService {
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);
 			resultInfo.append("保存备注出错");
-			throw new Exception("保存备注出错");
+			throw new RuntimeException("保存备注出错");
 		}
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
@@ -251,8 +251,8 @@ public class OutStoreService {
 	
 	
 	@SuppressWarnings("finally")
-	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType){
+	@Transactional(value="transactionManager")
+	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -266,6 +266,7 @@ public class OutStoreService {
 			int orderId=getOrderIdByOutStorageId(outStorageId);
 			Map<String, Object> tempOrderMap=outStoreMapper.getCutomerTypeByOrderId(orderId);
 			int types=Integer.parseInt(tempOrderMap.get("types").toString());
+			String agentIdCustomerId=tempOrderMap.get("belongsUserId").toString();
 			String customerId="";
 			if(null!=tempOrderMap.get("customerId")){
 				customerId=tempOrderMap.get("customerId").toString();
@@ -348,7 +349,7 @@ public class OutStoreService {
 										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
 										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}else if(types==5){
-										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(customerId);
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 										if(mapTemp!=null){
 											int agentId=Integer.parseInt(mapTemp.get("id").toString());
 											temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);

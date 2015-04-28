@@ -93,7 +93,7 @@ public class OutStoreController {
 	 */
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request){
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());

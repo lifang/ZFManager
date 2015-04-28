@@ -32,6 +32,7 @@
 		<where>
 			1=1
 			<if test="status != null"> AND a.status =#{status} </if>
+			<if test="keys != null"> AND a.id =#{keys} </if>
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
@@ -166,7 +167,7 @@ where a.id=#{id}
    </insert>
    
    <select id="getCutomerTypeByOrderId" resultType="map">
-   	select customer_id as customerId,types from orders where id=#{orderId}
+   	select customer_id as customerId,types,belongs_user_id as belongsUserId from orders where id=#{orderId}
    </select>
    
    <select id="getAgentIdByCustomerId" resultType="map">
