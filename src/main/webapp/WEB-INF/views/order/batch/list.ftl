@@ -364,11 +364,11 @@
 		for(var i=0,size=ts.length;i<size;i++){
 			var tsItem=ts[i];
 			var tsI=tsItem.split("\n");
-			for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
-				if(tsI[j].trim.length>0){
-					length++;
-				}
-			}
+			//for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
+			//	if(tsI[j].replace(/(^s*)|(s*$)/g, "").length >0){
+			//		length++;
+			//	}
+			//}
 			length=length+tsI.length;
 		}
 		var logisticsName = $('#logistics_name').val();
