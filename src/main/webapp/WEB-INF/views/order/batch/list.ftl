@@ -172,7 +172,7 @@
 	function orderBatchPageChange(page) {
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/order/batch/page" />',
+	    $.post('<@spring.url "/order/batch/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status,
@@ -218,7 +218,7 @@
     }
     function priceEarnestSure(id){
 		var priceEarnestText = $('#priceEarnestText').val();
-		$.get('<@spring.url "" />'+'/order/batch/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/'+id+'/save',
 				{"orderId":id,
 				"frontMoney":priceEarnestText
 				},
@@ -237,7 +237,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/batch/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -250,7 +250,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/batch/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/batch/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -268,11 +268,14 @@
     
     function paySureFront(id){
 		var payType = $('#pay_type_front').val();
-		$.get('<@spring.url "" />'+'/order/payment/batch/create/front',
+		$.post('<@spring.url "" />'+'/order/payment/batch/create/front',
 				{"orderId":id,
 				"payType":payType
 				},
 	            function (data) {
+	            	if(!checkException(data)){
+	            		return;
+	            	}
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecordFront_tab').hide();
 					$('.mask').hide();
@@ -287,12 +290,15 @@
     function paySure(id){
 		var payType = $('#pay_type').val();
 		var payPrice=$('#payPrice').val();
-		$.get('<@spring.url "" />'+'/order/payment/batch/create',
+		$.post('<@spring.url "" />'+'/order/payment/batch/create',
 				{"orderId":id,
 				"payType":payType,
 				"payPrice":payPrice
 				},
 	            function (data) {
+	            	if(!checkException(data)){
+	            		return;
+	            	}
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();

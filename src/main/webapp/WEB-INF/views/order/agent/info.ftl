@@ -167,7 +167,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -180,7 +180,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -198,7 +198,7 @@
     
     function paySure(id){
 		var payType = $('#pay_type').val();
-		$.get('<@spring.url "" />'+'/order/payment/agent/info/create',
+		$.post('<@spring.url "" />'+'/order/payment/agent/info/create',
 				{"orderId":id,
 				"payType":payType
 				},

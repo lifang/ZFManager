@@ -17,7 +17,7 @@
 			var hasLease=$("#hasLease").is(':checked');
 			var orderBy=$("#orderBy").val();
 			var orderType=$("#orderType").val();
-		    $.get('<@spring.url "/good/agent/page" />',
+		    $.post('<@spring.url "/good/agent/page" />',
 		            {"page": page,
 		             "goodBrandsId": goodBrandsId,
 		             "posCategoryId": posCategoryId,

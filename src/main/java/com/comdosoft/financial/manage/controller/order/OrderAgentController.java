@@ -48,7 +48,7 @@ public class OrderAgentController extends BaseController {
 	private PayChannelService payChannelService;
 	
 
-	@RequestMapping(value = "/agent/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/list")
 	public String listAgent(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -58,7 +58,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/list";
 	}
 
-	@RequestMapping(value = "/agent/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/page")
 	public String pageAgent(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -85,14 +85,14 @@ public class OrderAgentController extends BaseController {
 		model.addAttribute("orders", orders);
 	}
 
-	@RequestMapping(value = "/agent/{id}/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/info")
 	public String info(@PathVariable Integer id, Model model) {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/agent/info";
 	}
 
-	@RequestMapping(value = "/agent/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/create")
 	public String createGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity,Integer payChannelId,Byte type) {
 		List<CustomerAddress> selectCustomerAddress = null;
@@ -108,7 +108,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/create";
 	}
 	
-	@RequestMapping(value = "/agent/{orderId}/createAgain", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{orderId}/createAgain")
 	public String createAgainGet(HttpServletRequest request, Model model,
 			@PathVariable Integer orderId) {
 		Order order = orderService.findOrderInfo(orderId);
@@ -157,7 +157,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/list";
 	}
 
-	@RequestMapping(value = "/agent/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/save")
 	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Float actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
@@ -173,7 +173,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/row";
 	}
 	
-	@RequestMapping(value = "/agent/info/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/info/{id}/save")
 	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Float actualPrice, Model model) {
 		orderService.save(id, status, actualPrice, null);
@@ -188,7 +188,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/infoUp";
 	}
 
-	@RequestMapping(value = "/agent/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
@@ -197,7 +197,7 @@ public class OrderAgentController extends BaseController {
 		return "order/agent/row";
 	}
 	
-	@RequestMapping(value = "/agent/info/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/info/{id}/cancel")
 	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);

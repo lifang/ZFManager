@@ -394,7 +394,7 @@
 	
 	function goodCommentPageChange(page) {
 		var id=$("#good_id").val()
-	    $.get('<@spring.url "/good/agent/comment/"+id+"/page" />',
+	    $.post('<@spring.url "/good/agent/comment/"+id+"/page" />',
 	            {"page": page
 	            },
 	            function (data) {

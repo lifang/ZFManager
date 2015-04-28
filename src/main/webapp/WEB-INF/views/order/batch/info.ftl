@@ -41,7 +41,7 @@
               	<#list order.orderGoods as orderGood>
               		<input id="hidden_good_title_${order.id}_${orderGood_index}" type="hidden" value="<#if orderGood.good??>${orderGood.good.title!""}</#if>" />
 		    		<input id="hidden_quantity_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.quantity!0}" />
-	               
+	               	<input id="hidden_order_good_id_${order.id}_${orderGood_index}" type="hidden" value="${orderGood.id!0}" />
 	                  <tr>
 	                    <td>
 	                        <div class="td_proBox clear">
@@ -212,7 +212,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -230,7 +230,7 @@
     }
     function priceEarnestSure(id){
 		var priceEarnestText = $('#priceEarnestText').val();
-		$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/info/'+id+'/save',
 				{"orderId":id,
 				"frontMoney":priceEarnestText
 				},
@@ -243,7 +243,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/batch/info/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/batch/info/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -262,7 +262,7 @@
     function paySure(id){
 		var payType = $('#pay_type').val();
 		var payPrice=$('#payPrice').val();
-		$.get('<@spring.url "" />'+'/order/payment/batch/info/create',
+		$.post('<@spring.url "" />'+'/order/payment/batch/info/create',
 				{"orderId":id,
 				"payType":payType,
 				"payPrice":payPrice
@@ -296,7 +296,7 @@
 	            });
 	    	return;
     	}else{
-    		popupT(".deliver_tab")
+    		popupT(".deliver_tab");
     	}
     	var htmlStr='';
     	for(var i=0;i<size;i++){

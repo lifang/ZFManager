@@ -89,6 +89,27 @@ $(function(){
 	 
 })
 
+//用于非绑定click弹窗,点击发货时需要判断是否弹窗
+function popupT(t){
+	 var doc_height = $(document).height();
+	 var doc_width = $(document).width();
+	 var win_height = $(window).height();
+	 var win_width = $(window).width();
+	
+	 var layer_height = $(t).height();
+	 var layer_width = $(t).width();
+	
+	 var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	 //tab
+	 $(".mask").css({display:'block',height:doc_height});
+	 $(t).css('top',(win_height-layer_height)/2);
+	 $(t).css('left',(win_width-layer_width)/2);
+	 $(t).css('display','block');
+	 $(".close").click(function(){
+		 $(t).css('display','none');
+		 $(".mask").css('display','none');
+	 })
+}
 
 //弹出层
 function popup(t,b){
@@ -132,10 +153,12 @@ $(function(){
 	popup(".assign_tab",".assign_a");//分派
 	popup(".danger_tab",".danger_a");//风险标签
 	popup(".errorTab",".error_a");//错误提示弹层
+	popup(".stockMange_tab",".stockMange_a");
 	
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 	
 	popup(".file_tab",".file_a");//交易转账上传
+	popup(".paymentRecordFront_tab",".paymentRecordFront_a");//支付定金
 	
 	
 	popup(".videoInform_tab",".videoInform_a");//视屏通知提示

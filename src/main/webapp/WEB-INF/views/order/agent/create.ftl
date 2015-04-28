@@ -164,7 +164,7 @@
 		$("a[name=customerName]").removeClass("hover");
 		$("#customer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
-		$.get('<@spring.url "/order/customer/address/query" />',
+		$.post('<@spring.url "/order/customer/address/query" />',
 		            {
 		            "customerId": customerId
 		            },
@@ -179,7 +179,7 @@
 		$("#customerId").val("");
 		$("#agentCustomerId").val(customerId);
 		$("#agentId").val(agentId);
-		$.get('<@spring.url "/order/customer/address/query" />',
+		$.post('<@spring.url "/order/customer/address/query" />',
 		            {"customerId": customerId
 		            },
 		            function (data) {
