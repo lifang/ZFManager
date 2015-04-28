@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.service.OrderPaymentService;
@@ -84,7 +85,7 @@ public class OrderPaymentContoller extends BaseController {
     }
     
     @RequestMapping(value="/batch/create")
-    public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
+    public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice) throws Exception{
     	Customer customer = sessionService.getLoginInfo(request);
     	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);
@@ -94,7 +95,7 @@ public class OrderPaymentContoller extends BaseController {
     }
     
     @RequestMapping(value="/batch/info/create")
-    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
+    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice) throws Exception{
     	Customer customer = sessionService.getLoginInfo(request);
     	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);

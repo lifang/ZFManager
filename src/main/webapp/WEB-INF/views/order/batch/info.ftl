@@ -272,6 +272,9 @@
 				"payPrice":payPrice
 				},
 	            function (data) {
+	            	if(!checkException(data)){
+	            		return;
+	            	}
 	           		$('#infoUp_fresh').html(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();
