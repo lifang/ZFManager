@@ -84,9 +84,10 @@ public class CsReturnController {
 		csReturnService.finish(id);
 	}
 	
-	@RequestMapping(value = "{csReturnId}/confirm", method = RequestMethod.POST)
-	public void confirmReturn(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer csReturnId, CsReceiverAddress csReceiverAddress) {
-		csReturnService.confirm(csReturnId, csReceiverAddress);
+	@RequestMapping(value = "{id}/confirm", method = RequestMethod.POST)
+	public void confirmReturn(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, CsReceiverAddress csReceiverAddress) {
+		Customer customer = sessionService.getLoginInfo(request);
+		csReturnService.confirm(id, csReceiverAddress, customer);
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)

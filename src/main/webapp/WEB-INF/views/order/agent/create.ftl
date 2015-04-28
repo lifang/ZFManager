@@ -119,7 +119,7 @@
 	function searchCustomer() {
 		var customerName = $("#customer_name").val();
 		var agentId=$("#agentId").val();
-	    $.get('<@spring.url "/order/customer/search" />',
+	    $.post('<@spring.url "/order/customer/search" />',
 	            {
 	            	"customerName": customerName,
 	            	"agentId":agentId
@@ -131,7 +131,7 @@
 	
 	function searchAgent(agentCompanyName) {
 		var agentCompanyName = $("#agentCompanyName").val();
-	    $.get('<@spring.url "/order/agent/search" />',
+	    $.post('<@spring.url "/order/agent/search" />',
 	            {
 	            	"keys": agentCompanyName
 	            },
@@ -343,7 +343,7 @@
 			alert("两次输入密码不同");
 			return;
 		}
-		$.get('<@spring.url "/order/customer/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/saveOrUpdate" />',
 		            {"phone": phone,
 		            "passport": passport,
 		            "city": cityCreateSelect,
@@ -353,6 +353,24 @@
 		            function (data) {
 		               $('#customer_save_fresh').html(data);
 		            });
+	}
+	
+	$(function(){
+			$('#type').change(function(){
+				var type = $(this).children('option:selected').val();
+				var goodId = $("#goodId").val();
+				createOrder(goodId,type);
+			});
+	});
+	
+	function createOrder(id,type){
+		var quantity = $("#quantity_"+id).val();
+		var payChannelId=$("#payChannelId").val();
+		if(""==payChannelId){
+			alert("请选择支付通道");
+			return;
+		}
+		location.href='<@spring.url "" />'+'/order/agent/create?goodId='+id+'&quantity='+quantity+'&payChannelId='+payChannelId+'&type='+type;
 	}
 </script>
 </@c.html>

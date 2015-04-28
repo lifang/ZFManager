@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TerminalService {
@@ -96,10 +98,13 @@ public class TerminalService {
 
     public Terminal findTerminalInfo(Integer id) {
         Terminal t=terminalMapper.findTerminalInfo(id);
-        List<TerminalOpeningInfo>ss=t.getOpeningApplie().getTerminalOpeningInfos();
-        for (TerminalOpeningInfo s : ss) {
-            if(s.getTypes()==2){
-                s.setValue(filePath+s.getValue());
+        OpeningApplie applie = t.getOpeningApplie();
+        if(applie != null){
+            List<TerminalOpeningInfo>infos = applie.getTerminalOpeningInfos();
+            for (TerminalOpeningInfo s : infos) {
+                if(s.getTypes()==2){
+                    s.setValue(filePath+s.getValue());
+                }
             }
         }
         return t;
@@ -191,4 +196,15 @@ public class TerminalService {
     public OpeningApplie getOpeningApplie(Integer id){
         return openingApplieMapper.selectOpeningApplie(id);
     }
+    
+    /**
+	 * 获得终端开通图片资料
+	 * @return
+	 */
+	public List<Map<Object, Object>> getTerminalOpen(int id,int type){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("type", type);
+		return terminalMapper.getTerminalOpen(map);
+	}
 }

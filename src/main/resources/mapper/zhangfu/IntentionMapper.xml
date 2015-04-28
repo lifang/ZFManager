@@ -13,6 +13,7 @@
 		<where>
 			<if test="status != null"> AND status =#{status} </if>
 			<if test="keys != null"> AND intention_name like '%${keys}%' </if>
+			<if test="1==1">  AND status  <![CDATA[ <= ]]> 3</if>
 		</where>
 	</sql>
 	<select id="findPageByKeys" resultMap="BaseResultMap">

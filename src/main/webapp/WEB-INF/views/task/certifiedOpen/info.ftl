@@ -73,7 +73,7 @@
 	</div>
 	<div class="attributes_box">
 		<h2>
-			开通详情<a href="#" class="a_btn">下载开通资料</a>
+			开通详情<a onclick="downFile()" class="a_btn">下载开通资料</a>
 		</h2>
 		<div class="attributes_list_s clear">
 			<ul>
@@ -162,5 +162,18 @@
 					}
 		        });
 	}
+	
+	 var downFile=function(){
+	  $.get('<@spring.url "/terminal/${tinfo.tid}/exportOpenInfo" />',
+                function (data) {
+                    if(data.code==1){
+                        window.location.href = data.result;
+                    }
+                    if(data.code == -1){
+                    	alert(data.message);
+                    }
+                });
+       
+    }
 </script>
 </@c.html>

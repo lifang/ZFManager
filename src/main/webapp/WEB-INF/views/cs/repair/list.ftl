@@ -159,7 +159,7 @@
 
 	function onPreAddPay(csRepairId, repairPrice, payType) {
 		repairId = csRepairId;
-		$('#add_repair_price').text('￥'+repairPrice);
+		$('#add_repair_price').text('￥'+repairPrice / 100);
 		$("#repair_price_type").val(payType);
 	}
 	
@@ -175,11 +175,12 @@
 	
 	function onPreUpdatePay(csRepairId, repairPrice) {
 		repairId = csRepairId;
-		$('#update_repair_price').text('￥'+repairPrice);
+		$('#update_repair_price').text('￥'+repairPrice / 100);
 	}
 	
 	function onUpdatePay() {
 		var repairPrice = $("input[name='update_repair_price']").val();
+		repairPrice *= 100;
 		$.post('<@spring.url "" />'+'/cs/repair/'+repairId+'/updatePay',
 			{'repairPrice':repairPrice}, function(){
 				$(".priceOrder_tab").css('display','none');
