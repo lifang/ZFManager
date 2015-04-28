@@ -62,25 +62,18 @@
             </tr>
             </thead>
             <tbody>
-            <#list terminal.tradeTypeInfos as tradeTypeInfo>
+            <#list terminal.tradeTypeList as tradeType>
             <tr>
-                <td>${(tradeTypeInfo.supportTradeType.dictionaryTradeType.tradeValue)!""}
-                    <#if tradeTypeInfo.supportTradeType.tradeType == 1 &&  (terminal.billingCycle.dictionaryBillingCycle.name)??>
-                        (${terminal.billingCycle.dictionaryBillingCycle.name})
-                    </#if>
+                <td><#if (tradeType.tradeValue)??>${tradeType.tradeValue}</#if>
                 </td>
                 <td>
-                    <#if tradeTypeInfo.supportTradeType.tradeType == 1 >
-                        <#if (terminal.baseRate)?? && (terminal.billingCycle.rate)??>
-                        ${((terminal.baseRate)+(terminal.billingCycle.rate))/10}%
-                        </#if>
-                    <#else>
-                    ${((tradeTypeInfo.supportTradeType.terminalRate)!0)/10}%
-                    </#if>
+                	<#if (tradeType.tradeValue)='消费'>${tradeType.serviceRate+tradeType.baseRate}‰
+                	<#elseif (tradeType.tradeValue)!='消费'>${tradeType.terminalRate}‰
+                	</#if>
                 </td>
                 <td>
-                    <#if tradeTypeInfo.status=2>未开通
-                    <#elseif tradeTypeInfo.status=1>已开通
+                    <#if tradeType.status=2>未开通
+                    <#elseif tradeType.status=1>已开通
                     </#if>
                 </td>
             </tr>

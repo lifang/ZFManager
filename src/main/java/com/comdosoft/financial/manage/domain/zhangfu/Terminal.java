@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.domain.zhangfu;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Terminal {
 
@@ -558,8 +559,20 @@ public class Terminal {
     private PayChannelBillingCycle billingCycle;
     private List<TerminalMark> terminalMarks;
 
+    private List<Map<String, Object>> tradeTypeList;
+    
+    
+    
 
-    public Merchant getMerchant() {
+    public List<Map<String, Object>> getTradeTypeList() {
+		return tradeTypeList;
+	}
+
+	public void setTradeTypeList(List<Map<String, Object>> tradeTypeList) {
+		this.tradeTypeList = tradeTypeList;
+	}
+
+	public Merchant getMerchant() {
 		return merchant;
 	}
 

@@ -247,5 +247,16 @@
 		LEFT JOIN terminal_opening_infos i on i.opening_applies_id = o.id and i.types = #{type}
 		WHERE o.terminal_id = #{id} 
 	</select>
-
+	
+	<select id="getRate" parameterType="int" resultType="map">
+	  SELECT
+		s.id,s.terminal_rate as terminalRate,d.trade_type as tradeType,d.trade_value as tradeValue,
+		y.service_rate as serviceRate,t.base_rate as baseRate,l.`status`
+		FROM terminals t LEFT JOIN
+		support_trade_types s ON t.pay_channel_id = s.pay_channel_id
+		LEFT JOIN dictionary_trade_types d ON d.id = s.trade_type_id
+		LEFT JOIN dictionary_billing_cycles y ON y.id = t.billing_cycles_id
+		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id and l.terminal_id = t.id
+	  WHERE t.id=#{id}
+	 </select>
 </mapper>
