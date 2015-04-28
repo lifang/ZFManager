@@ -63,7 +63,7 @@
 <script type="text/javascript">
 	function searchCustomer() {
 		var customerName = $("#customer_name").val();
-	    $.get('<@spring.url "/order/customer/search" />',
+	    $.post('<@spring.url "/order/customer/search" />',
 	            {
 	            	"customerName": customerName
 	            },
@@ -74,7 +74,7 @@
 	
 	function searchAgent(agentCompanyName) {
 		var agentCompanyName = $("#agentCompanyName").val();
-	    $.get('<@spring.url "/order/agent/search" />',
+	    $.post('<@spring.url "/order/agent/search" />',
 	            {
 	            	"keys": agentCompanyName
 	            },

@@ -20,7 +20,7 @@ public class CustomerController extends BaseController {
 	@Autowired
 	private CustomerService customerService;
 
-    @RequestMapping(value="search",method = RequestMethod.GET)
+    @RequestMapping(value="search",method = RequestMethod.POST)
     public String search(HttpServletRequest request,String customerName,Model model, Integer agentId){
     	List<Customer> searchCustomer = customerService.searchCustomer(customerName,agentId);
 		model.addAttribute("customers", searchCustomer);
