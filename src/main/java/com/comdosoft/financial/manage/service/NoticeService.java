@@ -18,6 +18,7 @@ public class NoticeService {
                 terminalIdCache.remove(terminalId);
             }
             terminalIdCache.put(terminalId, System.currentTimeMillis());
+            terminalIds.add(terminalId);
         }
     }
 
@@ -31,9 +32,8 @@ public class NoticeService {
                 if(nowTime - time > 60000){
                     terminalIdCache.remove(id);
                     it.remove();
-                } else{
-                    terminalId = id;
-                    return terminalId;
+                }else {
+                    return id;
                 }
             }
         }

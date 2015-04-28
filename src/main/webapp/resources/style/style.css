@@ -1302,3 +1302,24 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 .intention_text { margin: 5px 0; position: relative; padding-left: 60px;}
 .intention_text span { display: inline-block; position: absolute; top: 0px; left: 0px;}
 .intention_text p { display: inline-block;}
+
+
+/*------视频通知提示-----*/
+.videoInform_tab .videoInform_tabCon { 
+	position: relative; 
+	height: 58px; 
+	line-height: 58px; 
+	font-size: 16px; 
+	color: #0071cf; 
+	padding-left: 70px;
+	font-weight:bolder;
+}
+.videoInform_tab .videoInform_tabCon i { 
+	width: 58px; 
+	height: 58px;
+	display: inline-block; 
+	background: url(../images/video_icon.png) no-repeat;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}

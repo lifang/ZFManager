@@ -162,14 +162,47 @@
 
 <div class="mask"></div>
 <div class="tab" id="errorDiv">
-	<a href="#" class="close errorClose">关闭</a>
+	<a class="close errorClose">关闭</a>
     <div class="tabBody">
     	<p id="errorP"></p>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="errorBtn">确定<tton></div>
 </div>
+
+<div class="tab" id="videoShowDiv">
+    <a class="close">关闭</a>
+    <div class="tabHead">视频认证提示</div>
+    <div class="tabBody">
+        <div class="videoInform_tabCon">
+            <i></i>你有一条视频认证通知！
+        </div>
+    </div>
+</div>
+
 </#macro>
 
 <#function urlCheck request pre>
     <#return request.requestUri?substring(request.contextPath?length)?starts_with(pre)>
 </#function>
+<#if Roles.hasRole("CERTIFIED_OPEN_VIDEO_VERIFY")>
+<script>
+    $(function(){
+        var reshVideo = setInterval(function(){
+            $.get("<@spring.url "/notify/getVideo"/>",
+                    function(data){
+                        if(data.code==1){
+                            var applyId = data.result;
+                            if(applyId != 0){
+                                $("#videoShowDiv").show();
+                            }
+                        }
+                    }
+            );
+
+        }, 10000);
+
+    })
+</script>
+<#else>
+11111
+</#if>

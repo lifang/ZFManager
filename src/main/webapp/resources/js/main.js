@@ -1,3 +1,18 @@
+//鼠标经过提示全名
+function allName(e){
+	$(e).hover(
+		function(){
+			$(this).attr("title",$(this).html())
+		},
+		function(){
+			$(this).attr("title")
+		}
+	);
+}
+$(function(){
+	allName(".item_list li span.labelSpan");
+})
+
 
 //input focus所有input焦点效果
 $(function(){
@@ -101,29 +116,6 @@ function popup(t,b){
 		$(".mask").css('display','none');
 	})
 }
-
-//用于非绑定click弹窗,点击发货时需要判断是否弹窗
-function popupT(t){
-	var doc_height = $(document).height();
-	var doc_width = $(document).width();
-	var win_height = $(window).height();
-	var win_width = $(window).width();
-	
-	var layer_height = $(t).height();
-	var layer_width = $(t).width();
-	
-	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-	//tab
-    $(".mask").css({display:'block',height:doc_height});
-	$(t).css('top',(win_height-layer_height)/2);
-	$(t).css('left',(win_width-layer_width)/2);
-	$(t).css('display','block');
-	$(".close").click(function(){
-		$(t).css('display','none');
-		$(".mask").css('display','none');
-	})
-}
-
 $(function(){
 	popup(".leaseExplain_tab",".leaseExplain_a");//租赁说明
 	popup(".leaseAgreement_tab",".leaseAgreement_a");//租赁协议
@@ -131,7 +123,7 @@ $(function(){
 	popup(".approve_tab",".approve_a");//通过审核
 	popup(".creditsExchange_tab",".ce_a");//兑换积分
 	popup(".remark_tab",".remark_a");//备注
-	//popup(".deliver_tab",".deliver_a");//发货 订单用户
+	popup(".deliver_tab",".deliver_a");//发货 订单用户
 	popup(".priceOrder_tab",".priceOrder_a");//修改订单价格 订单用户
 	popup(".paymentRecord_tab",".paymentRecord_a");//增加付款记录 订单用户
 	popup(".priceEarnest_tab",".priceEarnest_a");//修改定金价格 代理商批购
@@ -140,11 +132,13 @@ $(function(){
 	popup(".assign_tab",".assign_a");//分派
 	popup(".danger_tab",".danger_a");//风险标签
 	popup(".errorTab",".error_a");//错误提示弹层
-	popup(".stockMange_tab",".stockMange_a");
+	
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 	
 	popup(".file_tab",".file_a");//交易转账上传
-	popup(".paymentRecordFront_tab",".paymentRecordFront_a");//支付定金
+	
+	
+	popup(".videoInform_tab",".videoInform_a");//视屏通知提示
 })
 
 
@@ -415,16 +409,4 @@ $(function(){
 })
 
 
-function allName(e){
-	$(e).hover(
-		function(){
-			$(this).attr("title",$(this).html())
-		},
-		function(){
-			$(this).attr("title")
-		}
-	);
-}
-$(function(){
-	allName(".item_list li span.labelSpan");
-})
+

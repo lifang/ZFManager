@@ -28,7 +28,7 @@ public class NoticeController {
     private SessionService sessionService;
     @Autowired
     private TerminalService terminalService;
-    @RequestMapping(value = "video", method= RequestMethod.GET)
+    @RequestMapping(value = "video", method= RequestMethod.POST)
     @ResponseBody
     public Response video(Integer terminalId, HttpServletRequest request){
         Customer customer = sessionService.getLoginInfo(request);
@@ -43,7 +43,6 @@ public class NoticeController {
         Integer id = noticeService.getVideoApply(customer.getId());
         int applyId = 0;
         if (id != null){
-            int terminalStatus = terminalService.videoStatus(id);
             OpeningApplie openingApplie = terminalService.getOpeningApplie(id);
             if(openingApplie != null){
                 applyId = openingApplie.getId();
