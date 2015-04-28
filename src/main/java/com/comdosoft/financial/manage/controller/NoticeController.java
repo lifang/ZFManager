@@ -28,11 +28,10 @@ public class NoticeController {
     private SessionService sessionService;
     @Autowired
     private TerminalService terminalService;
-    @RequestMapping(value = "video", method= RequestMethod.POST)
+    @RequestMapping(value = "video", method= RequestMethod.GET)
     @ResponseBody
-    public Response video(Integer terminalId, HttpServletRequest request){
-        Customer customer = sessionService.getLoginInfo(request);
-        Integer id = noticeService.getVideoApply(customer.getId());
+    public Response video(Integer terminalId){
+        noticeService.applyVideo(terminalId);
         return Response.getSuccess(null);
     }
 

@@ -79,4 +79,6 @@ public interface OutStoreMapper {
 	int getTerminalIsUsed(@Param("serialNum") String serialNum);
 	
 	int getCsOutStorageStatus(@Param("id") int id);
+	
+	int getTerminalsInfo(@Param("serialNum") String serialNum);
 }

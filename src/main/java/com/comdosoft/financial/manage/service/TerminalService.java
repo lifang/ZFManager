@@ -98,6 +98,10 @@ public class TerminalService {
 
     public Terminal findTerminalInfo(Integer id) {
         Terminal t=terminalMapper.findTerminalInfo(id);
+        List<Map<String, Object>> mapTemp=terminalMapper.getRate(id);
+        
+        t.setTradeTypeList(mapTemp);
+        
         OpeningApplie applie = t.getOpeningApplie();
         if(applie != null){
             List<TerminalOpeningInfo>infos = applie.getTerminalOpeningInfos();

@@ -1,5 +1,10 @@
 package com.comdosoft.financial.manage.service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,8 +15,14 @@ import java.util.*;
 @Service
 public class NoticeService {
 
-    private static final Map<Integer, Long> terminalIdCache= new TreeMap<>();
+    private static final Map<Integer, Long> terminalIdCache= new HashMap<>();
     private static final Set<Integer> terminalIds = new HashSet<>();
+    private static final Map<Integer, Integer> terminalOwnerCache= new HashMap<>();
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Autowired
+    private TerminalMapper terminalMapper;
+
     public void applyVideo(Integer terminalId){
         if(terminalId != null){
             if(terminalIds.contains(terminalId)){
@@ -19,6 +30,8 @@ public class NoticeService {
             }
             terminalIdCache.put(terminalId, System.currentTimeMillis());
             terminalIds.add(terminalId);
+            Terminal terminal = terminalMapper.findTerminalInfo(terminalId);
+            terminalOwnerCache.put(terminalId, terminal.getPayChannel().getFactory().getCustomerId());
         }
     }
 
@@ -29,11 +42,15 @@ public class NoticeService {
             Integer id = (Integer) it.next();
             Long time = terminalIdCache.get(id);
             if(time != null){
-                if(nowTime - time > 60000){
+                if(nowTime - time > 300000){
                     terminalIdCache.remove(id);
+                    terminalOwnerCache.remove(id);
                     it.remove();
                 }else {
-                    return id;
+                    terminalId = id;
+                    if(terminalOwnerCache.get(id) == customerId){
+                        break;
+                    }
                 }
             }
         }

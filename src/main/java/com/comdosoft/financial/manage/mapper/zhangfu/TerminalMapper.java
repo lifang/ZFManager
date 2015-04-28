@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.domain.zhangfu.TerminalTradeTypeInfo;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 import org.apache.ibatis.annotations.Param;
@@ -44,7 +45,9 @@ public interface TerminalMapper {
     long countByKeys(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
 
     Terminal findTerminalInfo(Integer id);
-
+    
+    List<Map<String, Object>> getRate(@Param("id") int id);
+    
     long countByAgentCode(String code);
     long countOpenByAgentCode(String code);
     

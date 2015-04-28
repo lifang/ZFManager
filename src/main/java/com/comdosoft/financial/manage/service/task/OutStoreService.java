@@ -291,22 +291,42 @@ public class OutStoreService {
 					allQuantity=allQuantity+ports.length;
 					
 					goodQuantityMap.put(goodId, ports.length);
+					
 					if(resultCode==Response.SUCCESS_CODE){
-						int numTemp=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, tempChild[1], outStorageId);
-						if(numTemp>0){
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("in_out_storages表已存在终端号对应的记录");
-							throw new Exception("in_out_storages表已存在终端号对应的记录");
+						for(int j=0;j<ports.length;j++){
+							int temp1=outStoreMapper.getTerminalsInfo(ports[j]);
+							if(temp1>0){
+								
+							}else{
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("输入的终端号不存在");
+								throw new Exception("输入的终端号不存在");
+							}
+						}
+					}
+					
+					
+					if(resultCode==Response.SUCCESS_CODE){
+						for(int j=0;j<ports.length;j++){
+							int numTemp=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, ports[j], outStorageId);
+							if(numTemp>0){
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("in_out_storages表已存在终端号对应的记录");
+								throw new Exception("in_out_storages表已存在终端号对应的记录");
+							}
 						}
 					}
 					if(resultCode==Response.SUCCESS_CODE){
-						int temp2=outStoreMapper.saveTerminalNum(orderId, goodId, tempChild[1],loginId,ports.length,outStorageId);
-						if(temp2<1){
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("保存商品的终端号出错");
-							throw new Exception("保存商品的终端号出错");
+						for(int j=0;j<ports.length;j++){
+							int temp2=outStoreMapper.saveTerminalNum(orderId, goodId,ports[j],loginId,ports.length,outStorageId);
+							if(temp2<1){
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("保存商品的终端号出错");
+								throw new Exception("保存商品的终端号出错");
+							}
 						}
 					}
 					
