@@ -287,7 +287,7 @@ public class OutStoreService {
 					String[] tempChild=temp[i].toString().split("\\_");
 					
 					int goodId=Integer.parseInt(tempChild[0].toString());
-					String[] ports=tempChild[1].toString().split("\\,");
+					String[] ports=tempChild[1].toString().split("\\s+|,|;");
 					allQuantity=allQuantity+ports.length;
 					
 					goodQuantityMap.put(goodId, ports.length);
