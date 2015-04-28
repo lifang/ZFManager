@@ -262,6 +262,10 @@
     function paySure(id){
 		var payType = $('#pay_type').val();
 		var payPrice=$('#payPrice').val();
+		if(null==payPrice || payPrice.replace(/(^s*)|(s*$)/g, "").length ==0){
+			alert("请输入支付金额");
+			return false;
+		}
 		$.post('<@spring.url "" />'+'/order/payment/batch/info/create',
 				{"orderId":id,
 				"payType":payType,
