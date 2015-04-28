@@ -54,6 +54,9 @@ public class NoticeService {
                 }
             }
         }
+        terminalIdCache.remove(terminalId);
+        terminalOwnerCache.remove(terminalId);
+        terminalIds.remove(terminalId);
         return terminalId;
     }
 

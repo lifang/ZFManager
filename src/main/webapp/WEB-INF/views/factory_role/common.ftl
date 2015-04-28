@@ -129,24 +129,46 @@
     </div>
 </div>
 <script>
-    $(function(){
-        var needRefresh = true;
-        var refreshVideo = setInterval(function(){
-            $.get("<@spring.url "/notice/getVideo"/>",
-                    function(data){
-                        if(data.code==1){
-                            var applyId = data.result;
-                            if(applyId != 0){
-                                $("#videoShowDiv").show();
-                                clearInterval(refreshVideo);
-                            }
-                        }
-                    }
-            );
 
-        }, 20000);
+    var noticeVideoId;
+    var reshVideo;
+    $(function(){
+        reshVideo = setInterval(taskRefreshVideo, 10000);
+        $("#videoClickDiv").click(function(){
+            $("#videoShowDiv").css('display','none');
+            $(".mask").css('display','none');
+            window.open("<@spring.url "/task/certifiedopen/"/>"+noticeVideoId+"/video");
+            setInterval(taskRefreshVideo, 10000);
+        });
 
     })
+
+    function taskRefreshVideo(){
+        $.get("<@spring.url "/notice/getVideo"/>",
+                function(data){
+                    if(data.code==1){
+                        noticeVideoId = data.result;
+                        if(noticeVideoId != 0){
+                            clearInterval(reshVideo);
+                            var doc_height = $(document).height();
+                            var doc_width = $(document).width();
+                            var win_height = $(window).height();
+                            var win_width = $(window).width();
+
+                            var layer_height = $("#videoShowDiv").height();
+                            var layer_width = $("#videoShowDiv").width();
+                            var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+                            $(".mask").css({display:'block',height:doc_height});
+                            $("#videoShowDiv").css('top',(win_height-layer_height)/2);
+                            $("#videoShowDiv").css('left',(win_width-layer_width)/2);
+                            $("#videoShowDiv").css('display','block');
+                        }
+                    }
+                }
+        );
+
+    }
 </script>
 </#macro>
 
