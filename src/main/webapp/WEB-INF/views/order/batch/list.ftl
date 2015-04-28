@@ -364,12 +364,12 @@
 		for(var i=0,size=ts.length;i<size;i++){
 			var tsItem=ts[i];
 			var tsI=tsItem.split("\n");
-			//for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
-			//	if(tsI[j].replace(/(^s*)|(s*$)/g, "").length >0){
-			//		length++;
-			//	}
-			//}
-			length=length+tsI.length;
+			for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
+				if(tsI[j].replace(/(^s*)|(s*$)/g, "").length >0){
+					length++;
+				}
+			}
+			//length=length+tsI.length;
 		}
 		var logisticsName = $('#logistics_name').val();
 		var pos_num = $('#deliverNum_'+id).val();
