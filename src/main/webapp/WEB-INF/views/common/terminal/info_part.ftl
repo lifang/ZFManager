@@ -72,10 +72,10 @@
                 <td>
                     <#if tradeTypeInfo.supportTradeType.tradeType == 1 >
                         <#if (terminal.baseRate)?? && (terminal.billingCycle.rate)??>
-                        ${(terminal.baseRate)+(terminal.billingCycle.rate)}%
+                        ${((terminal.baseRate)+(terminal.billingCycle.rate))/10}%
                         </#if>
                     <#else>
-                    ${(tradeTypeInfo.supportTradeType.terminalRate)!""}%
+                    ${((tradeTypeInfo.supportTradeType.terminalRate)!0)/10}%
                     </#if>
                 </td>
                 <td>
