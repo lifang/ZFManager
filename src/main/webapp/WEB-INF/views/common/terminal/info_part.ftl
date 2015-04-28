@@ -67,14 +67,16 @@
                 <td><#if (tradeType.tradeValue)??>${tradeType.tradeValue}</#if>
                 </td>
                 <td>
-                	<#if (tradeType.tradeValue)='消费'>${tradeType.serviceRate+tradeType.baseRate}‰
-                	<#elseif (tradeType.tradeValue)!='消费'>${tradeType.terminalRate}‰
+                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${tradeType.serviceRate+tradeType.baseRate}‰</#if></#if>
+                	<#elseif (tradeType.tradeValue)!='消费'><#if (tradeType.terminalRate)??>${tradeType.terminalRate}‰</#if>
                 	</#if>
                 </td>
                 <td>
+                <#if (tradeType.status)??>
                     <#if tradeType.status=2>未开通
                     <#elseif tradeType.status=1>已开通
                     </#if>
+                  </#if>
                 </td>
             </tr>
             </#list>

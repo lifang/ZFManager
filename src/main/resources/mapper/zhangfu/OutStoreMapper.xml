@@ -82,7 +82,7 @@ ifnull(b.name,"") as name,ifnull(a.created_at,"") as createdAt,ifnull(d.pay_type
 
 ifnull(ff.name,'掌富') as factoryName, 
 
-ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice 
+ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice,ifnull(gg.name,"") as belongsToUserName 
 
 from orders a 
 
@@ -95,6 +95,7 @@ left join order_payments d on a.id=d.order_id
  left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id 
 
 left JOIN factories ff on ff.id=a.belongs_to
+left join customers gg on gg.id=a.belongs_user_id
 
 where a.id=#{orderId}
 	</select>
@@ -217,5 +218,10 @@ where a.id=#{id}
    <select id="getCsOutStorageStatus" resultType="int">
    	select status from cs_out_storages where id=#{id}
    </select>
+   
+   <select id="getTerminalsInfo" resultType="int">
+   		select count(id) as id from terminals where serial_num=#{serialNum}
+   </select>
+   
    
 </mapper>
