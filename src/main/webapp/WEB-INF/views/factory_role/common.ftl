@@ -119,6 +119,35 @@
     </div>
     <div class="tabFoot"><button class="blueBtn" id="errorBtn">确定<tton></div>
 </div>
+<div class="tab" id="videoShowDiv">
+    <a class="close">关闭</a>
+    <div class="tabHead">视频认证提示</div>
+    <div class="tabBody">
+        <div class="videoInform_tabCon">
+            <i></i>你有一条视频认证通知！
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var needRefresh = true;
+        var refreshVideo = setInterval(function(){
+            $.get("<@spring.url "/notice/getVideo"/>",
+                    function(data){
+                        if(data.code==1){
+                            var applyId = data.result;
+                            if(applyId != 0){
+                                $("#videoShowDiv").show();
+                                clearInterval(refreshVideo);
+                            }
+                        }
+                    }
+            );
+
+        }, 20000);
+
+    })
+</script>
 </#macro>
 
 <#function urlCheck request pre>
