@@ -6,7 +6,7 @@
 				<div class="af_con">
 					<div class="af_con_n">
 						${material_index + 1}.${material.title!} 
-						<a href="<@spring.url '${material.templetFilePath!}'/>" class="a_btn">下载模版</a>
+						<a href="${material.templetFilePath!}" class="a_btn">下载模版</a>
 					</div>
 				</div>
 			</#list>
