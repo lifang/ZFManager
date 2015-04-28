@@ -343,7 +343,7 @@
 			alert("两次输入密码不同");
 			return;
 		}
-		$.get('<@spring.url "/order/customer/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/saveOrUpdate" />',
 		            {"phone": phone,
 		            "passport": passport,
 		            "city": cityCreateSelect,

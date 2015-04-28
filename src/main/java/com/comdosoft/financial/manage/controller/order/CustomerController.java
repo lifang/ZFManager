@@ -27,7 +27,7 @@ public class CustomerController extends BaseController {
         return "order/customerSearch";
     }
     
-    @RequestMapping(value="saveOrUpdate",method = RequestMethod.GET)
+    @RequestMapping(value="saveOrUpdate",method = RequestMethod.POST)
     public String saveOrUpdate(HttpServletRequest request,Model model,String phone,String passport,
 			String password,String repassword,Integer city) throws Exception{
     	if(!password.equals(repassword)){
