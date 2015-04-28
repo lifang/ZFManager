@@ -1,7 +1,6 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
-import com.comdosoft.financial.manage.domain.zhangfu.TerminalTradeTypeInfo;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
 import org.apache.ibatis.annotations.Param;

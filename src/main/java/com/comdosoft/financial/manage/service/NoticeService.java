@@ -1,6 +1,5 @@
 package com.comdosoft.financial.manage.service;
 
-import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
@@ -39,7 +38,7 @@ public class NoticeService {
         long nowTime = System.currentTimeMillis();
         Integer terminalId = null;
         for (Iterator<Integer> it = terminalIds.iterator(); it.hasNext();) {
-            Integer id = (Integer) it.next();
+            Integer id = it.next();
             Long time = terminalIdCache.get(id);
             if(time != null){
                 if(nowTime - time > 300000){

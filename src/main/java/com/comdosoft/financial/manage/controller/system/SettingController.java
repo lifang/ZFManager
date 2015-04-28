@@ -36,7 +36,7 @@ public class SettingController {
     @ResponseBody
     public Response edit(String configs) throws Exception{
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Map<String, Integer>> maps = (Map<String, Map<String, Integer>>)objectMapper.readValue(configs, Map.class);
+        Map<String, Map<String, Integer>> maps = objectMapper.readValue(configs, Map.class);
         sysConfigService.edit(maps);
         return Response.getSuccess(null);
     }

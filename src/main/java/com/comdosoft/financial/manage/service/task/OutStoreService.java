@@ -236,7 +236,7 @@ public class OutStoreService {
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面查看详情【添加备注】的操作，操作的记录Id是"+id;
-		int temp1=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
+		int temp1=mapper.save(loginId, userName, userType, OperateRecord.TYPES_CHECKOUT, content,id);
 		if(temp1<1){
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);
@@ -375,7 +375,7 @@ public class OutStoreService {
 											temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
 										}
 									}else{
-										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(customerId);
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 										if(mapTemp!=null){
 											int agentId=Integer.parseInt(mapTemp.get("id").toString());
 											temp1=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, port,payChannelId);
@@ -467,7 +467,7 @@ public class OutStoreService {
 			//执行保存操作记录
 			String userName=outStoreMapper.getNameByLoginId(loginId);
 			String content=userName+"执行了任务的出库页面【添加出库记录】的操作，操作的记录Id是"+outStorageId;
-			int temp=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,outStorageId);
+			int temp=mapper.save(loginId, userName, userType, OperateRecord.TYPES_CHECKOUT, content,outStorageId);
 			if(temp<1){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
@@ -498,7 +498,7 @@ public class OutStoreService {
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面【取消】的操作，操作的记录Id是"+id;
-		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
+		mapper.save(loginId, userName, userType, OperateRecord.TYPES_CHECKOUT, content,id);
 		
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
@@ -533,7 +533,7 @@ public class OutStoreService {
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面【分派】的操作，操作的记录Id是"+ids;
-		int temp1=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,0);
+		int temp1=mapper.save(loginId, userName, userType, OperateRecord.TYPES_CHECKOUT, content,0);
 		if(temp1<1){
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);

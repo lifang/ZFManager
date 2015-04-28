@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.mapper.zhangfu.ReocrdOperateMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.StockManageMapper;
-import com.google.common.collect.Maps;
 
 @Service
 public class StockManageService {
@@ -115,7 +114,7 @@ public class StockManageService {
 			}
 			
 			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("id");
-			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("id").toString()));
+			mapper.save(loginId, userName, userType, OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("id").toString()));
 		}
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
@@ -152,7 +151,7 @@ public class StockManageService {
 		if(null!=temp1){
 			content.setLength(0);
 			content.append(userName+"执行了任务的售后库存管理页面的【正常入库】的操作，操作的记录Id是"+temp1.get("id"));
-			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content.toString(),Integer.parseInt(temp1.get("id").toString()));
+			mapper.save(loginId, userName, userType, OperateRecord.TYPES_AFTERMARKET_INVENTORY, content.toString(),Integer.parseInt(temp1.get("id").toString()));
 		}
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
@@ -183,7 +182,7 @@ public class StockManageService {
 				throw new Exception("终端报废成功");
 			}
 			String content=userName+"执行了任务的售后库存管理页面的【报废】的操作，操作的记录Id是"+temp1.get("id");
-			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content,Integer.parseInt(temp1.get("id").toString()));
+			mapper.save(loginId, userName, userType, OperateRecord.TYPES_AFTERMARKET_INVENTORY, content,Integer.parseInt(temp1.get("id").toString()));
 		}
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
