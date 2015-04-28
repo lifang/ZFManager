@@ -78,7 +78,7 @@ ifnull(a.invoice_info,"") as invoiceInfo, ifnull(a.invoice_type,"0") as invoiceT
 
 ifnull(a.comment,"") as comment,ifnull(a.types,"") as types,ifnull(a.order_number,"") as orderNumber, 
 
-ifnull(b.name,"") as name,ifnull(a.payed_at,"") as payedAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
+ifnull(b.name,"") as name,ifnull(a.created_at,"") as createdAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
 
 ifnull(ff.name,'掌富') as factoryName, 
 

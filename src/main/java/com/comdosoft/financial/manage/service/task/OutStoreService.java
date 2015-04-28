@@ -348,7 +348,7 @@ public class OutStoreService {
 										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}else if(types==5){
 										//agentIdCustomerId
-										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(loginId+"");
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 										if(mapTemp!=null){
 											int agentId=Integer.parseInt(mapTemp.get("id").toString());
 											temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);

@@ -113,7 +113,7 @@
             </dl>
             <dl>
             	<dt>购买人：</dt><dd>${orderDetails.name}</dd>
-                <dt>购买日期：</dt><dd>${orderDetails.payedAt}</dd>
+                <dt>购买日期：</dt><dd>${orderDetails.createdAt}</dd>
             </dl>
             <dl>
             	<dt>支付类型：</dt><dd>${orderDetails.payTypeName}</dd>
