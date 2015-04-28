@@ -94,117 +94,100 @@ public class StockManageService {
 		return map;
 	}
 	
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> toAfterSaleStock(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
-			resultInfo.setLength(0);
-			resultInfo.append("终端退回售后库失败");
 			
-			Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
-			if(null==mapTemp){
-				int temp=stockManageMapper.toAfterSaleStock(serialNum, loginId);
-				if(temp>0){
-					resultCode=1;
-					resultInfo.setLength(0);
-					resultInfo.append("终端退回售后库成功");
-				}else{
-					throw new Exception("终端退回售后库成功");
-				}
-				
-				String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("id");
-				mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("id").toString()));
+		resultInfo.setLength(0);
+		resultInfo.append("终端退回售后库失败");
+		
+		Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
+		if(null==mapTemp){
+			int temp=stockManageMapper.toAfterSaleStock(serialNum, loginId);
+			if(temp>0){
+				resultCode=1;
+				resultInfo.setLength(0);
+				resultInfo.append("终端退回售后库成功");
+			}else{
+				throw new Exception("终端退回售后库成功");
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
+			
+			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("id");
+			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("id").toString()));
 		}
-		finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo);
-			return map;
-		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo);
+		return map;
 	}
 	
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> toNormalStock(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
+		
+		resultInfo.setLength(0);
+		resultInfo.append("终端入正常库失败");
+
+		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
+		if(null==temp1){
+			resultCode=-2;
 			resultInfo.setLength(0);
-			resultInfo.append("终端入正常库失败");
-	
-			Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
-			if(null==temp1){
-				resultCode=-2;
-				resultInfo.setLength(0);
-				resultInfo.append("终端号不在售后库中");
-			}else{
-				
-				int temp=stockManageMapper.toNormalStock(serialNum, loginId);
-				if(temp>0){
-					resultCode=1;
-					resultInfo.setLength(0);
-					resultInfo.append("终端入正常库成功");
-				}else{
-					throw new Exception("终端入正常库成功");
-				}
-			}
+			resultInfo.append("终端号不在售后库中");
+		}else{
 			
-			StringBuilder content= new StringBuilder();
-			if(null!=temp1){
-				content.setLength(0);
-				content.append(userName+"执行了任务的售后库存管理页面的【正常入库】的操作，操作的记录Id是"+temp1.get("id"));
-				mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content.toString(),Integer.parseInt(temp1.get("id").toString()));
+			int temp=stockManageMapper.toNormalStock(serialNum, loginId);
+			if(temp>0){
+				resultCode=1;
+				resultInfo.setLength(0);
+				resultInfo.append("终端入正常库成功");
+			}else{
+				throw new Exception("终端入正常库成功");
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
 		}
-		finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo);
-			return map;
+		
+		StringBuilder content= new StringBuilder();
+		if(null!=temp1){
+			content.setLength(0);
+			content.append(userName+"执行了任务的售后库存管理页面的【正常入库】的操作，操作的记录Id是"+temp1.get("id"));
+			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content.toString(),Integer.parseInt(temp1.get("id").toString()));
 		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo);
+		return map;
 	}
 	
-	@SuppressWarnings("finally")
+	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> breakDown(String serialNum,int loginId,String userName,int userType) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=-1;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
+		resultInfo.setLength(0);
+		resultInfo.append("终端报废失败");
+		
+		Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
+		if(null==temp1){
+			resultCode=-2;
 			resultInfo.setLength(0);
-			resultInfo.append("终端报废失败");
-			
-			Map<String, Object> temp1=stockManageMapper.checkAccountIsInAfterSale(serialNum);
-			if(null==temp1){
-				resultCode=-2;
+			resultInfo.append("终端号不在售后库中");
+		}else{
+			int temp=stockManageMapper.breakDown(serialNum, loginId);
+			if(temp>0){
+				resultCode=1;
 				resultInfo.setLength(0);
-				resultInfo.append("终端号不在售后库中");
+				resultInfo.append("终端报废成功");
 			}else{
-				int temp=stockManageMapper.breakDown(serialNum, loginId);
-				if(temp>0){
-					resultCode=1;
-					resultInfo.setLength(0);
-					resultInfo.append("终端报废成功");
-				}else{
-					throw new Exception("终端报废成功");
-				}
-				String content=userName+"执行了任务的售后库存管理页面的【报废】的操作，操作的记录Id是"+temp1.get("id");
-				mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content,Integer.parseInt(temp1.get("id").toString()));
+				throw new Exception("终端报废成功");
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo);
-			return map;
+			String content=userName+"执行了任务的售后库存管理页面的【报废】的操作，操作的记录Id是"+temp1.get("id");
+			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_AFTERMARKET_INVENTORY, content,Integer.parseInt(temp1.get("id").toString()));
 		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo);
+		return map;
 	}
 	
 }

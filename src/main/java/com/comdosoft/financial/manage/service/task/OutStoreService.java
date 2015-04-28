@@ -19,6 +19,7 @@ import java.util.Map;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -47,9 +48,6 @@ public class OutStoreService {
 	private ReocrdOperateMapper mapper;
 	
 	public Page<OutStore> findPages(int page, Byte status, String keys){
-//		if (keys != null) {
-//			keys = "%"+keys+"%";
-//		}
 		long count = outStoreMapper.countByKeys(status, keys);
 		if (count == 0) {
 			return new Page<OutStore>(new PageRequest(1, pageSize), new ArrayList<OutStore>(), count);
@@ -218,13 +216,12 @@ public class OutStoreService {
 	}
 	
 	
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType) throws RuntimeException{
+	public Map<String, Object> saveRemark(int id,String remarkContent,int loginId,int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
+		
 		resultInfo.setLength(0);
 		resultInfo.append("保存备注成功");
 		
@@ -234,29 +231,30 @@ public class OutStoreService {
 			resultCode=Response.ERROR_CODE;
 			resultInfo.setLength(0);
 			resultInfo.append("保存备注出错");
-			throw new RuntimeException("保存备注出错");
+			throw new Exception("保存备注出错");
 		}
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面查看详情【添加备注】的操作，操作的记录Id是"+id;
-		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			result.put("resultCode", resultCode);
-			result.put("resultInfo", resultInfo);
-			return result;
+		int temp1=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,id);
+		if(temp1<1){
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("记录操作日志出错");
+			throw new Exception("记录操作日志出错");
 		}
+		
+		result.put("resultCode", resultCode);
+		result.put("resultInfo", resultInfo);
+		return result;
 	};
 	
 	
-	@SuppressWarnings("finally")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try {
 			StringBuffer portsAll=new StringBuffer("");
 			int allQuantity=0;
 			Map<Integer, Integer> goodQuantityMap=new HashMap<Integer, Integer>();
@@ -349,7 +347,8 @@ public class OutStoreService {
 										temp1=outStoreMapper.updateTerminals(customerId, "0", orderId, port,payChannelId);
 										temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 									}else if(types==5){
-										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
+										//agentIdCustomerId
+										Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(loginId+"");
 										if(mapTemp!=null){
 											int agentId=Integer.parseInt(mapTemp.get("id").toString());
 											temp1=outStoreMapper.updateTerminals("0", agentId+"", orderId, port,payChannelId);
@@ -448,17 +447,17 @@ public class OutStoreService {
 			//执行保存操作记录
 			String userName=outStoreMapper.getNameByLoginId(loginId);
 			String content=userName+"执行了任务的出库页面【添加出库记录】的操作，操作的记录Id是"+outStorageId;
-			mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,outStorageId);
+			int temp=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,outStorageId);
+			if(temp<1){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("记录操作日志出错");
+				throw new Exception("记录操作日志出错");
+			}
 			
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}finally{
 			result.put("resultCode", resultCode);
 			result.put("resultInfo", resultInfo);
 			return result;
-		}	
 		
 	};
 	
@@ -493,7 +492,6 @@ public class OutStoreService {
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("分派成功");
-		
 		if(ids.length()>0){
 			String[] idTemp=ids.split("//,");
 			for(int i=0;i<idTemp.length;i++){
@@ -503,6 +501,7 @@ public class OutStoreService {
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
 					resultInfo.append("保存分派信息失败");
+					throw new Exception("保存分派信息失败");
 				}
 			}
 		}else{
@@ -510,14 +509,19 @@ public class OutStoreService {
 			resultInfo.setLength(0);
 			resultInfo.append("没有选择要分派的记录");
 		}
-		result.put("resultCode", resultCode);
-		result.put("resultInfo", resultInfo);
 		
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面【分派】的操作，操作的记录Id是"+ids;
-		mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,0);
-		
+		int temp1=mapper.save(loginId, userName, userType, (int)OperateRecord.TYPES_CHECKOUT, content,0);
+		if(temp1<1){
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("记录操作日志出错");
+			throw new Exception("记录操作日志出错");
+		}
+		result.put("resultCode", resultCode);
+		result.put("resultInfo", resultInfo);
 		return result;
 	}
 }
