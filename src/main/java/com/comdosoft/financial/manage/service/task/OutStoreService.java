@@ -450,27 +450,25 @@ public class OutStoreService {
 						}
 						
 						//更新terminals表数据
-						Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 						if(types==1 || types==2){
-							if(mapTemp!=null){
-								int temp2=outStoreMapper.updateTerminals(customerId, null, orderId, ports[j],payChannelId);
-								int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
-								if(temp2<1){
-									//更新失败
-									resultCode=Response.ERROR_CODE;
-									resultInfo.setLength(0);
-									resultInfo.append("更新terminals表信息出错");
-									throw new Exception("更新terminals表信息出错");
-								}
-								if(temp3<1){
-									//更新失败
-									resultCode=Response.ERROR_CODE;
-									resultInfo.setLength(0);
-									resultInfo.append("更新goods表销售数量或批购数量信息出错");
-									throw new Exception("更新goods表销售数量或批购数量信息出错");
-								}
+							int temp2=outStoreMapper.updateTerminals(customerId, null, orderId, ports[j],payChannelId);
+							int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
+							if(temp2<1){
+								//更新失败
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("更新terminals表信息出错");
+								throw new Exception("更新terminals表信息出错");
+							}
+							if(temp3<1){
+								//更新失败
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("更新goods表销售数量或批购数量信息出错");
+								throw new Exception("更新goods表销售数量或批购数量信息出错");
 							}
 						}else{
+							Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 							if(mapTemp!=null){
 								int agentId=Integer.parseInt(mapTemp.get("id").toString());
 								int temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId);
