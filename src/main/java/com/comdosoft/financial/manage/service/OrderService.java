@@ -301,7 +301,10 @@ public class OrderService {
 		if(1==type || 2==type || 3==type || 4==type){
 			minusGoodQuantity(good, quantity);
 		}
-		customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		//gookin.wu代购订单，如果选了用户，才创建的
+		if(3==type || 4 == type){
+			customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		}
 		order.setActualPrice(totalPrice);
 		order.setComment(comment);
 		Date createdAt = new Date();
@@ -345,6 +348,10 @@ public class OrderService {
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
 			throws Exception {
+		//gookin.wu代购订单，如果选了用户，才创建的
+		if(3==type || 4 == type){
+			customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		}
 		Integer belongsTo=0;
 		Order orderOld = orderMapper.findOrderInfo(orderId);
 		List<OrderGood> orderGoods = orderOld.getOrderGoods();

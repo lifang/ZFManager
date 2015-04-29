@@ -29,7 +29,8 @@
                 	<select id="select_status"> 
                      	  <option value="0">全部</option> 
 				          <option value="1">未付款</option> 
-				          <option value="2">已付订金</option> 
+				          <option value="2">已付订金</option>
+				          <option value="7">已付款</option> 
 				          <option value="3">已完成</option> 
 				          <option value="4">已评价</option> 	         
 				          <option value="5">已取消</option> 

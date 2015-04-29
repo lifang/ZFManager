@@ -271,8 +271,8 @@
 	</select>
 
   	<!--获取关联商品 -->
-	<select id="selectRelativeGoods" resultMap="BaseResultMap">
-		select rgood.id, rgood.title,rgood.price
+	<select id="selectRelativeGoods" resultMap="GoodInfoResultMap">
+		select rgood.id, rgood.title,rgood.price,rgood.retail_price,rgood.purchase_price,rgood.floor_price
 		from good_relations gr inner join goods rgood on gr.relative_good_id=rgood.id
 		where gr.good_id = #{param1}
 	</select>	

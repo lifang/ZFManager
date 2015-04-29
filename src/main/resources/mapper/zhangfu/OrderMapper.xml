@@ -158,8 +158,10 @@
 	</select>
 	 <sql id="pageWhereBatch">
 		<where>
-			<if test="status != null and  status==1"> AND o.status =1 AND o.front_pay_status !=2 </if>
-			<if test="status != null and  status==2"> AND o.status =1 AND o.front_pay_status ==2 </if>
+			<if test="status != null and  status==1"> AND o.status =1 AND (o.front_pay_status is null or o.front_pay_status !=2) </if>
+			<if test="status != null and  status==2"> AND o.status =1 AND o.front_pay_status =2 </if>
+			<if test="status != null and  status==7"> AND o.status =2 AND o.pay_status=2 </if>
+			<if test="status != null and  status !=1 and status !=2 and status !=7"> AND o.status =#{status} </if>
 			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
 				order_number like #{keys}) </if>
 			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
