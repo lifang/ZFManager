@@ -45,7 +45,17 @@ public class PosCategoryService {
         if (count > 0) {
             return false;
         }
+        List<PosCategory> children = posCategoryMapper.selectChildren(id);
+        for(PosCategory child:children) {
+        	long c = goodMapper.countByCategoryId(child.getId());
+        	if(c >0) {
+        		return false;
+        	}
+        }
         posCategoryMapper.deleteByPrimaryKey(id);
+        for(PosCategory child:children) {
+        	posCategoryMapper.deleteByPrimaryKey(child.getId());
+        }
         return true;
     }
 

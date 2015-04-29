@@ -25,7 +25,7 @@ public class AgentsController extends BaseController {
 	@Autowired
 	private AgentService agentService;
 	
-    @RequestMapping(value="search",method= RequestMethod.GET)
+    @RequestMapping(value="search",method= RequestMethod.POST)
     public String search(Integer page, Byte status, String keys, Model model){
         findPage(page, status, keys, model);
         return "order/agentSearch";

@@ -533,7 +533,7 @@ public class Good {
 	 * @mbggenerated
 	 */
 	public Integer getTotalComment() {
-		return totalComment;
+		return totalComment==null?0:totalComment;
 	}
 
 	/**

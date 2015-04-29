@@ -172,7 +172,7 @@
 	function orderBatchPageChange(page) {
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/order/batch/page" />',
+	    $.post('<@spring.url "/order/batch/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status,
@@ -218,7 +218,7 @@
     }
     function priceEarnestSure(id){
 		var priceEarnestText = $('#priceEarnestText').val();
-		$.get('<@spring.url "" />'+'/order/batch/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/'+id+'/save',
 				{"orderId":id,
 				"frontMoney":priceEarnestText
 				},
@@ -237,7 +237,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/batch/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/batch/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -250,7 +250,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/batch/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/batch/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -268,11 +268,14 @@
     
     function paySureFront(id){
 		var payType = $('#pay_type_front').val();
-		$.get('<@spring.url "" />'+'/order/payment/batch/create/front',
+		$.post('<@spring.url "" />'+'/order/payment/batch/create/front',
 				{"orderId":id,
 				"payType":payType
 				},
 	            function (data) {
+	            	if(!checkException(data)){
+	            		return;
+	            	}
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecordFront_tab').hide();
 					$('.mask').hide();
@@ -287,12 +290,19 @@
     function paySure(id){
 		var payType = $('#pay_type').val();
 		var payPrice=$('#payPrice').val();
-		$.get('<@spring.url "" />'+'/order/payment/batch/create',
+		if(null==payPrice || payPrice.replace(/(^s*)|(s*$)/g, "").length ==0){
+			alert("请输入支付金额");
+			return false;
+		}
+		$.post('<@spring.url "" />'+'/order/payment/batch/create',
 				{"orderId":id,
 				"payType":payType,
 				"payPrice":payPrice
 				},
 	            function (data) {
+	            	if(!checkException(data)){
+	            		return;
+	            	}
 	           		$('#row_'+id).replaceWith(data);
 					$('.paymentRecord_tab').hide();
 					$('.mask').hide();
@@ -328,7 +338,7 @@
     		var hidden_quantity = $('#hidden_quantity_'+id+'_'+i).val();
     		var hidden_order_good_id = $('#hidden_order_good_id_'+id+'_'+i).val();
     		htmlStr+="<p>POS机名称："+hidden_good_title+"</p>"+
-	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+id+"' type='text' class='input_m' /></div> ";
+	        "<div class='deliver_numb'><label>POS机数量：</label><input name='deliverNum' id='deliverNum_"+hidden_order_good_id+"' type='text' class='input_m' /></div> ";
     	}
 		$("#pos_info").html(htmlStr);
  		$("#deliverSure").unbind().bind('click',function(){deliverSure(id)});
@@ -351,12 +361,24 @@
 		  if(!reg.test(num_wh)){
 			  alert("pos机数量必须是数字");
 			 return false;
-		  } 
+		  }
+		 
 		var ts = terminalSerialNum.split(",");
+		var length=0;
+		for(var i=0,size=ts.length;i<size;i++){
+			var tsItem=ts[i];
+			var tsI=tsItem.split("\n");
+			for(var j=0,sizeJ=tsI.length;j<sizeJ;j++){
+				if(tsI[j].replace(/(^s*)|(s*$)/g, "").length >0){
+					length++;
+				}
+			}
+			//length=length+tsI.length;
+		}
 		var logisticsName = $('#logistics_name').val();
 		var pos_num = $('#deliverNum_'+id).val();
 		var logisticsNumber = $('#logistics_number').val();
-		if(parseInt(num_wh)!=parseInt(ts.length)){
+		if(parseInt(num_wh)!=parseInt(length)){
 			alert("pos机数量与终端号数量不一致");
 			return false;
 		}

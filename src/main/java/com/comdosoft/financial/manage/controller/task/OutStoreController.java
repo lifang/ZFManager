@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.controller.task;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,15 +91,25 @@ public class OutStoreController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request){
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map=new HashMap<String, Object>();
+		try{
+			map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
+		
 	}
 	/**
 	 * 将出库单状态改为取消 status=2
@@ -127,15 +137,24 @@ public class OutStoreController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="saveRemark",method=RequestMethod.POST)
 	@ResponseBody
 	public Response saveRemark(int id,String remarkContent,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.saveRemark(id,remarkContent,customer.getId(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map= new HashMap<String, Object>();
+		try{
+			map= outStoreService.saveRemark(id,remarkContent,customer.getId(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	private void findPage(Integer page, Byte status, String keys, Model model){
@@ -149,14 +168,23 @@ public class OutStoreController {
 		model.addAttribute("outStores", outStores);
 	}
 	
+	@SuppressWarnings("finally")
 	@RequestMapping(value="distribute",method=RequestMethod.POST)
 	@ResponseBody
 	public Response distribute(String ids,String customerId,String customerName,HttpServletRequest request) throws NumberFormatException, Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map= new HashMap<String, Object>();
+		try{
+			map= outStoreService.saveProcessUser(ids,Integer.parseInt(customerId),customerName,customer.getId(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 }

@@ -63,7 +63,7 @@
 <script type="text/javascript">
 	function searchCustomer() {
 		var customerName = $("#customer_name").val();
-	    $.get('<@spring.url "/order/customer/search" />',
+	    $.post('<@spring.url "/order/customer/search" />',
 	            {
 	            	"customerName": customerName
 	            },
@@ -74,7 +74,7 @@
 	
 	function searchAgent(agentCompanyName) {
 		var agentCompanyName = $("#agentCompanyName").val();
-	    $.get('<@spring.url "/order/agent/search" />',
+	    $.post('<@spring.url "/order/agent/search" />',
 	            {
 	            	"keys": agentCompanyName
 	            },
@@ -108,7 +108,7 @@
 		$("a[name=customerName]").removeClass("hover");
 		$("#customer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
-		$.get('<@spring.url "/order/customer/address/query" />',
+		$.post('<@spring.url "/order/customer/address/query" />',
 		            {"customerId": customerId
 		            },
 		            function (data) {
@@ -120,7 +120,7 @@
 		$("a[name=agentCompanyName]").removeClass("hover");
 		$("#agentCustomer_"+customerId).addClass("hover");
 		$("#customerId").val(customerId);
-		$.get('<@spring.url "/order/customer/address/query" />',
+		$.post('<@spring.url "/order/customer/address/query" />',
 		            {"customerId": customerId
 		            },
 		            function (data) {
@@ -290,7 +290,7 @@
 			alert("两次输入密码不同");
 			return;
 		}
-		$.get('<@spring.url "/order/customer/saveOrUpdate" />',
+		$.post('<@spring.url "/order/customer/saveOrUpdate" />',
 		            {"phone": phone,
 		            "passport": passport,
 		            "city": cityCreateSelect,

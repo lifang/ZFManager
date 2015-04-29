@@ -9,7 +9,9 @@
     <div class="content clear">
         <div class="user_title"><h1>代理商列表</h1>
             <div class="userTopBtnBox">
+    <#if Roles.hasRole("AGENT_CREATE_EDIT")>
                 <a href="<@spring.url "/system/agent/create" />" class="ghostBtn">创建代理商</a>
+    </#if>
             </div>
         </div>
 
@@ -59,7 +61,7 @@
     function pageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
-        $.get('<@spring.url "/system/agent/page" />',
+        $.post('<@spring.url "/system/agent/page" />',
                 {"page": page,
                     "keys": keys,
                     "status": status

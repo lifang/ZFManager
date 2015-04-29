@@ -84,7 +84,7 @@
     <!--获取订单商品 -->
     <select id="selectOrderGoods" resultMap="orderResultMap">
     	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,g.retail_price as g_retail_price,g.purchase_price as g_purchase_price,g.belongs_to as g_belongs_to,
-    	g.floor_purchase_quantity as g_floor_purchase_quantity,g.quantity as g_quantity,
+    	g.floor_purchase_quantity as g_floor_purchase_quantity,g.quantity as g_quantity,g.lease_deposit as g_lease_deposit,
     	gb.id as gb_id,gb.name as gb_name,pc.id as pc_id,pc.name as pc_name,pc.opening_cost as pc_opening_cost
     	from order_goods og
     	left join goods g on g.id=og.good_id
@@ -99,7 +99,7 @@
     <select id="selectOrderGoodsByOrderId" resultMap="orderResultMap">
     	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,
     	g.lease_price as g_lease_price,g.lease_time as g_lease_time,g.return_time as g_return_time,
-    	g.retail_price as g_retail_price,g.price as g_price,g.purchase_price as g_purchase_price,
+    	g.retail_price as g_retail_price,g.price as g_price,g.purchase_price as g_purchase_price,g.lease_deposit as g_lease_deposit,
     	g.floor_purchase_quantity as g_floor_purchase_quantity,g.belongs_to as g_belongs_to,g.quantity as g_quantity,
     	gb.id as gb_id,gb.name as gb_name,pc.id as pc_id,pc.name as pc_name,pc.opening_cost as pc_opening_cost
     	from order_goods og
@@ -112,7 +112,7 @@
     
     <select id="selectOrderGoodByGoodCreate" resultMap="orderResultMap">
     	select og.*,g.id as g_id,g.title as g_title,g.second_title as g_second_title,
-    	g.lease_price as g_lease_price,g.lease_time as g_lease_time,g.return_time as g_return_time,
+    	g.lease_price as g_lease_price,g.lease_time as g_lease_time,g.return_time as g_return_time,g.lease_deposit as g_lease_deposit,
     	g.retail_price as g_retail_price,g.price as g_price,g.floor_purchase_quantity as g_floor_purchase_quantity,g.quantity as g_quantity
     	from order_goods og
     	left join goods g on g.id=og.good_id

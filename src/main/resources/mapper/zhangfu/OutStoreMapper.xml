@@ -32,6 +32,7 @@
 		<where>
 			1=1
 			<if test="status != null"> AND a.status =#{status} </if>
+			<if test="keys != null"> AND a.id =#{keys} </if>
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
@@ -77,18 +78,31 @@ ifnull(a.invoice_info,"") as invoiceInfo, ifnull(a.invoice_type,"0") as invoiceT
 
 ifnull(a.comment,"") as comment,ifnull(a.types,"") as types,ifnull(a.order_number,"") as orderNumber, 
 
-ifnull(b.name,"") as name,ifnull(a.payed_at,"") as payedAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
+ifnull(b.name,"") as name,ifnull(a.created_at,"") as createdAt,ifnull(d.pay_type,"") as payType,ifnull(f.name,"") as payTypeName, 
 
-ifnull((select name from factories where id=(select factory_id from goods where id=(select good_id from order_goods where order_id=1))),'掌富') as factoryName, 
+ifnull(ff.name,'掌富') as factoryName, 
 
-ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice 
+ifnull(a.process_user_name,"") as processUserName, ifnull(a.total_price,"") as oldPrice,ifnull(a.actual_price,"") as actualPrice,ifnull(gg.name,"") as belongsToUserName 
 
-from orders a left join customers b on a.customer_id=b.id left join customer_addresses c on a.customer_address_id=c.id left join order_payments d on a.id=d.order_id left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id where a.id=#{orderId}
+from orders a 
+
+left join customers b on a.customer_id=b.id
+
+ left join customer_addresses c on a.customer_address_id=c.id 
+
+left join order_payments d on a.id=d.order_id
+
+ left join order_goods e on e.order_id =a.id left join pay_channels f on d.pay_type=f.id 
+
+left JOIN factories ff on ff.id=a.belongs_to
+left join customers gg on gg.id=a.belongs_user_id
+
+where a.id=#{orderId}
 	</select>
 	
 	<select id="getOrderIdByOutStorageId" resultType="hashmap">
 		select a.order_id as orderId,b.order_number as orderNumber,
-		ifnull(a.process_user_id,"") as processUserId from cs_out_storages a 
+		ifnull(a.process_user_id,"") as processUserId,ifnull(a.process_user_name,"") as processUserName from cs_out_storages a 
 left join orders b on a.order_id=b.id 
 where a.id=#{id}
 	</select>
@@ -104,8 +118,13 @@ where a.id=#{id}
 		values(#{orderId},#{goodId},#{port},now(),#{loginId},#{quantity},#{csOutStorageId})
    </insert>
    
+   <select id="getInOutStorageTerminalInfo" resultType="int">
+   	select count(id) as num from in_out_storages where order_id=#{orderId} and good_id=#{goodId} and cs_out_storage_id=#{csOutStorageId}
+   		and terminal_number=#{port}
+   </select>
+   
    <select id="getTerminalNum" resultType="hashmap">
-		select terminal_number as num,good_id as goodId from in_out_storages where order_id=#{orderId} and good_id=#{goodId}
+		select terminal_number as num,good_id as goodId from in_out_storages where order_id=#{orderId} and good_id=#{goodId} group by terminal_number
 	</select>
    
    <select id="getOperater" resultType="String">
@@ -149,15 +168,16 @@ where a.id=#{id}
    </insert>
    
    <select id="getCutomerTypeByOrderId" resultType="map">
-   	select customer_id as customerId,types from orders where id=#{orderId}
+   	select customer_id as customerId,types,belongs_user_id as belongsUserId from orders where id=#{orderId}
    </select>
    
-   <select id="getAgentIdByCustomerId" resultType="int">
+   <select id="getAgentIdByCustomerId" resultType="map">
    		select ifnull(id,"0") as id from agents where customer_id=#{customerId}
    </select>
    
    <update id="updateTerminals">
-   	update terminals set customer_id=#{customerId},agent_id=#{agentId},order_id=#{orderId},updated_at=now() where serial_num=#{serialNum}
+   	update terminals set customer_id=#{customerId},agent_id=#{agentId},
+   	order_id=#{orderId},updated_at=now(),pay_channel_id=#{payChannelId} where serial_num=#{serialNum}
    </update>
    
    <select id="getTerminalIsUsed" resultType="int">
@@ -178,7 +198,30 @@ where a.id=#{id}
 			where 1=1 and order_id=#{orderId} GROUP BY good_id
    	</select>
    	
+   	<select id="getPayChannleIdByOrderId" resultType="int">
+   		select pay_channel_id from order_goods where order_id=#{orderId} and good_id=#{goodId}
+   	</select>
+   	
+   	
    <select id="getNameByLoginId" resultType="String">
    		select ifnull(name,"") as name from customers where id=#{loginId}
    </select>
+   
+   <update id="updateGoodsVolumeNumber">
+   	update goods set volume_number=volume_number+1 where id=#{goodId}
+   </update>
+   
+   <update id="updateGoodsPurchaseNumber">
+   	update goods set purchase_number=purchase_number+1 where id=#{goodId}
+   </update>
+   
+   <select id="getCsOutStorageStatus" resultType="int">
+   	select status from cs_out_storages where id=#{id}
+   </select>
+   
+   <select id="getTerminalsInfo" resultType="int">
+   		select count(id) as id from terminals where serial_num=#{serialNum}
+   </select>
+   
+   
 </mapper>

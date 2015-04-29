@@ -22,11 +22,13 @@ import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderLogistic;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderLogisticMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 
@@ -41,6 +43,9 @@ public class OrderLogisticService {
 	private OrderService orderService;
 	@Autowired
 	private CsOutStorageMapper csOutStorageMapper;
+	@Autowired
+	private GoodMapper goodMapper;
+	
 	
 	private int insert(Customer customer,Order order,String logisticsName,String logisticsNumber,Integer quantity,String terminalSerialNum,Integer csOutStorageStatus){
 		OrderLogistic record=new OrderLogistic();
@@ -76,8 +81,8 @@ public class OrderLogisticService {
 		}
 		Integer totalQuantity = 0;
 		Integer csOutStorageStatus=3;
+		Map<Integer,Integer> mapGoodQuantity=new HashMap<Integer, Integer>();
 		if(null!=goodQuantity){
-			List<Map<String, Integer>> goodQuantityList = new ArrayList<Map<String, Integer>>();
 			List<Integer> ids = new ArrayList<Integer>();
 			String[] goodStr = goodQuantity.split(",");
 			for (String goodQuantityE : goodStr) {
@@ -85,13 +90,13 @@ public class OrderLogisticService {
 				Integer id = Integer.parseInt(split2[0].replaceAll("deliverNum_",
 						""));
 				ids.add(id);
-				Map<String, Integer> map = new HashMap<String, Integer>();
-				map.put("id", id);
 				int quantity = Integer.parseInt(split2[1]);
-				map.put("quantity", quantity);
+				mapGoodQuantity.put(id, quantity);
 				totalQuantity += quantity;
-				goodQuantityList.add(map);
 			}
+		}
+		if((order.getTotalOutQuantity()+totalQuantity)>order.getTotalQuantity()){
+			throw new Exception("发货失败，发货总量已超过订单商品数量！");
 		}
 		Set<String> set=new HashSet<String>();
 		if(null==terminalSerialNum||"".equals(terminalSerialNum.trim())){
@@ -106,18 +111,33 @@ public class OrderLogisticService {
 				}
 			}
 		}
+		List<OrderGood> orderGoodDelivered=new ArrayList<OrderGood>();
 		for(String s:set){
 			Boolean isExist=false;
 			List<Terminal> findTerminalsByNums = terminalMapper.findTerminalsByNums(new String[]{s});
 			if(CollectionUtils.isEmpty(findTerminalsByNums)){
 				throw new Exception("终端号不存在！");
 			}
-			for(OrderGood og:order.getOrderGoods()){
+			
+			for(int i=0;i<order.getOrderGoods().size();i++){
+				OrderGood og=order.getOrderGoods().get(i);
 				if(csOutStorageStatus==3&&null==og.getGood().getBelongsTo()){
 					csOutStorageStatus=1;
 				}
 				for(Terminal findTerminalByNum:findTerminalsByNums){
 					if(og.getGoodId().equals(findTerminalByNum.getGoodId())){
+						Good good=goodMapper.selectByPrimaryKey(og.getGoodId());
+						if(order.getTypes()==1||order.getTypes()==3){
+							Integer volumeNumber = good.getVolumeNumber()!=null?good.getVolumeNumber():0;
+							good.setVolumeNumber(volumeNumber+og.getQuantity());
+						}else if(order.getTypes()==5){
+							Integer purchaseNumber = good.getPurchaseNumber()!=null?good.getPurchaseNumber():0;
+							if(null==og.getId()){
+								throw new Exception("没有找到商品对应的发货量");
+							}
+							good.setPurchaseNumber(purchaseNumber+mapGoodQuantity.get(og.getId()));
+						}
+						goodMapper.updateByPrimaryKey(good);
 						findTerminalByNum.setOrderId(orderId);
 						isExist=true;
 						findTerminalByNum.setCustomerId(order.getCustomerId());
@@ -127,7 +147,24 @@ public class OrderLogisticService {
 						findTerminalByNum.setPayChannelId(og.getPayChannelId());
 						findTerminalByNum.setReserver2(reserver2);
 						terminalMapper.updateByPrimaryKey(findTerminalByNum);
+						orderGoodDelivered.add(order.getOrderGoods().get(i));
+						order.getOrderGoods().remove(i);
 						break;
+					}
+				}
+			}
+			for(Terminal findTerminalByNum:findTerminalsByNums){
+				for(OrderGood orderGood:orderGoodDelivered){
+					if(orderGood.getGoodId().equals(findTerminalByNum.getGoodId())){
+						findTerminalByNum.setOrderId(orderId);
+						isExist=true;
+						findTerminalByNum.setCustomerId(order.getCustomerId());
+						if(order.getTypes()==3||order.getTypes()==4||order.getTypes()==5){
+							findTerminalByNum.setAgentId(order.getBelongsAgent().getId());
+						}
+						findTerminalByNum.setPayChannelId(orderGood.getPayChannelId());
+						findTerminalByNum.setReserver2(reserver2);
+						terminalMapper.updateByPrimaryKey(findTerminalByNum);
 					}
 				}
 			}
@@ -142,7 +179,7 @@ public class OrderLogisticService {
 			}
 		}
 		if(null==order.getBelongsTo()){
-			status=1;
+			csOutStorageStatus=1;
 		}
 		orderService.save(orderId, status, null, null);
 		if(0==totalQuantity){

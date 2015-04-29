@@ -4,7 +4,8 @@
  *				业务逻辑控制				*
  *******************************************/
 
-var mDefaultServerAddr = "121.40.84.2";		// 默认服务器地址
+var mDefaultServerAddr = "121.40.84.2";		// 默认服务器地址 
+//var mDefaultServerAddr = "121.40.64.120";		// 默认服务器地址  发布地址
 var mDefaultServerPort = 8906;					// 默认服务器端口号
 var mSelfUserId = -1; 							// 本地用户ID
 var mTargetUserId = -1;							// 目标用户ID（请求了对方的音视频）

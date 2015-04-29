@@ -1,9 +1,11 @@
 package com.comdosoft.financial.manage.service.cs;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.manage.domain.trades.TradeRecord;
@@ -22,13 +24,21 @@ public class CsCommonService {
 	private OtherRequirementMapper otherRequirementMapper;
 	@Autowired
 	private TradeRecordMapper tradeRecordMapper;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	public List<Customer> findDispatchUsers() {
 		return customerMapper.selectDispatchUsers();
 	}
-
+	
 	public List<OtherRequirement> findRequirementByType(int type) {
-		return otherRequirementMapper.findByType(type);
+	List<OtherRequirement> list = new ArrayList<OtherRequirement>();
+	list = otherRequirementMapper.findByType(type);
+	for(OtherRequirement other:list){
+		other.setTempletFilePath(filePath+other.getTempletFilePath());
+	}
+		return list;
 	}
 
 	public List<TradeRecord> findTradeRecords(String serialNum, Integer status,

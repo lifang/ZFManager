@@ -317,6 +317,7 @@ td a.a_btn:hover { text-decoration: underline;}
 .td_proBox { width: 600px; margin: 10px 0; text-align: left; overflow: hidden;}
 .td_proBox a.cn_img { border: 1px #fff solid; font-size: 0; display: block; float: left; margin-right: 15px;}
 .td_proBox a:hover.cn_img { border: 1px #ff5f2b solid;}
+.td_proBox a.cn_img img { width: 130px;}
 .td_proBox_info { float: left; width: 440px;}
 .td_proBox_info a { color: #333;}
 .td_proBox_info a:hover { text-decoration: underline; color: #ff5f2b;}
@@ -467,6 +468,10 @@ td a.a_btn:hover { text-decoration: underline;}
 	top: 0px; 
 	left: 0px;
 	line-height: 26px;
+	width: 110px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden; 
 }
 .item_list li div.text { text-align: left; min-height: 26px; overflow: hidden}
 .item_list li div.text img.cover { float: left; margin-right: 5px;}
@@ -1297,3 +1302,24 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 .intention_text { margin: 5px 0; position: relative; padding-left: 60px;}
 .intention_text span { display: inline-block; position: absolute; top: 0px; left: 0px;}
 .intention_text p { display: inline-block;}
+
+
+/*------视频通知提示-----*/
+.videoInform_tab .videoInform_tabCon { 
+	position: relative; 
+	height: 58px; 
+	line-height: 58px; 
+	font-size: 16px; 
+	color: #0071cf; 
+	padding-left: 70px;
+	font-weight:bolder;
+}
+.videoInform_tab .videoInform_tabCon i { 
+	width: 58px; 
+	height: 58px;
+	display: inline-block; 
+	background: url(../images/video_icon.png) no-repeat;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}

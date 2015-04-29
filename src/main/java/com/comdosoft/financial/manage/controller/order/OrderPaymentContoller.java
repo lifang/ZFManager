@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
@@ -31,7 +30,7 @@ public class OrderPaymentContoller extends BaseController {
 	@Autowired
 	private OrderService orderService;
 	
-    @RequestMapping(value="/user/create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/create")
     public String createGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -42,7 +41,7 @@ public class OrderPaymentContoller extends BaseController {
         return "order/user/pageRowOrder";
     }
     
-    @RequestMapping(value="/user/info/create",method = RequestMethod.GET)
+    @RequestMapping(value="/user/info/create")
     public String createInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -53,7 +52,7 @@ public class OrderPaymentContoller extends BaseController {
     	return "order/user/infoUp";
     }
     
-    @RequestMapping(value="/agent/create",method = RequestMethod.GET)
+    @RequestMapping(value="/agent/create")
     public String createAgentGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -63,7 +62,7 @@ public class OrderPaymentContoller extends BaseController {
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList,OperateAction.payment, orderId);
         return "order/agent/row";
     }
-    @RequestMapping(value="/agent/info/create",method = RequestMethod.GET)
+    @RequestMapping(value="/agent/info/create")
     public String createAgentInfoGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.save(orderId, (byte)2, null, (byte)2);
@@ -74,7 +73,7 @@ public class OrderPaymentContoller extends BaseController {
     	return "order/agent/infoUp";
     }
     
-    @RequestMapping(value="/batch/create/front",method = RequestMethod.GET)
+    @RequestMapping(value="/batch/create/front")
     public String createBatchGet(HttpServletRequest request,Integer orderId,Byte payType,Model model){
     	Customer customer = sessionService.getLoginInfo(request);
     	orderService.savePayFront(orderId);
@@ -85,8 +84,8 @@ public class OrderPaymentContoller extends BaseController {
     	return "order/batch/row";
     }
     
-    @RequestMapping(value="/batch/create",method = RequestMethod.GET)
-    public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
+    @RequestMapping(value="/batch/create")
+    public String createBatchGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice) throws Exception{
     	Customer customer = sessionService.getLoginInfo(request);
     	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);
@@ -95,8 +94,8 @@ public class OrderPaymentContoller extends BaseController {
     	return "order/batch/row";
     }
     
-    @RequestMapping(value="/batch/info/create",method = RequestMethod.GET)
-    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice){
+    @RequestMapping(value="/batch/info/create")
+    public String createBatchInfoGet(HttpServletRequest request,Model model,Integer orderId,Byte payType,Float payPrice) throws Exception{
     	Customer customer = sessionService.getLoginInfo(request);
     	orderPaymentService.payForBatch(customer, orderId, payType, payPrice);
     	Order order=orderService.findOrderInfo(orderId);

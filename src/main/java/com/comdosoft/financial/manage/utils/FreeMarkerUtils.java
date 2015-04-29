@@ -19,7 +19,7 @@ public class FreeMarkerUtils {
     public static TemplateModel useObjectModel(Object target) throws TemplateModelException
     {
         Configuration cfg = new Configuration();
-        ObjectWrapper wrapper = (BeansWrapper) cfg.getObjectWrapper();
+        ObjectWrapper wrapper = cfg.getObjectWrapper();
         TemplateModel model = wrapper.wrap(target);
         return model;
     }

@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.controller.task;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,7 @@ public class StockManageController {
 	public Response showInfo(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.showInfo(serialNum, customer.getId());
+		Map<String, Object> map= stockManageService.showInfo(serialNum.trim(), customer.getId());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		response.setResult(serialNum);
@@ -58,7 +59,7 @@ public class StockManageController {
 	public Response checkAccount(String serialNum,HttpServletRequest request){
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.checkAccount(serialNum, customer.getId(),customer.getName(),customer.getTypes());
+		Map<String, Object> map= stockManageService.checkAccount(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
 		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 		response.setMessage(map.get("resultInfo").toString());
 		return response;
@@ -71,15 +72,24 @@ public class StockManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="toAfterSaleStock",method=RequestMethod.POST)
 	@ResponseBody
 	public Response toAfterSaleStock(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toAfterSaleStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map=new HashMap<String, Object>();
+		try{
+			map= stockManageService.toAfterSaleStock(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	/**
 	 * 将终端放入正常库
@@ -88,15 +98,24 @@ public class StockManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="toNormalStock",method=RequestMethod.POST)
 	@ResponseBody
 	public Response toNormalStock(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.toNormalStock(serialNum, customer.getId(),customer.getName(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map=new HashMap<String, Object>();
+		try{
+			map= stockManageService.toNormalStock(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -106,14 +125,23 @@ public class StockManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="breakDown",method=RequestMethod.POST)
 	@ResponseBody
 	public Response breakDown(String serialNum,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
-		Map<String, Object> map= stockManageService.breakDown(serialNum, customer.getId(),customer.getName(),customer.getTypes());
-		response.setCode(Integer.parseInt(map.get("resultCode").toString()));
-		response.setMessage(map.get("resultInfo").toString());
-		return response;
+		Map<String, Object> map=new HashMap<String, Object>();
+		try{
+			map= stockManageService.breakDown(serialNum.trim(), customer.getId(),customer.getName(),customer.getTypes());
+			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
+			response.setMessage(map.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 }

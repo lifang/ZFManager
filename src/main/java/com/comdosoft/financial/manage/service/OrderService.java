@@ -262,7 +262,12 @@ public class OrderService {
 		Order order = new Order();
 		Good good = goodMapper.findGoodLazyInfo(goodId);
 		PayChannel payChannel = payChannelMapper.selectByPrimaryKey(payChannelId);
-		int totalPrice = (good.getRetailPrice()+payChannel.getOpeningCost())* quantity;
+		int totalPrice =0;
+		if(2==type || 4==type){
+			totalPrice = (good.getLeaseDeposit()+payChannel.getOpeningCost())* quantity;
+		}else{
+			totalPrice = (good.getRetailPrice()+payChannel.getOpeningCost())* quantity;
+		}
 		if(1==type || 2==type){
 			order.setCustomerId(customerId);
 			order.setBelongsUserId(customer.getId());
@@ -365,7 +370,11 @@ public class OrderService {
 						minusGoodQuantity(good, map.get("quantity"));
 						for (OrderGood orderGoodOld : orderGoods) {
 							if (orderGoodOld.getGoodId().equals(good.getId())) {
-								totalPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								if(2==type || 4==type){
+									totalPrice += (good.getLeaseDeposit()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								}else{
+									totalPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								}
 								break;
 							}
 						}
@@ -433,7 +442,11 @@ public class OrderService {
 							if(type==5){
 								orderGoodPrice+=(good.getPurchasePrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
 							}else{
-								orderGoodPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								if(2==type || 4 == type){
+									orderGoodPrice += (good.getLeaseDeposit()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								}else {
+									orderGoodPrice += (good.getRetailPrice()+orderGoodOld.getPayChannel().getOpeningCost()) * map.get("quantity");
+								}
 							}
 							break;
 						}
@@ -457,6 +470,7 @@ public class OrderService {
 	 * @date 2015年4月24日 下午11:02:45
 	 */
 	private void minusGoodQuantity(Good good,Integer quantity) throws Exception{
+		good=goodMapper.selectByPrimaryKey(good.getId());
 		Integer stocks=good.getQuantity()-quantity ;//库存量
 		if(stocks<0){
 			throw new Exception("商品库存不足");
@@ -475,7 +489,7 @@ public class OrderService {
 		if(1==type || 2==type || 3==type || 4==type){
 			List<OrderGood> orderGoods = order.getOrderGoods();
 			for(OrderGood orderGood:orderGoods){
-				Good good = orderGood.getGood();
+				Good good =goodMapper.selectByPrimaryKey( orderGood.getGood().getId());
 				good.setQuantity(good.getQuantity()+orderGood.getQuantity());
 				goodMapper.updateByPrimaryKey(good);
 			}

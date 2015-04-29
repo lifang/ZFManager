@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class ChannelController {
     public String edit(@PathVariable Integer id, Model model, HttpServletRequest request) throws TemplateModelException {
         PayChannel channel = payChannelService.findChannelInfo(id);
         for(Iterator<SupportTradeType> it=channel.getSupportTradeTypes().iterator();it.hasNext();){
-            SupportTradeType supportTradeType = (SupportTradeType)it.next();
+            SupportTradeType supportTradeType = it.next();
             if(supportTradeType.getTradeType() == SupportTradeType.TYPE_TRADE) {
                 it.remove();
             }

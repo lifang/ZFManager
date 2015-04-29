@@ -109,7 +109,7 @@
 	function orderAgentPageChange(page) {
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
-	    $.get('<@spring.url "/order/agent/page" />',
+	    $.post('<@spring.url "/order/agent/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status,
@@ -155,7 +155,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/agent/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/agent/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -168,7 +168,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/agent/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/agent/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -186,7 +186,7 @@
     
     function paySure(id){
 		var payType = $('#pay_type').val();
-		$.get('<@spring.url "" />'+'/order/payment/agent/create',
+		$.post('<@spring.url "" />'+'/order/payment/agent/create',
 				{"orderId":id,
 				"payType":payType
 				},

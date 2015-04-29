@@ -3,7 +3,6 @@ package com.comdosoft.financial.manage.controller.good;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
-import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.FreeMarkerUtils;
 import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -216,7 +214,7 @@ public class ChannelController {
     public String edit(@PathVariable Integer id, Model model) throws TemplateModelException {
         PayChannel channel = payChannelService.findChannelInfo(id);
         for(Iterator<SupportTradeType> it=channel.getSupportTradeTypes().iterator();it.hasNext();){
-            SupportTradeType supportTradeType = (SupportTradeType)it.next();
+            SupportTradeType supportTradeType = it.next();
             if(supportTradeType.getTradeType() == SupportTradeType.TYPE_TRADE) {
                 it.remove();
             }

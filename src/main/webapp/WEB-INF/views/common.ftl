@@ -1,7 +1,7 @@
 <#macro html>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<@head />
+    <@head />
 <@body>
     <#nested />
 </@body>
@@ -16,8 +16,8 @@
         <#nested "head"/>
     </@head>
     <@body>
-        <#nested "body"/>
-    </@body>
+    <#nested "body"/>
+</@body>
 </html>
 </#macro>
 
@@ -40,10 +40,10 @@
 
 <#macro body>
 <body>
-<@top />
+    <@top />
 <@body_head />
 <@main>
-<#nested />
+    <#nested />
 </@main>
 <@foot />
 </body>
@@ -84,50 +84,50 @@
         <li><a href="<@spring.url "/index"/>"<#if urlCheck(request,"/index")> class="hover"</#if>>运营中心首页</a></li>
         <li><a href="<@spring.url "/real/trade"/>" target="map">全国交易实时统计</a></li>
         <#if Roles.hasRole("POS")||Roles.hasRole("PAY_CHANNEL")>
-        <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
-            <ol>
-            <#if Roles.hasRole("POS")><li><a href="<@spring.url "/good/pos/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li></#if>
-            <#if Roles.hasRole("PAY_CHANNEL")><li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li></#if>
-            </ol>
-        </li>
+            <li class="second"><a href="javascript:void(0);">商品<i class="off"></i></a>
+                <ol>
+                    <#if Roles.hasRole("POS")><li><a href="<@spring.url "/good/pos/list"/>"<#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li></#if>
+                    <#if Roles.hasRole("PAY_CHANNEL")><li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li></#if>
+                </ol>
+            </li>
         </#if>
         <#if Roles.hasRole("USER")><li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户</a></li></#if>
-    <#if Roles.hasRole("TERMINAL")><li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端</a></li></#if>
-    <#if Roles.hasRole("TRADE_RECORD")><li><a href="<@spring.url "/trade/index"/>"<#if urlCheck(request,"/trade")> class="hover"</#if>>交易</a></li></#if>
-    <#if Roles.hasRole("USER_ORDER")||Roles.hasRole("AGENT_BATCH_ORDER")||Roles.hasRole("AGENT_ORDER")>
-        <li class="second"><a href="javascript:void(0);">订单<i class="off"></i></a>
-            <ol>
-            <#if Roles.hasRole("USER_ORDER")><li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li></#if>
-            <#if Roles.hasRole("AGENT_BATCH_ORDER")><li><a href="<@spring.url "/order/batch/list"/>"<#if urlCheck(request,"/order/batch")> class="hover"</#if>>代理商批购</a></li></#if>
-            <#if Roles.hasRole("AGENT_ORDER")><li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商代购</a></li></#if>
-            </ol>
-        </li>
-    </#if>
-    <#if Roles.hasRole("CS_UPDATE_INFO")||Roles.hasRole("CS_AGENT")||Roles.hasRole("CS_REPAIR")||Roles.hasRole("CS_CHANGE")||Roles.hasRole("CS_RETURN")||Roles.hasRole("CS_LEASE_RETURN")||Roles.hasRole("CS_CANCEL")>
-        <li class="second"><a href="javascript:void(0);">售后<i class="off"></i></a>
-            <ol>
-            <#if Roles.hasRole("CS_UPDATE_INFO")><li><a href="<@spring.url "/cs/update/list"/>"<#if urlCheck(request,"/cs/update")> class="hover"</#if>>资料更新</a></li></#if>
-            <#if Roles.hasRole("CS_AGENT")><li><a href="<@spring.url "/cs/agent/list"/>"<#if urlCheck(request,"/cs/agent")> class="hover"</#if>>代理商售后</a></li></#if>
-            <#if Roles.hasRole("CS_REPAIR")><li><a href="<@spring.url "/cs/repair/list"/>"<#if urlCheck(request,"/cs/repair")> class="hover"</#if>>维修</a></li></#if>
-            <#if Roles.hasRole("CS_CHANGE")><li><a href="<@spring.url "/cs/change/list"/>"<#if urlCheck(request,"/cs/change")> class="hover"</#if>>换货</a></li></#if>
-            <#if Roles.hasRole("CS_RETURN")><li><a href="<@spring.url "/cs/return/list"/>"<#if urlCheck(request,"/cs/return")> class="hover"</#if>>退货</a></li></#if>
-            <#if Roles.hasRole("CS_LEASE_RETURN")><li><a href="<@spring.url "/cs/lease/list"/>"<#if urlCheck(request,"/cs/lease")> class="hover"</#if>>租赁退还</a></li></#if>
-            <#if Roles.hasRole("CS_CANCEL")><li><a href="<@spring.url "/cs/cancel/list"/>"<#if urlCheck(request,"/cs/cancel")> class="hover"</#if>>注销</a></li></#if>
-            </ol>
-        </li>
-    </#if>
-    <#if Roles.hasRole("STOCK_MANAGE")||Roles.hasRole("CERTIFIED_OPEN")||Roles.hasRole("CALCULUS")||Roles.hasRole("OUT_STORE")||Roles.hasRole("REFUND")>
-        <li class="second"><a href="javascript:void(0);">任务<i class="off"></i></a>
-            <ol>
-            <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
-            <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
-            <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
-            <#if Roles.hasRole("OUT_STORE")> <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li></#if>
-            <#if Roles.hasRole("REFUND")><li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/refund")> class="hover"</#if>>退款</a></li></#if>
-            </ol>
-        </li>
-    </#if>
-    <#if Roles.hasRole("INTENTION")><li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买意向</a></li></#if>
+        <#if Roles.hasRole("TERMINAL")><li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端</a></li></#if>
+        <#if Roles.hasRole("TRADE_RECORD")><li><a href="<@spring.url "/trade/index"/>"<#if urlCheck(request,"/trade")> class="hover"</#if>>交易</a></li></#if>
+        <#if Roles.hasRole("USER_ORDER")||Roles.hasRole("AGENT_BATCH_ORDER")||Roles.hasRole("AGENT_ORDER")>
+            <li class="second"><a href="javascript:void(0);">订单<i class="off"></i></a>
+                <ol>
+                    <#if Roles.hasRole("USER_ORDER")><li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li></#if>
+                    <#if Roles.hasRole("AGENT_BATCH_ORDER")><li><a href="<@spring.url "/order/batch/list"/>"<#if urlCheck(request,"/order/batch")> class="hover"</#if>>代理商批购</a></li></#if>
+                    <#if Roles.hasRole("AGENT_ORDER")><li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商代购</a></li></#if>
+                </ol>
+            </li>
+        </#if>
+        <#if Roles.hasRole("CS_UPDATE_INFO")||Roles.hasRole("CS_AGENT")||Roles.hasRole("CS_REPAIR")||Roles.hasRole("CS_CHANGE")||Roles.hasRole("CS_RETURN")||Roles.hasRole("CS_LEASE_RETURN")||Roles.hasRole("CS_CANCEL")>
+            <li class="second"><a href="javascript:void(0);">售后<i class="off"></i></a>
+                <ol>
+                    <#if Roles.hasRole("CS_UPDATE_INFO")><li><a href="<@spring.url "/cs/update/list"/>"<#if urlCheck(request,"/cs/update")> class="hover"</#if>>资料更新</a></li></#if>
+                    <#if Roles.hasRole("CS_AGENT")><li><a href="<@spring.url "/cs/agent/list"/>"<#if urlCheck(request,"/cs/agent")> class="hover"</#if>>代理商售后</a></li></#if>
+                    <#if Roles.hasRole("CS_REPAIR")><li><a href="<@spring.url "/cs/repair/list"/>"<#if urlCheck(request,"/cs/repair")> class="hover"</#if>>维修</a></li></#if>
+                    <#if Roles.hasRole("CS_CHANGE")><li><a href="<@spring.url "/cs/change/list"/>"<#if urlCheck(request,"/cs/change")> class="hover"</#if>>换货</a></li></#if>
+                    <#if Roles.hasRole("CS_RETURN")><li><a href="<@spring.url "/cs/return/list"/>"<#if urlCheck(request,"/cs/return")> class="hover"</#if>>退货</a></li></#if>
+                    <#if Roles.hasRole("CS_LEASE_RETURN")><li><a href="<@spring.url "/cs/lease/list"/>"<#if urlCheck(request,"/cs/lease")> class="hover"</#if>>租赁退还</a></li></#if>
+                    <#if Roles.hasRole("CS_CANCEL")><li><a href="<@spring.url "/cs/cancel/list"/>"<#if urlCheck(request,"/cs/cancel")> class="hover"</#if>>注销</a></li></#if>
+                </ol>
+            </li>
+        </#if>
+        <#if Roles.hasRole("STOCK_MANAGE")||Roles.hasRole("CERTIFIED_OPEN")||Roles.hasRole("CALCULUS")||Roles.hasRole("OUT_STORE")||Roles.hasRole("REFUND")>
+            <li class="second"><a href="javascript:void(0);">任务<i class="off"></i></a>
+                <ol>
+                    <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
+                    <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
+                    <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
+                    <#if Roles.hasRole("OUT_STORE")> <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li></#if>
+                    <#if Roles.hasRole("REFUND")><li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/refund")> class="hover"</#if>>退款</a></li></#if>
+                </ol>
+            </li>
+        </#if>
+        <#if Roles.hasRole("INTENTION")><li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买意向</a></li></#if>
         <li class="second"><a href="javascript:void(0);"<#if urlCheck(request,"/system")> class="hover"</#if>>系统<i class="<#if urlCheck(request,"/system")>on<#else>off</#if>"></i></a>
             <ol>
                 <#if Roles.hasRole("ZF_ACCOUNT")><li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li></#if>
@@ -162,12 +162,68 @@
 
 <div class="mask"></div>
 <div class="tab" id="errorDiv">
-	<a href="#" class="close errorClose">关闭</a>
+    <a class="close errorClose">关闭</a>
     <div class="tabBody">
-    	<p id="errorP"></p>
+        <p id="errorP"></p>
     </div>
     <div class="tabFoot"><button class="blueBtn" id="errorBtn">确定<tton></div>
 </div>
+
+<div class="tab videoInform_tab" id="videoShowDiv">
+    <a class="close">关闭</a>
+    <div class="tabHead">视频认证提示</div>
+    <div class="tabBody" id="videoClickDiv">
+        <div class="videoInform_tabCon">
+            <i></i>你有一条视频认证通知！
+        </div>
+    </div>
+</div>
+
+<#if Roles.hasRole("CERTIFIED_OPEN_VIDEO_VERIFY")>
+<script>
+
+    var noticeVideoId;
+    var reshVideo;
+    $(function(){
+        reshVideo = setInterval(taskRefreshVideo, 10000);
+        $("#videoClickDiv").click(function(){
+            $("#videoShowDiv").css('display','none');
+            $(".mask").css('display','none');
+            window.open("<@spring.url "/task/certifiedopen/"/>"+noticeVideoId+"/video");
+            setInterval(taskRefreshVideo, 10000);
+        });
+
+    })
+
+    function taskRefreshVideo(){
+        $.get("<@spring.url "/notice/getVideo"/>",
+                function(data){
+                    if(data.code==1){
+                        noticeVideoId = data.result;
+                        if(noticeVideoId != 0){
+                            clearInterval(reshVideo);
+                            var doc_height = $(document).height();
+                            var doc_width = $(document).width();
+                            var win_height = $(window).height();
+                            var win_width = $(window).width();
+
+                            var layer_height = $("#videoShowDiv").height();
+                            var layer_width = $("#videoShowDiv").width();
+                            var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+                            $(".mask").css({display:'block',height:doc_height});
+                            $("#videoShowDiv").css('top',(win_height-layer_height)/2);
+                            $("#videoShowDiv").css('left',(win_width-layer_width)/2);
+                            $("#videoShowDiv").css('display','block');
+                        }
+                    }
+                }
+        );
+
+    }
+</script>
+</#if>
+
 </#macro>
 
 <#function urlCheck request pre>

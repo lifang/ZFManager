@@ -29,6 +29,14 @@ public interface OutStoreMapper {
 	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId,
 				@Param("quantity") int quantity,@Param("csOutStorageId") int csOutStorageId);
 	
+	int getInOutStorageTerminalInfo(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,
+			@Param("csOutStorageId") int csOutStorageId);
+	//更新销售数量
+	int updateGoodsVolumeNumber(@Param("goodId") int goodId);
+	//更新批购数量
+	int updateGoodsPurchaseNumber(@Param("goodId") int goodId);
+	
+	
 	List<Map<String, Object>> getWLByOrderId(@Param("orderId") int orderId);
 	
 	int changeStatus(@Param("status") int status,@Param("loginId") int loginId,@Param("id") int id);
@@ -41,6 +49,8 @@ public interface OutStoreMapper {
 	
 	Map<String, Object> getCutomerTypeByOrderId(@Param("orderId") int orderId);
 	
+	int getPayChannleIdByOrderId(@Param("orderId") int orderId,@Param("goodId") int goodId);
+	
 	List<Map<String, Object>> getRemarks(@Param("id") int id);
 	
 	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
@@ -49,9 +59,10 @@ public interface OutStoreMapper {
 	
 	int saveProcessUser(@Param("processUserId") int processUserId,@Param("processUserName") String processUserName,@Param("id") int id);
 	
-	int getAgentIdByCustomerId(@Param("customerId") String customerId);
+	Map<String, Object> getAgentIdByCustomerId(@Param("customerId") String customerId);
 	
-	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,@Param("orderId") int orderId,@Param("serialNum") String serialNum);
+	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,
+			@Param("orderId") int orderId,@Param("serialNum") String serialNum,@Param("payChannelId") int payChannelId);
 	
 	int updateOrderStatus(@Param("status") int status,@Param("orderId") int orderId);
 	
@@ -66,4 +77,8 @@ public interface OutStoreMapper {
 	String getNameByLoginId(@Param("loginId") int loginId);
 	
 	int getTerminalIsUsed(@Param("serialNum") String serialNum);
+	
+	int getCsOutStorageStatus(@Param("id") int id);
+	
+	int getTerminalsInfo(@Param("serialNum") String serialNum);
 }

@@ -65,7 +65,17 @@
 	                            </div>
 	                        </div>
 	                    </td>
-	                    <td><strong>￥<#if orderGood.payChannel??>${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></td>
+	                    <td>
+	                    	<strong>￥
+	                    		<#if orderGood.payChannel??>
+	                    			<#if order.types==2 || order.types==4>
+	                    				${(((orderGood.good.leaseDeposit!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.00")}
+	                    			<#else>
+	                    				${(((orderGood.good.retailPrice!0)+(orderGood.payChannel.openingCost!0))/100)?string("0.00")}
+	                    			</#if>
+	                    		</#if>
+	                    	</strong>
+	                    </td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
 	                  </tr>
@@ -157,7 +167,7 @@
     
     function priceSure(id){
 		var actualPrice = $('#actual_price').val();
-		$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
+		$.post('<@spring.url "" />'+'/order/agent/info/'+id+'/save',
 				{"orderId":id,
 				"actualPrice":actualPrice
 				},
@@ -170,7 +180,7 @@
     }
     
     function cancel(id){
-    	$.get('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
+    	$.post('<@spring.url "" />'+'/order/agent/info/'+id+'/cancel',
 				{
 				},
 	            function (data) {
@@ -188,7 +198,7 @@
     
     function paySure(id){
 		var payType = $('#pay_type').val();
-		$.get('<@spring.url "" />'+'/order/payment/agent/info/create',
+		$.post('<@spring.url "" />'+'/order/payment/agent/info/create',
 				{"orderId":id,
 				"payType":payType
 				},

@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryBillingCycle;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCardType;
@@ -53,7 +52,7 @@ public class GoodController extends BaseController {
 	@Autowired
 	private GoodCommentService goodCommentService;
 
-	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/create")
 	public String createGet(HttpServletRequest request, Integer page,
 			Integer goodBrandsId, Integer posCategoryId,
 			Integer signOrderWayId, Model model, Integer payChannelId,
@@ -69,7 +68,7 @@ public class GoodController extends BaseController {
 	 * @author Tory
 	 * @date 2015年3月25日 下午11:55:32
 	 */
-	@RequestMapping(value = "/user/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/page")
 	public String page(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
 			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
@@ -79,7 +78,7 @@ public class GoodController extends BaseController {
 		return "order/user/goodListFresh";
 	}
 	
-	@RequestMapping(value = "/agent/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/page")
 	public String agentPage(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
 			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
@@ -93,7 +92,7 @@ public class GoodController extends BaseController {
 		return path;
 	}
 	
-	@RequestMapping(value = "/batch/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/page")
 	public String batchPage(Integer page, Integer goodBrandsId,
 			Integer posCategoryId, Integer signOrderWayId, Model model,
 			Integer payChannelId, Integer cardTypeId, Integer tradeTypeId,
@@ -213,19 +212,19 @@ public class GoodController extends BaseController {
 		model.addAttribute("goods", goods);
 	}
 	
-	@RequestMapping(value = "/user/{id}/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}/detail")
 	public String detail(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
 		getDetail(model, id, page, payChannelId);
 		return "order/user/goodDetail";
 	}
 	
-	@RequestMapping(value = "/agent/{id}/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/{id}/detail")
 	public String detailAgent(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
 		getDetail(model, id, page, payChannelId);
 		return "order/agent/goodDetail";
 	}
 	
-	@RequestMapping(value = "/batch/{id}/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/{id}/detail")
 	public String detailBatch(Model model,@PathVariable Integer id,Integer page, Integer payChannelId){
 		getDetail(model, id, page, payChannelId);
 		return "order/batch/goodDetail";
@@ -248,7 +247,7 @@ public class GoodController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/user/comment/{id}/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/comment/{id}/page")
 	public String commentPage(@PathVariable Integer id,Integer page, Model model){
 		if (page == null) {
 			page = 1;
@@ -258,7 +257,7 @@ public class GoodController extends BaseController {
 		return "order/user/pageGoodComment";
 	}
 	
-	@RequestMapping(value = "/agent/comment/{id}/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/agent/comment/{id}/page")
 	public String commentAgentPage(@PathVariable Integer id,Integer page, Model model){
 		if (page == null) {
 			page = 1;
@@ -268,7 +267,7 @@ public class GoodController extends BaseController {
 		return "order/agent/goodCommentPage";
 	}
 
-	@RequestMapping(value = "/batch/comment/{id}/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/comment/{id}/page")
 	public String commentBatchPage(@PathVariable Integer id,Integer page, Model model){
 		if (page == null) {
 			page = 1;

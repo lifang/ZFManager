@@ -39,9 +39,12 @@ public class OrderPaymentService {
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public int payForBatch(Customer customer,Integer orderId,Byte payType,Float payPrice){
-		insert(orderId, (int) (payPrice*100), payType, customer.getId(), customer.getTypes());
+	public int payForBatch(Customer customer,Integer orderId,Byte payType,Float payPrice) throws Exception{
 		Order order = orderMapper.findOrderInfo(orderId);
+		if(order.getActualPrice()<(payPrice*100+order.getOrderPaymentTotal())){
+			throw new Exception("所付金额总额已超过订单实际价格");
+		}
+		insert(orderId, (int) (payPrice*100), payType, customer.getId(), customer.getTypes());
 		List<OrderPayment> selectOrderPaymentsByOrderId = orderPaymentMapper.selectOrderPaymentsByOrderId(orderId);
 		Integer total=0;
 		for(OrderPayment orderPayment:selectOrderPaymentsByOrderId){

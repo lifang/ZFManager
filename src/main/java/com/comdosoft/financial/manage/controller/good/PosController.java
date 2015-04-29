@@ -3,11 +3,8 @@ package com.comdosoft.financial.manage.controller.good;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
-import com.comdosoft.financial.manage.utils.FileUtil;
 import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
-
-import net.coobird.thumbnailator.Thumbnails;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.List;
 

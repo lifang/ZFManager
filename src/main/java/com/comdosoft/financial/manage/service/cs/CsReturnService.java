@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.CsRefund;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReceiverAddressMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsRefundMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsReturnMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
@@ -40,6 +42,8 @@ public class CsReturnService {
 	private CsReturnMarkMapper csReturnMarkMapper;
 	@Autowired
 	private CsReceiverAddressMapper csReceiverAddressMapper;
+	@Autowired
+	private CsRefundMapper csRefundMapper;
 	
 	public Page<CsReturn> findPage(Customer customer, int page, Byte status, String keyword) {
 		long count = csReturnMapper.countSelective(status, keyword);
@@ -93,16 +97,33 @@ public class CsReturnService {
 	}
 	
 	@Transactional("transactionManager")
-	public void confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress) {
+	public void confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress, Customer customer) {
 		csReceiverAddress.setCreatedAt(new Date());
 		csReceiverAddressMapper.insert(csReceiverAddress);
 		
-		CsReturn csReturn = csReturnMapper.selectByPrimaryKey(csReturnId);
+		CsReturn csReturn = csReturnMapper.selectInfoByPrimaryKey(csReturnId);
 		if (null != csReturn) {
 			csReturn.setReturnAddressId(csReceiverAddress.getId());
 			csReturn.setUpdatedAt(new Date());
 			csReturn.setStatus(HANDLE);
 			csReturnMapper.updateByPrimaryKey(csReturn);
+			
+			CsRefund csRefund = new CsRefund();
+			csRefund.setBankAccount(csReturn.getBankAccount());
+			csRefund.setBankName(csReturn.getBankName());
+			csRefund.setCreatedAt(new Date());
+			csRefund.setPayee(csReceiverAddress.getReceiver());
+			csRefund.setPayeePhone(csReceiverAddress.getPhone());
+			csRefund.setProcessUserId(customer.getId());
+			csRefund.setProcessUserName(customer.getName());
+			csRefund.setReturnPrice(csReturn.getReturnPrice());
+			csRefund.setStatus((byte)CsRefund.STATIC_1);
+			csRefund.setTargetId(csReturnId);
+			csRefund.setTargetType((byte)1);
+			csRefund.setTypes((byte)1);
+			csRefund.setUpdatedAt(new Date());
+			csRefund.setApplyNum(new Date().getTime()+"");
+			csRefundMapper.insert(csRefund);
 		}
 	}
 	

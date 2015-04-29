@@ -53,7 +53,9 @@ public class RefundService {
 	public Map<Object, Object> getRefundDetails(int id){
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map = refundMapper.getRefundDetails(id);
-		map.put("returnVoucherFilePath", filePath+map.get("returnVoucherFilePath").toString());
+		if(map.get("returnVoucherFilePath")!=null){
+			map.put("returnVoucherFilePath", filePath+map.get("returnVoucherFilePath").toString());
+		}
 		return map;
 	}
 	

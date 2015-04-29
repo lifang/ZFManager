@@ -42,12 +42,12 @@
       payee_phone, bank_name, bank_account, 
       return_price, return_voucher_file_path, status, 
       types, process_user_name, process_user_id, 
-      created_at, updated_at)
+      created_at, updated_at,apply_num)
     values (#{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, #{payee,jdbcType=VARCHAR}, 
       #{payeePhone,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, 
       #{returnPrice,jdbcType=INTEGER}, #{returnVoucherFilePath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{types,jdbcType=TINYINT}, #{processUserName,jdbcType=VARCHAR}, #{processUserId,jdbcType=INTEGER}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{applyNum,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsRefund">
     <!--

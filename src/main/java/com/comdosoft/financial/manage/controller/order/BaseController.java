@@ -67,7 +67,6 @@ public class BaseController {
 		public static final String saveCustomer="新增用户";
 		public static final String customerAddress="修改用户地址";
 		public static final String paymentFront="支付定金";
-		
 	}
 	
 	public int saveOperateRecord(HttpServletRequest request,Integer types,String page,String action,Integer operateTargetId){
@@ -84,7 +83,7 @@ public class BaseController {
 	@ExceptionHandler(value = Exception.class)
 	public void handleException(Exception e, HttpServletResponse response)
 			throws Exception {
-		Response error = Response.getError(e.getMessage());
+		Response error = Response.getError(e.getMessage()!=null?e.getMessage():"^^错误信息为空………");
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(error.getCode()+error.getMessage());
 	}

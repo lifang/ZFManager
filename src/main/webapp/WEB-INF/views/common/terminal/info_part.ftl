@@ -62,26 +62,21 @@
             </tr>
             </thead>
             <tbody>
-            <#list terminal.tradeTypeInfos as tradeTypeInfo>
+            <#list terminal.tradeTypeList as tradeType>
             <tr>
-                <td>${(tradeTypeInfo.supportTradeType.dictionaryTradeType.tradeValue)!""}
-                    <#if tradeTypeInfo.supportTradeType.tradeType == 1 &&  (terminal.billingCycle.dictionaryBillingCycle.name)??>
-                        (${terminal.billingCycle.dictionaryBillingCycle.name})
-                    </#if>
+                <td><#if (tradeType.tradeValue)??>${tradeType.tradeValue}</#if>
                 </td>
                 <td>
-                    <#if tradeTypeInfo.supportTradeType.tradeType == 1 >
-                        <#if (terminal.baseRate)?? && (terminal.billingCycle.rate)??>
-                        ${(terminal.baseRate)+(terminal.billingCycle.rate)}%
-                        </#if>
-                    <#else>
-                    ${(tradeTypeInfo.supportTradeType.terminalRate)!""}%
-                    </#if>
+                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${tradeType.serviceRate+tradeType.baseRate/10}‰</#if></#if>
+                	<#elseif (tradeType.tradeValue)!='消费'><#if (tradeType.terminalRate)??>${tradeType.terminalRate/10}‰</#if>
+                	</#if>
                 </td>
                 <td>
-                    <#if tradeTypeInfo.status=2>未开通
-                    <#elseif tradeTypeInfo.status=1>已开通
+                <#if (tradeType.status)??>
+                    <#if tradeType.status=2>未开通
+                    <#elseif tradeType.status=1>已开通
                     </#if>
+                  </#if>
                 </td>
             </tr>
             </#list>
@@ -208,7 +203,10 @@
         $.get('<@spring.url "/terminal/${terminal.id}/exportOpenInfo" />',
                 function (data) {
                     if(data.code==1){
-                        window.open(data.result);
+                        window.location.href = data.result;
+                    }
+                    if(data.code == -1){
+                    	alert(data.message);
                     }
                 });
     }

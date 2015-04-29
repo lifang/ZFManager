@@ -73,7 +73,7 @@ public class CustomerAddressController extends BaseController {
 		return "order/customerAddress";
 	}
 	
-	/*@RequestMapping(value = "get", method = RequestMethod.GET)
+	/*@RequestMapping(value = "get")
 	public String get(HttpServletRequest request, Model model, Integer id) {
 		CustomerAddress customerAddress=customerAddressService.get(id);
 		model.addAttribute("customerAddress", customerAddress);

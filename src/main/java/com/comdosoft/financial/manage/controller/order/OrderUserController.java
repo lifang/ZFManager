@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
@@ -50,7 +48,7 @@ public class OrderUserController extends BaseController{
 	@Autowired
 	private CustomerService customerService;
 
-	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/list")
 	public String list(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -60,7 +58,7 @@ public class OrderUserController extends BaseController{
 		return "order/user/list";
 	}
 
-	@RequestMapping(value = "/user/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/page")
 	public String page(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -86,14 +84,14 @@ public class OrderUserController extends BaseController{
 		model.addAttribute("orders", orders);
 	}
 
-	@RequestMapping(value = "/user/{id}/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}/info")
 	public String info(@PathVariable Integer id, Model model) {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/user/info";
 	}
 
-	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/create")
 	public String createGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity, Integer payChannelId, Byte type) {
 		List<CustomerAddress> selectCustomerAddress = null;
@@ -129,7 +127,7 @@ public class OrderUserController extends BaseController{
 
 	}
 
-	@RequestMapping(value = "/user/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}/save")
 	public String save(HttpServletRequest request,@PathVariable Integer id, Byte status,
 			Float actualPrice, Model model) {
 		orderService.save(id, status,actualPrice, null);
@@ -144,7 +142,7 @@ public class OrderUserController extends BaseController{
 		return "order/user/pageRowOrder";
 	}
 
-	@RequestMapping(value = "/user/info/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/info/{id}/save")
 	public String saveInfo(HttpServletRequest request,
 			@PathVariable Integer id, Byte status, Float actualPrice,
 			Model model) {
@@ -162,7 +160,7 @@ public class OrderUserController extends BaseController{
 		return "order/user/infoUp";
 	}
 
-	@RequestMapping(value = "/user/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
@@ -171,7 +169,7 @@ public class OrderUserController extends BaseController{
 		return "order/user/pageRowOrder";
 	}
 
-	@RequestMapping(value = "/user/info/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/info/{id}/cancel")
 	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);

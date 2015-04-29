@@ -137,7 +137,8 @@ public class GoodService {
 	@Transactional("transactionManager")
 	public Good statusFirstUnCheck(Integer id){
 		Good good = goodMapper.findPageRowGood(id);
-		if (good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK) {
+		if (good.getStatus() == null
+                || good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK) {
 			good.setStatus(Good.STATUS_FIRST_UN_CHECKED);
 			goodMapper.updateByPrimaryKey(good);
 		}
@@ -152,7 +153,8 @@ public class GoodService {
 	@Transactional("transactionManager")
 	public Good statusFirstCheck(Integer id){
 		Good good = goodMapper.findPageRowGood(id);
-		if (good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
+		if (good.getStatus() == null
+                || good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
 				|| good.getStatus() == Good.STATUS_FIRST_UN_CHECKED) {
 			good.setStatus(Good.STATUS_FIRST_CHECKED);
 			goodMapper.updateByPrimaryKey(good);
@@ -168,7 +170,8 @@ public class GoodService {
 	@Transactional("transactionManager")
 	public Good statusUnCheck(Integer id){
 		Good good = goodMapper.findPageRowGood(id);
-		if (good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
+		if (good.getStatus() == null
+                || good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
 				|| good.getStatus() == Good.STATUS_FIRST_CHECKED) {
 			good.setStatus(Good.STATUS_UN_CHECKED);
 			goodMapper.updateByPrimaryKey(good);
@@ -184,7 +187,8 @@ public class GoodService {
 	@Transactional("transactionManager")
 	public Good statusCheck(Integer id, Boolean isThird){
 		Good good = goodMapper.findPageRowGood(id);
-		if (good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
+		if (good.getStatus() == null
+                || good.getStatus() == Good.STATUS_WAITING_FIRST_CHECK
 				|| good.getStatus() == Good.STATUS_FIRST_UN_CHECKED
 				|| good.getStatus() == Good.STATUS_FIRST_CHECKED
 				|| good.getStatus() == Good.STATUS_UN_CHECKED) {

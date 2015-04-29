@@ -13,7 +13,7 @@
                 <h1><a href="#">${comment.good.title}</a></h1>
                 <h3>${comment.good.secondTitle}</h3>
                 <ul>
-                    <li><span>品牌型号：</span><div class="c_text">${comment.good.goodBrand.name}${comment.good.modelNumber}</div></li>
+                    <li><span>品牌型号：</span><div class="c_text"><#if comment.good.goodBrand??>${comment.good.goodBrand.name!}</#if>${comment.good.modelNumber!}</div></li>
                 </ul>
             </div>
         </div>

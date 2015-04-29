@@ -20,14 +20,14 @@ public class CustomerController extends BaseController {
 	@Autowired
 	private CustomerService customerService;
 
-    @RequestMapping(value="search",method = RequestMethod.GET)
+    @RequestMapping(value="search",method = RequestMethod.POST)
     public String search(HttpServletRequest request,String customerName,Model model, Integer agentId){
     	List<Customer> searchCustomer = customerService.searchCustomer(customerName,agentId);
 		model.addAttribute("customers", searchCustomer);
         return "order/customerSearch";
     }
     
-    @RequestMapping(value="saveOrUpdate",method = RequestMethod.GET)
+    @RequestMapping(value="saveOrUpdate",method = RequestMethod.POST)
     public String saveOrUpdate(HttpServletRequest request,Model model,String phone,String passport,
 			String password,String repassword,Integer city) throws Exception{
     	if(!password.equals(repassword)){

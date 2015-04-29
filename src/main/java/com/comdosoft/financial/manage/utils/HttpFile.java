@@ -18,15 +18,29 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class HttpFile {
 
-    // @Value("${localpath}")
     // private static String localpath = "C:/test/local/";
-     private static String localpath="/opt/data/";
-    // private static String urlpath="http://127.0.0.1:8080/file/index/upload";
-    // @Value("${urlpath}")
-    private static String urlpath="http://121.40.84.2:8888/File/index/upload" ;
+    private static String localpath = "/opt/data/";
 
-    // private static String urlpath = "http://file.ebank007.com/File/index/upload";
+    // private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
+    //
+    // private static String delpath = "http://121.40.84.2:8888/File/index/delete";
+    //
+    // private static String zippath = "http://121.40.84.2:8888/File/index/zip";
 
+    private static String urlpath = "http://file.ebank007.com/File/index/upload";
+
+    private static String delpath = "http://file.ebank007.com/File/index/delete";
+
+    private static String zippath = "http://file.ebank007.com/File/index/zip";
+
+    /**
+     * 上传文件
+     * 
+     * @param file
+     * @param path
+     *            path后有/ 如 "test/a/b/"
+     * @return
+     */
     public static String upload(MultipartFile file, String path) {
         String upload_path = localpath + path;
         String name = file.getOriginalFilename();
@@ -51,6 +65,14 @@ public class HttpFile {
         }
     }
 
+    /**
+     * 上传pos图片
+     * 
+     * @param file
+     * @param path
+     *            path后有/ 如 "test/a/b/"
+     * @return
+     */
     public static String uploadPos(MultipartFile file, String path) {
         String upload_path = localpath + path;
         String name = file.getOriginalFilename();
@@ -117,6 +139,89 @@ public class HttpFile {
         MultipartEntityBuilder mEntityBuilder = MultipartEntityBuilder.create();
         mEntityBuilder.addBinaryBody("file", file);
         mEntityBuilder.addTextBody("path", path);
+        httppost.setEntity(mEntityBuilder.build());
+        HttpResponse resp = httpClient.execute(httppost);
+        int code = resp.getStatusLine().getStatusCode();
+        if (200 == code) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * 更新删除原文件
+     * 
+     * @param path
+     *            文件路径 如 "test/a/s.jpg"
+     * @return
+     * @throws HttpException
+     * @throws IOException
+     */
+    public static int postDel(String path) throws IOException {
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(delpath);
+        MultipartEntityBuilder mEntityBuilder = MultipartEntityBuilder.create();
+        mEntityBuilder.addTextBody("path", path);
+        httppost.setEntity(mEntityBuilder.build());
+        HttpResponse resp = httpClient.execute(httppost);
+        int code = resp.getStatusLine().getStatusCode();
+        if (200 == code) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * 下载打包
+     * 
+     * @param path
+     *            目录path前后都没/ 如"test/a/b"
+     * @return
+     * @throws HttpException
+     * @throws IOException
+     */
+    public static int postWar(String path) throws IOException {
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(zippath);
+        MultipartEntityBuilder mEntityBuilder = MultipartEntityBuilder.create();
+        mEntityBuilder.addTextBody("path", path);
+        httppost.setEntity(mEntityBuilder.build());
+        HttpResponse resp = httpClient.execute(httppost);
+        int code = resp.getStatusLine().getStatusCode();
+        if (200 == code) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * 下载打包
+     * 
+     * @param path
+     *            打包图片地址 如"test/a/s.jpg"
+     * @param id
+     *            打包的终端号id
+     * @return
+     * @throws HttpException
+     * @throws IOException
+     */
+    public static int postWar(String[] path, String id) throws IOException {
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(zippath);
+        MultipartEntityBuilder mEntityBuilder = MultipartEntityBuilder.create();
+        if (path.length == 0) {
+            return -2;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String a : path) {
+            sb.append(a + ",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        mEntityBuilder.addTextBody("path", sb.toString());
+        mEntityBuilder.addTextBody("id", id);
         httppost.setEntity(mEntityBuilder.build());
         HttpResponse resp = httpClient.execute(httppost);
         int code = resp.getStatusLine().getStatusCode();

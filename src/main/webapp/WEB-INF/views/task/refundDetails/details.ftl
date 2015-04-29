@@ -22,7 +22,7 @@
                             <ul>
                                 <li>编号：${(refundDetails.applyNum)!""}</li>
                                 <li>处理人：${(refundDetails.processUserName)!""}</li>
-                                <li>相关业务：<a href="<@spring.url '/cs/lease/${refundDetails.returnId}/info' />" class="a_btn">${(refundDetails.returnApplyNum)!""}</a></li>
+                                <li>相关业务：<a href="<@spring.url '/cs/lease/${refundDetails.returnId!}/info' />" class="a_btn">${(refundDetails.returnApplyNum)!""}</a></li>
                                 <li>联系人：${(refundDetails.payee)!""}</li>
                                 <li>联系电话：${(refundDetails.payeePhone)!""}</li>
                                 <li>退款金额：<strong>￥${(refundDetails.returnPrice)!""}</strong></li>

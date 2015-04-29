@@ -22,6 +22,7 @@
 	<td id="operation_${csLease.id}">
 		<#if csLease.status=1>
 			<a href="<@spring.url "/cs/lease/${csLease.id}/info" />" class="a_btn">查看详情</a>
+			<#if Roles.hasRole("CS_LEASE_RETURN_CONFIRM")><a class="a_btn replace_a" onClick="onPreConfirm(${csLease.id});">确认退货</a></#if>
 			<#if Roles.hasRole("CS_LEASE_RETURN_CANCEL")><a class="a_btn" onClick="onCancel(${csLease.id});">取消</a></#if>
 			<#if Roles.hasRole("CS_LEASE_RETURN_MARK_RETURNING")><a class="a_btn" onClick="onHandle(${csLease.id});">标记为退还中</a></#if>
 		<#elseif csLease.status=2>

@@ -54,7 +54,11 @@
             <div class="pac_summary">
             	<ul>
                 	<li class="price_li"><span>现价</span><div class="text"><strong>￥<#if payChannel??>${(((good.retailPrice!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></div></li>
-                    <li class="deposit_li"><span>租赁押金</span><div class="text"><strong>￥${(good.leasePrice/100)?string("0.00")}</strong></div></li>
+                    <li class="deposit_li"><span>租赁押金</span>
+                    	<div class="text">
+                    		<strong>￥<#if payChannel??>${(((good.leaseDeposit!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong>
+                    	</div>
+                    </li>
                     <li class="selected_li"><span>支付通道</span>
                     	<div class="text">
                     		<input id="payChannelId" type="hidden" name="payChannelId" value="<#if payChannel??>${payChannel.id!""}</#if>" />
@@ -390,7 +394,7 @@
 	
 	function goodCommentPageChange(page) {
 		var id=$("#good_id").val()
-	    $.get('<@spring.url "/good/user/comment/"+id+"/page" />',
+	    $.post('<@spring.url "/good/user/comment/"+id+"/page" />',
 	            {"page": page
 	            },
 	            function (data) {

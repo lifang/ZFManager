@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
@@ -47,7 +45,7 @@ public class OrderBatchController extends BaseController {
 	@Autowired
 	private PayChannelService payChannelService;
 
-	@RequestMapping(value = "/batch/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/list")
 	public String listBatch(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -56,7 +54,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/list";
 	}
 
-	@RequestMapping(value = "/batch/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/page")
 	public String pageBatch(Integer page, Byte status, String keys,
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
@@ -81,14 +79,14 @@ public class OrderBatchController extends BaseController {
 		model.addAttribute("orders", orders);
 	}
 
-	@RequestMapping(value = "/batch/{id}/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/{id}/info")
 	public String info(@PathVariable Integer id, Model model) {
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		return "order/batch/info";
 	}
 
-	@RequestMapping(value = "/batch/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/create")
 	public String createGet(HttpServletRequest request, Model model,
 			Integer goodId, Integer quantity,Integer payChannelId, Byte type) {
 		List<CustomerAddress> selectCustomerAddress = null;
@@ -104,7 +102,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/create";
 	}
 	
-	@RequestMapping(value = "/batch/{orderId}/createAgain", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/{orderId}/createAgain")
 	public String createAgainGet(HttpServletRequest request, Model model,
 			@PathVariable Integer orderId) {
 		Order order = orderService.findOrderInfo(orderId);
@@ -155,7 +153,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/list";
 	}
 
-	@RequestMapping(value = "/batch/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/{id}/save")
 	public String save(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
 			Float actualPrice,Float frontMoney) {
 		orderService.save(id, status, actualPrice, null,frontMoney);
@@ -173,7 +171,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/row";
 	}
 	
-	@RequestMapping(value = "/batch/info/{id}/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/info/{id}/save")
 	public String saveInfo(HttpServletRequest request,@PathVariable Integer id, Model model, Byte status,
 			Float actualPrice,Float frontMoney) {
 		orderService.save(id, status, actualPrice, null,frontMoney);
@@ -191,7 +189,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/infoUp";
 	}
 
-	@RequestMapping(value = "/batch/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
@@ -200,7 +198,7 @@ public class OrderBatchController extends BaseController {
 		return "order/batch/row";
 	}
 	
-	@RequestMapping(value = "/batch/info/{id}/cancel", method = RequestMethod.GET)
+	@RequestMapping(value = "/batch/info/{id}/cancel")
 	public String cancleInfo(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		orderService.save(id, (byte) 5, null, null);
 		Order order = orderService.findOrderInfo(id);
