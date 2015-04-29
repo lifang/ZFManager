@@ -122,6 +122,7 @@ public class CsReturnService {
 			csRefund.setTargetType((byte)1);
 			csRefund.setTypes((byte)1);
 			csRefund.setUpdatedAt(new Date());
+			csRefund.setApplyNum(new Date().getTime()+"");
 			csRefundMapper.insert(csRefund);
 		}
 	}

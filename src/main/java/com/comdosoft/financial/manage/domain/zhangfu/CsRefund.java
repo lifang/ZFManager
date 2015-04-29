@@ -361,4 +361,15 @@ public class CsRefund {
 	 * 退款状态3.已取消
 	 */
 	public static int STATIC_3 = 3;
+	
+	private String applyNum;
+
+	public String getApplyNum() {
+		return applyNum;
+	}
+
+	public void setApplyNum(String applyNum) {
+		this.applyNum = applyNum;
+	}
+	
 }

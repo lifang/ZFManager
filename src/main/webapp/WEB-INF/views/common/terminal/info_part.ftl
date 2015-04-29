@@ -67,8 +67,8 @@
                 <td><#if (tradeType.tradeValue)??>${tradeType.tradeValue}</#if>
                 </td>
                 <td>
-                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${tradeType.serviceRate+tradeType.baseRate}‰</#if></#if>
-                	<#elseif (tradeType.tradeValue)!='消费'><#if (tradeType.terminalRate)??>${tradeType.terminalRate}‰</#if>
+                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${tradeType.serviceRate+tradeType.baseRate/10}‰</#if></#if>
+                	<#elseif (tradeType.tradeValue)!='消费'><#if (tradeType.terminalRate)??>${tradeType.terminalRate/10}‰</#if>
                 	</#if>
                 </td>
                 <td>
