@@ -22,7 +22,7 @@
                     </#if>
                     <#if isFirst>
                         <#if category_index == 0>
-                        <dd><div class="stair"><i></i><span value="${category.id}">${category.name}</span></div>
+                        <dd><div class="stair"><i class="bq"></i><span value="${category.id}">${category.name}</span><i class="pos_delete" value="${category.id}"></i></div>
                         <ul>
                         <#else>
                         </ul>
@@ -31,7 +31,7 @@
                                 <p><a class="ap_add_btn"><i></i>添加二级分类</a></p>
                             </div>
                         </dd>
-                        <dd><div class="stair"><i></i><span value="${category.id}">${category.name}</span></div>
+                        <dd><div class="stair"><i class="bq"></i><span value="${category.id}">${category.name}</span><i class="pos_delete" value="${category.id}"></i></div>
                         <ul>
                         </#if>
                     <#else>
@@ -65,6 +65,9 @@
             if(confirm("确定要删除该分类吗？")){
                 var id = $(this).attr("value");
                 var p =  $(this).parent();
+                if(p.hasClass("stair")){
+                    p = p.parent();
+                }
                 $.get('<@spring.url "" />' + '/good/pos/category/' + id + '/del',
                         function (data) {
                             if (data.code == 1) {

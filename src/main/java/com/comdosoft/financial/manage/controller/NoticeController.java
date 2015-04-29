@@ -1,11 +1,14 @@
 package com.comdosoft.financial.manage.controller;
 
+import com.comdosoft.financial.manage.controller.good.PosController;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.manage.service.NoticeService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.TerminalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
+    private Logger LOG = LoggerFactory.getLogger(NoticeController.class);
 
     @Autowired
     private NoticeService noticeService;
@@ -27,9 +31,10 @@ public class NoticeController {
     private SessionService sessionService;
     @Autowired
     private TerminalService terminalService;
-    @RequestMapping(value = "video", method= RequestMethod.GET)
+    @RequestMapping(value = "video", method= RequestMethod.POST)
     @ResponseBody
     public Response video(Integer terminalId){
+        LOG.info("{},noticeVideo",terminalId);
         noticeService.applyVideo(terminalId);
         return Response.getSuccess(null);
     }
@@ -47,6 +52,8 @@ public class NoticeController {
                 applyId = openingApplie.getId();
             }
         }
+
+        LOG.debug("{},applyId {},terminalId", applyId, id);
         return Response.getSuccess(applyId);
     }
 

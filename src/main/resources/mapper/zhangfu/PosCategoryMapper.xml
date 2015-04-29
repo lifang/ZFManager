@@ -60,5 +60,11 @@
     select id, name, parent_id, created_at
     from pos_categories
   </select>
+  
+  <select id="selectChildren" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, parent_id, created_at
+    from pos_categories
+    where parent_id = #{parentId}
+  </select>
 
 </mapper>
