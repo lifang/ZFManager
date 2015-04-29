@@ -105,7 +105,7 @@
             	}else{
             		alert("创建出库记录成功！");
             		//跳转
-            		window.location.href="#/task/outStore/list";
+            		window.location.href="<@spring.url "/task/outStore/list" />";
             	}
 	        });	
 	}
