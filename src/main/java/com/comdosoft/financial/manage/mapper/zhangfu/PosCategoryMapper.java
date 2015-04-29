@@ -34,4 +34,6 @@ public interface PosCategoryMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(PosCategory record);
+	
+	List<PosCategory> selectChildren(Integer parentId);
 }
