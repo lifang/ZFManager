@@ -13,6 +13,7 @@
         <thead>
         <tr>
             <th>姓名</th>
+            <th>登录id</th>
             <th>电话</th>
             <th>邮件</th>
             <th>拥有终端数</th>

@@ -1,5 +1,6 @@
 <tr data-id="${customer.id}">
     <td>${customer.name!"- -"}</td>
+    <td>${customer.username!"- -"}</td>
     <td>${customer.phone!"- -"}</td>
     <td>${customer.email!"- -"}</td>
     <td>${terminal}</td>
