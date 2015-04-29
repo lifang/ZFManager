@@ -52,6 +52,7 @@ public class OrderPaymentService {
 		}
 		if(order.getActualPrice().equals(total)){
 			order.setPayStatus((byte) 2);//已付清
+			order.setStatus((byte) 2);
 		}
 		if(order.getFrontMoney()==null||order.getFrontMoney()<=total){
 			order.setFrontPayStatus((byte) 2);//已付
