@@ -43,7 +43,8 @@
                 </div>
                 <div class="val_bottom">
                     <a onClick="record(this)" class="greenBtn">开始录制</a>
-                    <a href="#" class="blueBtn">视频认证通过</a>
+                    <a id="vvv1" onClick="upvds(${tinfo.id!},2)" class="blueBtn">视频认证通过</a>
+                    <a id="vvv2" class="greenBtn">视频已认证</a>
                     <a href="#" class="ghostBtn danger_a">添加风险标签</a>
                 </div>
             </div>
@@ -169,6 +170,7 @@
         <div id="LOG_DIV_CONTENT"></div>
     </div>
   <script type="text/javascript">
+  $('#vvv2').hide();
 	var add=function(){
 		var id=${tinfo.id};
 		var content=$('#content').val();
@@ -193,6 +195,18 @@
 					if(data==1){
 						$('.tab').hide();
 						$('.mask').hide();
+					}else{
+						alert("操作失败!");
+					}
+		        });
+	}
+	var upvds=function(id,status){
+		$.post('<@spring.url "/task/certifiedopen/upvstatus" />',
+				{"id": id,"status":status},
+		        function (data) {
+					if(data>0){
+						$('#vvv1').hide();
+						$('#vvv2').show();
 					}else{
 						alert("操作失败!");
 					}

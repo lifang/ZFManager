@@ -164,6 +164,9 @@ public class OutStoreController {
 		if (status != null && status == 0) {
 			status = null;
 		}
+		if(keys !=null && keys.trim().equals("")){
+			keys = null;
+		}
 		Page<OutStore> outStores = outStoreService.findPages(page, status, keys);
 		model.addAttribute("outStores", outStores);
 	}

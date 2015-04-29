@@ -29,5 +29,5 @@
         </tbody> 
        </table> 
 	</div> 
-       <@assign.assign name="update" page=outStores.currentPage suspend=1/>
+       <@assign.assign name="outStores" page=outStores.currentPage suspend=1/>
 	<@pager.p page=outStores.currentPage totalPages=outStores.totalPage functionName="outStorePageChange"/>	
