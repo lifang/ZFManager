@@ -66,6 +66,8 @@ public class OrderService {
 	private SysConfigMapper sysConfigMapper;
 	@Autowired
 	private PayChannelMapper payChannelMapper;
+	@Autowired
+	private CustomerAgentRelationService customerAgentRelationService;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
@@ -299,6 +301,7 @@ public class OrderService {
 		if(1==type || 2==type || 3==type || 4==type){
 			minusGoodQuantity(good, quantity);
 		}
+		customerAgentRelationService.makeRelation(customerId, agentCustomerId);
 		order.setActualPrice(totalPrice);
 		order.setComment(comment);
 		Date createdAt = new Date();
