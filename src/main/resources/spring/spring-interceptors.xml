@@ -10,19 +10,22 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/resources/**"/>
-			<bean class="com.comdosoft.financial.manage.interceptor.LogInterceptor" />
+            <mvc:exclude-mapping path="/notice/video" />
+            <bean class="com.comdosoft.financial.manage.interceptor.LogInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/resources/**" />
 			<mvc:exclude-mapping path="${url.login}"/>
-			<bean class="com.comdosoft.financial.manage.interceptor.LoginInterceptor" />
+            <mvc:exclude-mapping path="/notice/video" />
+            <bean class="com.comdosoft.financial.manage.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/resources/**" />
 			<mvc:exclude-mapping path="${url.login}"/>
-			<bean class="com.comdosoft.financial.manage.interceptor.RoleInterceptor" />
+            <mvc:exclude-mapping path="/notice/video" />
+            <bean class="com.comdosoft.financial.manage.interceptor.RoleInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 
