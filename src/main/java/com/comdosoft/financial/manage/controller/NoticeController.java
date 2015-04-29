@@ -40,6 +40,7 @@ public class NoticeController {
         Customer customer = sessionService.getLoginInfo(request);
         Integer id = noticeService.getVideoApply(customer.getId());
         int applyId = 0;
+
         if (id != null){
             OpeningApplie openingApplie = terminalService.getOpeningApplie(id);
             if(openingApplie != null){
