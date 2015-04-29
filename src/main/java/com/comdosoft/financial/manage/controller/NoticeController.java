@@ -53,7 +53,7 @@ public class NoticeController {
             }
         }
 
-        LOG.info("{},applyId {},terminalId", applyId, id);
+        LOG.debug("{},applyId {},terminalId", applyId, id);
         return Response.getSuccess(applyId);
     }
 
