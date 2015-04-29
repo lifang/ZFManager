@@ -58,7 +58,7 @@
                 	<strong>￥${(order.orderPaymentTotal/100)?string("0.00")}</strong>
                 </td>
           		<#if order.status??>
-			      	<#if order.status==1><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
+			      	<#if order.status==1 && (!order.frontPayStatus?? || order.frontPayStatus!=2)><td rowspan="${order.orderGoods?size}"><strong class="strong_status">未付款</strong></td>
 			      			<td rowspan="${order.orderGoods?size}">
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_MODIFY_PRICE")>
 							    <a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
@@ -70,7 +70,7 @@
 						</#if>
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></td></#if>
-				       <#elseif order.status==2 && (!order.payStatus?? || order.payStatus!=2)>
+				       <#elseif order.status==1 && (order.frontPayStatus?? && order.frontPayStatus==2)>
 				       		<td rowspan="${order.orderGoods?size}"><strong class="strong_status">已付定金</strong></td>
 				       		<td rowspan="${order.orderGoods?size}">
 				       			<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
@@ -119,7 +119,7 @@
 	            <td><strong>￥${(order.actualPrice/100)?string("0.00")}</strong></td>
 	            <td><strong>￥${(order.orderPaymentTotal/100)?string("0.00")}</strong></td>
 	            <#if order.status??>
-			      	<#if order.status==1><td><strong class="strong_status">未付款</strong></td>
+			      	<#if order.status==1 && (!order.frontPayStatus?? || order.frontPayStatus!=2)><td><strong class="strong_status">未付款</strong></td>
 				      		<td>
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_MODIFY_PRICE")>
 							<a href="#" class="a_btn priceOrder_a" onclick="orderPriceBtn(${order.id},${(order.actualPrice/100)?string("0.00")});">修改价格</a>
@@ -130,7 +130,7 @@
 	                    		<a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						<#if Roles.hasRole("AGENT_BATCH_ORDER_REMARK")><a href="#" class="a_btn remark_a" onclick="markBtn(${order.id});">备注</a></#if>
 	                    	</td>
-				       <#elseif order.status==2 && (!order.payStatus?? || order.payStatus!=2)>
+				       <#elseif order.status==1 && (order.frontPayStatus?? && order.frontPayStatus==2)>
 				       		<td><strong class="strong_status">已付定金</strong></td>
 				       		<td><a href="<@spring.url "/order/batch/${order.id}/info" />" class="a_btn">查看详情</a>
 						   <#if Roles.hasRole("AGENT_BATCH_ORDER_CANCEL")><a href="#" class="a_btn" onclick="cancel(${order.id});">取消</a></#if>
