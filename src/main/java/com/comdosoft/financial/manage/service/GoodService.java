@@ -111,6 +111,7 @@ public class GoodService {
 			List<GoodsPicture> selectGoodsPictures = goodsPictureMapper.selectGoodsPictures(goodIds);
 			for(Good g:good.getRelativeGoods()){
 				g.setPictures(new ArrayList<GoodsPicture>());
+				System.out.println(g.getRelativeGoods().size());
 				for(GoodsPicture gp:selectGoodsPictures){
 					if(g.getId().equals(gp.getGoodId())){
 					    gp.setUrlPath(filePath+gp.getUrlPath());

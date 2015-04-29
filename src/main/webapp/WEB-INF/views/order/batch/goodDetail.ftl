@@ -345,7 +345,7 @@
 	                    		</a>
 		                	</div>
 		                    <h2><a href="<@spring.url "/good/batch/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
-		                    <h2><a href="#" class="hp_price">￥${((relativeGood.retailPriceDisplay!0)/100)?string("0.00")}</a></h2>
+		                    <h2><a href="#" class="hp_price">￥${((relativeGood.purchasePriceDisplay!0)/100)?string("0.00")}</a></h2>
 		                </li>
         			</#list>
         		</#if>
