@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
-    private Logger LOG = LoggerFactory.getLogger(PosController.class);
+    private Logger LOG = LoggerFactory.getLogger(NoticeController.class);
 
     @Autowired
     private NoticeService noticeService;
@@ -52,6 +52,8 @@ public class NoticeController {
                 applyId = openingApplie.getId();
             }
         }
+
+        LOG.info("{},applyId {},terminalId", applyId, id);
         return Response.getSuccess(applyId);
     }
 
