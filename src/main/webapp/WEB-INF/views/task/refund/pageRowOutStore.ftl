@@ -13,7 +13,7 @@
 	</#if>
 	</strong>
 	</td>
-	<td>>
+	<td>
 	<#if refu.status == 1>
 		<a href="<@spring.url '/task/refund/refundeDetails/${refu.id}' />" class="a_btn">查看详情</a>
 		<#if Roles.hasRole("REFUND_CANCEL")><a href="<@spring.url '/task/refund/${refu.id}/updsateRefundDeStatus' />" class="a_btn">取消</a></#if>
