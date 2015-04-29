@@ -27,7 +27,7 @@ public class NoticeController {
     private SessionService sessionService;
     @Autowired
     private TerminalService terminalService;
-    @RequestMapping(value = "video", method= RequestMethod.GET)
+    @RequestMapping(value = "video", method= RequestMethod.POST)
     @ResponseBody
     public Response video(Integer terminalId){
         noticeService.applyVideo(terminalId);
