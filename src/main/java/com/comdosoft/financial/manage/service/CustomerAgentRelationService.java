@@ -50,6 +50,9 @@ public class CustomerAgentRelationService {
 	 * @param agentId
 	 */
 	public void makeRelation(Integer customerId,Integer agentId){
+		if(null==customerId || null==agentId ){
+			return;
+		}
 		List<CustomerAgentRelation> relations = customerAgentRelationMapper.selectByAgentId(agentId, 1, 1);
 		boolean exists = false;
 		for(CustomerAgentRelation relation:relations) {
