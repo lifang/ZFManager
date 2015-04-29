@@ -116,7 +116,7 @@
 
     <!--获取商品对应的通道 -->
     <select id="selectChannels" resultMap="BaseResultMap">
-        select payc.id, payc.name
+        select payc.id, payc.name,payc.opening_cost
         from goods_pay_channels gpc inner join pay_channels payc on gpc.pay_channel_id=payc.id
         where gpc.good_id = #{param1}
     </select>
