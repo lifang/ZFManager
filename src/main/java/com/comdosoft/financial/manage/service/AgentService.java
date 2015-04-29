@@ -38,24 +38,9 @@ public class AgentService {
     private CustomerMapper customerMapper;
     @Autowired
     private DictionaryTradeTypeMapper dictionaryTradeTypeMapper;
+    
     public Page<Agent> findPages(int page, Byte status, String keys){
-    	pageSize=10;
-        if (keys != null) {
-            keys = "%"+keys+"%";
-        }
-        long count = agentMapper.countByKeys(status, keys,null);
-        if (count == 0) {
-            return new Page<Agent>(new PageRequest(1, pageSize), new ArrayList<Agent>(), count);
-        }
-        PageRequest request = new PageRequest(page, pageSize);
-        List<Agent> result = agentMapper.findPageAgentByKeys(request, status, keys,null);
-        Page<Agent> agent = new Page<>(request, result, count);
-        if (agent.getCurrentPage() > agent.getTotalPage()) {
-            request = new PageRequest(agent.getTotalPage(), pageSize);
-            result = agentMapper.findPageAgentByKeys(request, status, keys,null);
-            agent = new Page<>(request, result, count);
-        }
-        return agent;
+        return findPages(page,status,keys,10,0);
     }
     
     /**

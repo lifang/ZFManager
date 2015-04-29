@@ -41,7 +41,7 @@
 		from (select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id
 		 where 1=1 ORDER BY ca.process_user_id desc,ca.created_at desc) a
 		<include refid="pageWhere" />
-		and a.order_number is not null 
+		and a.order_number is not null
 		 limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	
@@ -118,9 +118,13 @@ where a.id=#{id}
 		values(#{orderId},#{goodId},#{port},now(),#{loginId},#{quantity},#{csOutStorageId})
    </insert>
    
-   <select id="getInOutStorageTerminalInfo" resultType="int">
+   <select id="getInOutStoragesAllInfo" resultType="map">
+   		select * from in_out_storages where order_id=#{orderId} and cs_out_storage_id=#{csOutStorageId}
+   </select>
+   
+   <select id="getInOutStorageTerminalInfo" resultType="map">
    	select count(id) as num from in_out_storages where order_id=#{orderId} and good_id=#{goodId} and cs_out_storage_id=#{csOutStorageId}
-   		and terminal_number=#{port}
+   		and terminal_number like '%${port}%'
    </select>
    
    <select id="getTerminalNum" resultType="hashmap">
@@ -190,7 +194,7 @@ where a.id=#{id}
    
    	<select id="getInOutStorageInfo" resultType="map">
    		select sum(a.quantity) as quantity from in_out_storages a left join cs_out_storages b on a.cs_out_storage_id=b.id
-   		where a.order_id=#{orderId} and good_id=#{goodId} and b.status=3
+   		where a.order_id=#{orderId} and a.good_id=#{goodId} and b.status=3
    	</select>
    	
    	<select id="getOrderGoodQuantity" resultType="map">
@@ -223,5 +227,12 @@ where a.id=#{id}
    		select count(id) as id from terminals where serial_num=#{serialNum}
    </select>
    
+   <select id="getAllQuantityCsOutStorage" resultType="int">
+   	select sum(quantity) as quantity from cs_out_storages where order_id=#{orderId}
+   </select>
    
+   <select id="getQuantityInOutStorage" resultType="int">
+   	select sum(quantity) as quantity from in_out_storages where order_id=#{orderId} and good_id=#{goodId} 
+   	and cs_out_storage_id=#{csOutStorageId}
+   </select>
 </mapper>

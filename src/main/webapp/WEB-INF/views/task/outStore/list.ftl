@@ -81,7 +81,7 @@
 	});
 	
 	function outStorePageChange(page) {
-		var keys = $("#hidden_keys").val();
+		var keys = $("#search_keys").val();
 		var status = $("#hidden_status").val();
 	    $.get('<@spring.url "/task/outStore/page" />',
 	            {"page": page,
@@ -94,7 +94,7 @@
 					popup(".approve_tab",".approve_a");//
 	            });
 	}
-
+	
     function checkBtn(id){
  		$("#checkSure").click(function(){check(id)});
     }

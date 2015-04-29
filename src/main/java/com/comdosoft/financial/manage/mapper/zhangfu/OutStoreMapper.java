@@ -29,8 +29,7 @@ public interface OutStoreMapper {
 	int saveTerminalNum(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("loginId") int loginId,
 				@Param("quantity") int quantity,@Param("csOutStorageId") int csOutStorageId);
 	
-	int getInOutStorageTerminalInfo(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,
-			@Param("csOutStorageId") int csOutStorageId);
+	Map<String, Object> getInOutStorageTerminalInfo(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("port") String port,@Param("csOutStorageId") int csOutStorageId);
 	//更新销售数量
 	int updateGoodsVolumeNumber(@Param("goodId") int goodId);
 	//更新批购数量
@@ -81,4 +80,10 @@ public interface OutStoreMapper {
 	int getCsOutStorageStatus(@Param("id") int id);
 	
 	int getTerminalsInfo(@Param("serialNum") String serialNum);
+	
+	List<Map<String, Object>> getInOutStoragesAllInfo(@Param("orderId") int orderId,@Param("csOutStorageId") int csOutStorageId);
+	
+	int getAllQuantityCsOutStorage(@Param("orderId") int orderId);
+
+	int getQuantityInOutStorage(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("csOutStorageId") int csOutStorageId);
 }
