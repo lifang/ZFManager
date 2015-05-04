@@ -96,20 +96,32 @@ public class OrderService {
 			}
 			
 		}
-		long count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
+		long count =0;
+		PageRequest request = new PageRequest(page, pageSize);
+		List<Order> result = null;
+		if(!CollectionUtils.isEmpty(types)&& types.get(0)==5){
+			count = orderMapper.countByKeysBatch(status, keys, null, types,orderIdsGood);
+			result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
+					null, types,orderIdsGood);
+		}else{
+			count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
+			result = orderMapper.findPageOrdersByKeys(request, status, keys,
+					null, types,orderIdsGood);
+		}
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize),
 					new ArrayList<Order>(), count);
 		}
-		PageRequest request = new PageRequest(page, pageSize);
-		List<Order> result = null;
-		result = orderMapper.findPageOrdersByKeys(request, status, keys,
-				null, types,orderIdsGood);
 		Page<Order> orders = new Page<>(request, result, count);
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
-			result = orderMapper.findPageOrdersByKeys(request, status, keys,
-					null, types,orderIdsGood);
+			if(!CollectionUtils.isEmpty(types)&& types.get(0)==5){
+				result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
+						null, types,orderIdsGood);
+			}else{
+				result = orderMapper.findPageOrdersByKeys(request, status, keys,
+						null, types,orderIdsGood);
+			}
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds = new ArrayList<Integer>();
@@ -203,7 +215,7 @@ public class OrderService {
 	 */
 	public int savePayFront(Integer orderId){
 		Order record = orderMapper.findOrderInfo(orderId);
-		record.setStatus((byte) 2);
+//		record.setStatus((byte) 2);
 		record.setFrontPayStatus((byte) 2);
 		if(record.getFrontMoney().equals(record.getActualPrice())){
 			record.setPayStatus((byte) 2);
@@ -289,7 +301,10 @@ public class OrderService {
 		if(1==type || 2==type || 3==type || 4==type){
 			minusGoodQuantity(good, quantity);
 		}
-		customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		//gookin.wu代购订单，如果选了用户，才创建的
+		if(3==type || 4 == type){
+			customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		}
 		order.setActualPrice(totalPrice);
 		order.setComment(comment);
 		Date createdAt = new Date();
@@ -333,6 +348,10 @@ public class OrderService {
 			String comment, String invoiceInfo, Integer customerAddressId,
 			Integer invoiceType, Boolean needInvoice, int type,Integer agentCustomerId)
 			throws Exception {
+		//gookin.wu代购订单，如果选了用户，才创建的
+		if(3==type || 4 == type){
+			customerAgentRelationService.makeRelation(customerId, agentCustomerId);
+		}
 		Integer belongsTo=0;
 		Order orderOld = orderMapper.findOrderInfo(orderId);
 		List<OrderGood> orderGoods = orderOld.getOrderGoods();

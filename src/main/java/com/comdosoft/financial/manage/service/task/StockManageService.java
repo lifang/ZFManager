@@ -103,7 +103,7 @@ public class StockManageService {
 		resultInfo.append("终端退回售后库失败");
 		
 		Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
-		if(null==mapTemp){
+		if(null!=mapTemp){
 			int temp=stockManageMapper.toAfterSaleStock(serialNum, loginId);
 			if(temp>0){
 				resultCode=1;

@@ -9,7 +9,7 @@
                         	<!--<img src="<@spring.url "/resources/images/mt_big.jpg"/>" jqimg = "<@spring.url "/resources/images/mt_show.jpg"/>" />-->
                         	<#if good.pictures??>
 	                             <#list good.pictures as picture>
-	                                 <#if picture_index==1>
+	                                 <#if picture_index==0>
 	                                     <img src="${picture.urlPath}" jqimg = "${picture.urlPath}" style="width:388px;height:330px;"/>
 	                                 </#if>
 	                             </#list>
@@ -21,7 +21,7 @@
                                  <ul class="pic_show">
                                  	<#if good.pictures??>
 	                                     <#list good.pictures as picture>
-	                                         <#if picture_index==1>
+	                                         <#if picture_index==0>
 	                                             <li class="hover"><img src="${picture.urlPath}" width="55" /></li>
 	                                         <#else>
 	                                             <li><img src="${picture.urlPath}" width="55" /></li>
@@ -345,7 +345,7 @@
 	                    		</a>
 		                	</div>
 		                    <h2><a href="<@spring.url "/good/batch/${relativeGood.id}/detail" />">${relativeGood.title!""}</a></h2>
-		                    <h2><a href="#" class="hp_price">￥${((relativeGood.retailPriceDisplay!0)/100)?string("0.00")}</a></h2>
+		                    <h2><a href="#" class="hp_price">￥${((relativeGood.purchasePriceDisplay!0)/100)?string("0.00")}</a></h2>
 		                </li>
         			</#list>
         		</#if>

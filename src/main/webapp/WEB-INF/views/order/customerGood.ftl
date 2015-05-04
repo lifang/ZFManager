@@ -154,7 +154,7 @@
 	                    	</div>
 	                    	
 	                    </li>
-	                    <li><span>月租金：</span><div class="c_text">￥${(good.leasePrice/100)?string("0.00")}</div></li>
+	                    <li><span>月租金：</span><div class="c_text">￥${((good.leasePrice!0)/100)?string("0.00")}</div></li>
 	                    <li><span>最短租赁：</span><div class="c_text">${good.leaseTime!""}个月</div></li>
 	                    <li><span>最上租赁：</span><div class="c_text">${good.returnTime!""}个月</div></li>
 	                </ul>

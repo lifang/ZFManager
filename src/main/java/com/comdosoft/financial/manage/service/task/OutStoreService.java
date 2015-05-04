@@ -185,10 +185,16 @@ public class OutStoreService {
 				mapTemp.put("invoiceName", "个人");
 			}
 			int types=Integer.parseInt(map.get(0).get("types").toString());
-			if(types==0){
-				mapTemp.put("typesName", "代购");
-			}else{
-				mapTemp.put("typesName", "批购");
+			if(types==1){
+				mapTemp.put("typesName", "用户订购");
+			}else if(types==2){
+				mapTemp.put("typesName", "用户租赁");
+			}else if(types==3){
+				mapTemp.put("typesName", "代理商代购");
+			}else if(types==4){
+				mapTemp.put("typesName", "代理商租赁");
+			}else if(types==5){
+				mapTemp.put("typesName", "代理商批购");
 			}
 			
 			
@@ -327,7 +333,7 @@ public class OutStoreService {
 					Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 					if(mapTemp!=null){
 						int agentId=Integer.parseInt(mapTemp.get("id").toString());
-						int temp2=outStoreMapper.updateTerminals("0", agentId+"", orderId, ports[j],payChannelId);
+						int temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId);
 						int temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
 						
 						if(temp2<1){
@@ -444,27 +450,25 @@ public class OutStoreService {
 						}
 						
 						//更新terminals表数据
-						Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 						if(types==1 || types==2){
-							if(mapTemp!=null){
-								int temp2=outStoreMapper.updateTerminals(customerId, "0", orderId, ports[j],payChannelId);
-								int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
-								if(temp2<1){
-									//更新失败
-									resultCode=Response.ERROR_CODE;
-									resultInfo.setLength(0);
-									resultInfo.append("更新terminals表信息出错");
-									throw new Exception("更新terminals表信息出错");
-								}
-								if(temp3<1){
-									//更新失败
-									resultCode=Response.ERROR_CODE;
-									resultInfo.setLength(0);
-									resultInfo.append("更新goods表销售数量或批购数量信息出错");
-									throw new Exception("更新goods表销售数量或批购数量信息出错");
-								}
+							int temp2=outStoreMapper.updateTerminals(customerId, null, orderId, ports[j],payChannelId);
+							int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
+							if(temp2<1){
+								//更新失败
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("更新terminals表信息出错");
+								throw new Exception("更新terminals表信息出错");
+							}
+							if(temp3<1){
+								//更新失败
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("更新goods表销售数量或批购数量信息出错");
+								throw new Exception("更新goods表销售数量或批购数量信息出错");
 							}
 						}else{
+							Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 							if(mapTemp!=null){
 								int agentId=Integer.parseInt(mapTemp.get("id").toString());
 								int temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId);
@@ -538,15 +542,12 @@ public class OutStoreService {
 						//计算对应的good的数量,从in_out_storage
 						int quantityInOutStorage=outStoreMapper.getQuantityInOutStorage(orderId, goodId, outStorageId);
 						
-						if(quantityOrders<quantityInOutStorage){
+						if(quantityOrders!=quantityInOutStorage){
 							sign=0;
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
-							resultInfo.append("发货总数量超过订单商品数量");
-							throw new Exception("发货总数量超过订单商品数量");
-						}else if(quantityOrders>quantityInOutStorage){
-							sign=0;
-						}else if(quantityOrders==quantityInOutStorage){
+							resultInfo.append("发货总数量与订单商品数量不等");
+							throw new Exception("发货总数量与订单商品数量不等");
 						}
 					}
 				}

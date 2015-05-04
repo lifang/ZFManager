@@ -189,8 +189,8 @@
         $("#videoClickDiv").click(function(){
             $("#videoShowDiv").css('display','none');
             $(".mask").css('display','none');
+            reshVideo = setInterval(taskRefreshVideo, 10000);
             window.open("<@spring.url "/task/certifiedopen/"/>"+noticeVideoId+"/video");
-            setInterval(taskRefreshVideo, 10000);
         });
 
     })

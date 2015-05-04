@@ -27,9 +27,9 @@
             <div class="login_area">
                 <form action="<@spring.url "/login"/>" method="post">
                     <ul>
-                        <li><input name="passport" type="text"/></li>
-                        <li><input name="password" type="password"/></li>
-                        <li><input name="captcha" type="text" value="输入图片校验码" class="l"/>
+                        <li><input name="passport" type="text" placeholder="ID"/></li>
+                        <li><input name="password" type="password" placeholder="密码由6-20位英文字符组成"/></li>
+                        <li><input name="captcha" type="text" placeholder="输入图片校验码" class="l"/>
                             <div class="yzm"><img src="<@spring.url "/captcha"/>"/></div>
                         </li>
                     </ul>
@@ -45,9 +45,9 @@
             <div class="login_area">
                 <form action="<@spring.url "/login"/>" method="post">
                     <ul>
-                        <li><input name="passport" type="text"/></li>
-                        <li><input name="password" type="password"/></li>
-                        <li><input name="captcha" type="text" value="输入图片校验码" class="l"/>
+                        <li><input name="passport" type="text" placeholder="ID"/></li>
+                        <li><input name="password" type="password" placeholder="密码由6-20位英文字符组成"/></li>
+                        <li><input name="captcha" type="text" placeholder="输入图片校验码" class="l"/>
                             <div class="yzm"><img src="<@spring.url "/captcha"/>"/></div>
                         </li>
                     </ul>

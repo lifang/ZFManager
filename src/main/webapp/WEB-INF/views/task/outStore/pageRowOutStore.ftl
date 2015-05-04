@@ -30,7 +30,7 @@
                     if(data.code=="-1"){
             			alert("操作出错，错误信息为："+data.resultInfo);
 	            	}else if(data.code=="1"){
-	            		window.location.reload()
+	            		window.location.reload();
 	            	}
                 });
    
