@@ -9,6 +9,16 @@ public class Intention {
     private String phone;
     private String content;
     private String date;
+    private Integer checktype;
+    
+    public Integer getChecktype() {
+		return checktype==null||checktype==0?1:checktype;
+	}
+    
+    public void setChecktype(Integer checktype) {
+		this.checktype = checktype;
+	}
+    
     public int getId() {
         return id;
     }

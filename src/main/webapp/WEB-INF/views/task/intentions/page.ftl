@@ -13,6 +13,7 @@
 		<thead>
 			<tr>
 				<th><input name="cb_all" type="checkbox" value="" /></th>
+				<th>意向类型</th>
 				<th>意向人</th>
 				<th>申请日期</th>
 				<th>电话</th>
@@ -23,8 +24,8 @@
 		<tbody>
 			<tbody><#if (intentions.content)??> <#list intentions.content as one> <#include "pageRow.ftl" /> </#list> </#if>
 		</tbody>
-	</table>
-</div>
-
+	</table> 
+</div>  
 <@assign.assign name="intention" page=intentions.currentPage suspend=1/>
-<@pager.p page=intentions.currentPage totalPages=intentions.totalPage functionName="intentionPageChange"/>
+<@pager.p page=intentions.currentPage totalPages=intentions.totalPage functionName="intentionPageChange"/> 
+

@@ -127,7 +127,7 @@
                 </ol>
             </li>
         </#if>
-        <#if Roles.hasRole("INTENTION")><li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买意向</a></li></#if>
+        <#if Roles.hasRole("INTENTION")><li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买/申请意向</a></li></#if>
         <li class="second"><a href="javascript:void(0);"<#if urlCheck(request,"/system")> class="hover"</#if>>系统<i class="<#if urlCheck(request,"/system")>on<#else>off</#if>"></i></a>
             <ol>
                 <#if Roles.hasRole("ZF_ACCOUNT")><li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号</a></li></#if>
