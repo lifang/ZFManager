@@ -2,9 +2,9 @@
 <@c.html>
 	<div class="breadcrumb">
         <ul>
-            <li><a href="#">商品</a></li>
-            <li><a href="#">POS机管理</a></li>
-            <li><a href="#">POS机详情</a></li>
+            <li>商品</li>
+            <li><a href="<@spring.url "/good/pos/list"/>">POS机管理</a></li>
+            <li><a href="<@spring.url "/good/pos/${good.id}/info" />">POS机详情</a></li>
         </ul>
     </div>
     <#include "../../common/pos/info_part.ftl"/>

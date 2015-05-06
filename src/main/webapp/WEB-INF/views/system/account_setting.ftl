@@ -2,7 +2,7 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">账户设置</a></li>
+        <li><a href="javascript:void(0)" onclick="reload()">账户设置</a></li>
     </ul>
 </div>
 <div class="content clear">

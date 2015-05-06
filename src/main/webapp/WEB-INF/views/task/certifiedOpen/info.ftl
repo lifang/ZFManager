@@ -1,9 +1,9 @@
 <#import "../../common.ftl" as c /> <@c.html>
 <div class="breadcrumb">
 	<ul>
-		<li><a>任务</a></li>
+		<li>任务</li>
 		<li><a href="<@spring.url "/task/certifiedopen/list"/>">认证开通</a></li>
-		<li><a>详情</a></li>
+		<li><a href="<@spring.url "/task/certifiedopen/${tinfo.id}/info"/>">详情</a></li>
 	</ul>
 </div>
 <div class="content clear">

@@ -2,8 +2,8 @@
 <@c.html>
      <div class="breadcrumb">
                     <ul>
-                        <li><a href="javascript:void(0)">任务</a></li>
-                        <li><a href="javascript:void(0)">退款</a></li>
+                        <li>任务</li>
+                        <li><a href="<@spring.url "/task/refund/list" />">退款</a></li>
                     </ul>
                 </div>
                 <div class="content clear">

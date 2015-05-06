@@ -2,7 +2,7 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">运营中心首页</a></li>
+        <li><a href="<@spring.url "/index"/>">运营中心首页</a></li>
     </ul>
 </div>
 <div class="content clear">

@@ -2,8 +2,8 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">用户</a></li>
-        <li><a href="#">编辑</a></li>
+        <li><a href="<@spring.url "/user/list"/>">用户</a></li>
+        <li><a href="<@spring.url "/user/${customer.id}/edit"/>">编辑</a></li>
     </ul>
 </div>
 <div class="content clear">

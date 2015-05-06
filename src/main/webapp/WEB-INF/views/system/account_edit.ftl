@@ -2,10 +2,10 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">系统</a></li>
-        <li><a href="#">运营账号</a></li>
-        <li><a href="#">管理运营账号</a></li>
-        <li><a href="#">创建</a></li>
+        <li>系统</li>
+        <li>运营账号</li>
+        <li><a href="<@spring.url "/system/operate/accounts"/>">管理运营账号</a></li>
+        <li><a href="<@spring.url "/system/operate/account/${customer.id}/edit"/>">编辑</a></li>
     </ul>
 </div>
 <div class="content clear">

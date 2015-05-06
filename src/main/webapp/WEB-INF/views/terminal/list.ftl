@@ -2,7 +2,7 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">终端</a></li>
+            <li><a href="<@spring.url "/terminal/list"/>">终端</a></li>
         </ul>
     </div>
     <div class="content clear">

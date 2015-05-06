@@ -2,9 +2,9 @@
 <@c.html>
      <div class="breadcrumb"> 
       <ul> 
-       <li><a href="#">商品</a></li> 
+       <li>商品</li> 
        <li><a href="<@spring.url "/task/outStore/list"/>" class="hover">出库</a></li>
-       <li><a href="#">详情</a></li> 
+       <li><a href="<@spring.url "/task/outStore/${outStorageId}/info"/>">详情</a></li> 
       </ul> 
      </div> 
      <div class="content clear"> 

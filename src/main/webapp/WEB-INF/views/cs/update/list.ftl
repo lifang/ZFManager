@@ -2,7 +2,7 @@
 <@c.html>
 <div class="breadcrumb"> 
 	<ul> 
-    	<li><a href="#">售后</a></li> 
+    	<li>售后</li> 
     	<li><a href="<@spring.url "/cs/update/list"/>">资料更新</a></li> 
 	</ul> 
 </div> 

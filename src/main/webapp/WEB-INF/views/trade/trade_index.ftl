@@ -2,8 +2,14 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">交易</a></li>
-        <li><a href="#">转账</a></li>
+        <li><a href="<@spring.url "/trade/index"/>">交易</a></li>
+        <li>
+        	<a href="<@spring.url "/trade/index"/>">
+        	<#list tradeTypes as tradeType>
+                <#if ((tradeTypeID!1)==tradeType.id)>${tradeType.tradeValue}</#if>
+            </#list>
+			</a>
+		</li>
     </ul>
 </div>
 <div class="content clear">
@@ -13,7 +19,7 @@
         <div class="dealNavBox">
             <ul class="li_show" style="left: 0;">
             <#list tradeTypes as tradeType>
-                <li data-id="${tradeType.id}"><a href="javascript:void(0);"<#if tradeType_index==0> class="hover"</#if>>${tradeType.tradeValue}</a></li>
+                <li data-id="${tradeType.id}"><a href="javascript:void(0);"<#if ((tradeTypeID!1)==tradeType.id)> class="hover"</#if>>${tradeType.tradeValue}</a></li>
             </#list>
             </ul>
         </div>
