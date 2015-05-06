@@ -2,7 +2,7 @@
       <td>${good.title!}</td> 
       <td> ${(good.goodBrand.name)!""}&nbsp;${good.modelNumber!""}</td>
       <td>${good.quantity!0}</td>
-      <td><#if good.belongsTo??>是</#if></td> 
+      <td><#if good.belongsTo??>是<#else>否</#if></td> 
       <td><strong class="strong_status">
           <#assign status = (good.status)!1/>
       <#if status=1>待审核
