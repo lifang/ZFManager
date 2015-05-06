@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.AgentJoin;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Intention;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Mark;
 import com.comdosoft.financial.manage.mapper.zhangfu.IntentionMapper;
+import com.comdosoft.financial.manage.service.AgentJoinService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -23,6 +25,9 @@ public class IntentionService {
 
 	@Autowired
 	private IntentionMapper intentionMapper;
+	
+	@Autowired
+	private AgentJoinService agentJoinService;
 	
 	public Page<Intention> findPages(int id,int page, Byte status, String keys){
 		long count = intentionMapper.countByKeys(status, keys);
@@ -42,7 +47,7 @@ public class IntentionService {
 	}
 
 	public Intention findInfo(Integer id) {
-		return intentionMapper.findInfo(id);
+		return intentionMapper.findInfo(id); 
 	}
 
     public List<Mark> getMark(Integer id) {

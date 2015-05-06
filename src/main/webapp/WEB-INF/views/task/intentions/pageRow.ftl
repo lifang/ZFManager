@@ -1,5 +1,6 @@
 <tr>
 	<td><input name="cb_row" type="checkbox" value="" cs_id="${one.id!}" cs_status="${one.status!}" cs_num="${one.name!}"/></td>
+	<td>${one.type!}</td>
 	<td>${one.name!}</td>
 	<td>${one.date!}</td>
 	<td>${one.phone!}</td>
@@ -9,7 +10,12 @@
 	       <#elseif one.status=3>处理完成
        	   </#if></strong></td> 
 	<td>
-		<a href="<@spring.url "/task/intention/${one.id}/info" />" class="a_btn">查看详情</a>
+	<#if one.checktype=1>
+		<a href='<@spring.url "/task/intention/${one.id}/info" />' class="a_btn" id="_details">查看详情</a>
+	</#if>
+	<#if one.checktype=2>
+		<a href='<@spring.url "/task/agentjoin/${one.id}/getInfo" />' class="a_btn" id="_details">查看详情</a>
+	</#if>
 	<#if one.status=1>
 		<#if Roles.hasRole("INTENTION_MARK_PROCESSING")><a onclick="ups(${one.id!},2,${intentions.currentPage!})" class="a_btn">标记为处理中</a></#if>
    	<#elseif one.status=2>
@@ -17,4 +23,5 @@
   	</#if>
     </td>
 </tr>
+
 

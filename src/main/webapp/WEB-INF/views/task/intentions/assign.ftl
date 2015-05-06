@@ -71,7 +71,7 @@
         });
 	});
 	
-	function onDispatch() {
+	function onDispatch() { 
 		var ids = [];
 		$("input[name='cb_row']").each(function () {
 				var id = $(this).attr("cs_id");
@@ -80,15 +80,35 @@
            			ids.push(id);
            		}
             });
-		var customerId = $("#customer_select  option:selected").attr("customer_id");
+        var customerId = $("#customer_select  option:selected").attr("customer_id");
 		var customerName = $("#customer_select  option:selected").text();
-		$.post('<@spring.url "" />'+'/task/${name}/dispatch',
-	            {"ids": ids.join(','),
-	            "customerId":customerId,
-	            "customerName":customerName}, function (data) {
-	            	certifiedOpenPageChange(${page});
-	            });
-	}
+        var type = $('#select_type').children('option:selected').val();
+        if(type == 1){ 
+			$.post('<@spring.url "" />'+'/task/${name}/dispatch',
+		            {"ids": ids.join(','),
+		            "customerId":customerId,
+		            "customerName":customerName}, function (data) {
+		            	certifiedOpenPageChange(${page});
+			});
+			intentionPageChange(1); 
+        }else if(type == 2){
+			$.post('<@spring.url "" />'+'/task/agentjoin/dispatch',
+		            {"ids": ids.join(','),
+		            "customerId":customerId,
+		            "customerName":customerName}, function (data) {
+		            	certifiedOpenPageChange(${page});
+			});
+			intentionPageChangeByType(1);
+		}else{
+			$.post('<@spring.url "" />'+'/task/${name}/dispatch',
+		            {"ids": ids.join(','),
+		            "customerId":customerId,
+		            "customerName":customerName}, function (data) {
+		            	certifiedOpenPageChange(${page});
+			});
+			intentionPageChange(1); 
+		}  
+	}  
 
 </script>
 </#macro> 
