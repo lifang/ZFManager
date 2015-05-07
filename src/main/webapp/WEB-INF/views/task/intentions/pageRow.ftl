@@ -1,6 +1,11 @@
 <tr>
 	<td><input name="cb_row" type="checkbox" value="" cs_id="${one.id!}" cs_status="${one.status!}" cs_num="${one.name!}"/></td>
-	<td>${one.type!}</td>
+	<#if one.checktype=1>
+		<td>购买pos机</td>
+	</#if>  
+	<#if one.checktype=2>
+		<td>申请代理商: ${one.type!}</td>
+	</#if>  
 	<td>${one.name!}</td>
 	<td>${one.date!}</td>
 	<td>${one.phone!}</td>

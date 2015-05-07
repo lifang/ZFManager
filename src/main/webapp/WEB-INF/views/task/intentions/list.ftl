@@ -1,7 +1,7 @@
 <#import "../../common.ftl" as c /> <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="<@spring.url "/task/intention/list"/>">购买意向</a></li>
+        <li><a  href="<@spring.url "/task/intention/list"/>">购买/申请意向</a></li>
     </ul>
 </div>
 
@@ -23,9 +23,9 @@
 				<li>
 				<div class="user_select">
 					<input id="hidden_type" type="hidden" />
-					<label>查看类型</label> <select id="select_type"> 
-			          	<option value="1">购买意向</option> 
-			          	<option value="2">申请代理商</option> 
+					<label>查看意向</label> <select id="select_type"> 
+			          	<option value="1" <#if itentype_buy??>selected=true</#if>>购买意向</option> 
+			          	<option value="2" <#if itentype_agent??>selected=true</#if>>申请代理商</option> 
 					</select>
 				</div>
 			</li>	
@@ -52,10 +52,10 @@
 			var status = $(this).children('option:selected').val(); 
 			type = $('#select_type').children('option:selected').val();
 			$("#hidden_status").val(status);
-			if(type == 1){
+			if(type == 1){ 
 				intentionPageChange(1);
 			}
-			if(type == 2){
+			if(type == 2){ 
 				intentionPageChangeByType(1);
 			} 
 		});
@@ -65,13 +65,12 @@
 			var status = $("#select_status").children('option:selected').val();
 			$("#hidden_status").val(status);
 			type = $(this).children('option:selected').val();
-			if(type == 1){
-				intentionPageChange(1);
+			if(type == 1){ 
+				intentionPageChange(1); 
 			}
-			if(type == 2){
-				intentionPageChangeByType(1);
-			}
-			
+			if(type == 2){ 
+				intentionPageChangeByType(1); 
+			} 
 		});
 		
 		
@@ -88,6 +87,9 @@
 	    });
 	});
 	
+	 
+	
+	
 	function intentionPageChangeByType(page) {
 		var keys = $("#hidden_keys").val().trim();
 		var status = $("#hidden_status").val();
@@ -97,7 +99,7 @@
 	             "statu": status
 	            },
 	            function (data) {
-	                $('#page_fresh').html(data);
+	                $('#page_fresh').html(data); 
 	            });
 	}  
 	  
@@ -112,7 +114,7 @@
 	             "status": status
 				},
 			function (data) {
-				$('#page_fresh').html(data);
+				$('#page_fresh').html(data); 
 			});
 		}
 		if(type == 2){

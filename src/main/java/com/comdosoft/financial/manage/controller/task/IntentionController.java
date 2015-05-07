@@ -33,6 +33,7 @@ public class IntentionController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
         findPage(request,page, status, keys, model);
+        model.addAttribute("itentype_buy", 1);
         return "task/intentions/list";
     }
 
@@ -93,7 +94,7 @@ public class IntentionController {
         }
         Customer customer = sessionService.getLoginInfo(request);
         Page<Intention> app = intentionService.findPages(customer.getId(),page, status, keys);
-        model.addAttribute("intentions", app); 
+        model.addAttribute("intentions", app);
     }
 
     @RequestMapping(value = "dispatch", method = RequestMethod.POST)
