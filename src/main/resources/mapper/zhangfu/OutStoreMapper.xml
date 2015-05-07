@@ -36,7 +36,7 @@
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
-		select a.id,date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.order_number,
+		select a.id,date_format(a.created_at,'%Y-%c-%d %H:%i:%s') as created_at,a.order_number,
 		a.status,ifnull(a.process_user_id,"") as processUserId 
 		from (select ca.*,cc.order_number from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id
 		 where 1=1 ORDER BY ca.process_user_id desc,ca.created_at desc) a
