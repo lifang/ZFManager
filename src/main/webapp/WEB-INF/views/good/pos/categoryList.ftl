@@ -1,5 +1,15 @@
 <#import "../../common.ftl" as c />
-<@c.html>
+<@c.html_head ; d>
+<#if d="head">
+<link href="<@spring.url "/resources/zTree/css/zTreeStyle.css"/>" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+    .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+</style>
+<script src="<@spring.url "/resources/zTree/js/jquery.ztree.core-3.5.min.js"/>"></script>
+<script src="<@spring.url "/resources/zTree/js/jquery.ztree.excheck-3.5.min.js"/>"></script>
+<script src="<@spring.url "/resources/zTree/js/jquery.ztree.exedit-3.5.min.js"/>"></script>
+</#if>
+<#if d="body">
 <div class="breadcrumb">
     <ul>
         <li>商品</li>
@@ -10,129 +20,95 @@
 <div class="content clear">
     <div class="user_title"><h1>管理POS机分类</h1>
     </div>
-    <div class="classify_pos">
-        <dl>
-            <dt><div class="stair"><i></i><span>全部POS</span></div></dt>
-            <#if categories?? && (categories?size > 0)>
-                <#list categories as category>
-                    <#if category.parentId?? && category.parentId!=0>
-                        <#assign isFirst = false>
-                    <#else>
-                        <#assign isFirst = true>
-                    </#if>
-                    <#if isFirst>
-                        <#if category_index == 0>
-                        <dd><div class="stair"><i class="bq"></i><span value="${category.id}">${category.name}</span><i class="pos_delete" value="${category.id}"></i></div>
-                        <ul>
-                        <#else>
-                        </ul>
-                            <div class="cp_add">
-                                <p><input name="" type="text"><button class="add_second_btn">确定</button></p>
-                                <p><a class="ap_add_btn"><i></i>添加二级分类</a></p>
-                            </div>
-                        </dd>
-                        <dd><div class="stair"><i class="bq"></i><span value="${category.id}">${category.name}</span><i class="pos_delete" value="${category.id}"></i></div>
-                        <ul>
-                        </#if>
-                    <#else>
-                        <li>${category.name}<i class="pos_delete" value="${category.id}"></i></li>
-                    </#if>
-                    <#if !(category_has_next)>
-                    </ul>
-                        <div class="cp_add">
-                            <p><input name="" type="text"><button class="add_second_btn">确定</button></p>
-                            <p><a class="ap_add_btn"><i></i>添加二级分类</a></p>
-                        </div>
-                    </dd>
-                    </#if>
-                </#list>
-            </#if>
-            <div class="cp_add">
-                <p><input name="" type="text"><button class="add_first_btn">确定</button></p>
-                <p><a class="ap_add_btn"><i></i>添加一级分类</a></p>
-            </div>
-        </dl>
-    </div>
+    <div id="tree" class="ztree"></div>
 </div>
 <script type="text/javascript">
     $(function () {
-        $(".cp_add").each(function(i){
-            $(this).children("p:first").hide();
-        });
-        <!--绑定删除分类按钮-->
-        $(document).delegate(".pos_delete", "click", function () {
 
+        $.fn.zTree.init(
+                $("#tree"),
+                {
+                    view: {selectedMulti: false, showIcon: false,addHoverDom: addHoverDom,removeHoverDom: removeHoverDom},
+                    data: {simpleData: {enable: true}},
+                    edit: {enable: true,removeTitle:'删除',renameTitle:'修改',editNameSelectAll: true,showRemoveBtn: showRemoveBtn,showRenameBtn: showRenameBtn},
+                    callback: {beforeRename:beforeRename,beforeRemove:beforeRemove}
+                },
+                [
+                    { id:0, pId:-1, name:"全部POS", open:true},
+                    <#list categories as category>
+                    { id:${category.id}, pId:${category.parentId}, name:"${category.name}", open:false}<#if category_has_next>,</#if>
+                    </#list>
+                ]);
+
+        function addHoverDom(treeId, treeNode) {
+            if(treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+            if(treeNode.level==3) return;
+            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='添加子分类' onfocus='this.blur();'></span>";
+            var sObj = $("#" + treeNode.tId + "_span");
+            sObj.after(addStr);
+            var btn = $("#addBtn_"+treeNode.tId);
+            if (btn) btn.bind("click", function(){
+                var result;
+                $.ajax(treeNode.id + '/create',{async:false,
+                    type:'POST',
+                    data:{name:"新分类"},
+                    success:function (data) {
+                    if (data.code == 1) {
+                        result = data.result;
+                    } else if (data.code == -1) {
+                        showErrorTip(data.message);
+                    }
+                }});
+                if(!result) return false;
+                var zTree = $.fn.zTree.getZTreeObj(treeId);
+                var node = zTree.addNodes(treeNode, {id:result.id, pId:treeNode.id, name:"新分类"});
+                zTree.editName(node[0]);
+                return false;
+            });
+        }
+        function removeHoverDom(treeId, treeNode) {
+            $("#addBtn_"+treeNode.tId).unbind().remove();
+        }
+        function beforeRename(treeId, treeNode, newName, isCancel) {
+            if(isCancel) return false;
+            if(newName.length == 0){
+                showErrorTip("名称不能为空！");
+                return false;
+            }
+            var result = false;
+            $.ajax(treeNode.id + '/modify',{async:false,
+                type:'POST',
+                data:{name:newName},
+                success:function (data) {
+                    if (data.code == 1) {
+                        result = true;
+                    } else if (data.code == -1) {
+                        showErrorTip(data.message);
+                    }
+                }});
+            return result;
+        }
+        function beforeRemove(treeId, treeNode) {
             if(confirm("确定要删除该分类吗？")){
-                var id = $(this).attr("value");
-                var p =  $(this).parent();
-                if(p.hasClass("stair")){
-                    p = p.parent();
-                }
-                $.get('<@spring.url "" />' + '/good/pos/category/' + id + '/del',
-                        function (data) {
-                            if (data.code == 1) {
-                                p.remove();
-                            } else if (data.code == -1) {
-                                showErrorTip(data.message);
-                            }
-                        });
+                var result=false;
+                $.ajax(treeNode.id+"/del",{async:false,success:function (data) {
+                    if (data.code == 1) {
+                        result=true;
+                    } else if (data.code == -1) {
+                        showErrorTip(data.message);
+                    }
+                }});
+                return result;
             }
-
-        });
-
-        <!--绑定添加分类按钮-->
-        $(document).delegate(".ap_add_btn", "click", function () {
-            var addP =  $(this).parent().prev();
-//          alert($(this).parents("ul").prev(".stair").children("span").attr("value"));
-            addP.toggle();
-        });
-        $(document).delegate(".add_second_btn","click", function(){
-            var parentId = $(this).parents(".cp_add").prev().prev().children("span").attr("value");
-            var textInput =  $(this).prev();
-            var name = textInput.val();
-            if(name.length == 0){
-                showErrorTip("名称不能为空！");
-                return false;
-            }
-            var ul = $(this).parents(".cp_add").prev();
-            $.post('<@spring.url "/good/pos/category/" />' + parentId + '/create',
-                    {'name':name},
-                    function (data) {
-                        if (data.code == 1) {
-                            var result = data.result;
-                            textInput.val("");
-                            ul.append('<li>'+result.name+'<i class="pos_delete" value="'+result.id+'"></i></li>');
-                        } else if (data.code==-1) {
-                            showErrorTip(data.message);
-                        }
-                    });
-        });
-
-        $(".add_first_btn").click(function(){
-            var textInput =  $(this).prev();
-            var name = textInput.val();
-            if(name.length == 0){
-                showErrorTip("名称不能为空！");
-                return false;
-            }
-            var dd = $(this).parents(".cp_add").prev();
-            $.post('<@spring.url "/good/pos/category/0/create" />',
-                    {'name':name},
-                    function (data) {
-                        if (data.code == 1) {
-                            var result = data.result;
-                            textInput.val("");
-                            var newDd= $('<dd><div class="stair"><i></i><span value="'+result.id+'">'+result.name+'</span></div>' +
-                            '<ul></ul>' +
-                            '<div class="cp_add"><p><input name="" type="text"><button class="add_second_btn">确定</button></p><p><a class="ap_add_btn"><i></i>添加二级分类</a></p> </div></dd>');
-                            newDd.insertAfter(dd);
-                            newDd.find(".cp_add p:first").hide();
-                        } else if (data.code == -1) {
-                            showErrorTip(data.message);
-                        }
-                    });
-        });
-
-    })
+            return false;
+        }
+        function showRemoveBtn(treeId, treeNode) {
+            return treeNode.level>0;
+        }
+        function showRenameBtn(treeId, treeNode) {
+            return treeNode.level>0;
+        }
+    });
 </script>
-</@c.html>
+</#if>
+</@c.html_head>
