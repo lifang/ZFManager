@@ -25,5 +25,10 @@
 		<property name="templateLoaderPath" value="/WEB-INF/views/" />
 		<property name="freemarkerSettings" ref="freemarkerConfiguration" />
 		<property name="defaultEncoding" value="utf-8" />
-	</bean>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="FILE_PATH" value="${filePath}" />
+            </map>
+        </property>
+    </bean>
 </beans>

@@ -35,7 +35,7 @@
     }
     function pageChange(page) {
         $.post('<@spring.url "/user/page" />',
-                {"page": page,"query":$("input[name=query]").val().trim()},
+                {"page": page,"query": $.trim($("input[name=query]").val())},
                 function (data) {
                     $('#page_fresh').html(data);
                 });
