@@ -325,8 +325,8 @@ public class OutStoreService {
 					if(numTemp>0){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("in_out_storages表已存在终端号对应的记录");
-						throw new Exception("in_out_storages表已存在终端号对应的记录");
+						resultInfo.append("已存在终端号对应的记录");
+						throw new Exception("已存在终端号对应的记录");
 					}
 					
 					//更新terminals表数据
@@ -340,15 +340,15 @@ public class OutStoreService {
 							//更新失败
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
-							resultInfo.append("更新terminals表信息出错");
-							throw new Exception("更新terminals表信息出错");
+							resultInfo.append("系统繁忙，请稍后再试");
+							throw new Exception("系统繁忙，请稍后再试");
 						}
 						if(temp3<1){
 							//更新失败
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
-							resultInfo.append("更新goods表销售数量或批购数量信息出错");
-							throw new Exception("更新goods表销售数量或批购数量信息出错");
+							resultInfo.append("系统繁忙，请稍后再试");
+							throw new Exception("系统繁忙，请稍后再试");
 						}
 					}
 				}
@@ -358,8 +358,8 @@ public class OutStoreService {
 				if(temp4<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("插入in_out_storages出错");
-					throw new Exception("插入in_out_storages出错");
+					resultInfo.append("系统繁忙，请稍后再试");
+					throw new Exception("系统繁忙，请稍后再试");
 				}
 				//更新cs_out_storage表
 				List<Map<String, Object>> inOutStorageInfo=outStoreMapper.getInOutStoragesAllInfo(orderId, outStorageId);
@@ -375,8 +375,8 @@ public class OutStoreService {
 				if(temp<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("更新cs_out_storages的数量，终端号出错");
-					throw new Exception("更新cs_out_storages的数量，终端号出错");
+					resultInfo.append("系统繁忙，请稍后再试");
+					throw new Exception("系统繁忙，请稍后再试");
 				}
 				//统计所有的cs_out_storages的数量
 				int quantityOrders=outStoreMapper.getQuantityByOrderGood(goodId, orderId);
@@ -394,15 +394,15 @@ public class OutStoreService {
 					if(temp1<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("修改cs_out_storages状态为已完成出错");
-						throw new Exception("修改cs_out_storages状态为已完成出错");
+						resultInfo.append("系统繁忙，请稍后再试");
+						throw new Exception("系统繁忙，请稍后再试");
 					}
 					int temp2=outStoreMapper.updateOrderStatus(3, orderId);
 					if(temp2<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("修改orders状态为已发货出错");
-						throw new Exception("修改orders状态为已发货出错");
+						resultInfo.append("系统繁忙，请稍后再试");
+						throw new Exception("系统繁忙，请稍后再试");
 					}
 				}
 			}
@@ -445,8 +445,8 @@ public class OutStoreService {
 						if(numTemp>0){
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
-							resultInfo.append("in_out_storages表已存在终端号对应的记录");
-							throw new Exception("in_out_storages表已存在终端号对应的记录");
+							resultInfo.append("系统繁忙，请稍后再试");
+							throw new Exception("系统繁忙，请稍后再试");
 						}
 						
 						//更新terminals表数据
@@ -457,15 +457,15 @@ public class OutStoreService {
 								//更新失败
 								resultCode=Response.ERROR_CODE;
 								resultInfo.setLength(0);
-								resultInfo.append("更新terminals表信息出错");
-								throw new Exception("更新terminals表信息出错");
+								resultInfo.append("系统繁忙，请稍后再试");
+								throw new Exception("系统繁忙，请稍后再试");
 							}
 							if(temp3<1){
 								//更新失败
 								resultCode=Response.ERROR_CODE;
 								resultInfo.setLength(0);
-								resultInfo.append("更新goods表销售数量或批购数量信息出错");
-								throw new Exception("更新goods表销售数量或批购数量信息出错");
+								resultInfo.append("系统繁忙，请稍后再试");
+								throw new Exception("系统繁忙，请稍后再试");
 							}
 						}else{
 							Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
@@ -478,15 +478,15 @@ public class OutStoreService {
 									//更新失败
 									resultCode=Response.ERROR_CODE;
 									resultInfo.setLength(0);
-									resultInfo.append("更新terminals表信息出错");
-									throw new Exception("更新terminals表信息出错");
+									resultInfo.append("系统繁忙，请稍后再试");
+									throw new Exception("系统繁忙，请稍后再试");
 								}
 								if(temp3<1){
 									//更新失败
 									resultCode=Response.ERROR_CODE;
 									resultInfo.setLength(0);
-									resultInfo.append("更新goods表销售数量或批购数量信息出错");
-									throw new Exception("更新goods表销售数量或批购数量信息出错");
+									resultInfo.append("系统繁忙，请稍后再试");
+									throw new Exception("系统繁忙，请稍后再试");
 								}
 							}
 						}
@@ -499,8 +499,8 @@ public class OutStoreService {
 					if(temp4<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("插入in_out_storages出错");
-						throw new Exception("插入in_out_storages出错");
+						resultInfo.append("系统繁忙，请稍后再试");
+						throw new Exception("系统繁忙，请稍后再试");
 					}
 				}
 				//循环结束
@@ -519,8 +519,8 @@ public class OutStoreService {
 				if(temp1<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("更新cs_out_storages的数量，终端号出错");
-					throw new Exception("更新cs_out_storages的数量，终端号出错");
+					resultInfo.append("系统繁忙，请稍后再试");
+					throw new Exception("系统繁忙，请稍后再试");
 				}
 				
 				//统计所有的cs_out_storages的数量
@@ -557,15 +557,15 @@ public class OutStoreService {
 					if(temp3<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("修改cs_out_storages状态为已完成出错");
-						throw new Exception("修改cs_out_storages状态为已完成出错");
+						resultInfo.append("系统繁忙，请稍后再试");
+						throw new Exception("系统繁忙，请稍后再试");
 					}
 					int temp4=outStoreMapper.updateOrderStatus(3, orderId);
 					if(temp4<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("修改orders状态为已发货出错");
-						throw new Exception("修改orders状态为已发货出错");
+						resultInfo.append("系统繁忙，请稍后再试");
+						throw new Exception("系统繁忙，请稍后再试");
 					}
 				}
 			}

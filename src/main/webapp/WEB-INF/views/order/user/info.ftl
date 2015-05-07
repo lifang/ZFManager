@@ -77,7 +77,7 @@
 	                    	</strong>
 	                    </td>
 	                    <td>${orderGood.quantity!0}</td>
-	                    <td><strong>￥${(orderGood.actualPrice/100)?string("0.00")}</strong></td>
+	                    <td><strong>￥${((orderGood.actualPrice/100)*(orderGood.quantity!0))?string("0.00")}</strong></td>
 	                  </tr>
 	              </tbody>
 	             </#list>
