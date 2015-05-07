@@ -259,10 +259,9 @@ public class OrderService {
 		}
 		if (null != payStatus)
 			order.setPayStatus(payStatus);
-		if(null!=frontMoney){
-			frontMoney=frontMoney*100;
-			order.setFrontMoney(frontMoney.intValue());
-		}
+		SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
+		int front_Money = actualPrice.intValue()*(Integer.parseInt(findByKey.getParamValue()))/100;
+		order.setFrontMoney(front_Money);
 		return orderMapper.updateByPrimaryKey(order);
 	}
 	

@@ -123,8 +123,8 @@ public class GoodCommentService {
             Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
             int total=good.getTotalComment();
             good.setTotalComment(total+ 1);
-            int socre=(good.getTotalScore()*total+comment.getScore())/good.getTotalComment();
-            good.setTotalScore(socre);
+            int score = good.getTotalScore() + comment.getScore();
+            good.setTotalScore(score);
             goodMapper.updateByPrimaryKey(good);
         }
         return comment;
@@ -142,7 +142,7 @@ public class GoodCommentService {
         if (comment.getStatus() == GoodComment.STATUS_CHECKED) {
             Good good = goodMapper.selectByPrimaryKey(comment.getGoodId());
             int totalComment = good.getTotalComment() - 1;
-            int score =(good.getTotalScore()*good.getTotalComment() - comment.getScore())/totalComment;
+            int score =good.getTotalScore() - comment.getScore();
             if (totalComment <= 0 || score <= 0) {
                 good.setTotalComment(0);
                 good.setTotalScore(0);

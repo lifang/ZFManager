@@ -79,12 +79,15 @@
 		var wlNumStr=$("#wlNumStr").val();
 		
 	 	var terminals=$("textarea[id^='terminal_']");
-	 	var temp="";
+	 	var temp=""; 
+	 	var goodIds = new Array();
+	 	var quantities = new Array();
 		for(var i=0;i<terminals.length;i++){
 			var id=$(terminals[i]).attr("id");
 			var goodId=id.substr(9,id.length-9);
 			var value=$(terminals[i]).val();
-			
+			goodIds.push(goodId);
+			quantities.push($(terminals[i]).parent().prev().html());
 			if(temp.length<1){
 				temp=goodId+"_"+value;
 			}else{
@@ -98,7 +101,9 @@
 	        {   "id": outStorageIdStr,
 	        "wlCompany":wlCompanyStr,
 	        "wlNum":wlNumStr,
-	        "terminalNums":temp},
+	        "terminalNums":temp,
+	        "goodIds":goodIds.join("-"),
+	        "quantities":quantities.join("-")},
 	        function (data) {
 	        	if(data.code==-1){
             		alert("操作出错，错误信息为："+data.message);

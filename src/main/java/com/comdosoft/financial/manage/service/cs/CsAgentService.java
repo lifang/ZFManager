@@ -108,7 +108,8 @@ public class CsAgentService {
 			csOutStorage.setProcessUserId(csAgent.getProcessUserId());
 			csOutStorage.setProcessUserName(csAgent.getProcessUserName());
 			csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
-			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
+			csOutStorage.setStatus(CsOutStorage.STATUS_OUTPUT);
+			csOutStorage.setTerminalList(terminal.getSerialNum());
 			csOutStorageMapper.insert(csOutStorage);
 		}
 	}

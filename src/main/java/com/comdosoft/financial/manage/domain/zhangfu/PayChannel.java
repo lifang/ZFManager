@@ -374,6 +374,10 @@ public class PayChannel {
 		this.openingProtocol = openingProtocol;
 	}
 
+    public static final byte REQ_TYPE_PUBLIC = 1;    // 对公
+    public static final byte REQ_TYPE_PRIVATE = 2;    // 对私
+    public static final byte REQ_TYPE_ALL = 3;       // 所有
+
 	public static final byte STATUS_WAITING_FIRST_CHECK = 1;    // 待审核
     public static final byte STATUS_FIRST_UN_CHECKED = 2;    // 初审不通过
     public static final byte STATUS_FIRST_CHECKED = 3;        // 初审通过

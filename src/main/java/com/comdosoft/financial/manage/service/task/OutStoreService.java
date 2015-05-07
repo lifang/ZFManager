@@ -21,6 +21,8 @@ import java.util.Map;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.task.OutStore;
+import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OutStoreMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.ReocrdOperateMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -47,6 +50,8 @@ public class OutStoreService {
 	private OutStoreMapper outStoreMapper;
 	@Autowired
 	private ReocrdOperateMapper mapper;
+	@Autowired
+	private GoodMapper goodMapper;
 	
 	public Page<OutStore> findPages(int page, Byte status, String keys){
 		long count = outStoreMapper.countByKeys(status, keys);
@@ -663,5 +668,14 @@ public class OutStoreService {
 		result.put("resultCode", resultCode);
 		result.put("resultInfo", resultInfo);
 		return result;
+	}
+
+	public void subGoodQuantity(String quantities, String goodIds) {
+		String[] quantity = quantities.split("-");
+		String[] goodId = goodIds.split("-");
+		for(int i=0;i<quantity.length;i++){
+			goodMapper.updateQuantity(Integer.valueOf(goodId[i]),Integer.valueOf(quantity[i]));
+		}
+		
 	}
 }
