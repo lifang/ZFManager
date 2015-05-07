@@ -117,7 +117,7 @@
 						+'<a class="a_btn exchangeGoods_a" onClick="onPreOutput('+csAgentId+');">添加换货出库记录</a>'
 						+'<a class="a_btn" onClick="onFinish('+csAgentId+');">标记为处理完成</a>'
 					);
-					$("#status_" + csAgentId).text("处理完成");
+					$("#status_" + csAgentId).text("处理中");
 					popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
 				});
 	}

@@ -424,7 +424,7 @@ public class OutStoreService {
 					//条件过滤
 					for(int j=0;j<ports.length;j++){
 						int temp1=outStoreMapper.getTerminalsInfo(ports[j]);
-						if(temp1<0){
+						if(temp1<1){
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
 							resultInfo.append("输入的终端号不存在");
