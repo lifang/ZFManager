@@ -98,4 +98,6 @@ public interface GoodMapper {
      * @param goodIds
      */
      List<Good> selectGoodsByIds(List<Integer> goodIds);
+     
+     int updateQuantity(Integer id,Integer quantity);
 }
