@@ -4,7 +4,7 @@
     <div class="breadcrumb">
         <ul>
             <li><a href="<@spring.url "/user/list"/>">用户</a></li>
-            <li><a href="<@spring.url "/user/${customer.id}/info"/>">用户详情</a></li>
+            <li><a href="<@spring.url "/user/${merchant.customerId}/info"/>">用户详情</a></li>
             <li><a href="<@spring.url "/user/merchant/${merchant.id}/info"/>">商户详情</a></li>
         </ul>
     </div>
