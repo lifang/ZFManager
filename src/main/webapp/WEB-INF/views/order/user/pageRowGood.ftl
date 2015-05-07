@@ -1,7 +1,7 @@
   <tr>
     <td>
     	<div class="td_proBox clear">
-        	<a href="#" class="cn_img">
+        	<a href="<@spring.url "/good/user/${good.id}/detail" />" class="cn_img">
         		<#if good.pictures??>
         			<#list good.pictures as picture>
         				<#if picture_index==0>
