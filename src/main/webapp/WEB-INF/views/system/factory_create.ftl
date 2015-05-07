@@ -10,7 +10,7 @@
     <div class="content clear">
         <div class="user_title"><h1>${factory???string("编辑","创建")}第三方机构</h1>
         </div>
-        <div class="item_list clear">
+        <div class="item_list item_list_pl120 clear">
             <ul>
                 <li><span class="labelSpan">机构类型：</span>
                     <div class="text">
