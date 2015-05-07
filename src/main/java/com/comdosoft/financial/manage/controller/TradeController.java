@@ -54,6 +54,7 @@ public class TradeController {
         List<DictionaryTradeType> tradeTypes = tradeService.allTradeTypes();
         model.addAttribute("tradeTypes",tradeTypes);
         type(tradeTypes.get(0).getId(),model);
+        model.addAttribute("tradeTypeID", 1);
         return "trade/trade_index";
     }
 
@@ -140,5 +141,14 @@ public class TradeController {
 			LOG.error("",e);
 		}
     	return Response.getError("程序异常。");
+    }
+    
+    @RequestMapping(value = "/{id}/index",method = RequestMethod.GET)
+    public String backToIndex(@PathVariable Integer id,Model model){
+        List<DictionaryTradeType> tradeTypes = tradeService.allTradeTypes();
+        model.addAttribute("tradeTypes",tradeTypes);
+        type(id,model);
+        model.addAttribute("tradeTypeID", id);
+        return "trade/trade_index";
     }
 }

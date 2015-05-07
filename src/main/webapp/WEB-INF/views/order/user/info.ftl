@@ -3,9 +3,9 @@
 <div class="right" >
 	<div class="breadcrumb">
         <ul>
-        	<li><a href="#">订单</a></li>
+        	<li>订单</li>
             <li><a href="<@spring.url "/order/user/list"/>">用户订单</a></li>
-            <li><a href="#">订单详情</a></li>
+            <li><a href="<@spring.url "/order/user/${order.id}/info"/>">订单详情</a></li>
         </ul>
     </div>
     <div class="content clear">

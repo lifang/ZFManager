@@ -2,8 +2,8 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">数据字典</a></li>
+            <li>系统</li>
+            <li><a href="<@spring.url "/system/dictionary"/>">数据字典</a></li>
         </ul>
     </div>
     <div class="content clear">

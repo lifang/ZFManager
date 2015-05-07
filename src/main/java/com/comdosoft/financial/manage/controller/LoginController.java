@@ -41,7 +41,7 @@ public class LoginController {
 
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	@ResponseBody
-	public Response loginPost(String passport,String password,String captcha,
+	public Response loginPost(String passport,String password,String captcha,Byte type,
 			HttpServletRequest request){
 		LOG.info("{},登陆",passport);
 		Captcha sessionCaptcha = (Captcha) request.getSession().getAttribute(Captcha.NAME);
@@ -58,7 +58,9 @@ public class LoginController {
 			return Response.getError("验证码不正确！");
 		}
 		Customer customer = customerService.login(passport, password);
-		if(customer==null) {
+		if(customer==null || 
+				(customer.getTypes()!=Customer.TYPE_SUPER 
+				&& !customer.getTypes().equals(type))) {
 			return Response.getError("用户名或密码不正确！");
 		}
 		sessionService.storeLoginInfo(request, customer);

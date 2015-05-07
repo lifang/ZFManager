@@ -2,8 +2,8 @@
 <@c.html>
 	<div class="breadcrumb">
         <ul>
-            <li><a href="#">订单</a></li>
-            <li><a href="#">代理商代购</a></li>
+            <li>订单</li>
+            <li><a href="<@spring.url "/order/agent/list"/>">代理商代购</a></li>
         </ul>
     </div>
     <div class="content clear">

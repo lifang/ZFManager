@@ -1,7 +1,7 @@
 <#import "../../common.ftl" as c /> <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a>购买/申请意向</a></li>
+        <li><a  href="<@spring.url "/task/intention/list"/>">购买/申请意向</a></li>
     </ul>
 </div>
 

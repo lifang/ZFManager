@@ -2,9 +2,9 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">交易</a></li>
-        <li><a href="#">${tradeType.tradeValue}</a></li>
-        <li><a href="#">统计</a></li>
+        <li><a href="<@spring.url "/trade/index"/>">交易</a></li>
+        <li><a href="<@spring.url "/trade/${tradeType.id}/index"/>">${tradeType.tradeValue}</a></li>
+        <li><a href="<@spring.url "/trade/${tradeType.id}/statistics"/>">统计</a></li>
     </ul>
 </div>
 <div class="content clear">

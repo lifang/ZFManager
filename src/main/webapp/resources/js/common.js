@@ -84,3 +84,7 @@ function checkException(data){
 	}
 	return true;
 }
+
+function reload(){
+	window.location.reload();
+}

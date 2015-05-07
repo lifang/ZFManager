@@ -2,12 +2,12 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">商品</a></li>
-            <li><a href="#">支付通道</a></li>
+            <li>商品</li>
+            <li><a href="<@spring.url "/good/channel/list"/>">支付通道</a></li>
             <#if channel??>
-                <li><a href="#">编辑支付通道</a></li>
+                <li><a href="<@spring.url "/good/channel/${channel.id}/edit" />">编辑支付通道</a></li>
             <#else>
-                <li><a href="#">创建支付通道</a></li>
+                <li><a href="<@spring.url "/good/channel/create"/>">创建支付通道</a></li>
             </#if>
         </ul>
     </div>

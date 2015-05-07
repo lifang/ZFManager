@@ -2,7 +2,7 @@
 <@c.html>
 <div class="breadcrumb">
                     <ul>
-                       <li><a href="#">任务</a></li>
+                       <li>任务</li>
 						<li><a href="<@spring.url "/task/calculus/list"/>">积分兑换</a></li>
 						<li><a href="<@spring.url "/task/calculus/${integralInfo.id}/info"/>">详情</a></li>
                     </ul>

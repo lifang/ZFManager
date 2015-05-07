@@ -2,12 +2,12 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">代理商</a></li>
+            <li>系统</li>
+            <li><a href="<@spring.url "/system/agent/list" />">代理商</a></li>
             <#if agent??>
-                <li><a href="#">编辑</a></li>
+                <li><a href="javascript:void(0)" onclick="reload()">编辑</a></li>
             <#else>
-                <li><a href="#">创建</a></li>
+                <li><a href="javascript:void(0)" onclick="reload()">创建</a></li>
             </#if>
         </ul>
     </div>

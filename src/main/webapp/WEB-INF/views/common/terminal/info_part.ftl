@@ -67,7 +67,7 @@
                 <td><#if (tradeType.tradeValue)??>${tradeType.tradeValue}</#if>
                 </td>
                 <td>
-                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${tradeType.serviceRate+tradeType.baseRate/10}‰</#if></#if>
+                	<#if (tradeType.tradeValue)='消费'><#if (tradeType.serviceRate)??><#if (tradeType.baseRate)??> ${(tradeType.serviceRate+tradeType.baseRate)/10}‰</#if></#if>
                 	<#elseif (tradeType.tradeValue)!='消费'><#if (tradeType.terminalRate)??>${tradeType.terminalRate/10}‰</#if>
                 	</#if>
                 </td>
@@ -131,7 +131,7 @@
         <button class="whiteBtn" onclick="writeMark()">备注</button>
     </div>
     <div class="user_record">
-        <h2>追踪记录</h2>
+        <h2>备注记录</h2>
     <#list terminal.terminalMarks as terminalMark>
         <#include "../../terminal/mark.ftl"/>
     </#list>

@@ -2,10 +2,10 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">网站内容</a></li>
-            <li><a href="#">活动页面</a></li>
-            <li><a href="#">编辑</a></li>
+            <li>系统</li>
+            <li>网站内容</li>
+            <li><a href="<@spring.url "/system/content/activity" />">活动页面</a></li>
+            <li><a href="javascript:void(0)" onclick="reload()">${activity???string("编辑","创建")}</a></li>
         </ul>
     </div>
     <div class="content clear">

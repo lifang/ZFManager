@@ -3,9 +3,9 @@
 <div class="right">
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">第三方机构</a></li>
-            <li><a href="#">详情</a></li>
+            <li>系统</li>
+            <li><a href="<@spring.url "/system/factory/list" />">第三方机构</a></li>
+            <li><a href="<@spring.url "/system/factory/${factory.id}/info" />">详情</a></li>
         </ul>
     </div>
     <div class="content clear">

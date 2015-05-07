@@ -27,12 +27,13 @@
             <div class="login_area">
                 <form action="<@spring.url "/login"/>" method="post">
                     <ul>
-                        <li><input name="passport" type="text" placeholder="ID"/></li>
-                        <li><input name="password" type="password" placeholder="密码由6-20位英文字符组成"/></li>
+                        <li><input name="passport" type="text" placeholder="用户名"/></li>
+                        <li><input name="password" type="password" placeholder="密码"/></li>
                         <li><input name="captcha" type="text" placeholder="输入图片校验码" class="l"/>
                             <div class="yzm"><img src="<@spring.url "/captcha"/>"/></div>
                         </li>
                     </ul>
+                    <input type="hidden" name="type" value="3" />
                     <div class="forget">
                         <span><input name="remember" type="checkbox" value="remember"/>下次自动登陆</span>
                         <a href="#">忘记密码？</a>
@@ -45,12 +46,13 @@
             <div class="login_area">
                 <form action="<@spring.url "/login"/>" method="post">
                     <ul>
-                        <li><input name="passport" type="text" placeholder="ID"/></li>
-                        <li><input name="password" type="password" placeholder="密码由6-20位英文字符组成"/></li>
+                        <li><input name="passport" type="text" placeholder="用户名"/></li>
+                        <li><input name="password" type="password" placeholder="密码"/></li>
                         <li><input name="captcha" type="text" placeholder="输入图片校验码" class="l"/>
                             <div class="yzm"><img src="<@spring.url "/captcha"/>"/></div>
                         </li>
                     </ul>
+                    <input type="hidden" name="type" value="5" />
                     <div class="forget">
                         <span><input name="remember" type="checkbox" value="remember"/>下次自动登陆</span>
                         <a href="#">忘记密码？</a>
@@ -72,6 +74,9 @@
                 }
                 if (data.code == -1) {
                     alert(data.message);
+                    if(data.message=="验证码不正确！"){
+                        $("div.yzm img").attr("src","captcha?timestap="+new Date().getTime());
+                    }
                 }
             }
         });

@@ -2,9 +2,9 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">第三方机构</a></li>
-            <li><a href="#">${factory???string("编辑","创建")}</a></li>
+            <li>系统</li>
+            <li><a href="<@spring.url "/system/factory/list"/>">第三方机构</a></li>
+            <li><a href="javascript:void(0)" onclick="reload()">${factory???string("编辑","创建")}</a></li>
         </ul>
     </div>
     <div class="content clear">

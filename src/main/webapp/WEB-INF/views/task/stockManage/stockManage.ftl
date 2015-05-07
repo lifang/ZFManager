@@ -2,8 +2,8 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">任务</a></li>
-        <li><a href="#">售后库存管理</a></li>
+        <li>任务</li>
+        <li><a href="<@spring.url "/task/stockManage/index" />">售后库存管理</a></li>
     </ul>
 </div>
 <div class="content clear">

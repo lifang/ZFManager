@@ -21,7 +21,6 @@
 		<#elseif csAgent.status=2>
 			<a href="<@spring.url "/cs/agent/${csAgent.id}/info" />" class="a_btn">查看详情</a>
 			<#if Roles.hasRole("CS_AGENT_CANCEL")><a class="a_btn" onClick="onCancel(${csAgent.id});">取消</a></#if>
-			<#if Roles.hasRole("CS_AGENT_SYNC")><a href="#" class="a_btn">同步</a></#if>
 			<#if Roles.hasRole("CS_AGENT_CHANGE_OUT")><a class="a_btn exchangeGoods_a" onClick="onPreOutput(${csAgent.id});">添加换货出库记录</a></#if>
 			<#if Roles.hasRole("CS_AGENT_FINISH")><a class="a_btn" onClick="onFinish(${csAgent.id});">标记为处理完成</a></#if>
        	<#elseif csAgent.status=3>

@@ -2,12 +2,13 @@
 <div class="breadcrumb">
 	<ul>
 		<#if one.checktype=1>
-			<li><a href="<@spring.url "/task/intention/list"/>">购买/申请意向</a></li>
+			<li><a href="<@spring.url "/task/intention/list"/>">购买/申请意向</a></li> 
+			<li><a href="<@spring.url "/task/intention/${one.id}/info"/>">详情</a></li>
 		</#if>
 		<#if one.checktype=2>
 			<li><a href="<@spring.url "/task/agentjoin/list"/>">购买/申请意向</a></li>
+			<li><a href="<@spring.url "/task/agentjoin/${one.id}/info"/>">详情</a></li>
 		</#if>
-		<li><a>详情</a></li>
 	</ul>
 </div>
 <div class="content clear">

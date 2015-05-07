@@ -3,12 +3,12 @@
 
 	<div class="breadcrumb">
         <ul>
-            <li><a href="#">商品</a></li>
-            <li><a href="#">POS机管理</a></li>
+            <li>商品</li>
+            <li><a href="<@spring.url "/good/pos/list"/>">POS机管理</a></li>
             <#if good??>
-            <li><a href="#">编辑POS机</a></li>
+            <li><a href="<@spring.url "/good/pos/${good.id}/edit" />">编辑POS机</a></li>
             <#else>
-            <li><a href="#">创建POS机</a></li>
+            <li><a href="<@spring.url "/good/pos/create"/>">创建POS机</a></li>
             </#if>
         </ul>
     </div>

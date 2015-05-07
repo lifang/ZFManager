@@ -3,9 +3,9 @@
 <script src="<@spring.url "/resources/js/jquery.raty.js"/>"></script>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">商品</a></li>
-            <li><a href="#">POS机管理</a></li>
-            <li><a href="#">管理评论</a></li>
+            <li>商品</li>
+            <li><a href="<@spring.url "/good/pos/list"/>">POS机管理</a></li>
+            <li><a href="<@spring.url "/good/pos/${good.id}/comments" />">管理评论</a></li>
         </ul>
     </div>
     <#include "commentPage.ftl" />

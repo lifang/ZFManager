@@ -2,9 +2,9 @@
 <@c.html>
 <div class="breadcrumb">
     <ul>
-        <li><a href="#">商品</a></li>
-        <li><a href="#">支付通道</a></li>
-        <li><a href="#">设置分润</a></li>
+        <li>商品</li>
+        <li><a href="<@spring.url "/good/channel/list"/>">支付通道</a></li>
+        <li><a href="<@spring.url "/good/channel/${channel.id}/profit" />">设置分润</a></li>
     </ul>
 </div>
 <div class="content clear">

@@ -2,10 +2,10 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">系统</a></li>
-            <li><a href="#">网站内容</a></li>
-            <li><a href="#">首页公告</a></li>
-            <li><a href="#">${message???string("编辑","创建")}</a></li>
+            <li>系统</li>
+            <li>网站内容</li>
+            <li><a href="<@spring.url "/system/content/webmessage" />">首页公告</a></li>
+            <li><a href="javascript:void(0)" onclick="reload()">${message???string("编辑","创建")}</a></li>
         </ul>
     </div>
     <div class="content clear">
