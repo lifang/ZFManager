@@ -55,7 +55,7 @@
 			<ul>
 				<li><em>终端号：</em><span><#if csRepair.terminal??>${csRepair.terminal.serialNum!}</#if></span></li>
 				<li><em>收货地址：</em><span><#if csRepair.csReceiverAddress??>${csRepair.csReceiverAddress.address!}</#if></span></li>
-				<li><em>维修费用：</em><span><strong>￥${csRepair.repairPrice!}</strong></span></li>
+				<li><em>维修费用：</em><span><strong>￥${((csRepair.repairPrice!0)/100)?string("0.00")}</strong></span></li>
 				<li><em>故障描述：</em><span>${csRepair.description!}</span></li>
 			</ul>
 		</div>
