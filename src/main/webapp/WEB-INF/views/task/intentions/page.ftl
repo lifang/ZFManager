@@ -12,8 +12,8 @@
 		</colgroup>
 		<thead>
 			<tr>
-				<th><input name="cb_all" type="checkbox" value="" /></th>
-				<th>意向类型</th>
+				<th><input name="cb_all" type="checkbox" value="" /></th> 
+				<th>客户意向</th> 
 				<th>意向人</th>
 				<th>申请日期</th>
 				<th>电话</th>

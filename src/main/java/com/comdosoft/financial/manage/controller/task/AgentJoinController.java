@@ -50,6 +50,7 @@ public class AgentJoinController {
 	public String list(HttpServletRequest request, Integer page,
 			Byte statu, String keys, Model model) {
 		pageInfoByxx(request, page, statu, keys, model);
+        model.addAttribute("itentype_agent", 2);
 		return "task/intentions/list";
 	}
 
