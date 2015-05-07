@@ -13,7 +13,7 @@
         	</a>
             <div class="td_proBox_info">
             	<h1><a href="<@spring.url "/good/user/${good.id}/detail" />">${good.title!""}</a></h1>
-                <h3>${good.secondTitle!""}</h3>
+                <h3><a href="<@spring.url "/good/user/${good.id}/detail" />">${good.secondTitle!""}</a></h3>
                 <ul>
                 	<li><span>品牌型号：</span><div class="c_text"><#if good.goodBrand??>${good.goodBrand.name!""}</#if></div></li>
                     <li>
