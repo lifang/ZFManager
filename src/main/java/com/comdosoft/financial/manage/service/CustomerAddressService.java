@@ -44,6 +44,7 @@ public class CustomerAddressService {
     		record.setIsDefault(2);
     		record.setStatus((byte) 1);
     		record.setCreatedAt(new Date());
+    		record.setUpdatedAt(new Date());
     		result=customerAddressMapper.insert(record);
     	}else{
     		record.setUpdatedAt(new Date());

@@ -1,6 +1,6 @@
      <tr id="row_${outStore.id}"> 
       <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}" cs_status="${outStore.status}"></td> 
-      <td>${outStore.id}</td>
+      <td><#if (outStore.applyNum)??>${outStore.applyNum}</#if></td>
       <td>${outStore.createdAt}</td> 
       <td>${outStore.orderNumber}</td> 
       <td><strong class="strong_status">
