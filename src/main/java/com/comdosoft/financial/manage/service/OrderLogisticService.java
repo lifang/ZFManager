@@ -188,4 +188,8 @@ public class OrderLogisticService {
 		insert(customer,order, logisticsName, logisticsNumber,totalQuantity,terminalSerialNum,csOutStorageStatus);
 		return 1;
 	}
+
+	public Integer getOutStoreRecordCnt(Integer orderId) {
+		return csOutStorageMapper.selectByOrderId(orderId);
+	}
 }

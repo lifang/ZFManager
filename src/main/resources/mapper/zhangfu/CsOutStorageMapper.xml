@@ -97,4 +97,8 @@
     from cs_out_storages
     where order_id=#{param1}
   </select>
+  
+  <select id="selectByOrderId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(*) from cs_out_storages where order_id = #{orderId}
+  </select>
 </mapper>
