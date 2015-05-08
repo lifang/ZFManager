@@ -26,6 +26,7 @@
 			<#if Roles.hasRole("CS_CANCEL_CANCELING")><a class="a_btn" onClick="onHandle(${csCancel.id});">标记为处理中</a></#if>
 		<#elseif csCancel.status=2>
 			<a href="<@spring.url "/cs/cancel/${csCancel.id}/info" />" class="a_btn">查看详情</a>
+			<a href="javascript:void(0);" onClick="synize(${csCancel.terminalId});" class="a_btn">同步</a>
 			<#if Roles.hasRole("CS_CANCEL_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csCancel.id});">标记为处理完成</a></#if>
        	<#elseif csCancel.status=4>
 			<a href="<@spring.url "/cs/cancel/${csCancel.id}/info" />" class="a_btn">查看详情</a>
@@ -35,3 +36,19 @@
        	</#if>
 	</td>
 </tr>
+<script>
+	function synize(temp){
+		$.post('<@spring.url "/terminal/syncStatus" />',
+			{"terminalId":temp},
+			function(data){
+			var data = eval("("+data+")");
+				if(data.code==1){
+					alert("同步成功");
+					location.reload();
+				}else{
+					alert(data.message);
+					return false;
+				}
+			});
+	}
+</script>
