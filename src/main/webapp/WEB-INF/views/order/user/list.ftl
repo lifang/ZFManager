@@ -163,6 +163,7 @@
 	            function (data) {
 					$('.remark_tab').hide();
 					$('.mask').hide();
+					$('#mark_content').val("");
 	            });
 	}
 	
