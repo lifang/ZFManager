@@ -14,7 +14,7 @@
       </div>
 	   <div class="attributes_box">
 	    	<h2>记录信息</h2>
-	        <div class="attributes_list_s clear">
+	        <div class="attributes_list clear">
 	            <ul>
 	                <li>编号：<#if (outStorageId)??>${outStorageId}</#if></li>
 	                <li>处理人：<#if (operater)??>${operater}</#if></li>
