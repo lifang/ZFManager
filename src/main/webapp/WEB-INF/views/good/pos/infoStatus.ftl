@@ -12,8 +12,8 @@
        		
        <#elseif good.status=3>
        		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
-       		<a class="ghostBtn approve_a">审核通过</a> 
-       		<a onClick="unCheck(${good.id})" class="ghostBtn">审核不通过</a>
+            <a onClick="check(${good.id})" class="ghostBtn approve_a">审核通过</a>
+            <a onClick="unCheck(${good.id})" class="ghostBtn">审核不通过</a>
        		
        <#elseif good.status=4>
        		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
