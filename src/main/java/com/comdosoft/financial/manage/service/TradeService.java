@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -214,7 +215,7 @@ public class TradeService {
     	}
     	switch(cell.getCellType()){
     	case Cell.CELL_TYPE_NUMERIC:
-    		return String.valueOf(cell.getNumericCellValue());
+    		return String.valueOf(new DecimalFormat("0").format(cell.getNumericCellValue()));
     	default:
     		return cell.getStringCellValue();
     	}

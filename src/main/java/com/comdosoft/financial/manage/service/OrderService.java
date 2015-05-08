@@ -253,15 +253,17 @@ public class OrderService {
 			order.setStatus(status);
 			addGoodQuantity(order);
 		}
+		if (null != payStatus)
+			order.setPayStatus(payStatus);
 		if (null != actualPrice){
 			actualPrice=actualPrice*100;
 			order.setActualPrice(actualPrice.intValue());
+			SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
+			int front_Money = actualPrice.intValue()*(Integer.parseInt(findByKey.getParamValue()))/100;
+			order.setFrontMoney(front_Money);
+		}else{
+			order.setFrontMoney((int)(frontMoney*100));
 		}
-		if (null != payStatus)
-			order.setPayStatus(payStatus);
-		SysConfig findByKey = sysConfigMapper.findByKey(Constant.PURCHASE_ORDER_RATIO);
-		int front_Money = actualPrice.intValue()*(Integer.parseInt(findByKey.getParamValue()))/100;
-		order.setFrontMoney(front_Money);
 		return orderMapper.updateByPrimaryKey(order);
 	}
 	

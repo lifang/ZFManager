@@ -79,25 +79,27 @@
         <h2>交易费率</h2>
         <div class="item_list clear">
             <ul>
-                <li class="b"><span class="labelSpan">刷卡交易标准手续费：</span>
+                <li class="b"><span class="labelSpan" title="刷卡交易标准手续费：">刷卡交易标准手续费：</span>
                     <div class="text">
                         <div class="rate_attributes standardRates">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="34%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="10%">
                                 </colgroup>
                                 <tbody><tr>
                                     <td>商户类型</td>
                                     <td>费率(‰)</td>
                                     <td>说明</td>
+                                    <td>操作</td>
                                 </tr>
                                 <#if channel?? && ((channel.standardRates)?size > 0)>
                                     <#list channel.standardRates as channelStandardRate>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl selectStandardRate">
+                                            <select name="" class="select_l selectStandardRate">
                                                 <#list standardRates as standardRate>
                                                     <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}"
                                                     ${((standardRate.id) = (channelStandardRate.tradeStandardRateId))?string("selected='selected'", "")}
@@ -107,6 +109,7 @@
                                         </td>
                                         <td><input name="" type="text" class="input_l" value="${((channelStandardRate.standardRate)??)?string((((channelStandardRate.standardRate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelStandardRate.description!''}"></td>
+                                        <td><a class="pay_add_a delBtn">-</a></td>
                                     </tr>
                                     </#list>
                                 </#if>
@@ -120,21 +123,23 @@
                         <div class="rate_attributes billingCycles">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="34%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="10%">
                                 </colgroup>
                                 <tbody><tr>
                                     <td>结算周期</td>
                                     <td>费率(‰)</td>
                                     <td>说明</td>
+                                    <td>操作</td>
                                 </tr>
 
                                 <#if channel?? && ((channel.billingCycles)?size > 0)>
                                     <#list channel.billingCycles as channelBillingCycle>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl selectBillingCycle">
+                                            <select name="" class="select_l selectBillingCycle">
                                                 <#list billingCycles as billingCycle>
                                                     <option value="${billingCycle.id}" description="${billingCycle.description!""}" rate="${billingCycle.serviceRate}"
                                                     ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
@@ -144,6 +149,7 @@
                                         </td>
                                         <td><input name="" type="text" class="input_l" value="${((channelBillingCycle.rate)??)?string((((channelBillingCycle.rate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelBillingCycle.description!""}"></td>
+                                        <td><a class="pay_add_a delBtn">-</a></td>
                                     </tr>
                                     </#list>
                                 </#if>
@@ -157,21 +163,23 @@
                         <div class="rate_attributes tradeTypes">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="34%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="10%">
                                 </colgroup>
                                 <tbody><tr>
                                     <td>交易类型</td>
                                     <td>费率(‰)</td>
                                     <td>说明</td>
+                                    <td>操作</td>
                                 </tr>
 
                                 <#if channel?? && ((channel.supportTradeTypes)?size > 0)>
                                     <#list channel.supportTradeTypes as channelSupportTradeType>
                                     <tr>
                                         <td>
-                                            <select name="" class="select_xl selectTradeType">
+                                            <select name="" class="select_l selectTradeType">
                                                 <#list tradeTypes as tradeType>
                                                     <#if tradeType.tradeType==DictionaryTradeType.TYPE_OTHER>
                                                         <option value="${tradeType.id}"
@@ -183,6 +191,7 @@
                                         </td>
                                         <td><input name="" type="text" class="input_l" value="${((channelSupportTradeType.terminalRate)??)?string((((channelSupportTradeType.terminalRate)!0)/10)?string("0.0"),'')}"  ></td>
                                         <td><input name="" type="text" class="input_l" value="${channelSupportTradeType.description!""}"></td>
+                                        <td><a class="pay_add_a delBtn">-</a></td>
                                     </tr>
                                     </#list>
                                 </#if>
@@ -219,6 +228,7 @@
                 <li class="b"><span class="labelSpan">开通所需材料：</span>
                     <div class="text openingRequirements">
                     <#if (channel.openingRequirements)??>
+                        <div class="deleteBox"><a class="pay_add_a delOpeningRequirements">-</a></div>
                         <#list channel.openingRequirements as openingRequirement>
                             <div class="itl_area" value="${openingRequirement.id}">
                             	<div class="item_l2"><input name="" class="hasVideoVerify" type="checkbox" class="input_l" value="${((openingRequirement.hasVideoVerify)!false)?string('true', 'false')}"}><label>是否需要视频认证</label></div>
@@ -261,14 +271,16 @@
                         <div class="rate_attributes mtop cancelRequirements">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="34%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="10%">
                                 </colgroup>
                                 <tbody><tr>
                                     <td>材料名称</td>
                                     <td>材料说明</td>
                                     <td>模版上传</td>
+                                    <td>操作</td>
                                 </tr>
                                 <#if (channel.cancelRequirements)??>
                                     <#list channel.cancelRequirements as cancelRequirement>
@@ -282,6 +294,7 @@
                                                 </a>
                                             </form>
                                         </td>
+                                        <td><a class="pay_add_a delBtn">-</a></td>
                                     </tr>
                                     </#list>
                                 </#if>
@@ -296,14 +309,16 @@
                         <div class="rate_attributes mtop updateRequirements">
                             <table width="100%" border="0" cellspacing="1" cellpadding="0">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="34%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                    <col width="10%">
                                 </colgroup>
                                 <tbody><tr>
                                     <td>材料名称</td>
                                     <td>材料说明</td>
                                     <td>模版上传</td>
+                                    <td>操作</td>
                                 </tr>
                                 <#if (channel.updateRequirements)??>
                                     <#list channel.updateRequirements as updateRequirement>
@@ -317,6 +332,7 @@
                                                 </a>
                                             </form>
                                         </td>
+                                        <td><a class="pay_add_a delBtn">-</a></td>
                                     </tr>
                                     </#list>
                                 </#if>
@@ -341,7 +357,7 @@
 <table id="hideStandardRate" style="display: none;">
     <tr>
         <td>
-            <select name="" class="select_xl selectStandardRate">
+            <select name="" class="select_l selectStandardRate">
             <#list standardRates as standardRate>
                 <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
             </#list>
@@ -349,12 +365,13 @@
         </td>
         <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
+        <td><a class="pay_add_a delBtn">-</a></td>
     </tr>
 </table>
 <table id="hideBillingCycle" style="display: none;">
     <tr>
         <td>
-            <select name="" class="select_xl selectBillingCycle">
+            <select name="" class="select_l selectBillingCycle">
             <#list billingCycles as billingCycle>
                 <option value="${billingCycle.id}" description="${billingCycle.description!''}" rate="${billingCycle.serviceRate}">${billingCycle.name}</option>
             </#list>
@@ -362,13 +379,14 @@
         </td>
         <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
+        <td><a class="pay_add_a delBtn">-</a></td>
     </tr>
 </table>
 
 <table id="hideTradeType" style="display: none;">
     <tr>
         <td>
-            <select name="" class="select_xl selectTradeType">
+            <select name="" class="select_l selectTradeType">
             <#list tradeTypes as tradeType>
                 <#if tradeType.tradeType==DictionaryTradeType.TYPE_OTHER>
                     <option value="${tradeType.id}">${tradeType.tradeValue}</option>
@@ -378,6 +396,7 @@
         </td>
         <td><input name="" type="text" class="input_l" ></td>
         <td><input name="" type="text" class="input_l"></td>
+        <td><a class="pay_add_a delBtn">-</a></td>
     </tr>
 </table>
 
@@ -390,6 +409,7 @@
 </div>
 
 <div id="hideRequirements" style="display: none;">
+    <div class="deleteBox"><a class="pay_add_a delOpeningRequirements">-</a></div>
     <div class="itl_area">
     	<div class="item_l2"><input name="" class="hasVideoVerify" type="checkbox" class="input_l" value=""><label>是否需要视频认证</label></div>
         <div class="item_l2"><label>开通等级名称：</label><input name="" type="text" class="input_l"></div>
@@ -426,6 +446,7 @@
         </form>
 
     </td>
+    <td><a class="pay_add_a delBtn">-</a></td>
 </table>
 
 <table id="hideUpdateRequirement" style="display: none;">
@@ -438,6 +459,7 @@
             </a>
         </form>
     </td>
+    <td><a class="pay_add_a delBtn">-</a></td>
 </table>
 
 <script type="text/javascript">
@@ -556,27 +578,27 @@
 
         $('.addStandardRate').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideStandardRate").find("tr").clone();
+            var $newTr = $("#hideStandardRate").find("tr").clone(true);
             $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
         $('.addBillingCycle').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideBillingCycle").find("tr").clone();
+            var $newTr = $("#hideBillingCycle").find("tr").clone(true);
             $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
         $('.addTradeType').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideTradeType").find("tr").clone();
+            var $newTr = $("#hideTradeType").find("tr").clone(true);
             $tbody.append($newTr);
             $newTr.find("select").val(0);
             $newTr.find("select").trigger("change");
         });
         $("#addOpeningRequirements").click(function(){
-            var $newDiv = $("#hideRequirements").children("div").clone();
+            var $newDiv = $("#hideRequirements").children("div").clone(true);
             $(this).before($newDiv);
             $newDiv.find('.hasVideoVerify').on('click',function(){
 	    	if($(this).prop("checked")){
@@ -614,15 +636,24 @@
 
         $('.addCancelRequirement').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideCancelRequirement").find("tr").clone();
+            var $newTr = $("#hideCancelRequirement").find("tr").clone(true);
             $tbody.append($newTr);
         });
         $('.addUpdateRequirement').click(function(){
             var $tbody = $(this).prev("table").children("tbody");
-            var $newTr = $("#hideUpdateRequirement").find("tr").clone();
+            var $newTr = $("#hideUpdateRequirement").find("tr").clone(true);
             $tbody.append($newTr);
         });
 
+
+        $('.delBtn').click(function(){
+            $(this).parents("tr").remove();
+        });
+
+        $('.delOpeningRequirements').click(function(){
+            $(this).parent().next(".itl_area").remove();
+            $(this).remove();
+        });
     });
 
     function submitData(){
