@@ -94,7 +94,7 @@ public class OutStoreController {
 	@SuppressWarnings("finally")
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,HttpServletRequest request) throws Exception{
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,String quantities,String goodIds,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -102,6 +102,7 @@ public class OutStoreController {
 			map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());
 			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 			response.setMessage(map.get("resultInfo").toString());
+			outStoreService.subGoodQuantity(quantities,goodIds);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			response.setCode(Response.ERROR_CODE);

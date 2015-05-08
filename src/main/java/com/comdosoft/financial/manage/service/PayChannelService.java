@@ -245,7 +245,6 @@ public class PayChannelService {
             supportAreaMapper.insert(supportArea);
             channel.setSupportType(true);
         }
-        payChannelMapper.updateByPrimaryKey(channel);
         //刷卡交易标准手续费
         payChannelStandardRateMapper.deletePayChannelStandardRates(id);
         for (Map<String, Object> standardRateObject : standardRates){
@@ -326,6 +325,8 @@ public class PayChannelService {
             openingRequirementsMap.put(oRequirement.getId()+"", oRequirement);
             deleteOpeningRequirements.add(oRequirement);
         }
+        Byte reqType = null;
+
         for (Map<String, Object> openingRequirementObject : openingRequirements){
             //id: id, title: title, description: description, publicRequirements: publicRequirements, privateRequirements: privateRequirements
             Object openingRequirementId = openingRequirementObject.get("id");
@@ -351,7 +352,15 @@ public class PayChannelService {
             }
             openingRequirementListMapper.deleteOpeningRequirementLists(requirement.getId());
             if(publicRequirements != null){
-                for (String settingId : (List<String>)publicRequirements){
+                List<String> prs = (List<String>)publicRequirements;
+                if(prs.size() > 0){
+                    if(reqType == null){
+                        reqType = PayChannel.REQ_TYPE_PUBLIC;
+                    } else if (reqType == PayChannel.REQ_TYPE_PRIVATE){
+                        reqType = PayChannel.REQ_TYPE_ALL;
+                    }
+                }
+                for (String settingId : prs){
                     OpeningRequirementList or = new OpeningRequirementList();
                     or.setOpeningRequirementsId(requirement.getId());
                     or.setRequirementSettingId(Integer.parseInt(settingId));
@@ -360,7 +369,15 @@ public class PayChannelService {
                 }
             }
             if(privateRequirements != null){
-                for (String settingId : (List<String>)privateRequirements){
+                List<String> prs = (List<String>)privateRequirements;
+                if(prs.size() > 0){
+                    if(reqType == null){
+                        reqType = PayChannel.REQ_TYPE_PRIVATE;
+                    } else if (reqType == PayChannel.REQ_TYPE_PUBLIC){
+                        reqType = PayChannel.REQ_TYPE_ALL;
+                    }
+                }
+                for (String settingId : prs){
                     OpeningRequirementList or = new OpeningRequirementList();
                     or.setOpeningRequirementsId(requirement.getId());
                     or.setRequirementSettingId(Integer.parseInt(settingId));
@@ -369,11 +386,12 @@ public class PayChannelService {
                 }
             }
         }
+        channel.setSupportRequirementType(reqType);
+
         for (OpeningRequirement requirement : deleteOpeningRequirements){
             openingRequirementMapper.deleteByPrimaryKey(requirement.getId());
             openingRequirementListMapper.deleteOpeningRequirementLists(requirement.getId());
         }
-
         otherRequirementMapper.deleteOtherRequirements(id);
         //注销所需材料
         for (Map<String, Object> cancelRequirementObject : cancelRequirements){
@@ -405,6 +423,8 @@ public class PayChannelService {
             otherRequirement.setTypes(OtherRequirement.TYPE_UPDATE);
             otherRequirementMapper.insert(otherRequirement);
         }
+
+        payChannelMapper.updateByPrimaryKey(channel);
     }
 
     @Transactional("transactionManager")
@@ -457,7 +477,7 @@ public class PayChannelService {
         channel.setCreatedUserId(createUserId);
         channel.setCreatedUserType(userType);
         channel.setCreatedAt(new Date());
-        payChannelMapper.updateByPrimaryKey(channel);
+
         //刷卡交易标准手续费
         for (Map<String, Object> standardRateObject : standardRates){
             //id: id,rate: rate,description: description
@@ -520,6 +540,7 @@ public class PayChannelService {
             }
         }
 
+        Byte reqType = null;
         //开通所需材料
         for (Map<String, Object> openingRequirementObject : openingRequirements){
             //id: id, title: title, description: description, publicRequirements: publicRequirements, privateRequirements: privateRequirements
@@ -536,7 +557,15 @@ public class PayChannelService {
             requirement.setLevelDescription(description == null ? null : (String) description);
             openingRequirementMapper.insert(requirement);
             if(publicRequirements != null){
-                for (String settingId : (List<String>)publicRequirements){
+                List<String> prs = (List<String>)publicRequirements;
+                if(prs.size() > 0){
+                    if(reqType == null){
+                        reqType = PayChannel.REQ_TYPE_PUBLIC;
+                    } else if (reqType == PayChannel.REQ_TYPE_PRIVATE){
+                        reqType = PayChannel.REQ_TYPE_ALL;
+                    }
+                }
+                for (String settingId : prs){
                     OpeningRequirementList or = new OpeningRequirementList();
                     or.setOpeningRequirementsId(requirement.getId());
                     or.setRequirementSettingId(Integer.parseInt(settingId));
@@ -545,7 +574,15 @@ public class PayChannelService {
                 }
             }
             if(privateRequirements != null){
-                for (String settingId : (List<String>)privateRequirements){
+                List<String> prs = (List<String>)privateRequirements;
+                if(prs.size() > 0){
+                    if(reqType == null){
+                        reqType = PayChannel.REQ_TYPE_PRIVATE;
+                    } else if (reqType == PayChannel.REQ_TYPE_PUBLIC){
+                        reqType = PayChannel.REQ_TYPE_ALL;
+                    }
+                }
+                for (String settingId : prs){
                     OpeningRequirementList or = new OpeningRequirementList();
                     or.setOpeningRequirementsId(requirement.getId());
                     or.setRequirementSettingId(Integer.parseInt(settingId));
@@ -554,6 +591,7 @@ public class PayChannelService {
                 }
             }
         }
+        channel.setSupportRequirementType(reqType);
 
         //注销所需材料
         for (Map<String, Object> cancelRequirementObject : cancelRequirements){
@@ -583,6 +621,8 @@ public class PayChannelService {
             otherRequirement.setTypes(OtherRequirement.TYPE_UPDATE);
             otherRequirementMapper.insert(otherRequirement);
         }
+
+        payChannelMapper.updateByPrimaryKey(channel);
     }
     
     @Transactional("transactionManager")

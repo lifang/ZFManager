@@ -227,6 +227,7 @@
 			alert("请先选择用户");
 			return;
 		}
+		
 		$.post('<@spring.url "/order/customer/address/saveOrUpdate" />',
 	            {"cityId": cityId,
 	             "receiver": receiver,
@@ -237,7 +238,19 @@
 	            },
 	            function (data) {
 	               $('#customer_address_fresh').html(data);
+	               
+	               //默认选中一个地址
+				    var radios=$(':input:radio');
+				    if(radios.length>0){
+				    	radios[0].checked=true;
+				    }
 	            });
 	}
-	
+	$(function(){
+		//默认选中一个地址
+	    var radios=$(':input:radio');
+	    if(radios.length>0){
+	    	radios[0].checked=true;
+	    }
+	})
 </script>

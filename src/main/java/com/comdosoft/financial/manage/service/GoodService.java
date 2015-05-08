@@ -86,13 +86,11 @@ public class GoodService {
 	    Good g=goodMapper.findGoodInfo(id);
 	    List<GoodsPicture> p= g.getPictures();
 	    if(p!=null&&p.size()>0){
-	        GoodsPicture gp=null;
 	        for (int i = 0; i < p.size(); i++) {
-	            gp=p.get(i);
+                GoodsPicture gp=p.get(i);
 	            gp.setUrlPath(filePath+gp.getUrlPath());
                 gp.setMiddleUrlPath(filePath+gp.getMiddleUrlPath());
                 gp.setSmallUrlPath(filePath+gp.getSmallUrlPath());
-                p.set(i, gp);
             }
 	    }
 		return g;

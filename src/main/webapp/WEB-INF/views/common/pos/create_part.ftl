@@ -366,7 +366,15 @@
     function submitData(){
         var title=$("input[name='g_title']").val();
         if(isNull(title, "标题不能为空!")){return false;}
+        if(title.length>20){
+            showErrorTip("标题最多20个字！");
+            return false;
+        }
         var secondTitle=$("input[name='g_secondTitle']").val();
+        if(secondTitle.length>100){
+            showErrorTip("副标题最多100个字！");
+            return false;
+        }
         if(isNull(secondTitle, "副标题不能为空!")){return false;}
         var keyWorlds=$("input[name='g_keyWorlds']").val();
         if(isNull(keyWorlds, "关键字不能为空!")){return false;}

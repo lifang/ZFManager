@@ -458,8 +458,10 @@ td a.a_btn:hover { text-decoration: underline;}
 
 /*------item_list----------*/
 .item_list {}
+
 .item_list ul {}
 .item_list li { line-height: 24px; position: relative; padding-left: 85px; margin: 10px 0;}
+.item_list_pl120 li { padding-left: 120px;}
 .item_list_pl150 li { padding-left: 150px;}
 .item_list li span.labelSpan { 
 	display: inline-block;
@@ -633,10 +635,20 @@ tr.order_hd td { text-align: left; }
 .classify_pos dl div.stair { height: 32px;}
 .classify_pos dl div.stair i.bq { 
 	width: 12px; 
-	height: 14px; 
+	height: 6px; 
 	display: inline-block;
-	background: url(../images/icons.png) no-repeat -163px -269px;
+	background: url(../images/bq.png) no-repeat;
 	margin-right: 5px;
+	-webkit-transition: 0.2s ease-in-out;
+	-moz-transition: 0.2s ease-in-out;
+	-o-transition: 0.2s ease-in-out; 
+	transition: 0.2s ease-in-out; 
+}
+.classify_pos dl div.stair i.rotate {
+	-webkit-transform: rotate(180deg);  
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 .classify_pos dl div.stair:hover i.pos_delete { 
 	width: 8px; 
@@ -649,10 +661,11 @@ tr.order_hd td { text-align: left; }
 }
 .classify_pos dl div.stair span { display: inline-block;}
 
-.classify_pos dd ul { padding-left: 30px; font-size: 12px;}
-.classify_pos li { border:1px #fff solid; height: 32px; width: 120px; overflow: hidden; padding: 0 10px;}
-.classify_pos li:hover { border:1px #ccc solid;}
-.classify_pos li:hover i.pos_delete { 
+.classify_pos dd ul {font-size: 12px; display: none;}
+.classify_pos li { height: 32px; background: url(../images/treeLine.png) no-repeat; padding-left: 32px; }
+.classify_pos li span { display: inline-block; height: 32px; width: 120px; overflow: hidden; padding: 0 10px;}
+.classify_pos li span:hover { background: #f5f5f5;}
+.classify_pos li span:hover i.pos_delete { 
 	width: 8px; 
 	height: 8px; 
 	display: inline-block;
@@ -678,8 +691,17 @@ tr.order_hd td { text-align: left; }
 	height: 26px; 
 	line-height: 26px; 
 	color: #FFF;
+	padding: 0 2px;
 }
-.classify_pos a.ap_add_btn { background: #333333; color: #FFF; width: 100px; height: 24px; line-height: 24px; display: block; overflow: hidden;}
+.classify_pos a.ap_add_btn { 
+	background: #333333; 
+	color: #FFF; 
+	width: 100px; 
+	height: 24px; 
+	line-height: 24px; 
+	display: block; 
+	overflow: hidden;
+}
 .classify_pos a.ap_add_btn i { 
 	width: 12px; 
 	height: 12px; 
@@ -703,12 +725,13 @@ tr.order_hd td { text-align: left; }
 .attributes_box .item_list li.height48 { height:48px;}
 .attributes_box .item_list li.b div.text { width: 746px;}
 .attributes_box .item_list li.b div.text input[type="text"] { width: 714px;}
-.attributes_box .item_list li.b div.text input[type="text"].input_l { width: 215px;}
+.attributes_box .item_list li.b div.text input[type="text"].input_l { width: 200px;}
 .attributes_box .item_list li.b div.text input[type="text"].input_m { width: 90px;}
 .attributes_box .item_list li div.text {}
 .attributes_box .item_list li.select2 div.text select { width: 128px;}
 .attributes_box .item_list li div.text select { width: 84px;}
 .attributes_box .item_list li div.text select.select_xl { width: 227px;}
+.attributes_box .item_list li div.text select.select_l { width: 213px;}
 .attributes_box .item_list li.o div.text select { width: 262px;}
 .attributes_box .item_list li div.text img.cover { float: left; margin-right: 5px; width: 24px;}
 .attributes_box .item_list li div.text textarea { width: 724px; padding: 10px;}
@@ -733,7 +756,7 @@ tr.order_hd td { text-align: left; }
 
 .attributes_box .attributes_list, .attributes_box .attributes_list_s { padding: 10px 0;}
 .attributes_box .attributes_list li { width: 846px; margin-bottom: 10px;}
-.attributes_box .attributes_list_s li { width: 220px;}
+.attributes_box .attributes_list_s li { width: 300px;}
 .attributes_box .attributes_list li span { float: left; display: inline-block; width: 744px;}
 .attributes_box .attributes_list li em { font-style: normal; width: 100px; display: inline-block; float: left;}
 
@@ -1323,3 +1346,7 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	top: 0px;
 	left: 0px;
 }
+
+/*-----deleteBox-----*/
+.deleteBox { position: relative;}
+.deleteBox .pay_add_a { position: absolute; top: 10px; right: 10px;}

@@ -316,5 +316,7 @@
 		 #{item}
 		 </foreach>
 	 </select>
-
+	<update id="updateQuantity">
+		update goods set quantity = quantity-#{1} where id=#{0}
+	</update>
 </mapper>

@@ -36,11 +36,12 @@
     </selectKey>
     insert into cs_out_storages (process_user_id, process_user_name, status, 
       order_id, created_at, updated_at, 
-      cs_apply_id, cs_apply_types, quantity,terminal_list
+      cs_apply_id, cs_apply_types, quantity,terminal_list,apply_num,description
       )
     values (#{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{orderId,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{csApplyId,jdbcType=VARCHAR}, #{csApplyTypes,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{terminalList,jdbcType=INTEGER}
+      #{csApplyId,jdbcType=VARCHAR}, #{csApplyTypes,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{terminalList,jdbcType=INTEGER},
+      #{applyNum,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage">
@@ -96,5 +97,9 @@
     cs_apply_id, cs_apply_types, quantity,terminal_list
     from cs_out_storages
     where order_id=#{param1}
+  </select>
+  
+  <select id="selectByOrderId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(*) from cs_out_storages where order_id = #{orderId}
   </select>
 </mapper>

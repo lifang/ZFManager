@@ -20,7 +20,7 @@
         <div class="evaluate_star">
             <ul>
             <#list 0..4 as i>
-            <#if (comment.score)?? && (i < comment.score) >
+            <#if (comment.score)?? && (i < comment.score/10) >
                 </li><li class="p_li_o"></li>
             <#else>
                 <li></li>
