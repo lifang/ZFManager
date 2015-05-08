@@ -7,6 +7,7 @@
  */
 package com.comdosoft.financial.manage.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,9 +63,11 @@ public class OrderLogisticService {
 		csOutStorage.setQuantity(quantity);
 		csOutStorage.setProcessUserId(customer.getId());
 		csOutStorage.setProcessUserName(customer.getName());
-		csOutStorage.setQuantity(quantity);
+		//csOutStorage.setQuantity(quantity);
 		csOutStorage.setStatus(csOutStorageStatus);//1待处理，2已取消，3处理完成
 		csOutStorage.setTerminalList(terminalSerialNum);
+		csOutStorage.setApplyNum(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(createdAt));
+		csOutStorage.setDescription(order.getOrderNumber());
 		csOutStorageMapper.insert(csOutStorage);
 		record.setCsOutStorageId(csOutStorage.getId());
 		return orderLogisticMapper.insert(record);
@@ -74,10 +77,10 @@ public class OrderLogisticService {
 	 * 发货
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
+	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2,Integer out_quantity) throws Exception{
 		Order order=orderService.findOrderInfo(orderId);
-		if(null==order.getBelongsTo()){//订单属于掌富，发货数量0，状态为1
-			return insert(customer, order, logisticsName, logisticsNumber, 0, terminalSerialNum, 1);
+		if(null==order.getBelongsTo()){//订单属于掌富，发货数量，状态为1
+			return insert(customer, order, logisticsName, logisticsNumber, out_quantity, terminalSerialNum, 1);
 		}
 		Integer totalQuantity = 0;
 		Integer csOutStorageStatus=3;
