@@ -123,8 +123,8 @@
                     <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
                     <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
                     <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
-                    <#if Roles.hasRole("OUT_STORE")> <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/good")> class="hover"</#if>>出库</a></li></#if>
-                    <#if Roles.hasRole("REFUND")><li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/refund")> class="hover"</#if>>退款</a></li></#if>
+                    <#if Roles.hasRole("OUT_STORE")> <li><a href="<@spring.url "/task/outStore/list"/>"<#if urlCheck(request,"/task/outStore")> class="hover"</#if>>出库</a></li></#if>
+                    <#if Roles.hasRole("REFUND")><li><a href="<@spring.url "/task/refund/list"/>"<#if urlCheck(request,"/task/refund")> class="hover"</#if>>退款</a></li></#if>
                 </ol>
             </li>
         </#if>
