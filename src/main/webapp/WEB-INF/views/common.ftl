@@ -201,7 +201,9 @@
 	       }else if(urlStr.indexOf("/cs/") != -1){
 	       		$("#menuCs").click();
 	       }else if(urlStr.indexOf("/task/") !=-1){
-	       		$("#menuTask").click();
+	       		if(urlStr.indexOf("task/intention") ==-1){
+	       			$("#menuTask").click();
+	       		}
 	       }else if(urlStr.indexOf("/system/") !=-1){
 	       		$("#menuSystem").click();
 	       }
