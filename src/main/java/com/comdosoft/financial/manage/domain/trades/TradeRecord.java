@@ -717,7 +717,7 @@ public class TradeRecord {
 
     public String getTradeStatusName(){
         if(tradedStatus==null){
-            return "交易失败";
+            return "- -";
         }
         if(tradedStatus==TradeRecord.TRADE_STATUS_SUCCESS){
             return "交易成功";
