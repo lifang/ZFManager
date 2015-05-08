@@ -137,10 +137,10 @@ public class TradeController {
 				String errMsg = Joiner.on(',').join(errorRowNum);
 				return Response.getError("第["+errMsg+"]行导入出错，其余已导入成功。");
 			}
-		} catch (InvalidFormatException | IOException e) {
+		} catch (Exception e) {
 			LOG.error("",e);
 		}
-    	return Response.getError("程序异常。");
+    	return Response.getError("上传文件内容有误或不是[xls/xlsx]格式的文件。");
     }
     
     @RequestMapping(value = "/{id}/index",method = RequestMethod.GET)
