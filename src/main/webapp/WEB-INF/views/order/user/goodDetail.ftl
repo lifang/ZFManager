@@ -342,7 +342,7 @@
         			<#list good.relativeGoods as relativeGood>
         				<li>
 		                	<div class="hotPro_img">
-		                		<a href="#">
+		                		<a href="<@spring.url "/good/user/${relativeGood.id}/detail" />">
 			                		<#if relativeGood.pictures??>
 		                    			<#list relativeGood.pictures as picture>
 		                    				<#if picture_index==0>
