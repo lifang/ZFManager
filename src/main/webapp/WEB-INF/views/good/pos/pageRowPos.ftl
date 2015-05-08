@@ -32,7 +32,9 @@
        		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
 		   </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
-       		
+       	   <#if Roles.hasRole("POS_EDIT")>
+       		<a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+		   </#if>
        <#elseif status=2>
 		   <#if Roles.hasRole("POS_FIRST_VERIFY")>
             <a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
