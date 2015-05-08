@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
+
 import java.util.List;
 
 public interface CsOutStorageMapper {
@@ -36,4 +37,6 @@ public interface CsOutStorageMapper {
 	int updateByPrimaryKey(CsOutStorage record);
 	
 	List<CsOutStorage> selectByOrderIds(List<Integer> orderIds);
+
+	Integer selectByOrderId(Integer orderId);
 }

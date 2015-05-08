@@ -56,6 +56,12 @@ public class OrderLogisticController extends BaseController {
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
+		if(orderLogisticService.getOutStoreRecordCnt(orderId)!=0){
+			Order order = orderService.findOrderInfo(orderId);
+			model.addAttribute("response", Response.getError("已生成订单号为"+
+					order.getOrderNumber()+"的发货单，请到任务→出库中处理该发货单，请勿重复发货"));
+			return "order/error";
+		}
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
 				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
