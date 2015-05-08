@@ -86,8 +86,8 @@
         <#if Roles.hasRole("POS")||Roles.hasRole("PAY_CHANNEL")>
             <li class="second"><a href="javascript:void(0);">商品<i class="off" id="menuGood"></i></a>
                 <ol>
-                    <#if Roles.hasRole("POS")><li><a href="<@spring.url "/good/pos/list"/>" <#if urlCheck(request,"/pos")> class="hover"</#if>>POS机管理</a></li></#if>
-                    <#if Roles.hasRole("PAY_CHANNEL")><li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/channel")> class="hover"</#if>>支付通道</a></li></#if>
+                    <#if Roles.hasRole("POS")><li><a href="<@spring.url "/good/pos/list"/>" <#if urlCheck(request,"/good/pos")> class="hover"</#if>>POS机管理</a></li></#if>
+                    <#if Roles.hasRole("PAY_CHANNEL")><li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/good/channel")> class="hover"</#if>>支付通道</a></li></#if>
                 
                 </ol>
             </li>

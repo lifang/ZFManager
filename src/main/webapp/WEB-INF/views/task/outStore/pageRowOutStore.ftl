@@ -9,6 +9,7 @@
        <#elseif outStore.status=3>处理完成
        </#if>
       </strong></td> 
+      <td>${outStore.processUserName}</td>
       <td>
        <#if outStore.status=1>
        		<a href="<@spring.url "/task/outStore/${outStore.id}/info" />" class="a_btn">查看详情</a>

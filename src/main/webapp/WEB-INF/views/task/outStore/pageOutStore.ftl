@@ -7,8 +7,9 @@
          <col width="120"> 
          <col width="120"> 
          <col > 
-         <col width="120"> 
-         <col width="300">
+         <col width="120">
+         <col width="120">  
+         <col width="250">
         </colgroup> 
         <thead> 
          <tr>
@@ -17,6 +18,7 @@
           <th>申请日期</th> 
           <th>订单编号</th> 
           <th>状态</th>
+          <th>处理人</th>
           <th>操作</th> 
          </tr> 
         </thead> 
