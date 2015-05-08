@@ -97,7 +97,20 @@
 </div>
 
 <#include "../tab.ftl" />
-
+<div class="tab deliver_tab1">
+	<a href="#" class="close">关闭</a>
+    <div class="tabHead">添加库存发货信息</div>
+    <div class="tabBody">
+    	<div style="margin:-10px 0px 10px 0px"><font color='red' id="errorMsg"></font></div>
+    	<div id="pos_info1">
+    		本次发货数量&nbsp;<input type="text" id="quantity" style="border:1px solid #ccc;padding:5px;"/>&nbsp;个
+	    </div>
+    	</div>
+    <div class="tabFoot">
+    	<button class="blueBtn" id="deliverSure1">确定</button>
+    	<button class="blueBtn" onclick="closeBtn()">取消</button>
+    </div>
+</div>
 <script type="text/javascript">
 
 	$(function(){
@@ -220,7 +233,7 @@
 		var belongsTo = $('#hidden_belongsTo_'+id).val();
     	if(belongsTo==0){
     		$('.deliver_tab').hide();
-    		$.post('<@spring.url "" />'+'/order/logistic/create',
+    		$.post('<@spring.url "" />'+'/order/logistic/check',
 				{
 				"orderId":id
 				},
@@ -229,11 +242,8 @@
 	            		alert(data.substring(2));
 	            		return;
 	            	}
-	           		$('#row_'+id).replaceWith(data);
-					$('.deliver_tab').hide();
-					$('.mask').hide();
-	            	alert("已生成一张条发货记录，请及时处理");
-					popupPage();
+	            	popupT(".deliver_tab1");
+	            	$("#deliverSure1").unbind().bind('click',function(){deliver(id,$("#quantity").prop("value"))});
 	            });
 	    	return;
     	}else{
@@ -274,6 +284,29 @@
 					$('.mask').hide();
 					popupPage();
 	            });
+    }
+    function deliver(id,quantity){
+    	$.post('<@spring.url "" />'+'/order/logistic/create',
+				{
+				"orderId":id,
+				"quantity":quantity
+				},
+	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		$("#errorMsg").html(data.substring(2));
+	            		return;
+	            	}
+	           		$('#row_'+id).replaceWith(data);
+					$('.deliver_tab').hide();
+					$('.mask').hide();
+					closeBtn();
+	            	alert("已生成一张条发货记录，请及时处理");
+					popupPage();
+	            });
+    }
+    function closeBtn(){
+    	$(".deliver_tab1").css("display","none");
+    	$(".mask").css('display','none');
     }
 </script>
 </@c.html>
