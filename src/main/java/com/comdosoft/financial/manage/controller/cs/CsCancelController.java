@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSONObject;
 import com.comdosoft.financial.manage.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.manage.domain.zhangfu.CsCancelMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
@@ -58,6 +59,10 @@ public class CsCancelController {
 	@RequestMapping(value = "{id}/info", method = RequestMethod.GET)
 	public String info(@PathVariable Integer id, Model model) {
 		CsCancel csCancel = csCancelService.findInfoById(id);
+		String templateStr=csCancel.getTempleteInfoXml();
+		JSONObject jasonObject = JSONObject.parseObject(templateStr);
+		
+		
 		List<CsCancelMark> csCancelMarks = csCancelService.findMarksByCsCancelId(id);
 		model.addAttribute("csCancel", csCancel);
 		model.addAttribute("csCancelMarks", csCancelMarks);

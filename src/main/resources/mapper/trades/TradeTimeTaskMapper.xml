@@ -29,17 +29,25 @@
 	
 	<insert id="saveToTotalDayReports">
 	insert into trade_total_day_reports(trade_date,trade_num,trade_sum,order_num,new_user_num,terminal_apply_num,created_at)
-		VALUES(now(),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
+		VALUES(date_format(now(),'%Y-%c-%d'),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
 	</insert>
 	
 	<insert id="saveToDayReports">
 	insert into trade_day_reports(trade_date,trade_num,trade_sum,order_num,new_user_num,terminal_apply_num,created_at)
-		VALUES(now(),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
+		VALUES(date_format(now(),'%Y-%c-%d'),#{num},#{sum},#{orderNum},#{newUserNum},#{terminialNum},now())
 	</insert>
 	
 	<insert id="saveByProId">
 	insert into trade_total_region_reports(trade_time,region_id,trade_num,trade_sum,created_at,updated_at)
-		values(now(),#{proId},#{amount},#{num},now(),now())
+		values(date_format(now(),'%Y-%c-%d'),#{proId},#{amount},#{num},now(),now())
 	</insert>
+	
+	<select id="selDayReports" resultType="int">
+		select count(id) from trade_day_reports where date_format(trade_date,'%Y-%c-%d')=date_format(now(),'%Y-%c-%d')
+	</select>
+	
+	<select id="selTotalDayReports" resultType="int">
+		select count(id) from trade_total_day_reports where date_format(trade_date,'%Y-%c-%d')=date_format(now(),'%Y-%c-%d')
+	</select>
 	
 </mapper>

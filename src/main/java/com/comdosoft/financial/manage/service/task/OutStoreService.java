@@ -285,8 +285,8 @@ public class OutStoreService {
 				}else{
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("订单管理的customerId为空");
-					throw new Exception("订单管理的customerId为空");
+					resultInfo.append("订单没有关联用户");
+					throw new Exception("订单没有关联用户");
 				}
 			}
 		}
@@ -297,120 +297,120 @@ public class OutStoreService {
 		Map<Integer, Integer> goodQuantityMap=new HashMap<Integer, Integer>();
 		//批购
 		if(types==5){
-			if(terminalNums.length()>0){
-				String[] goodPorts=terminalNums.toString().split("\\_");
-				int goodId=Integer.parseInt(goodPorts[0].toString());
-				String portsStr=goodPorts[1].toString();
-				String[] ports=portsStr.split("\\s+|,|;");
-				//累计终端个数
-				allQuantity=allQuantity+ports.length;
-				
-				int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
-				//条件过滤
-				for(int j=0;j<ports.length;j++){
-					int temp1=outStoreMapper.getTerminalsInfo(ports[j]);
-					if(temp1<0){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("输入的终端号不存在");
-						throw new Exception("输入的终端号不存在");
-					}
-					
-					int countTemp=outStoreMapper.getTerminalIsUsed(ports[j]);
-					if(countTemp>0){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("输入的终端号已经关联其他订单号");
-						throw new Exception("输入的终端号已经关联其他订单号");
-					}
-					
-					Map<String, Object> mapTemp1=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, ports[j], outStorageId);
-					
-					int numTemp=Integer.parseInt(mapTemp1.get("num").toString());
-					if(numTemp>0){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("已存在终端号对应的记录");
-						throw new Exception("已存在终端号对应的记录");
-					}
-					
-					//更新terminals表数据
-					Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
-					if(mapTemp!=null){
-						int agentId=Integer.parseInt(mapTemp.get("id").toString());
-						int temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId);
-						int temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
-						
-						if(temp2<1){
-							//更新失败
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("系统繁忙，请稍后再试");
-							throw new Exception("系统繁忙，请稍后再试");
-						}
-						if(temp3<1){
-							//更新失败
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("系统繁忙，请稍后再试");
-							throw new Exception("系统繁忙，请稍后再试");
-						}
-					}
-				}
-				
-				//新增in_out_storages记录
-				int temp4=outStoreMapper.saveTerminalNum(orderId, goodId,portsStr,loginId,ports.length,outStorageId);
-				if(temp4<1){
-					resultCode=Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("系统繁忙，请稍后再试");
-					throw new Exception("系统繁忙，请稍后再试");
-				}
-				//更新cs_out_storage表
-				List<Map<String, Object>> inOutStorageInfo=outStoreMapper.getInOutStoragesAllInfo(orderId, outStorageId);
-				StringBuffer terminalStr=new StringBuffer("");
-				int quantity=0;
-				if(null!=inOutStorageInfo){
-					for(int i=0;i<inOutStorageInfo.size();i++){
-						quantity=quantity+Integer.parseInt(inOutStorageInfo.get(i).get("quantity").toString());
-						terminalStr.append(inOutStorageInfo.get(i).get("terminal_number"));
-					}
-				}
-				int temp=outStoreMapper.updateCsOutStorages(1, quantity, terminalStr.toString(), outStorageId);
-				if(temp<1){
-					resultCode=Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("系统繁忙，请稍后再试");
-					throw new Exception("系统繁忙，请稍后再试");
-				}
-				//统计所有的cs_out_storages的数量
-				int quantityOrders=outStoreMapper.getQuantityByOrderGood(goodId, orderId);
-				int quantityCsOutStorage=outStoreMapper.getAllQuantityCsOutStorage(orderId);
-				if(quantityOrders<quantityCsOutStorage){
-					resultCode=Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("发货总数量超过订单商品数量");
-					throw new Exception("发货总数量超过订单商品数量");
-				}else if(quantityOrders>quantityCsOutStorage){
-					
-				}else if(quantityOrders==quantityCsOutStorage){
-					//更新cs_out_storage状态，order状态
-					int temp1=outStoreMapper.changeStatus(3,loginId,outStorageId);
-					if(temp1<1){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("系统繁忙，请稍后再试");
-						throw new Exception("系统繁忙，请稍后再试");
-					}
-					int temp2=outStoreMapper.updateOrderStatus(3, orderId);
-					if(temp2<1){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("系统繁忙，请稍后再试");
-						throw new Exception("系统繁忙，请稍后再试");
-					}
-				}
-			}
+//			if(terminalNums.length()>0){
+//				String[] goodPorts=terminalNums.toString().split("\\_");
+//				int goodId=Integer.parseInt(goodPorts[0].toString());
+//				String portsStr=goodPorts[1].toString();
+//				String[] ports=portsStr.split("\\s+|,|;");
+//				//累计终端个数
+//				allQuantity=allQuantity+ports.length;
+//				
+//				int payChannelId=outStoreMapper.getPayChannleIdByOrderId(orderId, goodId);
+//				//条件过滤
+//				for(int j=0;j<ports.length;j++){
+//					int temp1=outStoreMapper.getTerminalsInfo(ports[j]);
+//					if(temp1<0){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("输入的终端号不存在");
+//						throw new Exception("输入的终端号不存在");
+//					}
+//					
+//					int countTemp=outStoreMapper.getTerminalIsUsed(ports[j]);
+//					if(countTemp>0){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("输入的终端号已经关联其他订单号");
+//						throw new Exception("输入的终端号已经关联其他订单号");
+//					}
+//					
+//					Map<String, Object> mapTemp1=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, ports[j], outStorageId);
+//					
+//					int numTemp=Integer.parseInt(mapTemp1.get("num").toString());
+//					if(numTemp>0){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("已存在终端号对应的记录");
+//						throw new Exception("已存在终端号对应的记录");
+//					}
+//					
+//					//更新terminals表数据
+//					Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
+//					if(mapTemp!=null){
+//						int agentId=Integer.parseInt(mapTemp.get("id").toString());
+//						int temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId);
+//						int temp3=outStoreMapper.updateGoodsPurchaseNumber(goodId);
+//						
+//						if(temp2<1){
+//							//更新失败
+//							resultCode=Response.ERROR_CODE;
+//							resultInfo.setLength(0);
+//							resultInfo.append("系统繁忙，请稍后再试");
+//							throw new Exception("系统繁忙，请稍后再试");
+//						}
+//						if(temp3<1){
+//							//更新失败
+//							resultCode=Response.ERROR_CODE;
+//							resultInfo.setLength(0);
+//							resultInfo.append("系统繁忙，请稍后再试");
+//							throw new Exception("系统繁忙，请稍后再试");
+//						}
+//					}
+//				}
+//				
+//				//新增in_out_storages记录
+//				int temp4=outStoreMapper.saveTerminalNum(orderId, goodId,portsStr,loginId,ports.length,outStorageId);
+//				if(temp4<1){
+//					resultCode=Response.ERROR_CODE;
+//					resultInfo.setLength(0);
+//					resultInfo.append("系统繁忙，请稍后再试");
+//					throw new Exception("系统繁忙，请稍后再试");
+//				}
+//				//更新cs_out_storage表
+//				List<Map<String, Object>> inOutStorageInfo=outStoreMapper.getInOutStoragesAllInfo(orderId, outStorageId);
+//				StringBuffer terminalStr=new StringBuffer("");
+//				int quantity=0;
+//				if(null!=inOutStorageInfo){
+//					for(int i=0;i<inOutStorageInfo.size();i++){
+//						quantity=quantity+Integer.parseInt(inOutStorageInfo.get(i).get("quantity").toString());
+//						terminalStr.append(inOutStorageInfo.get(i).get("terminal_number"));
+//					}
+//				}
+//				int temp=outStoreMapper.updateCsOutStorages(1, quantity, terminalStr.toString(), outStorageId);
+//				if(temp<1){
+//					resultCode=Response.ERROR_CODE;
+//					resultInfo.setLength(0);
+//					resultInfo.append("系统繁忙，请稍后再试");
+//					throw new Exception("系统繁忙，请稍后再试");
+//				}
+//				//统计所有的cs_out_storages的数量
+//				int quantityOrders=outStoreMapper.getQuantityByOrderGood(goodId, orderId);
+//				int quantityCsOutStorage=outStoreMapper.getAllQuantityCsOutStorage(orderId);
+//				if(quantityOrders<quantityCsOutStorage){
+//					resultCode=Response.ERROR_CODE;
+//					resultInfo.setLength(0);
+//					resultInfo.append("发货总数量超过订单商品数量");
+//					throw new Exception("发货总数量超过订单商品数量");
+//				}else if(quantityOrders>quantityCsOutStorage){
+//					
+//				}else if(quantityOrders==quantityCsOutStorage){
+//					//更新cs_out_storage状态，order状态
+//					int temp1=outStoreMapper.changeStatus(3,loginId,outStorageId);
+//					if(temp1<1){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("系统繁忙，请稍后再试");
+//						throw new Exception("系统繁忙，请稍后再试");
+//					}
+//					int temp2=outStoreMapper.updateOrderStatus(3, orderId);
+//					if(temp2<1){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("系统繁忙，请稍后再试");
+//						throw new Exception("系统繁忙，请稍后再试");
+//					}
+//				}
+//			}
 		}else{
 			if(terminalNums.length()>0){
 				String[] temp=terminalNums.split("\\|");
@@ -428,31 +428,38 @@ public class OutStoreService {
 					
 					//条件过滤
 					for(int j=0;j<ports.length;j++){
-						int temp1=outStoreMapper.getTerminalsInfo(ports[j]);
-						if(temp1<1){
+						List<Map<String, Object>> tempList=outStoreMapper.getTerminalsInfo(ports[j]);
+						if(tempList.size()>0){
+							if(!tempList.get(0).get("customerId").equals("")){
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("输入的终端号已被使用");
+								throw new Exception("输入的终端号已被使用");
+							}
+						}else{
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);
 							resultInfo.append("输入的终端号不存在");
 							throw new Exception("输入的终端号不存在");
 						}
 						
-						int countTemp=outStoreMapper.getTerminalIsUsed(ports[j]);
-						if(countTemp>0){
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("输入的终端号已经关联其他订单号");
-							throw new Exception("输入的终端号已经关联其他订单号");
-						}
+//						int countTemp=outStoreMapper.getTerminalIsUsed(ports[j]);
+//						if(countTemp>0){
+//							resultCode=Response.ERROR_CODE;
+//							resultInfo.setLength(0);
+//							resultInfo.append("输入的终端号已经关联其他订单号");
+//							throw new Exception("输入的终端号已经关联其他订单号");
+//						}
 						
-						Map<String, Object> mapTemp1=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, ports[j], outStorageId);
-						
-						int numTemp=Integer.parseInt(mapTemp1.get("num").toString());
-						if(numTemp>0){
-							resultCode=Response.ERROR_CODE;
-							resultInfo.setLength(0);
-							resultInfo.append("系统繁忙，请稍后再试");
-							throw new Exception("系统繁忙，请稍后再试");
-						}
+//						Map<String, Object> mapTemp1=outStoreMapper.getInOutStorageTerminalInfo(orderId, goodId, ports[j], outStorageId);
+//						
+//						int numTemp=Integer.parseInt(mapTemp1.get("num").toString());
+//						if(numTemp>0){
+//							resultCode=Response.ERROR_CODE;
+//							resultInfo.setLength(0);
+//							resultInfo.append("");
+//							throw new Exception("系统繁忙，请稍后再试");
+//						}
 						
 						//更新terminals表数据
 						if(types==1 || types==2){
@@ -585,7 +592,16 @@ public class OutStoreService {
 			resultInfo.append("保存物流公司名称，物流单号出错");
 			throw new Exception("保存物流公司名称，物流单号出错");
 		}
-		
+		//保存订单物流信息
+		String orderNumber=outStoreMapper.getOrderNumberById(orderId);
+		String tempStr=orderNumber+"订单号的商品已发货，物流公司"+wlCompany+"物流单号"+wlNum;
+		int temp2=outStoreMapper.saveOrderMarks(loginId, orderId, tempStr);
+		if(temp2<1){
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("保存订单物流信息出错");
+			throw new Exception("保存订单物流信息出错");
+		}
 		//执行保存操作记录
 		String userName=outStoreMapper.getNameByLoginId(loginId);
 		String content=userName+"执行了任务的出库页面【添加出库记录】的操作，操作的记录Id是"+outStorageId;
