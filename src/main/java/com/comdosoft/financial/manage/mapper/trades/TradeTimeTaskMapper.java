@@ -24,4 +24,8 @@ public interface TradeTimeTaskMapper {
 	Map<String, Object> getDetailRecordByProId(@Param("cityStr") String cityStr);
 	
 	int saveByProId(@Param("proId") int proId,@Param("amount") int amount,@Param("num") int num);
+	
+	int selDayReports();
+	
+	int selTotalDayReports();
 }

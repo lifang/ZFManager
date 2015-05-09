@@ -82,9 +82,10 @@ public class ZFTimeTask{
     	if(null!=map5){
     		terminialNum=Integer.parseInt(map5.get("num").toString());
     	}
-    	
-    	trMapper.saveToTotalDayReports(num, sum, orderNum, newUserNum, terminialNum);
-    	
+    	int temp=trMapper.selTotalDayReports();
+    	if(temp<1){
+    		trMapper.saveToTotalDayReports(num, sum, orderNum, newUserNum, terminialNum);
+    	}
     }
     
     /**
@@ -119,9 +120,10 @@ public class ZFTimeTask{
     	if(null!=map5){
     		terminialNum=Integer.parseInt(map5.get("num").toString());
     	}
-    	
-    	trMapper.saveToDayReports(num, sum, orderNum, newUserNum, terminialNum);
-    	
+    	int temp=trMapper.selDayReports();
+    	if(temp<1){
+    		trMapper.saveToDayReports(num, sum, orderNum, newUserNum, terminialNum);
+    	}
     }
     
     /**
@@ -162,7 +164,7 @@ public class ZFTimeTask{
     		}
     		int num=0;
     		if(null!=mapTemp.get("num")){
-    			amount=Integer.parseInt(mapTemp.get("num").toString());
+    			num=Integer.parseInt(mapTemp.get("num").toString());
     		}
     		
     		trMapper.saveByProId(Integer.parseInt(proId), amount, num);
