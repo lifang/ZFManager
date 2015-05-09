@@ -430,7 +430,8 @@ public class OutStoreService {
 					for(int j=0;j<ports.length;j++){
 						List<Map<String, Object>> tempList=outStoreMapper.getTerminalsInfo(ports[j]);
 						if(tempList.size()>0){
-							if(!tempList.get(0).get("customerId").equals("")){
+							if(tempList.get(0).get("customerId").equals("") && tempList.get(0).get("agentId").equals("")){
+							}else{
 								resultCode=Response.ERROR_CODE;
 								resultInfo.setLength(0);
 								resultInfo.append("输入的终端号已被使用");
@@ -490,8 +491,13 @@ public class OutStoreService {
 							Map<String, Object> mapTemp=outStoreMapper.getAgentIdByCustomerId(agentIdCustomerId);
 							if(mapTemp!=null){
 								int agentId=Integer.parseInt(mapTemp.get("id").toString());
-								int temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId);
-								int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
+								int temp2=0;
+								if(customerId.equals("")){
+									temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId);
+								}else{
+									temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId);
+								}
+									int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 								
 								if(temp2<1){
 									//更新失败
