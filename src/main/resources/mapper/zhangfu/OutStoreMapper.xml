@@ -37,7 +37,7 @@
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
 		select a.apply_num as applyNum,a.id,date_format(a.created_at,'%Y-%c-%d %H:%i:%s') as created_at,a.order_number,
-		a.status,ifnull(a.process_user_id,"") as processUserId,ifnull(a.processUserName,"--") as processUserName
+		a.status,ifnull(a.process_user_id,"") as processUserId,ifnull(a.processUserName,"--") as processUserName,a.description
 		from (select ca.*,cc.order_number,cs.name as processUserName from cs_out_storages ca LEFT JOIN orders cc on ca.order_id=cc.id
 			Left join customers cs on ca.process_user_id=cs.id
 		 where 1=1 ORDER BY ca.process_user_id desc,ca.created_at desc) a
