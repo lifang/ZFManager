@@ -1,5 +1,7 @@
 package com.comdosoft.financial.manage.controller.good;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.DictionarySignOrderWay;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
+import com.comdosoft.financial.manage.domain.zhangfu.GoodDetailPictures;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
 import com.comdosoft.financial.manage.service.DictionaryService;
@@ -495,6 +498,61 @@ public class PosController {
         model.addAttribute("good", good);
         return "good/pos/pageRowPos";
     }
-
-
+    
+    @RequestMapping(value="{id}/imgInfo",method=RequestMethod.GET)
+	public String imgInfo(@PathVariable Integer id, Model model){
+		List<GoodDetailPictures> goodImgs = goodService.findGoodImg(id);
+		for(GoodDetailPictures g:goodImgs){
+			g.setUrlPath(filePath+g.getUrlPath());
+		}
+		if(goodImgs.isEmpty()){
+			goodImgs = null;
+		}
+		model.addAttribute("goodImgs", goodImgs);
+		model.addAttribute("goodId", id);
+		return "good/pos/imgInfo";
+	}
+    
+    @RequestMapping(value="uploadPosImg",method=RequestMethod.POST)
+    @ResponseBody
+    public Response uploadImg(MultipartFile file,Integer goodId,HttpServletRequest request){
+        String path = sysPosPath ;
+    	String[] suffixes = {"BMP","JPG","JPEG","PNG","GIF"};
+    	String name = file.getOriginalFilename();
+    	int length = name.length();
+    	boolean flg = false;
+    	for(String suffix : suffixes){
+    		if(name.substring(name.indexOf(".")+1,length).equalsIgnoreCase(suffix)){
+    			flg = true;
+    			break;
+    		}
+    	}
+    	if(!flg){
+			return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
+		}
+    	String result = HttpFile.upload(file, path);
+    	if(result.indexOf("失败")>0){
+    		LOG.info("文件上传失败");
+    		return Response.getError("上传失败");
+    	}
+    	//保存数据库
+    	int id = goodService.saveGoodImg(result,goodId);
+    	List<Object> list = new ArrayList<Object>();
+    	list.add(filePath+result);
+    	list.add(id);
+        return Response.getSuccess(list);
+    }
+    
+    @RequestMapping(value="delete",method=RequestMethod.POST)
+    @ResponseBody
+	public Response deleteImg(Integer id, Model model){
+    	try {
+			HttpFile.postDel(goodService.getGoodImg(id).getUrlPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Response.getError("删除失败");
+		}
+    	goodService.deleteImg(id);
+		return Response.getSuccess("删除成功");
+	}
 }

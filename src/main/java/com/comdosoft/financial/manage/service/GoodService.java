@@ -39,6 +39,8 @@ public class GoodService {
 	private FactoryMapper factoryMapper;
     @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    private GoodDetailPicturesMapper goodDetailPicturesMapper;
 
     public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
 		Integer factoryId = null;
@@ -653,6 +655,28 @@ public class GoodService {
 	
 	public List<Good> selectGoodsByIds(List<Integer> goodIds) {
 		return goodMapper.selectGoodsByIds(goodIds);
+	}
+	
+	@Transactional("transactionManager")
+	public int saveGoodImg(String urlPath,Integer goodId){
+		GoodDetailPictures goodDetailPictures = new GoodDetailPictures();
+		goodDetailPictures.setGoodId(goodId);
+		goodDetailPictures.setUrlPath(urlPath);
+		goodDetailPicturesMapper.insert(goodDetailPictures);
+		return goodDetailPictures.getId();
+	}
+	
+	public List<GoodDetailPictures> findGoodImg(Integer goodId){
+		return goodDetailPicturesMapper.selectAll(goodId);
+	}
+
+	@Transactional("transactionManager")
+	public void deleteImg(Integer id) {
+		goodDetailPicturesMapper.deleteById(id);
+	}
+	
+	public GoodDetailPictures getGoodImg(Integer id){
+		return goodDetailPicturesMapper.selectById(id);
 	}
 
 }
