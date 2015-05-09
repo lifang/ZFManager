@@ -14,6 +14,8 @@
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="cs_apply_id" jdbcType="INTEGER" property="csApplyTypes" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="description" jdbcType="INTEGER" property="description" />
+    <result column="applyNum" jdbcType="INTEGER" property="applyNum" />
   </resultMap>
   
 <resultMap id="GoodsMap" type="com.comdosoft.financial.manage.domain.zhangfu.task.Good">
@@ -42,7 +44,7 @@
 			Left join customers cs on ca.process_user_id=cs.id
 		 where 1=1 ORDER BY ca.process_user_id desc,ca.created_at desc) a
 		<include refid="pageWhere" />
-		and a.order_number is not null
+		and a.order_number is not null order by a.created_at desc
 		 limit #{pageRequest.offset}, #{pageRequest.pageSize}
 	</select>
 	

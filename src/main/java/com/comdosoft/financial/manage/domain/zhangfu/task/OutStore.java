@@ -25,9 +25,26 @@ public class OutStore {
 	
 	private String orderNumber;
 	
+	private String applyNum;
+	
+	private String description;
 	
 	
 	
+	
+	
+	public String getApplyNum() {
+		return applyNum;
+	}
+	public void setApplyNum(String applyNum) {
+		this.applyNum = applyNum;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getOrderNumber() {
 		return orderNumber;
 	}
