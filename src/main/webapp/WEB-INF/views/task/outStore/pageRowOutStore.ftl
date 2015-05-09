@@ -2,7 +2,7 @@
       <td><input name="cb_row" type="checkBox" cs_id="${outStore.id}" cs_processUserId="${outStore.processUserId}" cs_status="${outStore.status}"></td> 
       <td><#if (outStore.applyNum)??>${outStore.applyNum}</#if></td>
       <td>${outStore.createdAt}</td> 
-      <td>${outStore.orderNumber}</td> 
+      <td><#if (outStore.description)??>${outStore.description}</#if></td> 
       <td><strong class="strong_status">
        <#if outStore.status=1>待处理
        <#elseif outStore.status=2>已取消
