@@ -34,6 +34,7 @@
     <script src="<@spring.url "/resources/js/jquery.form.min.js"/>"></script>
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
     <script src="<@spring.url "/resources/js/common.js"/>"></script>
+    <script src="<@spring.url "/resources/js/placeholderFix.js"/>"></script>
     <#nested />
 </head>
 </#macro>

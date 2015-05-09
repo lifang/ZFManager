@@ -8,7 +8,7 @@
     <#list page.content as message>
     <div class="mail_list">
         <span><input name="chk_list" type="checkbox" value="${(message.id)!""}"></span>
-        <div class="mail_text"><a href="<@spring.url "/system/message/${message.id}/view"/>" class="unread">${(message.title)!""}</a></div>
+        <div class="mail_text"><a href="<@spring.url "/system/message/${message.id}/view"/>" class="unread" target="_blank">${(message.title)!""}</a></div>
         <em>${message.createdAt?string("yyyy/MM/dd HH:mm:ss")}</em>
     </div>
     </#list>

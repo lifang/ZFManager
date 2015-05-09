@@ -202,7 +202,7 @@
 		var belongsTo = $('#hidden_belongsTo_'+id).val();
     	if(belongsTo==0){
     		$('.deliver_tab').hide();
-    		$.post('<@spring.url "" />'+'/order/logistic/agent/create',
+    		$.post('<@spring.url "" />'+'/order/logistic/check',
 				{
 				"orderId":id
 				},
@@ -211,11 +211,7 @@
 	            		alert(data.substring(2));
 	            		return;
 	            	}
-	           		$('#row_'+id).replaceWith(data);
-					$('.deliver_tab').hide();
-					$('.mask').hide();
-	            	alert("已生成一张条发货记录，请及时处理");
-					popupPage();
+	        		deliver(id);
 	            });
 	    	return;
     	}else{
@@ -253,6 +249,23 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
+					popupPage();
+	            });
+    }
+    function deliver(id){
+    	$.post('<@spring.url "" />'+'/order/logistic/agent/create',
+				{
+				"orderId":id
+				},
+	            function (data) {
+	            	if(data.indexOf("-1")==0){
+	            		alert(data.substring(2));
+	            		return;
+	            	}
+	           		$('#row_'+id).replaceWith(data);
+					$('.deliver_tab').hide();
+					$('.mask').hide();
+	            	alert("相关发货单已生成，请至任务-->出库中处理对应的出库单");
 					popupPage();
 	            });
     }

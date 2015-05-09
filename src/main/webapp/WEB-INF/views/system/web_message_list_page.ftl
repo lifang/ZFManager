@@ -28,9 +28,9 @@
                 <#else>
                     <a onclick="topMessage(${message.id})" class="a_btn">置顶</a>
                 </#if>
-                <a href="<@spring.url "/system/content/webmessage/${message.id}/edit" />" class="a_btn">编辑</a>
+                <a href="<@spring.url "/system/content/webmessage/${message.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                 <a onclick="deleteMessage(${message.id})" class="a_btn">删除</a>
-                <a href="<@spring.url "/system/content/webmessage/${message.id}/info" />" class="a_btn">查看详情</a></td>
+                <a href="<@spring.url "/system/content/webmessage/${message.id}/info" />" class="a_btn" target="_blank">查看详情</a></td>
         </tr>
         </#list>
         </tbody>

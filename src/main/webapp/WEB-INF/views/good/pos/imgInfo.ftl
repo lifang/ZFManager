@@ -27,6 +27,9 @@
 		        	<a href="javascript:void(0);" class="informImg_a">
 		            	<span>上传图片</span><input name="file" onChange="fileChange()" multiple="" type="file">
 		            </a>
+		            <a href="javascript:window.opener=null;window.open('','_self');window.close();" class="informImg_a">
+		            	<span>关闭</span>
+		        	</a>
 		            <input type="hidden" name="goodId" value="${goodId}"/>
 	            </form>
 	        </div>

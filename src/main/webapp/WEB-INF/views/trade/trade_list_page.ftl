@@ -37,7 +37,7 @@
             <td><strong>￥${(record.amount/100)?string("0.00")}</strong></td>
             <td><strong>￥${(record.poundage/100)?string("0.00")}</strong></td>
             <td><strong class="strong_status">${record.tradeStatusName}</strong></td>
-            <td><a href="<@spring.url "/trade/${record.id}/info"/>" class="a_btn">查看详情</a></td>
+            <td><a href="<@spring.url "/trade/${record.id}/info"/>" class="a_btn" target="_blank">查看详情</a></td>
         </tr>
         </#list>
         </#if>

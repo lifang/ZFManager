@@ -183,7 +183,7 @@
             <ul>
                 <li class="overflow"><span class="labelSpan">添加支付通道：</span>
                     <div class="text" id="channel_search">
-                        <input name="" type="text" id="input_channel">
+                        <input name="" type="text" id="input_channel" placeholder="请输入关键字查找">
                     <#if (good.channels)??>
                         <#list good.channels as channel>
                             <div class="item_relevance_pro" value="${channel.id}">
@@ -231,7 +231,7 @@
                 <#if !(isFactory??) || !isFactory>
                 <li class="b overflow"><span class="labelSpan">关联商品：</span>
                     <div class="text" id="rgood_search">
-                        <input name="" type="text" id="input_rgood">
+                        <input name="" type="text" id="input_rgood" placeholder="请输入关键字查找">
                     <#if (good.relativeGoods)??>
                         <#list good.relativeGoods as relativeGood>
                             <div class="item_relevance_pro" value="${relativeGood.id}">
