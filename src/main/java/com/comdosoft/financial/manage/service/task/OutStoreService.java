@@ -436,6 +436,13 @@ public class OutStoreService {
 								resultInfo.append("输入的终端号已被使用");
 								throw new Exception("输入的终端号已被使用");
 							}
+							if(!tempList.get(0).get("is_return_cs_depots").equals("0")){
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("输入的终端号在售后库存中");
+								throw new Exception("输入的终端号在售后库存中");
+							}
+							
 						}else{
 							resultCode=Response.ERROR_CODE;
 							resultInfo.setLength(0);

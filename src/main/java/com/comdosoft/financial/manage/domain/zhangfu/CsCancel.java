@@ -262,7 +262,7 @@ public class CsCancel {
 	private Merchant merchant;
 	private PayChannel payChannel;
 	private Good good;
-
+	
 	public Terminal getTerminal() {
 		return terminal;
 	}

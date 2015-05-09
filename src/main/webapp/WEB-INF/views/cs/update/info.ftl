@@ -53,9 +53,7 @@
 		</div>
 	</div>
 
-	<#if materials??>
-		<@material.material title="更新申请资料" materials=materials/>
-	</#if>
+	<h2><#if warPath??><a href="${warPath}" class="a_btn">下载资料</a></#if></h2>
 
 	<div class="user_remark">
 		<textarea id="textarea_mark" name="" cols="" rows=""></textarea>
