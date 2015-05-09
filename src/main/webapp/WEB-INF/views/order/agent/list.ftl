@@ -3,15 +3,15 @@
 	<div class="breadcrumb">
         <ul>
             <li>订单</li>
-            <li><a href="<@spring.url "/order/agent/list"/>">代理商代购</a></li>
+            <li><a href="<@spring.url "/order/agent/list"/>">代理商采购</a></li>
         </ul>
     </div>
     <div class="content clear">
         <div class="user_title">
-        	<h1>代理商代购订单列表</h1>
+        	<h1>代理商采购订单列表</h1>
             <div class="userTopBtnBox">
 	<#if Roles.hasRole("AGENT_ORDER_CREATE")>
-            	<a href="<@spring.url "/good/agent/page"/>" class="ghostBtn" >创建代购订单</a>
+            	<a href="<@spring.url "/good/agent/page"/>" class="ghostBtn" target="_blank">创建采购订单</a>
 	</#if>
          	</div>
         </div>

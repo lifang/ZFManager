@@ -4,7 +4,7 @@
 	<div class="breadcrumb">
         <ul>
             <li>订单</li>
-            <li><a href="<@spring.url "/order/agent/list"/>">代理商代购</a></li>
+            <li><a href="<@spring.url "/order/agent/list"/>">代理商采购</a></li>
             <li><a href="<@spring.url "/order/agent/${order.id}/info"/>">订单详情</a></li>
         </ul>
     </div>
@@ -91,7 +91,7 @@
             <button class="whiteBtn" onclick="createOrderMark();">备注</button>
         </div>
         <div class="user_record">
-        	<h2>追踪记录</h2>
+        	<h2>备注</h2>
         	<div id="order_mark_fresh">
         		<#include "orderMark.ftl" />
         	</div>

@@ -36,11 +36,11 @@ public class OrderLogisticController extends BaseController {
 	public Boolean deliver(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
-			String reserver2,Integer quantity)  {
+			String reserver2)  {
 		Customer customer = sessionService.getLoginInfo(request);
 		try {
 			orderLogisticService.deliver(customer, orderId, terminalSerialNum,
-					logisticsName, logisticsNumber, goodQuantity, reserver2,quantity);
+					logisticsName, logisticsNumber, goodQuantity, reserver2);
 		} catch (Exception e) {
 			model.addAttribute("response", Response.getError(e.getMessage()));
 			e.printStackTrace();
@@ -52,10 +52,8 @@ public class OrderLogisticController extends BaseController {
 	}
 	@RequestMapping(value = "check", method = {RequestMethod.POST})
 	public String checkOutStorage(Integer orderId, Model model){
-		if(orderLogisticService.getOutStoreRecordCnt(orderId)!=0){
-			Order order = orderService.findOrderInfo(orderId);
-			model.addAttribute("response", Response.getError("已生成订单号为"+
-					order.getOrderNumber()+"的发货单，请到任务→出库中处理该发货单，请勿重复发货"));
+		if(orderLogisticService.judgeDeliver(orderId)!=null){
+			model.addAttribute("response", Response.getError("相关发货单已生成，请至任务-->出库中处理对应的出库单"));
 		}else{
 			model.addAttribute("response", Response.getSuccess("ok"));
 		}
@@ -66,16 +64,9 @@ public class OrderLogisticController extends BaseController {
 	public String createGet(HttpServletRequest request, Integer orderId,
 			String terminalSerialNum, String logisticsName,
 			String logisticsNumber, Model model, String goodQuantity,
-			String reserver2,Integer quantity) {
-		if(null!=quantity){
-			Order order = orderService.findOrderInfo(orderId);
-			if(quantity.compareTo(order.getTotalQuantity())>0){
-				model.addAttribute("response", Response.getError("发货失败，本次发货数量超过该订单商品数量！"));
-				return "order/error";
-			}
-		}
+			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,quantity)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderUserType,
@@ -89,7 +80,7 @@ public class OrderLogisticController extends BaseController {
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,null)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderUserType,
@@ -103,7 +94,7 @@ public class OrderLogisticController extends BaseController {
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,null)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderAgentType,
@@ -117,7 +108,7 @@ public class OrderLogisticController extends BaseController {
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,null)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderAgentType,
@@ -131,7 +122,7 @@ public class OrderLogisticController extends BaseController {
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,null)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderBatchType,
@@ -145,7 +136,7 @@ public class OrderLogisticController extends BaseController {
 			String logisticsNumber, Model model, String goodQuantity,
 			String reserver2) {
 		if(!deliver(request, orderId, terminalSerialNum, logisticsName,
-				logisticsNumber, model, goodQuantity, reserver2,null)){
+				logisticsNumber, model, goodQuantity, reserver2)){
 			return "order/error";
 		}
 		saveOperateRecord(request, OperateType.orderBatchType,

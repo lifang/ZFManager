@@ -3,6 +3,7 @@
         <#if isFactory?? && isFactory>
         <div class="userTopBtnBox">
         <#if good.status=1>
+
             <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
 
         <#elseif good.status=2>
@@ -15,6 +16,9 @@
             <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
 
         <#elseif good.status=5>
+            <#if (good.isPublished)?? && !(good.isPublished)>
+                <a href="<@spring.url "/factory/pos/${good.id}/edit" />" class="ghostBtn">编辑</a>
+            </#if>
         <#elseif good.status=6>
         </#if>
         </div>

@@ -7,10 +7,11 @@
          <col> 
          <col> 
          <col> 
-         <col width="80"> 
-         <col width="80"> 
-         <col width="80"> 
-         <col width="150"> 
+         <col width="60">
+         <col width="60">
+         <col width="60">
+         <col width="60">
+         <col width="150">
         </colgroup> 
         <thead> 
          <tr> 
@@ -21,8 +22,9 @@
           <th>状态</th> 
           <th>上架</th> 
           <th>可租赁</th> 
-          <th>可批购</th> 
-          <th>操作</th> 
+          <th>可批购</th>
+          <th>推荐首页</th>
+          <th>操作</th>
          </tr> 
         </thead> 
         <tbody> 

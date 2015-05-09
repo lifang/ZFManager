@@ -59,10 +59,8 @@ $(function(){
 		var i = imgSrc.lastIndexOf('.');
 		var jpg = imgSrc.substring(i);
 		imgSrc = imgSrc.substring(0,i);
-		//var imgSrc_big = imgSrc + '_big' + jpg;
-		//var imgSrc_show = imgSrc + '_show' + jpg;
-		var imgSrc_big = imgSrc  + jpg;
-		var imgSrc_show = imgSrc + jpg;
+		var imgSrc_big = imgSrc + '_big' + jpg;
+		var imgSrc_show = imgSrc + '_show' + jpg;
 		$('.bigImg img').attr('src',imgSrc_big);
 		$('.bigImg img').attr('jqimg',imgSrc_show);
 		//alert(0);

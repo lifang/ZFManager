@@ -6,7 +6,7 @@
             	<#if order.types??>
 			      	<#if order.types==1>用户订购
 				       <#elseif order.types==2>用户租赁 
-				       <#elseif order.types==3>代理商代购
+				       <#elseif order.types==3>代理商采购
 				       <#elseif order.types==4>代理商代租赁
 				       <#elseif order.types==5>代理商批购
 				     </#if>

@@ -21,8 +21,11 @@
       </#if></td> 
       <td><#if good.hasPurchase??>
       	<#if good.hasPurchase>是<#else>否</#if>
-      </#if></td> 
-      <td>
+      </#if></td>
+     <td><#if good.isRecommend??>
+         <#if good.isRecommend>是<#else>否</#if>
+     </#if></td>
+         <td>
 	   <#if status=1>
 		   <#if Roles.hasRole("POS_FIRST_VERIFY")>
        		<a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
@@ -30,18 +33,17 @@
 		   </#if>
 		   <#if Roles.hasRole("POS_EDIT")>
        		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
-		   </#if>
+            <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+           </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
-       	   <#if Roles.hasRole("POS_EDIT")>
-       		<a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
-		   </#if>
        <#elseif status=2>
 		   <#if Roles.hasRole("POS_FIRST_VERIFY")>
             <a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
 		   </#if>
 		   <#if Roles.hasRole("POS_EDIT")>
-       		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
-		   </#if>
+               <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+           </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
        <#elseif status=3>
@@ -50,7 +52,8 @@
        		<a onClick="unCheck(${good.id})" class="a_btn">审核不通过</a>
 		   </#if>
 		   <#if Roles.hasRole("POS_EDIT")>
-       		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+               <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
 		   </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
@@ -59,8 +62,9 @@
        		<a onClick="checkBtn(${good.id})" class="a_btn approve_a">审核通过</a>
 		   </#if>
 		   <#if Roles.hasRole("POS_EDIT")>
-       		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
-		   </#if>
+               <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+           </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        <#elseif status=5>
 		   <#if Roles.hasRole("POS_STOP_START")>
@@ -87,11 +91,30 @@
 		   <#if Roles.hasRole("POS_INSTORE")><a onClick="importTerminal(${good.id})" class="a_btn putStorage_a">入库</a></#if>
 		   <#if Roles.hasRole("POS_COMMENT_MANAGE")><a href="<@spring.url "/good/pos/${good.id}/comments" />" class="a_btn">评论管理</a></#if>
 		   <#if Roles.hasRole("POS_TOP_START")><a onClick="stop(${good.id})" class="a_btn">停用</a></#if>
-       		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
+           <#if Roles.hasRole("POS_EDIT")>
+               <#if (good.isPublished)?? && !(good.isPublished)>
+                   <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+                   <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+               </#if>
+           </#if>
+
+           <#if Roles.hasRole("POS_TOP_HOME")>
+           <#if (good.isPublished)?? && (good.isPublished)>
+           <#if (good.isRecommend)?? && (good.isRecommend)>
+               <a onClick="unTopHome(${good.id})" class="a_btn">取消推荐到首页</a>
+           <#else>
+               <a onClick="topHome(${good.id})" class="a_btn">推荐到首页</a>
+           </#if>
+           </#if>
+           </#if>
+           <a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        		
        <#elseif status=6>
 		   <#if Roles.hasRole("POS_TOP_START")><a onClick="start(${good.id})" class="a_btn">启用</a></#if>
-		   <#if Roles.hasRole("POS_EDIT")><a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a></#if>
+		   <#if Roles.hasRole("POS_EDIT")>
+               <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn">编辑</a>
+               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn">图片详情</a>
+           </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn">查看详情</a>
        </#if>
 

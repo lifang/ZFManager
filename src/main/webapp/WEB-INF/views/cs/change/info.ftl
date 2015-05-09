@@ -74,7 +74,7 @@
 		<button class="whiteBtn" onClick="onMark();">备注</button>
 	</div>
 	<div class="user_record">
-		<h2>追踪记录</h2>
+		<h2>备注</h2>
 		<div id="mark_container">
 		<#list csChangeMarks as mark>
 			<#include "../mark.ftl" />
