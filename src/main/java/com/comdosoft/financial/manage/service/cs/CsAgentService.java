@@ -4,6 +4,7 @@ import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatu
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.FINISH;
 import static com.comdosoft.financial.manage.service.cs.CsConstants.CsAgentStatus.HANDLE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -95,23 +96,43 @@ public class CsAgentService {
 		}
 	}
 	
-	public void output(Integer csAgentId, String terminalList) {
+//	public void output(Integer csAgentId, String terminalList) {
+//		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
+//		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalList.split(","));
+//		for (Terminal terminal : terminals) {
+//			CsOutStorage csOutStorage = new CsOutStorage();
+//			csOutStorage.setCsApplyId(csAgent.getApplyNum());
+//			csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_AGENT);
+//			csOutStorage.setCreatedAt(new Date());
+//			csOutStorage.setUpdatedAt(new Date());
+//			csOutStorage.setOrderId(terminal.getOrderId());
+//			csOutStorage.setProcessUserId(csAgent.getProcessUserId());
+//			csOutStorage.setProcessUserName(csAgent.getProcessUserName());
+//			csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
+//			csOutStorage.setStatus(CsOutStorage.STATUS_OUTPUT);
+//			csOutStorage.setTerminalList(terminal.getSerialNum());
+//			csOutStorageMapper.insert(csOutStorage);
+//		}
+//	}
+	
+	public void output(Integer csAgentId, Terminal terminal) {
 		CsAgent csAgent = csAgentMapper.selectByPrimaryKey(csAgentId);
-		List<Terminal> terminals = terminalMapper.findTerminalsByNums(terminalList.split(","));
-		for (Terminal terminal : terminals) {
-			CsOutStorage csOutStorage = new CsOutStorage();
-			csOutStorage.setCsApplyId(csAgent.getApplyNum());
-			csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_AGENT);
-			csOutStorage.setCreatedAt(new Date());
-			csOutStorage.setUpdatedAt(new Date());
-			csOutStorage.setOrderId(terminal.getOrderId());
-			csOutStorage.setProcessUserId(csAgent.getProcessUserId());
-			csOutStorage.setProcessUserName(csAgent.getProcessUserName());
-			csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
-			csOutStorage.setStatus(CsOutStorage.STATUS_OUTPUT);
-			csOutStorage.setTerminalList(terminal.getSerialNum());
-			csOutStorageMapper.insert(csOutStorage);
-		}
+		CsOutStorage csOutStorage = new CsOutStorage();
+		csOutStorage.setCsApplyId(csAgent.getApplyNum());
+		csOutStorage.setCsApplyTypes(CsOutStorage.TYPE_AGENT);
+		csOutStorage.setCreatedAt(new Date());
+		csOutStorage.setUpdatedAt(new Date());
+		csOutStorage.setOrderId(terminal.getOrderId());
+		csOutStorage.setProcessUserId(csAgent.getProcessUserId());
+		csOutStorage.setProcessUserName(csAgent.getProcessUserName());
+		csOutStorage.setQuantity(csAgent.getTerminalsQuantity());
+		csOutStorage.setStatus(CsOutStorage.STATUS_OUTPUT);
+		csOutStorage.setTerminalList(terminal.getSerialNum());
+		csOutStorage.setApplyNum(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
+		csOutStorage.setDescription(csAgent.getApplyNum());
+		csOutStorageMapper.insert(csOutStorage);
+		terminal.setAgentId(csAgentId);
+		terminalMapper.updateByPrimaryKey(terminal);
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {
@@ -135,5 +156,9 @@ public class CsAgentService {
 	
 	public List<CsAgentMark> findMarksByCsAgentId(Integer csAgentId) {
 		return csAgentMarkMapper.selectByAgentId(csAgentId);
+	}
+
+	public Terminal findTerminal(String terminal) {
+		return terminalMapper.findTerminal(terminal);
 	}
 }

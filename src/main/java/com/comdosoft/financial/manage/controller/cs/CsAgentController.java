@@ -11,10 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.manage.domain.zhangfu.CsAgentMark;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsAgentService;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -75,8 +78,17 @@ public class CsAgentController {
 	}
 	
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
-	public void output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList) {
-		csAgentService.output(id, terminalList);
+	@ResponseBody
+	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList) {
+		String[] terminalNums = terminalList.split(",");
+		for(String t : terminalNums){
+			Terminal terminal = csAgentService.findTerminal(t);
+			if(terminal == null){
+				return Response.getError(t+"为无效终端");
+			}
+			csAgentService.output(id, terminal);
+		}
+		return Response.getSuccess("成功");
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)

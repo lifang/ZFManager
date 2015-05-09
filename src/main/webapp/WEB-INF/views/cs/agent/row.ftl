@@ -31,7 +31,7 @@
 	</td>
 </tr>
 
-<div class="tab exchangeGoods_tab">
+<!--<div class="tab exchangeGoods_tab">
 	<a href="#" class="close">关闭</a>
 	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
@@ -40,4 +40,4 @@
 	<div class="tabFoot">
 		<button class="blueBtn" onClick="onOutput();">确定</button>
 	</div>
-</div>
+</div>-->

@@ -47,10 +47,11 @@
 	<a class="close">关闭</a>
 	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
-		<textarea id="output_content" name="" cols="" rows="" class="textarea_pe"></textarea>
+		<div style="margin:-10px 0px 5px 0px;"><font id="errMsg" color="red"></font></div>
+		<textarea id="output_content" name="" cols="40" rows="5" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号，以逗号(,)分隔"></textarea>
 	</div>
 	<div class="tabFoot">
-		<button class="blueBtn close" onClick="onOutput();">确定</button>
+		<button class="blueBtn" onClick="onOutput();">确定</button>
 	</div>
 </div>
 
@@ -113,7 +114,6 @@
 					$("#operation_" + csAgentId).html(
 						'<a href="<@spring.url "" />' + '/cs/agent/'+ csAgentId+ '/info" class="a_btn">查看详情</a>'
 						+'<a class="a_btn" onClick="onCancel('+csAgentId+');">取消</a>'
-						+'<a href="#" class="a_btn">同步</a>'
 						+'<a class="a_btn exchangeGoods_a" onClick="onPreOutput('+csAgentId+');">添加换货出库记录</a>'
 						+'<a class="a_btn" onClick="onFinish('+csAgentId+');">标记为处理完成</a>'
 					);
@@ -126,12 +126,29 @@
 	
 	function onPreOutput(csAgentId) {
 		outputId = csAgentId;
+		$("#errMsg").html("");
+		$("#output_content").val("");
 	}
 	
 	function onOutput() {
 		var terminalList = $("#output_content").val();
-		$.post('<@spring.url "" />'+'/cs/agent/'+outputId+'/output',
-	            {"terminalList": terminalList}, function (data) {});
+		var reg = /^[0-9a-zA-Z\,]+$/;
+		if(!reg.test(terminalList)){
+			$("#errMsg").html("终端号填写有误，请重新填写");
+		}else{
+			$.post('<@spring.url "" />'+'/cs/agent/'+outputId+'/output',
+	            {"terminalList": terminalList}, 
+	            function (data) {
+	            	if(data.code==-1){
+						$("#errMsg").html(data.message);
+						return;
+	            	}
+	            	$(".exchangeGoods_tab").hide();
+	    			$(".mask").hide();
+	    			showErrorTip("添加换货出库记录成功");
+	            });
+		}
+		
 	}
 	
 </script>	
