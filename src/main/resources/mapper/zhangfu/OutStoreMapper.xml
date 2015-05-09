@@ -237,7 +237,7 @@ where a.id=#{id}
    	and cs_out_storage_id=#{csOutStorageId}
    </select>
    
-   <insert id="saveOrderMarks" useGeneratedKeys="true" keyProperty="id">
+   <insert id="saveOrderMarks" useGeneratedKeys="true">
 		insert into order_marks(order_id,customer_id,content,created_at) 
 		values(#{orderId},#{loginId},#{content},now())
    </insert>
