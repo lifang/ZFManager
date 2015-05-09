@@ -273,7 +273,8 @@ public class CsOutStorage {
 	public static final int TYPE_LEASE = 5;
 	public static final int TYPE_CANCEL = 6;
 	
-	// 0未发货  1 已发货
-	public static final int STATUS_NOT_OUTPUT = 0;
-	public static final int STATUS_OUTPUT = 1;
+	// 1待处理 2 已取消 3 已完成
+	public static final int STATUS_WAIT_PROCESS = 1;
+	public static final int STATUS_CANCEL = 2;
+	public static final int STATUS_SUCCESS = 3;
 }

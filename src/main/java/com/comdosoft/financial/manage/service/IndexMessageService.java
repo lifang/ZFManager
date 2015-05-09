@@ -102,7 +102,7 @@ public class IndexMessageService {
      * @return
      */
     public int storagesModeration() {
-    	return indexMessageMapper.storagesModeration(CsOutStorage.STATUS_NOT_OUTPUT);
+    	return indexMessageMapper.storagesModeration(CsOutStorage.STATUS_WAIT_PROCESS);
     }
     
     /**

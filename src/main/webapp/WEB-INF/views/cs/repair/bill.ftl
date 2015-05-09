@@ -66,7 +66,7 @@
 		
 		$.post('<@spring.url "/cs/repair/bill/create" />',
 			{'terminalNum':terminalNum,
-			 'repairPrice':repairPrice,
+			 'repairPrice':repairPrice*100,
 			 'description':description,
 			 'receiver':receiver, 
 			 'phone':phone,

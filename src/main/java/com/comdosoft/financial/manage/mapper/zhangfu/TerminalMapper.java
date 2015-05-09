@@ -90,5 +90,7 @@ public interface TerminalMapper {
      * @return
      */
     List<Map<Object, Object>> getTerminalOpen(Map<Object, Object> map);
+    
+	Terminal findTerminal(String terminal);
 	
 }

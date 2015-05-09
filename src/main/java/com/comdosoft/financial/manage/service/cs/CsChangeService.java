@@ -117,7 +117,7 @@ public class CsChangeService {
 			csOutStorage.setProcessUserId(customer.getId());
 			csOutStorage.setProcessUserName(customer.getName());
 			csOutStorage.setQuantity(1);
-			csOutStorage.setStatus(CsOutStorage.STATUS_NOT_OUTPUT);
+			csOutStorage.setStatus(CsOutStorage.STATUS_WAIT_PROCESS);
 			csOutStorageMapper.insert(csOutStorage);
 		}
 	}
