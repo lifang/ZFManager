@@ -12,7 +12,7 @@
         <div class="userTopBtnBox">
 	<#if Roles.hasRole("USER_ORDER_CREATE")>
           	<!--<a href="<@spring.url "/order/user/create"/>" class="ghostBtn">创建订单</a>-->
-          	<a href="<@spring.url "/good/user/create"/>" class="ghostBtn">创建订单</a>
+          	<a href="<@spring.url "/good/user/create"/>" class="ghostBtn" target="_blank">创建订单</a>
 	</#if>
         </div>
     </div>

@@ -101,8 +101,8 @@
             <li class="second"><a href="javascript:void(0);">订单<i class="off" id="menuOrder"></i></a>
                 <ol>
                     <#if Roles.hasRole("USER_ORDER")><li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li></#if>
-                    <#if Roles.hasRole("AGENT_BATCH_ORDER")><li><a href="<@spring.url "/order/batch/list"/>"<#if urlCheck(request,"/order/batch")> class="hover"</#if>>代理商批购</a></li></#if>
-                    <#if Roles.hasRole("AGENT_ORDER")><li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商代购</a></li></#if>
+                    <!--<#if Roles.hasRole("AGENT_BATCH_ORDER")><li><a href="<@spring.url "/order/batch/list"/>"<#if urlCheck(request,"/order/batch")> class="hover"</#if>>代理商批购</a></li></#if>-->
+                    <#if Roles.hasRole("AGENT_ORDER")><li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商采购</a></li></#if>
                 </ol>
             </li>
         </#if>

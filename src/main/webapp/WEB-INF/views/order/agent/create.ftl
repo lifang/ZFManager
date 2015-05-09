@@ -4,7 +4,7 @@
 	<div class="box">
 	<div class="breadcrumb">
     	<ul>
-            <li><a href="<@spring.url "/order/agent/list"/>">代理商代购</a></li>
+            <li><a href="<@spring.url "/order/agent/list"/>">代理商采购</a></li>
             <li><a href="#">确认您的订单信息</a></li>
         </ul>
     </div>
@@ -79,11 +79,11 @@
         	<h3>您的订单信息
             <select id="type" name="" class="select_default">
             	<#if type==3>
-            		<option value="3">代理商代购</option>
+            		<option value="3">代理商采购</option>
         	  		<option value="4">代理商代租赁</option>
             	<#elseif type==4>
         	  		<option value="4">代理商代租赁</option>
-            		<option value="3">代理商代购</option>
+            		<option value="3">代理商采购</option>
             	</#if>
         	</select></h3>
             <#include "../customerGood.ftl" />
@@ -106,9 +106,9 @@
         <div class="settleAccount">
         	<p>实付：<strong id="actualStrong">￥<#include "../totalPrice.ftl" /></strong></p>
         	<#if order??>
-        		<button class="blueBtn" onclick="createSureAgain(${order.id!""});">创建代购订单</button>
+        		<button class="blueBtn" onclick="createSureAgain(${order.id!""});">创建采购订单</button>
         	<#else>
-        		<button class="blueBtn" onclick="createSure(${good.id!""});">创建代购订单</button>
+        		<button class="blueBtn" onclick="createSure(${good.id!""});">创建采购订单</button>
         	</#if>
         	
         </div>

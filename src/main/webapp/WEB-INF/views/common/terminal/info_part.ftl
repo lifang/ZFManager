@@ -131,7 +131,7 @@
         <button class="whiteBtn" onclick="writeMark()">备注</button>
     </div>
     <div class="user_record">
-        <h2>备注记录</h2>
+        <h2>备注</h2>
     <#list terminal.terminalMarks as terminalMark>
         <#include "../../terminal/mark.ftl"/>
     </#list>

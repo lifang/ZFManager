@@ -82,7 +82,7 @@
             <button class="whiteBtn" onClick="submitData()">备注</button>
         </div>
          <div class="user_record">
-        	<h2>追踪记录</h2>
+        	<h2>备注</h2>
         	<#if (remarks)??>
 	 			<#list remarks as remark>
             <div class="ur_item">
