@@ -105,6 +105,10 @@
 <script type="text/javascript">
 	function searchCustomer() {
 		var customerName = $("#customer_name").val();
+		if(customerName==''){
+			alert("请输入搜索条件");
+			return;
+		}
 	    $.post('<@spring.url "/order/customer/search" />',
 	            {
 	            	"customerName": customerName
