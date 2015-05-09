@@ -105,12 +105,12 @@ public class CsAgentController {
 		if(!"".equals(temp) && cnt < terminalNums.length){
 			tempTerminalList = temp.substring(0, temp.lastIndexOf("，"));
 			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), tempTerminalList);
-			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"为无效终端，"+tempTerminalList+"已添加换货出库记录成功");
+			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"无法换货出库，"+tempTerminalList+"已添加换货出库记录成功");
 		}else if(!"".equals(temp) && cnt == terminalNums.length){
 			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), terminalList);
 			return Response.getSuccess("成功");
 		}else{
-			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"为无效终端");
+			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"无法换货出库");
 		}
 	}
 	
