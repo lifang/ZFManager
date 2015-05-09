@@ -658,6 +658,8 @@ public class Terminal {
     public static final int VIDEO_STATUS_2 = 2;
     //重新视频
     public static final int VIDEO_STATUS_3 = 3;
+    
+    public static final boolean IS_RETURN_CS_DEPOTS = false;
 
 
 }
