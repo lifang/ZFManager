@@ -98,7 +98,16 @@
     </div>
 </#if>
     <div class="attributes_box">
-        <h2>开通详情<a  onclick="downloadFile()" class="a_btn">下载开通资料</a></h2>
+        <h2>开通详情
+        <#if (terminal.openingApplie.terminalOpeningInfos)??>
+            <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
+            <#if openingInfo.types == 2>
+                <a onclick="downloadFile()" class="a_btn">下载开通资料</a>
+                <#break>
+            </#if>
+            </#list>
+        </#if>
+        </h2>
         <div class="attributes_list_s clear">
             <ul>
                 <li>开通方向：<#if (terminal.openingApplie.types)??><#if terminal.openingApplie.types==1>对公<#else>对私</else></#if></#if></li>
