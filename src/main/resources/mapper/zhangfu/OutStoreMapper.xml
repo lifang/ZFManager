@@ -224,8 +224,8 @@ where a.id=#{id}
    	select status from cs_out_storages where id=#{id}
    </select>
    
-   <select id="getTerminalsInfo" resultType="int">
-   		select count(id) as id from terminals where serial_num=#{serialNum}
+   <select id="getTerminalsInfo" resultType="map">
+   		select ifnull(customer_id,"") as customerId,ifnull(agent_id,"") as agentId from terminals where serial_num=#{serialNum}
    </select>
    
    <select id="getAllQuantityCsOutStorage" resultType="int">
@@ -236,4 +236,14 @@ where a.id=#{id}
    	select sum(quantity) as quantity from in_out_storages where order_id=#{orderId} and good_id=#{goodId} 
    	and cs_out_storage_id=#{csOutStorageId}
    </select>
+   
+   <insert id="saveOrderMarks" useGeneratedKeys="true" keyProperty="id">
+		insert into order_marks(order_id,customer_id,content,created_at) 
+		values(#{orderId},#{loginId},#{content},now())
+   </insert>
+   
+   <select id="getOrderNumberById" resultType="String">
+   	select ifnull(order_number,"") as orderNumber from orders where id=#{orderId}
+   </select>
+   
 </mapper>

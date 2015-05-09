@@ -54,6 +54,8 @@ public interface OutStoreMapper {
 	
 	int saveRemark(@Param("loginId") int loginId,@Param("id") int id,@Param("content") String content);
 	
+	int saveOrderMarks(@Param("loginId") int loginId,@Param("orderId") int id,@Param("content") String content);
+	
 	List<Map<String, Object>> getInfoInit(@Param("orderId") int orderId);
 	
 	int saveProcessUser(@Param("processUserId") int processUserId,@Param("processUserName") String processUserName,@Param("id") int id);
@@ -79,11 +81,13 @@ public interface OutStoreMapper {
 	
 	int getCsOutStorageStatus(@Param("id") int id);
 	
-	int getTerminalsInfo(@Param("serialNum") String serialNum);
+	List<Map<String, Object>> getTerminalsInfo(@Param("serialNum") String serialNum);
 	
 	List<Map<String, Object>> getInOutStoragesAllInfo(@Param("orderId") int orderId,@Param("csOutStorageId") int csOutStorageId);
 	
 	int getAllQuantityCsOutStorage(@Param("orderId") int orderId);
 
 	int getQuantityInOutStorage(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("csOutStorageId") int csOutStorageId);
+	
+	String getOrderNumberById(@Param("orderId") int orderId);
 }
