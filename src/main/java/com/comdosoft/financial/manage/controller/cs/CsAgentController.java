@@ -31,6 +31,8 @@ public class CsAgentController {
 	@Autowired
 	private CsAgentService csAgentService;
 	
+	private static final String LOGIN_SESSION_KEY = "__LOGIN_KEY__";
+	
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
 		if (null != status && status < 0) status = null;
@@ -81,14 +83,35 @@ public class CsAgentController {
 	@ResponseBody
 	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList) {
 		String[] terminalNums = terminalList.split(",");
+		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
+		StringBuilder sb = new StringBuilder("");
+		String temp = "";
+		StringBuilder sb1 = new StringBuilder("");
+		String invalidTermianl = "";//暂存某无效终端
+		String tempTerminalList = "";//暂存某无效终端之前的所有终端号
+		int cnt = 0;
 		for(String t : terminalNums){
 			Terminal terminal = csAgentService.findTerminal(t);
-			if(terminal == null){
-				return Response.getError(t+"为无效终端");
+			if(terminal != null){
+				csAgentService.output(id, terminal);
+				sb.append(t+"，");
+				cnt ++;
+			}else{
+				sb1.append(t+"，");
 			}
-			csAgentService.output(id, terminal);
 		}
-		return Response.getSuccess("成功");
+		temp = sb.toString();
+		invalidTermianl = sb1.toString();
+		if(!"".equals(temp) && cnt < terminalNums.length){
+			tempTerminalList = temp.substring(0, temp.lastIndexOf("，"));
+			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), tempTerminalList);
+			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"为无效终端，"+tempTerminalList+"已添加换货出库记录成功");
+		}else if(!"".equals(temp) && cnt == terminalNums.length){
+			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), terminalList);
+			return Response.getSuccess("成功");
+		}else{
+			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"为无效终端");
+		}
 	}
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
