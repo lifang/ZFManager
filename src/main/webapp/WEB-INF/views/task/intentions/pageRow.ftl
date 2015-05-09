@@ -16,10 +16,10 @@
        	   </#if></strong></td> 
 	<td>
 	<#if one.checktype=1>
-		<a href='<@spring.url "/task/intention/${one.id}/info" />' class="a_btn" id="_details">查看详情</a>
+		<a href='<@spring.url "/task/intention/${one.id}/info" />' class="a_btn" id="_details" target="_blank">查看详情</a>
 	</#if>
 	<#if one.checktype=2>
-		<a href='<@spring.url "/task/agentjoin/${one.id}/getInfo" />' class="a_btn" id="_details">查看详情</a>
+		<a href='<@spring.url "/task/agentjoin/${one.id}/getInfo" />' class="a_btn" id="_details" target="_blank">查看详情</a>
 	</#if>
 	<#if one.status=1>
 		<#if Roles.hasRole("INTENTION_MARK_PROCESSING")><a onclick="ups(${one.id!},2,${intentions.currentPage!})" class="a_btn">标记为处理中</a></#if>

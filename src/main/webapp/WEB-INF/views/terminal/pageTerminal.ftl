@@ -39,7 +39,7 @@
                 </#if>
                 </#if>
             </strong></td>
-            <td><a href="<@spring.url "/terminal/${terminal.id}/info" />" class="a_btn">查看详情</a></td>
+            <td><a href="<@spring.url "/terminal/${terminal.id}/info" />" class="a_btn" target="_blank">查看详情</a></td>
             </tr>
             </#list>
         </#if>

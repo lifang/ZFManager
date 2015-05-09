@@ -37,8 +37,8 @@
     <#elseif factory.status=6>
         <#if Roles.hasRole("FACTORY_STOP_START")><a onClick="start(${factory.id})" class="a_btn">启用</a></#if>
     </#if>
-        <#if Roles.hasRole("FACTORY_CREATE_EDIT")><a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn">查看详情</a>
-    <#if Roles.hasRole("FACTORY_RESET_PWD")><a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn">密码重置</a></#if>
+        <#if Roles.hasRole("FACTORY_CREATE_EDIT")><a href="<@spring.url "/system/factory/${factory.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/system/factory/${factory.id}/info" />" class="a_btn" target="_blank">查看详情</a>
+    <#if Roles.hasRole("FACTORY_RESET_PWD")><a href="<@spring.url "/system/factory/${factory.id}/resetpwd" />" class="a_btn" target="_blank">密码重置</a></#if>
     </td>
 </tr>

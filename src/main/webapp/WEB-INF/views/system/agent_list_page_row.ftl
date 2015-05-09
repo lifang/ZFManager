@@ -41,14 +41,14 @@
         <#if Roles.hasRole("AGENT_STOP_START")><a onClick="start(${agent.id})" class="a_btn">启用</a></#if>
     </#if>
 <#if Roles.hasRole("AGENT_SET_PROFIT")>
-        <a href="<@spring.url "/system/agent/${agent.id}/profit" />" class="a_btn">设置分润</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/profit" />" class="a_btn" target="_blank">设置分润</a>
 </#if>
 <#if Roles.hasRole("AGENT_CREATE_EDIT")>
-        <a href="<@spring.url "/system/agent/${agent.id}/edit" />" class="a_btn">编辑</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/edit" />" class="a_btn" target="_blank">编辑</a>
 </#if>
-        <a href="<@spring.url "/system/agent/${agent.id}/info" />" class="a_btn">查看详情</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/info" />" class="a_btn" target="_blank">查看详情</a>
 <#if Roles.hasRole("AGENT_RESET_PWD")>
-        <a href="<@spring.url "/system/agent/${agent.id}/resetpwd" />" class="a_btn">密码重置</a>
+        <a href="<@spring.url "/system/agent/${agent.id}/resetpwd" />" class="a_btn" target="_blank">密码重置</a>
 </#if>
     </td>
 </tr>

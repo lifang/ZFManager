@@ -36,14 +36,14 @@
    	   </#if>
    	   <#if one.video_status=1>
 		   <#if Roles.hasRole("CERTIFIED_OPEN_VIDEO_VERIFY")>
-	   	   <a href="<@spring.url "/task/certifiedopen/${one.id}/video" />" class="a_btn">视频认证</a> 
+	   	   <a href="<@spring.url "/task/certifiedopen/${one.id}/video" />" class="a_btn" target="_blank">视频认证</a> 
 	   	   <a  onclick="upvs(${one.id!},2,${apply.currentPage!})" class="a_btn">视频认证通过</a> 
 	   	   <a  onclick="upvs(${one.id!},3,${apply.currentPage!})" class="a_btn">视频认证失败</a>
 		   </#if>
        <#elseif one.video_status gt 1>
 		   <#if Roles.hasRole("CERTIFIED_OPEN_VIDEO_VERIFY")><a  onclick="upvs(${one.id!},1,${apply.currentPage!})" class="a_btn">重置视频认证</a></#if>
    	   </#if>
-   	   <a href="<@spring.url "/task/certifiedopen/${one.id}/info" />" class="a_btn">查看详情</a>
+   	   <a href="<@spring.url "/task/certifiedopen/${one.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        <#if Roles.hasRole("CERTIFIED_OPEN_REMARK")><a  class="a_btn" onclick="beizhu(${one.id!})">备注</a></#if>
    </td>
 </tr>

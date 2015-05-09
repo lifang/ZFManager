@@ -21,41 +21,41 @@
         <a onClick="check(${channel.id})" class="a_btn">审核通过</a>
         <a onClick="unCheck(${channel.id})" class="a_btn">审核不通过</a>
         </#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
 
     <#elseif channel.status=2>
         <#if Roles.hasRole("PAY_CHANNEL_FIRST_VERIFY")><a onClick="firstCheck(${channel.id})" class="a_btn">初审通过</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
 
     <#elseif channel.status=3>
         <#if Roles.hasRole("PAY_CHANNEL_VERIFY")>
         <a onClick="check(${channel.id})" class="a_btn">审核通过</a>
         <a onClick="unCheck(${channel.id})" class="a_btn">审核不通过</a>
         </#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
 
     <#elseif channel.status=4>
         <#if Roles.hasRole("PAY_CHANNEL_VERIFY")><a onClick="check(${channel.id})" class="a_btn">审核通过</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
 
     <#elseif channel.status=5>
         <#if Roles.hasRole("PAY_CHANNEL_STOP_START")><a onClick="stop(${channel.id})" class="a_btn">停用</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
     <#elseif channel.status=6>
         <#if Roles.hasRole("PAY_CHANNEL_STOP_START")><a onClick="start(${channel.id})" class="a_btn">启用</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn">设置分润</a></#if>
-        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn">编辑</a></#if>
-        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn">查看详情</a>
+        <#if Roles.hasRole("PAY_CHANNEL_SETTING_PROFIT")><a href="<@spring.url "/good/channel/${channel.id}/profit" />" class="a_btn" target="_blank">设置分润</a></#if>
+        <#if Roles.hasRole("PAY_CHANNEL_EDIT")><a href="<@spring.url "/good/channel/${channel.id}/edit" />" class="a_btn" target="_blank">编辑</a></#if>
+        <a href="<@spring.url "/good/channel/${channel.id}/info" />" class="a_btn" target="_blank">查看详情</a>
     </#if>
 
     </td>

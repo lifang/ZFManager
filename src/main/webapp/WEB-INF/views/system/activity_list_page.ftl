@@ -23,9 +23,9 @@
             <td>${activity.createdAt?string("yyyy/MM/dd HH:mm:ss")}</td>
             <td>${activity.url?html}</td>
             <td>
-                <a href="<@spring.url "/system/content/activity/${activity.id}/edit" />" class="a_btn">编辑</a>
+                <a href="<@spring.url "/system/content/activity/${activity.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                 <a onclick="deleteActivity(${activity.id})" class="a_btn">删除</a>
-                <a href="<@spring.url "${activity.url}" />" target="_Blank" class="a_btn">预览</a>
+                <a href="<@spring.url "${activity.url}" />" target="_blank" class="a_btn">预览</a>
             </td>
         </tr>
         </#list>
