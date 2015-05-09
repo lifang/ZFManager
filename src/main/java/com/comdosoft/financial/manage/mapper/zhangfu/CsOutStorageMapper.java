@@ -38,5 +38,5 @@ public interface CsOutStorageMapper {
 	
 	List<CsOutStorage> selectByOrderIds(List<Integer> orderIds);
 
-	Integer selectByOrderId(Integer orderId);
+	CsOutStorage selectByOrderId(Integer orderId);
 }

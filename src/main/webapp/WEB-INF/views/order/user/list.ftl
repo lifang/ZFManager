@@ -97,7 +97,7 @@
 </div>
 
 <#include "../tab.ftl" />
-<div class="tab deliver_tab1">
+<!--<div class="tab deliver_tab1">
 	<a href="#" class="close">关闭</a>
     <div class="tabHead">添加库存发货信息</div>
     <div class="tabBody">
@@ -110,7 +110,7 @@
     	<button class="blueBtn" id="deliverSure1">确定</button>
     	<button class="blueBtn" onclick="closeBtn()">取消</button>
     </div>
-</div>
+</div>-->
 <script type="text/javascript">
 
 	$(function(){
@@ -243,8 +243,7 @@
 	            		alert(data.substring(2));
 	            		return;
 	            	}
-	            	popupT(".deliver_tab1");
-	            	$("#deliverSure1").unbind().bind('click',function(){deliver(id,$("#quantity").prop("value"))});
+	        		deliver(id);
 	            });
 	    	return;
     	}else{
@@ -286,11 +285,10 @@
 					popupPage();
 	            });
     }
-    function deliver(id,quantity){
+    function deliver(id){
     	$.post('<@spring.url "" />'+'/order/logistic/create',
 				{
-				"orderId":id,
-				"quantity":quantity
+				"orderId":id
 				},
 	            function (data) {
 	            	if(data.indexOf("-1")==0){
@@ -300,8 +298,7 @@
 	           		$('#row_'+id).replaceWith(data);
 					$('.deliver_tab').hide();
 					$('.mask').hide();
-					closeBtn();
-	            	alert("已生成一张条发货记录，请及时处理");
+	            	alert("相关发货单已生成，请至任务-->出库中处理对应的出库单");
 					popupPage();
 	            });
     }

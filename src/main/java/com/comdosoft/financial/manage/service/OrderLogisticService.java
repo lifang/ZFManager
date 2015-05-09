@@ -77,10 +77,10 @@ public class OrderLogisticService {
 	 * 发货
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2,Integer out_quantity) throws Exception{
+	public int deliver(Customer customer,Integer orderId,String terminalSerialNum,String logisticsName,String logisticsNumber,String goodQuantity,String reserver2) throws Exception{
 		Order order=orderService.findOrderInfo(orderId);
 		if(null==order.getBelongsTo()){//订单属于掌富，发货数量，状态为1
-			return insert(customer, order, logisticsName, logisticsNumber, out_quantity, terminalSerialNum, 1);
+			return insert(customer, order, logisticsName, logisticsNumber, order.getTotalQuantity(), terminalSerialNum, 1);
 		}
 		Integer totalQuantity = 0;
 		Integer csOutStorageStatus=3;
@@ -192,7 +192,7 @@ public class OrderLogisticService {
 		return 1;
 	}
 
-	public Integer getOutStoreRecordCnt(Integer orderId) {
+	public CsOutStorage judgeDeliver(Integer orderId) {
 		return csOutStorageMapper.selectByOrderId(orderId);
 	}
 }
