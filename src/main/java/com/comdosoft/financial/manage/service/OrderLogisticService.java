@@ -114,6 +114,18 @@ public class OrderLogisticService {
 				}
 			}
 		}
+		StringBuilder sb = new StringBuilder("");
+		String temp = "";
+		for(String s:set){
+			Terminal terminal = terminalMapper.findTerminal(s);
+			if(terminal == null){
+				sb.append(s+"，");
+			}
+		}
+		temp = sb.toString();
+		if(!"".equals(temp)){
+			throw new Exception("终端号为"+temp.substring(0, temp.lastIndexOf("，"))+"的无法发货");
+		}
 		List<OrderGood> orderGoodDelivered=new ArrayList<OrderGood>();
 		for(String s:set){
 			Boolean isExist=false;
