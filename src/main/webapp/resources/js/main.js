@@ -88,7 +88,27 @@ $(function(){
 	 });
 	 
 })
-
+//用于非绑定click弹窗,点击发货时需要判断是否弹窗
+function popupT(t){
+	 var doc_height = $(document).height();
+	 var doc_width = $(document).width();
+	 var win_height = $(window).height();
+	 var win_width = $(window).width();
+	
+	 var layer_height = $(t).height();
+	 var layer_width = $(t).width();
+	
+	 var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	 //tab
+	 $(".mask").css({display:'block',height:doc_height});
+	 $(t).css('top',(win_height-layer_height)/2);
+	 $(t).css('left',(win_width-layer_width)/2);
+	 $(t).css('display','block');
+	 $(".close").click(function(){
+		 $(t).css('display','none');
+		 $(".mask").css('display','none');
+	 })
+}
 
 //弹出层
 function popup(t,b){

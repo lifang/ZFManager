@@ -292,7 +292,7 @@
 				},
 	            function (data) {
 	            	if(data.indexOf("-1")==0){
-	            		$("#errorMsg").html(data.substring(2));
+	            		alert(data.substring(2));
 	            		return;
 	            	}
 	           		$('#row_'+id).replaceWith(data);
