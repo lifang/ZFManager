@@ -199,6 +199,22 @@
 	            });
 	}
 
+    function topHome(id){
+        $.get('<@spring.url "" />'+'/good/pos/'+id+'/topHome',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                    bindDiv();
+                });
+    }
+
+    function unTopHome(id){
+        $.get('<@spring.url "" />'+'/good/pos/'+id+'/unTopHome',
+                function (data) {
+                    $('#row_'+id).replaceWith(data);
+                    bindDiv();
+                });
+    }
+
     function importTerminal(id){
         $("#goodId").val(id);
         $("#terminals").val("");

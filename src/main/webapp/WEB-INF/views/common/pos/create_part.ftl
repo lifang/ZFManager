@@ -207,11 +207,14 @@
                     <div class="text"><textarea name="g_description" cols="" rows=""><#if (good.description)??>${good.description}</#if></textarea></div></li>
                 <li class="b"><span class="labelSpan">POS机图片：</span>
                     <div class="text" id="photos">
-                    <#list 0..2 as i>
+                    <#list 0..4 as i>
                         <form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             <div class="item_photoBox">
                                 <#if (good.pictures[i])??>
+                                    <span class="cover_span">
                                     <img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" value="${good.pictures[i].urlPath}" dbValue="${good.pictures[i].urlPath}" >
+                                        <a onClick="delPic(this)" title="删除">删除</a>
+                                    </span>
                                     <a href="javascript:void(0);" class="informImg_a">
                                         <span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="${i}"/>
                                     </a>
@@ -363,6 +366,12 @@
         $(obj).parent().remove();
     };
 
+    function delPic(obj){
+        $form = $(obj).parents("form");
+        $form.find(".item_photoBox a span").html("上传照片");
+        $(obj).parent().remove();
+    }
+
     function submitData(){
         var title=$("input[name='g_title']").val();
         if(isNull(title, "标题不能为空!")){return false;}
@@ -510,7 +519,10 @@
                         img.attr("value", data.result);
                         img.attr("dbValue", data.result);
                     } else{
-                        var newImg = '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" dbValue="'+data.result+'" value="'+data.result+'">';
+                        var newImg = '<span class="cover_span">' +
+                                '<img src="<@spring.url "/resources/images/zp.jpg" />" class="cover" dbValue="'+data.result+'" value="'+data.result+'">' +
+                                '<a onClick="delPic(this)" title="删除">删除</a>' +
+                                '</span>';
                         $('#fileForm'+index).find(".item_photoBox")
                                 .append(newImg);
                         $('#fileForm'+index).find(".item_photoBox a span").html("重新上传");

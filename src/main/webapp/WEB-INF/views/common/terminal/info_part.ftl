@@ -3,7 +3,7 @@
     <div class="user_title"><h1>终端详情</h1>
     <#if !(isFactory??) || !isFactory>
         <div class="userTopBtnBox">
-            <a href="javascript:void(0)" class="ghostBtn">同步</a>
+            <a class="ghostBtn">同步</a>
         </div>
     </#if>
     </div>
@@ -98,7 +98,16 @@
     </div>
 </#if>
     <div class="attributes_box">
-        <h2>开通详情<a  onclick="downloadFile()" class="a_btn">下载开通资料</a></h2>
+        <h2>开通详情
+        <#if (terminal.openingApplie.terminalOpeningInfos)??>
+            <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
+            <#if openingInfo.types == 2>
+                <a onclick="downloadFile()" class="a_btn">下载开通资料</a>
+                <#break>
+            </#if>
+            </#list>
+        </#if>
+        </h2>
         <div class="attributes_list_s clear">
             <ul>
                 <li>开通方向：<#if (terminal.openingApplie.types)??><#if terminal.openingApplie.types==1>对公<#else>对私</else></#if></#if></li>
@@ -114,7 +123,7 @@
                     <li><span class="labelSpan">${(openingInfo.key)!""}：</span>
                         <div class="text">
                             <#if openingInfo.types == 2>
-                                <img src="${(openingInfo.value)!}" value="${(openingInfo.value)!}" class="cover" />
+                                <img src="${(openingInfo.value)!}" value="${filePath+((openingInfo.value)!"")}" class="cover" />
                             <#else>
                             ${(openingInfo.value)!""}
                             </#if>
@@ -159,7 +168,7 @@
 		$.post('<@spring.url "/terminal/syncStatus" />',
 			{"terminalId":id},
 			function(data){
-			var data = eval("("+data+")");
+			    var data = eval("("+data+")");
 				if(data.code==1){
 					alert("同步成功");
 					location.reload();
@@ -170,7 +179,7 @@
 			});
 		});
 	});
-	
+
 	<#-- 控制长度-->
 	function checkLength(obj,lengthStr){
 		var temp=$(obj).val();
@@ -182,7 +191,7 @@
 			$(obj).css("border-color","darkgrey");
 		}
 	}
-	
+
     function writeMark(){
         var $tarea = $("#textWriteMark");
         var content = $tarea.val();

@@ -188,11 +188,17 @@ public class PosController {
 		model.addAttribute("good", good);
 		return "good/pos/pageRowPos";
 	}
+
+    @RequestMapping(value="{id}/topHome",method=RequestMethod.GET)
+    public String topHome(@PathVariable Integer id, Model model){
+        Good good = goodService.topHome(id);
+        model.addAttribute("good", good);
+        return "good/pos/pageRowPos";
+    }
 	
-	
-	@RequestMapping(value="{id}/unPurchase",method=RequestMethod.GET)
-	public String unPurchase(@PathVariable Integer id, Model model){
-		Good good = goodService.unPurchase(id);
+	@RequestMapping(value="{id}/unTopHome",method=RequestMethod.GET)
+	public String unTopHome(@PathVariable Integer id, Model model){
+		Good good = goodService.unTopHome(id);
 		model.addAttribute("good", good);
 		return "good/pos/pageRowPos";
 	}	
