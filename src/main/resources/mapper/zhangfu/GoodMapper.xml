@@ -45,6 +45,8 @@
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
     <result column="lease_description" jdbcType="LONGVARCHAR" property="leaseDescription" />
     <result column="lease_agreement" jdbcType="LONGVARCHAR" property="leaseAgreement" />
+    <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
+
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -74,7 +76,7 @@
       created_at, updated_at, belongs_to, 
       published_at, volume_number, purchase_number, 
       lease_deposit, return_time, description, 
-      lease_description, lease_agreement
+      lease_description, lease_agreement, is_recommend
       )
     values (#{title,jdbcType=VARCHAR}, #{secondTitle,jdbcType=VARCHAR}, #{keyWorlds,jdbcType=VARCHAR}, 
       #{factoryId,jdbcType=INTEGER}, #{posCategoryId,jdbcType=INTEGER}, #{modelNumber,jdbcType=VARCHAR}, 
@@ -88,7 +90,7 @@
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{belongsTo,jdbcType=INTEGER}, 
       #{publishedAt,jdbcType=TIMESTAMP}, #{volumeNumber,jdbcType=INTEGER}, #{purchaseNumber,jdbcType=INTEGER}, 
       #{leaseDeposit,jdbcType=INTEGER}, #{returnTime,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}, 
-      #{leaseDescription,jdbcType=LONGVARCHAR}, #{leaseAgreement,jdbcType=LONGVARCHAR}
+      #{leaseDescription,jdbcType=LONGVARCHAR}, #{leaseAgreement,jdbcType=LONGVARCHAR}, #{isRecommend,jdbcType=BIT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Good">
@@ -134,8 +136,9 @@
       return_time = #{returnTime,jdbcType=INTEGER},
       description = #{description,jdbcType=LONGVARCHAR},
       lease_description = #{leaseDescription,jdbcType=LONGVARCHAR},
-      lease_agreement = #{leaseAgreement,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      lease_agreement = #{leaseAgreement,jdbcType=LONGVARCHAR},
+      is_recommend = #{isRecommend,jdbcType=BIT}
+      where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
@@ -148,7 +151,7 @@
     total_comment, price, has_lease, lease_price, lease_time, status, is_published, good_brands_id, 
     created_user_id, created_user_type, created_at, updated_at, belongs_to, published_at, 
     volume_number, purchase_number, lease_deposit, return_time, description, lease_description, 
-    lease_agreement
+    lease_agreement, is_recommend
     from goods
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -162,7 +165,7 @@
     purchase_price, floor_price, floor_purchase_quantity, has_purchase, quantity, total_score, 
     total_comment, price, has_lease, lease_price, lease_time, status, is_published, good_brands_id, 
     created_user_id, created_user_type, created_at, updated_at, belongs_to, published_at, 
-    volume_number, purchase_number, lease_deposit, return_time, description, lease_description, 
+    volume_number, purchase_number, lease_deposit, return_time, description, lease_description, is_recommend
     lease_agreement
     from goods
   </select>

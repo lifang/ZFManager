@@ -326,6 +326,22 @@ public class GoodService {
 		return good;
 	}
 
+    @Transactional("transactionManager")
+    public Good topHome(Integer id) {
+        Good good = goodMapper.findPageRowGood(id);
+        good.setIsRecommend(true);
+        goodMapper.updateByPrimaryKey(good);
+        return good;
+    }
+
+    @Transactional("transactionManager")
+    public Good unTopHome(Integer id) {
+        Good good = goodMapper.findPageRowGood(id);
+        good.setIsRecommend(false);
+        goodMapper.updateByPrimaryKey(good);
+        return good;
+    }
+
 	@Transactional("transactionManager")
 	public void create(String title, String secondTitle, String keyWorlds,
 			Integer posCategoryId, Integer factoryId, String goodBrandName,
@@ -368,7 +384,7 @@ public class GoodService {
 		   good.setPrice((int)(price*100));
 	   }
 	   if (retailPrice != null) {
-		   good.setRetailPrice((int)(retailPrice*100));
+		   good.setRetailPrice((int) (retailPrice * 100));
 	   }
 	   
 	   //批购信息
@@ -376,7 +392,7 @@ public class GoodService {
 		   good.setPurchasePrice((int)(purchasePrice*100));
 	   }
 	   if (floorPrice != null) {
-		   good.setFloorPrice((int)(floorPrice*100));
+		   good.setFloorPrice((int) (floorPrice * 100));
 	   }
 	   good.setFloorPurchaseQuantity(floorPurchaseQuantity);
 	   
@@ -385,7 +401,7 @@ public class GoodService {
 		   good.setLeaseDeposit((int)(leaseDeposit*100));
 	   }
 	   if (leasePrice != null) {
-		   good.setLeasePrice((int)(leasePrice*100));
+		   good.setLeasePrice((int) (leasePrice * 100));
 	   }
 	   good.setLeaseTime(leaseTime);
 	   good.setReturnTime(returnTime);
@@ -465,6 +481,9 @@ public class GoodService {
 			String leaseAgreement, Integer[] channelIdList, String description,
 			String[] photoUrlList, Integer[] goodIdList) {
 	   Good good = goodMapper.selectByPrimaryKey(id);
+        if(good.getStatus() == Good.STATUS_CHECKED){
+            good.setStatus(Good.STATUS_WAITING_FIRST_CHECK);
+        }
 	   //基础信息
 	   good.setTitle(title);
 	   good.setSecondTitle(secondTitle);
