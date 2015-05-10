@@ -78,11 +78,13 @@ public class StockManageService {
 				resultType=6;
 				resultInfo.append("退货");
 			}
+			map.put("terminalId", terminalId);
 		}
 		
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
 		map.put("resultType", resultType);
+		
 		return map;
 	}
 	
@@ -124,7 +126,7 @@ public class StockManageService {
 				resultInfo.setLength(0);
 				resultInfo.append("该终端未找到售后类型或返修或者注销中,不予退回售后库");
 			}else{
-				int terminalId=Integer.parseInt(mapTemp.get("id").toString());
+				int terminalId=Integer.parseInt(mapTemp.get("terminalId").toString());
 				Terminal t=terminalMapper.selectByPrimaryKey(terminalId);
 				t.setCustomerId(null);
 				t.setAgentId(null);
