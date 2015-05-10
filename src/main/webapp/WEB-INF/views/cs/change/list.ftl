@@ -73,10 +73,58 @@
 	</div>
 </div>
 
+<div class="tab exchangeGoods_tab">
+	<a class="close">关闭</a>
+	<div class="tabHead">添加换货出库记录</div>
+	<div class="tabBody">
+		<div style="margin:-10px 0px 5px 0px;"><font id="errMsg" color="red"></font></div>
+		<textarea id="output_content" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号，以逗号(,)分隔"></textarea>
+	</div>
+	<div class="user_select"> 
+		<label>请选择支付通道</label> 
+		<select id="payChannelSelect">
+		<#if (payChannelList)??>
+			<#list payChannelList as one>
+				<option value="${one.id}">${one.name}</option> 
+			</#list>
+		</#if>
+		</select> 
+	</div>
+	<div class="tabFoot">
+		<button class="blueBtn" onClick="onOutput();">确定</button>
+	</div>
+</div>
 <script type="text/javascript">
-
 	var keyword;
 	var status;
+	var outputId;
+	function onPreOutput(csChangeId) {
+		outputId = csChangeId;
+		$("#errMsg").html("");
+		$("#output_content").val("");
+		$(".exchangeGoods_tab").show();
+		var doc_height = $(document).height();
+		$(".mask").css({display:'block',height:doc_height});
+	}
+	
+	function onOutput() {
+		var payChannelId=$("#payChannelSelect").val();
+		var terminalList = $("#output_content").val();
+		
+		$.post('<@spring.url "" />'+'/cs/change/'+outputId+'/output',
+            {"terminalList": terminalList,
+           	"payChannelId":payChannelId
+            }, 
+            function (data) {
+            	if(data.code==-1){
+					$("#errMsg").html(data.message);
+					return;
+            	}
+            	$(".exchangeGoods_tab").hide();
+    			$(".mask").hide();
+    			showErrorTip("添加换货出库记录成功");
+        });
+	}
 
 	$(function(){
 		$('#select_status').change(function(){
@@ -95,6 +143,7 @@
 				pageChange(1);
 			}
 		});
+		popup(".exchangeGoods_tab",".exchangeGoods_a");//添加换货出库记录
 	});
 	
 	function pageChange(page) {
@@ -132,6 +181,7 @@
 						+'<a class="a_btn" onClick="onFinish('+csChangeId+');">标记为换货完成</a>'
 	            	);
 	            	$("#status_"+csChangeId).text("处理完成");
+	            	
 	            });
 	}
 	
@@ -139,6 +189,7 @@
 	
 	function onPreConfirm(csChangeId) {
 		confirmId = csChangeId;
+		
 	}
 	
 	function onConfirm() {

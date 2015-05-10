@@ -129,7 +129,7 @@
   <select id="findPageSelective" resultMap="DetailedResultMap">
     <include refid="selectFrom" />
     <include refid="pageWhere" />
-    order by cr.process_user_id = #{customerId} desc, cr.created_at desc 
+    order by cr.created_at desc 
     limit #{pageRequest.offset}, #{pageRequest.pageSize}
   </select>
   
@@ -150,6 +150,10 @@
   <update id="dispatchUserByIds">
       update cs_returns set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
       <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
+  </update>
+  
+  <update id="updateReturnPriceById">
+  	update cs_returns set return_price=#{price},return_address_id=#{addressId} where id=#{id}
   </update>
   
 </mapper>

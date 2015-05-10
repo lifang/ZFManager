@@ -11,12 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.CsChange;
 import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsChangeService;
 import com.comdosoft.financial.manage.service.cs.CsCommonService;
@@ -27,6 +30,7 @@ import com.comdosoft.financial.manage.utils.page.Page;
 @RequestMapping("cs/change")
 public class CsChangeController {
 	
+	private static final String LOGIN_SESSION_KEY = "__LOGIN_KEY__";
 	@Autowired
 	private SessionService sessionService;
 	@Autowired
@@ -40,6 +44,7 @@ public class CsChangeController {
 		if ("".equals(keyword)) keyword = null;
 		Page<CsChange> csChanges = csChangeService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csChanges", csChanges);
+		model.addAttribute("payChannelList",csChangeService.getPayChannelList());
 	}
 	
 	@RequestMapping(value = "list", method = RequestMethod.GET)
@@ -102,4 +107,23 @@ public class CsChangeController {
     	model.addAttribute("mark", csChangeMark);
         return "cs/mark";
     }
+
+	@SuppressWarnings("finally")
+	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
+	@ResponseBody
+	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList,int payChannelId) throws Exception {
+		Response response2=new Response();
+		try{
+		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
+		
+		response2=csChangeService.changeGood(id, terminalList, customer,payChannelId);
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response2.setCode(Response.ERROR_CODE);
+			response2.setMessage(ex.getMessage());
+		}finally{
+			return response2;
+		}
+	}
 }

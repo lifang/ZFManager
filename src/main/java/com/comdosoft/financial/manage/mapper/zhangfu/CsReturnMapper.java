@@ -80,4 +80,6 @@ public interface CsReturnMapper {
 	 * @param params
 	 */
 	void dispatchUserByIds(Map<String, Object> params);
+	
+	int updateReturnPriceById(@Param("id") int id,@Param("addressId") int returnAddId,@Param("price") int price);
 }
