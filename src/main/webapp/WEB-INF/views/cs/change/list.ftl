@@ -203,13 +203,7 @@
 			 'phone':phone,
 			 'zipCode':zipCode,
 			 'address':address
-			 }, function(data) {
-			 	if(data.code==1){
-			 		alert(data.message);
-			 		location.reload();
-			 	}else{
-			 		alert(data.message);
-			 	}
+			 }, function(data) {location.reload();
 			 });
 	}
 

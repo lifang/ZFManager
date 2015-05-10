@@ -80,7 +80,7 @@
     -->
     select id, process_user_id, process_user_name, terminal_id, status, return_price, 
     bank_name, bank_account, should_cencel, cs_cencel_id, customer_id, created_at, updated_at, 
-    apply_num, cs_return_marks_id, return_address_id, reason
+    apply_num, return_address_id
     from cs_returns
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -91,7 +91,7 @@
     -->
     select id, process_user_id, process_user_name, terminal_id, status, return_price, 
     bank_name, bank_account, should_cencel, cs_cencel_id, customer_id, created_at, updated_at, 
-    apply_num, cs_return_marks_id, return_address_id, reason
+    apply_num, return_address_id
     from cs_returns
   </select>
   
