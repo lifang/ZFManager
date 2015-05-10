@@ -31,6 +31,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.GoodComment;
 import com.comdosoft.financial.manage.domain.zhangfu.GoodDetailPictures;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.PosCategory;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.DictionaryService;
 import com.comdosoft.financial.manage.service.FactoryService;
 import com.comdosoft.financial.manage.service.GoodCommentService;
@@ -492,17 +493,15 @@ public class PosController {
 	}
 
     @RequestMapping(value = "{id}/importTerminal", method = RequestMethod.POST)
-    public String importTerminal(@PathVariable Integer id, String data, Model model) {
+    @ResponseBody
+    public Response importTerminal(@PathVariable Integer id, String data, Model model) {
         List<String> errorCodes = terminalService.importTerminal(id, data);
         if(errorCodes.size() > 0 ){
             String error = "导入失败，以下终端号重复：\n"
                     + errorCodes.toString();
-            model.addAttribute("error", error);
-            return "common/error";
+            return Response.getError(error);
         }
-        Good good = goodService.findRowGood(id);
-        model.addAttribute("good", good);
-        return "good/pos/pageRowPos";
+        return Response.getSuccess("");
     }
     
     @RequestMapping(value="{id}/imgInfo",method=RequestMethod.GET)
@@ -561,4 +560,19 @@ public class PosController {
     	goodService.deleteImg(id);
 		return Response.getSuccess("删除成功");
 	}
+    
+    @RequestMapping(value="{id}/store",method=RequestMethod.GET)
+	public String store(@PathVariable Integer id, Model model){
+		Good good = goodService.findGoodInfo(id);
+		model.addAttribute("good", good);
+		List<Terminal> terminalList = goodService.findTerminalList(id);
+		model.addAttribute("terminalList", terminalList);
+		return "good/pos/store";
+	}
+    @RequestMapping(value="deleteTerminal",method=RequestMethod.POST)
+    public Response deleteTerminal(String terminalNum,Integer goodId){
+    	goodService.deleteTerminal(terminalNum,goodId);
+    	return Response.getSuccess("");
+    	
+    }
 }
