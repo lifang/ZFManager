@@ -207,6 +207,7 @@
                     <div class="text"><textarea name="g_description" cols="" rows=""><#if (good.description)??>${good.description}</#if></textarea></div></li>
                 <li class="b"><span class="labelSpan">POS机图片：</span>
                     <div class="text" id="photos">
+                    <p class="red">*请上传正方形图片</p>
                     <#list 0..4 as i>
                         <form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             <div class="item_photoBox">
