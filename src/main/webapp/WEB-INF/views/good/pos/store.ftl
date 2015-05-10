@@ -67,6 +67,7 @@
                        	"' onClick=&quto;&quto;deleteTer('"+terminalArray[i]+"',${good.id},'a_"+terminalArray[i]+"')&quto;&quto; class='x' title='删除'>删除</a></li>");
                    }
                    $(".pos_inventory_box>ul").prepend(htmlStr.join(""));
+                   window.location.reload();
                 });
     }
     
