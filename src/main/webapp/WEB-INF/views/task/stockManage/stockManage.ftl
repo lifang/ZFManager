@@ -73,6 +73,11 @@
 
 
 <script type="text/javascript">
+	$(function(){
+		$(".tab>a").click(function(){
+			$(this).parent().hide();
+		});
+	});
 	function closeTab(val){
 		$("#div"+val).hide();
 		
