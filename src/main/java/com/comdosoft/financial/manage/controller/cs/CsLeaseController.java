@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
@@ -85,11 +87,42 @@ public class CsLeaseController {
 		csLeaseService.finish(id);
 	}
 	
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "{id}/confirm", method = RequestMethod.POST)
-	public void confirmReturn(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, CsReceiverAddress csReceiverAddress) {
-		Customer customer = sessionService.getLoginInfo(request);
-		csLeaseService.confirm(id, csReceiverAddress, customer);
+	@ResponseBody
+	public Response confirmReturn(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, 
+			CsReceiverAddress csReceiverAddress) throws Exception {
+		Response response1=new Response();
+		response1.setCode(Response.SUCCESS_CODE);
+		try{
+			Customer customer = sessionService.getLoginInfo(request);
+			response1=csLeaseService.confirm(id, csReceiverAddress, customer);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response1.setCode(Response.ERROR_CODE);
+			response1.setMessage(ex.getMessage());
+		}finally{
+			return response1;
+		}
 	}
+	
+	@SuppressWarnings("finally")
+	@RequestMapping(value = "{id}/createRefund", method = RequestMethod.POST)
+	@ResponseBody
+	public Response createRefund(HttpServletRequest request, HttpServletResponse response,  @PathVariable Integer id) throws Exception{
+		Response response1=new Response();
+		Customer customer = sessionService.getLoginInfo(request);
+		try{
+		response1=csLeaseService.createRefund(id, customer);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response1.setCode(Response.ERROR_CODE);
+			response1.setMessage(ex.getMessage());
+		}finally{
+			return response1;
+		}
+	}
+	
 	
 	@RequestMapping(value = "dispatch", method = RequestMethod.POST)
 	public void dispatch(HttpServletRequest request, HttpServletResponse response, String ids, Integer customerId, String customerName) {

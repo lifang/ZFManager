@@ -17,9 +17,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.trades.TradeRecord;
 import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturnMark;
@@ -105,32 +107,102 @@ public class CsLeaseService {
 		}
 	}
 	
-	@Transactional("transactionManager")
-	public void confirm(Integer id, CsReceiverAddress csReceiverAddress, Customer customer) {
-		csReceiverAddress.setCreatedAt(new Date());
-		csReceiverAddressMapper.insert(csReceiverAddress);
+	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Response createRefund(int csLeaseId,Customer customer) throws Exception{
+		Response res=new Response();
+		int resultCode=1;
+		StringBuilder resultInfo=new StringBuilder();
+		resultInfo.setLength(0);
+		resultInfo.append("生成退款单成功");
 		
-		CsLeaseReturn csLease = csLeaseReturnMapper.selectInfoByPrimaryKey(id);
+		CsLeaseReturn csLease =csLeaseReturnMapper.selectInfoByPrimaryKey(csLeaseId);
+		CsReceiverAddress csReceiverAddress=csReceiverAddressMapper.selectByPrimaryKey(csLease.getReturnAddressId());
+		  if (null != csLease) {
+		   CsRefund csRefund = new CsRefund();
+		   csRefund.setBankAccount(null);
+		   csRefund.setBankName(null);
+		   csRefund.setCreatedAt(new Date());
+		   csRefund.setPayee(csReceiverAddress.getReceiver());
+		   csRefund.setPayeePhone(csReceiverAddress.getPhone());
+		   csRefund.setProcessUserId(customer.getId());
+		   csRefund.setProcessUserName(customer.getName());
+		   csRefund.setReturnPrice(csLease.getReturnPrice());
+		   csRefund.setStatus((byte)CsRefund.STATIC_1);
+		   csRefund.setTargetId(csLeaseId);
+		   csRefund.setTargetType((byte)CsRefund.TYPE_2);
+		   csRefund.setTypes((byte)1);
+		   csRefund.setUpdatedAt(new Date());
+		   csRefund.setApplyNum(new Date().getTime()+"");
+		   
+		   List<Map<String, Object>> temp1=csRefundMapper.getByTargetIdType(csRefund.getTargetId(), csRefund.getTargetType());
+		   if(null!=temp1 && temp1.size()>0){
+			   resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("已生成退款单");
+				throw new Exception("已生成退款单");
+		   }else{
+			   int temp=csRefundMapper.insert(csRefund);
+			   if(temp<1){
+				   resultCode=Response.ERROR_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("生成退款单出错");
+					throw new Exception("生成退款单出错");
+			   }
+		   }
+		  }
+		  res.setCode(resultCode);
+			res.setMessage(resultInfo.toString());
+			return res;
+	}
+	
+	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Response confirm(Integer csLeaseId, CsReceiverAddress csReceiverAddress, Customer customer) throws Exception {
+		Response res=new Response();
+		int resultCode=1;
+		StringBuilder resultInfo=new StringBuilder();
+		resultInfo.setLength(0);
+		resultInfo.append("确认退货成功");
+		
+		csReceiverAddress.setCreatedAt(new Date());
+		Float temp=csReceiverAddress.getReturnMoney()*100;
+		int temp1=csReceiverAddressMapper.insert(csReceiverAddress);
+		if(temp1<1){
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("插入退货地址出错");
+			throw new Exception("插入退货地址出错");
+		}
+		int temp3=0;
+		try {
+			temp3=temp.intValue();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception("输入的退款金额有误，请重新输入");
+		}
+		CsLeaseReturn csLease =csLeaseReturnMapper.selectInfoByPrimaryKey(csLeaseId);
 		if (null != csLease) {
 			csLease.setReturnAddressId(csReceiverAddress.getId());
 			csLease.setUpdatedAt(new Date());
 			csLease.setStatus(HANDLE);
-			csLeaseReturnMapper.updateByPrimaryKey(csLease);
-			
-			CsRefund csRefund = new CsRefund();
-			csRefund.setCreatedAt(new Date());
-			csRefund.setPayee(csReceiverAddress.getReceiver());
-			csRefund.setPayeePhone(csReceiverAddress.getPhone());
-			csRefund.setProcessUserId(customer.getId());
-			csRefund.setProcessUserName(customer.getName());
-			csRefund.setReturnPrice(calculateLease(null, csLease, true));
-			csRefund.setStatus((byte)CsRefund.STATIC_1);
-			csRefund.setTargetId(id);
-			csRefund.setTargetType((byte)2);
-			csRefund.setTypes((byte)2);
-			csRefund.setUpdatedAt(new Date());
-			csRefundMapper.insert(csRefund);
+			csLease.setReturnPrice(temp3);
+		   
+		    int temp2=csLeaseReturnMapper.updateByPrimaryKey(csLease);
+			if(temp2<1){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("更新退款金额出错");
+				throw new Exception("更新退款金额出错");
+			}
+		}else{
+			resultCode=Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("系统异常，请稍后重试");
+			throw new Exception("系统异常，请稍后重试");
 		}
+		res.setCode(resultCode);
+		res.setMessage(resultInfo.toString());
+		return res;
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {

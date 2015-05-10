@@ -34,7 +34,7 @@
 		<where>
 			1=1
 			<if test="status != null"> AND a.status =#{status} </if>
-			<if test="keys != null"> AND a.description =#{keys} </if>
+			<if test="keys != null"> AND a.description like '%${keys}%' </if>
 		</where>
 	</sql>
 	<select id="findPageOutStoresByKeys" resultMap="BaseResultMap">
