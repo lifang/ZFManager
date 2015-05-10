@@ -100,6 +100,7 @@ public class CsReturnService {
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Response createRefund(int csReturnId,Customer customer) throws Exception{
+		Response res=new Response();
 		int resultCode=1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
@@ -119,23 +120,35 @@ public class CsReturnService {
 		   csRefund.setReturnPrice(csReturn.getReturnPrice());
 		   csRefund.setStatus((byte)CsRefund.STATIC_1);
 		   csRefund.setTargetId(csReturnId);
-		   csRefund.setTargetType((byte)1);
+		   csRefund.setTargetType((byte)CsRefund.TYPE_1);
 		   csRefund.setTypes((byte)1);
 		   csRefund.setUpdatedAt(new Date());
 		   csRefund.setApplyNum(new Date().getTime()+"");
-		   int temp=csRefundMapper.insert(csRefund);
-		   if(temp<1){
+		   
+		   List<Map<String, Object>> temp1=csRefundMapper.getByTargetIdType(csRefund.getTargetId(), csRefund.getTargetType());
+		   if(null!=temp1 && temp1.size()>0){
 			   resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("生成退款单出错");
-				throw new Exception("生成退款单出错");
+				resultInfo.append("已生成退款单");
+				throw new Exception("已生成退款单");
+		   }else{
+			   int temp=csRefundMapper.insert(csRefund);
+			   if(temp<1){
+				   resultCode=Response.ERROR_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("生成退款单出错");
+					throw new Exception("生成退款单出错");
+			   }
 		   }
 		  }
-		return Response.getSuccess(resultInfo);
+		  res.setCode(resultCode);
+			res.setMessage(resultInfo.toString());
+			return res;
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Response confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress, Customer customer) throws Exception {
+		Response res=new Response();
 		int resultCode=1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
@@ -178,7 +191,9 @@ public class CsReturnService {
 			resultInfo.append("系统异常，请稍后重试");
 			throw new Exception("系统异常，请稍后重试");
 		}
-		return Response.getSuccess(resultInfo);
+		res.setCode(resultCode);
+		res.setMessage(resultInfo.toString());
+		return res;
 	}
 	
 	public void dispatch(String ids, Integer customerId, String customerName) {

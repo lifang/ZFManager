@@ -156,6 +156,7 @@ public class CsChangeService {
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Response changeGood(int csChangeId,String terminalsStr,Customer customer,int payChannelId) throws Exception{
+		Response res=new Response();
 		int resultCode=1;
 		StringBuilder resultInfo=new StringBuilder();
 		resultInfo.setLength(0);
@@ -208,9 +209,12 @@ public class CsChangeService {
 		}
 		//解绑信息  在任务，售后库存管理  放入售后库存中操作
 		if(resultCode==1){
-			return Response.getSuccess(resultInfo.toString());
+			res.setCode(resultCode);
+			res.setMessage(resultInfo.toString());
 		}else{
-			return Response.getError(resultInfo.toString());
+			res.setCode(resultCode);
+			res.setMessage(resultInfo.toString());
 		}
+		return res;
 	}
 }

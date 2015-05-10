@@ -44,14 +44,12 @@
       status, return_price, bank_name, 
       bank_account, should_cencel, cs_cencel_id, 
       customer_id, created_at, updated_at, 
-      apply_num, cs_return_marks_id, return_address_id, 
-      reason)
+      apply_num,  return_address_id)
     values (#{processUserId,jdbcType=INTEGER}, #{processUserName,jdbcType=VARCHAR}, #{terminalId,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{returnPrice,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, 
       #{bankAccount,jdbcType=VARCHAR}, #{shouldCencel,jdbcType=BIT}, #{csCencelId,jdbcType=INTEGER}, 
       #{customerId,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{applyNum,jdbcType=VARCHAR}, #{csReturnMarksId,jdbcType=INTEGER}, #{returnAddressId,jdbcType=INTEGER}, 
-      #{reason,jdbcType=LONGVARCHAR})
+      #{applyNum,jdbcType=VARCHAR},  #{returnAddressId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsReturn">
     <!--
@@ -72,9 +70,7 @@
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       apply_num = #{applyNum,jdbcType=VARCHAR},
-      cs_return_marks_id = #{csReturnMarksId,jdbcType=INTEGER},
-      return_address_id = #{returnAddressId,jdbcType=INTEGER},
-      reason = #{reason,jdbcType=LONGVARCHAR}
+      return_address_id = #{returnAddressId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
