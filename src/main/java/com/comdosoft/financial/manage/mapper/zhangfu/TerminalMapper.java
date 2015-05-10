@@ -93,4 +93,8 @@ public interface TerminalMapper {
     
 	Terminal findTerminal(String terminal);
 	
+	List<Terminal> findTerminalsByGoodId(Integer goodId);
+	
+	int deleteByNum(String terminalNum);
+	
 }

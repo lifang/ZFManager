@@ -158,6 +158,7 @@ public class TerminalService {
                 terminal.setType(Terminal.TYPE_SYSTEM);
                 terminal.setCreatedAt(new Date());
                 terminal.setUpdatedAt(new Date());
+                terminal.setIsReturnCsDepots(Terminal.IS_RETURN_CS_DEPOTS);
                 terminalMapper.insert(terminal);
                 quantity++;
             }

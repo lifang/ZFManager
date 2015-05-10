@@ -41,6 +41,8 @@ public class GoodService {
     private CustomerMapper customerMapper;
     @Autowired
     private GoodDetailPicturesMapper goodDetailPicturesMapper;
+    @Autowired
+    private TerminalMapper terminalMapper;
 
     public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
 		Integer factoryId = null;
@@ -696,6 +698,17 @@ public class GoodService {
 	
 	public GoodDetailPictures getGoodImg(Integer id){
 		return goodDetailPicturesMapper.selectById(id);
+	}
+
+	public List<Terminal> findTerminalList(Integer goodId) {
+		return terminalMapper.findTerminalsByGoodId(goodId);
+	}
+
+	@Transactional("transactionManager")
+	public void deleteTerminal(String terminalNum, Integer goodId) {
+		terminalMapper.deleteByNum(terminalNum);
+		goodMapper.updateQuantity(goodId, 1);
+		
 	}
 
 }

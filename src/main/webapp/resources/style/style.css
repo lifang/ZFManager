@@ -35,7 +35,7 @@ strong.blue { color: #0071cf;}
 .btnBottom { margin: 10px 10px 10px 0; padding: 10px 10px 10px 0; text-align: left;}
 .btnBottom button { margin-right: 10px;}
 
-.greenBtn, .whiteBtn, .orangeBtn, .ghostBtn, .blueBtn { 
+.greenBtn, .whiteBtn, .orangeBtn, .ghostBtn, .blueBtn, .grayBtn { 
 	padding: 8px 40px; 
 	color: #FFF;
 	font-size: 14px; 
@@ -47,8 +47,9 @@ strong.blue { color: #0071cf;}
 .whiteBtn, .ghostBtn { background: #fff; border: 1px #ccc solid; color: #333;}
 .orangeBtn { background: #ff5f2b; border: 1px #ff5f2b solid;}
 .blueBtn { background: #067bdc; border: 1px #067bdc solid;}
+.grayBtn { background: #999; border: 1px #999 solid;}
 
-.greenBtn:hover, .whiteBtn:hover {
+.greenBtn:hover, .whiteBtn:hover, .grayBtn:hover  {
 	box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }
 .orangeBtn:hover {
@@ -168,14 +169,13 @@ i.no1 {
 	width: 1000px; 
 	height: 742px; 
 	margin: 0 auto; 
-	background: url(../images/map.jpg) no-repeat;
 	position: relative;
 }
 
 .m_data {
 	position: absolute;
 	padding: 10px;
-	background: rgba(0,153,255,0.8);
+	background: rgba(32,170,201,0.8);
 	color: #FFF;
 	z-index: 1000;
 }
@@ -1366,6 +1366,7 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	right: 0px;
 }
 
+
 /*--------upLoadImg_con POS机 图片管理-------------*/
 .upLoadImg_con { width: 880px; }
 .upLoadImg_con li { position: relative; width: 880px; font-size: 0px;}
@@ -1382,3 +1383,48 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	border: 1px #ff4a00 solid;
 	z-index: 1000;
 }
+
+/*-------POS机管理-库存管理-------*/
+.pos_inventory {}
+.pos_inventory h2 { font-size: 14px; line-height: 28px; margin-bottom: 10px;}
+.pos_inventory h3 { font-size: 12px; line-height: 24px; border-bottom: 1px #CCCCCC solid;}
+.pos_inventory_box { overflow: hidden; padding: 10px 0;}
+.pos_inventory_box textarea { width: 98%; height:120px; padding: 5px;}
+.pos_inventory_box .pit_btn { overflow: hidden; margin-top: 20px;}
+.pos_inventory_box button { width: 120px; float: left; margin-right: 20px;}
+.pos_inventory_box .pit_btn p { padding: 10px;}
+
+.pos_inventory_box li {
+	border: 1px #CCCCCC solid; 
+	padding:5px 10px; 
+	margin: 10px; 
+	display: inline-block;
+	width: 15%;
+	position: relative;
+}
+.pos_inventory_box li:hover { background: #f5f5f5; box-shadow: 0px 0px 2px rgba(0,0,0,0.2);}
+.pos_inventory_box li span { 
+	padding: 0 5px; 
+	display: inline-block; 
+	width: 126px;
+	white-space: nowrap;
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.pos_inventory_box li a.x { 
+	width: 8px; 
+	height: 8px; 
+	display: inline-block;
+	text-indent: -999px;
+	overflow: hidden;
+	background: url(../images/icons.png) no-repeat -185px -275px #FFFFFF;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+
+.inventory_tab .tabBody p { font-size: 16px; color: #F00; padding: 30px 0 10px 0; text-align: center;}
+.inventory_tab .tabFoot { text-align: center;}
+.inventory_tab .tabFoot button { margin: 0 10px;}
