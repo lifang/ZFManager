@@ -46,18 +46,23 @@ public class CsReturnService {
 	private CsReceiverAddressMapper csReceiverAddressMapper;
 	@Autowired
 	private CsRefundMapper csRefundMapper;
-	
-	public Page<CsReturn> findPage(Customer customer, int page, Byte status, String keyword) {
+
+	public Page<CsReturn> findPage(Customer customer, int page, Byte status,
+			String keyword) {
 		long count = csReturnMapper.countSelective(status, keyword);
 		PageRequest request = new PageRequest(page, pageSize);
 		if (count == 0) {
-			return new Page<CsReturn>(new PageRequest(1, pageSize), new ArrayList<CsReturn>(), count);
+			return new Page<CsReturn>(new PageRequest(1, pageSize),
+					new ArrayList<CsReturn>(), count);
 		} else {
-			if (pageSize <= 0) pageSize = 1;
-			int totalPage = (int)Math.ceil((double) count / pageSize);
-			if (page > totalPage) request = new PageRequest(totalPage, pageSize);
+			if (pageSize <= 0)
+				pageSize = 1;
+			int totalPage = (int) Math.ceil((double) count / pageSize);
+			if (page > totalPage)
+				request = new PageRequest(totalPage, pageSize);
 		}
-		List<CsReturn> result = csReturnMapper.findPageSelective(request,customer.getId(), status, keyword);
+		List<CsReturn> result = csReturnMapper.findPageSelective(request,
+				customer.getId(), status, keyword);
 		Page<CsReturn> csReturns = new Page<CsReturn>(request, result, count);
 		return csReturns;
 	}
@@ -65,7 +70,7 @@ public class CsReturnService {
 	public CsReturn findInfoById(Integer id) {
 		return csReturnMapper.selectInfoByPrimaryKey(id);
 	}
-	
+
 	public CsReturn updateStatus(Integer csReturnId, Byte status) {
 		CsReturn csReturn = csReturnMapper.selectByPrimaryKey(csReturnId);
 		csReturn.setStatus(status);
@@ -73,99 +78,114 @@ public class CsReturnService {
 		csReturnMapper.updateByPrimaryKey(csReturn);
 		return csReturn;
 	}
-	
+
 	public void handle(Integer csReturnId) {
 		updateStatus(csReturnId, HANDLE);
 	}
-	
+
 	@Transactional("transactionManager")
 	public void cancel(Integer csReturnId) {
 		CsReturn csReturn = updateStatus(csReturnId, CANCEL);
-		
+
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
 		}
 	}
-	
+
 	@Transactional("transactionManager")
 	public void finish(Integer csReturnId) {
 		CsReturn csReturn = updateStatus(csReturnId, FINISH);
-		
+
 		Integer terminalId = csReturn.getTerminalId();
 		if (null != terminalId) {
 			terminalMapper.closeCsReturnDepotsById(terminalId);
 		}
 	}
-	
-	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Response createRefund(int csReturnId,Customer customer) throws Exception{
-		Response res=new Response();
-		int resultCode=1;
-		StringBuilder resultInfo=new StringBuilder();
+
+	@Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Response createRefund(int csReturnId, Customer customer)
+			throws Exception {
+		Response res = new Response();
+		int resultCode = 1;
+		StringBuilder resultInfo = new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("生成退款单成功");
-		
+
 		CsReturn csReturn = csReturnMapper.selectInfoByPrimaryKey(csReturnId);
-		CsReceiverAddress csReceiverAddress=csReceiverAddressMapper.selectByPrimaryKey(csReturn.getReturnAddressId());
-		  if (null != csReturn) {
-		   CsRefund csRefund = new CsRefund();
-		   csRefund.setBankAccount(csReturn.getBankAccount());
-		   csRefund.setBankName(csReturn.getBankName());
-		   csRefund.setCreatedAt(new Date());
-		   csRefund.setPayee(csReceiverAddress.getReceiver());
-		   csRefund.setPayeePhone(csReceiverAddress.getPhone());
-		   csRefund.setProcessUserId(customer.getId());
-		   csRefund.setProcessUserName(customer.getName());
-		   csRefund.setReturnPrice(csReturn.getReturnPrice());
-		   csRefund.setStatus((byte)CsRefund.STATIC_1);
-		   csRefund.setTargetId(csReturnId);
-		   csRefund.setTargetType((byte)CsRefund.TYPE_1);
-		   csRefund.setTypes((byte)1);
-		   csRefund.setUpdatedAt(new Date());
-		   csRefund.setApplyNum(new Date().getTime()+"");
-		   
-		   List<Map<String, Object>> temp1=csRefundMapper.getByTargetIdType(csRefund.getTargetId(), csRefund.getTargetType());
-		   if(null!=temp1 && temp1.size()>0){
-			   resultCode=Response.ERROR_CODE;
+		CsReceiverAddress csReceiverAddress = csReceiverAddressMapper
+				.selectByPrimaryKey(csReturn.getReturnAddressId());
+		if (null != csReturn) {
+			if (csReturn.getStatus() == CsReturn.STATUS_1
+					|| csReturn.getStatus() == CsReturn.STATUS_2) {
+				resultCode = Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("已生成退款单");
-				throw new Exception("已生成退款单");
-		   }else{
-			   int temp=csRefundMapper.insert(csRefund);
-			   if(temp<1){
-				   resultCode=Response.ERROR_CODE;
+				resultInfo.append("退款单已生成，请勿重复生成");
+				throw new Exception("退款单已生成，请勿重复生成");
+			} else {
+				CsRefund csRefund = new CsRefund();
+				csRefund.setBankAccount(csReturn.getBankAccount());
+				csRefund.setBankName(csReturn.getBankName());
+				csRefund.setCreatedAt(new Date());
+				csRefund.setPayee(csReceiverAddress.getReceiver());
+				csRefund.setPayeePhone(csReceiverAddress.getPhone());
+				csRefund.setProcessUserId(customer.getId());
+				csRefund.setProcessUserName(customer.getName());
+				csRefund.setReturnPrice(csReturn.getReturnPrice());
+				csRefund.setStatus((byte) CsRefund.STATIC_1);
+				csRefund.setTargetId(csReturnId);
+				csRefund.setTargetType((byte) CsRefund.TYPE_1);
+				csRefund.setTypes((byte) 1);
+				csRefund.setUpdatedAt(new Date());
+				csRefund.setApplyNum(new Date().getTime() + "");
+
+				List<Map<String, Object>> temp1 = csRefundMapper
+						.getByTargetIdType(csRefund.getTargetId(),
+								csRefund.getTargetType());
+				if (null != temp1 && temp1.size() > 0) {
+					resultCode = Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("生成退款单出错");
-					throw new Exception("生成退款单出错");
-			   }
-		   }
-		  }
-		  res.setCode(resultCode);
-			res.setMessage(resultInfo.toString());
-			return res;
+					resultInfo.append("已生成退款单");
+					throw new Exception("已生成退款单");
+				} else {
+					int temp = csRefundMapper.insert(csRefund);
+					if (temp < 1) {
+						resultCode = Response.ERROR_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("生成退款单出错");
+						throw new Exception("生成退款单出错");
+					}
+				}
+			}
+
+		}
+		res.setCode(resultCode);
+		res.setMessage(resultInfo.toString());
+		return res;
 	}
-	
-	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Response confirm(Integer csReturnId, CsReceiverAddress csReceiverAddress, Customer customer) throws Exception {
-		Response res=new Response();
-		int resultCode=1;
-		StringBuilder resultInfo=new StringBuilder();
+
+	@Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Response confirm(Integer csReturnId,
+			CsReceiverAddress csReceiverAddress, Customer customer)
+			throws Exception {
+		Response res = new Response();
+		int resultCode = 1;
+		StringBuilder resultInfo = new StringBuilder();
 		resultInfo.setLength(0);
 		resultInfo.append("确认退货成功");
-		
+
 		csReceiverAddress.setCreatedAt(new Date());
-		Float temp=csReceiverAddress.getReturnMoney()*100;
-		int temp1=csReceiverAddressMapper.insert(csReceiverAddress);
-		if(temp1<1){
-			resultCode=Response.ERROR_CODE;
+		Float temp = csReceiverAddress.getReturnMoney() * 100;
+		int temp1 = csReceiverAddressMapper.insert(csReceiverAddress);
+		if (temp1 < 1) {
+			resultCode = Response.ERROR_CODE;
 			resultInfo.setLength(0);
 			resultInfo.append("插入退货地址出错");
 			throw new Exception("插入退货地址出错");
 		}
-		int temp3=0;
+		int temp3 = 0;
 		try {
-			temp3=temp.intValue();
+			temp3 = temp.intValue();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,20 +193,20 @@ public class CsReturnService {
 		}
 		CsReturn csReturn = csReturnMapper.selectInfoByPrimaryKey(csReturnId);
 		if (null != csReturn) {
-		   csReturn.setReturnAddressId(csReceiverAddress.getId());
-		   csReturn.setUpdatedAt(new Date());
-		   csReturn.setStatus(HANDLE);
-		   csReturn.setReturnPrice(temp3);
-		   
-		    int temp2=csReturnMapper.updateByPrimaryKey(csReturn);
-			if(temp2<1){
-				resultCode=Response.ERROR_CODE;
+			csReturn.setReturnAddressId(csReceiverAddress.getId());
+			csReturn.setUpdatedAt(new Date());
+			csReturn.setStatus(HANDLE);
+			csReturn.setReturnPrice(temp3);
+
+			int temp2 = csReturnMapper.updateByPrimaryKey(csReturn);
+			if (temp2 < 1) {
+				resultCode = Response.ERROR_CODE;
 				resultInfo.setLength(0);
 				resultInfo.append("更新退款金额出错");
 				throw new Exception("更新退款金额出错");
 			}
-		}else{
-			resultCode=Response.ERROR_CODE;
+		} else {
+			resultCode = Response.ERROR_CODE;
 			resultInfo.setLength(0);
 			resultInfo.append("系统异常，请稍后重试");
 			throw new Exception("系统异常，请稍后重试");
@@ -195,7 +215,7 @@ public class CsReturnService {
 		res.setMessage(resultInfo.toString());
 		return res;
 	}
-	
+
 	public void dispatch(String ids, Integer customerId, String customerName) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ids", ids.split(","));
@@ -203,8 +223,9 @@ public class CsReturnService {
 		params.put("customerName", customerName);
 		csReturnMapper.dispatchUserByIds(params);
 	}
-	
-	public CsReturnMark createMark(Customer customer, Integer csReturnId, String content) {
+
+	public CsReturnMark createMark(Customer customer, Integer csReturnId,
+			String content) {
 		CsReturnMark csReturnMark = new CsReturnMark();
 		csReturnMark.setCustomerId(customer.getId());
 		csReturnMark.setCsReturnId(csReturnId);
@@ -214,7 +235,7 @@ public class CsReturnService {
 		csReturnMark.setCustomer(customer);
 		return csReturnMark;
 	}
-	
+
 	public List<CsReturnMark> findMarksByCsReturnId(Integer csReturnId) {
 		return csReturnMarkMapper.selectByReturnId(csReturnId);
 	}
