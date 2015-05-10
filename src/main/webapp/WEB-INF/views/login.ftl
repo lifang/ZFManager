@@ -34,6 +34,7 @@
                         </li>
                     </ul>
                     <input type="hidden" name="type" value="3" />
+                    <input type="hidden" name="type" value="4" />
                     <div class="forget">
                         <span><input name="remember" type="checkbox" value="remember"/>下次自动登陆</span>
                         <a href="#">忘记密码？</a>

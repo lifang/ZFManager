@@ -1,5 +1,7 @@
 package com.comdosoft.financial.manage.controller;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
 import nl.captcha.Captcha;
@@ -41,7 +43,7 @@ public class LoginController {
 
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	@ResponseBody
-	public Response loginPost(String passport,String password,String captcha,Byte type,
+	public Response loginPost(String passport,String password,String captcha,byte[] type,
 			HttpServletRequest request){
 		LOG.info("{},登陆",passport);
 		Captcha sessionCaptcha = (Captcha) request.getSession().getAttribute(Captcha.NAME);
@@ -58,9 +60,7 @@ public class LoginController {
 			return Response.getError("验证码不正确！");
 		}
 		Customer customer = customerService.login(passport, password);
-		if(customer==null || 
-				(customer.getTypes()!=Customer.TYPE_SUPER 
-				&& !customer.getTypes().equals(type))) {
+		if(customer==null || (Arrays.binarySearch(type, customer.getTypes())<0)) {
 			return Response.getError("用户名或密码不正确！");
 		}
 		sessionService.storeLoginInfo(request, customer);
