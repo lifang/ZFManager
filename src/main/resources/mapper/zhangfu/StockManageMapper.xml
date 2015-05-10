@@ -44,4 +44,7 @@
 	<select id="isReturns" resultType="hashmap">
 		select id from cs_returns where 1=1 and terminal_id=#{terminalId} and status not in(4,5)
 	</select>
+	
+	
+	
 </mapper>

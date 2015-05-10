@@ -90,4 +90,6 @@ public interface OutStoreMapper {
 	int getQuantityInOutStorage(@Param("orderId") int orderId,@Param("goodId") int goodId,@Param("csOutStorageId") int csOutStorageId);
 	
 	String getOrderNumberById(@Param("orderId") int orderId);
+	
+	List<Map<String, Object>> getPayChannelList();
 }

@@ -227,7 +227,7 @@ where a.id=#{id}
    </select>
    
    <select id="getTerminalsInfo" resultType="map">
-   		select ifnull(customer_id,"") as customerId,ifnull(agent_id,"") as agentId,is_return_cs_depots from terminals where serial_num=#{serialNum}
+   		select ifnull(customer_id,"") as customerId,ifnull(agent_id,"") as agentId,is_return_cs_depots,status,good_id as goodId from terminals where serial_num=#{serialNum}
    </select>
    
    <select id="getAllQuantityCsOutStorage" resultType="int">
@@ -246,6 +246,10 @@ where a.id=#{id}
    
    <select id="getOrderNumberById" resultType="String">
    	select ifnull(order_number,"") as orderNumber from orders where id=#{orderId}
+   </select>
+   
+   <select id="getPayChannelList" resultType="map">
+   	select id,name from pay_channels where status=5
    </select>
    
 </mapper>

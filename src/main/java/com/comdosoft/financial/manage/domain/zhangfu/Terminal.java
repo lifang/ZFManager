@@ -255,7 +255,11 @@ public class Terminal {
 	 * @mbggenerated
 	 */
 	public Integer getAgentId() {
-		return agentId;
+		if(agentId.equals("")){
+			return null;
+		}else{
+			return agentId;
+		}
 	}
 
 	/**
@@ -273,7 +277,11 @@ public class Terminal {
 	 * @mbggenerated
 	 */
 	public Integer getOrderId() {
-		return orderId;
+		if(orderId==-1){
+			return null;
+		}else{
+			return orderId;
+		}
 	}
 
 	/**

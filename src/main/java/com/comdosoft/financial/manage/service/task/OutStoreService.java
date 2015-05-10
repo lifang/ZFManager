@@ -23,6 +23,7 @@ import java.util.Map;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -436,6 +437,12 @@ public class OutStoreService {
 								resultInfo.setLength(0);
 								resultInfo.append("输入的终端号已被使用");
 								throw new Exception("输入的终端号已被使用");
+							}
+							if(!tempList.get(0).get("status").toString().equals("0")){
+								resultCode=Response.ERROR_CODE;
+								resultInfo.setLength(0);
+								resultInfo.append("输入的终端号为未开通状态,不可使用");
+								throw new Exception("输入的终端号为未开通状态,不可使用");
 							}
 							if(tempList.get(0).get("is_return_cs_depots").toString().equals("false")){
 								resultCode=Response.ERROR_CODE;
