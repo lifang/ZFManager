@@ -22,6 +22,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.CsChangeMark;
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsChangeMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
@@ -172,13 +173,13 @@ public class CsChangeService {
 				resultInfo.append("输入的终端号已被使用");
 				throw new Exception("输入的终端号已被使用");
 			}
-			if(!tempList.get(0).get("status").toString().equals("0")){
+			if(!tempList.get(0).get("status").toString().equals(String.valueOf(Terminal.STATUS_NO_OPEN))){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("输入的终端号为未开通状态,不可使用");
-				throw new Exception("输入的终端号为未开通状态,不可使用");
+				resultInfo.append("输入的终端号不是未开通状态,不可使用");
+				throw new Exception("输入的终端号不是未开通状态,不可使用");
 			}
-			if(tempList.get(0).get("is_return_cs_depots").toString().equals("false")){
+			if(tempList.get(0).get("is_return_cs_depots").toString().equals("true")){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
 				resultInfo.append("输入的终端号在售后库存中");
