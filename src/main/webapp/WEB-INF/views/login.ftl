@@ -20,7 +20,7 @@
         <div class="lr_h">
             <ul>
                 <li class="hover">运营登录</li>
-                <li>第三方机构登陆</li>
+                <li>第三方机构登录</li>
             </ul>
         </div>
         <div class="lr_b">
