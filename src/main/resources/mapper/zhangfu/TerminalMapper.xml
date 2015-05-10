@@ -265,7 +265,7 @@
 	 </select>
 	 
 	  <select id="findTerminalsByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-	 	select * from terminals where good_id = #{goodId} order by created_at desc
+	 	select * from terminals where good_id = #{goodId} and customer_id is null and agent_id is null and is_return_cs_depots = 0 order by created_at desc
 	 </select>
 	 
 	 <delete id="deleteByNum" parameterType="java.lang.String">
