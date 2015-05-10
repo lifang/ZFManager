@@ -35,7 +35,7 @@ strong.blue { color: #0071cf;}
 .btnBottom { margin: 10px 10px 10px 0; padding: 10px 10px 10px 0; text-align: left;}
 .btnBottom button { margin-right: 10px;}
 
-.greenBtn, .whiteBtn, .orangeBtn, .ghostBtn, .blueBtn ,.grayBtn { 
+.greenBtn, .whiteBtn, .orangeBtn, .ghostBtn, .blueBtn, .grayBtn { 
 	padding: 8px 40px; 
 	color: #FFF;
 	font-size: 14px; 
@@ -49,7 +49,7 @@ strong.blue { color: #0071cf;}
 .blueBtn { background: #067bdc; border: 1px #067bdc solid;}
 .grayBtn { background: #999; border: 1px #999 solid;}
 
-.greenBtn:hover, .whiteBtn:hover ,.grayBtn:hover{
+.greenBtn:hover, .whiteBtn:hover, .grayBtn:hover  {
 	box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }
 .orangeBtn:hover {
@@ -169,14 +169,13 @@ i.no1 {
 	width: 1000px; 
 	height: 742px; 
 	margin: 0 auto; 
-	background: url(../images/map.jpg) no-repeat;
 	position: relative;
 }
 
 .m_data {
 	position: absolute;
 	padding: 10px;
-	background: rgba(0,153,255,0.8);
+	background: rgba(32,170,201,0.8);
 	color: #FFF;
 	z-index: 1000;
 }
@@ -1367,6 +1366,7 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	right: 0px;
 }
 
+
 /*--------upLoadImg_con POS机 图片管理-------------*/
 .upLoadImg_con { width: 880px; }
 .upLoadImg_con li { position: relative; width: 880px; font-size: 0px;}
@@ -1412,10 +1412,9 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-
 .pos_inventory_box li a.x { 
 	width: 8px; 
-	height: 8px;
+	height: 8px; 
 	display: inline-block;
 	text-indent: -999px;
 	overflow: hidden;

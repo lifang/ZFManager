@@ -100,7 +100,7 @@
                                 mapType: 'china',
                                 hoverable: false,
                                 mapLocation: {x : 'center',y : 'center'},
-                                itemStyle: {normal: {borderWidth:2, borderColor:'lightgreen',label: { show: false}}},
+                                itemStyle: {normal: {color:'#A1DBD3',borderWidth:2, borderColor:'#DDF1EE',label: { show: false}}},
                                 data:[],
                                 geoCoord: {
                                     '安徽': [117.17,31.52], '北京': [116.24,39.55], '重庆': [106.54,29.59],
@@ -129,7 +129,7 @@
             series.data=[];
             $(".m_data").fadeOut("normal",function(){$(this).remove();});
             for(var i=0;i<data.length;++i){
-                series.data.push({name: data[i].name,itemStyle: {normal: {color: '#32cd32',label: {show: true}}}});
+                series.data.push({name: data[i].name,itemStyle: {normal: {color: '#20AAC9',label: {show: true}}}});
                 var pos = map.chart.map.getPosByGeo(series.mapType,series.geoCoord[data[i].name]);
                 tipDiv(data[i].amount,data[i].num,pos);
             }
