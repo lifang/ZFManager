@@ -111,7 +111,8 @@ public class CsChangeController {
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
 	@ResponseBody
-	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList,int payChannelId) throws Exception {
+	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, 
+			String terminalList,int payChannelId) throws Exception {
 		Response response2=new Response();
 		try{
 		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息

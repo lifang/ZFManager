@@ -1,7 +1,11 @@
 package com.comdosoft.financial.manage.mapper.zhangfu;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsRefund;
+
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface CsRefundMapper {
 
@@ -34,4 +38,6 @@ public interface CsRefundMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(CsRefund record);
+	
+	List<Map<String, Object>> getByTargetIdType(@Param("targetId") int targetId,@Param("typeId") int typeId);
 }

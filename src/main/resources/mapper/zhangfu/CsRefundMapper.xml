@@ -92,4 +92,10 @@
     updated_at
     from cs_refunds
   </select>
+  
+  <select id="getByTargetIdType" resultMap="BaseResultMap">
+  	select id from cs_refunds where target_id=#{targetId} and target_type=#{typeId}
+  </select>
+  
+  
 </mapper>

@@ -349,6 +349,11 @@ public class CsRefund {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	public static final byte TYPE_1=1;//退货
+    public static final byte TYPE_2=2;//租赁退还
+	
+	
 	/**
 	 * 退款状态1.待处理
 	 */

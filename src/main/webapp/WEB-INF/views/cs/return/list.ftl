@@ -157,6 +157,7 @@
 		$.post('<@spring.url "" />'+'/cs/return/'+csReturnId+'/createRefund',
 			 function(data) {
 			 	if(data.code==1){
+			 		alert(data.message);
 			 		location.reload();
 			 	}else{
 			 		alert(data.message);
@@ -179,6 +180,7 @@
 			 'reMoney':reMoney
 			 }, function(data) {
 			 	if(data.code==1){
+			 		alert(data.message);
 			 		location.reload();
 			 	}else{
 			 		alert(data.message);
