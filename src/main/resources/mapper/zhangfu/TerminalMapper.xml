@@ -262,4 +262,7 @@
 	 <select id="findTerminal" parameterType="java.lang.String" resultMap="BaseResultMap">
 	 	select * from terminals where serial_num = #{terminal} and customer_id is null and agent_id is null and is_return_cs_depots = 0 
 	 </select>
+	  <select id="findTerminalsByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	 	select * from terminals where good_id = #{goodId} 
+	 </select>
 </mapper>

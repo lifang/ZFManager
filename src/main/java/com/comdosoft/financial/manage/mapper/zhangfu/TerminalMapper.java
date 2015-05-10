@@ -93,4 +93,6 @@ public interface TerminalMapper {
     
 	Terminal findTerminal(String terminal);
 	
+	List<Terminal> findTerminalsByGoodId(Integer goodId);
+	
 }
