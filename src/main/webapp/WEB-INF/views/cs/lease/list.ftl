@@ -44,7 +44,7 @@
 </div>
 
 <div class="tab replace_tab">
-	<a href="" class="close">关闭</a>
+	<a href="javascript:void(0);" class="close">关闭</a>
 	<div class="tabHead">退换地址电话</div>
 	<div class="tabBody">
 		<div class="item_list">
@@ -65,6 +65,10 @@
 					<span class="labelSpan">地址：</span>
 					<div class="text"><input name="address" type="text" /></div>
 				</li>
+				<li>
+					<span class="labelSpan">退款金额：</span>
+					<div class="text"><input name="returnMoney" type="text" onkeyup="clearNoNum(this)" /></div>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -75,6 +79,13 @@
 
 <script type="text/javascript">
 
+function clearNoNum(obj){
+	obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+	obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是
+	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+	}
 	var keyword;
 	var status;
 
@@ -144,19 +155,38 @@
 		confirmId = csLeaseId;
 	}
 	
+	function createReturn(csLeaseId){
+		$.post('<@spring.url "" />'+'/cs/lease/'+csLeaseId+'/createRefund',
+			 function(data) {
+			 	if(data.code==1){
+			 		alert(data.message);
+			 		location.reload();
+			 	}else{
+			 		alert(data.message);
+			 	}
+			 });
+	}
+	
 	function onConfirm() {
 		var receiver = $("input[name='receiver']").val();
 		var phone = $("input[name='phone']").val();
 		var zipCode = $("input[name='zipCode']").val();
 		var address = $("input[name='address']").val();
+		var reMoney=$("input[name='returnMoney']").val();
 		
 		$.post('<@spring.url "" />'+'/cs/lease/'+confirmId+'/confirm',
 			{'receiver':receiver, 
 			 'phone':phone,
 			 'zipCode':zipCode,
-			 'address':address
+			 'address':address,
+			 'reMoney':reMoney
 			 }, function(data) {
-			 	location.reload();
+			 	if(data.code==1){
+			 		alert(data.message);
+			 		location.reload();
+			 	}else{
+			 		alert(data.message);
+			 	}
 			 });
 	}
 
