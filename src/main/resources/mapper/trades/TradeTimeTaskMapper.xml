@@ -39,7 +39,7 @@
 	
 	<insert id="saveByProId">
 	insert into trade_total_region_reports(trade_time,region_id,trade_num,trade_sum,created_at,updated_at)
-		values(date_format(now(),'%Y-%c-%d'),#{proId},#{amount},#{num},now(),now())
+		values(now(),#{proId},#{amount},#{num},now(),now())
 	</insert>
 	
 	<select id="selDayReports" resultType="int">
