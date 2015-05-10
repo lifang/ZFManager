@@ -277,11 +277,7 @@ public class Terminal {
 	 * @mbggenerated
 	 */
 	public Integer getOrderId() {
-		if(orderId==-1){
-			return null;
-		}else{
-			return orderId;
-		}
+		return orderId;
 	}
 
 	/**

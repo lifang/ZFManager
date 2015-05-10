@@ -63,7 +63,7 @@ public interface OutStoreMapper {
 	Map<String, Object> getAgentIdByCustomerId(@Param("customerId") String customerId);
 	
 	int updateTerminals(@Param("customerId") String customerId,@Param("agentId") String agentId,
-			@Param("orderId") int orderId,@Param("serialNum") String serialNum,@Param("payChannelId") int payChannelId);
+			@Param("orderId") Integer orderId,@Param("serialNum") String serialNum,@Param("payChannelId") int payChannelId);
 	
 	int updateOrderStatus(@Param("status") int status,@Param("orderId") int orderId);
 	
