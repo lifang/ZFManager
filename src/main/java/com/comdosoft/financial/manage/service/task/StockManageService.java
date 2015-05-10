@@ -147,8 +147,8 @@ public class StockManageService {
 					throw new Exception("终端退回售后库成功");
 				}
 			}
-			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("id");
-			mapper.save(loginId, userName, userType, OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("id").toString()));
+			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("terminalId");
+			mapper.save(loginId, userName, userType, OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("terminalId").toString()));
 		}
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
