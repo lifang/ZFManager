@@ -29,7 +29,7 @@
 	                 <ul>
 	                    <#if (terminalList)??>
 		  					<#list terminalList as terminal>
-       							<li><span>${terminal.serialNum}</span><a id="a_${terminal.serialNum}" onClick="deleteTerminal(${terminal.serialNum},${good.id},a_${terminal.serialNum})" class="x" title="删除">删除</a></li>
+       							<li><span>${terminal.serialNum}</span><a id="a_${terminal.serialNum}" onClick="deleteTer('${terminal.serialNum}',${good.id},'a_${terminal.serialNum}')" class="x" title="删除">删除</a></li>
 		  					</#list>
 						</#if>
 	                </ul>               
@@ -63,20 +63,26 @@
                    var terminalArray = terminalList.split("\n|\r\n|\r");
                    var htmlStr = new Array();
                    for(var i=0;i<terminalArray.length;i++){
-                       htmlStr.push("<li><span>"+terminalArray[i]+"</span><a href='#' class='x' title='删除'>删除</a></li>");
+                       htmlStr.push("<li><span>"+terminalArray[i]+"</span><a id='a_"+terminalArray[i]+
+                       	"' onClick=&quto;&quto;deleteTer('"+terminalArray[i]+"',${good.id},'a_"+terminalArray[i]+"')&quto;&quto; class='x' title='删除'>删除</a></li>");
                    }
                    $(".pos_inventory_box>ul").prepend(htmlStr.join(""));
                 });
     }
     
-    function deleteTerminal(terminalNum,goodId,id){
+    function deleteTer(terminalNum,goodId,id){
     	$(".inventory_tab>div>p>span").html(terminalNum);
     	popup(".inventory_tab","a.x");//pos机管理-库存管理
-    	$("#confirm").click(function(){
+    	$("#confirm").unbind().bind("click",function(){
     		$.post('<@spring.url "" />'+'/good/pos/deleteTerminal',
                 {terminalNum:terminalNum,goodId:goodId},
                 function (data) {
-                
+                	if(data.code==-1){
+                		showErrorTip(data.message);
+                		return;
+                	}
+                	cancel();
+                	$(".pos_inventory_box>ul>li:first").remove();
                 });
     	});
     	

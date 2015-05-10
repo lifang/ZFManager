@@ -570,9 +570,10 @@ public class PosController {
 		return "good/pos/store";
 	}
     @RequestMapping(value="deleteTerminal",method=RequestMethod.POST)
+    @ResponseBody
     public Response deleteTerminal(String terminalNum,Integer goodId){
     	goodService.deleteTerminal(terminalNum,goodId);
-    	return Response.getSuccess("");
+    	return Response.getSuccess("ok");
     	
     }
 }

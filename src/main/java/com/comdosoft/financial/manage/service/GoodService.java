@@ -704,8 +704,10 @@ public class GoodService {
 		return terminalMapper.findTerminalsByGoodId(goodId);
 	}
 
+	@Transactional("transactionManager")
 	public void deleteTerminal(String terminalNum, Integer goodId) {
-		
+		terminalMapper.deleteByNum(terminalNum);
+		goodMapper.updateQuantity(goodId, 1);
 		
 	}
 
