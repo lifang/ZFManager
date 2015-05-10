@@ -109,7 +109,7 @@
   <select id="findPageSelective" resultMap="DetailedResultMap">
     <include refid="selectFrom" />
     <include refid="pageWhere" />
-    order by cc.process_user_id = #{customerId} desc, cc.created_at desc 
+    order by cc.created_at desc 
     limit #{pageRequest.offset}, #{pageRequest.pageSize}
   </select>
   
