@@ -175,7 +175,7 @@ i.no1 {
 .m_data {
 	position: absolute;
 	padding: 10px;
-	background: rgba(32,170,201,0.8);
+	background: #E1647E;
 	color: #FFF;
 	z-index: 1000;
 }
