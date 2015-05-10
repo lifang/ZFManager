@@ -255,11 +255,7 @@ public class Terminal {
 	 * @mbggenerated
 	 */
 	public Integer getAgentId() {
-		if(agentId.equals("")){
-			return null;
-		}else{
-			return agentId;
-		}
+		return agentId;
 	}
 
 	/**
