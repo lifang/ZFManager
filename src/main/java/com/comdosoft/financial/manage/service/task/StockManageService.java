@@ -128,6 +128,8 @@ public class StockManageService {
 			}else{
 				int terminalId=Integer.parseInt(mapTemp.get("terminalId").toString());
 				Terminal t=terminalMapper.selectByPrimaryKey(terminalId);
+				t.setPayChannelId(null);
+				t.setMerchantId(null);
 				t.setCustomerId(null);
 				t.setAgentId(null);
 				t.setStatus(Terminal.STATUS_NO_OPEN);
