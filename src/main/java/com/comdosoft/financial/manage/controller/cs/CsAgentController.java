@@ -20,6 +20,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsAgentService;
+import com.comdosoft.financial.manage.service.cs.CsChangeService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
@@ -30,6 +31,8 @@ public class CsAgentController {
 	private SessionService sessionService;
 	@Autowired
 	private CsAgentService csAgentService;
+	@Autowired
+	private CsChangeService csChangeService;
 	
 	private static final String LOGIN_SESSION_KEY = "__LOGIN_KEY__";
 	
@@ -39,6 +42,7 @@ public class CsAgentController {
 		if ("".equals(keyword)) keyword = null;
 		Page<CsAgent> csAgents = csAgentService.findPage(customer, page, status, null != keyword ? keyword.trim() : keyword);
 		model.addAttribute("csAgents", csAgents);
+		model.addAttribute("payChannelList",csChangeService.getPayChannelList());
 	}
 	
 	@RequestMapping(value = "list", method = RequestMethod.GET)
@@ -81,7 +85,8 @@ public class CsAgentController {
 	
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
 	@ResponseBody
-	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, String terminalList) {
+	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id,
+			String terminalList,Integer payChannelId) {
 		String[] terminalNums = terminalList.split(",");
 		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
 		StringBuilder sb = new StringBuilder("");
@@ -93,6 +98,7 @@ public class CsAgentController {
 		for(String t : terminalNums){
 			Terminal terminal = csAgentService.findTerminal(t);
 			if(terminal != null){
+				terminal.setPayChannelId(payChannelId);
 				csAgentService.output(id, terminal);
 				sb.append(t+"，");
 				cnt ++;
