@@ -127,47 +127,35 @@ public class CsLeaseService {
 				.selectInfoByPrimaryKey(csLeaseId);
 		CsReceiverAddress csReceiverAddress = csReceiverAddressMapper
 				.selectByPrimaryKey(csLease.getReturnAddressId());
-		if (null != csLease) {
-			if (csLease.getStatus() == CsLeaseReturn.STATUS_1
-					|| csLease.getStatus() == CsLeaseReturn.STATUS_2) {
+		CsRefund cs_refund = csRefundMapper.getByTargetIdType(csLeaseId,CsRefund.TYPE_2);
+
+		if (cs_refund!=null && cs_refund.getStatus() == CsRefund.STATIC_1) {
+			resultCode = Response.ERROR_CODE;
+			resultInfo.setLength(0);
+			resultInfo.append("退款单已生成，请勿重复生成");
+			throw new Exception("退款单已生成，请勿重复生成");
+		} else {
+			CsRefund csRefund = new CsRefund();
+			csRefund.setBankAccount(null);
+			csRefund.setBankName(null);
+			csRefund.setCreatedAt(new Date());
+			csRefund.setPayee(csReceiverAddress.getReceiver());
+			csRefund.setPayeePhone(csReceiverAddress.getPhone());
+			csRefund.setProcessUserId(customer.getId());
+			csRefund.setProcessUserName(customer.getName());
+			csRefund.setReturnPrice(csLease.getReturnPrice());
+			csRefund.setStatus((byte) CsRefund.STATIC_1);
+			csRefund.setTargetId(csLeaseId);
+			csRefund.setTargetType((byte) CsRefund.TYPE_2);
+			csRefund.setTypes((byte) 1);
+			csRefund.setUpdatedAt(new Date());
+			csRefund.setApplyNum(new Date().getTime() + "");
+			int temp = csRefundMapper.insert(csRefund);
+			if (temp < 1) {
 				resultCode = Response.ERROR_CODE;
 				resultInfo.setLength(0);
-				resultInfo.append("退款单已生成，请勿重复生成");
-				throw new Exception("退款单已生成，请勿重复生成");
-			} else {
-				CsRefund csRefund = new CsRefund();
-				csRefund.setBankAccount(null);
-				csRefund.setBankName(null);
-				csRefund.setCreatedAt(new Date());
-				csRefund.setPayee(csReceiverAddress.getReceiver());
-				csRefund.setPayeePhone(csReceiverAddress.getPhone());
-				csRefund.setProcessUserId(customer.getId());
-				csRefund.setProcessUserName(customer.getName());
-				csRefund.setReturnPrice(csLease.getReturnPrice());
-				csRefund.setStatus((byte) CsRefund.STATIC_1);
-				csRefund.setTargetId(csLeaseId);
-				csRefund.setTargetType((byte) CsRefund.TYPE_2);
-				csRefund.setTypes((byte) 1);
-				csRefund.setUpdatedAt(new Date());
-				csRefund.setApplyNum(new Date().getTime() + "");
-
-				List<Map<String, Object>> temp1 = csRefundMapper
-						.getByTargetIdType(csRefund.getTargetId(),
-								csRefund.getTargetType());
-				if (null != temp1 && temp1.size() > 0) {
-					resultCode = Response.ERROR_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("已生成退款单");
-					throw new Exception("已生成退款单");
-				} else {
-					int temp = csRefundMapper.insert(csRefund);
-					if (temp < 1) {
-						resultCode = Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("生成退款单出错");
-						throw new Exception("生成退款单出错");
-					}
-				}
+				resultInfo.append("生成退款单出错");
+				throw new Exception("生成退款单出错");
 			}
 		}
 		res.setCode(resultCode);

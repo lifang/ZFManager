@@ -39,5 +39,5 @@ public interface CsRefundMapper {
 	 */
 	int updateByPrimaryKey(CsRefund record);
 	
-	List<Map<String, Object>> getByTargetIdType(@Param("targetId") int targetId,@Param("typeId") int typeId);
+	CsRefund getByTargetIdType(@Param("targetId") int targetId,@Param("typeId") int typeId);
 }
