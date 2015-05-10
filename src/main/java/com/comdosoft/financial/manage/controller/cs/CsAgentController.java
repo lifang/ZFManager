@@ -1,5 +1,6 @@
 package com.comdosoft.financial.manage.controller.cs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,34 +90,29 @@ public class CsAgentController {
 			String terminalList,Integer payChannelId) {
 		String[] terminalNums = terminalList.split(",");
 		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
-		StringBuilder sb = new StringBuilder("");
-		String temp = "";
-		StringBuilder sb1 = new StringBuilder("");
-		String invalidTermianl = "";//暂存某无效终端
-		String tempTerminalList = "";//暂存某无效终端之前的所有终端号
+		List<String> terminals = new ArrayList<String>();
+		List<String> invalidTermianls = new ArrayList<String>();
 		int cnt = 0;
 		for(String t : terminalNums){
 			Terminal terminal = csAgentService.findTerminal(t);
 			if(terminal != null){
 				terminal.setPayChannelId(payChannelId);
 				csAgentService.output(id, terminal);
-				sb.append(t+"，");
+				terminals.add(t);
 				cnt ++;
 			}else{
-				sb1.append(t+"，");
+				invalidTermianls.add(t);
 			}
 		}
-		temp = sb.toString();
-		invalidTermianl = sb1.toString();
+		String temp = terminals.toString().replaceAll("\\[|\\]", "");
 		if(!"".equals(temp) && cnt < terminalNums.length){
-			tempTerminalList = temp.substring(0, temp.lastIndexOf("，"));
-			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), tempTerminalList);
-			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"无法换货出库，"+tempTerminalList+"已添加换货出库记录成功");
+			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), temp);
+			return Response.getError(invalidTermianls.toString()+"无法换货出库，"+temp+"已添加换货出库记录成功");
 		}else if(!"".equals(temp) && cnt == terminalNums.length){
 			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), terminalList);
 			return Response.getSuccess("成功");
 		}else{
-			return Response.getError(invalidTermianl.substring(0, invalidTermianl.lastIndexOf("，"))+"无法换货出库");
+			return Response.getError(invalidTermianls.toString()+"无法换货出库");
 		}
 	}
 	
