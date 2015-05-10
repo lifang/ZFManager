@@ -122,7 +122,7 @@ public class StockManageService {
 			int type=Integer.parseInt(mapTemp.get("resultType").toString());
 			if(type==5 || type==2 || type==-1){
 				//返修，注销，未找到
-				resultCode=1;
+				resultCode=-1;
 				resultInfo.setLength(0);
 				resultInfo.append("该终端未找到售后类型或返修或者注销中,不予退回售后库");
 			}else{
@@ -148,9 +148,9 @@ public class StockManageService {
 				}else{
 					throw new Exception("终端退回售后库成功");
 				}
+				String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("terminalId");
+				mapper.save(loginId, userName, userType, OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("terminalId").toString()));
 			}
-			String content=userName+"执行了任务的售后库存管理页面的【放入售后库存】的操作，操作的记录Id是"+mapTemp.get("terminalId");
-			mapper.save(loginId, userName, userType, OperateRecord.TYPES_TERMINAL, content,Integer.parseInt(mapTemp.get("terminalId").toString()));
 		}
 		map.put("resultCode", resultCode);
 		map.put("resultInfo", resultInfo);
