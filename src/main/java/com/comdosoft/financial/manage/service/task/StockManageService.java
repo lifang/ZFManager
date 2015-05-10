@@ -115,7 +115,7 @@ public class StockManageService {
 		resultInfo.setLength(0);
 		resultInfo.append("终端退回售后库失败");
 		
-		Map<String, Object> mapTemp=stockManageMapper.checkAccount(serialNum);
+		Map<String, Object> mapTemp=showInfo(serialNum,loginId);
 		if(null!=mapTemp){
 			int type=Integer.parseInt(mapTemp.get("resultType").toString());
 			if(type==5 || type==2 || type==-1){
