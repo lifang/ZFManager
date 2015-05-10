@@ -47,7 +47,7 @@
 	<a class="close">关闭</a>
 	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
-		<div style="margin:-10px 0px 5px 0px;"><font id="errMsg" color="red"></font></div>
+		<div style="margin:-10px 0px 5px 0px;" class="break"><font id="errMsg" color="red"></font></div>
 		<textarea id="output_content" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号，以逗号(,)分隔"></textarea>
 	</div>
 	<div class="user_select" style="margin-left:10px;"> 
