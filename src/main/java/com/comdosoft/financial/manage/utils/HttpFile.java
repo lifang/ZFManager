@@ -64,7 +64,20 @@ public class HttpFile {
             return path + name;
         }
     }
-
+    /**
+     * 文件上传大小判断
+     * 
+     * @param file
+     * path后有/ 如 "test/a/b/"
+     * @return
+     */
+    public static boolean fileSize(MultipartFile file) {
+       long fileSize = file.getSize();
+       if((fileSize/1024)>(1024*2)){
+    	   return false;
+       }
+       return true;
+    }
     /**
      * 上传pos图片
      * 

@@ -16,6 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -139,6 +143,22 @@ public class ContentController {
     public Response uploadImg(MultipartFile file){
         String fileName = carouselPath+ FileUtil.getPathFileName()+".jpg";
         try {
+        	String json;
+        	
+    		HttpHeaders responseHeaders = new HttpHeaders();
+    		responseHeaders.setContentType(MediaType.TEXT_HTML);
+    	
+          int temp=file.getOriginalFilename().lastIndexOf(".");
+  			String houzuiStr=file.getOriginalFilename().substring(temp+1);
+          if(!sysActivityService.typeIsCommit(houzuiStr)){
+  			//return Response.getError("您所上传的文件格式不正确");
+  			return Response.getError("您所上传的文件格式不正确！");
+  			}else{
+  				if(!HttpFile.fileSize(file)){
+  	      		return Response.getError("您上传的图片大小过大，请上传小于2M的图片!");
+  				}
+  			}
+        	
         	String joinpath="";
         	 joinpath = HttpFile.upload(file, sysShufflingfigurePath);
              if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){

@@ -4,6 +4,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.SysActivity;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysActivityMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class SysActivityService {
 
     @Autowired
     private SysActivityMapper sysActivityMapper;
+    
+    @Value("${pictureHZList}")
+	private String pictureHZList;
 
     public Page<SysActivity> findPages(int page) {
         long count = sysActivityMapper.count();
@@ -67,6 +71,11 @@ public class SysActivityService {
         sysActivity.setCreatedAt(new Date());
         sysActivity.setUpdatedAt(new Date());
         sysActivityMapper.insert(sysActivity);
+    }
+    
+  //校验上传图片格式是否满足
+    public Boolean typeIsCommit(String houzuiStr){
+    	return pictureHZList.contains(houzuiStr);
     }
 
 }

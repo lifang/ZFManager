@@ -69,6 +69,10 @@
                     if(img.length > 0){
                         img.attr("value", data.result);
                     }
+                }else{
+                	alert(data.message);
+                	$(".mask").hide();
+        			$(".upImgLoading").hide();
                 }
             },
             resetForm: true,
