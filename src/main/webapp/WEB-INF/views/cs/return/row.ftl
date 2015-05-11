@@ -27,6 +27,7 @@
 			<#if Roles.hasRole("CS_RETURN_MARK_RETURNING")><a class="a_btn" onClick="onHandle(${csReturn.id});">标记为退货中</a></#if>
 		<#elseif csReturn.status=2>
 			<a href="<@spring.url "/cs/return/${csReturn.id}/info" />" class="a_btn" target="_blank">查看详情</a>
+			<a href="javascript:void(0);" onClick="synize(${csReturn.terminalId});" class="a_btn">同步终端状态</a>
 			<a href="javascript:void(0);" class="a_btn" onClick="createReturn(${csReturn.id})">生成退款单</a>
 			<#if Roles.hasRole("CS_RETURN_CANCEL")><a class="a_btn" onClick="onCancel(${csReturn.id});">取消</a></#if>
 			<#if Roles.hasRole("CS_RETURN_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csReturn.id});">标记为退货完成</a></#if>
@@ -37,3 +38,19 @@
        	</#if>
 	</td>
 </tr>
+<script>
+ function synize(temp){
+  $.post('<@spring.url "/terminal/syncStatus" />',
+   {"terminalId":temp},
+   function(data){
+   var data = eval("("+data+")");
+    if(data.code==1){
+     alert("同步成功");
+     location.reload();
+    }else{
+     alert(data.message);
+     return false;
+    }
+   });
+ }
+</script>

@@ -27,6 +27,7 @@
 			<#if Roles.hasRole("CS_CHANGE_MARK_CHANGING")><a class="a_btn" onClick="onHandle(${csChange.id});">标记为换货中</a></#if>
 		<#elseif csChange.status=2>
 			<a href="<@spring.url "/cs/change/${csChange.id}/info" />" class="a_btn" target="_blank">查看详情</a>
+			<a href="javascript:void(0);" onClick="synize(${csChange.terminalId});" class="a_btn">同步终端状态</a>
 			<a class="a_btn exchangeGoods_a" onClick="onPreOutput(${csChange.id});" target="_blank">添加换货出库记录</a>
 			<#if Roles.hasRole("CS_CHANGE_CANCEL")><a class="a_btn" onClick="onCancel(${csChange.id});">取消</a></#if>
 			<#if Roles.hasRole("CS_CHANGE_MARK_FINISH")><a class="a_btn" onClick="onFinish(${csChange.id});">标记为换货完成</a></#if>
@@ -37,3 +38,19 @@
        	</#if>
 	</td>
 </tr>
+<script>
+ function synize(temp){
+  $.post('<@spring.url "/terminal/syncStatus" />',
+   {"terminalId":temp},
+   function(data){
+   var data = eval("("+data+")");
+    if(data.code==1){
+     alert("同步成功");
+     location.reload();
+    }else{
+     alert(data.message);
+     return false;
+    }
+   });
+ }
+</script>

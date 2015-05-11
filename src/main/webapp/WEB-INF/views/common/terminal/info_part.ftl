@@ -3,7 +3,7 @@
     <div class="user_title"><h1>终端详情</h1>
     <#if !(isFactory??) || !isFactory>
         <div class="userTopBtnBox">
-            <a class="ghostBtn">同步</a>
+            <a class="ghostBtn">同步终端状态</a>
         </div>
     </#if>
     </div>

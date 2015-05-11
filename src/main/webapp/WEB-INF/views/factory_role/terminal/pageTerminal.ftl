@@ -50,7 +50,7 @@
                     <a href="<@spring.url "/task/certifiedopen/${applyMap[terminalId].id}/video" />" class="a_btn">重新视频认证</a>
                 </#if>
                 <#if terminal.status=2||terminal.status=3>
-                    <a href="#" class="a_btn">同步</a>
+                    <a href="#" class="a_btn">同步终端状态</a>
                 </#if>
                 <a href="<@spring.url "/factory/terminal/${terminal.id}/info" />" class="a_btn">查看详情</a>
             </td>
