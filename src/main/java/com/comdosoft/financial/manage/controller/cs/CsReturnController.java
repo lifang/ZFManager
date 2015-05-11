@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturn;
+import com.comdosoft.financial.manage.domain.zhangfu.CsLeaseReturnMark;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturn;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReturnMark;
@@ -21,6 +23,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.OtherRequirement;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.cs.CsCommonService;
+import com.comdosoft.financial.manage.service.cs.CsLeaseService;
 import com.comdosoft.financial.manage.service.cs.CsReturnService;
 import com.comdosoft.financial.manage.service.cs.CsConstants.MaterialType;
 import com.comdosoft.financial.manage.utils.page.Page;
@@ -35,6 +38,8 @@ public class CsReturnController {
 	private CsReturnService csReturnService;
 	@Autowired
 	private CsCommonService csCommonService;
+	@Autowired
+	private CsLeaseService csLeaseService;
 
 	private void findPage(Customer customer, Integer page, Byte status, String keyword, Model model){
 		if (page == null) page = 1;
@@ -135,5 +140,31 @@ public class CsReturnController {
         return "cs/mark";
     }
 	
+	@RequestMapping(value = "info", method = RequestMethod.GET)
+	public String goinfo(Integer id,Integer type, Model model) {
+		if(type.equals(1)){
+			CsReturn csReturn = csReturnService.findInfoById(id);
+			List<CsReturnMark> csReturnMarks = csReturnService.findMarksByCsReturnId(id);
+			model.addAttribute("csReturn", csReturn);
+			model.addAttribute("csReturnMarks", csReturnMarks);
+			if (null != csReturn.getCsCencelId() && csReturn.getCsCencelId() > 0) {
+				List<OtherRequirement> materials = csCommonService.findRequirementByType(MaterialType.CANCEL);
+				model.addAttribute("materials", materials);
+			}
+			return "cs/return/info";
+		}else if(type.equals(2)){
+			CsLeaseReturn csLease = csLeaseService.findInfoById(id);
+			List<CsLeaseReturnMark> csLeaseMarks = csLeaseService.findMarksByCsLeaseReturnId(id);
+			model.addAttribute("csLease", csLease);
+			model.addAttribute("csLeaseMarks", csLeaseMarks);
+			csLeaseService.calculateLease(model, csLease, false);
+			if (null != csLease.getCsCencelId() && csLease.getCsCencelId() > 0) {
+				List<OtherRequirement> materials = csCommonService.findRequirementByType(MaterialType.CANCEL);
+				model.addAttribute("materials", materials);
+			}
+			return "cs/lease/info";
+		}
+		return null;
+	}
 	
 }

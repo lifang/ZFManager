@@ -45,10 +45,10 @@
 	</select>
 
 	<select id="getRefundDetails" resultType="map">
-		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		SELECT c.id,c.target_type as type,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
 		FROM cs_refunds  c , cs_returns o where o.id = c.target_id and c.id = #{id} and c.target_type = 1
 		union all
-		SELECT c.id,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		SELECT c.id,c.target_type as type,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
 		FROM cs_refunds  c , cs_lease_returns o where o.id = c.target_id and c.id = #{id} and c.target_type = 2
 	</select>
 	
