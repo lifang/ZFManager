@@ -64,7 +64,7 @@
 <#macro body_head>
 <div class="head clear">
     <div class="box">
-        <div class="logo">华尔街金融</div>
+        <a href="<@spring.url "/index"/>" class="logo">华尔街金融</a>
         <div class="systemName">运营中心</div>
     </div>
 </div>

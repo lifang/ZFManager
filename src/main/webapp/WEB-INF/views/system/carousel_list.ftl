@@ -43,12 +43,28 @@
         </div>
         <div class="img_info"><img src=""></div>
     </div>
+    
+    <div class="upImgLoading" style="display: block;">
+    	<span><img src="../../resources/images/loading.gif"/></span>
+        <p>图片上传中...</p>
+    </div>
 <script>
+	$(function(){
+		$(".mask").hide();
+		$(".upImgLoading").hide();
+	})
+	
     function fileChange(obj){
         var index = $(obj).attr("index");
+        
+        $(".mask").show();
+        $(".upImgLoading").show();
+        
         var options = {
             success: function(data){
                 if(data.code==1){
+                	$(".mask").hide();
+        			$(".upImgLoading").hide();
                     var img = $('#fileForm'+index).find(".ss_img img");
                     if(img.length > 0){
                         img.attr("value", data.result);
