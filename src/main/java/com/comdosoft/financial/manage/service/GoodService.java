@@ -684,6 +684,9 @@ public class GoodService {
 		goodDetailPictures.setGoodId(goodId);
 		goodDetailPictures.setUrlPath(urlPath);
 		goodDetailPicturesMapper.insert(goodDetailPictures);
+		Good good = goodMapper.findGoodInfo(goodId);
+		good.setStatus(Good.STATUS_WAITING_FIRST_CHECK);
+		goodMapper.updateByPrimaryKey(good);
 		return goodDetailPictures.getId();
 	}
 	

@@ -35,16 +35,30 @@
 	        </div>
 	    </div>
 	   </div>
+	   <div class="mask1"></div>
+		<div class="upImgLoading">
+			<span><img src="<@spring.url "/resources/images/loading.gif" />" /></span>
+		    <p></p>
+		</div>
 	
 <script type="text/javascript">
+	$(function(){
+		$(".mask1").css({
+			height : $(document).height()
+		});
+		closeMask();
+	});
 	function fileChange(){
+		showMask();
+		$(".upImgLoading>p").html("图片上传中...");
         var options = {
             success: function(data){
                 if(data.code==1){
+                	closeMask();
                     var htmlstr = "<li><img src='"+data.result[0]+"' /><a href='javascript:void(0)' id='a_"+data.result[1]
                     +"' onClick='deleteImg(" + data.result[1] + ",&quot;a_"+data.result[1]+"&quot;)' class='close' title='删除'>Close</a></li>";
                     $(".upLoadImg_con>ul").append(htmlstr);
-                    alert("上传成功!");
+                    //alert("上传成功!");
                 }else{
                 	alert(data.message);
                 }
@@ -55,17 +69,27 @@
         $("#fileForm").ajaxSubmit(options);
         return false;
     }
-    function deleteImg(id,eleId){				
+   	function deleteImg(id,eleId){
+    	showMask();
+    	$(".upImgLoading>p").html("图片删除中...");			
    	 	var url = "<@spring.url "/good/pos/delete" />";	
     	$.post(url,{id:id},			
-    		function(data){		
-    			if(data.code==-1){	
+    		function(data){	
+    			closeMask();
+    			if(data.code==-1){
     				alert("删除图片失败！");
     			}else{
     				$("#"+eleId).parent().remove();
     			}	
     	});			
-    }				
-    
+    }		
+    function showMask(){
+		$(".mask1").show();
+		$(".upImgLoading").show();
+    }
+    function closeMask(){
+    	$(".mask1").hide();
+    	$(".upImgLoading").hide();
+    }
 </script> 
 </@c.html>

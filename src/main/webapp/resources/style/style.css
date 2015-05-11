@@ -1446,3 +1446,14 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 }
 .upImgLoading span { width: 37px; height: 37px; display: inline-block; font-size: 0;}
 .upImgLoading p { line-height: 32px;}
+
+.mask1{
+	background: url(../images/black.png) repeat; 
+	width: 100%; 
+	height: 100%; 
+	display: none; 
+	position: absolute; 
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
