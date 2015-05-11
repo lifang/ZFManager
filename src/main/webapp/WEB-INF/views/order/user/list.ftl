@@ -234,6 +234,7 @@
 		var belongsTo = $('#hidden_belongsTo_'+id).val();
     	if(belongsTo==0){
     		$('.deliver_tab').hide();
+    		$('.mask').hide();
     		$.post('<@spring.url "" />'+'/order/logistic/check',
 				{
 				"orderId":id
