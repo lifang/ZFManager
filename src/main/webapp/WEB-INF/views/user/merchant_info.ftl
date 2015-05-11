@@ -23,15 +23,19 @@
                     <div class="text">${(merchant.legalPersonCardId)!""}</div>
                 </li>
                 <li><span class="labelSpan">商户法人身份证照片正面：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.licenseNoPicPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.cardIdFrontPhotoPath)??>value="${FILE_PATH+(merchant.cardIdFrontPhotoPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">商户法人身份证照片背面：</span>
-                    <div class="text">
-                        <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.licenseNoPicPath)!"")}" class="cover"></div>
-                    </div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.cardIdBackPhotoPath)??>value="${FILE_PATH+(merchant.cardIdBackPhotoPath)}" </#if>
+                                               class="cover"></div>
                 </li>
                 <li><span class="labelSpan">商户法人上半身照片：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.bodyPhotoPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.bodyPhotoPath)??>value="${FILE_PATH+(merchant.bodyPhotoPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">商户名：</span>
                     <div class="text">${(merchant.title)!""}</div>
@@ -49,16 +53,24 @@
                     <div class="text">${(merchant.bankOpenAccount)!""}</div>
                 </li>
                 <li><span class="labelSpan">营业执照照片：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.licenseNoPicPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.licenseNoPicPath)??>value="${FILE_PATH+(merchant.licenseNoPicPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">税务登记证照片：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.taxNoPicPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.taxNoPicPath)??>value="${FILE_PATH+(merchant.taxNoPicPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">组织机构代码证照片：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.orgCodeNoPicPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.orgCodeNoPicPath)??>value="${FILE_PATH+(merchant.orgCodeNoPicPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">银行开户许可证照片：</span>
-                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>" value="${FILE_PATH+((merchant.accountPicPath)!"")}" class="cover"></div>
+                    <div class="text"><img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                           <#if (merchant.accountPicPath)??>value="${FILE_PATH+(merchant.accountPicPath)}" </#if>
+                                           class="cover"></div>
                 </li>
                 <li><span class="labelSpan">开户行名称：</span>
                     <div class="text">${(merchant.accountBankName)!""}</div>

@@ -143,6 +143,7 @@ i.no1 {
 	overflow: hidden;
 	float: left;
 	margin-top: 6px;
+    display: block;
 }
 .systemName { 
 	height: 50px; 

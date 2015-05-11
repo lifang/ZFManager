@@ -123,7 +123,9 @@
                     <li><span class="labelSpan">${(openingInfo.key)!""}：</span>
                         <div class="text">
                             <#if openingInfo.types == 2>
-                                <img src="${(openingInfo.value)!}" value="${FILE_PATH+((openingInfo.value)!"")}" class="cover" />
+                                <img src="<@spring.url "/resources/images/zp.jpg"/>"
+                                     <#if (openingInfo.value)??>value="${openingInfo.value}" </#if>
+                                     class="cover" />
                             <#else>
                             ${(openingInfo.value)!""}
                             </#if>
