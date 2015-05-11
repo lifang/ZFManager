@@ -257,6 +257,11 @@
     </#if>
     </button></div>
 </div>
+<div class="mask"></div>
+<div class="upImgLoading">
+	<span><img src="<@spring.url "/resources/images/loading.gif" />" /></span>
+    <p>图片上传中...</p>
+</div>
 
 <script type="text/javascript">
 	<#-- 控制长度-->
@@ -273,6 +278,7 @@
 	}
 
     $(function(){
+    	closeMask();
     <#--通道搜索-->
         var channelClose = true ;
         $("#channel_result_id").hide();
@@ -511,10 +517,12 @@
     }
 
     function fileChange(obj){
+		showMask();
         var index = $(obj).attr("index");
         var options = {
             success: function(data){
                 if(data.code==1){
+                	closeMask();
                     var img = $('#fileForm'+index).find(".item_photoBox img");
                     if(img.length > 0){
                         img.attr("value", data.result);
@@ -537,6 +545,19 @@
         };
         $('#fileForm'+index).ajaxSubmit(options);
         return false;
+    }
+    
+    function showMask(){
+    	var doc_height = $(document).height();
+		 $(".mask").css({
+				display : 'block',
+				height : doc_height
+		}).show();
+		$(".upImgLoading").show();
+    }
+    function closeMask(){
+    	$(".mask").hide();
+    	$(".upImgLoading").hide();
     }
 
 </script>
