@@ -446,7 +446,8 @@ public class OutStoreService {
 								resultInfo.append("输入的终端号不是未开通状态,不可使用");
 								throw new Exception("输入的终端号不是未未开通状态,不可使用");
 							}
-							if(tempList.get(0).get("is_return_cs_depots").toString().equals("true")){
+							
+							if(null== tempList.get(0).get("is_return_cs_depots") ||  tempList.get(0).get("is_return_cs_depots").toString().equals("true")){
 								resultCode=Response.ERROR_CODE;
 								resultInfo.setLength(0);
 								resultInfo.append("输入的终端号在售后库存中");
