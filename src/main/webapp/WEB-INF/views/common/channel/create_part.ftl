@@ -462,8 +462,14 @@
     <td><a class="pay_add_a delBtn">-</a></td>
 </table>
 
+<div class="upImgLoading">
+    <span><img src="<@spring.url "/resources/images/loading.gif" />" /></span>
+    <p>文件上传中...</p>
+</div>
+
 <script type="text/javascript">
     $(function () {
+        closeMask();
     <#if (channel.supportType)?? && !(channel.supportType)>
         $("input[name='c_supportType'][value='2']").attr("checked", true);
     <#elseif (channel.supportType)??
@@ -879,12 +885,16 @@
         return false;
     }
     function fileChange(obj){
+        showMask();
         var options = {
             success: function(data){
+                closeMask();
                 if(data.code==1){
                     $(obj).attr("value", data.result);
                     $(obj).prev("span").html("重新上传");
                     alert("上传成功!");
+                } else{
+                    showErrorTip(data.message);
                 }
             },
             resetForm: true,
@@ -892,5 +902,18 @@
         };
         $(obj).parents("form").ajaxSubmit(options);
         return false;
+    }
+
+    function showMask(){
+        var doc_height = $(document).height();
+        $(".mask").css({
+            display : 'block',
+            height : doc_height
+        }).show();
+        $(".upImgLoading").show();
+    }
+    function closeMask(){
+        $(".mask").hide();
+        $(".upImgLoading").hide();
     }
 </script>

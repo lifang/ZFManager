@@ -153,11 +153,11 @@ public class ContentController {
           if(!sysActivityService.typeIsCommit(houzuiStr)){
   			//return Response.getError("您所上传的文件格式不正确");
   			return Response.getError("您所上传的文件格式不正确！");
-  			}else{
-  				if(!HttpFile.fileSize(file)){
-  	      		return Response.getError("您上传的图片大小过大，请上传小于2M的图片!");
-  				}
   			}
+
+            if(file.getSize() > 2 * 1024 * 1024){
+                return Response.getError("上传文件超过2MB，请重新上传");
+            }
         	
         	String joinpath="";
         	 joinpath = HttpFile.upload(file, sysShufflingfigurePath);
@@ -229,6 +229,9 @@ public class ContentController {
     @RequestMapping(value="activity/uploadZip",method=RequestMethod.POST)
     @ResponseBody
     public Response uploadActivityZip(MultipartFile file){
+        if(file.getSize() > 5 * 1024 * 1024){
+            return Response.getError("上传文件超过5MB，请重新上传");
+        }
         String fileName = activityPath + FileUtil.getPathFileName()+".zip";
         try {
             File osFile = new File(rootPath + fileName);
