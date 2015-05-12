@@ -622,7 +622,7 @@ public class OrderService {
 
 
 
-	public Terminal getTerminal(Integer orderId) {
-		return terminalMapper.getTerminalByOrderId(orderId);
+	public Terminal getTerminal(Integer orderId,Integer goodId) {
+		return terminalMapper.getTerminalByOrderId(orderId,goodId);
 	}
 }

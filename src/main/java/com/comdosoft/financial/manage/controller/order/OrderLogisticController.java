@@ -148,10 +148,10 @@ public class OrderLogisticController extends BaseController {
 	}
 	@RequestMapping(value = "/info/{id}/showTerminal", method = RequestMethod.POST)
 	@ResponseBody
-	public Response showTerminal(@PathVariable Integer id) {
-		Terminal t = orderService.getTerminal(id);
+	public Response showTerminal(@PathVariable Integer id,Integer goodId) {
+		Terminal t = orderService.getTerminal(id,goodId);
 		if(t.getReserver2()!=null){
-			return Response.getSuccess(t.getSerialNum()+"(激活码：)"+t.getReserver2());
+			return Response.getSuccess(t.getSerialNum()+"(激活码："+t.getReserver2()+")");
 		}
 		return Response.getSuccess(t.getSerialNum());
 	}

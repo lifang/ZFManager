@@ -82,7 +82,7 @@
 	                    <td>${orderGood.quantity!0}</td>
 	                    <td><strong>￥${((orderGood.actualPrice/100)*(orderGood.quantity!0))?string("0.00")}</strong></td>
 	                    <#if order.status==3>
-                			<td><a href="javascript:void(0)" class="a_btn terminalNumber_a" onClick="showTerminal(${order.id})">查看终端号</a></td>
+                			<td><a href="javascript:void(0)" class="a_btn terminalNumber_a" onClick="showTerminal(${order.id},${orderGood.good.id})">查看终端号</a></td>
                 		</#if>
 	                  </tr>
 	              </tbody>
@@ -283,9 +283,9 @@
 	            });
     }
     
-    function showTerminal(id){
+    function showTerminal(id,goodId){
     	$.post('<@spring.url "" />'+'/order/logistic/info/'+id+'/showTerminal',
-    	{},
+    	{"goodId":goodId},
     	function(data){
     		if(data.code==-1){
     			$("#text>p").html("查询终端失败");
