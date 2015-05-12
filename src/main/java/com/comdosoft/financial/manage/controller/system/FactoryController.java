@@ -164,6 +164,11 @@ public class FactoryController {
     	if(!flg){
 			return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
 		}
+
+        if(file.getSize() > 2 * 1024 * 1024){
+            return Response.getError("上传文件超过2MB，请重新上传");
+        }
+
     	String result = HttpFile.upload(file, path);
     	if(result.indexOf("失败")>0){
     		LOG.info("文件上传失败");

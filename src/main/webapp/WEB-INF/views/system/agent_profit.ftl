@@ -4,11 +4,11 @@
         <ul>
             <li>系统</li>
             <li><a href="<@spring.url "/system/agent/list" />">代理商</a></li>
-            <li><a href="javascript:void(0)" onclick="reload()">设置分润比例</a></li>
+            <li><a href="javascript:void(0)" onclick="reload()">设置阶梯分润</a></li>
         </ul>
     </div>
     <div class="content clear">
-        <div class="user_title"><h1>设置分润比例</h1>
+        <div class="user_title"><h1>设置阶梯分润</h1>
         </div>
         <div class="attributes_box">
             <h2>基础信息</h2>

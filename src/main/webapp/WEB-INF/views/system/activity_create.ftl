@@ -40,8 +40,16 @@
         </div>
         <div class="btnBottom"><button class="blueBtn" onclick="submitData(false)">保存</button><button class="blueBtn" onclick="submitData(true)">保存并预览</button></div>
     </div>
+    <div class="upImgLoading" style="display: block;">
+        <span><img src="../../resources/images/loading.gif"/></span>
+        <p>文件上传中...</p>
+    </div>
 <script>
-    function submitData(needShow){
+    $(function(){
+        closeMask();
+    })
+
+  function submitData(needShow){
         <#if activity??>
             var url = '<@spring.url "/system/content/activity/${activity.id}/edit" />';
         <#else>
@@ -71,14 +79,19 @@
     }
 
     function fileChange(){
+
+        showMask();
         var options = {
             success: function(data){
+                closeMask();
                 if(data.code==1){
                     var $zipFile = $("#fileForm").find(":file");
                     if($zipFile.length > 0){
                         $zipFile.attr("value", data.result);
                     }
                     alert("上传成功!");
+                } else{
+                    showErrorTip(data.message);
                 }
             },
             resetForm: true,
@@ -87,16 +100,17 @@
         $("#fileForm").ajaxSubmit(options);
         return false;
     }
-    function isNull(value, error){
-        if(!isNotNull(value)){
-            showErrorTip(error);
-            return true;
-        }
-        return false;
+    function showMask(){
+        var doc_height = $(document).height();
+        $(".mask").css({
+            display : 'block',
+            height : doc_height
+        }).show();
+        $(".upImgLoading").show();
     }
-
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
+    function closeMask(){
+        $(".mask").hide();
+        $(".upImgLoading").hide();
     }
 </script>
 </@c.html>

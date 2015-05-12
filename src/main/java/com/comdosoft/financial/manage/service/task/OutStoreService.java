@@ -293,7 +293,26 @@ public class OutStoreService {
 				}
 			}
 		}
-		
+		//计算输入终端数量是否与输入激活码数目相等
+		if(terminalNums.length()>0){
+			String[] temp=terminalNums.split("\\|");
+			for(int i=0;i<temp.length;i++){
+				String[] tempChild=temp[i].toString().split("\\_");
+				
+				String portsStr=tempChild[1].toString();
+				String checkCodeStr=tempChild[2].toString();
+				String[] ports=portsStr.split("\\s+|,|;");
+				if(!checkCodeStr.equals("无")){
+					String[] checkCodes=checkCodeStr.split("\\s+|,|;");
+					if(ports.length!=checkCodes.length){
+						resultCode=Response.ERROR_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("输入的终端数量与输入的激活码数量不一致");
+						throw new Exception("输入的终端数量与输入的激活码数量不一致");
+					}
+				}
+			}
+		}
 		//总的终端号个数
 		int allQuantity=0;
 		//输入的商品对应的终端数量
@@ -422,6 +441,10 @@ public class OutStoreService {
 					
 					int goodId=Integer.parseInt(tempChild[0].toString());
 					String portsStr=tempChild[1].toString();
+					String checkCodeStr=tempChild[2].toString();
+					
+					
+					
 					String[] ports=portsStr.split("\\s+|,|;");
 					
 					allQuantity=allQuantity+ports.length;
@@ -431,6 +454,13 @@ public class OutStoreService {
 					
 					//条件过滤
 					for(int j=0;j<ports.length;j++){
+						String checkCode="";
+						if(!checkCodeStr.equals("无")){
+							String[] checkCodes=checkCodeStr.split("\\s+|,|;");
+							checkCode=checkCodes[j];
+						}
+						
+						
 						List<Map<String, Object>> tempList=outStoreMapper.getTerminalsInfo(ports[j]);
 						if(tempList.size()>0){
 							if(tempList.get(0).get("customerId").equals("") && tempList.get(0).get("agentId").equals("")){
@@ -479,9 +509,10 @@ public class OutStoreService {
 //							throw new Exception("系统繁忙，请稍后再试");
 //						}
 						
-						//更新terminals表数据
+						//更新terminals表数据,激活码5月12日修改
 						if(types==1 || types==2){
-							int temp2=outStoreMapper.updateTerminals(customerId, null, orderId, ports[j],payChannelId);
+							
+							int temp2=outStoreMapper.updateTerminals(customerId, null, orderId, ports[j],payChannelId,checkCode);
 							int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 							if(temp2<1){
 								//更新失败
@@ -503,9 +534,9 @@ public class OutStoreService {
 								int agentId=Integer.parseInt(mapTemp.get("id").toString());
 								int temp2=0;
 								if(customerId.equals("")){
-									temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId);
+									temp2=outStoreMapper.updateTerminals(null, agentId+"", orderId, ports[j],payChannelId,checkCode);
 								}else{
-									temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId);
+									temp2=outStoreMapper.updateTerminals(customerId, agentId+"", orderId, ports[j],payChannelId,checkCode);
 								}
 									int temp3=outStoreMapper.updateGoodsVolumeNumber(goodId);
 								

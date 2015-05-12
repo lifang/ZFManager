@@ -35,7 +35,7 @@
                         <#else>
                         <p><input name="" type="text"  class="input_s">%</p>
                         </#if>
-                        <p><a class="a_btn addEchelonProfit">增加梯队分润</a></p>
+                        <p><a class="a_btn addEchelonProfit">增加阶梯分润</a></p>
                     </td>
                 </#list>
                 </tr>
