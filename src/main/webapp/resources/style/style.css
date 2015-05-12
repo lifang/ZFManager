@@ -556,11 +556,11 @@ td a.a_btn:hover { text-decoration: underline;}
 
 .all_statistics { overflow: hidden;}
 .all_statistics li { 
-	width: 140px; 
+	width: 152px; 
 	height: 60px;
 	line-height: 60px; 
 	border: 1px #CCCCCC solid; 
-	padding: 0 80px; 
+	padding: 0 68px 0 80px; 
 	position: relative;
 	font-size: 14px;
 	float: left;
