@@ -1,14 +1,11 @@
 package com.comdosoft.financial.manage.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
@@ -54,14 +52,15 @@ public class TerminalController {
 
 
     @RequestMapping(value="list",method= RequestMethod.GET)
-    public String list(Integer page, Byte status, String keys, Model model){
-        findPage(page, status, keys, model);
+    public String list(Integer page, Byte status, String terminalNum, String orderNum, Model model){
+    	findPage(page, status, terminalNum, orderNum, model);
         return "terminal/list";
     }
 
     @RequestMapping(value="page",method=RequestMethod.POST)
-    public String page(Integer page, Byte status, String keys, Model model){
-        findPage(page, status, keys, model);
+    public String page(Integer page, Byte status,
+    		String terminalNum, String orderNum, Model model){
+        findPage(page, status, terminalNum, orderNum, model);
         return "terminal/pageTerminal";
     }
 
@@ -82,14 +81,14 @@ public class TerminalController {
         return "terminal/mark";
     }
 
-    private void findPage(Integer page, Byte status, String keys, Model model){
+    private void findPage(Integer page, Byte status, String terminalNum, String orderNum, Model model){
         if (page == null) {
             page = 1;
         }
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Terminal> terminals = terminalService.findPages(null, page, status, keys);
+        Page<Terminal> terminals = terminalService.findPages(null, page, status, terminalNum,orderNum);
         model.addAttribute("terminals", terminals);
     }
 

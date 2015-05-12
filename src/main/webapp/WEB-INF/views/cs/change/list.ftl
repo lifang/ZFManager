@@ -78,9 +78,10 @@
 	<div class="tabHead">添加换货出库记录</div>
 	<div class="tabBody">
 		<div style="margin:-10px 0px 5px 0px;"><font id="errMsg" color="red"></font></div>
-		<textarea id="output_content" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号"></textarea>
+		<input type="text" id="output_content" class="textarea_pe" style="padding:5px;font-size:13px;border:1px #ccc solid;width:250px;" placeholder="请输入终端号"/>
 		<br /><br />
-		<textarea id="output_checkCode" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="终端激活码（无需激活码则不填写）"></textarea>
+		<input type="text" id="output_checkCode" class="textarea_pe" style="padding:5px;font-size:13px;border:1px #ccc solid;width:250px;" placeholder="终端激活码（无需激活码则不填写）"/>
+		
 	</div>
 	<div class="user_select"> 
 		<label>请选择支付通道</label> 

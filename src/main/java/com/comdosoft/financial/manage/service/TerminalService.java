@@ -63,7 +63,7 @@ public class TerminalService {
         return terminals;
 	}
 
-    public Page<Terminal> findPages(Integer customerId, Integer page, Byte status, String keys) {
+    public Page<Terminal> findPages(Integer customerId, Integer page, Byte status, String terminalNum, String orderNum) {
 
         Integer factoryId = null;
         if(customerId != null){
@@ -77,20 +77,23 @@ public class TerminalService {
                 }
             }
         }
-        if (keys != null) {
-            keys = "%"+keys+"%";
+        if (terminalNum != null) {
+        	terminalNum = "%"+terminalNum+"%";
         }
-        long count = terminalMapper.countByKeys(factoryId, status, keys);
+        if (orderNum != null) {
+        	orderNum = "%"+orderNum+"%";
+        }
+        long count = terminalMapper.countByKeys(factoryId, status, terminalNum, orderNum);
         if (count == 0) {
             return new Page<>(new PageRequest(1, pageSize), new ArrayList<Terminal>(), count);
         }
 
         PageRequest request = new PageRequest(page, pageSize);
-        List<Terminal> result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, keys);
+        List<Terminal> result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, terminalNum, orderNum);
         Page<Terminal> terminals = new Page<>(request, result, count);
         if (terminals.getCurrentPage() > terminals.getTotalPage()) {
             request = new PageRequest(terminals.getTotalPage(), pageSize);
-            result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, keys);
+            result = terminalMapper.selectPageTerminalsByKeys(request, factoryId, status, terminalNum, orderNum);
             terminals = new Page<>(request, result, count);
         }
         return terminals;

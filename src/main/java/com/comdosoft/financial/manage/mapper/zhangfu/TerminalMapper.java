@@ -39,9 +39,9 @@ public interface TerminalMapper {
 	List<Terminal> selectCustomerTerminals(Integer customerId,PageRequest request);
 
     List<Terminal> selectPageTerminalsByKeys(@Param("pageRequest") PageRequest pageRequest, @Param("factoryId") Integer factoryId,
-                                   @Param("status") Byte status, @Param("keys") String keys);
+                                   @Param("status") Byte status, @Param("terminalNum") String terminalNum, @Param("orderNum") String orderNum);
 
-    long countByKeys(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("keys") String keys);
+    long countByKeys(@Param("factoryId") Integer factoryId, @Param("status") Byte status, @Param("terminalNum") String terminalNum, @Param("orderNum") String orderNum);
 
     Terminal findTerminalInfo(Integer id);
     
