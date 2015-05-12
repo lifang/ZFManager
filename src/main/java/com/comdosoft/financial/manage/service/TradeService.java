@@ -2,6 +2,8 @@ package com.comdosoft.financial.manage.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,7 @@ import com.comdosoft.financial.manage.mapper.trades.TradeRecordMapper;
 import com.comdosoft.financial.manage.mapper.trades.TradeTransferRepaymentRecordMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.DictionaryTradeTypeMapper;
+import com.comdosoft.financial.manage.utils.ExcelUtil;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -133,6 +136,25 @@ public class TradeService {
     		map.put("agent", agent);
     	});
         return statistics;
+    }
+    
+    public void writeProfitStatistics(Integer type,OutputStream outStream) throws IOException {
+    	List<Map<String,Object>> statistics = profitStatistics(type);
+    	String[][] datas = new String[statistics.size()][5];
+    	for(int i=0;i<statistics.size();++i){
+    		Map<String,Object> map = statistics.get(i);
+    		Agent agent = (Agent)map.get("agent");
+    		datas[i][0] = agent.getCompanyName();
+    		Long nums = (Long)map.get("nums");
+    		datas[i][1] = nums.toString();
+    		BigDecimal amounts = (BigDecimal)map.get("amounts");
+    		datas[i][2] = String.format("%3.2f", amounts.doubleValue()/100);
+    		BigDecimal gets = (BigDecimal)map.get("gets");
+    		datas[i][3] = String.format("%3.2f", gets.doubleValue()/100);
+    		BigDecimal pays = (BigDecimal)map.get("pays");
+    		datas[i][4] = String.format("%3.2f", pays.doubleValue()/100);
+    	}
+    	ExcelUtil.create(datas, outStream);
     }
     
     public List<Integer> importTrades(InputStream stream,Integer selectedTradeType) throws InvalidFormatException, IOException{
