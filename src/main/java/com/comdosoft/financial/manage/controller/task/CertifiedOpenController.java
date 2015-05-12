@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.DictionaryCreditType;
 import com.comdosoft.financial.manage.domain.zhangfu.OperateRecord;
@@ -54,6 +55,9 @@ public class CertifiedOpenController {
 
     @Autowired
     private RecordOperateService recordOperateService;
+
+    @Autowired
+    private TerminalService terminalService;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(HttpServletRequest request,Integer page, Byte status, String keys, Model model) {
@@ -129,6 +133,13 @@ public class CertifiedOpenController {
         }
         operationRefundContent(request,button,id);
         return a;
+    }
+
+    @RequestMapping(value = "endRecord", method = RequestMethod.POST)
+    @ResponseBody
+    public Response endRecord(HttpServletRequest request,Integer id, String url, Model model) {
+        terminalService.updateVideoFile(id, url);
+        return Response.getSuccess(null);
     }
 
     @RequestMapping(value = "upstatus", method = RequestMethod.POST)
