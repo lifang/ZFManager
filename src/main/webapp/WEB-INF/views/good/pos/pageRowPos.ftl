@@ -88,7 +88,8 @@
            	<a onClick="purchase(${good.id})" class="a_btn">可批购</a> 		          		
       		</#if>
 		   </#if>
-		   <#if Roles.hasRole("POS_INSTORE")><a href="<@spring.url "/good/pos/${good.id}/store" />" target="_blank" class="a_btn">库存管理</a></#if>
+		   <#if Roles.hasRole("POS_INSTORE")><a href="<@spring.url "/good/pos/${good.id}/store" />" target="_blank" class="a_btn">库存管理</a>
+		   <a href="javascript:void(0)" onClick="outStorage(${good.id})" class="a_btn outStorage_a">清除库存</a></#if>
 		   <#if Roles.hasRole("POS_COMMENT_MANAGE")><a href="<@spring.url "/good/pos/${good.id}/comments" />" class="a_btn" target="_blank">评论管理</a></#if>
 		   <#if Roles.hasRole("POS_TOP_START")><a onClick="stop(${good.id})" class="a_btn">停用</a></#if>
            <#if Roles.hasRole("POS_EDIT")>

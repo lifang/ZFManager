@@ -156,7 +156,7 @@ public class CsChangeService {
 	}
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Response changeGood(int csChangeId,String terminalsStr,Customer customer,int payChannelId) throws Exception{
+	public Response changeGood(int csChangeId,String terminalsStr,Customer customer,int payChannelId,String checkCode) throws Exception{
 		Response res=new Response();
 		int resultCode=1;
 		StringBuilder resultInfo=new StringBuilder();
@@ -186,7 +186,7 @@ public class CsChangeService {
 				throw new Exception("输入的终端号在售后库存中");
 			}
 			//重新绑定信息
-			int i=outStoreMapper.updateTerminals(customer.getId()+"", null,null, temp, payChannelId,"");
+			int i=outStoreMapper.updateTerminals(customer.getId()+"", null,null, temp, payChannelId,checkCode);
 			if(i<1){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
