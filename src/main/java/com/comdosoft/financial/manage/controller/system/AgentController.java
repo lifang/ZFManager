@@ -3,19 +3,26 @@ package com.comdosoft.financial.manage.controller.system;
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.*;
 import com.comdosoft.financial.manage.service.*;
+import com.comdosoft.financial.manage.utils.HttpFile;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +32,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/system/agent")
 public class AgentController {
+
+    private Logger LOG = LoggerFactory.getLogger(AgentController.class);
+
+    @Value("${agent}")
+    private String agentPath;
+    @Value("${filePath}")
+    private String filePath;
 
     @Autowired
     private AgentService agentService;
@@ -105,10 +119,11 @@ public class AgentController {
     public Response edit(@PathVariable Integer id,
                        Integer types, String name, String cardId, String companyName,
                        String businessLicense, String phone, String email, Integer cityId,
-                       String address, String username, String password, Byte accountType){
+                       String address, String username, String password, Byte accountType,
+                       String cardIdPhotoPath, String licenseNoPicPath){
         boolean result = agentService.update(id, types, name, cardId, companyName,
                     businessLicense, phone, email, cityId, address,
-                    username, password, accountType);
+                    username, password, accountType, cardIdPhotoPath, licenseNoPicPath);
         if (!result){
             return Response.getError("登录ID已存在");
         }
@@ -119,10 +134,11 @@ public class AgentController {
     @ResponseBody
     public Response create( Integer types, String name, String cardId, String companyName,
                           String businessLicense, String phone, String email, Integer cityId, String address,
-                          String username, String password, Byte accountType){
+                          String username, String password, Byte accountType,
+                          String cardIdPhotoPath, String licenseNoPicPath){
         boolean result = agentService.create(types, name, cardId, companyName,
                 businessLicense, phone, email, cityId, address,
-                username, password, accountType);
+                username, password, accountType,cardIdPhotoPath, licenseNoPicPath);
         if (!result){
             return Response.getError("登录ID已存在");
         }
@@ -269,6 +285,36 @@ public class AgentController {
         }
         Page<Agent> agents = agentService.findPages(page, status, keys);
         model.addAttribute("page", agents);
+    }
+
+    @RequestMapping(value="uploadImg",method=RequestMethod.POST)
+    @ResponseBody
+    public Response uploadImg(MultipartFile file,HttpServletRequest request){
+        String path = agentPath;
+        String[] suffixes = {"BMP","JPG","JPEG","PNG","GIF"};
+        String name = file.getOriginalFilename();
+        int length = name.length();
+        boolean flg = false;
+        for(String suffix : suffixes){
+            if(name.substring(name.indexOf(".")+1,length).equalsIgnoreCase(suffix)){
+                flg = true;
+                break;
+            }
+        }
+        if(!flg){
+            return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
+        }
+
+        if(file.getSize() > 2 * 1024 * 1024){
+            return Response.getError("上传文件超过2MB，请重新上传");
+        }
+
+        String result = HttpFile.upload(file, path);
+        if(result.indexOf("失败")>0){
+            LOG.info("文件上传失败");
+            return Response.getError("上传失败");
+        }
+        return Response.getSuccess(result);
     }
 
 }
