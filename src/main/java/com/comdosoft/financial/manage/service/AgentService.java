@@ -74,7 +74,8 @@ public class AgentService {
     @Transactional("transactionManager")
     public boolean update(Integer id, Integer types, String name, String cardId,
                        String companyName, String businessLicense, String phone, String email,
-                       Integer cityId, String address, String username, String password, Byte accountType) {
+                       Integer cityId, String address, String username, String password, Byte accountType,
+                       String cardIdPhotoPath, String licenseNoPicPath) {
         Agent agent = agentMapper.findAgentInfo(id);
         agent.setTypes(types);
         agent.setName(name);
@@ -84,6 +85,8 @@ public class AgentService {
         agent.setPhone(phone);
         agent.setEmail(email);
         agent.setAddress(address);
+        agent.setCardIdPhotoPath(cardIdPhotoPath);
+        agent.setLicenseNoPicPath(licenseNoPicPath);
         Customer customer = agent.getCustomer();
         if (!customer.getUsername().equals(username)){
             Customer customer1 = customerMapper.selectByUsername(username);
@@ -107,7 +110,8 @@ public class AgentService {
     @Transactional("transactionManager")
     public boolean create(Integer types, String name, String cardId,
                           String companyName, String businessLicense, String phone, String email,
-                          Integer cityId, String address, String username, String password, Byte accountType) {
+                          Integer cityId, String address, String username, String password, Byte accountType,
+                          String cardIdPhotoPath, String licenseNoPicPath) {
         Customer customer = customerMapper.selectByUsername(username);
         if (customer != null){
             return false;
@@ -136,6 +140,8 @@ public class AgentService {
         agent.setPhone(phone);
         agent.setEmail(email);
         agent.setAddress(address);
+        agent.setCardIdPhotoPath(cardIdPhotoPath);
+        agent.setLicenseNoPicPath(licenseNoPicPath);
         String code = agentMapper.findMaxOneLevelAgentCode();
         if (code == null || code.equals("")){
             code = "001";

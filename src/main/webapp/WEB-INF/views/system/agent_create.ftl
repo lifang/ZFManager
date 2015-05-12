@@ -30,11 +30,50 @@
                     <li class="block"><span class="labelSpan">负责人身份证号：</span>
                         <div class="text"><input name="a_cardId" type="text"  onblur="numModify(this)"   onblur="numModify(this)"value="${(agent.cardId)!""}"></div>
                     </li>
+                    <li class="block"><span class="labelSpan" title="负责人身份证照：">负责人身份证照：</span>
+                        <div class="text">
+                            <form id="fileForm1" action="<@spring.url "/system/agent/uploadImg" />" method="post" enctype="multipart/form-data">
+                                <div class="item_photoBox">
+                                    <img id="cardIdPhotoPath" src="<@spring.url "/resources/images/zp.jpg" />" class="cover"
+                                        <#if (agent.cardIdPhotoPath)??>
+                                         value="${FILE_PATH+(agent.cardIdPhotoPath)}" dbValue="${agent.cardIdPhotoPath}"
+                                         <#else>
+                                         value="" dbValue=""
+                                        </#if>>
+                                <span class="cover_span">
+                                </span>
+                                <a href="javascript:void(0);" class="informImg_a">
+                                    <span>重新上传</span><input name="file" type="file" onChange="fileChange(this)" index="1">
+                                </a>
+                            </div>
+                            </form>
+
+                        </div>
+                    </li>
                     <li class="block"><span class="labelSpan">公司全称：</span>
                         <div class="text"><input name="a_companyName" type="text" value="${(agent.companyName)!""}"></div>
                     </li>
                     <li class="block"><span class="labelSpan">公司营业执照登记号：</span>
                         <div class="text"><input name="a_businessLicense"  onblur="numModify(this)" type="text" value="${(agent.businessLicense)!""}"></div>
+                    </li>
+                    <li class="block"><span class="labelSpan" title="营业执照登记照：">营业执照登记照：</span>
+                        <div class="text">
+                            <form id="fileForm2" action="<@spring.url "/system/agent/uploadImg" />" method="post" enctype="multipart/form-data">
+                            <div class="item_photoBox">
+                                <span class="cover_span">
+                                    <img id="licenseNoPicPath" src="<@spring.url "/resources/images/zp.jpg" />" class="cover"
+                                        <#if (agent.licenseNoPicPath)??>
+                                         value="${FILE_PATH+(agent.licenseNoPicPath)}" dbValue="${agent.licenseNoPicPath}"
+                                        <#else>
+                                         value="" dbValue=""
+                                        </#if>>
+                                </span>
+                                <a href="javascript:void(0);" class="informImg_a">
+                                    <span>重新上传</span><input name="file" value="" type="file" onChange="fileChange(this)"  index="2">
+                                </a>
+                            </div>
+                            </form>
+                        </div>
                     </li>
                     <li class="block"><span class="labelSpan">手机：</span>
                         <div class="text"><input name="a_phone" type="text" value="${(agent.phone)!""}"></div>
@@ -64,12 +103,14 @@
                         <div class="text"><input name="confirmPassword" type="password"></div>
                     </li>
                 </ul>
+                <div class="img_info" style="display: none; top: 0px; left: 0px;"><img src=""></div>
             </div>
         </div>
         <div class="btnBottom"><button class="blueBtn"  onClick="submitData()">${agent???string("确定","保存")}</button></div>
     </div>
 <script type="text/javascript" >
     $(function(){
+        closeMask();
     <#if ((agent.types)!1) == 1>
         $("input[name='a_types'][value='1']").attr("checked", true);
     <#else>
@@ -95,6 +136,10 @@
         if(isNull(name, "负责人姓名不能为空!")){return false;}
         var cardId=$("input[name='a_cardId']").val();
         if(isNull(cardId, "负责人身份证号不能为空!")){return false;}
+        var cardIdPhotoPath = $("#cardIdPhotoPath").attr("dbValue");
+        if(isNull(cardIdPhotoPath, "负责人身份证照不能为空!")){return false;}
+        var licenseNoPicPath = $("#licenseNoPicPath").attr("dbValue");
+        if(isNull(licenseNoPicPath, "营业执照登记照不能为空!")){return false;}
         var companyName=$("input[name='a_companyName']").val();
         if(isNull(companyName, "公司全称不能为空!")){return false;}
         var businessLicense=$("input[name='a_businessLicense']").val();
@@ -167,7 +212,9 @@
 				                    address: address,
 				                    username: username,
 				                    password: password,
-				                    accountType: accountType
+				                    accountType: accountType,
+                                    cardIdPhotoPath: cardIdPhotoPath,
+                                    licenseNoPicPath: licenseNoPicPath
 				                },
 				                function(data){
 				                    if(data.code==1){
@@ -190,8 +237,44 @@
 	  var reg = new RegExp("^[0-9]*\.[0-9]{0,1}$");
 	  if(!reg.test(obj.value)){
 		 obj.value="";
-	  } 
-}
+	  }
+    }
+    function fileChange(obj){
+        showMask();
+        var index = $(obj).attr("index");
+        var options = {
+            success: function(data){
+                closeMask();
+                if(data.code==1){
+                    var img = $('#fileForm'+index).find(".item_photoBox img");
+                    if(img.length > 0){
+                        img.attr("value", "${FILE_PATH}"+data.result);
+                        img.attr("dbValue", data.result);
+                    }
+                    alert("上传成功!");
+                }else{
+                    showErrorTip(data.message);
+                }
+            },
+            resetForm: true,
+            dataType: 'json'
+        };
+        $('#fileForm'+index).ajaxSubmit(options);
+        return false;
+    }
+
+    function showMask(){
+        var doc_height = $(document).height();
+        $(".mask").css({
+            display : 'block',
+            height : doc_height
+        }).show();
+        $(".upImgLoading").show();
+    }
+    function closeMask(){
+        $(".mask").hide();
+        $(".upImgLoading").hide();
+    }
 
 </script>
 </@c.html>
