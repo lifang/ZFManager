@@ -53,7 +53,7 @@
             <h3>${good.secondTitle!""}</h3>
             <div class="pac_summary">
             	<ul>
-                	<li class="price_li"><span>现价</span><div class="text"><strong>￥<#if payChannel??>${(((good.retailPrice!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></div></li>
+                	<li class="price_li"><span>现价</span><div class="text"><strong>￥<#if payChannel??>${(((good.purchasePrice!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong></div></li>
                     <li class="deposit_li"><span>租赁押金</span>
                     	<div class="text">
                     		<strong>￥<#if payChannel??>${(((good.leaseDeposit!0)+(payChannel.openingCost!0))/100)?string("0.00")}</#if></strong>
