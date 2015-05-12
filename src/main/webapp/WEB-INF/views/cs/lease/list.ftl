@@ -179,7 +179,7 @@ function clearNoNum(obj){
 			 'phone':phone,
 			 'zipCode':zipCode,
 			 'address':address,
-			 'reMoney':reMoney
+			 'returnMoney':reMoney
 			 }, function(data) {
 			 	if(data.code==1){
 			 		alert(data.message);
