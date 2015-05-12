@@ -164,7 +164,7 @@
         <where>
         	<if test="1==1"> AND g.id is not null and pc.id is not null </if>
             <if test="status != null"> AND t.status =#{status} </if>
-            <if test="keys != null and keys != ''"> AND (t.serial_num like #{keys} or g.title like #{keys}) </if>
+            <if test="keys != null and keys != ''"> AND (t.serial_num like #{keys} or g.title like #{keys} or o.order_number like #{keys}) </if>
             <if test="factoryId != null"> AND pc.factory_id =#{factoryId}</if>
         </where>
     </sql>
@@ -177,6 +177,7 @@
         left join pay_channels pc on pc.id=t.pay_channel_id
         left join merchants m on m.id=t.merchant_id
         left join goods g on g.id=t.good_id
+        left join orders o on t.order_id=o.id
         <include refid="pageWhere" />
         order by t.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
     </select>
@@ -187,6 +188,7 @@
         left join pay_channels pc on pc.id=t.pay_channel_id
         left join merchants m on m.id=t.merchant_id
         left join goods g on g.id=t.good_id
+        left join orders o on t.order_id=o.id
         <include refid="pageWhere" />
 
     </select>
