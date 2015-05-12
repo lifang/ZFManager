@@ -212,4 +212,20 @@ public class TerminalService {
 		map.put("type", type);
 		return terminalMapper.getTerminalOpen(map);
 	}
+	
+	public List<String> judgeRemoveStorage(String[] terminals){
+		List<String> invalids = new ArrayList<String>();
+		for(String termianl : terminals){
+			Terminal t =terminalMapper.getTerminal(termianl);
+			if(t == null){
+				invalids.add(termianl);
+			}
+		}
+		return invalids;
+	}
+
+	public void removeStorage(Integer goodId, String[] terminals) {
+		terminalMapper.deleteTerminals(terminals);
+		goodMapper.updateQuantity(goodId, terminals.length);
+	}
 }

@@ -139,7 +139,7 @@
                 <#if Roles.hasRole("SYS_CONFIG")><li><a href="<@spring.url "/system/setting"/>"<#if urlCheck(request,"/system/setting")> class="hover"</#if>>系统参数</a></li></#if>
                 <#if Roles.hasRole("SYS_DICTIONARY")><li><a href="<@spring.url "/system/dictionary"/>"<#if urlCheck(request,"/system/dictionary")> class="hover"</#if>>数据字典</a></li></#if>
                 <#if Roles.hasRole("FACTORY")><li><a href="<@spring.url "/system/factory/list"/>"<#if urlCheck(request,"/system/factory")> class="hover"</#if>>第三方机构</a></li></#if>
-                <#if Roles.hasRole("AGENT")><li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>代理商</a></li></#if>
+                <#if Roles.hasRole("AGENT")><li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>合作伙伴</a></li></#if>
                 <#if Roles.hasRole("WEB_INFO")><li><a href="<@spring.url "/system/content/webmessage"/>"<#if urlCheck(request,"/system/content")> class="hover"</#if>>网站内容</a></li></#if>
                 <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>账户设置</a></li>
             </ol>
