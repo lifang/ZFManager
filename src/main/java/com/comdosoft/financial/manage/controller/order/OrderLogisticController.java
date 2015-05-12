@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comdosoft.financial.manage.domain.Response;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Order;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.service.OrderLogisticService;
 import com.comdosoft.financial.manage.service.OrderService;
 import com.comdosoft.financial.manage.service.SessionService;
@@ -142,5 +145,14 @@ public class OrderLogisticController extends BaseController {
 		saveOperateRecord(request, OperateType.orderBatchType,
 				OperatePage.orderBatchInfo, OperateAction.deliver, orderId);
 		return "order/batch/infoUp";
+	}
+	@RequestMapping(value = "/info/{id}/showTerminal", method = RequestMethod.POST)
+	@ResponseBody
+	public Response showTerminal(@PathVariable Integer id) {
+		Terminal t = orderService.getTerminal(id);
+		if(t.getReserver2()!=null){
+			return Response.getSuccess(t.getSerialNum()+"(激活码：)"+t.getReserver2());
+		}
+		return Response.getSuccess(t.getSerialNum());
 	}
 }

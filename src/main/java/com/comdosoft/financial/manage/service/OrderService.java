@@ -23,6 +23,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.SysConfig;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
@@ -32,6 +33,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderPaymentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysConfigMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.Constant;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -68,6 +70,8 @@ public class OrderService {
 	private PayChannelMapper payChannelMapper;
 	@Autowired
 	private CustomerAgentRelationService customerAgentRelationService;
+	@Autowired
+	private TerminalMapper terminalMapper;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
@@ -614,5 +618,11 @@ public class OrderService {
 			}
 		}
 		return orders;
+	}
+
+
+
+	public Terminal getTerminal(Integer orderId) {
+		return terminalMapper.getTerminalByOrderId(orderId);
 	}
 }
