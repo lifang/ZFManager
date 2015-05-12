@@ -1,9 +1,12 @@
 package com.comdosoft.financial.manage.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
@@ -124,6 +127,19 @@ public class TradeController {
         Map<Date,Date> map = tradeService.getTradedDateRange(id);
         model.addAttribute("tradedDateRange", map);
         return "trade/trade_statistics";
+    }
+    
+    @RequestMapping(value = "/{id}/statistics/export",method = RequestMethod.GET)
+    public void statisticsExport(@PathVariable Integer id,HttpServletResponse resp){
+    	try {
+    		resp.setHeader("Content-Disposition", "attachment; filename=export.xls");  
+    		resp.setContentType("application/octet-stream; charset=utf-8");  
+			OutputStream outStream = resp.getOutputStream();
+			tradeService.writeProfitStatistics(id, outStream);
+			outStream.flush();
+		} catch (IOException e) {
+			LOG.error("",e);
+		}
     }
     
     @RequestMapping(value = "/import",method = RequestMethod.POST)

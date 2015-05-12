@@ -66,8 +66,17 @@
     <div class="tabFoot"><button class="blueBtn" id="checkSure">确认</button></div>
 </div>
 
-<script type="text/javascript">
+<div class="tab outStorage_tab">
+    <a href="#" class="close">关闭</a>
+    <div class="tabHead">清除库存</div>
+    <div class="tabBody">
+        <textarea id="terminalLists" cols="" rows="" placeholder="请输入要清除库存的终端号，以逗号（,）分隔"></textarea>
+    </div>
+    <div class="tabFoot"><button class="blueBtn" onclick="removeTerminal()">确定</button></div>
+</div>
 
+<script type="text/javascript">
+	var goodId;
 	$(function(){
 		$('#select_status').change(function(){
 			var status = $(this).children('option:selected').val();
@@ -245,7 +254,32 @@
         popup(".putStorage_tab",".putStorage_a");//入库 POS机管理
         popup(".approve_tab",".approve_a");//通过审核
     }
-
+	function outStorage(id){
+		goodId = id;
+	}
+	function removeTerminal(){
+        var data = $("#terminalLists").val();
+        if(data == ""){
+        	alert("终端号不能为空，请重新输入");
+            return false;
+        }
+        var reg = /^[0-9a-zA-Z\,]+$/;
+        if(!reg.test(data)){
+        	alert("终端号有误，请重新输入");
+        	return false;
+        }
+        $.post('<@spring.url "" />'+'/good/pos/'+goodId+'/removeStore',
+                {data:data},
+                function (data) {
+                    if(data.code==-1){
+                        alert(data.message);
+                    } else{
+                    	$('.outStorage_tab').hide();
+                    	$('.mask').hide();
+                        alert(data.result);
+                    }  
+                });
+    }
 
 
 </script>    

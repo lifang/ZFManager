@@ -10,6 +10,9 @@
 <div class="content clear">
     <div class="user_title">
         <h1>${tradeType.tradeValue}交易流水统计</h1>
+        <div class="userTopBtnBox">
+            <a href="<@spring.url "/trade/${tradeType.id}/statistics/export"/>" target="_blank" class="ghostBtn">导出</a>
+        </div>
     </div>
     <#if tradedDateRange??>
     <div class="user_statistics">${tradedDateRange.minTradedAt?string("yyyy年MM月dd日")} - ${tradedDateRange.maxTradedAt?string("yyyy年MM月dd日")}   交易类型：${tradeType.tradeValue}</div>
