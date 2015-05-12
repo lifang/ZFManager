@@ -103,6 +103,12 @@ public class CertifiedOpenService {
 
     public int upVstatus(Integer id, Integer status) {
         int a=certifiedOpenMapper.upVstatus(id,status);
+        return  a;
+        
+    }
+    
+    public int upVstatus2(Integer id, Integer status) {
+        int a=certifiedOpenMapper.upVstatus(id,status);
         if(a==0){
             a=certifiedOpenMapper.inVstatus(id,status);
         }

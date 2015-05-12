@@ -49,8 +49,10 @@ public class TerminalController {
     @RequestMapping(value="{id}/info",method=RequestMethod.GET)
     public String info(@PathVariable Integer id, Model model){
         Terminal terminal = terminalService.findTerminalInfo(id);
+        String videoUrl = terminalService.videoFile(terminal.getId());
         model.addAttribute("terminal", terminal);
         model.addAttribute("isFactory", true);
+        model.addAttribute("videoUrl", videoUrl);
         return "factory_role/terminal/info";
     }
 

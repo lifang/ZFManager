@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,9 @@ public class TerminalController {
     @RequestMapping(value="{id}/info",method=RequestMethod.GET)
     public String info(@PathVariable Integer id, Model model){
         Terminal terminal = terminalService.findTerminalInfo(id);
+        String videoUrl = terminalService.videoFile(terminal.getId());
         model.addAttribute("terminal", terminal);
+        model.addAttribute("videoUrl", videoUrl);
         return "terminal/info";
     }
 

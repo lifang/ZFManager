@@ -13,7 +13,7 @@
             <ul>
                 <li>
                     <div class="user_search">
-                        <input id="search_keys" name="" type="text"  placeholder="终端号"/>
+                        <input id="search_keys" name="" type="text"  placeholder="请输入终端号或订单编号查询"/>
                         <input id="hidden_keys" type="hidden" name="keys" value="">
                         <input id="hidden_status" type="hidden" name="status" value="">
                         <button id="btn_search"></button>

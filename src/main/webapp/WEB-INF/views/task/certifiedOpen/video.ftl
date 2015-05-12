@@ -165,7 +165,7 @@
         <div class="tabFoot"><button class="blueBtn" onclick="upvs()">确定</button></div>
     </div>
     <!--系统日志信息层-->
-    <div id="LOG_DIV_BODY">
+    <div id="LOG_DIV_BODY" style="display:none;">
         <div id="LOG_DIV_TITLE">系统日志</div>
         <div id="LOG_DIV_CONTENT"></div>
     </div>
@@ -212,6 +212,17 @@
 					}
 		        });
 	}
+    function endRecord(url){
+        $.post('<@spring.url "/task/certifiedopen/endRecord" />',
+                {"id": ${tinfo.id},"url":url},
+                function (data) {
+                    if(data>0){
+                        alert("保存成功!");
+                    }else{
+                        alert("保存失败!");
+                    }
+                });
+    }
 </script>  
 </body>
 </html>
