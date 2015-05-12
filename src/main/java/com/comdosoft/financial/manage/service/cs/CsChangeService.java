@@ -186,7 +186,7 @@ public class CsChangeService {
 				throw new Exception("输入的终端号在售后库存中");
 			}
 			//重新绑定信息
-			int i=outStoreMapper.updateTerminals(customer.getId()+"", null,null, temp, payChannelId);
+			int i=outStoreMapper.updateTerminals(customer.getId()+"", null,null, temp, payChannelId,"");
 			if(i<1){
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);

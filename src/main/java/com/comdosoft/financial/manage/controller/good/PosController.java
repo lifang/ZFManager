@@ -282,6 +282,23 @@ public class PosController {
 //		}
 //		return Response.getSuccess(urlPath);
 	  // HttpFile hf=new HttpFile();
+        String path = sysPosPath ;
+        String[] suffixes = {"BMP","JPG","JPEG","PNG","GIF"};
+        String name = file.getOriginalFilename();
+        int length = name.length();
+        boolean flg = false;
+        for(String suffix : suffixes){
+            if(name.substring(name.indexOf(".")+1,length).equalsIgnoreCase(suffix)){
+                flg = true;
+                break;
+            }
+        }
+        if(!flg){
+            return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
+        }
+        if(file.getSize() > 2 * 1024 * 1024){
+            return Response.getError("上传文件超过2MB，请重新上传");
+        }
 	    String result=HttpFile.uploadPos(file,sysPosPath);
 	    if(result.split("/").length>1){
 	        return Response.getSuccess(filePath+result);
@@ -535,6 +552,9 @@ public class PosController {
     	if(!flg){
 			return Response.getError("上传文件类型不正确，只能是图片格式，请重新上传");
 		}
+        if(file.getSize() > 2 * 1024 * 1024){
+            return Response.getError("上传文件超过2M，请重新上传");
+        }
     	String result = HttpFile.upload(file, path);
     	if(result.indexOf("失败")>0){
     		LOG.info("文件上传失败");

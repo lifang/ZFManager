@@ -184,7 +184,7 @@ where a.id=#{id}
    
    <update id="updateTerminals">
    	update terminals set customer_id=#{customerId},agent_id=#{agentId},
-   	order_id=#{orderId},updated_at=now(),pay_channel_id=#{payChannelId} where serial_num=#{serialNum}
+   	order_id=#{orderId},updated_at=now(),pay_channel_id=#{payChannelId},reserver2=#{checkCode} where serial_num=#{serialNum}
    </update>
    
    <select id="getTerminalIsUsed" resultType="int">

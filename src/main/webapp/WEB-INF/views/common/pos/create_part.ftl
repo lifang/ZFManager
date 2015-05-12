@@ -207,7 +207,7 @@
                     <div class="text"><textarea name="g_description" cols="" rows=""><#if (good.description)??>${good.description}</#if></textarea></div></li>
                 <li class="b"><span class="labelSpan">POS机图片：</span>
                     <div class="text" id="photos">
-                    <p class="red">*请上传正方形图片</p>
+                    <p class="red">*请上传正方形图片，文件大小在2mb以内。</p>
                     <#list 0..4 as i>
                         <form id="fileForm${i}" action="<@spring.url "/good/pos/uploadImg" />" method="post" enctype="multipart/form-data">
                             <div class="item_photoBox">
@@ -257,10 +257,9 @@
     </#if>
     </button></div>
 </div>
-<div class="mask"></div>
 <div class="upImgLoading">
 	<span><img src="<@spring.url "/resources/images/loading.gif" />" /></span>
-    <p>图片上传中...</p>
+    <p>文件上传中...</p>
 </div>
 
 <script type="text/javascript">
@@ -382,8 +381,7 @@
     function submitData(){
         var title=$("input[name='g_title']").val();
         if(isNull(title, "标题不能为空!")){return false;}
-        if(title.length>20){
-            showErrorTip("标题最多20个字！");
+        if(title.length>30){
             return false;
         }
         var secondTitle=$("input[name='g_secondTitle']").val();
@@ -521,8 +519,8 @@
         var index = $(obj).attr("index");
         var options = {
             success: function(data){
+                closeMask();
                 if(data.code==1){
-                	closeMask();
                     var img = $('#fileForm'+index).find(".item_photoBox img");
                     if(img.length > 0){
                         img.attr("value", data.result);
@@ -538,6 +536,8 @@
                         infoTab('.cover','.img_info');
                     }
                     alert("上传成功!");
+                }else{
+                    showErrorTip(data.message);
                 }
             },
             resetForm: true,
