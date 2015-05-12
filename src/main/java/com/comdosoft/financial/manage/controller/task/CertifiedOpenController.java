@@ -87,6 +87,7 @@ public class CertifiedOpenController {
         model.addAttribute("tinfo", tinfo);
         Customer customer = sessionService.getLoginInfo(request);
         model.addAttribute("customer", customer);
+        certifiedOpenService.upVstatus(id,1);
         List<Opendetailsinfo> opendetailsinfos = certifiedOpenService.opendetailsinfo(id);
         if (opendetailsinfos != null && opendetailsinfos.size() > 0) {
             model.addAttribute("opendetailsinfos", opendetailsinfos);
