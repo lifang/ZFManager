@@ -296,6 +296,10 @@ public class ChannelController {
 //            LOG.error("", e);
 //            return Response.getError("上传失败！");
 //        }
+        if(file.getSize() > 5 * 1024 * 1024){
+            return Response.getError("上传文件超过5MB，请重新上传");
+        }
+
         String result=HttpFile.upload(file, sysFilePaychannel);
         if(result.split("/").length>1){
             return Response.getSuccess(result);
