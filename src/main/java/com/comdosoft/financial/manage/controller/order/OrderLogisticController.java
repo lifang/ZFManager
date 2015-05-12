@@ -53,7 +53,7 @@ public class OrderLogisticController extends BaseController {
 	@RequestMapping(value = "check", method = {RequestMethod.POST})
 	public String checkOutStorage(Integer orderId, Model model){
 		if(orderLogisticService.judgeDeliver(orderId)!=null){
-			model.addAttribute("response", Response.getError("相关发货单已生成，请至任务-->出库中处理对应的出库单"));
+			model.addAttribute("response", Response.getError("相关发货单已生成，请勿重复发货，请至任务-->出库中处理该出库单"));
 		}else{
 			model.addAttribute("response", Response.getSuccess("ok"));
 		}
