@@ -79,6 +79,8 @@
 	<div class="tabBody">
 		<div style="margin:-10px 0px 5px 0px;"><font id="errMsg" color="red"></font></div>
 		<textarea id="output_content" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号"></textarea>
+		<br /><br />
+		<textarea id="output_checkCode" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="终端激活码（无需激活码则不填写）"></textarea>
 	</div>
 	<div class="user_select"> 
 		<label>请选择支付通道</label> 
@@ -110,10 +112,12 @@
 	function onOutput() {
 		var payChannelId=$("#payChannelSelect").val();
 		var terminalList = $("#output_content").val();
+		var checkCode=$("#output_checkCode").val();
 		
 		$.post('<@spring.url "" />'+'/cs/change/'+outputId+'/output',
             {"terminalList": terminalList,
-           	"payChannelId":payChannelId
+           	"payChannelId":payChannelId,
+           	"checkCode":checkCode
             }, 
             function (data) {
             	if(data.code==-1){

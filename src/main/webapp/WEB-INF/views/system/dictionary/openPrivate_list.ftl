@@ -42,6 +42,10 @@
             if(isNull(name, "名称不能为空！")){
                 return false;
             }
+            if(name.length > 9){
+                showErrorTip("名称最多9个字！");
+                return false;
+            }
             if(!isNotNull(value)){
                 value = 0;
             }

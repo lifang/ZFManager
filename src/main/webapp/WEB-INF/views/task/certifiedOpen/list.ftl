@@ -101,7 +101,7 @@
 					if(data>0){
 						certifiedOpenPageChange(page);
 					}else{
-						alert("操作失败!");
+						alert("请先视频认证!");
 					}
 		        });
 	}

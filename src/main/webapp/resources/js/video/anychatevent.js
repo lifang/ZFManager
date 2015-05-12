@@ -59,6 +59,7 @@ function OnAnyChatSDKFilterData(lpBuf, dwLen) {
 // �յ�¼�����������¼�
 function OnAnyChatRecordSnapShot(dwUserId, lpFileName, dwParam, bRecordType) {
 	AddLog("OnAnyChatRecordSnapShot(userid=" + dwUserId + ", lpFileName=" + lpFileName + ")", LOG_TYPE_EVENT);
+    endRecord(lpFileName);
 }
 
 // �յ�¼�����������¼�����չ��

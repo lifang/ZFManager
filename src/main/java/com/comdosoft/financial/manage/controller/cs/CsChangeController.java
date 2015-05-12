@@ -112,12 +112,12 @@ public class CsChangeController {
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
 	@ResponseBody
 	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id, 
-			String terminalList,int payChannelId) throws Exception {
+			String terminalList,int payChannelId,String checkCode) throws Exception {
 		Response response2=new Response();
 		try{
 		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
 		
-		response2=csChangeService.changeGood(id, terminalList, customer,payChannelId);
+		response2=csChangeService.changeGood(id, terminalList, customer,payChannelId,checkCode);
 
 		}catch(Exception ex){
 			ex.printStackTrace();
