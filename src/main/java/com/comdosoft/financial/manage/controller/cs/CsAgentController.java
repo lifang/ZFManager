@@ -87,23 +87,60 @@ public class CsAgentController {
 	@RequestMapping(value = "{id}/output", method = RequestMethod.POST)
 	@ResponseBody
 	public Response output(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id,
-			String terminalList,Integer payChannelId) {
+			String terminalList,Integer payChannelId,String checkCodesStr) {
 		String[] terminalNums = terminalList.split(",");
+		
+		if(!checkCodesStr.trim().equals("")){
+			String[] checkCodes=checkCodesStr.split(",");
+			if(checkCodes.length!=terminalNums.length){
+				return Response.getError("输入的终端数和激活码数不一致");
+			}
+		}
+		
 		Customer customer = (Customer)request.getSession().getAttribute(LOGIN_SESSION_KEY);//获取登录信息
 		List<String> terminals = new ArrayList<String>();
 		List<String> invalidTermianls = new ArrayList<String>();
 		int cnt = 0;
-		for(String t : terminalNums){
+		for(int i=0;i<terminalNums.length;i++){
+			String t=terminalNums[i];
+			
 			Terminal terminal = csAgentService.findTerminal(t);
-			if(terminal != null){
-				terminal.setPayChannelId(payChannelId);
-				csAgentService.output(id, terminal);
-				terminals.add(t);
-				cnt ++;
+			//激活码
+			if(!checkCodesStr.trim().equals("")){
+				String[] checkCodes=checkCodesStr.split(",");
+				if(terminal != null){
+					terminal.setPayChannelId(payChannelId);
+					terminal.setReserver2(checkCodes[i]);
+					csAgentService.output(id, terminal);
+					terminals.add(t);
+					cnt ++;
+				}else{
+					invalidTermianls.add(t);
+				}
 			}else{
-				invalidTermianls.add(t);
+				if(terminal != null){
+					terminal.setPayChannelId(payChannelId);
+					csAgentService.output(id, terminal);
+					terminals.add(t);
+					cnt ++;
+				}else{
+					invalidTermianls.add(t);
+				}
 			}
 		}
+		
+//		for(String t : terminalNums){
+//			Terminal terminal = csAgentService.findTerminal(t);
+//			if(terminal != null){
+//				terminal.setPayChannelId(payChannelId);
+//				csAgentService.output(id, terminal);
+//				terminals.add(t);
+//				cnt ++;
+//			}else{
+//				invalidTermianls.add(t);
+//			}
+//		}
+		
 		String temp = terminals.toString().replaceAll("\\[|\\]", "");
 		if(!"".equals(temp) && cnt < terminalNums.length){
 			csAgentService.csOutput(id, cnt, customer.getId(), customer.getName(), temp);

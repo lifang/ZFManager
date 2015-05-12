@@ -1457,3 +1457,14 @@ select.select_s { width: 80px; border:1px #CCCCCC solid; line-height: 24px; heig
 	top: 0;
 	left: 0;
 }
+
+/*-*---pos机管理  清除库存-------*/
+.outStorage_tab {}
+.outStorage_tab textarea { 
+	width: 98%; 
+	display: block; 
+	height: 100px; 
+	padding: 5px; 
+	font-size: 12px;
+	border: 1px #CCCCCC solid;
+}

@@ -596,4 +596,15 @@ public class PosController {
     	return Response.getSuccess("ok");
     	
     }
+    @RequestMapping(value="{id}/removeStore",method=RequestMethod.POST)
+    @ResponseBody
+    public Response removeStore(@PathVariable Integer id,String data, Model model){
+    	String[] terminals = data.split(",");
+    	List<String> invalids = terminalService.judgeRemoveStorage(terminals);
+    	if(!invalids.isEmpty()){
+    		return Response.getError("输入的终端号"+invalids.toString());
+    	}
+    	terminalService.removeStorage(id,terminals);
+    	return Response.getSuccess("清除库存成功");
+    }
 }

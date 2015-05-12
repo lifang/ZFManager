@@ -168,6 +168,9 @@
     }
     
     function cancel(id){
+    	if(!confirm("确认要取消订单吗？")){
+    		return false;
+    	}
     	$.post('<@spring.url "" />'+'/order/agent/'+id+'/cancel',
 				{
 				},

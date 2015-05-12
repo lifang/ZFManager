@@ -198,6 +198,31 @@ public class TerminalService {
         return status;
     }
 
+    public String videoFile(Integer id){
+        String fileUrl = null;
+        OpeningApplie openingApplie = openingApplieMapper.selectOpeningApplie(id);
+        if(openingApplie == null){
+            return fileUrl;
+        }
+        List<OpeningVideoVerify> verifies = openingVideoVerifyMapper.selectByApplyId(openingApplie.getId());
+        for(OpeningVideoVerify verify : verifies){
+            fileUrl = verify.getVideoUrl();
+            if(fileUrl != null){
+                break;
+            }
+        }
+        return fileUrl;
+    }
+
+    @Transactional("transactionManager")
+    public void updateVideoFile(Integer openApplyId, String videoFile){
+        List<OpeningVideoVerify> verifies = openingVideoVerifyMapper.selectByApplyId(openApplyId);
+        for(OpeningVideoVerify verify : verifies){
+            verify.setVideoUrl(videoFile);
+            openingVideoVerifyMapper.updateByPrimaryKey(verify);
+        }
+    }
+
     public OpeningApplie getOpeningApplie(Integer id){
         return openingApplieMapper.selectOpeningApplie(id);
     }
@@ -211,5 +236,21 @@ public class TerminalService {
 		map.put("id", id);
 		map.put("type", type);
 		return terminalMapper.getTerminalOpen(map);
+	}
+	
+	public List<String> judgeRemoveStorage(String[] terminals){
+		List<String> invalids = new ArrayList<String>();
+		for(String termianl : terminals){
+			Terminal t =terminalMapper.getTerminal(termianl);
+			if(t == null){
+				invalids.add(termianl);
+			}
+		}
+		return invalids;
+	}
+
+	public void removeStorage(Integer goodId, String[] terminals) {
+		terminalMapper.deleteTerminals(terminals);
+		goodMapper.updateQuantity(goodId, terminals.length);
 	}
 }

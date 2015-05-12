@@ -98,6 +98,9 @@
     </div>
 </#if>
     <div class="attributes_box">
+        <#if videoUrl??>
+        <h2>开通详情 <a href="${FILE_PATH+videoUrl}" class="a_btn">下载视频</a></h2>
+        </#if>
         <h2>开通详情
         <#if (terminal.openingApplie.terminalOpeningInfos)??>
             <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
