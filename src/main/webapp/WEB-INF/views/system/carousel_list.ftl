@@ -46,33 +46,26 @@
     
     <div class="upImgLoading" style="display: block;">
     	<span><img src="../../resources/images/loading.gif"/></span>
-        <p>图片上传中...</p>
+        <p>文件上传中...</p>
     </div>
 <script>
 	$(function(){
-		$(".mask").hide();
-		$(".upImgLoading").hide();
+        closeMask();
 	})
 	
     function fileChange(obj){
+        showMask();
         var index = $(obj).attr("index");
-        
-        $(".mask").show();
-        $(".upImgLoading").show();
-        
         var options = {
             success: function(data){
+                closeMask();
                 if(data.code==1){
-                	$(".mask").hide();
-        			$(".upImgLoading").hide();
                     var img = $('#fileForm'+index).find(".ss_img img");
                     if(img.length > 0){
                         img.attr("value", data.result);
                     }
                 }else{
-                	alert(data.message);
-                	$(".mask").hide();
-        			$(".upImgLoading").hide();
+                	showErrorTip(data.message);
                 }
             },
             resetForm: true,
@@ -98,16 +91,18 @@
                     }
                 });
     }
-    function isNull(value, error){
-        if(!isNotNull(value)){
-            showErrorTip(error);
-            return true;
-        }
-        return false;
-    }
 
-    function isNotNull(value){
-        return value != "" && value != null && value != undefined;
+    function showMask(){
+        var doc_height = $(document).height();
+        $(".mask").css({
+            display : 'block',
+            height : doc_height
+        }).show();
+        $(".upImgLoading").show();
+    }
+    function closeMask(){
+        $(".mask").hide();
+        $(".upImgLoading").hide();
     }
 </script>
 </@c.html>

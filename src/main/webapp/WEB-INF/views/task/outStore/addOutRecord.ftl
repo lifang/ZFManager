@@ -20,12 +20,14 @@
 		      <col width="510"> 
 		      <col />
               <col />
+              <col />
 		    </colgroup> 
 		    <thead> 
 		     <tr>
 		      <th>商品</th> 
 		      <th>数量</th> 
 		      <th>终端号</th>
+		      <th>激动码</th>
 		     </tr> 
 		    </thead> 
 		    <tbody> 
@@ -47,7 +49,12 @@
                     </td>
 			      	<td>${good.quantity}</td> 
 			      	<td class="text">
-			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}"></textarea>
+			      		<textarea name="" cols="" rows="" class="textarea_l" id="terminal_${good.id}" style="width:150px"></textarea>
+			      	</td>
+			      	<td class="text">
+			      		<textarea name="" cols="" rows="" class="textarea_l" id="checkCode_${good.id}"
+			      		 style="width:150px;color:darkgrey" onfocus="if(value=='终端激活码（无需激活码则不填写）')value=''"
+			      		 onblur="if (value ==''){value='终端激活码（无需激活码则不填写）'}">终端激活码（无需激活码则不填写）</textarea>
 			      	</td>
 				   </tr>
 			  </#list>
@@ -72,13 +79,17 @@
      </div>
 
 <script type="text/javascript">
+
 	function submitData(){
 		//物流公司
 		var wlCompanyStr=$("#wlCompany").val();
 		//物流单号
 		var wlNumStr=$("#wlNumStr").val();
 		
+		var checkCodes=$("textarea[id^='checkCode_']");
+		
 	 	var terminals=$("textarea[id^='terminal_']");
+	 	
 	 	var temp=""; 
 	 	var goodIds = new Array();
 	 	var quantities = new Array();
@@ -86,15 +97,26 @@
 			var id=$(terminals[i]).attr("id");
 			var goodId=id.substr(9,id.length-9);
 			var value=$(terminals[i]).val();
-			goodIds.push(goodId);
-			quantities.push($(terminals[i]).parent().prev().html());
-			if(temp.length<1){
-				temp=goodId+"_"+value;
+			
+			var codes=$(checkCodes[i]).val();
+			if(codes=='终端激活码（无需激活码则不填写）'){
+				goodIds.push(goodId);
+				quantities.push($(terminals[i]).parent().prev().html());
+				if(temp.length<1){
+					temp=goodId+"_"+value+"_无";
+				}else{
+					temp=temp+"|"+goodId+"_"+value+"_无";
+				}
 			}else{
-				temp=temp+"|"+goodId+"_"+value;
+				goodIds.push(goodId);
+				quantities.push($(terminals[i]).parent().prev().html());
+				if(temp.length<1){
+					temp=goodId+"_"+value+"_"+codes;
+				}else{
+					temp=temp+"|"+goodId+"_"+value+"_"+codes;
+				}
 			}
 		}
-		
 		var outStorageIdStr=$("#outStorageId").val();
 		
 		$.post('<@spring.url "/task/outStore/save" />',

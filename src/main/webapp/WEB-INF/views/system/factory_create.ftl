@@ -67,8 +67,13 @@
         </div>
         <div class="btnBottom"><button class="blueBtn" onclick="submitData()">${factory???string("确定","创建")}</button></div>
     </div>
+<div class="upImgLoading">
+    <span><img src="<@spring.url "/resources/images/loading.gif" />" /></span>
+    <p>文件上传中...</p>
+</div>
 <script>
     $(function(){
+        closeMask();
         $("input[name='f_types'][value='${(factory.types)!1}']").attr("checked", true);
         $('#provinceSelect').change(function(){
             var provinceId = $(this).children('option:selected').val();
@@ -172,8 +177,10 @@
     }
 
     function fileChange(){
+        showMask();
         var options = {
             success: function(data){
+                closeMask();
                 if(data.code==1){
                		$("#img_path").attr("value", data.result[0]+data.result[1]);
                     var $file = $("#fileForm").find("input[type='file']");
@@ -182,7 +189,7 @@
                     }
                     alert("上传成功!");
                 }else{
-                	alert(data.message);
+                	showErrorTip(data.message);
                 }
             },
             resetForm: true,
@@ -207,6 +214,18 @@
         }else{
             return false;
         }
+    }
+    function showMask(){
+        var doc_height = $(document).height();
+        $(".mask").css({
+            display : 'block',
+            height : doc_height
+        }).show();
+        $(".upImgLoading").show();
+    }
+    function closeMask(){
+        $(".mask").hide();
+        $(".upImgLoading").hide();
     }
 </script>
 </@c.html>
