@@ -175,8 +175,8 @@ public class OutStoreService {
 			Map<String , Object> mapTemp=map.get(0);
 			
 			int invoiceType=Integer.parseInt(map.get(0).get("invoiceType").toString());
-			int oldPrice=Integer.parseInt(map.get(0).get("oldPrice").toString())/100;
-			int actualPrice=Integer.parseInt(map.get(0).get("actualPrice").toString())/100;
+			float oldPrice=Float.parseFloat(map.get(0).get("oldPrice").toString())/100;
+			float actualPrice=Float.parseFloat(map.get(0).get("actualPrice").toString())/100;
 			int payType=Integer.parseInt(map.get(0).get("payType").toString());
 			mapTemp.put("actualPrice", actualPrice);
 			mapTemp.put("oldPrice", oldPrice);

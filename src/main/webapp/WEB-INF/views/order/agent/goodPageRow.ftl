@@ -28,7 +28,7 @@
             </div>
         </div>
     </td>
-    <td><a href="#"><strong>￥${(good.retailPriceDisplay/100)?string("0.00")}</strong></a></td>
+    <td><a href="#"><strong>￥${(good.purchasePriceDisplay/100)?string("0.00")}</strong></a></td>
     <td>
     	<span class="lease_t <#if !good.hasLease?? || !good.hasLease>no</#if>">支持租赁</span>
     </td>
