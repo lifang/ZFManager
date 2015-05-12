@@ -50,7 +50,7 @@
 		<div style="margin:-10px 0px 5px 0px;" class="break"><font id="errMsg" color="red"></font></div>
 		<textarea id="output_content" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="请输入终端号，以逗号(,)分隔"></textarea>
 		<br /><br />
-		<textarea id="output_checkCode" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="终端激活码（无需激活码则不填写）"></textarea>
+		<textarea id="output_checkCode" name="" cols="40" rows="2" class="textarea_pe" style="padding:5px;font-size:13px;" placeholder="终端激活码（无需激活码则不填写）,以逗号(,)分隔"></textarea>
 	</div>
 	<div class="user_select" style="margin-left:10px;"> 
 		<label>请选择支付通道</label> 
@@ -145,7 +145,7 @@
 	function onOutput() {
 		var terminalList = $("#output_content").val();
 		var payChannelId = $("#payChannelSelect").val();
-		var checkCode=$("#checkCode").val();
+		var checkCode=$("#output_checkCode").val();
 		var reg = /^[0-9a-zA-Z\,]+$/;
 		if(!reg.test(terminalList)){
 			$("#errMsg").html("终端号填写有误，请重新填写");
@@ -154,7 +154,7 @@
 	            {
 	            	"terminalList": terminalList,
 	      			"payChannelId": payChannelId,
-	      			"checkCode":checkCode
+	      			"checkCodesStr":checkCode
 	      		}, 
 	            function (data) {
 	            	if(data.code==-1){
