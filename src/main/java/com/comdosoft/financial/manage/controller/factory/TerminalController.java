@@ -7,6 +7,7 @@ import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SessionService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,16 +35,16 @@ public class TerminalController {
 
 
     @RequestMapping(value="list",method= RequestMethod.GET)
-    public String list(Integer page, Byte status, String keys, Model model, HttpServletRequest request){
+    public String list(Integer page, Byte status, String terminalNum, String orderNum, Model model, HttpServletRequest request){
         Customer customer = sessionService.getLoginInfo(request);
-        findPage(customer.getId(), page, status, keys, model);
+        findPage(customer.getId(), page, status, terminalNum, orderNum, model);
         return "factory_role/terminal/list";
     }
 
     @RequestMapping(value="page",method=RequestMethod.POST)
-    public String page(Integer page, Byte status, String keys, Model model, HttpServletRequest request){
+    public String page(Integer page, Byte status, String terminalNum, String orderNum, Model model, HttpServletRequest request){
         Customer customer = sessionService.getLoginInfo(request);
-        findPage(customer.getId(), page, status, keys, model);
+        findPage(customer.getId(), page, status, terminalNum, orderNum, model);
         return "factory_role/terminal/pageTerminal";
     }
 
@@ -56,14 +58,14 @@ public class TerminalController {
         return "factory_role/terminal/info";
     }
 
-    private void findPage(Integer customerId, Integer page, Byte status, String keys, Model model){
+    private void findPage(Integer customerId, Integer page, Byte status, String terminalNum, String orderNum, Model model){
         if (page == null) {
             page = 1;
         }
         if (status != null && status == 0) {
             status = null;
         }
-        Page<Terminal> terminals = terminalService.findPages(customerId, page, status, keys);
+        Page<Terminal> terminals = terminalService.findPages(customerId, page, status, terminalNum, orderNum);
         Map<String, Integer> statusMap = new HashMap<String, Integer>();
         Map<String, OpeningApplie> applyMap = new HashMap<String, OpeningApplie>();
         for (Terminal terminal : terminals.getContent()){

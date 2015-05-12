@@ -13,9 +13,14 @@
             <ul>
                 <li>
                     <div class="user_search">
-                        <input id="search_keys" name="" type="text"  placeholder="请输入终端号或订单编号查询"/>
-                        <input id="hidden_keys" type="hidden" name="keys" value="">
-                        <input id="hidden_status" type="hidden" name="status" value="">
+                        <select id="search_key_type" name="search_key_type">
+                            <option value="1">终端号</option>
+                            <option value="2">订单编号</option>
+                        </select>
+                        <input id="search_keys" name="" type="text" placeholder="请输入终端号或订单编号查询"/>
+                        <input id="hidden_keys" type="hidden" name="keys">
+                        <input id="hidden_status" type="hidden" name="status">
+                        <input id="hidden_key_type" type="hidden" name="key_type">
                         <button id="btn_search"></button>
                     </div>
                 </li>
@@ -47,7 +52,9 @@
         $("#btn_search").bind("click",
                 function() {
                     var keys=$.trim($("#search_keys").val());
+                    var key_type=$("#search_key_type").val();
                     $("#hidden_keys").val(keys);
+                    $("#hidden_key_type").val(key_type);
                     terminalPageChange(1);
                 });
     });
@@ -55,10 +62,17 @@
     function terminalPageChange(page) {
         var keys = $("#hidden_keys").val();
         var status = $("#hidden_status").val();
+        var key_type=$("#hidden_key_type").val();
+        if(key_type==1){
+            var terminalNum=keys;
+        }else{
+            var orderNum=keys;
+        }
         $.post('<@spring.url "/terminal/page" />',
-                {"page": page,
-                    "keys": keys,
-                    "status": status
+                {page: page,
+                    terminalNum: terminalNum,
+                    orderNum: orderNum,
+                    status: status
                 },
                 function (data) {
                     $('#page_fresh').html(data);
