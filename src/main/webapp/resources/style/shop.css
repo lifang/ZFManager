@@ -913,3 +913,24 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .payAD { text-align: center; padding: 20px;}
 .payAD img { display: inline-block;}
 
+.mask1{
+	background: url(../images/black.png) repeat; 
+	width: 100%; 
+	height: 100%; 
+	display: none; 
+	position: absolute; 
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
+
+/*-*---pos机管理  清除库存-------*/
+.outStorage_tab {}
+.outStorage_tab textarea { 
+	width: 98%; 
+	display: block; 
+	height: 100px; 
+	padding: 5px; 
+	font-size: 12px;
+	border: 1px #CCCCCC solid;
+}

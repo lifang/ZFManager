@@ -76,4 +76,18 @@ public interface OrderMapper {
 	List<Order> findFactoryPageOrdersByKeys(@Param("pageRequest") PageRequest pageRequest,
 			@Param("status") Byte status, @Param("keys") String keys,
 			@Param("customerId") Integer customerId);
+	
+	List<Order> findPageOrdersBySerialNum(@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keys") String keys,
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
+	
+	long countByKeys1(@Param("status") Byte status, @Param("keys") String keys,
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
+	
+	List<Order> findPageOrdersBySerialNums(@Param("pageRequest") PageRequest pageRequest,
+			@Param("status") Byte status, @Param("keys") String keys,
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
+	
+	long countByKeysBatch1(@Param("status") Byte status, @Param("keys") String keys,
+			@Param("factoryId") Integer factoryId,@Param("types") List<Byte> types,@Param("orderIds") List<Integer> orderIds);
 }

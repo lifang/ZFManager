@@ -18,8 +18,12 @@
     </div>
     <div class="seenBox clear">
         <ul>
-            <li><div class="user_search">
-		            <input id="search_keys" name="" type="text" placeholder="按订单号查询"/>
+            <li class="condition_search"><div class="user_search">
+            		<select id="serachPattern">
+            			<option value="1">根据订单号查询</option>
+            			<option value="2">根据终端号查询</option>
+            		</select>
+		            <input id="search_keys" name="" type="text" placeholder="请输入查询条件"/>
 		            <input id="hidden_keys" type="hidden" name="keys" value="" />
 		            <input id="hidden_status" type="hidden" name="status" value="" />
 		            <input id="hidden_factory_id" type="hidden" name="factoryId" value="" />
@@ -120,11 +124,12 @@
 				orderPageChange(1);
 			});
 			
-			$("#btn_search").bind("click",
+			$("#btn_search").on("click",
 		        function() {
 				var keys = $("#search_keys").val();
 				$("#hidden_keys").val(keys);
 				orderPageChange(1);
+				
 		    });
 		    
 		    $('#select_factory').change(function(){
@@ -139,11 +144,13 @@
 		var keys = $("#hidden_keys").val();
 		var status = $("#hidden_status").val();
 		var factoryId=$("#hidden_factory_id").val();
+		var pattern = $("#serachPattern").children('option:selected').val();
 	    $.post('<@spring.url "/order/user/page" />',
 	            {"page": page,
 	             "keys": keys,
 	             "status": status,
-	             "factoryId":factoryId
+	             "factoryId":factoryId,
+	             "pattern":pattern
 	            },
 	            function (data) {
 	                $('#page_fresh').html(data);

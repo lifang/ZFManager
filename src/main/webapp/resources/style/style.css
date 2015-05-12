@@ -607,9 +607,20 @@ td a.a_btn:hover { text-decoration: underline;}
 	float: left;
 	margin: 1px 0 0 2px;
 }
+.condition_search select { 
+	width: 120px; 
+	border: none; 
+	float: left; 
+	height: 26px;  
+	height: 23px\9;
+	line-height: 26px; 
+	border-right: 1px #CCCCCC solid;
+}
+.condition_search .user_search { width: 320px;}
+
 .user_select { overflow: hidden;}
 .user_select label { display: inline-block;}
-.user_select select {display: inline-block; width: 198px; height: 26px; border: 1px #CCCCCC solid;}
+.user_select select {display: inline-block; width: 198px; height: 26px; line-height: 26px; border: 1px #CCCCCC solid;}
 
 .user_date { overflow: hidden;}
 .user_date label { display: inline-block; margin-right: 5px;}
