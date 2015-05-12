@@ -19,7 +19,7 @@
                      <textarea id="terminals" name="" cols="" rows=""></textarea>
                      <div class="pit_btn">
                           <button class="blueBtn" onClick="submitTerminal()">入库</button>
-                          <p><span class="red">*</span>请输入要入库的终端编号列表，用回车分隔。</p>
+                          <p><span class="red">*</span>请输入要入库的终端编号列表，以逗号（,）、空格或回车分隔。</p>
                      </div>
                 </div>
              </div>
@@ -48,7 +48,7 @@
 </div>
 <script type="text/javascript">
 	function submitTerminal(){
-        var terminalList = $("#terminals").val();
+        var terminalList = $("#terminals").val().replace(/[ ]|\,/g,"\r");
         if(isNull(terminalList,"终端数据不能为空！")){
             return false;
         }
