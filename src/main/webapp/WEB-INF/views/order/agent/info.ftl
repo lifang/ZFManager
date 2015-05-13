@@ -288,7 +288,7 @@
     		}else{
     			$("#text>p").html(data.result);
     		}
-    		popup(".terminalNumber_tab",".terminalNumber_a");// 查看终端号
+    		popupT(".terminalNumber_tab");// 查看终端号
     		$(".blueBtn").on('click',function(){
     			$(".terminalNumber_tab").hide();
     			$(".mask").hide();
