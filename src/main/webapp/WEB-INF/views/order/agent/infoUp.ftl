@@ -32,6 +32,9 @@
     <dl>
     	<dt>收货地址：</dt><dd><#if order.customerAddress??>${order.customerAddress.address!""} ${order.customerAddress.receiver!""}</#if></dd>
     </dl>
+    <dl>
+    	<dt>电话：</dt><dd><#if order.agent??>${order.agent.phone!""}</#if></dd>
+    </dl>
     <dl class="leaveWord">
     	<dt>留言：</dt><dd>${order.comment!""}</dd>
     </dl>

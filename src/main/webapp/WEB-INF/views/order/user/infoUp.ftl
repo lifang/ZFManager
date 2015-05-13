@@ -33,6 +33,9 @@
     	<dt>收货地址：</dt><dd><#if order.customerAddress??>${order.customerAddress.address!""} ${order.customerAddress.receiver!""}</#if></dd>
     </dl>
     <dl>
+    	<dt>电话：</dt><dd><#if order.customer??>${order.customer.phone!""}</#if></dd>
+    </dl>
+    <dl>
     	<dt>发票类型：</dt>
     	<dd>
     		<#if order.invoiceType==0>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -596,15 +597,43 @@ public class PosController {
     	return Response.getSuccess("ok");
     	
     }
-    @RequestMapping(value="{id}/removeStore",method=RequestMethod.POST)
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value="{id}/removeStore",method=RequestMethod.POST)
     @ResponseBody
     public Response removeStore(@PathVariable Integer id,String data, Model model){
     	String[] terminals = data.split(",");
-    	List<String> invalids = terminalService.judgeRemoveStorage(terminals);
+    	Map<String,Object> invalids = terminalService.isTerminalInvalid(terminals);
+    	StringBuilder error = new StringBuilder("终端号为");
     	if(!invalids.isEmpty()){
-    		return Response.getError("输入的终端号"+invalids.toString()+"无法清除库存");
-    	}
-    	terminalService.removeStorage(id,terminals);
+    		List<String> customerIdExist = (List<String>)invalids.get("customerIdExist");
+    		List<String> agentIdExist = (List<String>)invalids.get("agentIdExist");
+    		List<String> IsReturnCsDepots = (List<String>)invalids.get("IsReturnCsDepots");
+    		List<String> notExist = (List<String>)invalids.get("notExist");
+    		List<String> hasOrderId = (List<String>)invalids.get("hasOrderId");
+    		if(!notExist.isEmpty()){
+    			error.append(notExist.toString());
+    			return Response.getError(error.toString().replaceAll("\\,", "\\，").replaceAll("\\[|\\]", ""));
+    		}else{
+    			if(!customerIdExist.isEmpty()){
+        			error.append(customerIdExist.toString());
+        		}
+    			if(!agentIdExist.isEmpty()){
+        			error.append(agentIdExist.toString());
+        		}
+    			if(!IsReturnCsDepots.isEmpty()){
+        			error.append(IsReturnCsDepots.toString());
+        		}
+    			if(!hasOrderId.isEmpty()){
+        			error.append(hasOrderId.toString());
+        		}
+    			if("终端号为".equals(error)){
+    				terminalService.removeStorage(id,terminals);
+    	    	    return Response.getSuccess("清除库存成功");
+    			}else{
+    				return Response.getError(error.toString().replaceAll("\\]\\[", "\\，").replaceAll("\\,", "\\，").replaceAll("\\[|\\]", ""));
+    			}
+    		}
+    	}	
     	return Response.getSuccess("清除库存成功");
     }
 }

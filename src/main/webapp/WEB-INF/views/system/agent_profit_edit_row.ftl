@@ -27,8 +27,9 @@
                             <#if profitSetting.floorNumber==0>
                             <p> <input name="" type="text"  value="${profitSetting.percent/10}" class="input_s">%</p>
                             <#else>
-                                <p><input name="" type="text"  value="${(profitSetting.floorNumber)/1000}" class="input_xs">
+                                <p class="echelon_rate"><input name="" type="text"  value="${(profitSetting.floorNumber)/1000}" class="input_xs">
                                     <input name="" type="text"  value="${profitSetting.percent/10}" class="input_xs">%
+                                    <a class="x">删除</a>
                                 </p>
                             </#if>
                         </#list>
