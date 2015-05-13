@@ -359,7 +359,7 @@
         <td>
             <select name="" class="select_l selectStandardRate">
             <#list standardRates as standardRate>
-                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
+                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(((standardRate.baseRate)!0)/10)?string("0.0")}">${standardRate.merchantTypeName}</option>
             </#list>
             </select>
         </td>
@@ -373,7 +373,7 @@
         <td>
             <select name="" class="select_l selectBillingCycle">
             <#list billingCycles as billingCycle>
-                <option value="${billingCycle.id}" description="${billingCycle.description!''}" rate="${billingCycle.serviceRate}">${billingCycle.name}</option>
+                <option value="${billingCycle.id}" description="${billingCycle.description!''}" rate="${(((billingCycle.serviceRate)!0)/10)?string("0.0")}">${billingCycle.name}</option>
             </#list>
             </select>
         </td>

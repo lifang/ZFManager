@@ -1,6 +1,7 @@
 package com.comdosoft.financial.manage.service.task;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
+import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
+import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplyMark;
+import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
 import com.comdosoft.financial.manage.domain.zhangfu.task.CertifiedOpen;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Mark;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Opendetailsinfo;
 import com.comdosoft.financial.manage.domain.zhangfu.task.Showinfo;
 import com.comdosoft.financial.manage.mapper.zhangfu.CertifiedOpenMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.MessageReceiverMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.OpeningApplyMarkMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.SysMessageMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -28,6 +36,12 @@ public class CertifiedOpenService {
     
 	@Autowired
 	private CertifiedOpenMapper certifiedOpenMapper;
+	@Autowired
+	private OpeningApplyMarkMapper openingApplyMarkMapper;
+	@Autowired
+	private SysMessageMapper sysMessageMapper;
+	@Autowired
+	private MessageReceiverMapper messageReceiverMapper;
 	
 	public Page<CertifiedOpen> findPages(int id,int page, Byte status, String keys){
 		long count = certifiedOpenMapper.countByKeys(status, keys);
@@ -138,5 +152,35 @@ public class CertifiedOpenService {
         certifiedOpenMapper.dispatch(params);
         
     }
+
+
+
+
+	public void upFail(Integer id, Integer status, String reason,Customer customer,String serialNum) {
+		String failReason ="您为终端号："+serialNum+"的POS机提出的开通申请被拒绝了。理由如下："+reason.trim()+"。";
+		OpeningApplyMark openingApplyMark = new OpeningApplyMark();
+		openingApplyMark.setContent(failReason);
+		openingApplyMark.setCreatedAt(new Date());
+		openingApplyMark.setCustomId(customer.getId());
+		openingApplyMark.setOpeningApplyId(id);
+		openingApplyMarkMapper.insert(openingApplyMark);
+		SysMessage sysMessage = new SysMessage();
+		String title = "";
+		if(status.equals(2)){
+			title = "终端号"+serialNum+"初审失败";
+		}
+		if(status.equals(4)){
+			title = "终端号"+serialNum+"二审失败";
+		}
+		sysMessage.setTitle(title);
+		sysMessage.setContent(failReason);
+		sysMessage.setCreatedAt(new Date());
+		int sysId = sysMessageMapper.insert(sysMessage);
+		MessageReceiver messageReceiver = new MessageReceiver();
+		messageReceiver.setStatus(MessageReceiver.STATUS_NO_READ);
+		messageReceiver.setSysMessageId(sysId);
+		messageReceiver.setCustomerId(customer.getId());
+		messageReceiverMapper.insert(messageReceiver);
+	}
 	
 }

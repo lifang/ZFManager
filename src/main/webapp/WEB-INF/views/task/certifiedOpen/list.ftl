@@ -42,7 +42,16 @@
 	</div>
 	<div id="page_fresh"><#include "page.ftl" /></div>
 </div>
-
+<div class="mask"></div>
+<div class="tab openingCheck_tab">
+    	<a href="javascript:void(0)" class="close" onClick="cancel()">关闭</a>
+        <div class="tabHead">请填写审核失败的原因</div>
+        <div class="tabBody">
+        	<textarea id="reason" name="" cols="" rows=""></textarea>
+        </div>
+        <div class="tabFoot"><button class="blueBtn" onClick="confirm()">确定</button>
+        <button class="blueBtn" onClick="cancel()">取消</button></div>
+</div>
 
 
 <script type="text/javascript">
@@ -79,18 +88,27 @@
 		$('.remark_tab').show();
 		$('.mask').show();
 	}
-	
-	var ups=function(id,status,page){
+	var _id,_status,_page,_serial_num;
+	var ups=function(id,status,page,serialNum){
+		if(status==2 || status==4){
+			popupT(".openingCheck_tab");
+			_id = id;
+			_status = status;
+			_page = page;
+			_serial_num = serialNum;
+			return;
+		}
 		//var page=${apply.currentPage};
 		$.post('<@spring.url "/task/certifiedopen/upstatus" />',
-				{"id": id,"status":status},
-		        function (data) {
-					if(1==data){
-						certifiedOpenPageChange(page);
-					}else{
-						alert("操作失败!");
-					}
-		        });
+			{"id": id,"status":status},
+	        function (data) {
+				if(1==data){
+					certifiedOpenPageChange(page);
+				}else{
+					alert("操作失败!");
+				}
+	        });
+		
 	}
 	
 	var upvs=function(id,status,page){
@@ -120,5 +138,37 @@
 					 $('.mask').hide();
 		        });
 	}
+	function cancel(){
+		$(".mask").hide();
+		$(".openingCheck_tab").hide();
+	}
+	
+	function confirm(){
+		var reason = $("#reason").val();
+		$.post('<@spring.url "/task/certifiedopen/upFail" />',
+				{"id": _id,"status":_status,"reason":reason,"serialNum":_serial_num},
+		        function (data) {
+					if(1==data.code){
+						cancel();
+						alert("操作成功");
+						$.post('<@spring.url "/task/certifiedopen/upstatus" />',
+							{"id": _id,"status":_status},
+					        function (data) {
+								if(1==data){
+									certifiedOpenPageChange(_page);
+								}else{
+									alert("操作失败!");
+								}
+					        });
+					}else{
+						if(_status==2){
+							return "初审失败";
+						}else if(_status==4){
+							return "二审失败";
+						}
+					}
+		        });
+	}
+
 </script>
 </@c.html>

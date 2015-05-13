@@ -265,4 +265,12 @@ public class CertifiedOpenController {
 		}
         return result;
     }
+    @RequestMapping(value="/upFail",method=RequestMethod.POST)
+    @ResponseBody
+    public Response upFail(Integer id,Integer status,String reason,
+    		HttpServletRequest request,String serialNum){
+    	Customer customer = sessionService.getLoginInfo(request);
+    	certifiedOpenService.upFail(id,status,reason,customer,serialNum);
+    	return Response.getSuccess("");
+    }
 }
