@@ -50,4 +50,9 @@ public class SysShufflingFigureService {
             sysShufflingFigureMapper.updateByPrimaryKey(sysShufflingFigure);
         }
     }
+
+    @Transactional("transactionManager")
+    public void delete(Integer id){
+        sysShufflingFigureMapper.deleteByPrimaryKey(id);
+    }
 }

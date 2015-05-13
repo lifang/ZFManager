@@ -382,6 +382,7 @@
         var title=$("input[name='g_title']").val();
         if(isNull(title, "标题不能为空!")){return false;}
         if(title.length>30){
+            showErrorTip("标题最多30个字！");
             return false;
         }
         var secondTitle=$("input[name='g_secondTitle']").val();

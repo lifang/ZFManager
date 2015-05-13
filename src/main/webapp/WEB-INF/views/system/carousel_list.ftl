@@ -32,12 +32,13 @@
                             <span>重新上传</span><input name="file" onChange="fileChange(this)" index="${i}" multiple="" type="file">
                         </a>
                     </div>
-                    </form>
                     <div class="ss_url">
                         <label>URL：</label><input name="" value="${(sysShufflingFigures[i].websiteUrl)!""}" type="text">
                     </div>
+                    </form>
                 </div>
                 <div class="ssl_btn"><a onclick="submitData(${i})" class="ghostBtn">确定</a></div>
+                <div class="ssl_btn"><a onclick="delData(${i})" class="ghostBtn">清除</a></div>
             </div>
         </#list>
         </div>
@@ -89,9 +90,26 @@
                 function (data) {
                     if(data.code == 1){
                         alert("修改成功！");
+                    } else{
+                        showErrorTip(data.message);
                     }
                 });
     }
+
+    function delData(index){
+        $.post("<@spring.url "/system/content/carousel/" />"+(index+1)+"/del",
+                function (data) {
+                    if(data.code == 1){
+                        $("#fileForm"+index).find("img").attr("value","");
+                        $("#fileForm"+index).find("input[type='text']").val("");
+                        alert("清除成功！");
+                    } else{
+                        showErrorTip(data.message);
+                    }
+                });
+    }
+
+
 
     function showMask(){
         var doc_height = $(document).height();

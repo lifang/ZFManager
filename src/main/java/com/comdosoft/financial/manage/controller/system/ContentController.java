@@ -180,6 +180,13 @@ public class ContentController {
         return Response.getSuccess("");
     }
 
+    @RequestMapping(value="carousel/{id}/del",method=RequestMethod.POST)
+    @ResponseBody
+    public Response delCarousel(@PathVariable Integer id, String pictureUrl, String webSiteUrl){
+        sysShufflingFigureService.delete(id);
+        return Response.getSuccess("");
+    }
+
     @RequestMapping(value = "activity", method = RequestMethod.GET)
     public String activityList(Integer page, Model model){
         findActivityPage(page, model);
