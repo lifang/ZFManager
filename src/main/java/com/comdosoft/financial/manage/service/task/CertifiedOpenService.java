@@ -175,10 +175,10 @@ public class CertifiedOpenService {
 		sysMessage.setTitle(title);
 		sysMessage.setContent(failReason);
 		sysMessage.setCreatedAt(new Date());
-		int sysId = sysMessageMapper.insert(sysMessage);
+		sysMessageMapper.insert(sysMessage);
 		MessageReceiver messageReceiver = new MessageReceiver();
 		messageReceiver.setStatus(MessageReceiver.STATUS_NO_READ);
-		messageReceiver.setSysMessageId(sysId);
+		messageReceiver.setSysMessageId(sysMessage.getId());
 		messageReceiver.setCustomerId(customer.getId());
 		messageReceiverMapper.insert(messageReceiver);
 	}
