@@ -40,6 +40,12 @@
                     ||isNull(rate, "费率不能为空！")){
                 return false;
             }
+            var re = /^\d+(\.\d)?$/;
+            if(!re.test(rate)){
+                showErrorTip("费率最多为1位小数！");
+                return false;
+            }
+
             if(!isNotNull(value)){
                 value = 0;
             }

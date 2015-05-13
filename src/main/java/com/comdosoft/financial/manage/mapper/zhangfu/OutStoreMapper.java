@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.junit.runners.Parameterized.Parameters;
 
 import com.comdosoft.financial.manage.domain.zhangfu.task.Good;
 import com.comdosoft.financial.manage.domain.zhangfu.task.OutStore;
