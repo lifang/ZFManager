@@ -112,7 +112,7 @@ public class GoodController extends BaseController {
 			Integer billingCycleId,Integer minPrice,Integer maxPrice,Boolean hasLease,
 			String orderBy,String orderType){
 		List<GoodBrand> goodBrands = goodBrandService.selectAll();
-		Collection<PosCategory> posCategorys = posCategoryService.listAll();
+		Collection<PosCategory> posCategorys = posCategoryService.listOrderAll();
 		List<PayChannel> payChannels = payChannelService.findCheckedChannels();
 		List<DictionarySignOrderWay> dictionarySignOrderWays = dictionaryService
 				.listAllDictionarySignOrderWays();

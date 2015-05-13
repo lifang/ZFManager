@@ -209,7 +209,7 @@ public class PosController {
 	@RequestMapping(value="{id}/edit",method=RequestMethod.GET)
 	public String edit(@PathVariable Integer id, Model model){
 		Good good = goodService.findGoodInfo(id);
-		Collection<PosCategory> posCategories = posCategoryService.listAll();
+		Collection<PosCategory> posCategories = posCategoryService.listOrderAll();
 		List<Factory> factories = factoryService.findCheckedManufacturers();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();
@@ -226,7 +226,7 @@ public class PosController {
 
 	@RequestMapping(value="create",method=RequestMethod.GET)
 	public String create(Model model){
-		Collection<PosCategory> posCategories = posCategoryService.listAll();
+		Collection<PosCategory> posCategories = posCategoryService.listOrderAll();
 		List<Factory> factories = factoryService.findCheckedManufacturers();
 		List<DictionarySignOrderWay> signOrderWays = dictionaryService.listAllDictionarySignOrderWays();
 		List<DictionaryCardType> cardTypes = dictionaryService.listAllDictionaryCardTypes();

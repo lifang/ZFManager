@@ -1,8 +1,11 @@
 package com.comdosoft.financial.manage.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,24 @@ public class PosCategoryService {
     public List<PosCategory> listAll(){
 		List<PosCategory> categories = posCategoryMapper.selectAll();
 		return categories;
+	}
+
+	public Collection<PosCategory> listOrderAll() {
+		List<PosCategory> categories = posCategoryMapper.selectAll();
+		Multimap<Integer, PosCategory> myMultimap = ArrayListMultimap.create();
+		if (categories != null) {
+			for (PosCategory posCategory : categories) {
+				if (posCategory.getParentId() == null || posCategory.getParentId() == 0) {
+					myMultimap.put(posCategory.getId(), posCategory);
+				}
+			}
+			for (PosCategory posCategory : categories) {
+				if (posCategory.getParentId() != null && posCategory.getParentId() != 0) {
+					myMultimap.put(posCategory.getParentId(), posCategory);
+				}
+			}
+		}
+		return myMultimap.values();
 	}
 
     @Transactional("transactionManager")
