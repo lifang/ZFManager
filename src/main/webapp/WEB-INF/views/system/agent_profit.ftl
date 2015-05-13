@@ -42,13 +42,18 @@
         <div class="btnBottom"><button class="blueBtn" id="addChannel">增加支付产品</button></div>
     </div>
 <div id="hiddenEchelonProfit" style="display: none;">
-<p>
+<p class="echelon_rate">
     <input name="" type="text"  class="input_xs">
     <input name="" type="text"  class="input_xs">%
+    <a class="x">删除</a>
 </p>
 </div>
 <script>
     $(function () {
+        $(document).delegate(".x", "click", function () {
+            $(this).parent("p").remove();
+        });
+
         $(document).delegate(".addEchelonProfit", "click", function () {
             var $p = $("#hiddenEchelonProfit").children("p").clone();
             $(this).parent().before($p);
