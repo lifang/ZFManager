@@ -21,17 +21,17 @@ public class HttpFile {
     // private static String localpath = "C:/test/local/";
     private static String localpath = "/opt/data/";
 
-    // private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
-    //
-    // private static String delpath = "http://121.40.84.2:8888/File/index/delete";
-    //
-    // private static String zippath = "http://121.40.84.2:8888/File/index/zip";
+     private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
+    
+     private static String delpath = "http://121.40.84.2:8888/File/index/delete";
+    
+     private static String zippath = "http://121.40.84.2:8888/File/index/zip";
 
-    private static String urlpath = "http://file.ebank007.com/File/index/upload";
-
-    private static String delpath = "http://file.ebank007.com/File/index/delete";
-
-    private static String zippath = "http://file.ebank007.com/File/index/zip";
+//    private static String urlpath = "http://file.ebank007.com/File/index/upload";
+//
+//    private static String delpath = "http://file.ebank007.com/File/index/delete";
+//
+//    private static String zippath = "http://file.ebank007.com/File/index/zip";
 
     /**
      * 上传文件

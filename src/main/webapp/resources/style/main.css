@@ -20,5 +20,15 @@
 	font-size: 12px;
 	border: 1px #CCCCCC solid;
 }
+/*-*---审核失败-------*/
+.openingCheck_tab {}
+.openingCheck_tab textarea { 
+	width: 98%; 
+	display: block; 
+	height: 100px; 
+	padding: 5px; 
+	font-size: 12px;
+	border: 1px #CCCCCC solid;
+}
 
 

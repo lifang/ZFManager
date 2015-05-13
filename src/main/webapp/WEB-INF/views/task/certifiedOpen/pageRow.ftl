@@ -25,13 +25,13 @@
    </td>
    <td>
    	   <#if one.status=1>
-		   <#if Roles.hasRole("CERTIFIED_OPEN_FIRST_VERIFY")><a  onclick="ups(${one.id!},3,${apply.currentPage!})" class="a_btn">初审通过</a></#if>
-		   <#if Roles.hasRole("CERTIFIED_OPEN_SECOND_VERIFY")><a  onclick="ups(${one.id!},5,${apply.currentPage!})" class="a_btn">二审通过</a></#if>
-		   <#if Roles.hasRole("CERTIFIED_OPEN_FIRST_VERIFY")><a  onclick="ups(${one.id!},2,${apply.currentPage!})" class="a_btn">初审失败</a></#if>
+		   <#if Roles.hasRole("CERTIFIED_OPEN_FIRST_VERIFY")><a  onclick="ups(${one.id!},3,${apply.currentPage!},'${one.serial_num!}')" class="a_btn">初审通过</a></#if>
+		   <#if Roles.hasRole("CERTIFIED_OPEN_SECOND_VERIFY")><a  onclick="ups(${one.id!},5,${apply.currentPage!},'${one.serial_num!}')" class="a_btn">二审通过</a></#if>
+		   <#if Roles.hasRole("CERTIFIED_OPEN_FIRST_VERIFY")><a  onclick="ups(${one.id!},2,${apply.currentPage!},'${one.serial_num!}')" class="a_btn">初审失败</a></#if>
    	   <#elseif one.status=3>
 		   <#if Roles.hasRole("CERTIFIED_OPEN_SECOND_VERIFY")>
-			   <a  onclick="ups(${one.id!},5,${apply.currentPage!})" class="a_btn">二审通过</a>
-			   <a  onclick="ups(${one.id!},4,${apply.currentPage!})" class="a_btn">二审失败</a>
+			   <a  onclick="ups(${one.id!},5,${apply.currentPage!},'${one.serial_num!}')" class="a_btn">二审通过</a>
+			   <a  onclick="ups(${one.id!},4,${apply.currentPage!},'${one.serial_num!}')" class="a_btn">二审失败</a>
 		   </#if>
    	   </#if>
    	   <#if one.video_status=1>

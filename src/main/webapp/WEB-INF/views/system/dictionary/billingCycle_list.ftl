@@ -51,7 +51,7 @@
             }
             $.post('<@spring.url "/system/dictionary/billingCycle/" />'+value+'/edit',
                     {name: name,
-                        rate: rate,
+                        rate: rate*10,
                         description: description},
                     function (data) {
                         $tr.replaceWith(data);
