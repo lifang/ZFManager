@@ -29,7 +29,7 @@ public class ZFTimeTask{
     /** 
      * 定时卡点计算。每天凌晨 00:10 执行一次 
      */  
-    @Scheduled(cron = "0 10 0 * * *")  
+    @Scheduled(cron = "0 15 0 * * *")  
     public void autoCardCalculate() {
     	saveToTotalDayReports();
     	saveToDayReports();
