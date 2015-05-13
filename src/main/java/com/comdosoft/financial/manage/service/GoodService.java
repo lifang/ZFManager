@@ -43,6 +43,8 @@ public class GoodService {
     private GoodDetailPicturesMapper goodDetailPicturesMapper;
     @Autowired
     private TerminalMapper terminalMapper;
+    @Autowired
+    private GoodMobilePicturesMapper goodMobilePicturesMapper;
 
     public Page<Good> findPages(Integer customerId, int page, Byte status, String keys){
 		Integer factoryId = null;
@@ -712,6 +714,31 @@ public class GoodService {
 		terminalMapper.deleteByNum(terminalNum);
 		goodMapper.updateQuantity(goodId, 1);
 		
+	}
+
+	public List<GoodMobilePictures> findCellPhoneGoodImg(Integer goodId) {
+		return goodMobilePicturesMapper.selectAll(goodId);
+	}
+	
+	@Transactional("transactionManager")
+	public int saveMobileGoodImg(String urlPath,Integer goodId){
+		GoodMobilePictures goodMobilePictures = new GoodMobilePictures();
+		goodMobilePictures.setGoodId(goodId);
+		goodMobilePictures.setUrlPath(urlPath);
+		goodMobilePicturesMapper.insert(goodMobilePictures);
+		Good good = goodMapper.findGoodInfo(goodId);
+		good.setStatus(Good.STATUS_WAITING_FIRST_CHECK);
+		goodMapper.updateByPrimaryKey(good);
+		return goodMobilePictures.getId();
+	}
+	
+	public GoodMobilePictures getMobileGoodImg(Integer id){
+		return goodMobilePicturesMapper.selectById(id);
+	}
+	
+	@Transactional("transactionManager")
+	public void deleteMobileImg(Integer id) {
+		goodMobilePicturesMapper.deleteById(id);
 	}
 
 }

@@ -19,10 +19,10 @@
         	<ul>
             	<li class="condition_search"><div class="user_search">
             		<select id="serachPattern">
-            			<option value="1">根据订单号查询</option>
-            			<option value="2">根据终端号查询</option>
+            			<option value="1">订单号</option>
+            			<option value="2">终端号</option>
             		</select>
-		            <input id="search_keys" name="" type="text" placeholder="请输入查询条件"/>
+		            <input id="search_keys" name="" type="text" placeholder="请输入订单号或终端号查询"/>
 		            <input id="hidden_keys" type="hidden" name="keys" value="" />
 		            <input id="hidden_status" type="hidden" name="status" value="" />
 		            <input id="hidden_factory_id" type="hidden" name="factoryId" value="" />

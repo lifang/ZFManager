@@ -34,6 +34,7 @@
 		   <#if Roles.hasRole("POS_EDIT")>
        		<a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>
             <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+            <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        <#elseif status=2>
@@ -43,6 +44,7 @@
 		   <#if Roles.hasRole("POS_EDIT")>
                <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+               <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        		
@@ -54,6 +56,7 @@
 		   <#if Roles.hasRole("POS_EDIT")>
                <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+               <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
 		   </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        		
@@ -64,6 +67,7 @@
 		   <#if Roles.hasRole("POS_EDIT")>
                <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>               <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+               <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        <#elseif status=5>
@@ -96,6 +100,7 @@
                <#if (good.isPublished)?? && !(good.isPublished)>
                    <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                    <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+                   <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
                </#if>
            </#if>
 
@@ -115,6 +120,7 @@
 		   <#if Roles.hasRole("POS_EDIT")>
                <a href="<@spring.url "/good/pos/${good.id}/edit" />" class="a_btn" target="_blank">编辑</a>
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
+               <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
        		<a href="<@spring.url "/good/pos/${good.id}/info" />" class="a_btn" target="_blank">查看详情</a>
        </#if>

@@ -28,6 +28,7 @@
     <meta name="renderer" content="webkit">
     <title>运营中心</title>
     <link href="<@spring.url "/resources/style/style.css"/>" rel="stylesheet" type="text/css"/>
+    <link href="<@spring.url "/resources/style/main.css"/>" rel="stylesheet" type="text/css"/>
     <link href="<@spring.url "/resources/jquery-ui-1.11.3/jquery-ui.min.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<@spring.url "/resources/js/jquery-1.11.2.min.js"/>"></script>
     <script src="<@spring.url "/resources/jquery-ui-1.11.3/jquery-ui.min.js"/>"></script>
