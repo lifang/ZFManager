@@ -69,7 +69,9 @@
 	</select>
 	
 	<select id="getAddressInit" resultType="hashmap">
-		select a.address from customer_addresses a where a.id=
+		select ifnull(a.address,"") as address,ifnull(a.receiver,"") as receiver,
+		ifnull(a.moblephone,"") as moblephone,
+		ifnull(a.zip_code,"") as zipCode from customer_addresses a where a.id=
 		(select b.customer_address_id from orders b where b.id=
 		(select c.order_id from cs_out_storages c where c.id=#{id} ))
 	</select>

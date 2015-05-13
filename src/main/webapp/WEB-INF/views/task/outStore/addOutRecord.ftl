@@ -66,11 +66,21 @@
         	<div class="item_list clear">
             	<ul>
                 	<li class="b"><span class="labelSpan">收货地址：</span>
-                    <div class="text"> <#if (address)??>${address}</#if></div></li>
+                    <div class="text"> <#if (address.address)??>${address.address}</#if></div></li>
+                    
+                    <li class="b"><span class="labelSpan">收货人：</span>
+                    <div class="text"> <#if (address.receiver)??>${address.receiver}</#if></div></li>
+                    <li class="b"><span class="labelSpan">收货人电话：</span>
+                    <div class="text"> <#if (address.moblephone)??>${address.moblephone}</#if></div></li>
+                    <li class="b"><span class="labelSpan">邮编：</span>
+                    <div class="text"> <#if (address.zipCode)??>${address.zipCode}</#if></div></li>
+                    
                     <li class="block"><span class="labelSpan">物流公司：</span>
                     <div class="text"><input name="" type="text" id="wlCompany" /></div></li>
                     <li class="block"><span class="labelSpan">物流单号：</span>
                     <div class="text"><input name="" type="text" id="wlNumStr" /></div></li>
+                    
+                    
                 </ul>
             </div>
         </div>

@@ -25,6 +25,7 @@ import java.util.Map;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -141,17 +142,9 @@ public class OutStoreService {
 		}
 	}
 	
-	public String getAddressInit(int id){
+	public Map<String, Object> getAddressInit(int id){
 		Map<String, Object> map =outStoreMapper.getAddressInit(id);
-		if(null!=map){
-			if(null!=map.get("address")){
-				return map.get("address").toString();
-			}else{
-				return "";
-			}
-		}else{
-			return "";
-		}
+		return map;
 	}
 	
 	public Map<String,Object> getWLInfo(int id){
@@ -266,7 +259,8 @@ public class OutStoreService {
 	
 	
 	@Transactional(value="transactionManager",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,int userType) throws Exception{
+	public Map<String, Object> save(int outStorageId,String wlCompany,String wlNum,String terminalNums,int loginId,
+			int userType) throws Exception{
 		Map<String, Object> result=new HashMap<String, Object>();
 		int resultCode=Response.SUCCESS_CODE;
 		StringBuilder resultInfo=new StringBuilder();

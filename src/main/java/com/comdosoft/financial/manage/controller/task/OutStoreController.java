@@ -51,7 +51,7 @@ public class OutStoreController {
 	public String info(@PathVariable Integer id,Model model){
 		List<Good> goods=outStoreService.getGoodInfoInit(id); 
 		//收货地址
-		String address=outStoreService.getAddressInit(id);
+		Map<String, Object> address=outStoreService.getAddressInit(id);
 		model.addAttribute("goods", goods);
 		model.addAttribute("address", address);
 		model.addAttribute("outStorageId",id);
@@ -79,7 +79,7 @@ public class OutStoreController {
 	public String addInfoInitById(@PathVariable Integer id, Model model){
 		List<Good> goods=outStoreService.getGoodInfoInit(id); 
 		//收货地址
-		String address=outStoreService.getAddressInit(id);
+		Map<String, Object> address=outStoreService.getAddressInit(id);
 		model.addAttribute("goods", goods);
 		model.addAttribute("address", address);
 		model.addAttribute("outStorageId",id);
@@ -94,7 +94,8 @@ public class OutStoreController {
 	@SuppressWarnings("finally")
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	@ResponseBody
-	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,String quantities,String goodIds,HttpServletRequest request) throws Exception{
+	public Response saveTerminalNum(int id,String wlCompany,String wlNum,String terminalNums,
+			String quantities,String goodIds,HttpServletRequest request) throws Exception{
 		Response response=new Response();
 		Customer customer=sessionService.getLoginInfo(request);
 		Map<String, Object> map=new HashMap<String, Object>();
