@@ -97,11 +97,8 @@ public interface TerminalMapper {
 	
 	int deleteByNum(String terminalNum);
 	
-	Terminal getTerminal(String serialNum);
-	
 	int deleteTerminals(String[] terminals);
 	
 	Terminal getTerminalByOrderId(Integer orderId,Integer goodId);
-	
-	
+
 }

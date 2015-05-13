@@ -278,12 +278,7 @@
 	 <delete id="deleteByNum" parameterType="java.lang.String">
 	 	delete from terminals where serial_num = #{terminalNum}
 	 </delete>
-	 
-	 <select id="getTerminal" parameterType="java.lang.String" resultMap="BaseResultMap">
-	 	select * from terminals where serial_num = #{serialNum}
- 		and customer_id is null and agent_id is null and is_return_cs_depots = 0 and order_id is null
-	 </select>
-	 
+
 	 <delete id="deleteTerminals">
 	 	delete from terminals where serial_num in
 	 	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>

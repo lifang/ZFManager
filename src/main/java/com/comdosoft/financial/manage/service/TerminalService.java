@@ -240,16 +240,39 @@ public class TerminalService {
 		map.put("type", type);
 		return terminalMapper.getTerminalOpen(map);
 	}
-	
-	public List<String> judgeRemoveStorage(String[] terminals){
-		List<String> invalids = new ArrayList<String>();
-		for(String termianl : terminals){
-			Terminal t =terminalMapper.getTerminal(termianl);
+
+	public Map<String,Object> isTerminalInvalid(String[] terminals){
+		List<String> customerIdExist = new ArrayList<String>();
+		List<String> agentIdExist = new ArrayList<String>();
+		List<String> IsReturnCsDepots = new ArrayList<String>();
+		List<String> notExist = new ArrayList<String>();
+		List<String> hasOrderId = new ArrayList<String>();
+		Map<String,Object> map = new HashMap<String, Object>();
+		for(String terminal : terminals){
+			Terminal t =terminalMapper.findTerminalByNum(terminal);
 			if(t == null){
-				invalids.add(termianl);
+				notExist.add(terminal+"不存在");
+			}else{
+				if(t.getCustomerId() != null){
+					customerIdExist.add(terminal+"的绑定了用户");
+				}
+				if(t.getAgentId() != null){
+					agentIdExist.add(terminal+"绑定了代理商");
+				}
+				if(t.getIsReturnCsDepots()){
+					IsReturnCsDepots.add(terminal+"已回到售后库存");
+				}
+				if(t.getOrderId() != null){
+					hasOrderId.add(terminal+"已有订单");
+				}
 			}
 		}
-		return invalids;
+		map.put("notExist", notExist);
+		map.put("customerIdExist", customerIdExist);
+		map.put("agentIdExist", agentIdExist);
+		map.put("IsReturnCsDepots", IsReturnCsDepots);
+		map.put("hasOrderId", hasOrderId);
+		return map;
 	}
 
 	public void removeStorage(Integer goodId, String[] terminals) {
