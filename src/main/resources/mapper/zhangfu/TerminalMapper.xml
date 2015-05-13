@@ -288,4 +288,8 @@
 	 	delete from terminals where serial_num in
 	 	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
 	 </delete>
+	 
+	 <select id="getTerminalByOrderId" resultMap="BaseResultMap">
+	 	select * from terminals where order_id = #{0} and good_id= #{1}
+	 </select>
 </mapper>

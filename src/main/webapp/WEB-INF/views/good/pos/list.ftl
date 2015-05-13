@@ -70,7 +70,7 @@
     <a href="#" class="close">关闭</a>
     <div class="tabHead">清除库存</div>
     <div class="tabBody">
-        <textarea id="terminalLists" cols="" rows="" placeholder="请输入要清除库存的终端号，以逗号（,）分隔"></textarea>
+        <textarea id="terminalLists" cols="" rows="" placeholder="请输入要清除库存的终端号，以逗号（,）、空格或回车分隔"></textarea>
     </div>
     <div class="tabFoot"><button class="blueBtn" onclick="removeTerminal()">确定</button></div>
 </div>
@@ -264,6 +264,7 @@
             return false;
         }
         var reg = /^[0-9a-zA-Z\,]+$/;
+        var data = data.replace(/\r|\n|[ ]/g,",");
         if(!reg.test(data)){
         	alert("终端号有误，请重新输入");
         	return false;

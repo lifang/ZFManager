@@ -50,21 +50,21 @@ public class OrderBatchController extends BaseController {
 			Integer factoryId, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types,null);
 		return "order/batch/list";
 	}
 
 	@RequestMapping(value = "/batch/page")
 	public String pageBatch(Integer page, Byte status, String keys,
-			Integer factoryId, Model model) {
+			Integer factoryId, Model model ,Integer pattern) {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types,pattern);
 		return "order/batch/page";
 	}
 
 	private void findPage(Integer page, Byte status, String keys,
-			Integer factoryId, Model model, List<Byte> types) {
+			Integer factoryId, Model model, List<Byte> types,Integer pattern) {
 		if (page == null) {
 			page = 1;
 		}
@@ -72,7 +72,7 @@ public class OrderBatchController extends BaseController {
 			status = null;
 		}
 		Page<Order> orders = orderService.findPages(page, status, keys,
-				factoryId, types);
+				factoryId, types, pattern);
 		List<Factory> findCheckedFactories = factoryService
 				.findCheckedFactories();
 		model.addAttribute("factories", findCheckedFactories);
@@ -129,7 +129,7 @@ public class OrderBatchController extends BaseController {
 						payChannelId,null);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(1, null, null, null, model, types);
+		findPage(1, null, null, null, model, types,null);
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchCreate, OperateAction.createSure, orderId);
 		return "order/batch/list";
 	}
@@ -148,7 +148,7 @@ public class OrderBatchController extends BaseController {
 				invoiceInfo, customerAddressId, invoiceType, needInvoice, type,null);
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 5);
-		findPage(1, null, null, null, model, types);
+		findPage(1, null, null, null, model, types,null);
 		saveOperateRecord(request,OperateType.orderBatchType, OperatePage.orderBatchCreate, OperateAction.createSure, orderNewId);
 		return "order/batch/list";
 	}

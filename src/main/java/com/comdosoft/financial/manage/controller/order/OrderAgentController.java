@@ -52,23 +52,23 @@ public class OrderAgentController extends BaseController {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types,null);
 		return "order/agent/list";
 	}
 
 	@RequestMapping(value = "/agent/page")
 	public String pageAgent(Integer page, Byte status, String keys,
-			Integer factoryId, Model model) {
+			Integer factoryId, Integer pattern, Model model) {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types, pattern);
 		return "order/agent/page";
 	}
 
 
 	private void findPage(Integer page, Byte status, String keys,
-			Integer factoryId, Model model, List<Byte> types) {
+			Integer factoryId, Model model, List<Byte> types, Integer pattern) {
 		if (page == null) {
 			page = 1;
 		}
@@ -76,7 +76,7 @@ public class OrderAgentController extends BaseController {
 			status = null;
 		}
 		Page<Order> orders = orderService.findPages(page, status, keys,
-				factoryId, types);
+				factoryId, types, pattern);
 		List<Factory> findCheckedFactories = factoryService
 				.findCheckedFactories();
 		model.addAttribute("factories", findCheckedFactories);
@@ -134,7 +134,7 @@ public class OrderAgentController extends BaseController {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(1, null, null, null, model, types);
+		findPage(1, null, null, null, model, types,null);
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentCreate, OperateAction.createSure, id);
 		return "order/agent/list";
 	}
@@ -150,7 +150,7 @@ public class OrderAgentController extends BaseController {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 3);
 		types.add((byte) 4);
-		findPage(1, null, null, null, model, types);
+		findPage(1, null, null, null, model, types,null);
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentCreate, OperateAction.createSure, id);
 		return "order/agent/list";
 	}

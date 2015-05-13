@@ -43,9 +43,6 @@
 	
 <script type="text/javascript">
 	$(function(){
-		$(".mask1").css({
-			height : $(document).height()
-		});
 		closeMask();
 	});
 	function fileChange(){
@@ -84,6 +81,7 @@
     	});			
     }		
     function showMask(){
+    	$(".mask1").css("height",$(document).height());
 		$(".mask1").show();
 		$(".upImgLoading").show();
     }

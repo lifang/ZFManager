@@ -602,7 +602,7 @@ public class PosController {
     	String[] terminals = data.split(",");
     	List<String> invalids = terminalService.judgeRemoveStorage(terminals);
     	if(!invalids.isEmpty()){
-    		return Response.getError("输入的终端号"+invalids.toString());
+    		return Response.getError("输入的终端号"+invalids.toString()+"无法清除库存");
     	}
     	terminalService.removeStorage(id,terminals);
     	return Response.getSuccess("清除库存成功");

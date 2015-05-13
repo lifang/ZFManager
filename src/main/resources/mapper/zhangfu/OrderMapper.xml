@@ -133,8 +133,7 @@
   <sql id="pageWhere">
 		<where>
 			<if test="status != null"> AND o.status =#{status} </if>
-			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
-				order_number like #{keys}) </if>
+			<if test="keys != null"> AND order_number like #{keys} </if>
 			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
 			<if test="types != null"> AND o.types in 
 				<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">  
@@ -162,8 +161,7 @@
 			<if test="status != null and  status==2"> AND o.status =1 AND o.front_pay_status =2 </if>
 			<if test="status != null and  status==7"> AND o.status =2 AND o.pay_status=2 </if>
 			<if test="status != null and  status !=1 and status !=2 and status !=7"> AND o.status =#{status} </if>
-			<if test="keys != null"> AND (invoice_info like #{keys} or comment like #{keys} or
-				order_number like #{keys}) </if>
+			<if test="keys != null"> AND order_number like #{keys} </if>
 			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
 			<if test="types != null"> AND o.types in 
 				<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">  
@@ -247,5 +245,67 @@
 		left join factories f on o.belongs_to=f.id
 		left join agents ba on o.belongs_user_id=ba.customer_id
 		where o.id=#{param1}
+	</select>
+	
+	<select id="findPageOrdersBySerialNum" resultMap="PageOrderResultMap">
+		select o.*,c.id as c_id,c.username as c_username,c.name as c_name,c.phone as c_phone,a.id as a_id,
+		a.company_name as a_company_name,a.phone as a_phone from orders o inner join terminals t 
+		on t.serial_num LIKE #{keys} AND t.order_id = o.id left join customers c on o.customer_id=c.id 
+		left join agents a on o.customer_id=a.customer_id
+		<include refid="pageWhere1" />
+		order by o.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+	<select id="findPageOrdersBySerialNums" resultMap="PageOrderResultMap">
+		select o.*,c.id as c_id,c.username as c_username,c.name as c_name,c.phone as c_phone,a.id as a_id,
+		a.company_name as a_company_name,a.phone as a_phone from orders o inner join terminals t 
+		on t.serial_num LIKE #{keys} AND t.order_id = o.id left join customers c on o.customer_id=c.id 
+		left join agents a on o.customer_id=a.customer_id
+		<include refid="pageWhereBatch1" />
+		order by o.created_at desc limit #{pageRequest.offset}, #{pageRequest.pageSize}
+	</select>
+	<sql id="pageWhere1">
+		<where>
+			<if test="status != null"> AND o.status =#{status} </if>
+			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
+			<if test="types != null"> AND o.types in 
+				<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">  
+				  #{item}  
+				</foreach> 
+			</if>
+			<if test="orderIds != null"> AND o.id in 
+				<foreach close=")" collection="orderIds" index="index" item="item" open="(" separator=",">  
+				  #{item}  
+				</foreach> 
+			</if>
+		</where>
+	</sql>
+	 <sql id="pageWhereBatch1">
+		<where>
+			<if test="status != null and  status==1"> AND o.status =1 AND (o.front_pay_status is null or o.front_pay_status !=2) </if>
+			<if test="status != null and  status==2"> AND o.status =1 AND o.front_pay_status =2 </if>
+			<if test="status != null and  status==7"> AND o.status =2 AND o.pay_status=2 </if>
+			<if test="status != null and  status !=1 and status !=2 and status !=7"> AND o.status =#{status} </if>
+			<if test="factoryId != null and factoryId !=0"> AND belongs_to =#{factoryId} </if>
+			<if test="types != null"> AND o.types in 
+				<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">  
+				  #{item}  
+				</foreach> 
+			</if>
+			<if test="orderIds != null"> AND o.id in 
+				<foreach close=")" collection="orderIds" index="index" item="item" open="(" separator=",">  
+				  #{item}  
+				</foreach> 
+			</if>
+		</where>
+	</sql>
+	<select id="countByKeys1" resultType="long">
+		SELECT count(*) as count
+		FROM orders o inner join terminals t on t.serial_num LIKE #{keys} AND t.order_id = o.id
+		<include refid="pageWhere1" />
+	</select>
+	<select id="countByKeysBatch1" resultType="long">
+		SELECT count(*) as count
+		FROM orders o inner join terminals t on t.serial_num LIKE #{keys} AND t.order_id = o.id
+		<include refid="pageWhereBatch1" />
 	</select>
 </mapper>
