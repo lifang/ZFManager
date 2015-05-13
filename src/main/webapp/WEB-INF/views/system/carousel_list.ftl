@@ -64,6 +64,7 @@
                     if(img.length > 0){
                         img.attr("value", data.result);
                     }
+                    alert("上传成功！");
                 }else{
                 	showErrorTip(data.message);
                 }
