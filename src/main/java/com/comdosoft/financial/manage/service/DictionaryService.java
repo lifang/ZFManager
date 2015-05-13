@@ -345,7 +345,7 @@ public class DictionaryService {
 			String name ,String rate,String description) {
 		DictionaryBillingCycle billingCycle = dictionaryBillingCycleMapper.selectByPrimaryKey(id);
 		billingCycle.setName(name);
-		billingCycle.setServiceRate(Integer.valueOf(rate));
+        billingCycle.setServiceRate((int)(Float.parseFloat(rate)*10));
 		billingCycle.setDescription(description);
 		billingCycle.setUpdatedAt(new Date());
 		dictionaryBillingCycleMapper.updateByPrimaryKey(billingCycle);
@@ -356,7 +356,7 @@ public class DictionaryService {
 	public DictionaryBillingCycle createDictionaryBillingCycle(String name,String rate,String description) {
     	DictionaryBillingCycle billingCycle = new DictionaryBillingCycle();
     	billingCycle.setName(name);
-		billingCycle.setServiceRate(Integer.valueOf(rate));
+        billingCycle.setServiceRate((int) (Float.parseFloat(rate) * 10));
 		billingCycle.setDescription(description);
 		billingCycle.setCreatedAt(new Date());
 		dictionaryBillingCycleMapper.insert(billingCycle);
