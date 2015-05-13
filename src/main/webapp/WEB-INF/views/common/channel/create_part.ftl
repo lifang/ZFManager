@@ -359,7 +359,7 @@
         <td>
             <select name="" class="select_l selectStandardRate">
             <#list standardRates as standardRate>
-                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(((standardRate.baseRate)!0)/10)?string("0.0")}">${standardRate.merchantTypeName}</option>
+                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${standardRate.baseRate}">${standardRate.merchantTypeName}</option>
             </#list>
             </select>
         </td>
