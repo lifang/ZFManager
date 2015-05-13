@@ -32,12 +32,14 @@
                             <span>重新上传</span><input name="file" onChange="fileChange(this)" index="${i}" multiple="" type="file">
                         </a>
                     </div>
-                    </form>
                     <div class="ss_url">
-                        <label>URL：</label><input name="" value="${(sysShufflingFigures[i].websiteUrl)!""}" type="text">
+                        <label>URL：</label><input id="input_${i}" name="" value="${(sysShufflingFigures[i].websiteUrl)!""}" type="text">
                     </div>
+                    </form>
                 </div>
                 <div class="ssl_btn"><a onclick="submitData(${i})" class="ghostBtn">确定</a></div>
+                <div class="ssl_btn"><a onclick="delData(${i})" class="ghostBtn">清除</a></div>
+                <label id="label${i}" style="display:none">${(sysShufflingFigures[i].id)!""}</label>
             </div>
         </#list>
         </div>
@@ -89,9 +91,31 @@
                 function (data) {
                     if(data.code == 1){
                         alert("修改成功！");
+                        window.reload();
+                    } else{
+                        showErrorTip(data.message);
                     }
                 });
     }
+
+    function delData(index){
+    	var id=$("#label"+index).text();
+        $.post("<@spring.url "/system/content/carousel/" />"+id+"/del",
+                function (data) {
+                    if(data.code == 1){
+                    	//for(var i=0;i<5;i++){
+                      	//	$("#fileForm"+i).find("input[type='text']").val("");
+                      	//}
+                      	$("#input_" + index).val("");
+                        alert("清除成功！");
+                        window.location.href="../content/carousel";
+                    } else{
+                        showErrorTip(data.message);
+                    }
+                });
+    }
+
+
 
     function showMask(){
         var doc_height = $(document).height();

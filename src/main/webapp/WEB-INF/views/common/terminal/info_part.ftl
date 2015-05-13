@@ -15,7 +15,7 @@
                 <li>用户名：${(terminal.customer.name)!""}</li>
                 <li>手机：${(terminal.customer.phone)!""}</li>
                 <li>Email：${(terminal.customer.email)!""}</li>
-                <li>所属代理商：${(terminal.agent.name)!""}</li>
+                <li>所属代理商：${(terminal.agent.name)!""}</li>	
                 <li>终端状态：
                 <#if (terminal.status)??>
                     <#if terminal.status=1>已开通

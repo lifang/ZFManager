@@ -381,12 +381,13 @@
     function submitData(){
         var title=$("input[name='g_title']").val();
         if(isNull(title, "标题不能为空!")){return false;}
-        if(title.length>30){
+        if(title.length>100){
+            showErrorTip("标题最多100个字！");
             return false;
         }
         var secondTitle=$("input[name='g_secondTitle']").val();
-        if(secondTitle.length>100){
-            showErrorTip("副标题最多100个字！");
+        if(secondTitle.length>200){
+            showErrorTip("副标题最多200个字！");
             return false;
         }
         if(isNull(secondTitle, "副标题不能为空!")){return false;}
