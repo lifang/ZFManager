@@ -150,7 +150,7 @@ public class OrderLogisticController extends BaseController {
 	@ResponseBody
 	public Response showTerminal(@PathVariable Integer id,Integer goodId) {
 		Terminal t = orderService.getTerminal(id,goodId);
-		if(t.getReserver2()!=null){
+		if(t.getReserver2()!=null && !"".equals(t.getReserver2().trim())){
 			return Response.getSuccess(t.getSerialNum()+"(激活码："+t.getReserver2()+")");
 		}
 		return Response.getSuccess(t.getSerialNum());
