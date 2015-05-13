@@ -101,5 +101,7 @@ public interface TerminalMapper {
 	
 	int deleteTerminals(String[] terminals);
 	
+	Terminal getTerminalByOrderId(Integer orderId,Integer goodId);
+	
 	
 }

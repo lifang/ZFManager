@@ -140,8 +140,13 @@ public class TradeService {
     
     public void writeProfitStatistics(Integer type,OutputStream outStream) throws IOException {
     	List<Map<String,Object>> statistics = profitStatistics(type);
-    	String[][] datas = new String[statistics.size()][5];
-    	for(int i=0;i<statistics.size();++i){
+    	String[][] datas = new String[statistics.size()+1][5];
+    	datas[0][0] = "代理商";
+    	datas[0][1] = "总笔数";
+    	datas[0][2] = "总金额";
+    	datas[0][3] = "产出分润";
+    	datas[0][4] = "需支付的分润";
+    	for(int i=1;i<statistics.size()+1;++i){
     		Map<String,Object> map = statistics.get(i);
     		Agent agent = (Agent)map.get("agent");
     		datas[i][0] = agent.getCompanyName();

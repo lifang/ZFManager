@@ -54,22 +54,22 @@ public class OrderUserController extends BaseController{
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types,null);
 		return "order/user/list";
 	}
 
 	@RequestMapping(value = "/user/page")
 	public String page(Integer page, Byte status, String keys,
-			Integer factoryId, Model model) {
+			Integer factoryId, Integer pattern ,Model model) {
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
-		findPage(page, status, keys, factoryId, model, types);
+		findPage(page, status, keys, factoryId, model, types ,pattern);
 		return "order/user/pageOrder";
 	}
 
 	private void findPage(Integer page, Byte status, String keys,
-			Integer factoryId, Model model, List<Byte> types) {
+			Integer factoryId, Model model, List<Byte> types,Integer pattern) {
 		if (page == null) {
 			page = 1;
 		}
@@ -77,7 +77,7 @@ public class OrderUserController extends BaseController{
 			status = null;
 		}
 		Page<Order> orders = orderService.findPages(page, status, keys,
-				factoryId, types);
+					factoryId, types, pattern);
 		List<Factory> findCheckedFactories = factoryService
 				.findCheckedFactories();
 		model.addAttribute("factories", findCheckedFactories);
@@ -121,7 +121,7 @@ public class OrderUserController extends BaseController{
 		List<Byte> types = new ArrayList<Byte>();
 		types.add((byte) 1);
 		types.add((byte) 2);
-		findPage(1, null, null, null, model, types);
+		findPage(1, null, null, null, model, types,null);
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserCreate, OperateAction.createSure, id);
 		return "order/user/list";
 

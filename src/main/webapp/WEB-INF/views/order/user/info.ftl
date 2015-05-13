@@ -30,6 +30,9 @@
                 <th>单价</th>
                 <th>数量</th>
                 <th>金额</th>
+                <#if order.status==3>
+                <th>操作</th>
+                </#if>
               </tr>
               </thead>
               <#if order.orderGoods??>	
@@ -78,6 +81,9 @@
 	                    </td>
 	                    <td>${orderGood.quantity!0}</td>
 	                    <td><strong>￥${((orderGood.actualPrice/100)*(orderGood.quantity!0))?string("0.00")}</strong></td>
+	                    <#if order.status==3>
+                			<td><a href="javascript:void(0)" class="a_btn terminalNumber_a" onClick="showTerminal(${order.id},${orderGood.good.id})">查看终端号</a></td>
+                		</#if>
 	                  </tr>
 	              </tbody>
 	             </#list>
@@ -133,6 +139,16 @@
     </div>
     <div class="tabFoot"><button class="blueBtn" id="paySure">确定</button></div>
 </div>
+
+<div class="tab terminalNumber_tab">
+    	<a href="#" class="close">关闭</a>
+        <div class="tabHead">终端号码</div>
+        <div class="tabBody" id="text">
+        	<p></p>
+        </div>
+        <div class="tabFoot"><button class="blueBtn">确定</button></div>
+</div>
+
 
 <#include "../tabInfo.ftl" />
 
@@ -265,6 +281,23 @@
 					$('.mask').hide();
 					popupPage();
 	            });
+    }
+    
+    function showTerminal(id,goodId){
+    	$.post('<@spring.url "" />'+'/order/logistic/info/'+id+'/showTerminal',
+    	{"goodId":goodId},
+    	function(data){
+    		if(data.code==-1){
+    			$("#text>p").html("查询终端失败");
+    		}else{
+    			$("#text>p").html(data.result);
+    		}
+    		popup(".terminalNumber_tab",".terminalNumber_a");// 查看终端号
+    		$(".blueBtn").on('click',function(){
+    			$(".terminalNumber_tab").hide();
+    			$(".mask").hide();
+    		});
+    	});
     }
 </script>
 </@c.html>

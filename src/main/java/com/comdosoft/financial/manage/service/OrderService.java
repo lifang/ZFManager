@@ -23,6 +23,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.manage.domain.zhangfu.OrderPayment;
 import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.SysConfig;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
@@ -32,6 +33,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.OrderMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OrderPaymentMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.PayChannelMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysConfigMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 import com.comdosoft.financial.manage.utils.Constant;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
@@ -68,12 +70,14 @@ public class OrderService {
 	private PayChannelMapper payChannelMapper;
 	@Autowired
 	private CustomerAgentRelationService customerAgentRelationService;
+	@Autowired
+	private TerminalMapper terminalMapper;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
 	 */
 	public Page<Order> findPages(int page, Byte status, String keys,
-			Integer factoryId, List<Byte> types) {
+			Integer factoryId, List<Byte> types ,Integer pattern) {
 		pageSize = 3;
 		if (keys != null) {
 			if ("".equals(keys.trim())) {
@@ -99,15 +103,29 @@ public class OrderService {
 		long count =0;
 		PageRequest request = new PageRequest(page, pageSize);
 		List<Order> result = null;
+		
 		if(!CollectionUtils.isEmpty(types)&& types.get(0)==5){
-			count = orderMapper.countByKeysBatch(status, keys, null, types,orderIdsGood);
-			result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
-					null, types,orderIdsGood);
+			if(pattern == null || pattern.equals(1)){
+				count = orderMapper.countByKeysBatch(status, keys, null, types,orderIdsGood);
+				result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
+						null, types,orderIdsGood);
+			}else if(pattern.equals(2)){
+				count = orderMapper.countByKeysBatch1(status, keys, null, types,orderIdsGood);
+				result = orderMapper.findPageOrdersBySerialNums(request, status, keys,
+						null, types,orderIdsGood);
+			}
 		}else{
-			count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
-			result = orderMapper.findPageOrdersByKeys(request, status, keys,
-					null, types,orderIdsGood);
+			if(pattern == null || pattern.equals(1)){
+				count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
+				result = orderMapper.findPageOrdersByKeys(request, status, keys,
+						null, types,orderIdsGood);
+			}else if(pattern.equals(2)){
+				count = orderMapper.countByKeys1(status, keys, null, types,orderIdsGood);
+				result = orderMapper.findPageOrdersBySerialNum(request, status, keys,
+						null, types,orderIdsGood);
+			}
 		}
+		
 		if (count == 0) {
 			return new Page<Order>(new PageRequest(1, pageSize),
 					new ArrayList<Order>(), count);
@@ -116,12 +134,27 @@ public class OrderService {
 		if (orders.getCurrentPage() > orders.getTotalPage()) {
 			request = new PageRequest(orders.getTotalPage(), pageSize);
 			if(!CollectionUtils.isEmpty(types)&& types.get(0)==5){
-				result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
-						null, types,orderIdsGood);
+				if(pattern == null || pattern.equals(1)){
+					count = orderMapper.countByKeysBatch(status, keys, null, types,orderIdsGood);
+					result = orderMapper.findPageOrdersByKeysBatch(request, status, keys,
+							null, types,orderIdsGood);
+				}else if(pattern.equals(2)){
+					count = orderMapper.countByKeysBatch1(status, keys, null, types,orderIdsGood);
+					result = orderMapper.findPageOrdersBySerialNums(request, status, keys,
+							null, types,orderIdsGood);
+				}
 			}else{
-				result = orderMapper.findPageOrdersByKeys(request, status, keys,
-						null, types,orderIdsGood);
+				if(pattern == null || pattern.equals(1)){
+					count = orderMapper.countByKeys(status, keys, null, types,orderIdsGood);
+					result = orderMapper.findPageOrdersByKeys(request, status, keys,
+							null, types,orderIdsGood);
+				}else if(pattern.equals(2)){
+					count = orderMapper.countByKeys1(status, keys, null, types,orderIdsGood);
+					result = orderMapper.findPageOrdersBySerialNum(request, status, keys,
+							null, types,orderIdsGood);
+				}
 			}
+			
 			orders = new Page<>(request, result, count);
 		}
 		List<Integer> orderIds = new ArrayList<Integer>();
@@ -585,5 +618,11 @@ public class OrderService {
 			}
 		}
 		return orders;
+	}
+
+
+
+	public Terminal getTerminal(Integer orderId,Integer goodId) {
+		return terminalMapper.getTerminalByOrderId(orderId,goodId);
 	}
 }

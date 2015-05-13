@@ -11,7 +11,7 @@
 
         <div class="seenBox clear">
             <ul>
-                <li>
+                <li class="condition_search">
                     <div class="user_search">
                         <select id="search_key_type" name="search_key_type">
                             <option value="1">终端号</option>
