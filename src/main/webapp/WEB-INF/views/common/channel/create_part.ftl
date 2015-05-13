@@ -141,7 +141,7 @@
                                         <td>
                                             <select name="" class="select_l selectBillingCycle">
                                                 <#list billingCycles as billingCycle>
-                                                    <option value="${billingCycle.id}" description="${billingCycle.description!""}" rate="${billingCycle.serviceRate}"
+                                                    <option value="${billingCycle.id}" description="${billingCycle.description!""}" rate="${(((billingCycle.serviceRate)!0)/10)?string("0.0")}"
                                                     ${((billingCycle.id) = (channelBillingCycle.billingCyclesId))?string("selected='selected'","")}
                                                             >${billingCycle.name}</option>
                                                 </#list>
