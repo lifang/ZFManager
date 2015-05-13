@@ -627,7 +627,7 @@ public class PosController {
     			if(!hasOrderId.isEmpty()){
         			error.append(hasOrderId.toString());
         		}
-    			if("终端号为".equals(error)){
+    			if("终端号为".equals(error.toString())){
     				terminalService.removeStorage(id,terminals);
     	    	    return Response.getSuccess("清除库存成功");
     			}else{
