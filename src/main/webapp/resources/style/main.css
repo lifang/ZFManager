@@ -31,4 +31,9 @@
 	border: 1px #CCCCCC solid;
 }
 
+.sizeFix{
+	width: 640px;
+}
+.sizeFix li { width: 640px;}
+.sizeFix li img { width: 640px;}
 

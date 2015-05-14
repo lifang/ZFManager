@@ -10,7 +10,7 @@
     </div>
     <div class="content clear">
 		<div class="user_title"><h1>编辑手机商品图片详情</h1></div>
-	        <div class="upLoadImg_con">
+	        <div class="upLoadImg_con sizeFix">
 	        	<ul>
 	        		<#if goodImgs??>
 					  <#list goodImgs as goodImg>
