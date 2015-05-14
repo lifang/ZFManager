@@ -152,16 +152,7 @@
 <#macro foot>
 <div class="foot">
     <div class="box">
-        <ul class="foot_nav">
-            <li><a href="#">关于我们</a></li>
-            <li>/</li>
-            <li><a href="#">企业文化</a></li>
-            <li>/</li>
-            <li><a href="#">帮助中心</a></li>
-            <li>/</li>
-            <li><a href="#">企业招聘</a></li>
-        </ul>
-        <div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
+        <div class="copyright">版权所有 &copy; 2011-2015 上海掌富网络技术有限公司（备案号 1236548）</div>
     </div>
 </div>
 
