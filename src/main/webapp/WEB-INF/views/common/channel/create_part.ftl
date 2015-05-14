@@ -101,7 +101,7 @@
                                         <td>
                                             <select name="" class="select_l selectStandardRate">
                                                 <#list standardRates as standardRate>
-                                                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(standardRate.baseRate!'')?number/10}"
+                                                    <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(standardRate.baseRate!'0')?number/10}"
                                                     ${((standardRate.id) = (channelStandardRate.tradeStandardRateId))?string("selected='selected'", "")}
                                                             >${standardRate.merchantTypeName}</option>
                                                 </#list>
@@ -359,7 +359,7 @@
         <td>
             <select name="" class="select_l selectStandardRate">
             <#list standardRates as standardRate>
-                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(standardRate.baseRate!'')?number/10}">${standardRate.merchantTypeName}</option>
+                <option value="${standardRate.id}" description="${standardRate.description!''}" baseRate="${(standardRate.baseRate!'0')?number/10}">${standardRate.merchantTypeName}</option>
             </#list>
             </select>
         </td>
