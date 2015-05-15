@@ -84,10 +84,8 @@ public class MessageService {
             receiver.setSysMessageId(message.getId());
             receiver.setStatus(MessageReceiver.STATUS_NO_READ);
             messageReceiverMapper.insert(receiver);
-//            pushNotificationService.pushMsgToSingleDevice(title,content,
-//            		customerMapper.selectByPrimaryKey(customerId).getDeviceCode());
             pushNotificationService.pushMsgToSingleDevice(title,content,
-            		"3620939172453363681");
+            		customerMapper.selectByPrimaryKey(customerId).getDeviceCode());
         } else if(customerType != null){
             messageReceiverMapper.insertMessages(message.getId(), goodId, channelId, customerType);
         }
