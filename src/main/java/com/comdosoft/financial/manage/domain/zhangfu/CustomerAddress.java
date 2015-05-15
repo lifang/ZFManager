@@ -285,6 +285,17 @@ public class CustomerAddress {
     public static final Integer DEFAULT_FALSE = 2;
     public static final Byte STATUS_NORMAL = 1;
     public static final Byte STATUS_DELETE = 2;
+    
+    /**
+     * 有效
+     * 
+     */
+    public static final int STATUS_1 = 1;
+    /**
+     * 删除
+     * 
+     */
+    public static final int STATUS_2 = 2;
     private City city;
 	private City parentCity;
 
