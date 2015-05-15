@@ -102,9 +102,10 @@
 </#if>
     <div class="attributes_box">
         <#if videoUrl??>
-        <h2>开通详情 <a href="${FILE_PATH+videoUrl}" class="a_btn">下载视频</a></h2>
+        <h2>开通详情 <a href="<@spring.url ""/>${videoUrl}" class="a_btn">下载视频</a></h2>
         </#if>
         <h2>开通详情
+        <#if Roles.hasRole("DOWNLOAD_DATA") || !(isFactory??) || !isFactory>
         <#if (terminal.openingApplie.terminalOpeningInfos)??>
             <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
             <#if openingInfo.types == 2>
@@ -112,6 +113,7 @@
                 <#break>
             </#if>
             </#list>
+        </#if>
         </#if>
         </h2>
         <div class="attributes_list_s clear">

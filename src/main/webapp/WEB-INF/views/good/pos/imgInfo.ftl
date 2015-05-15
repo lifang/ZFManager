@@ -9,7 +9,7 @@
         </ul>
     </div>
     <div class="content clear">
-		<div class="user_title"><h1>编辑图片详情</h1></div>
+		<div class="user_title"><h1>编辑图片详情</h1><p class="red mytitle">*请上传宽度为880的图片，文件大小在2M以内。</p></div>
 	        <div class="upLoadImg_con">
 	        	<ul>
 	        		<#if goodImgs??>

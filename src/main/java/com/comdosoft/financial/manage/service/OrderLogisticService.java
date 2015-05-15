@@ -70,6 +70,9 @@ public class OrderLogisticService {
 		csOutStorage.setDescription(order.getOrderNumber());
 		csOutStorageMapper.insert(csOutStorage);
 		record.setCsOutStorageId(csOutStorage.getId());
+		if(order.getBelongsTo() == null){ 
+			return 1;
+		}
 		return orderLogisticMapper.insert(record);
 	}
 	
