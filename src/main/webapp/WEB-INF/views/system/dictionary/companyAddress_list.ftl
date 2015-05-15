@@ -62,12 +62,11 @@
                         $tr.replaceWith(data);
                     });
         });
+        $(document).delegate(".cancelCompanyAddress", "click", function () {
+            $(this).parents("tr").remove();
+        });
 
     });
-    
-    function cancelAdd(){
-    	$("#companyAddressTable>table>tbody>tr:last").remove();
-    }
 
 </script>
 
