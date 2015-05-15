@@ -216,10 +216,10 @@
         $.post('<@spring.url "/task/certifiedopen/endRecord" />',
                 {"id": ${tinfo.id},"url":url},
                 function (data) {
-                    if(data>0){
+                    if(data.code==1){
                         alert("保存成功!");
                     }else{
-                        alert("保存失败!");
+                        showErrorTip("保存失败!");
                     }
                 });
     }

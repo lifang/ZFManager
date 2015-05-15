@@ -32,8 +32,10 @@
 }
 
 .sizeFix{
-	width: 640px;
+	width: 450px;
 }
-.sizeFix li { width: 640px;}
-.sizeFix li img { width: 640px;}
+.sizeFix li { width: 450px;}
+.sizeFix li img { width: 450px;}
 
+.mytitle{margin:16px 0px 0px 140px;}
+.mytitle1{margin:16px 0px 0px 205px;}

@@ -221,7 +221,7 @@ public class TerminalService {
     public void updateVideoFile(Integer openApplyId, String videoFile){
         List<OpeningVideoVerify> verifies = openingVideoVerifyMapper.selectByApplyId(openApplyId);
         for(OpeningVideoVerify verify : verifies){
-            verify.setVideoUrl(videoFile);
+            verify.setVideoUrl("/uploads/video/"+videoFile);
             openingVideoVerifyMapper.updateByPrimaryKey(verify);
         }
     }

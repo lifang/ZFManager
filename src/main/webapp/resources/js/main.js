@@ -156,7 +156,7 @@ $(function(){
 	popup(".orderDetail_tab",".orderDetail_a");//出库订单详细
 	
 	popup(".file_tab",".file_a");//交易转账上传
-	popup(".outStorage_tab",".outStorage_a");//清除库存
+	//popup(".outStorage_tab",".outStorage_a");//清除库存
 	
 	
 	popup(".videoInform_tab",".videoInform_a");//视屏通知提示

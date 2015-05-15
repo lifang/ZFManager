@@ -256,6 +256,8 @@
     }
 	function outStorage(id){
 		goodId = id;
+		$("#terminalLists").val("");
+		popupT(".outStorage_tab");
 	}
 	function removeTerminal(){
         var data = $("#terminalLists").val();
