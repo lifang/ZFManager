@@ -64,6 +64,10 @@
         });
 
     });
+    
+    function cancelAdd(){
+    	$("#companyAddressTable>table>tbody>tr:last").remove();
+    }
 
 </script>
 
