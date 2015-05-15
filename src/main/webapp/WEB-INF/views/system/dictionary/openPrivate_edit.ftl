@@ -9,5 +9,6 @@
     <td><input value="${(openPrivate.name)!""}" type="text"></td>
     <td><input value="${(openPrivate.introduction)!""}" type="text"></td>
     <td><input value="${(openPrivate.queryMark)!""}" type="text"></td>
-    <td><a value="${(openPrivate.id)!""}" class="a_btn saveOpenPrivate">确定</a></td>
+    <td><a value="${(openPrivate.id)!""}" class="a_btn saveOpenPrivate">确定</a>
+    <a href="javascript:void(0)" class="a_btn canceltr">取消</a></td>
 </tr>

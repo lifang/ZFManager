@@ -6,5 +6,6 @@
         </select>
     </td>
     <td><input value="${(tradeType.tradeValue)!""}" type="text"></td>
-    <td><a value="${(tradeType.id)!""}" class="a_btn saveTradeType">确定</a></td>
+    <td><a value="${(tradeType.id)!""}" class="a_btn saveTradeType">确定</a>
+    <a href="javascript:void(0)" class="a_btn canceltr">取消</a></td>
 </tr>

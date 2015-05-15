@@ -20,4 +20,13 @@
         <#include "standardRate_list.ftl"/>
         <#include "billingCycle_list.ftl"/>
     </div>
+    <script>
+    	$(function(){
+    		$(document).delegate(".canceltr", "click", function () {
+            $(this).parents("tr").remove();
+        });
+    		
+    		
+    	});
+    </script>
 </@c.html>
