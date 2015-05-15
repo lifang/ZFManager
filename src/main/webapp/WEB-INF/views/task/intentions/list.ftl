@@ -7,7 +7,7 @@
 
 <div class="content clear">
 	<div class="user_title">
-		<h1>购买意向列表</h1>
+		<h1>购买/申请意向列表</h1>
 		<div class="userTopBtnBox">
 	<#if Roles.hasRole("INTENTION_ASSIGN")>
 			<a id="btn_dispatch" class="ghostBtn assign_a">分派</a>
@@ -17,7 +17,7 @@
 	<div class="seenBox clear">
 		<ul>
 			<li><div class="user_search">
-					<input id="hidden_keys"  type="text" />
+					<input id="hidden_keys"  type="text" placeholder="输入意向人查询"/>
 					<button id="btn_search"></button>
 				</div></li>
 				<li>

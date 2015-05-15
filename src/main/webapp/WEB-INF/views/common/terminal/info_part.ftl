@@ -3,7 +3,10 @@
     <div class="user_title"><h1>终端详情</h1>
     <#if !(isFactory??) || !isFactory>
         <div class="userTopBtnBox">
-            <a class="ghostBtn">同步终端状态</a>
+            <a href="javascript:void(0);" class="ghostBtn" onclick="synizeTerminal(${terminal.id})">同步终端状态</a>
+            <#if terminal.status==1 || terminal.status==2 || terminal.status==3>
+    			<!--<a href="javascript:void(0);" onclick="judgeUpdate(${terminal.id})" class="ghostBtn">更新资料</a>-->
+    		</#if>
         </div>
     </#if>
     </div>
@@ -165,28 +168,38 @@
     </div>
 </div>
 <script>
-	$(function(){
-		$(".ghostBtn").click(function(){
-		var id = ${(terminal.id)!""};
-		if(id==''){
-			alert("没有终端号");
-			return false;
-		}
-		$.post('<@spring.url "/terminal/syncStatus" />',
-			{"terminalId":id},
-			function(data){
-			    var data = eval("("+data+")");
-				if(data.code==1){
-					alert("同步成功");
-					location.reload();
-				}else{
-					alert(data.message);
-					return false;
-				}
-			});
-		});
-	});
+	function judgeUpdate(terminalId){
+		$.post('<@spring.url "/terminalCs/judgeUpdate" />', {"terminalId":terminalId},
+		function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == -1){
+	        		  alert("已有该终端更新申请！");
+	        	  }else if(data.code == 1){
+	        		  window.location.href = "#/terminalCs?terminalId="+$scope.terminalId;
+	        	  }
+	          }
+	    });
+	}
 
+function synizeTerminal(terminalId){
+		var id = terminalId;
+			if(id==''){
+				alert("没有终端号");
+				return false;
+			}
+			$.post('<@spring.url "/terminal/syncStatus" />',
+				{"terminalId":id},
+				function(data){
+				    var data = eval("("+data+")");
+					if(data.code==1){
+						alert("同步成功");
+						location.reload();
+					}else{
+						alert(data.message);
+						return false;
+					}
+				});
+	}
 	<#-- 控制长度-->
 	function checkLength(obj,lengthStr){
 		var temp=$(obj).val();
