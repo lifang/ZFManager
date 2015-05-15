@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.baidu.yun.push.exception.PushClientException;
+import com.baidu.yun.push.exception.PushServerException;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
 import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplyMark;
@@ -22,6 +24,7 @@ import com.comdosoft.financial.manage.mapper.zhangfu.CertifiedOpenMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.MessageReceiverMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.OpeningApplyMarkMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysMessageMapper;
+import com.comdosoft.financial.manage.service.PushNotificationService;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
 
@@ -42,6 +45,8 @@ public class CertifiedOpenService {
 	private SysMessageMapper sysMessageMapper;
 	@Autowired
 	private MessageReceiverMapper messageReceiverMapper;
+	@Autowired
+	private PushNotificationService pushNotificationService;
 	
 	public Page<CertifiedOpen> findPages(int id,int page, Byte status, String keys){
 		long count = certifiedOpenMapper.countByKeys(status, keys);
@@ -81,9 +86,6 @@ public class CertifiedOpenService {
 		}
 		return goods;
 	}
-	
-	
-
 
 	public Showinfo findInfo(Integer id) {
 		return certifiedOpenMapper.findInfo(id);
@@ -99,26 +101,17 @@ public class CertifiedOpenService {
         return list;
     }
 
-
-
-
     public List<Mark> getMark(Integer id) {
         return certifiedOpenMapper.getMark(id);
     }
 
-
-
-
     public void addMark(Mark mark) {
-        certifiedOpenMapper.addMark(mark);
-        
+        certifiedOpenMapper.addMark(mark);       
     }
-
 
     public int upVstatus(Integer id, Integer status) {
         int a=certifiedOpenMapper.upVstatus(id,status);
-        return  a;
-        
+        return  a;      
     }
     
     public int upVstatus2(Integer id, Integer status) {
@@ -126,23 +119,16 @@ public class CertifiedOpenService {
         if(a==0){
             a=certifiedOpenMapper.inVstatus(id,status);
         }
-        return  a;
-        
+        return  a;      
     }
 
     public int upStatus(Integer id, Integer status) {
         return  certifiedOpenMapper.upStatus(id,status);
     }
 
-
-
-
     public int upMstatus(Integer id, Integer status) {
         return  certifiedOpenMapper.upMstatus(id,status);
     }
-
-
-
 
     public void dispatch(String ids, Integer customerId, String customerName) {
         Map<String, Object> params = new HashMap<String, Object>();
@@ -153,10 +139,7 @@ public class CertifiedOpenService {
         
     }
 
-
-
-
-	public void upFail(Integer id, Integer status, String reason,Customer customer,String serialNum) {
+	public void upFail(Integer id, Integer status, String reason,Customer customer,String serialNum) throws PushClientException, PushServerException {
 		String failReason ="您为终端号："+serialNum+"的POS机提出的开通申请被拒绝了。理由如下："+reason.trim()+"。";
 		OpeningApplyMark openingApplyMark = new OpeningApplyMark();
 		openingApplyMark.setContent(failReason);
@@ -181,6 +164,7 @@ public class CertifiedOpenService {
 		messageReceiver.setSysMessageId(sysMessage.getId());
 		messageReceiver.setCustomerId(customer.getId());
 		messageReceiverMapper.insert(messageReceiver);
+		pushNotificationService.pushMsgToSingleDevice(title, failReason, customer.getDeviceCode());
 	}
 	
 }

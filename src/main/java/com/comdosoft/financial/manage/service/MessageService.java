@@ -1,11 +1,15 @@
 package com.comdosoft.financial.manage.service;
 
+import com.baidu.yun.push.exception.PushClientException;
+import com.baidu.yun.push.exception.PushServerException;
 import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
 import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
+import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.MessageReceiverMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.SysMessageMapper;
 import com.comdosoft.financial.manage.utils.page.Page;
 import com.comdosoft.financial.manage.utils.page.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,11 @@ public class MessageService {
     private SysMessageMapper sysMessageMapper;
     @Autowired
     private MessageReceiverMapper messageReceiverMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Autowired
+    private PushNotificationService pushNotificationService;
+    
     public Page<SysMessage> findPages(int page) {
         long count = sysMessageMapper.count();
         if (count == 0) {
@@ -62,7 +71,8 @@ public class MessageService {
     }
 
     @Transactional("transactionManager")
-    public void create(String title, String content, Integer customerId, Integer goodId, Integer channelId, Byte customerType) {
+    public void create(String title, String content, Integer customerId, Integer goodId,
+    		Integer channelId, Byte customerType) throws PushClientException, PushServerException {
         SysMessage message = new SysMessage();
         message.setTitle(title);
         message.setContent(content);
@@ -74,6 +84,10 @@ public class MessageService {
             receiver.setSysMessageId(message.getId());
             receiver.setStatus(MessageReceiver.STATUS_NO_READ);
             messageReceiverMapper.insert(receiver);
+//            pushNotificationService.pushMsgToSingleDevice(title,content,
+//            		customerMapper.selectByPrimaryKey(customerId).getDeviceCode());
+            pushNotificationService.pushMsgToSingleDevice(title,content,
+            		"3620939172453363681");
         } else if(customerType != null){
             messageReceiverMapper.insertMessages(message.getId(), goodId, channelId, customerType);
         }

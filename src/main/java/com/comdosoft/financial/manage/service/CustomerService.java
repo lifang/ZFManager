@@ -369,4 +369,10 @@ public class CustomerService {
 			return false;
 		}
 	}
+
+	public void updateChannelId(Integer customerId, String channelId) {
+		Customer customer = customerMapper.selectByPrimaryKey(customerId);
+		customer.setDeviceCode(channelId);
+		customerMapper.updateByPrimaryKey(customer);
+	}
 }

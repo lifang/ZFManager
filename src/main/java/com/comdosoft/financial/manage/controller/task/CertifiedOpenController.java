@@ -270,7 +270,12 @@ public class CertifiedOpenController {
     public Response upFail(Integer id,Integer status,String reason,
     		HttpServletRequest request,String serialNum){
     	Customer customer = sessionService.getLoginInfo(request);
-    	certifiedOpenService.upFail(id,status,reason,customer,serialNum);
-    	return Response.getSuccess("");
+    	try {
+			certifiedOpenService.upFail(id,status,reason,customer,serialNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("审核失败");
+		}
+    	return Response.getSuccess("审核成功");
     }
 }

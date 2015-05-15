@@ -10,6 +10,7 @@ import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.MessageService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.utils.page.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +69,12 @@ public class MessageController {
     @ResponseBody
     public Response create(String title, String content, Integer customerId,
                            Integer goodId, Integer channelId, Byte customerType,  Model model){
-        messageService.create(title, content, customerId, goodId, channelId, customerType);
+        try {
+			messageService.create(title, content, customerId, goodId, channelId, customerType);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("发送失败");
+		} 
         return Response.getSuccess("");
     }
 	
