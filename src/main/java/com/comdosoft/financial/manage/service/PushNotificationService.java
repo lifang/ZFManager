@@ -59,45 +59,55 @@ public class PushNotificationService {
 	 * @throws PushClientException
 	 * @throws PushServerException
 	 */
-	public void pushMsgToSingleDevice (String title,String message,String channelId,String deviceType) throws PushClientException, PushServerException{
+	public void pushMsgToSingleDevice (String title,String message,String channelId,
+			String deviceType,Integer messageId) throws PushClientException, PushServerException{
 		/*1. 创建PushKeyPair
          *用于app的合法身份认证
          *apikey和secretKey可在应用详情中获取
          */
 		String apiKey = "";
 		String secretKey = "";
+		String flg = "";
 		if("0".equals(deviceType)){
 			apiKey = apiKeyUserAndphone;
 			secretKey = secretKeyUserAndphone;
+			flg = "android";
 		}
 		/*
 		if("1".equals(deviceType)){
 			apiKey = apiKeyAgentAndphone;
 			secretKey = secretKeyAgentAndphone;
+			flg = "android";
 		}
 		if("2".equals(deviceType)){
 			apiKey = apiKeyUserAndpad;
 			secretKey = secretKeyUserAndpad;
+			flg = "android";
 		}
 		if("3".equals(deviceType)){
 			apiKey = apiKeyAgentAndpad;
 			secretKey = secretKeyAgentAndpad;
+			flg = "android";
 		}*/
 		if("4".equals(deviceType)){
 			apiKey = apiKeyUserIphone;
 			secretKey = secretKeyUserIphone;
+			flg = "ios";
 		}/*
 		if("5".equals(deviceType)){
 			apiKey = apiKeyAgentIphone;
 			secretKey = secretKeyAgentIphone;
+			flg = "ios";
 		}
 		if("6".equals(deviceType)){
 			apiKey = apiKeyUserIpad;
 			secretKey = secretKeyUserIpad;
+			flg = "ios";
 		}
 		if("7".equals(deviceType)){
 			apiKey = apiKeyAgentIpad;
 			secretKey = secretKeyAgentIpad;
+			flg = "ios";
 		}*/
         PushKeyPair pair = new PushKeyPair(apiKey,secretKey);
         // 2. 创建BaiduPushClient，访问SDK接口
@@ -112,11 +122,23 @@ public class PushNotificationService {
         });
         try {
         // 4. 设置请求参数，创建请求实例
-            PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest().
-                addChannelId(channelId).
-                addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
-                addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
-                addMessage("{\"title\":\"" + title + "\",\"description\":\"" + message + "\"}");
+        	PushMsgToSingleDeviceRequest request = null;
+        	if("ios".equals(flg)){
+        		request = new PushMsgToSingleDeviceRequest().
+        				addChannelId(channelId).
+        				addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
+        				addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
+        				addMessage("{\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" + message + "\"}").
+        				addDeviceType(4)
+        				.addDeployStatus(1);
+        	}else if("android".equals(flg)){
+        		request = new PushMsgToSingleDeviceRequest().
+        				addChannelId(channelId).
+        				addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
+        				addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
+        				addMessage("{\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" + message + "\"}");
+        	}
+        	
         // 5. 执行Http请求
             PushMsgToSingleDeviceResponse response = pushClient.
                 pushMsgToSingleDevice(request);
