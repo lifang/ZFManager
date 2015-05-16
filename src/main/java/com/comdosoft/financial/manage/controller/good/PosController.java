@@ -59,6 +59,8 @@ public class PosController {
     private String sysPosPath ;
     @Value("${filePath}")
     private String filePath ;
+    @Value("${shopshowurl}")
+    private String shopshowurl ;
 	@Autowired
 	private GoodService goodService ;
 	@Autowired
@@ -410,6 +412,7 @@ public class PosController {
 		}
 		Page<Good> goods = goodService.findPages(null, page, status, keys);
 		model.addAttribute("goods", goods);
+		model.addAttribute("shopshowurl", shopshowurl);
 	}
 
     @RequestMapping(value = "category/list", method = RequestMethod.GET)
