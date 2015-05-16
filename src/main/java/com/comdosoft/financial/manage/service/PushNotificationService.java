@@ -128,7 +128,9 @@ public class PushNotificationService {
         				addChannelId(channelId).
         				addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
         				addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
-        				addMessage("{\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" + message + "\"}").
+        				addMessage("{\"aps\":{\"alert\":\"" + title +"\",\"badge\":1,\"sound\":\"default\"},"+
+        						"\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" 
+        						+ message + "\"}").
         				addDeviceType(4)
         				.addDeployStatus(1);
         	}else if("android".equals(flg)){
@@ -136,7 +138,8 @@ public class PushNotificationService {
         				addChannelId(channelId).
         				addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
         				addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
-        				addMessage("{\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" + message + "\"}");
+        				addMessage("{\"title\":\"" + title + "\",\"description\":\"" + message 
+        						+ "\",\"custom_content\":{\"msgId\":\""+messageId+"\"}}");
         	}
         	
         // 5. 执行Http请求
