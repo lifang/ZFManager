@@ -23,15 +23,16 @@ public class PushNotificationService {
 	private String apiKeyUserIphone; //4:用户iphone
 	@Value("${push.secretKeyUserIphone}")
 	private String secretKeyUserIphone; //4:用户iphone
-	/*
 	@Value("${push.apiKeyUserAndpad}")
 	private String apiKeyUserAndpad; //2：用户安卓pad
 	@Value("${push.secretKeyUserAndpad}")
 	private String secretKeyUserAndpad; //2：用户安卓pad
-	@Value("${push.apiKeyUserIpad}")
+	/*
+	@Value("${push.apiKeyUserIpad}"
 	private String apiKeyUserIpad; //6：用户ipad
 	@Value("${push.secretKeyUserIpad}")
 	private String secretKeyUserIpad; //6：用户ipad
+	*/
 	@Value("${push.apiKeyAgentAndphone}")
 	private String apiKeyAgentAndphone; //1：代理商安卓手机
 	@Value("${push.secretKeyAgentAndphone}")
@@ -44,6 +45,7 @@ public class PushNotificationService {
 	private String apiKeyAgentAndpad; //3：代理商安卓pad
 	@Value("${push.secretKeyAgentAndpad}")
 	private String secretKeyAgentAndpad; //3：代理商安卓pad
+	/*
 	@Value("${push.apiKeyAgentIpad}")
 	private String apiKeyAgentIpad; //7：代理商ipad
 	@Value("${push.secretKeyAgentIpad}")
@@ -73,7 +75,6 @@ public class PushNotificationService {
 			secretKey = secretKeyUserAndphone;
 			flg = "android";
 		}
-		/*
 		if("1".equals(deviceType)){
 			apiKey = apiKeyAgentAndphone;
 			secretKey = secretKeyAgentAndphone;
@@ -88,17 +89,17 @@ public class PushNotificationService {
 			apiKey = apiKeyAgentAndpad;
 			secretKey = secretKeyAgentAndpad;
 			flg = "android";
-		}*/
+		}
 		if("4".equals(deviceType)){
 			apiKey = apiKeyUserIphone;
 			secretKey = secretKeyUserIphone;
 			flg = "ios";
-		}/*
+		}
 		if("5".equals(deviceType)){
 			apiKey = apiKeyAgentIphone;
 			secretKey = secretKeyAgentIphone;
 			flg = "ios";
-		}
+		}/*
 		if("6".equals(deviceType)){
 			apiKey = apiKeyUserIpad;
 			secretKey = secretKeyUserIpad;
