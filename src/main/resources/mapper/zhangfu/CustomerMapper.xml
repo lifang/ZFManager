@@ -195,4 +195,8 @@
 		</if>
  
 	</select>
+	
+	<select id="getCustomers" resultMap="BaseResultMap">
+		select * from customers where good_id=#{0} and channel_id=#{1} and customerType =#{2}
+	</select>
 </mapper>
