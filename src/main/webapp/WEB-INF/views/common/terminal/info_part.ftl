@@ -5,7 +5,9 @@
         <div class="userTopBtnBox">
             <a href="javascript:void(0);" class="ghostBtn" onclick="synizeTerminal(${terminal.id})">同步终端状态</a>
             <#if terminal.status==1 || terminal.status==2 || terminal.status==3>
-    			<!--<a href="javascript:void(0);" onclick="judgeUpdate(${terminal.id})" class="ghostBtn">更新资料</a>-->
+    			<!--<a href="javascript:void(0);" onclick="judgeUpdate(${terminal.id})" class="ghostBtn">更新资料</a>
+    			<a href="javascript:void(0);" onclick="judgeReturn(${terminal.id})" class="ghostBtn">退货</a>
+    			<a href="javascript:void(0);" onclick="judgeChang(${terminal.id})" class="ghostBtn">换货</a>-->
     		</#if>
         </div>
     </#if>
@@ -175,11 +177,41 @@
 	        	  if(data.code == -1){
 	        		  alert("已有该终端更新申请！");
 	        	  }else if(data.code == 1){
-	        		  window.location.href = "#/terminalCs?terminalId="+$scope.terminalId;
+	        	  	  //页面跳转
+	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=1";
 	        	  }
 	          }
 	    });
 	}
+	
+	function judgeReturn(terminalId){
+		$.post('<@spring.url "/terminalCs/judgeChang" />', {"terminalId":terminalId},
+		function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == -1){
+	        		  alert("已有该终端换货申请！");
+	        	  }else if(data.code == 1){
+	        	  	  //页面跳转 退货
+	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=2";
+	        	  }
+	          }
+	    });
+	}
+	function judgeChang(terminalId){
+		$.post('<@spring.url "/terminalCs/judgeChang" />', {"terminalId":terminalId},
+		function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == -1){
+	        		  alert("已有该终端换货申请！");
+	        	  }else if(data.code == 1){
+	        	  	  //页面跳转
+	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=3";
+	        	  }
+	          }
+	    });
+	}
+	
+	
 
 function synizeTerminal(terminalId){
 		var id = terminalId;

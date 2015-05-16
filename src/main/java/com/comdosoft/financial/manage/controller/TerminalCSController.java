@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.manage.domain.Response;
+import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.Merchant;
 import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie;
+import com.comdosoft.financial.manage.service.CityService;
 import com.comdosoft.financial.manage.service.OpeningApplyService;
 import com.comdosoft.financial.manage.service.TerminalCSService;
 import com.comdosoft.financial.manage.service.TerminalService;
@@ -49,6 +51,8 @@ public class TerminalCSController {
 	private String filePath;
 	@Value("${sysFileTerminal}")
 	private String sysFileTerminal;
+	@Resource
+	private CityService cityService;
 	
 	//1.待处理
 	public static final Integer CsChange_STATUS_1 = 1;
@@ -101,27 +105,7 @@ public class TerminalCSController {
 	//申请开通材料对公对私状态(对私)
 	public static final int OpeningApplie_TYPES_2 = 2;
 	
-	/**
-	 * 换货
-	 * @param maps
-	 * @return
-	 * #/terminalExchangeGoods?terminalId="+$scope.terminalId
-	 */
-	@RequestMapping(value = "judgeChang", method = RequestMethod.POST)
-	public Response judgeChang(@RequestBody Map<Object, Object> maps) {
-		try {
-			//判断该终端是否已有未处理完的申请
-			int count = terminalCSService.JudgeChangStatus((Integer)maps.get("terminalid"),CsChange_STATUS_1,CsChange_STATUS_2);
-			if(count == 0){
-				return Response.getSuccess("可以申请！");
-			}else{
-				return Response.getError("已有相关申请！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.getError("请求失败！");
-		}
-	}
+	
 	
 	/**
 	 * 判断退货申请
@@ -132,6 +116,28 @@ public class TerminalCSController {
 	public Response judgeReturn(@RequestBody Map<Object, Object> maps) {
 		try {
 			int count = terminalCSService.JudgeReturn((Integer)maps.get("terminalid"),CsUpdateInfo_STATUS_1,CsUpdateInfo_STATUS_2);
+			if(count == 0){
+				return Response.getSuccess("可以申请！");
+			}else{
+				return Response.getError("已有相关申请！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	/**
+	 * 换货
+	 * @param maps
+	 * @return
+	 * #/terminalExchangeGoods?terminalId="+$scope.terminalId
+	 */
+	@RequestMapping(value = "judgeChang", method = RequestMethod.POST)
+	@ResponseBody
+	public Response judgeChang(Integer terminalId) {
+		try {
+			//判断该终端是否已有未处理完的申请
+			int count = terminalCSService.JudgeChangStatus(terminalId,CsChange_STATUS_1,CsChange_STATUS_2);
 			if(count == 0){
 				return Response.getSuccess("可以申请！");
 			}else{
@@ -169,32 +175,47 @@ public class TerminalCSController {
 	 * 
 	 * @param id
 	 */
-	@RequestMapping(value = "getWebApplyDetails", method = RequestMethod.POST)
-	public String getWebApplyDetails(@RequestBody Map<Object, Object> maps,Model model) {
-		
-			Map<Object, Object> map = new HashMap<Object, Object>();
+	@RequestMapping(value = "getWebApplyDetails", method = RequestMethod.GET)
+	public String getWebApplyDetails(Integer terminalId,Integer type,Model model) {
+			Integer types=2;
 			// 获得终端详情
 			model.addAttribute("applyDetails",
-					terminalCSService.getApplyDetails((Integer)maps.get("terminalsId")));
+					terminalCSService.getApplyDetails(terminalId));
 			// 终端交易类型
-			model.addAttribute("rates", terminalCSService.getRate((Integer)maps.get("terminalsId")));
+			model.addAttribute("rates", terminalCSService.getRate(terminalId));
 			//获得租赁信息
-			model.addAttribute("tenancy", terminalCSService.getTenancy((Integer)maps.get("terminalsId")));
+			model.addAttribute("tenancy", terminalCSService.getTenancy(terminalId));
 			// 追踪记录
-			model.addAttribute("trackRecord", terminalCSService.getTrackRecord((Integer)maps.get("terminalsId")));
+			model.addAttribute("trackRecord", terminalCSService.getTrackRecord(terminalId));
 			// 开通详情
 			model.addAttribute("openingDetails",
-					terminalCSService.getOpeningDetails((Integer)maps.get("terminalsId")));
+					terminalCSService.getOpeningDetails(terminalId));
 			//获得模板路径
-			model.addAttribute("ReModel", terminalCSService.getModule((Integer)maps.get("terminalsId"),(Integer)maps.get("types")));
+			model.addAttribute("ReModel", terminalCSService.getModule(terminalId,types));
 			//获得用户收货地址
-			model.addAttribute("address", terminalCSService.getCustomerAddress((Integer)maps.get("customerId")));
+			model.addAttribute("address", terminalCSService.getCustomerAddress(terminalId));
 			model.addAttribute("openingInfos",
-					openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
+					openingApplyService.getOppinfo(terminalId));
+			
+			List<City> provinces = cityService.provinces();
+			
+			model.addAttribute("provinces",provinces );
 			//城市级联
 			/*map.put("Cities", terminalsService.getCities());*/
-			return "common/terminal/terminalUpdate";
+			if(type==1){
+				return "terminal/terminalUpdate";
+			}else if(type==2){
+				//退货
+				return "terminal/terminalReturn";
+			}else if(type==3){
+				//换货
+				return "terminal/terminalChange";
+			}else{
+				return "";
+			}
 	}
+	
+	
 	
 	/**
 	 * 判断申请注销
@@ -294,14 +315,45 @@ public class TerminalCSController {
 		}
 	}
 	
+	/**(以下web)
+	 * 申请更新资料
+	 * 
+	 * @param maps
+	 */
+	@RequestMapping(value = "getApplyToUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	public Response getApplyToUpdate(Integer terminalsId,Integer customerId,Integer status,String templeteInfoXml) {
+		try {
+			Map<Object, Object> maps=new HashMap<Object, Object>();
+			maps.put("templeteInfoXml", templeteInfoXml);
+			maps.put("status", CsUpdateInfo_STATUS_1);
+			maps.put("terminalsId",terminalsId);
+			maps.put("customerId", customerId);
+			terminalCSService.subToUpdate(maps);
+			return Response.getSuccess("更新成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
 	/**
 	 * 提交退货申请
 	 * 
 	 * @param maps
 	 */
 	@RequestMapping(value = "subReturn", method = RequestMethod.POST)
-	public Response subReturn(@RequestBody Map<Object, Object> maps) {
+	@ResponseBody
+	public Response subReturn(Integer terminalsId,Integer customerId,Integer status,String templeteInfoXml,
+			String reason,String relationPeople,String relationPhone) {
 		try {
+			Map<Object, Object> maps=new HashMap<Object, Object>();
+			maps.put("templeteInfoXml", templeteInfoXml);
+			maps.put("status", CsUpdateInfo_STATUS_1);
+			maps.put("terminalsId",terminalsId);
+			maps.put("customerId", customerId);
+			maps.put("reason",reason);
+			maps.put("relationPeople",relationPeople);
+			maps.put("relationPhone",relationPhone);
 			if(maps.get("modelStatus") == null){
 				maps.put("csCencelId", null);
 			}else if(Integer.parseInt((String)maps.get("modelStatus")) == 1){
@@ -322,24 +374,6 @@ public class TerminalCSController {
 			return Response.getError("请求失败！");
 		}
 	}
-	/**(以下web)
-	 * 申请更新资料
-	 * 
-	 * @param maps
-	 */
-	@RequestMapping(value = "getApplyToUpdate", method = RequestMethod.POST)
-	public Response getApplyToUpdate(@RequestBody Map<Object, Object> maps) {
-		try {
-			maps.put("templeteInfoXml", maps.get("templeteInfoXml").toString());
-			maps.put("status", CsUpdateInfo_STATUS_1);
-			terminalCSService.subToUpdate(maps);
-			return Response.getSuccess("更新成功！");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.getError("请求失败！");
-		}
-	}
-	
 	/**
 	 * 提交注销
 	 * 
@@ -538,6 +572,7 @@ public class TerminalCSController {
      * @param id
      */
     @RequestMapping(value = "upload/tempUpdateFile/{id}", method = RequestMethod.POST)
+    @ResponseBody
     public Response tempUpdateFile(@PathVariable(value="id") int id,@RequestParam(value = "updatefile") MultipartFile updatefile, HttpServletRequest request) {
     	try {
         	String joinpath = HttpFile.upload(updatefile, sysFileTerminal+id+"/update/");

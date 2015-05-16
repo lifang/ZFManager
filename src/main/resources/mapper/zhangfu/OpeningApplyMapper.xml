@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.manage.mapper.zhangfu.OpeningApplyMapper">
+	
+	<resultMap type="com.comdosoft.financial.manage.domain.zhangfu.OpeningRequirement" id="op_Map">
+		<id property="id" column="id"/>
+		<result column="level_title" property="levelTitle"/>
+		<result column="level_description" property="levelDescription"/>
+		<result column="pay_channel_id" property="payChannelId"/>
+		<result column="has_video_verify" property="hasVideoVerify"/>
+		<result column="level" property="level"/>
+		<result column="video_verify_status" property="videoVerifyStatus"/>
+	</resultMap>
+	
+	
+	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`target_id`,`opening_requirement_id`,`created_at`,`updated_at`) 
+		VALUES (#{key},#{value},#{types},#{openingAppliesId},#{targetId},#{openingRequirementId},now(),now());
+ 	</insert>
+ 	
+ 	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie">
+		INSERT INTO `opening_applies` (`apply_customer_id`,`terminal_id`,`status`,`created_at`,
+		`updated_at`,`types`,`merchant_id`,`merchant_name`,`sex`,`birthday`,`card_id`,`phone`,
+		`email`,`city_id`,`name`,`pay_channel_id`,`account_bank_num`,`account_bank_name`,
+		`account_bank_code`,`tax_registered_no`,`organization_code_no`,`billing_cyde_id`,`activate_status`,`apply_status`,`bank_name`) 
+		VALUES (#{applyCustomerId},#{terminalId},#{status},now(),now(),#{types},#{merchantId},
+		#{merchantName},#{sex},#{birthday},#{cardId},#{phone},#{email},#{cityId},#{name},
+		#{payChannelId},#{accountBankNum},#{accountBankName},#{accountBankCode},#{taxRegisteredNo},
+		#{organizationCodeNo},#{billingCydeId},'0000',0,#{bankName});
+ 	</insert>
+ 	
+ 	<insert id="addMerchan" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Merchant">
+		 INSERT into merchants(legal_person_name,legal_person_card_id,title,tax_registered_no,organization_code_no,created_at,updated_at,account_bank_num,customer_id,city_id,phone)
+		 VALUES(#{legalPersonName},#{legalPersonCardId},#{title},#{taxRegisteredNo},#{organizationCodeNo},now(),now(),#{accountBankNum},#{customerId},#{cityId},#{phone})
+ 	</insert>
+ 	
+ 	<update id="updateMerchan" parameterType="com.comdosoft.financial.manage.domain.zhangfu.Merchant">
+ 		 UPDATE merchants set legal_person_name=#{legalPersonName},legal_person_card_id=#{legalPersonCardId},title=#{title},tax_registered_no=#{taxRegisteredNo},
+		 organization_code_no=#{organizationCodeNo},updated_at=now(),account_bank_num=#{accountBankNum},customer_id=#{customerId},city_id=#{cityId},phone=#{phone}
+		 WHERE id=#{id}
+ 	</update>
+ 	
+ 	<update id="updateterminal">
+ 		UPDATE terminals SET merchant_id = #{merchantId},billing_cycles_id = #{billingCyclesId}
+ 		where id=#{terminalId}
+ 	</update>
+ 	
+ 	<update id="updateApply" parameterType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie">
+ 		update  `opening_applies` set `apply_customer_id` = #{applyCustomerId}
+		,`terminal_id` = #{terminalId}
+		,`status` = #{status}
+		,`created_at` = now()
+		,`updated_at` = now()
+		,`types` = #{types}
+		,`merchant_id` = #{merchantId}
+		,`merchant_name` = #{merchantName}
+		,`sex` = #{sex}
+		,`birthday` = #{birthday}
+		,`card_id` =#{cardId}
+		,`phone` = #{phone}
+		,`email` =#{email}
+		,`city_id` = #{cityId}
+		,`name` = #{name}
+		,`pay_channel_id` = #{payChannelId}
+		,`account_bank_num` = #{accountBankNum}
+		,`account_bank_name` =#{accountBankName}
+		,`account_bank_code` = #{accountBankCode}
+		,`tax_registered_no` = #{taxRegisteredNo}
+		,`organization_code_no` = #{organizationCodeNo}
+		,`billing_cyde_id` =#{billingCydeId}
+		,`bank_name` =#{bankName}
+		where id = #{id}
+ 	</update>
+ 	
+ 	
+
+ 	<select id="getApplyList" parameterType="map" resultType="map">
+ 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(t.type,'') as type,IFNULL(b.`name`,'') as brandName,
+ 		IFNULL(g.model_number,'') as model_number,IFNULL(o.id,'') as appid,IFNULL(o.`status`,'') as openstatus,IFNULL(c.`name`,'') as channelName
+ 		,IFNULL(t.pay_channel_id,'0') as payChannelId,
+ 		IFNULL(c.opening_protocol,'') as openingProtocol
+ 		FROM terminals t 
+ 		LEFT JOIN opening_applies o ON o.terminal_id = t.id
+ 		LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN good_brands b on g.good_brands_id=b.id 
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+ 		WHERE t.customer_id=#{id}
+ 		AND t.status in (#{twoStatus},#{threeStatus})
+ 		ORDER BY t.created_at DESC,t.id DESC
+ 		LIMIT #{offSetPage},#{pageSize}
+ 	</select>
+ 	
+ 	<select id="hasVideoVerify" parameterType="map" resultType="int">
+		SELECT count(*) FROM opening_requirements r
+		WHERE r.pay_channel_id = #{payChannelId} and r.has_video_verify =#{hasVideoVerify}
+	</select>
+ 	
+ 	<select id="getApplyDetails" parameterType="int" resultType="map">
+ 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName,c.id as channelId,c.need_preliminary_verify as needPreliminaryVerify
+ 		,c.support_requirement_type as supportRequirementType
+		FROM terminals t LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN good_brands b on g.good_brands_id=b.id 
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		WHERE t.id=#{terminalsId}
+ 	</select>
+ 	
+ 	<select id="getMerchants" resultType="map"  parameterType="int">
+ 		SELECT id,title FROM merchants where customer_id =#{customerId}
+ 	</select>
+ 	
+ 	<select id="getOppinfo" resultType="map"  parameterType="com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie">
+ 		SELECT e.*,date_format(e.birthday,'%Y-%c-%d') as birthdays,p.`name` as channelname,b.`name` as billingname FROM opening_applies e 
+		LEFT JOIN pay_channels p on p.id = e.pay_channel_id
+		LEFT JOIN dictionary_billing_cycles b ON b.id = e.billing_cyde_id
+		WHERE  terminal_id = #{terminalId}
+ 	</select>
+ 	
+ 	<select id="getMerchantsIsNo" resultType="map"  parameterType="map">
+ 		SELECT * FROM merchants 
+ 		WHERE title = #{merchantName} or phone = #{phone}
+ 	</select>
+ 	
+ 	
+ 	<select id="getChannels" resultType="map">
+ 		SELECT id,name FROM pay_channels
+ 	</select>
+ 	
+ 	<select id="channelsT" resultType="map">
+		SELECT d.id,d.`name`
+		FROM pay_channels s
+		LEFT JOIN pay_channel_billing_cycles p ON p.pay_channel_id = s.id
+		LEFT JOIN dictionary_billing_cycles d ON d.id = p.billing_cycles_id
+		WHERE s.id = #{id}
+	</select>
+	
+ 	<select id="getMerchant" resultType="map" parameterType="int">
+ 		SELECT * FROM merchants
+ 		WHERE id=#{id}
+ 	</select>
+ 	
+ 	<select id="getMaterialName" resultType="map" parameterType="map">
+		select  dop.*, l.opening_requirements_id from  dictionary_open_private_infos dop
+		LEFT JOIN opening_requirement_lists l on dop.id=l.requirement_setting_id
+		LEFT JOIN opening_requirements o ON o.id = l.opening_requirements_id
+		left join terminals t  on t.pay_channel_id = o.pay_channel_id
+		where t.id=#{terminalsId} AND l.requirement_type=#{status} order by l.opening_requirements_id
+ 	</select>
+ 	
+ 	<select id="getMaterialNameMap" resultType="map" parameterType="map">
+		select  dop.*, l.opening_requirements_id from  dictionary_open_private_infos dop
+		LEFT JOIN opening_requirement_lists l on dop.id=l.requirement_setting_id
+		LEFT JOIN opening_requirements o ON o.id = l.opening_requirements_id
+		left join terminals t  on t.pay_channel_id = o.pay_channel_id
+		where t.id=#{terminalsId} AND l.requirement_type=#{status} order by l.opening_requirements_id
+ 	</select>
+ 	
+ 	<select id="getMaterialLevel" resultMap="op_Map" parameterType="int">
+ 		select o.*
+		from terminals t 
+		LEFT JOIN opening_requirements o on t.pay_channel_id = o.pay_channel_id 
+		where t.id=#{terminalsId} 
+ 	</select>
+ 	
+ 	<select id="ReApplyFor" parameterType="int" resultType="map">
+		SELECT t.*
+		FROM terminal_opening_infos t 
+		LEFT JOIN opening_applies e on t.opening_applies_id=e.id
+		WHERE e.terminal_id = #{terminalsId}
+ 	</select>
+ 	
+ 	<select id="getApplyesId" parameterType="int" resultType="int">
+ 		SELECT id FROM opening_applies 
+ 		WHERE terminal_id=#{id}
+ 	</select>
+ 	
+ 	<delete id="deleteOpeningInfos" parameterType="int">
+ 		DELETE FROM terminal_opening_infos 
+ 		WHERE opening_applies_id = #{id}
+ 	</delete>
+</mapper>
