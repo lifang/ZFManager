@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.service;
 
 import com.baidu.yun.push.exception.PushClientException;
 import com.baidu.yun.push.exception.PushServerException;
+import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.MessageReceiver;
 import com.comdosoft.financial.manage.domain.zhangfu.SysMessage;
 import com.comdosoft.financial.manage.mapper.zhangfu.CustomerMapper;
@@ -84,10 +85,26 @@ public class MessageService {
             receiver.setSysMessageId(message.getId());
             receiver.setStatus(MessageReceiver.STATUS_NO_READ);
             messageReceiverMapper.insert(receiver);
-            pushNotificationService.pushMsgToSingleDevice(title,content,
-            		customerMapper.selectByPrimaryKey(customerId).getDeviceCode());
+            String deviceCode = customerMapper.selectByPrimaryKey(customerId).getDeviceCode();
+            if(deviceCode!=null && !"".equals(deviceCode.trim())){
+            	String deviceType = deviceCode.substring(0, 1);
+                String channelID = deviceCode.substring(1);
+                pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType);
+            }
         } else if(customerType != null){
             messageReceiverMapper.insertMessages(message.getId(), goodId, channelId, customerType);
+            List<Customer> customers = customerMapper.getCustomers(goodId,channelId,customerType);
+            String deviceType = "";
+            String channelID = "";
+            String deviceCode = "";
+            for(Customer customer:customers){
+            	deviceCode = customer.getDeviceCode();
+            	if(deviceCode != null && !"".equals(deviceCode.trim())){
+            		deviceType = deviceCode.substring(0, 1);
+                	channelID = deviceCode.substring(1);
+                	pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType);
+            	}
+            }
         }
     }
 }

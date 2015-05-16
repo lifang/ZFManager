@@ -164,7 +164,12 @@ public class CertifiedOpenService {
 		messageReceiver.setSysMessageId(sysMessage.getId());
 		messageReceiver.setCustomerId(customer.getId());
 		messageReceiverMapper.insert(messageReceiver);
-		pushNotificationService.pushMsgToSingleDevice(title, failReason, customer.getDeviceCode());
+		String deviceCode = customer.getDeviceCode();
+		if(deviceCode!=null && !"".equals(deviceCode.trim())){
+        	String deviceType = deviceCode.substring(0, 1);
+            String channelID = deviceCode.substring(1);
+            pushNotificationService.pushMsgToSingleDevice(title,failReason,channelID,deviceType);
+        }
 	}
 	
 }

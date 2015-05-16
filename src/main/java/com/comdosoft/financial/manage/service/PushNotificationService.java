@@ -15,16 +15,90 @@ import com.baidu.yun.push.model.PushMsgToSingleDeviceResponse;
 
 @Service
 public class PushNotificationService {
-	@Value("${push.apiKey}")
-	private String apiKey;
-	@Value("${push.secretKey}")
-	private String secretKey;
+	@Value("${push.apiKeyUserAndphone}")
+	private String apiKeyUserAndphone; //0:用户安卓手机
+	@Value("${push.secretKeyUserAndphone}")
+	private String secretKeyUserAndphone; //0:用户安卓手机
+	@Value("${push.apiKeyUserIphone}")
+	private String apiKeyUserIphone; //4:用户iphone
+	@Value("${push.secretKeyUserIphone}")
+	private String secretKeyUserIphone; //4:用户iphone
+	/*
+	@Value("${push.apiKeyUserAndpad}")
+	private String apiKeyUserAndpad; //2：用户安卓pad
+	@Value("${push.secretKeyUserAndpad}")
+	private String secretKeyUserAndpad; //2：用户安卓pad
+	@Value("${push.apiKeyUserIpad}")
+	private String apiKeyUserIpad; //6：用户ipad
+	@Value("${push.secretKeyUserIpad}")
+	private String secretKeyUserIpad; //6：用户ipad
+	@Value("${push.apiKeyAgentAndphone}")
+	private String apiKeyAgentAndphone; //1：代理商安卓手机
+	@Value("${push.secretKeyAgentAndphone}")
+	private String secretKeyAgentAndphone; //1：代理商安卓手机
+	@Value("${push.apiKeyAgentIphone}")
+	private String apiKeyAgentIphone; //5：代理商iphone
+	@Value("${push.secretKeyAgentIphone}")
+	private String secretKeyAgentIphone; //5：代理商iphone
+	@Value("${push.apiKeyAgentAndpad}")
+	private String apiKeyAgentAndpad; //3：代理商安卓pad
+	@Value("${push.secretKeyAgentAndpad}")
+	private String secretKeyAgentAndpad; //3：代理商安卓pad
+	@Value("${push.apiKeyAgentIpad}")
+	private String apiKeyAgentIpad; //7：代理商ipad
+	@Value("${push.secretKeyAgentIpad}")
+	private String secretKeyAgentIpad; //7：代理商ipad
+	*/
 	
-	public void pushMsgToSingleDevice (String title,String message,String channleId) throws PushClientException, PushServerException{
+	/**
+	 * 
+	 * @param title
+	 * @param message
+	 * @param channelId
+	 * @param deviceType 0:用户安卓手机 1：代理商安卓手机 2：用户安卓pad 3：代理商安卓pad 4:用户iphone 5：代理商iphone 6：用户ipad 7：代理商ipad
+	 * @throws PushClientException
+	 * @throws PushServerException
+	 */
+	public void pushMsgToSingleDevice (String title,String message,String channelId,String deviceType) throws PushClientException, PushServerException{
 		/*1. 创建PushKeyPair
          *用于app的合法身份认证
          *apikey和secretKey可在应用详情中获取
          */
+		String apiKey = "";
+		String secretKey = "";
+		if("0".equals(deviceType)){
+			apiKey = apiKeyUserAndphone;
+			secretKey = secretKeyUserAndphone;
+		}
+		/*
+		if("1".equals(deviceType)){
+			apiKey = apiKeyAgentAndphone;
+			secretKey = secretKeyAgentAndphone;
+		}
+		if("2".equals(deviceType)){
+			apiKey = apiKeyUserAndpad;
+			secretKey = secretKeyUserAndpad;
+		}
+		if("3".equals(deviceType)){
+			apiKey = apiKeyAgentAndpad;
+			secretKey = secretKeyAgentAndpad;
+		}*/
+		if("4".equals(deviceType)){
+			apiKey = apiKeyUserIphone;
+			secretKey = secretKeyUserIphone;
+		}/*
+		if("5".equals(deviceType)){
+			apiKey = apiKeyAgentIphone;
+			secretKey = secretKeyAgentIphone;
+		}
+		if("6".equals(deviceType)){
+			apiKey = apiKeyUserIpad;
+			secretKey = secretKeyUserIpad;
+		}
+		if("7".equals(deviceType)){
+			apiKey = apiKeyAgentIpad;
+			secretKey = secretKeyAgentIpad;
+		}*/
         PushKeyPair pair = new PushKeyPair(apiKey,secretKey);
         // 2. 创建BaiduPushClient，访问SDK接口
         BaiduPushClient pushClient = new BaiduPushClient(pair,
@@ -39,7 +113,7 @@ public class PushNotificationService {
         try {
         // 4. 设置请求参数，创建请求实例
             PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest().
-                addChannelId(channleId).
+                addChannelId(channelId).
                 addMsgExpires(new Integer(3600)).   //设置消息的有效时间,单位秒,默认3600*5.
                 addMessageType(1).              //设置消息类型,0表示透传消息,1表示通知,默认为0.
                 addMessage("{\"title\":\"" + title + "\",\"description\":\"" + message + "\"}");
@@ -67,4 +141,5 @@ public class PushNotificationService {
             }
         }
     }
+
 }
