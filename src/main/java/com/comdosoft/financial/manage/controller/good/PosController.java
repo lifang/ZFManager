@@ -508,9 +508,9 @@ public class PosController {
 
 	@RequestMapping(value = "comment/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Response createComment( Integer goodId, Integer score, String content, HttpServletRequest request) {
+	public Response createComment( Integer goodId, Integer score, String content,String username, HttpServletRequest request) {
 		Customer customer = sessionService.getLoginInfo(request);
-		goodCommentService.create(goodId, customer.getId(), score, content);
+		goodCommentService.create(goodId, customer.getId(), score, content,username);
 		return  Response.getSuccess("");
 	}
 

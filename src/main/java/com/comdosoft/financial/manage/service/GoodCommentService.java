@@ -159,14 +159,15 @@ public class GoodCommentService {
     }
 
     @Transactional("transactionManager")
-    public GoodComment create(Integer goodId, Integer customerId, Integer score, String content) {
+    public GoodComment create(Integer goodId, Integer customerId, Integer score, String content,String username) {
         GoodComment comment = new GoodComment();
         comment.setGoodId(goodId);
-        comment.setCustomerId(customerId);
+        //comment.setCustomerId(customerId);
         comment.setScore(score * 10);
         comment.setContent(content);
         comment.setStatus(GoodComment.STATUS_WAITING);
         comment.setCreatedAt(new Date());
+        comment.setCustomerName(username);
         goodCommentMapper.insert(comment);
         check(customerId, comment.getId());
         return comment;

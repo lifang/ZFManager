@@ -17,6 +17,7 @@
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="customer_name" jdbcType="LONGVARCHAR" property="customerName" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -37,11 +38,11 @@
     insert into good_comments (score, customer_id, verify_user_id, 
       verified_at, status, good_id, 
       created_at, updated_at, order_id, 
-      content)
+      content,customer_name)
     values (#{score,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{verifyUserId,jdbcType=INTEGER}, 
       #{verifiedAt,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{goodId,jdbcType=INTEGER}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{orderId,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{content,jdbcType=LONGVARCHAR},#{customerName,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.comdosoft.financial.manage.domain.zhangfu.GoodComment">
     <!--
@@ -100,11 +101,9 @@
 
     <select id="findPageCommentsByGoodIdAndStatus" resultMap="CommentInfoResultMap">
         select gc.*,
-        g.id g_id, g.title g_title, g.second_title g_second_title, g.model_number g_model_number, g.good_brands_id g_good_brands_id,
-        c.id c_id, c.username c_username
+        g.id g_id, g.title g_title, g.second_title g_second_title, g.model_number g_model_number, g.good_brands_id g_good_brands_id
         from good_comments gc
         inner join goods g on g.id=gc.good_id
-        inner join customers c on c.id=gc.customer_id
         <where>
             <if test="status != null"> AND gc.status =#{status} </if>
             <if test="goodId != null"> AND gc.good_id = #{goodId} </if>
