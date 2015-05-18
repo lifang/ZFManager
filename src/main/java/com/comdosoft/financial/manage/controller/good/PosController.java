@@ -193,6 +193,13 @@ public class PosController {
 		model.addAttribute("good", good);
 		return "good/pos/pageRowPos";
 	}
+	
+	@RequestMapping(value="{id}/unPurchase",method=RequestMethod.GET)
+	public String unpurchase(@PathVariable Integer id, Model model){
+		Good good = goodService.unPurchase(id);
+		model.addAttribute("good", good);
+		return "good/pos/pageRowPos";
+	}
 
     @RequestMapping(value="{id}/topHome",method=RequestMethod.GET)
     public String topHome(@PathVariable Integer id, Model model){

@@ -36,7 +36,7 @@
             <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
             <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
-       		<a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+       		<a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        <#elseif status=2>
 		   <#if Roles.hasRole("POS_FIRST_VERIFY")>
             <a onClick="firstCheck(${good.id})" class="a_btn">初审通过</a>
@@ -46,7 +46,7 @@
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
                <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
-       		<a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+       		<a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        		
        <#elseif status=3>
 		   <#if Roles.hasRole("POS_SECOND_VERIFY")>
@@ -58,7 +58,7 @@
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
                <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
 		   </#if>
-       		<a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+       		<a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        		
        <#elseif status=4>
 		   <#if Roles.hasRole("POS_SECOND_VERIFY")>
@@ -69,7 +69,7 @@
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
                <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
-       		<a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+       		<a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        <#elseif status=5>
 		   <#if Roles.hasRole("POS_STOP_START")>
 			<#if good.isPublished?? && good.isPublished>
@@ -113,7 +113,7 @@
            </#if>
            </#if>
            </#if>
-           <a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+           <a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        		
        <#elseif status=6>
 		   <#if Roles.hasRole("POS_TOP_START")><a onClick="start(${good.id})" class="a_btn">启用</a></#if>
@@ -122,7 +122,7 @@
                <a href="<@spring.url "/good/pos/${good.id}/imgInfo" />" class="a_btn" target="_blank">图片详情</a>
                <a href="<@spring.url "/good/pos/${good.id}/cellPhoneImgInfo" />" class="a_btn" target="_blank">手机商品图片</a>
            </#if>
-       		<a href="${shopshowurl}${good.id}" class="a_btn" target="_blank">查看详情</a>
+       		<a href="${shopshowurl!''}${good.id}" class="a_btn" target="_blank">查看详情</a>
        </#if>
 
 	 </td> 
