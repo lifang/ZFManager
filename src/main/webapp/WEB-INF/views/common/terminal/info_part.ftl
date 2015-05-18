@@ -130,7 +130,7 @@
             <ul>
             <#if (terminal.openingApplie.terminalOpeningInfos)??>
                 <#list terminal.openingApplie.terminalOpeningInfos as openingInfo>
-                    <li><span class="labelSpan">${(openingInfo.key)!""}：</span>
+                    <li><span class="labelSpan">${(openingInfo.key)!""}</span>
                         <div class="text">
                             <#if openingInfo.types == 2>
                                 <img src="<@spring.url "/resources/images/zp.jpg"/>"
