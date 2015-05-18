@@ -106,6 +106,19 @@
                 </ol>
             </li>
         </#if>
+        <!--<#if Roles.hasRole("TERMINAL")>
+            <li class="second"><a href="javascript:void(0);">终端管理<i class="off" id="menuGood"></i></a>
+                <ol>
+                    <#if Roles.hasRole("TERMINAL")><li><a href="<@spring.url "/terminal/list"/>" <#if urlCheck(request,"/terminal")> class="hover"</#if>>终端列表管理</a></li></#if>
+                    <#if Roles.hasRole("TERMINAL")><li>
+                    	<a href="<@spring.url "/terminalCs/terminalService" />" class="hover">
+                    		代理商售后
+                    	</a></li>
+                    	</#if>
+
+                </ol>
+            </li>
+        </#if>-->
         <#if Roles.hasRole("TERMINAL")><li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端管理</a></li></#if>
         <#if Roles.hasRole("CS_UPDATE_INFO")||Roles.hasRole("CS_AGENT")||Roles.hasRole("CS_REPAIR")||Roles.hasRole("CS_CHANGE")||Roles.hasRole("CS_RETURN")||Roles.hasRole("CS_LEASE_RETURN")||Roles.hasRole("CS_CANCEL")>
             <li class="second"><a href="javascript:void(0);">售后管理<i class="off" id="menuCs"></i></a>

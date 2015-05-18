@@ -343,4 +343,24 @@ public class CsAgent {
 	 * 退款状态4.已取消
 	 */
 	public static int STATIC_4 = 4;
+	
+	 /**
+     * 申请售后状态（1 待处理, 2 处理中 ,3 已完成,4已取消）
+     */
+    public static final byte STSTUS_1 = 1;
+    
+    /**
+     * 申请售后状态（1 待处理, 2 处理中 ,3 已完成,4已取消）
+     */
+    public static final byte STSTUS_2 = 2;
+    
+    /**
+     * 申请售后状态（1 待处理, 2 处理中 ,3 已完成,4已取消）
+     */
+    public static final byte STSTUS_3 = 3;
+    
+    /**
+     * 申请售后状态（1 待处理, 2 处理中 ,3 已完成,4已取消）
+     */
+    public static final byte STSTUS_4 = 4;
 }

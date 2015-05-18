@@ -1,14 +1,24 @@
 <div class="content clear">
-
     <div class="user_title"><h1>终端详情</h1>
     <#if !(isFactory??) || !isFactory>
         <div class="userTopBtnBox">
             <a href="javascript:void(0);" class="ghostBtn" onclick="synizeTerminal(${terminal.id})">同步终端状态</a>
-            <#if terminal.status==1 || terminal.status==2 || terminal.status==3>
-    			<!--<a href="javascript:void(0);" onclick="judgeUpdate(${terminal.id})" class="ghostBtn">更新资料</a>
+            <!--<#if terminal.status==1 || terminal.status==2 || terminal.status==3>
+             	<#if terminal.status==1 || terminal.status==2>
+    				<a href="javascript:void(0);" onclick="judgeUpdate(${terminal.id})" class="ghostBtn">更新资料</a>
+    				<a href="javascript:void(0);" onclick="judgeRentalReturn(${terminal.id})" class="ghostBtn">注销</a>
+    				<a href="javascript:void(0);" onclick="findPassWord(${terminal.id})" class="ghostBtn">找回POS密码</a>
+    				<#if terminal.status==2>
+		    			<#if types??>
+		    			<#if types == 2 || types == 4>
+		    			<a href="javascript:void(0);" onclick="terminalsRentalReturn(${terminal.id})" class="ghostBtn">租赁退还</a>
+		    			</#if>
+		    			</#if>
+		    		</#if>
+    			</#if>
     			<a href="javascript:void(0);" onclick="judgeReturn(${terminal.id})" class="ghostBtn">退货</a>
-    			<a href="javascript:void(0);" onclick="judgeChang(${terminal.id})" class="ghostBtn">换货</a>-->
-    		</#if>
+    			<a href="javascript:void(0);" onclick="judgeChang(${terminal.id})" class="ghostBtn">换货</a>
+    		</#if>-->
         </div>
     </#if>
     </div>
@@ -169,7 +179,38 @@
         </div>
     </div>
 </div>
+
+<div id="pass" class="tab posPassword_tab" style="top: 238.5px; left: 424.5px;">
+	<a href="javascript:void(0);" class="close" onclick="closePosPwdTab()">关闭</a>
+	<div class="tabHead">找回POS机密码</div>
+	<div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">POS机密码：</span><div class="text" id="posPwd"></div></li>
+            </ul>
+        </div>
+	</div>
+    <div class="tabFoot"><button class="orangeBtn" onclick="closePosPwdTab()">确定</button></div>
+</div> 
+
 <script>
+	function closePosPwdTab(){
+			$(".mask").hide();
+        	$("#pass").hide();
+	}
+
+	function findPassWord(terminalId){
+		$.post('<@spring.url "/terminalCs/Encryption" />', {"terminalId":terminalId},
+		function (data) {  //绑定
+          if (data != null && data != undefined) {
+          		$("#posPwd").html(data.result);
+        	  $(".mask").show();
+        	  $("#pass").show();
+          }
+        });
+	}
+
+	
 	function judgeUpdate(terminalId){
 		$.post('<@spring.url "/terminalCs/judgeUpdate" />', {"terminalId":terminalId},
 		function (data) {  //绑定
@@ -189,7 +230,7 @@
 		function (data) {  //绑定
 	          if (data != null && data != undefined) {
 	        	  if(data.code == -1){
-	        		  alert("已有该终端换货申请！");
+	        		  alert("已有该终端退货申请！");
 	        	  }else if(data.code == 1){
 	        	  	  //页面跳转 退货
 	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=2";
@@ -210,7 +251,48 @@
 	          }
 	    });
 	}
+	function judgeRentalReturn(terminalId){
+		$.post('<@spring.url "/terminalCs/judgeRentalReturn" />', {"terminalId":terminalId},
+		function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == -1){
+	        		  alert("已有该终端注销申请！");
+	        	  }else if(data.code == 1){
+	        	  	  //页面跳转
+	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=4";
+	        	  }
+	          }
+	    });
+	}
 	
+	function terminalsRentalReturn(terminalId){
+		$.post('<@spring.url "/terminalCs/JudgeLeaseReturn" />', {"terminalId":terminalId},
+			function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == -1){
+	        		  alert("已有该终端注销申请！");
+	        	  }else if(data.code == 1){
+	        	  	  //页面跳转
+	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=5";
+	        	  }
+	          }
+	    });
+	}
+	
+	function terminalsService(terminalId){
+		window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=6";
+//		$.post('<@spring.url "/terminalCs/subLeaseReturn" />', {"terminalId":terminalId},
+//			function (data) {  //绑定
+//	          if (data != null && data != undefined) {
+//	        	  if(data.code == -1){
+//	        		  alert("已有该终端注销申请！");
+//	        	  }else if(data.code == 1){
+//	        	  	  //页面跳转
+//	        	  	  window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=6";
+//	        	  }
+//	          }
+//	    });
+	}
 	
 
 function synizeTerminal(terminalId){

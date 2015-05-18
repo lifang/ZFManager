@@ -5,8 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.manage.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 
 public interface TerminalCSMapper {
 	/**
@@ -145,4 +148,33 @@ public interface TerminalCSMapper {
      * @return
      */
     List<Map<Object, Object>> getCustomerAddress(Map<Object, Object> map);
+    /**
+     * <!-添加联系地址 -->
+     * 
+     * @param 
+     * @return
+     */
+    void addCostometAddress(CustomerAddress customerAddress);
+    
+    String getCustomerIdFromTerminal(Integer customerId);
+    
+    Map<String, Object> getAddressInfoById(Integer id);
+    /**
+     * 检查终端号是否存在
+     * @param map
+     */
+    int checkTerminalCode(Map<Object, Object> map);
+    /**
+     * 添加申请售后记录
+     * @param csAgent
+     */
+    void submitAgent(CsAgent csAgent);
+    /**
+     * 物流信息
+     * 
+     * @param 
+     * @return
+     */
+    void addCsAgentMark(Map<Object, Object> map);
+    Map<String, Object> findTerminalInfo(Integer id);
 }

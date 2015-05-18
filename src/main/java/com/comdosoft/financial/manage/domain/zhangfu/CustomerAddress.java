@@ -285,7 +285,16 @@ public class CustomerAddress {
     public static final Integer DEFAULT_FALSE = 2;
     public static final Byte STATUS_NORMAL = 1;
     public static final Byte STATUS_DELETE = 2;
-    
+    /**
+     * 是否默认地址（是）
+     */
+    public static final int ISDEFAULT_1 = 1;
+
+    /**
+     * 是否默认地址（否）
+     * 
+     */
+    public static final int ISDEFAULT_2 = 2;
     /**
      * 有效
      * 

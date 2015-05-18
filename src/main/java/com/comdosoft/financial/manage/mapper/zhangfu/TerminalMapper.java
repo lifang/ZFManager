@@ -101,4 +101,11 @@ public interface TerminalMapper {
 	
 	Terminal getTerminalByOrderId(Integer orderId,Integer goodId);
 
+    /**
+     * POS找回密码
+     * 
+     * @param id
+     * @return
+     */
+    String findPassword(Integer id);
 }

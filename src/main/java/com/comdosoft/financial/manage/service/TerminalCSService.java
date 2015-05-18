@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.manage.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.manage.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.manage.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.manage.domain.zhangfu.OpeningApplie;
+import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
+import com.comdosoft.financial.manage.domain.zhangfu.TerminalOpeningInfo;
 import com.comdosoft.financial.manage.mapper.zhangfu.TerminalCSMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.TerminalMapper;
 
 @Service
 public class TerminalCSService {
@@ -21,6 +26,14 @@ public class TerminalCSService {
     private TerminalCSMapper terminalCSMapper;
 	@Value("${filePath}")
 	private String filePath;
+	@Autowired
+	private TerminalMapper terminalMapper;
+	
+	public Map<String, Object> findTerminalInfo(Integer id) {
+        Map<String, Object> t=terminalCSMapper.findTerminalInfo(id);
+        return t;
+    }
+	
 	/**
 	 * 换货申请判断
 	 * yyb
@@ -121,12 +134,18 @@ public class TerminalCSService {
 	 */
 	public CsReceiverAddress subRepairAddress(Map<Object, Object> map) {
 		CsReceiverAddress csReceiverAddress = new CsReceiverAddress();
-		csReceiverAddress.setAddress((String)map.get("address"));
-		csReceiverAddress.setPhone((String)map.get("phone"));
-		csReceiverAddress.setZipCode((String)map.get("zipCode"));
-		csReceiverAddress.setReceiver((String)map.get("receiver"));
-		terminalCSMapper.subRepairAddress(csReceiverAddress);
-		return csReceiverAddress;
+		
+		Map<String, Object> mapTemp=terminalCSMapper.getAddressInfoById((Integer)map.get("addressId"));
+		if(null!=mapTemp){
+			csReceiverAddress.setAddress((String)mapTemp.get("address"));
+			csReceiverAddress.setPhone((String)mapTemp.get("moblephone"));
+			csReceiverAddress.setZipCode((String)mapTemp.get("zip_code"));
+			csReceiverAddress.setReceiver((String)mapTemp.get("receiver"));
+			terminalCSMapper.subRepairAddress(csReceiverAddress);
+			return csReceiverAddress;
+		}else{
+			return null;
+		}
 	}
 	/**
 	 *添加申请维修
@@ -252,8 +271,56 @@ public class TerminalCSService {
 	 */
 	public List<Map<Object, Object>> getCustomerAddress(Integer id) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put("customerId", id);
+		String customerId=terminalCSMapper.getCustomerIdFromTerminal(id);
+		map.put("customerId", customerId);
 		map.put("status", CustomerAddress.STATUS_1);
 		return terminalCSMapper.getCustomerAddress(map);
+	}
+	
+	public List<Map<Object, Object>> getCustomerAddressByCustomerId(Integer customerId) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("customerId", customerId);
+		map.put("status", CustomerAddress.STATUS_1);
+		return terminalCSMapper.getCustomerAddress(map);
+	}
+	
+	/**
+	 * 添加联系地址
+	 * 
+	 * @param customerAddress
+	 * @return
+	 */
+	public void addCostometAddress(CustomerAddress customerAddress) {
+	    customerAddress.setStatus((byte) CustomerAddress.STATUS_1);
+	    customerAddress.setIsDefault(CustomerAddress.ISDEFAULT_2);
+	    terminalCSMapper.addCostometAddress(customerAddress);
+	}
+	/**
+	 * 检查终端号是否存在
+	 * @param map
+	 */
+	public int checkTerminalCode(String serialNum,int id,int status,int status1){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("serialNum", serialNum);
+		map.put("id", id);
+		map.put("status", status);
+		map.put("status1", status1);
+		return  terminalCSMapper.checkTerminalCode(map);
+	}
+	/**
+	 * 添加申请售后记录
+	 * @param csAgent
+	 */
+	public  void submitAgent(CsAgent csAgent){
+		terminalCSMapper.submitAgent(csAgent);
+	}
+	/**
+	 * 添加联系地址
+	 * 
+	 * @param customerAddress
+	 * @return
+	 */
+	public void addCsAgentMark(Map<Object, Object> map) {
+		terminalCSMapper.addCsAgentMark(map);
 	}
 }

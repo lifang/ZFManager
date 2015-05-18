@@ -2,8 +2,8 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">我的终端</a></li>
-            <li><a href="#">退货</a></li>
+            <li><a href="<@spring.url "/terminal/list"/>">终端</a></li>
+            <li><a href="javascript:void(0);">退货</a></li>
         </ul>
     </div>
      <div class="content clear">
@@ -47,6 +47,7 @@
 	         <div class="attributes_box">
 	         <h2>注销申请资料（终端未申请开通无需提交）</h2>
 	            <div class="applyFor_list clear">
+	            <input type="hidden" id="modelStatus" value="0"/>
 	            <#list ReModel as re>
 	               <div class="af_con">
 		                 <div class="af_con_n">${re.title}<a href="${re.templet_file_path}" target="Blank" class="a_btn">下载模版</a>
@@ -76,6 +77,7 @@ function setSpanName(obj){
    if(data.code == -1){
     alert(data.message);
    }else if(data.code == 1){
+   	$("#modelStatus").val(1);
     $(obj).siblings("span").parent("a").siblings("i").attr("class","on");
     $(obj).parent("a").children("span").html("重新上传")
     $(obj).siblings("input").val(data.result);
@@ -110,7 +112,7 @@ function subToUpdate(){
 		   {'terminalsId':Math.ceil($("#hdTerminalId").val()),'customerId':Math.ceil($("#hdCustomerId").val()),
 		   'status':1,'templeteInfoXml':JSON.stringify(arrTemp),'reason':$("#returnReason").val(),
 		   'relationPeople':$("#relationPeople").val(),
-		   'relationPhone':$("#relationPhone").val()},
+		   'relationPhone':$("#relationPhone").val(),'modelStatus':$("#modelStatus").val(),'type':3},
 		   function(data){
 			   	if (data != null && data != undefined) {
 	             if(data.code == 1){

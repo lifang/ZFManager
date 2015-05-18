@@ -2,13 +2,16 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">我的终端</a></li>
-            <li><a href="#">更新资料</a></li>
+            <li><a href="<@spring.url "/terminal/list"/>">终端</a></li>
+            <li><a href="javascript:void(0);">申请换货</a></li>
         </ul>
     </div>
      <div class="content clear">
+     	<input type="text" value="${applyDetails.id}" id="hdTerminalId" style="display:none"/>
+	    <input type="text" value="${applyDetails.customerId}" id="hdCustomerId" style="display:none"/>
+	    <input type="text" value="${addressListLength}" id="hdAddressListLength" style="display:none"/>
         <div class="user_title">
-        	<h1>申请更新资料</h1>
+        	<h1>申请换货</h1>
         </div>
 	    <div class="attributes_box">
 	     	<h2>终端信息</h2>
@@ -61,13 +64,13 @@
                               <#list address as ad>
                               <tr>
                                 <td>
-                                	<#if (ad.isDefault==1)><input name="" type="radio" value="" checked /></#if>
-                                	<#if (ad.isDefault!=1)><input name="" type="radio" value="" /></#if>
+                                	<#if (ad.isDefault==1)><input name="addressRadio" type="radio" value="${ad.id}" checked /></#if>
+                                	<#if (ad.isDefault!=1)><input name="addressRadio" type="radio" value="${ad.id}" /></#if>
                                 </td>
                                 <td>${ad.receiver}</td>
                                 <td>${ad.parentName+ad.sonName}</td>
                                 <td>${ad.address}</td>
-                                <td>${ad.zip_code}</td>
+                                <td>${ad.zipCode}</td>
                                 <td>${ad.moblephone}</td>
                                 
                                 <!--<td><a href="#" class="a_btn">修改</a><a href="#" class="a_btn">删除</a></td>-->
@@ -90,20 +93,19 @@
 			                        <select id="citySelect">
 			                        </select>
                                 </td>
-                                <td><input name="" type="text" value="详细地址" class="l" /></td>
-                                <td><input name="" type="text" value="邮编" /></td>
-                                <td><input name="" type="text" value="手机号码" /></td>
-                                <td><a href="#" class="a_btn">确定</a></td>
+                                <td><input name="" type="text" value="详细地址" class="l" id="address"/></td>
+                                <td><input name="" type="text" value="邮编" id="zipCode"/></td>
+                                <td><input name="" type="text" value="手机号码" id="moblephone"/></td>
+                                <td><a href="#" class="a_btn" onclick="addCostometAddress()">确定</a></td>
                               </tr>
                             </table>
                             <div class="addAddr_btn"><button>使用新地址</button></div>
                         </div>
                 </div>
-		 	
-		 	
 		         <div class="attributes_box">
 		         <h2>注销申请资料（终端未申请开通无需提交）</h2>
 		            <div class="applyFor_list clear">
+		            <input type="hidden" id="modelStatus" value="0"/>
 		            <#list ReModel as re>
 		               <div class="af_con">
 			                 <div class="af_con_n">${re.title}<a href="${re.templet_file_path}" target="Blank" class="a_btn">下载模版</a>
@@ -127,6 +129,38 @@
 		    </div>
 
 <script type="text/javascript">
+	function addCostometAddress(){
+		var addressListLength=$("#hdAddressListLength").val();
+		if(addressListLength<10){
+			var temp={
+					"cityId" :Math.ceil($("#citySelect").val()),
+  	  				"receiver" :$("#receiver").val(),
+  	  				"address" :$("#address").val(),
+  	  				"moblephone" :$("#moblephone").val(),
+  	  				"zipCode" :$("#zipCode").val(),
+  	  				"customerId" :Math.ceil($("#hdCustomerId").val())
+			};
+			$.post('<@spring.url "/terminalCs/addCostometAddress" />',
+                    temp,
+                    function (data) {
+                    	if(data.code==-1){
+                    		alert("新增地址出错");
+                    	}else{
+                    		$("#citySelect").val(1);
+                    		$("#receiver").val("");
+                    		$("#address").val("");
+                    		$("#moblephone").val("");
+                    		$("#zipCode").val("");
+                    		history.go(0);
+                    		//window.location.href = "../../terminalCs/getWebApplyDetails?terminalId="+terminalId+"&type=2";
+                    	}
+                    });
+			
+		}else{
+			alert("收货地址已满十条！");
+		}
+	}
+
 $(function(){
 	$('#provinceSelect').change(function(){
             var provinceId = $(this).children('option:selected').val();
@@ -149,6 +183,7 @@ function setSpanName(obj){
    if(data.code == -1){
     alert(data.message);
    }else if(data.code == 1){
+   $("#modelStatus").val(1);
     $(obj).siblings("span").parent("a").siblings("i").attr("class","on");
     $(obj).parent("a").children("span").html("重新上传")
     $(obj).siblings("input").val(data.result);
@@ -157,6 +192,7 @@ function setSpanName(obj){
  });
 }
 function subToUpdate(){
+	
 	var subtruefalse=true;
 	var upFileInputs=$("[id^=up_]");
 	
@@ -171,6 +207,8 @@ function subToUpdate(){
 		}
 		index++;
 	}
+	var radioTemp=$('input:radio[name="addressRadio"]:checked').val();
+	
 	var temp={
 		terminalsId:Math.ceil($("#hdTerminalId").val()),
 		customerId:Math.ceil($("#hdCustomerId").val()),
@@ -178,10 +216,11 @@ function subToUpdate(){
 		templeteInfoXml :JSON.stringify(arrTemp)
 	}
 	var terminalId=$("#hdTerminalId").val();
-    var url='<@spring.url "/terminalCs/getApplyToUpdate" />';
+    var url='<@spring.url "/terminalCs/subChange" />';
       $.post(url,
 		   {'terminalsId':Math.ceil($("#hdTerminalId").val()),'customerId':Math.ceil($("#hdCustomerId").val()),
-		   'status':1,'templeteInfoXml':JSON.stringify(arrTemp)},
+		   'status':1,'templeteInfoXml':JSON.stringify(arrTemp),'reason':$("#ChangeReason").val(),
+		   'modelStatus':$("#modelStatus").val(),'type':3,'addressId':radioTemp},
 		   function(data){
 			   	if (data != null && data != undefined) {
 	             if(data.code == 1){

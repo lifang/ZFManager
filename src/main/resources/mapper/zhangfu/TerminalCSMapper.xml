@@ -30,6 +30,13 @@
     <result column="reserver1" jdbcType="VARCHAR" property="reserver1" />
     <result column="reserver2" jdbcType="VARCHAR" property="reserver2" />
   </resultMap>
+  <select id="findTerminalInfo" resultType="map">
+        select t.*,e.types
+        from terminals t
+        LEFT JOIN orders e ON t.order_id=e.id
+        where t.id=#{id}
+    </select>
+  
 	 <select id="JudgeChangStatus"  resultType="int" parameterType="map">
 		SELECT count(*) from cs_changes
 		WHERE terminal_id = #{terminalId}
@@ -89,9 +96,12 @@
 		where terminal_id = #{terminalId}
 	</select>
 	<select id="getApplyDetails" parameterType="int" resultType="map">
-		SELECT t.id,t.serial_num,t.`status`,g.model_number,ifnull(b.name,'') as
-		brandName,a.name as factorName,m.title,ifnull(m.phone,'') as phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.id as channelId,c.`name` as channelName,c.need_preliminary_verify as needPreliminaryVerify,l.`id` as appId,l.`status` as applieStatus,e.types,
-		c.support_requirement_type as supportRequirementType,
+		SELECT t.id,t.serial_num,t.`status`,ifnull(g.model_number,'') as model_number,ifnull(b.name,'') as brandName,
+		ifnull(a.name,'') as factorName,ifnull(m.title,'') as title,ifnull(m.phone,'') as phone,ifnull(e.order_number,'') as order_number,
+		date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,ifnull(c.id,'') as channelId,ifnull(c.`name`,'') as channelName,
+		ifnull(c.need_preliminary_verify,'') as needPreliminaryVerify,
+		ifnull(l.`id`,'') as appId,ifnull(l.`status`,'') as applieStatus,ifnull(e.types,'') as types,
+		ifnull(c.support_requirement_type,'') as supportRequirementType,
 		IFNULL(l.`status`,'') as openstatus,ifnull(t.customer_id,'') as customerId
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
@@ -160,4 +170,33 @@
 		WHERE
 		a.customer_id=#{customerId}  and a.`status` =#{status}
 	</select>
+	<insert id="addCostometAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress">
+		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at,status)
+		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now(),#{status})
+	</insert>
+	
+	<select id="getCustomerIdFromTerminal" resultType="String">
+		select ifnull(customer_id,'') as customerId from terminals where id=#{customerId}
+	</select>
+	
+	<select id="getAddressInfoById" resultType="map">
+		select * from customer_addresses where id=#{id}
+	</select>
+	
+	<select id="checkTerminalCode" parameterType="map" resultType="int">
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num = #{serialNum} and t.`status` != #{status} and t.`status` != #{status1}
+		AND (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
+	</select>
+	<insert id="submitAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.manage.domain.zhangfu.CsAgent">
+		INSERT into
+		cs_agents(customer_id,terminals_quantity,status,
+		address,reason,created_at,updated_at,apply_num,terminals_list,reciver,phone)
+		VALUES(#{customerId},#{terminalsQuantity},#{status},#{address},#{reason},
+		now(),now(),#{applyNum},#{terminalsList},#{reciver},#{phone})
+	</insert>
+	<insert id="addCsAgentMark" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO cs_agent_marks(cs_agent_id,customer_id,content,created_at)
+		VALUES(#{agentId},#{customerId},#{content},now())
+	</insert>
 </mapper>

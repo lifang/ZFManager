@@ -2,8 +2,8 @@
 <@c.html>
     <div class="breadcrumb">
         <ul>
-            <li><a href="#">我的终端</a></li>
-            <li><a href="#">更新资料</a></li>
+            <li><a href="<@spring.url "/terminal/list"/>">终端</a></li>
+            <li><a href="javascript:void(0);">更新资料</a></li>
         </ul>
     </div>
      <div class="content clear">
@@ -27,6 +27,7 @@
         <div class="attributes_box">
          <h2>更新申请资料</h2>
             <div class="applyFor_list clear">
+            <input type="hidden" id="modelStatus" value="0"/>
             <#list ReModel as re>
                <div class="af_con">
 	                 <div class="af_con_n">${re.title}<a href="${re.templet_file_path}" target="Blank" class="a_btn">下载模版</a>

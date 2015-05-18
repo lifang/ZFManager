@@ -24,6 +24,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.domain.zhangfu.TerminalMark;
 import com.comdosoft.financial.manage.domain.zhangfu.TerminalOpeningInfo;
 import com.comdosoft.financial.manage.service.SessionService;
+import com.comdosoft.financial.manage.service.TerminalCSService;
 import com.comdosoft.financial.manage.service.TerminalService;
 import com.comdosoft.financial.manage.utils.CommonServiceUtil;
 import com.comdosoft.financial.manage.utils.HttpFile;
@@ -49,7 +50,9 @@ public class TerminalController {
     private TerminalService terminalService;
     @Autowired
     private SessionService sessionService;
-
+    @Autowired
+    private TerminalCSService terminalCSService;
+    
 
     @RequestMapping(value="list",method= RequestMethod.GET)
     public String list(Integer page, Byte status, String terminalNum, String orderNum, Model model){
@@ -67,7 +70,16 @@ public class TerminalController {
     @RequestMapping(value="{id}/info",method=RequestMethod.GET)
     public String info(@PathVariable Integer id, Model model){
         Terminal terminal = terminalService.findTerminalInfo(id);
+        
         String videoUrl = terminalService.videoFile(terminal.getId());
+        
+        Map<String, Object> mapTemp = terminalCSService.findTerminalInfo(id);
+        if(mapTemp!=null){
+        	Object temp=mapTemp.get("types");
+        	if(temp!=null){
+        		model.addAttribute("types",temp);
+        	}
+        }
         model.addAttribute("terminal", terminal);
         model.addAttribute("videoUrl", videoUrl);
         return "terminal/info";

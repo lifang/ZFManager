@@ -279,4 +279,12 @@ public class TerminalService {
 		terminalMapper.deleteTerminals(terminals);
 		goodMapper.updateQuantity(goodId, terminals.length);
 	}
+	/**
+	 * POS找回密码
+	 * @param id
+	 * @return
+	 */
+	public String findPassword(Integer id){
+		return terminalMapper.findPassword(id);
+	}
 }
