@@ -30,7 +30,16 @@
 
     function submitComment(){
         var score = $("input[name='score']").val();
+        var username = $("#username").val();
         var content = $("#content").val();
+        if(username.length==0) {
+            showErrorTip("请填写用户名！");
+            return;
+        }
+        if(username.length>40) {
+            showErrorTip("用户名长度不能超过40！");
+            return;
+        }
         if(content.length==0) {
             showErrorTip("请填写内容!");
             return;
@@ -38,6 +47,7 @@
         $.post('<@spring.url "/good/pos/comment/create" />',
                 {   "goodId": ${good.id},
                     "score": score,
+                    "username":username,
                     "content": content},
                 function (data) {
                     if(data.code == 1) {

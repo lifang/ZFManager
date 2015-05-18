@@ -168,7 +168,7 @@ public class CertifiedOpenService {
 		if(deviceCode!=null && !"".equals(deviceCode.trim())){
         	String deviceType = deviceCode.substring(0, 1);
             String channelID = deviceCode.substring(1);
-            pushNotificationService.pushMsgToSingleDevice(title,failReason,channelID,deviceType);
+            pushNotificationService.pushMsgToSingleDevice(title,failReason,channelID,deviceType,sysMessage.getId());
         }
 	}
 	

@@ -89,7 +89,7 @@ public class MessageService {
             if(deviceCode!=null && !"".equals(deviceCode.trim())){
             	String deviceType = deviceCode.substring(0, 1);
                 String channelID = deviceCode.substring(1);
-                pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType);
+                pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType,message.getId());
             }
         } else if(customerType != null){
             messageReceiverMapper.insertMessages(message.getId(), goodId, channelId, customerType);
@@ -102,7 +102,7 @@ public class MessageService {
             	if(deviceCode != null && !"".equals(deviceCode.trim())){
             		deviceType = deviceCode.substring(0, 1);
                 	channelID = deviceCode.substring(1);
-                	pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType);
+                	pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType,message.getId());
             	}
             }
         }

@@ -59,6 +59,8 @@ public class PosController {
     private String sysPosPath ;
     @Value("${filePath}")
     private String filePath ;
+    @Value("${shopshowurl}")
+    private String shopshowurl ;
 	@Autowired
 	private GoodService goodService ;
 	@Autowired
@@ -188,6 +190,13 @@ public class PosController {
 	@RequestMapping(value="{id}/purchase",method=RequestMethod.GET)
 	public String purchase(@PathVariable Integer id, Model model){
 		Good good = goodService.purchase(id);
+		model.addAttribute("good", good);
+		return "good/pos/pageRowPos";
+	}
+	
+	@RequestMapping(value="{id}/unPurchase",method=RequestMethod.GET)
+	public String unpurchase(@PathVariable Integer id, Model model){
+		Good good = goodService.unPurchase(id);
 		model.addAttribute("good", good);
 		return "good/pos/pageRowPos";
 	}
@@ -410,6 +419,7 @@ public class PosController {
 		}
 		Page<Good> goods = goodService.findPages(null, page, status, keys);
 		model.addAttribute("goods", goods);
+		model.addAttribute("shopshowurl", shopshowurl);
 	}
 
     @RequestMapping(value = "category/list", method = RequestMethod.GET)
@@ -505,9 +515,9 @@ public class PosController {
 
 	@RequestMapping(value = "comment/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Response createComment( Integer goodId, Integer score, String content, HttpServletRequest request) {
+	public Response createComment( Integer goodId, Integer score, String content,String username, HttpServletRequest request) {
 		Customer customer = sessionService.getLoginInfo(request);
-		goodCommentService.create(goodId, customer.getId(), score, content);
+		goodCommentService.create(goodId, customer.getId(), score, content,username);
 		return  Response.getSuccess("");
 	}
 

@@ -74,7 +74,7 @@ public interface CustomerMapper {
 	 */
 	void updateInteger(Customer customer);
 
-	List<Customer> getCustomers(Integer goodId, Integer channelId,
-			Byte customerType);
+	List<Customer> getCustomers(@Param("goodId")Integer goodId, @Param("channelId")Integer channelId,
+			@Param("customerType")Byte customerType);
 
 }

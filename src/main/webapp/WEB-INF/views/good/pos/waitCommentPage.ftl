@@ -32,7 +32,7 @@
             ${comment.content!""}
         </div>
         <div class="evaluate_name">
-            <h3>${comment.customer.username}</h3>
+            <h3>${comment.customerName!""}</h3>
             <span>${comment.createdAt?string("yyyy-MM-dd   HH:mm:ss")}</span>
         </div>
         <div class="evaluate_item_btn">

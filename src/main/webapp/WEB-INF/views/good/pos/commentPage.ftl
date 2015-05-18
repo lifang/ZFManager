@@ -15,7 +15,7 @@
         </div>
         <div class="eb_write">
             <div class="halfShow_star" style="cursor: pointer;"></div>
-            <div class="eb_write_textarea"><textarea id="content" cols="" rows=""></textarea></div>
+            <div class="eb_write_textarea">用户名：<input type="text" class="textClass" id="username"/><textarea id="content" cols="" rows=""></textarea></div>
             <div class="btnBottom"><button class="whiteBtn" onclick="submitComment()">添加评论</button></div>
             <script>
                 $('.halfShow_star').raty({hints: ['1', '2', '3', '4', '5'],  number: 5, score: 5.0,  path: "<@spring.url "/resources/images" />"});
@@ -40,7 +40,7 @@
             </div>
             <div class="evaluate_text">${comment.content!""}</div>
             <div class="evaluate_name">
-                <h3>${comment.customer.username}</h3>
+                <h3>${comment.customerName!""}</h3>
                 <span>${comment.createdAt?string("yyyy-MM-dd   HH:mm:ss")}</span>
             </div>
             <div class="evaluate_item_btn"><a onclick="del(${comment.id})" class="whiteBtn">删除</a></div>
