@@ -134,8 +134,8 @@
             </li>
         </#if>
         <#if Roles.hasRole("STOCK_MANAGE")||Roles.hasRole("CERTIFIED_OPEN")||Roles.hasRole("CALCULUS")||Roles.hasRole("OUT_STORE")||Roles.hasRole("REFUND")>
-            <li class="second"><a href="javascript:void(0);" <#if urlCheck(request,"/task")> class="hover"</#if>>任务处理<i class="<#if urlCheck(request,"/task")>on<#else>off</#if>" id="menuTask"></i></a>
-                <ol <#if urlCheck(request,"/task")>style="display: block;"</#if>>
+            <li class="second"><a href="javascript:void(0);" <#if urlCheck1(request,"/task","/task/intention/list")> class="hover"</#if>>任务处理<i class="<#if urlCheck1(request,"/task","/task/intention/list")>on<#else>off</#if>" id="menuTask"></i></a>
+                <ol <#if urlCheck1(request,"/task","/task/intention/list")>style="display: block;"</#if>>
                     <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
                     <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
                     <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
@@ -234,4 +234,7 @@
 
 <#function urlCheck request pre>
     <#return request.requestUri?substring(request.contextPath?length)?starts_with(pre)>
+</#function>
+<#function urlCheck1 request pre param>
+    <#return request.requestUri?substring(request.contextPath?length)?starts_with(pre) && !request.requestUri?substring(request.contextPath?length)?starts_with(param)>
 </#function>
