@@ -88,8 +88,8 @@
         <li><a href="<@spring.url "/index"/>"<#if urlCheck(request,"/index")> class="hover"</#if>>运营中心首页</a></li>
         <li><a href="<@spring.url "/real/trade"/>" target="map">全国交易实时统计</a></li>
         <#if Roles.hasRole("USER_ORDER")||Roles.hasRole("AGENT_BATCH_ORDER")||Roles.hasRole("AGENT_ORDER")>
-            <li class="second"><a href="javascript:void(0);">订单管理<i class="off" id="menuOrder"></i></a>
-                <ol>
+            <li class="second"><a href="javascript:void(0);" <#if urlCheck(request,"/order")> class="hover"</#if>>订单管理<i class="<#if urlCheck(request,"/order")>on<#else>off</#if>" id="menuOrder"></i></a>
+                <ol <#if urlCheck(request,"/order")>style="display: block;"</#if>>
                     <#if Roles.hasRole("USER_ORDER")><li><a href="<@spring.url "/order/user/list"/>"<#if urlCheck(request,"/order/user")> class="hover"</#if>>用户订单</a></li></#if>
                     <!--<#if Roles.hasRole("AGENT_BATCH_ORDER")><li><a href="<@spring.url "/order/batch/list"/>"<#if urlCheck(request,"/order/batch")> class="hover"</#if>>代理商批购</a></li></#if>-->
                     <#if Roles.hasRole("AGENT_ORDER")><li><a href="<@spring.url "/order/agent/list"/>"<#if urlCheck(request,"/order/agent")> class="hover"</#if>>代理商采购</a></li></#if>
@@ -98,8 +98,8 @@
         </#if>
         <#if Roles.hasRole("USER")><li><a href="<@spring.url "/user/list"/>"<#if urlCheck(request,"/user")> class="hover"</#if>>用户管理</a></li></#if>
         <#if Roles.hasRole("POS")||Roles.hasRole("PAY_CHANNEL")>
-            <li class="second"><a href="javascript:void(0);">商品管理<i class="off" id="menuGood"></i></a>
-                <ol>
+            <li class="second"><a href="javascript:void(0);" <#if urlCheck(request,"/good")> class="hover"</#if>>商品管理<i class="<#if urlCheck(request,"/good")>on<#else>off</#if>" id="menuGood"></i></a>
+                <ol <#if urlCheck(request,"/good")>style="display: block;"</#if>>
                     <#if Roles.hasRole("POS")><li><a href="<@spring.url "/good/pos/list"/>" <#if urlCheck(request,"/good/pos")> class="hover"</#if>>POS机管理</a></li></#if>
                     <#if Roles.hasRole("PAY_CHANNEL")><li><a href="<@spring.url "/good/channel/list"/>"<#if urlCheck(request,"/good/channel")> class="hover"</#if>>支付通道</a></li></#if>
 
@@ -121,8 +121,8 @@
         </#if>-->
         <#if Roles.hasRole("TERMINAL")><li><a href="<@spring.url "/terminal/list"/>"<#if urlCheck(request,"/terminal")> class="hover"</#if>>终端管理</a></li></#if>
         <#if Roles.hasRole("CS_UPDATE_INFO")||Roles.hasRole("CS_AGENT")||Roles.hasRole("CS_REPAIR")||Roles.hasRole("CS_CHANGE")||Roles.hasRole("CS_RETURN")||Roles.hasRole("CS_LEASE_RETURN")||Roles.hasRole("CS_CANCEL")>
-            <li class="second"><a href="javascript:void(0);">售后管理<i class="off" id="menuCs"></i></a>
-                <ol>
+            <li class="second"><a href="javascript:void(0);" <#if urlCheck(request,"/cs")> class="hover"</#if>>售后管理<i class="<#if urlCheck(request,"/cs")>on<#else>off</#if>" id="menuCs"></i></a>
+                <ol <#if urlCheck(request,"/cs")>style="display: block;"</#if>> 
                     <#if Roles.hasRole("CS_UPDATE_INFO")><li><a href="<@spring.url "/cs/update/list"/>"<#if urlCheck(request,"/cs/update")> class="hover"</#if>>资料更新</a></li></#if>
                     <#if Roles.hasRole("CS_AGENT")><li><a href="<@spring.url "/cs/agent/list"/>"<#if urlCheck(request,"/cs/agent")> class="hover"</#if>>代理商售后</a></li></#if>
                     <#if Roles.hasRole("CS_REPAIR")><li><a href="<@spring.url "/cs/repair/list"/>"<#if urlCheck(request,"/cs/repair")> class="hover"</#if>>维修</a></li></#if>
@@ -134,8 +134,8 @@
             </li>
         </#if>
         <#if Roles.hasRole("STOCK_MANAGE")||Roles.hasRole("CERTIFIED_OPEN")||Roles.hasRole("CALCULUS")||Roles.hasRole("OUT_STORE")||Roles.hasRole("REFUND")>
-            <li class="second"><a href="javascript:void(0);">任务处理<i class="off" id="menuTask"></i></a>
-                <ol>
+            <li class="second"><a href="javascript:void(0);" <#if urlCheck(request,"/task")> class="hover"</#if>>任务处理<i class="<#if urlCheck(request,"/task")>on<#else>off</#if>" id="menuTask"></i></a>
+                <ol <#if urlCheck(request,"/task")>style="display: block;"</#if>>
                     <#if Roles.hasRole("STOCK_MANAGE")><li><a href="<@spring.url "/task/stockManage/index"/>"<#if urlCheck(request,"/task/stockManage")> class="hover"</#if>>售后库存管理</a></li></#if>
                     <#if Roles.hasRole("CERTIFIED_OPEN")><li><a href="<@spring.url "/task/certifiedopen/list"/>"<#if urlCheck(request,"/task/certifiedopen")> class="hover"</#if>>认证开通</a></li></#if>
                     <#if Roles.hasRole("CALCULUS")> <li><a href="<@spring.url "/task/calculus/list"/>"<#if urlCheck(request,"/task/calculus")> class="hover"</#if>>积分兑换</a></li></#if>
