@@ -740,7 +740,12 @@ public class Order {
 		this.belongsAgent = belongsAgent;
 	}
 	
-	
+	public static final byte TRADE_UNPAID = 1;//1未付款
+	public static final byte TRADE_PAID = 2;//2已付款
+	public static final byte TRADE_SUCCESS = 3;//3已完成,已发货
+	public static final byte TRADE_RATED = 4;//4已评价
+	public static final byte TRADE_CANCELED = 5;//5已取消
+	public static final byte TRADE_CLOSE = 6;//6交易关闭
 	
 
 }

@@ -262,7 +262,9 @@ public class OrderService {
 		order.setId(orderId);
 		if (null != status){
 			order.setStatus(status);
-			addGoodQuantity(order);
+			if(status==Order.TRADE_CANCELED){
+				addGoodQuantity(order);
+			}
 		}
 		if (null != actualPrice){
 			actualPrice=actualPrice*100;

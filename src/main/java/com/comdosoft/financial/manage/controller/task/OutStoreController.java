@@ -103,7 +103,7 @@ public class OutStoreController {
 			map= outStoreService.save(id,wlCompany,wlNum,terminalNums,customer.getId(),customer.getTypes());
 			response.setCode(Integer.parseInt(map.get("resultCode").toString()));
 			response.setMessage(map.get("resultInfo").toString());
-			outStoreService.subGoodQuantity(quantities,goodIds);
+			//outStoreService.subGoodQuantity(quantities,goodIds);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			response.setCode(Response.ERROR_CODE);
