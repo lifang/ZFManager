@@ -137,8 +137,9 @@
 		        });
 	}
 	var ups=function(id,status){
+		var tid = ${tinfo.tid};
 		$.post('<@spring.url "/task/certifiedopen/upstatus" />',
-				{"id": id,"status":status},
+				{"id": id,"status":status,"tid":tid},
 		        function (data) {
 					if(1==data){
 						location.reload();

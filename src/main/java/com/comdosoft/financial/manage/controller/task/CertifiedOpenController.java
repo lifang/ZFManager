@@ -144,8 +144,11 @@ public class CertifiedOpenController {
 
     @RequestMapping(value = "upstatus", method = RequestMethod.POST)
     @ResponseBody
-    public String upStatus(HttpServletRequest request,Integer id, Integer status, Model model) {
-        Integer a=certifiedOpenService.upStatus(id, status);
+    public String upStatus(HttpServletRequest request,Integer id, Integer status, Integer tid,Model model) {
+    	Integer a = 0;
+    	if(status!=6){
+        	a=certifiedOpenService.upStatus(id, status);
+        }
         String button=null;
         String result ="";
         if(status==2){
@@ -159,7 +162,7 @@ public class CertifiedOpenController {
         }else if(status==6){
             button="提交开通申请";
             try {
-				result = (String) sendPost(id);
+				result = (String) sendPost(tid);
 				operationRefundContent(request,button,id);
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
