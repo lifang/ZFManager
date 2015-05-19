@@ -27,12 +27,10 @@ public class PushNotificationService {
 	private String apiKeyUserAndpad; //2：用户安卓pad
 	@Value("${push.secretKeyUserAndpad}")
 	private String secretKeyUserAndpad; //2：用户安卓pad
-	/*
-	@Value("${push.apiKeyUserIpad}"
+	@Value("${push.apiKeyUserIpad}")
 	private String apiKeyUserIpad; //6：用户ipad
 	@Value("${push.secretKeyUserIpad}")
 	private String secretKeyUserIpad; //6：用户ipad
-	*/
 	@Value("${push.apiKeyAgentAndphone}")
 	private String apiKeyAgentAndphone; //1：代理商安卓手机
 	@Value("${push.secretKeyAgentAndphone}")
@@ -45,12 +43,10 @@ public class PushNotificationService {
 	private String apiKeyAgentAndpad; //3：代理商安卓pad
 	@Value("${push.secretKeyAgentAndpad}")
 	private String secretKeyAgentAndpad; //3：代理商安卓pad
-	/*
 	@Value("${push.apiKeyAgentIpad}")
 	private String apiKeyAgentIpad; //7：代理商ipad
 	@Value("${push.secretKeyAgentIpad}")
 	private String secretKeyAgentIpad; //7：代理商ipad
-	*/
 	
 	/**
 	 * 
@@ -99,7 +95,7 @@ public class PushNotificationService {
 			apiKey = apiKeyAgentIphone;
 			secretKey = secretKeyAgentIphone;
 			flg = "ios";
-		}/*
+		}
 		if("6".equals(deviceType)){
 			apiKey = apiKeyUserIpad;
 			secretKey = secretKeyUserIpad;
@@ -109,7 +105,7 @@ public class PushNotificationService {
 			apiKey = apiKeyAgentIpad;
 			secretKey = secretKeyAgentIpad;
 			flg = "ios";
-		}*/
+		}
         PushKeyPair pair = new PushKeyPair(apiKey,secretKey);
         // 2. 创建BaiduPushClient，访问SDK接口
         BaiduPushClient pushClient = new BaiduPushClient(pair,
