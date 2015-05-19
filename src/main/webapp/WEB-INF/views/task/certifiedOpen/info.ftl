@@ -89,7 +89,7 @@
 			    <#list opendetailsinfos as one> 
 			    	<#if (one.types)??&&one.types != 2> 
 			    		<li>
-                    		 <span class="labelSpan">${one.key!}：</span>
+                    		 <span class="labelSpan">${one.key!}</span>
                      		 <div class="text">${one.value!}</div>
                			</li>
 			    	</#if>
