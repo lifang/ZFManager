@@ -147,7 +147,7 @@
         <#if Roles.hasRole("TRADE_RECORD")><li><a href="<@spring.url "/trade/index"/>"<#if urlCheck(request,"/trade")> class="hover"</#if>>交易流水查询</a></li></#if>
         <#if Roles.hasRole("INTENTION")><li><a href="<@spring.url "/task/intention/list"/>"<#if urlCheck(request,"/task/intention")> class="hover"</#if>>购买/申请意向</a></li></#if>
         <li class="second"><a href="javascript:void(0);"<#if urlCheck(request,"/system")> class="hover"</#if>>系统设置<i class="<#if urlCheck(request,"/system")>on<#else>off</#if>" id="menuSystem"></i></a>
-            <ol>
+            <ol <#if urlCheck(request,"/system")>style="display: block;"</#if>>
                 <li><a href="<@spring.url "/system/account/setting/modify"/>"<#if urlCheck(request,"/system/account/setting")> class="hover"</#if>>修改密码</a></li>
                 <#if Roles.hasRole("ZF_ACCOUNT")><li><a href="<@spring.url "/system/operate/accounts"/>"<#if urlCheck(request,"/system/operate")> class="hover"</#if>>运营账号管理</a></li></#if>
                 <#if Roles.hasRole("AGENT")><li><a href="<@spring.url "/system/agent/list"/>"<#if urlCheck(request,"/system/agent")> class="hover"</#if>>合作伙伴管理</a></li></#if>
@@ -200,22 +200,6 @@
             reshVideo = setInterval(taskRefreshVideo, 10000);
             window.open("<@spring.url "/task/certifiedopen/"/>"+noticeVideoId+"/video");
         });
-        //控制菜单展开
-		var urlStr=window.location.href;
-	       if(urlStr.indexOf("/good/") != -1){
-				$("#menuGood").click();
-	       }else if(urlStr.indexOf("/order/") != -1){
-	       		$("#menuOrder").click();
-	       }else if(urlStr.indexOf("/cs/") != -1){
-	       		$("#menuCs").click();
-	       }else if(urlStr.indexOf("/task/") !=-1){
-	       		if(urlStr.indexOf("task/intention") ==-1){
-	       			$("#menuTask").click();
-	       		}
-	       }else if(urlStr.indexOf("/system/") !=-1){
-	       		$("#menuSystem").click();
-	       }
-    })
 
     function taskRefreshVideo(){
         $.get("<@spring.url "/notice/getVideo"/>",
