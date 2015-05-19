@@ -18,20 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class HttpFile {
 
-    // private static String localpath = "C:/test/local/";
-    private static String localpath = "/opt/data/";
+    private static String localpath = RootUrl.localpath;
 
-     private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
-    
-     private static String delpath = "http://121.40.84.2:8888/File/index/delete";
-    
-     private static String zippath = "http://121.40.84.2:8888/File/index/zip";
+    private static String urlpath = RootUrl.filepath + "File/index/upload";
 
-//    private static String urlpath = "http://file.ebank007.com/File/index/upload";
-//
-//    private static String delpath = "http://file.ebank007.com/File/index/delete";
-//
-//    private static String zippath = "http://file.ebank007.com/File/index/zip";
+    private static String delpath = RootUrl.filepath + "File/index/delete";
+
+    private static String zippath = RootUrl.filepath + "File/index/zip";
 
     /**
      * 上传文件
@@ -64,20 +57,22 @@ public class HttpFile {
             return path + name;
         }
     }
+
     /**
      * 文件上传大小判断
      * 
      * @param file
-     * path后有/ 如 "test/a/b/"
+     *            path后有/ 如 "test/a/b/"
      * @return
      */
     public static boolean fileSize(MultipartFile file) {
-       long fileSize = file.getSize();
-       if((fileSize/1024)>(1024*2)){
-    	   return false;
-       }
-       return true;
+        long fileSize = file.getSize();
+        if ((fileSize / 1024) > (1024 * 2)) {
+            return false;
+        }
+        return true;
     }
+
     /**
      * 上传pos图片
      * 
