@@ -32,7 +32,7 @@
     <td>
     	<span class="lease_t <#if !good.hasLease?? || !good.hasLease>no</#if>">支持租赁</span>
     </td>
-    <td><a href="#">月销量<em>${good.volumeNumber!""}</em>件</a></td>
+    <td><a href="#">累计销量<em>${good.volumeNumber!""}</em>件</a></td>
     <td>
     	<div class="evaluate">
         	<a href="#">
