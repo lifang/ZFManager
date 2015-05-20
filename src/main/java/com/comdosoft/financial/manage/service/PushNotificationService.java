@@ -48,6 +48,9 @@ public class PushNotificationService {
 	@Value("${push.secretKeyAgentIpad}")
 	private String secretKeyAgentIpad; //7：代理商ipad
 	
+	@Value("${push.deploystatus}")
+	private String deploystatus; //发布状态
+	
 	/**
 	 * 
 	 * @param title
@@ -129,7 +132,7 @@ public class PushNotificationService {
         						"\"msgId\":\"" + messageId +"\",\"title\":\"" + title + "\",\"description\":\"" 
         						+ message + "\"}").
         				addDeviceType(4)
-        				.addDeployStatus(1);
+        				.addDeployStatus(Integer.valueOf(deploystatus));
         	}else if("android".equals(flg)){
         		request = new PushMsgToSingleDeviceRequest().
         				addChannelId(channelId).
