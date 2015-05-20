@@ -34,5 +34,5 @@
     	</a>
     </td>
     <td><a href="#"><em>${good.floorPurchaseQuantity!""}</em>件</a></td>
-    <td><a href="#">月销量<em>${good.purchaseNumber!""}</em>件</a></td>
+    <td><a href="#">累计销量<em>${good.purchaseNumber!""}</em>件</a></td>
   </tr>
