@@ -10,7 +10,7 @@
                         	<#if good.pictures??>
 	                             <#list good.pictures as picture>
 	                                 <#if picture_index==0>
-	                                     <img src="${picture.urlPath}" jqimg = "${picture.urlPath}" style="width:388px;height:330px;"/>
+	                                     <img src="${picture.urlPath}" jqimg = "${picture.urlPath}"/>
 	                                 </#if>
 	                             </#list>
 	                         </#if> 
