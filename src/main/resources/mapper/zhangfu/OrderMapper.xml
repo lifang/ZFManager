@@ -96,7 +96,8 @@
       comment = #{comment,jdbcType=VARCHAR},
       total_quantity = #{totalQuantity,jdbcType=INTEGER},
       belongs_user_id = #{belongsUserId,jdbcType=INTEGER},
-      invoice_info = #{invoiceInfo,jdbcType=LONGVARCHAR}
+      invoice_info = #{invoiceInfo,jdbcType=LONGVARCHAR},
+      cancel_flag = #{cancelFlag,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

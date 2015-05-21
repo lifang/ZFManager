@@ -260,6 +260,7 @@ public class OrderService {
 			Byte payStatus) {
 		Order order = orderMapper.findOrderInfo(orderId);
 		order.setId(orderId);
+		order.setCancelFlag(Order.CANCEL_ADMIN);
 		if (null != status){
 			order.setStatus(status);
 			if(status==Order.TRADE_CANCELED){
