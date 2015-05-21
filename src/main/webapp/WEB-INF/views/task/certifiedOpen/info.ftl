@@ -102,7 +102,7 @@
 			    		<li>
 		                     <span class="labelSpan" >${one.key!}：</span>
 		                     <div class="text">
-		                     <img src="${one.value!}" class="cover" value="${one.value!}" dbValue="${one.value!}" >
+		                     <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover" value="${one.value!}" dbValue="${one.value!}" >
 		                     </div>
                			 </li>
 			    	</#if>
