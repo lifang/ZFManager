@@ -411,6 +411,10 @@ public class Customer {
 	 * 代理商员工
 	 */
 	public static final byte TYPE_AGENT_STAFF = 6;
+	/**
+	 * 所有
+	 */
+	public static final byte TYPE_ALL = 7;
 
 	/**
 	 * 手机

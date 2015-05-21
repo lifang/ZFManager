@@ -17,30 +17,34 @@
     <div class="item_list clear">
         <ul>
             <li><span class="labelSpan">标题：</span>
-                <div class="text"><input id="title" type="text" class="xll"></div></li>
-            <li class="overflow"><span class="labelSpan">接收人：</span>
+                <div class="text"><input id="title" type="text" style="width:457px"></div></li>
+            <li class="overflow"><span class="labelSpan" style="width:86px;">接收人：</span>
                 <div class="text">
                     <div class="supportArea">
                         <div class="sa_list">
                             <span class="checkboxRadio_span"><input name="receiver" type="radio" value="1" checked> 个人</span>
-                            <input id="input_customer" name="" type="text" class="xls">
+                            <input id="input_customer" name="" type="text" style="width:405px;">
                         </div>
                         <div class="sa_list">
                             <span class="checkboxRadio_span"><input name="receiver" type="radio" value="2"> 多人</span>
-                            <select name="goods" class="select_l">
-                                <#list goods as good>
-                                    <option value="${good.id}">${(good.title)!""}</option>
-                                </#list>
+                            <select name="customerTypes" style="width:125px;">
+                            	<option value="0">--请选择用户--</option>
+                            	<option value="7">全部</option>
+                                <option value="1">用户</option>
+                                <option value="2">代理商</option>
+                                <option value="5">第三方机构</option>
                             </select>
-                            <select name="channels" class="select_l">
+                            <select name="channels" style="width:155px;">
+                            	<option value="0">--请选择支付通道--</option>
                                 <#list channels as channel>
                                     <option value="${channel.id}">${(channel.name)!""}</option>
                                 </#list>
                             </select>
-                            <select name="customerTypes" class="select_l">
-                                <option value="1">用户</option>
-                                <option value="2">代理商</option>
-                                <option value="5">第三方机构</option>
+                            <select name="goods" style="width:125px;">
+                            	<option value="0">--请选择商品--</option>
+                                <#list goods as good>
+                                    <option value="${good.id}">${(good.title)!""}</option>
+                                </#list>
                             </select>
                         </div>
                     </div>
@@ -60,6 +64,17 @@
     <#--用户搜索-->
         var customerClose = true ;
         $("#customer_result_id").hide();
+        $(":input[name='customerTypes']").on('click',function(){
+        	var cus_type = $(":input[name='customerTypes'] option:selected").val();
+        	if(cus_type==7||cus_type==5){
+        		$(":input[name='channels']").attr("disabled",true);
+        		$(":input[name='goods']").attr("disabled",true);
+        	}else{
+        		$(":input[name='channels']").attr("disabled",false);
+        		$(":input[name='goods']").attr("disabled",false);
+        	}
+        });
+        
         $("#input_customer").keyup(function(){
             var name = $.trim($(this).val()) ;
             if(!isNotNull(name)){
@@ -114,6 +129,10 @@
                 option.goodId = $(":input[name='goods'] option:selected").val();
                 option.channelId = $(":input[name='channels'] option:selected").val();
                 option.customerType = $(":input[name='customerTypes'] option:selected").val();
+                if(option.customerType==0){
+                	showErrorTip("用户不能为空");
+                	return false;
+                }
             }
 
             $.post("<@spring.url "/system/message/create" />",

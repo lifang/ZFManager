@@ -102,7 +102,9 @@ public class MessageService {
             	if(deviceCode != null && !"".equals(deviceCode.trim())){
             		deviceType = deviceCode.substring(0, 1);
                 	channelID = deviceCode.substring(1);
-                	pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType,message.getId());
+                	if(deviceType!=null && channelID!=null){
+                		pushNotificationService.pushMsgToSingleDevice(title,content,channelID,deviceType,message.getId());
+                	}
             	}
             }
         }
