@@ -48,7 +48,7 @@
 		limit #{pageRequest.offset}, #{pageRequest.pageSize})t2
 		union all
 		select * from (select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.order_number as returnApplyNum
-		from cs_refunds  c inner join orders o on c.target_id = o.id and c.target_type = 3
+		from cs_refunds  c inner join orders o on c.target_id = o.id and (c.target_type = 3 or c.target_type = 4)
 		<include refid="pageWhere1" />
 		order by c.process_user_id = #{userId} desc, c.created_at desc 
 		limit #{pageRequest.offset}, #{pageRequest.pageSize})t3
@@ -65,7 +65,7 @@
 		<include refid="pageWhere" />)t2
 		union all
 		select * from (select c.id as id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.order_number as returnApplyNum
-		from cs_refunds  c inner join orders o on c.target_id = o.id and c.target_type = 3
+		from cs_refunds  c inner join orders o on c.target_id = o.id and (c.target_type = 3 or c.target_type = 4)
 		<include refid="pageWhere1" />)t3)t
 	</select>
 
@@ -77,7 +77,7 @@
 		FROM cs_refunds  c , cs_lease_returns o where o.id = c.target_id and c.id = #{id} and c.target_type = 2
 		union all
 		SELECT c.id,c.target_type as type,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.order_number as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
-		FROM cs_refunds  c , orders o where o.id = c.target_id and c.id = #{id} and c.target_type = 3
+		FROM cs_refunds  c , orders o where o.id = c.target_id and c.id = #{id} and (c.target_type = 3 or c.target_type = 4)
 	</select>
 	
 	<select id="getRefundByDetailRecord" resultType="map">
@@ -96,7 +96,7 @@
   
   <select id="getOrderRefunds" resultType="map">
   	select c.status as status,o.order_number as orderNumber from cs_refunds c inner join orders o 
-  	on c.target_id = o.id where c.target_type = 3
+  	on c.target_id = o.id where c.target_type = 3 or c.target_type = 4
   </select>
 	
 </mapper>

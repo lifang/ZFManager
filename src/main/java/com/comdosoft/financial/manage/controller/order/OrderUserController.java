@@ -170,7 +170,7 @@ public class OrderUserController extends BaseController{
 	@RequestMapping(value = "/user/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		Customer customer = sessionService.getLoginInfo(request);
-		orderService.save(id, (byte) 5, null, null,customer,model);
+		orderService.save(id, (byte) 5, null, null,customer,model,"user");
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		saveOperateRecord(request,OperateType.orderUserType, OperatePage.orderUserList, OperateAction.cancel, id);

@@ -196,7 +196,7 @@ public class OrderAgentController extends BaseController {
 	@RequestMapping(value = "/agent/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
 		Customer customer = sessionService.getLoginInfo(request);
-		orderService.save(id, (byte) 5, null, null,customer,model);
+		orderService.save(id, (byte) 5, null, null,customer,model,"agent");
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList, OperateAction.cancel, id);

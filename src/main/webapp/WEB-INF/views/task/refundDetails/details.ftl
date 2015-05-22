@@ -94,7 +94,13 @@
             	});
             }
             function goRefundDetails(id,type){
-            	window.location.href="<@spring.url '/cs/return/info' />"+"?id="+id+"&type="+type;
+	            if(type==3){
+	            	window.location.href="<@spring.url "/order/user/${refundDetails.returnId}/info" />";
+	            }else if(type==4){
+	            	window.location.href="<@spring.url "/order/agent/${refundDetails.returnId}/info" />";
+	            }else{
+	            	window.location.href="<@spring.url '/cs/return/info' />"+"?id="+id+"&type="+type;
+	            }
       		}
            </script>
 </@c.html>

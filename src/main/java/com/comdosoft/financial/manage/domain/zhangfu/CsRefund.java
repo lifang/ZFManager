@@ -352,8 +352,8 @@ public class CsRefund {
 	
 	public static final byte TYPE_1=1;//退货
     public static final byte TYPE_2=2;//租赁退还
-    public static final byte TYPE_3=3;//订单取消
-	
+    public static final byte TYPE_3=3;//用户订单取消
+    public static final byte TYPE_4=4;//代理商订单取消
 	
 	/**
 	 * 退款状态1.待处理

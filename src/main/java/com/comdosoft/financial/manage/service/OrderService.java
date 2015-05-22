@@ -282,12 +282,12 @@ public class OrderService {
 	}
 	@Transactional("transactionManager")
 	public int save(Integer orderId, Byte status, Float actualPrice,
-			Byte payStatus,Customer customer,Model model) {
+			Byte payStatus,Customer customer,Model model,String flg) {
 		Order order = orderMapper.findOrderInfo(orderId);
 		order.setId(orderId);
 		if (null != status){
 			if(order.getStatus()==Order.TRADE_PAID){
-				CsRefund cs_refund= refund(order,customer);
+				CsRefund cs_refund= refund(order,customer,flg);
 				model.addAttribute("cs_refund", cs_refund);
 			}
 			order.setStatus(status);
@@ -304,7 +304,7 @@ public class OrderService {
 			order.setPayStatus(payStatus);
 		return orderMapper.updateByPrimaryKey(order);
 	}
-	public CsRefund refund(Order order,Customer customer){
+	public CsRefund refund(Order order,Customer customer,String flg){
 		CsRefund csRefund = new CsRefund();
 		csRefund.setBankAccount(null);
 		csRefund.setBankName(null);
@@ -316,7 +316,11 @@ public class OrderService {
 		csRefund.setReturnPrice(order.getTotalPrice());
 		csRefund.setStatus((byte) CsRefund.STATIC_1);
 		csRefund.setTargetId(order.getId());
-		csRefund.setTargetType((byte) CsRefund.TYPE_3);
+		if("user".equals(flg)){
+			csRefund.setTargetType((byte) CsRefund.TYPE_3);
+		}else if("agent".equals(flg)){
+			csRefund.setTargetType((byte) CsRefund.TYPE_4);
+		}
 		csRefund.setTypes((byte) 1);
 		csRefund.setUpdatedAt(new Date());
 		csRefund.setApplyNum(new Date().getTime()+"");
