@@ -95,4 +95,8 @@ public class RefundService {
         String fileNamePath = SysUtils.getUploadFileName(request, img, uploadFilePath);
         return fileNamePath;
     }
+
+	public List<Map<String, Object>> getOrderRefunds() {
+		return refundMapper.getOrderRefunds();
+	}
 }

@@ -24,4 +24,6 @@ public interface RefundMapper {
 	void updsateRefundStatus(@Param("id") int id,@Param("status") int status);
 	
 	void dispatchUserByIds(Map<String, Object> params);
+
+	List<Map<String, Object>> getOrderRefunds();
 }

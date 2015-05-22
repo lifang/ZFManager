@@ -5,7 +5,17 @@
 	<sql id="pageWhere">
 		<where>
 			<if test="status != null"> AND c.`status` = #{status} </if>
-			<if test="orderNumber != null and orderNumber != ''"> AND c.apply_num like '${orderNumber}'</if>
+			<if test="orderNumber != null and orderNumber != ''">
+			AND (c.apply_num like '${orderNumber}' or o.apply_num like '${orderNumber}')
+			</if>
+		</where>
+	</sql>
+	<sql id="pageWhere1">
+		<where>
+			<if test="status != null"> AND c.`status` = #{status} </if>
+			<if test="orderNumber != null and orderNumber != ''">
+			AND (c.apply_num like '${orderNumber}' or o.order_number like '${orderNumber}')
+			</if>
 		</where>
 	</sql>
 	
@@ -26,22 +36,37 @@
 	
 	<select id="findPageRefundByKeys" resultType="map">
 		select * from (select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
-		from cs_refunds  c , cs_returns o where c.target_type = 1 and c.target_id = o.id
+		from cs_refunds  c inner join cs_returns o on c.target_id = o.id and c.target_type = 1
 		<include refid="pageWhere" />
 		order by c.process_user_id = #{userId} desc, c.created_at desc 
 		limit #{pageRequest.offset}, #{pageRequest.pageSize})t1
 		union all
 		select * from (select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
-		from cs_refunds  c ,cs_lease_returns o where c.target_type = 2  and c.target_id = o.id
+		from cs_refunds  c inner join cs_lease_returns o on c.target_id = o.id and c.target_type = 2
 		<include refid="pageWhere" />
 		order by c.process_user_id = #{userId} desc, c.created_at desc 
 		limit #{pageRequest.offset}, #{pageRequest.pageSize})t2
+		union all
+		select * from (select c.id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.order_number as returnApplyNum
+		from cs_refunds  c inner join orders o on c.target_id = o.id and c.target_type = 3
+		<include refid="pageWhere1" />
+		order by c.process_user_id = #{userId} desc, c.created_at desc 
+		limit #{pageRequest.offset}, #{pageRequest.pageSize})t3
 	</select>
 	
 	<select id="getRefundCount" resultType="long">
-		SELECT count(c.id) as count
-		FROM cs_refunds c
-		<include refid="pageWhere" />
+		SELECT count(t.id) as count from (
+		select * from (select c.id as id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
+		from cs_refunds  c inner join cs_returns o on c.target_id = o.id and c.target_type = 1
+		<include refid="pageWhere" />)t1
+		union all
+		select * from (select c.id as id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.apply_num as returnApplyNum
+		from cs_refunds  c inner join cs_lease_returns o on c.target_id = o.id and c.target_type = 2
+		<include refid="pageWhere" />)t2
+		union all
+		select * from (select c.id as id,c.apply_num as applyNum,c.created_at as createdAt,c.`status`,c.target_id as targetId,o.order_number as returnApplyNum
+		from cs_refunds  c inner join orders o on c.target_id = o.id and c.target_type = 3
+		<include refid="pageWhere1" />)t3)t
 	</select>
 
 	<select id="getRefundDetails" resultType="map">
@@ -50,6 +75,9 @@
 		union all
 		SELECT c.id,c.target_type as type,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.apply_num as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
 		FROM cs_refunds  c , cs_lease_returns o where o.id = c.target_id and c.id = #{id} and c.target_type = 2
+		union all
+		SELECT c.id,c.target_type as type,c.apply_num as applyNum,c.process_user_name as processUserName,o.id as returnId,o.order_number as returnApplyNum,c.payee,c.payee_phone as payeePhone,c.return_price as returnPrice,c.return_voucher_file_path as returnVoucherFilePath,c.`status`
+		FROM cs_refunds  c , orders o where o.id = c.target_id and c.id = #{id} and c.target_type = 3
 	</select>
 	
 	<select id="getRefundByDetailRecord" resultType="map">
@@ -65,5 +93,10 @@
       update cs_refunds set process_user_id = #{customerId}, process_user_name = #{customerName} where id in 
       <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}</foreach>  
   </update>
+  
+  <select id="getOrderRefunds" resultType="map">
+  	select c.status as status,o.order_number as orderNumber from cs_refunds c inner join orders o 
+  	on c.target_id = o.id where c.target_type = 3
+  </select>
 	
 </mapper>

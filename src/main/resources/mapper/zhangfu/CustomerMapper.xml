@@ -205,17 +205,23 @@
         <bind name="STATUS_NORMAL" value="@com.comdosoft.financial.manage.domain.zhangfu.Customer@STATUS_NORMAL" />
         <if test="customerType == TYPE_CUSTOMER">
         	select DISTINCT(c.id),c.device_code
-            from terminals t inner join customers c on t.customer_id=c.id
+            from customers c
+            <if test="(channelId != null and channelId != 0)or(goodId != null and goodId != 0)">
+             inner join terminals t on t.customer_id=c.id
+            </if>
             where c.types=#{TYPE_CUSTOMER} and c.status = #{STATUS_NORMAL} and c.device_code is not null
             <if test="goodId != null and goodId != 0">and t.good_id = #{goodId}</if>
             <if test="channelId != null and channelId != 0">and t.pay_channel_id = #{channelId}</if>
         </if>
         <if test="customerType == TYPE_AGENT">
             select DISTINCT(a.customer_id),c.device_code
-            from terminals t inner join agents a on t.agent_id=a.id
+            from agents a inner join customers c 
+            on c.id = a.customer_id and c.device_code is not null and c.status = #{STATUS_NORMAL}
+            <if test="(channelId != null and channelId != 0)or(goodId != null and goodId != 0)">
+            inner join terminals t on t.agent_id=a.id
+            </if>
             <if test="goodId != null and goodId != 0">and t.good_id = #{goodId}</if>
-            <if test="channelId != null and channelId != 0">and t.pay_channel_id = #{channelId}</if>
-            inner join customers c on c.id = a.customer_id and c.device_code is not null and c.status = #{STATUS_NORMAL}
+            <if test="channelId != null and channelId != 0">and t.pay_channel_id = #{channelId}</if>  
         </if>
         <if test="customerType == TYPE_THIRD_PARTY">
             select f.customer_id,c.device_code

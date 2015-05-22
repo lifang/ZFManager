@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.manage.domain.zhangfu.CsOutStorage;
+import com.comdosoft.financial.manage.domain.zhangfu.CsRefund;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.Factory;
 import com.comdosoft.financial.manage.domain.zhangfu.Good;
@@ -25,6 +27,7 @@ import com.comdosoft.financial.manage.domain.zhangfu.PayChannel;
 import com.comdosoft.financial.manage.domain.zhangfu.SysConfig;
 import com.comdosoft.financial.manage.domain.zhangfu.Terminal;
 import com.comdosoft.financial.manage.mapper.zhangfu.CsOutStorageMapper;
+import com.comdosoft.financial.manage.mapper.zhangfu.CsRefundMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.FactoryMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.manage.mapper.zhangfu.GoodsPictureMapper;
@@ -72,6 +75,8 @@ public class OrderService {
 	private CustomerAgentRelationService customerAgentRelationService;
 	@Autowired
 	private TerminalMapper terminalMapper;
+	@Autowired
+	private CsRefundMapper csRefundMapper;
 
 	/**
 	 * agents表customer_id不能重复,分页问题时出现每页不满pageSize的现象
@@ -255,16 +260,16 @@ public class OrderService {
 		}
 		return orderMapper.updateByPrimaryKey(record);
 	}
-
+	@Transactional("transactionManager")
 	public int save(Integer orderId, Byte status, Float actualPrice,
 			Byte payStatus) {
 		Order order = orderMapper.findOrderInfo(orderId);
 		order.setId(orderId);
-		order.setCancelFlag(Order.CANCEL_ADMIN);
 		if (null != status){
 			order.setStatus(status);
 			if(status==Order.TRADE_CANCELED){
 				addGoodQuantity(order);
+				order.setCancelFlag(Order.CANCEL_ADMIN);
 			}
 		}
 		if (null != actualPrice){
@@ -275,7 +280,49 @@ public class OrderService {
 			order.setPayStatus(payStatus);
 		return orderMapper.updateByPrimaryKey(order);
 	}
-	
+	@Transactional("transactionManager")
+	public int save(Integer orderId, Byte status, Float actualPrice,
+			Byte payStatus,Customer customer,Model model) {
+		Order order = orderMapper.findOrderInfo(orderId);
+		order.setId(orderId);
+		if (null != status){
+			if(order.getStatus()==Order.TRADE_PAID){
+				CsRefund cs_refund= refund(order,customer);
+				model.addAttribute("cs_refund", cs_refund);
+			}
+			order.setStatus(status);
+			if(status==Order.TRADE_CANCELED){
+				addGoodQuantity(order);
+				order.setCancelFlag(Order.CANCEL_ADMIN);
+			}
+		}
+		if (null != actualPrice){
+			actualPrice=actualPrice*100;
+			order.setActualPrice(actualPrice.intValue());
+		}
+		if (null != payStatus)
+			order.setPayStatus(payStatus);
+		return orderMapper.updateByPrimaryKey(order);
+	}
+	public CsRefund refund(Order order,Customer customer){
+		CsRefund csRefund = new CsRefund();
+		csRefund.setBankAccount(null);
+		csRefund.setBankName(null);
+		csRefund.setCreatedAt(new Date());
+		csRefund.setPayee(null);
+		csRefund.setPayeePhone(null);
+		csRefund.setProcessUserId(customer.getId());
+		csRefund.setProcessUserName(customer.getName());
+		csRefund.setReturnPrice(order.getTotalPrice());
+		csRefund.setStatus((byte) CsRefund.STATIC_1);
+		csRefund.setTargetId(order.getId());
+		csRefund.setTargetType((byte) CsRefund.TYPE_3);
+		csRefund.setTypes((byte) 1);
+		csRefund.setUpdatedAt(new Date());
+		csRefund.setApplyNum(new Date().getTime()+"");
+		csRefundMapper.insert(csRefund);
+		return csRefund;
+	}
 	/**
 	 * @description 修改实际价格，修改定金价格 
 	 * @author Tory
