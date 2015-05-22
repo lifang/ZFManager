@@ -2,6 +2,7 @@ package com.comdosoft.financial.manage.controller.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.comdosoft.financial.manage.domain.zhangfu.City;
 import com.comdosoft.financial.manage.domain.zhangfu.Customer;
 import com.comdosoft.financial.manage.domain.zhangfu.CustomerAddress;
@@ -24,6 +26,7 @@ import com.comdosoft.financial.manage.service.GoodService;
 import com.comdosoft.financial.manage.service.OrderService;
 import com.comdosoft.financial.manage.service.PayChannelService;
 import com.comdosoft.financial.manage.service.SessionService;
+import com.comdosoft.financial.manage.service.task.RefundService;
 import com.comdosoft.financial.manage.utils.page.Page;
 
 @Controller
@@ -44,6 +47,8 @@ public class OrderAgentController extends BaseController {
 	private GoodService goodService;
 	@Autowired
 	private PayChannelService payChannelService;
+	@Autowired
+	private RefundService refundService;
 	
 
 	@RequestMapping(value = "/agent/list")
@@ -79,8 +84,10 @@ public class OrderAgentController extends BaseController {
 				factoryId, types, pattern);
 		List<Factory> findCheckedFactories = factoryService
 				.findCheckedFactories();
+		List<Map<String, Object>> csRefundMap = refundService.getOrderRefunds();
 		model.addAttribute("factories", findCheckedFactories);
 		model.addAttribute("orders", orders);
+		model.addAttribute("csRefund", csRefundMap);
 	}
 
 	@RequestMapping(value = "/agent/{id}/info")
@@ -188,7 +195,8 @@ public class OrderAgentController extends BaseController {
 
 	@RequestMapping(value = "/agent/{id}/cancel")
 	public String cancle(HttpServletRequest request,@PathVariable Integer id, Model model) {
-		orderService.save(id, (byte) 5, null, null);
+		Customer customer = sessionService.getLoginInfo(request);
+		orderService.save(id, (byte) 5, null, null,customer,model);
 		Order order = orderService.findOrderInfo(id);
 		model.addAttribute("order", order);
 		saveOperateRecord(request,OperateType.orderAgentType, OperatePage.orderAgentList, OperateAction.cancel, id);
