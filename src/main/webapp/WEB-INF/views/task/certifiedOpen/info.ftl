@@ -100,7 +100,7 @@
 			    <#list opendetailsinfos as one> 
 			    	<#if (one.types)??&&one.types == 2> 
 			    		<li>
-		                     <span class="labelSpan" >${one.key!}：</span>
+		                     <span class="labelSpan" >${one.key!}</span>
 		                     <div class="text">
 		                     <img src="<@spring.url "/resources/images/zp.jpg"/>" class="cover" value="${one.value!}" dbValue="${one.value!}" >
 		                     </div>
